@@ -14,7 +14,6 @@ salt-minion:
     - watch:
       - pkg: salt-minion
       - file: /etc/salt/minion.d/master.conf
-      - file: /etc/avahi/avahi-daemon.conf
 
 /etc/salt/minion.d/master.conf:
   file.managed:

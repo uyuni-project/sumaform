@@ -1,7 +1,6 @@
 base:
   '*':
     - development-settings
-    - avahi
 
   'role:spacewalk-server':
     - match: grain
