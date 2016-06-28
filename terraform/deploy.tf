@@ -4,7 +4,7 @@ variable "count" {
 resource "openstack_compute_instance_v2" "web" {
   count = "${var.count}"
   name = "${format("web-%02d", count.index+1)}"
-  image_name = "SLES12-SP2"
+  image_name = "test-sumaform-sp11"
   flavor_id = "2"
   security_groups = ["default"]
   network {
