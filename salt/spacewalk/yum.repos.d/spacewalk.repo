@@ -1,0 +1,10 @@
+[spacewalk]
+name=Spacewalk
+baseurl=http://yum.spacewalkproject.org/2.3/Fedora/$releasever/$basearch/
+gpgkey=http://yum.spacewalkproject.org/RPM-GPG-KEY-spacewalk-2014
+{% if 'nightly' in salt['grains.get']('version', '') %}
+enabled=0
+{% else %}
+enabled=1
+{% endif %}
+gpgcheck=1

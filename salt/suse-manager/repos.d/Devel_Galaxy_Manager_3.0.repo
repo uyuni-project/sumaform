@@ -1,0 +1,6 @@
+[Devel_Galaxy_Manager_3.0]
+name=Devel Project for SUSE Manager 3.0 (SLE_12_SP1)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains["package-mirror"] | default("download.suse.de") }}/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update/
+priority=98

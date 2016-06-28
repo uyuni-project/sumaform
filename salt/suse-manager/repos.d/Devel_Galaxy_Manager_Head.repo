@@ -1,0 +1,6 @@
+[Devel_Galaxy_Manager_Head]
+name=Devel Project for SUSE Manager Head (SLE_12_SP1)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains["package-mirror"] | default("download.suse.de") }}/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP1/
+priority=98

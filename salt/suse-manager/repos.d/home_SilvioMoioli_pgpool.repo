@@ -1,0 +1,7 @@
+[home_SilvioMoioli_pgpool]
+name=home:SilvioMoioli:pgpool (SLE_12_SP1)
+type=rpm-md
+baseurl=http://download.suse.de/ibs/home:/SilvioMoioli:/pgpool/SLE_12_SP1/
+gpgcheck=1
+gpgkey=http://download.suse.de/ibs/home:/SilvioMoioli:/pgpool/SLE_12_SP1//repodata/repomd.xml.key
+enabled=1

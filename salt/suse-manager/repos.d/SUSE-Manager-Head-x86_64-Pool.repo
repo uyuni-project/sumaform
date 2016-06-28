@@ -1,0 +1,5 @@
+[SUSE-Manager-Head-x86_64-Pool]
+name=SUSE-Manager-Head-x86_64-Pool
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains["package-mirror"] | default("download.suse.de") }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.0-POOL-x86_64-Media1/

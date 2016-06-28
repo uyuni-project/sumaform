@@ -1,0 +1,5 @@
+[SUSE-Manager-2.1-x86_64-Update]
+name=SUSE-Manager-2.1-x86_64-Update
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains["package-mirror"] | default("nu.novell.com") }}/repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64/
