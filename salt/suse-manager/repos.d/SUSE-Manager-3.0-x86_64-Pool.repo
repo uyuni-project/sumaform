@@ -2,4 +2,4 @@
 name=SUSE-Manager-3.0-x86_64-Pool
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains["package-mirror"] | default("euklid.nue.suse.com") }}/mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product/
+baseurl=http://{{ grains["package-mirror"] | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product/
