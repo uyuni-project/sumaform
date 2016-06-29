@@ -19,6 +19,13 @@ resource "openstack_compute_instance_v2" "sumaform-test" {
   network {
     name = "my_second_network"
     floating_ip = "${openstack_compute_floatingip_v2.floatip_1.address}"
+    # Terraform will use this network for provisioning
+    access_network = true
+  }
+  connection {
+    user = "root"
+    password = "vagrant"
+    #host = "${openstack_compute_instance_v2.sumaform-test.network.0.floating_ip}"
   }
   provisioner "file" {
     source = "salt"
