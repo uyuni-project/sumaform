@@ -1,14 +1,17 @@
-variable "count" {
-  default = 2
-}
+variable "name" {}
+variable "image" {}
+variable "version" {}
+variable "database" {}
+variable "role" {}
 
 resource "openstack_compute_floatingip_v2" "floatip_1" {
   region = ""
   pool = "floating"
 }
-resource "openstack_compute_instance_v2" "sumaform-test" {
-  name = "sumaform-test"
-  image_name = "test-sumaform-sp11"
+
+resource "openstack_compute_instance_v2" "suma21pg" {
+  name = "${var.name}"
+  image_name = "${var.image}"
   flavor_name = "m1.xlarge"
   security_groups = ["default"]
   region = ""
@@ -17,16 +20,17 @@ resource "openstack_compute_instance_v2" "sumaform-test" {
   }
 
   network {
-    name = "my_second_network"
-    floating_ip = "${openstack_compute_floatingip_v2.floatip_1.address}"
     # Terraform will use this network for provisioning
+    name = "floating_network"
+    floating_ip = "${openstack_compute_floatingip_v2.floatip_1.address}"
     access_network = true
   }
+
   connection {
     user = "root"
     password = "vagrant"
-    #host = "${openstack_compute_instance_v2.sumaform-test.network.0.floating_ip}"
   }
+
   provisioner "file" {
     source = "salt"
     destination = "/root"
@@ -34,21 +38,25 @@ resource "openstack_compute_instance_v2" "sumaform-test" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo \"${template_file.grains.rendered}\" >> /etc/salt/grains",
+
+//HACK: there's currently no better way to deploy a templated file
+<<EOF
+
+echo "hostname: ${var.name}
+avahi-domain: ${var.avahi-domain}
+version: ${var.version}
+database: ${var.database}
+role: ${var.role}
+" >/etc/salt/grains
+
+EOF
+      ,
       "salt-call --force-color --file-root /root/salt --local state.sls terraform-support",
       "salt-call --force-color --file-root /root/salt --local state.highstate"
     ]
   }
 }
 
-resource "template_file" "grains" {
-  template = "${file("grains")}"
-
-  vars {
-    hostname = "suma21pg"
-    avahi-domain = "${var.avahi-domain}"
-    version = "2.1-nightly"
-    database = "postgres"
-    role = "suse-manager-server"
-  }
+output "address" {
+  value = "${openstack_compute_floatingip_v2.floatip_1.address}"
 }
