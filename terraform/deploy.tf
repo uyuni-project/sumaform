@@ -5,7 +5,7 @@ variable "count" {
 resource "openstack_compute_instance_v2" "sumaform-test" {
   name = "sumaform-test"
   image_name = "test-sumaform-sp11"
-  flavor_id = "2"
+  flavor_name = "m1.xlarge"
   security_groups = ["default"]
   network {
      uuid = "8cce38fd-443f-4b87-8ea5-ad2dc184064f"
