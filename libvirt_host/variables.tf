@@ -7,5 +7,5 @@ variable "avahi-domain" {
 }
 
 variable "package-mirror" {
-  default = "package-mirror.vagrant.local"
+  default = "null"
 }
