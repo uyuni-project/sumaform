@@ -2,8 +2,6 @@ variable "count" {
   default = 2
 }
 
-  count = "${var.count}"
-  name = "${format("web-%02d", count.index+1)}"
 resource "openstack_compute_instance_v2" "sumaform-test" {
   name = "sumaform-test"
   image_name = "test-sumaform-sp11"
