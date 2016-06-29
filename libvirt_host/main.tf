@@ -3,8 +3,12 @@ variable "image" {}
 variable "version" {}
 variable "database" {}
 variable "role" {}
-variable "memory" {}
-variable "vcpu" {}
+variable "memory" {
+  default = 512
+}
+variable "vcpu" {
+  default = 1
+}
 
 resource "libvirt_volume" "main_disk" {
   name = "terraform_${var.name}_disk"

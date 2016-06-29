@@ -9,6 +9,4 @@ module "suma21pg" {
   version = "2.1-nightly"
   database = "postgres"
   role = "suse-manager-server"
-  memory = 1024
-  vcpu = 2
 }
