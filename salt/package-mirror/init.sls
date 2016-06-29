@@ -43,6 +43,9 @@ vdb1.device:
       - unless: ls /dev/vdb1
 
 # http serving of mirrored packages
+/etc/fstab:
+  file.managed
+
 /srv/mirror:
   file.directory:
     - user: wwwrun
