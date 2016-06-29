@@ -12,19 +12,6 @@ resource "libvirt_volume" "main_disk" {
   pool = "${var.libvirt_pool}"
 }
 
-resource "template_file" "grains" {
-  template = "${file("${path.module}/grains")}"
-
-  vars {
-    hostname = "${var.name}"
-    avahi-domain = "${var.avahi-domain}"
-    package-mirror = "${var.package-mirror}"
-    version = "${var.version}"
-    database = "${var.database}"
-    role = "${var.role}"
-  }
-}
-
 resource "libvirt_domain" "domain" {
   name = "${var.name}"
   memory = "${var.memory}"
@@ -50,7 +37,20 @@ resource "libvirt_domain" "domain" {
 
   provisioner "remote-exec" {
     inline = [
-      "echo \"${template_file.grains.rendered}\" >> /etc/salt/grains",
+
+//HACK: there's currently no better way to deploy a templated file
+<<EOF
+
+echo "hostname: ${var.name}
+avahi-domain: ${var.avahi-domain}
+package-mirror: ${var.package-mirror}
+version: ${var.version}
+database: ${var.database}
+role: ${var.role}
+" >/etc/salt/grains
+
+EOF
+      ,
       "salt-call --force-color --file-root /root/salt --local state.sls terraform-support",
       "salt-call --force-color --file-root /root/salt --local state.highstate"
     ]

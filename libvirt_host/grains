@@ -1,6 +1,0 @@
-hostname: ${hostname}
-avahi-domain: ${avahi-domain}
-package-mirror: ${package-mirror}
-version: ${version}
-database: ${database}
-role: ${role}
