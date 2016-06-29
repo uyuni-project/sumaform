@@ -1,11 +1,11 @@
 #! /bin/bash
 
 # Remember to export your OpenStack credentials
-# Customize these
-export OS_USERNAME=...
-export OS_PASSWORD=...
-export OS_AUTH_URL=***REMOVED***.0
-export OS_PROJECT_ID=9c2adc08a22d46b0a0291cd82b2519d7
+# Customize these and rename it to upload_images_to_glance.sh
+export OS_USERNAME=<OS_USERNAME>
+export OS_PASSWORD=<OS_PASSWORD>
+export OS_AUTH_URL=<OS_AUTH_URL>
+export OS_PROJECT_ID=<OS_PROJECT_ID>
 IMAGE_PREFIX="sumaform-"
 WORKDIR="/tmp"
 # Stop there!
