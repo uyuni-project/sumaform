@@ -13,7 +13,7 @@ resource "openstack_compute_floatingip_v2" "floatip_1" {
   pool = "floating"
 }
 
-resource "openstack_compute_instance_v2" "suma21pg" {
+resource "openstack_compute_instance_v2" "instance" {
   name = "${var.name}"
   image_name = "${var.image}"
   flavor_name = "m1.xlarge"
