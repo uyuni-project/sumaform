@@ -1,17 +1,17 @@
 include:
   - sles
 
-vargant-repo:
+lftp-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Vagrant-sles12sp1-x86_64.repo
-    - source: salt://package-mirror/repos.d/Vagrant-sles12sp1-x86_64.repo
+    - name: /etc/zypp/repos.d/terraform-sles12sp1-x86_64.repo
+    - source: salt://package-mirror/repos.d/terraform-sles12sp1-x86_64.repo
 
 refresh-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - sls: sles
-      - file: vargant-repo
+      - file: lftp-repo
 
 lftp:
   pkg.installed:
@@ -43,6 +43,9 @@ vdb1.device:
       - unless: ls /dev/vdb1
 
 # http serving of mirrored packages
+/etc/fstab:
+  file.managed
+
 /srv/mirror:
   file.directory:
     - user: wwwrun

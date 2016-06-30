@@ -1,5 +1,0 @@
-[Vagrant-sles12sp1-x86_64]
-name=Vagrant-sles12sp1-x86_64
-type=rpm-md
-enabled=1
-baseurl=http://download.suse.de/ibs/Devel:/Galaxy:/Vagrant:/sles12sp1/SLE_12_SP1/

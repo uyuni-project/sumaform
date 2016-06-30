@@ -1,3 +1,2 @@
 terraform.tfstate*
-test/
-upload_images_to_glance.sh
+.terraform

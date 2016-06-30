@@ -5,7 +5,7 @@ include:
 
 refresh-repos:
   cmd.run:
-    - name: zypper --gpg-auto-import-keys refresh
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - sls: suse-manager.repos
 
