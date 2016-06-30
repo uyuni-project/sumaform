@@ -22,3 +22,8 @@ variable "tenant_network" {
 variable "avahi-domain" {
   default = "vagrant.local"
 }
+
+variable "package-mirror" {
+  default = "null"
+}
+

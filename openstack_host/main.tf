@@ -44,6 +44,7 @@ resource "openstack_compute_instance_v2" "suma21pg" {
 
 echo "hostname: ${var.name}
 avahi-domain: ${var.avahi-domain}
+package-mirror: ${var.package-mirror}
 version: ${var.version}
 database: ${var.database}
 role: ${var.role}
