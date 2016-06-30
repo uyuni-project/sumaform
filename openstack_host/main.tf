@@ -20,12 +20,8 @@ resource "openstack_compute_instance_v2" "suma21pg" {
   security_groups = ["default"]
   region = ""
   network {
-     uuid = "8cce38fd-443f-4b87-8ea5-ad2dc184064f"
-  }
-
-  network {
+    uuid = "8cce38fd-443f-4b87-8ea5-ad2dc184064f"
     # Terraform will use this network for provisioning
-    name = "floating_network"
     floating_ip = "${openstack_compute_floatingip_v2.floatip_1.address}"
     access_network = true
   }
