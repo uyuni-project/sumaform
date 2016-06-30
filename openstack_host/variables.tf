@@ -27,3 +27,6 @@ variable "package-mirror" {
   default = "null"
 }
 
+variable "server" {
+  default = "null"
+}

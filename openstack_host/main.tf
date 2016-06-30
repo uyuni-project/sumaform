@@ -48,6 +48,7 @@ package-mirror: ${var.package-mirror}
 version: ${var.version}
 database: ${var.database}
 role: ${var.role}
+server: ${var.server}
 " >/etc/salt/grains
 
 EOF
@@ -58,6 +59,8 @@ EOF
   }
 }
 
-output "address" {
-  value = "${openstack_compute_floatingip_v2.floatip_1.address}"
+output "hostname" {
+// HACK: id is taken from instance in order to establish dependencies
+// with other modules - not working when using hostname
+  value = "${coalesce(var.name + var.avahi-domain, openstack_compute_instance_v2.instance.id)}"
 }
