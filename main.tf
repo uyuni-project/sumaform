@@ -2,6 +2,12 @@ module "images" {
   source = "./libvirt_images"
 }
 
+module "package_mirror" {
+  source = "./libvirt_package_mirror"
+  image = "${module.images.sles12sp1}"
+  libvirt_data_pool = "data"
+}
+
 module "suma21pg" {
   source = "./libvirt_host"
   name = "suma21pg"
@@ -9,6 +15,7 @@ module "suma21pg" {
   version = "2.1-nightly"
   database = "postgres"
   role = "suse-manager-server"
+  package-mirror = "${module.package_mirror.hostname}"
 }
 
 /*module "suma_openstack" {

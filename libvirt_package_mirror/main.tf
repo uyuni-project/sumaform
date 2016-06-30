@@ -18,6 +18,8 @@ resource "libvirt_domain" "domain" {
   name = "package-mirror"
   memory = 512
   vcpu = 1
+  metadata = "package-mirror.${var.avahi-domain}"
+
   disk {
     volume_id = "${libvirt_volume.main_disk.id}"
   }
@@ -60,5 +62,8 @@ EOF
 }
 
 output "hostname" {
-    value = "${var.name}.${var.avahi-domain}"
+    // HACK: hostname is taken from VM metadata in order to
+    // establish dependencies with other modules that use
+    // the package mirror
+    value = "${libvirt_domain.domain.metadata}"
 }
