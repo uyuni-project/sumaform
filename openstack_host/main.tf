@@ -1,7 +1,11 @@
 variable "name" {}
 variable "image" {}
-variable "version" {}
-variable "database" {}
+variable "version" {
+  default = "null"
+}
+variable "database" {
+  default = "null"
+}
 variable "role" {}
 
 resource "openstack_compute_floatingip_v2" "floatip_1" {
