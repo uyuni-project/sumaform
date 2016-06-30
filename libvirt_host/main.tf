@@ -20,6 +20,8 @@ resource "libvirt_domain" "domain" {
   name = "${var.name}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
+  metadata = "${var.name}.${var.avahi-domain}"
+
   disk {
     volume_id = "${libvirt_volume.main_disk.id}"
   }
@@ -51,6 +53,7 @@ package-mirror: ${var.package-mirror}
 version: ${var.version}
 database: ${var.database}
 role: ${var.role}
+server: ${var.server}
 " >/etc/salt/grains
 
 EOF
@@ -61,6 +64,8 @@ EOF
   }
 }
 
-output "address" {
-    value = "${libvirt_domain.domain.network_interface.0.address.0.address}"
+output "hostname" {
+    // HACK: hostname is taken from VM metadata in order to
+    // establish dependencies with other modules
+    value = "${libvirt_domain.domain.metadata}"
 }

@@ -9,3 +9,7 @@ variable "avahi-domain" {
 variable "package-mirror" {
   default = "null"
 }
+
+variable "server" {
+  default = "null"
+}

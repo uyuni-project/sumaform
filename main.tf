@@ -18,6 +18,15 @@ module "suma21pg" {
   package-mirror = "${module.package_mirror.hostname}"
 }
 
+module "clisles12" {
+  source = "./libvirt_host"
+  name = "clisles12"
+  image = "${module.images.sles12}"
+  role = "client"
+  package-mirror = "${module.package_mirror.hostname}"
+  server = "${module.suma21pg.hostname}"
+}
+
 /*module "suma_openstack" {
   source = "./openstack_host"
   name = "suma21pg"
