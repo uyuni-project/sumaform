@@ -1,6 +1,10 @@
-# Sumaform = Suminator + Terraform
+# sumaform
 
-Hackweek 2016 Project
+![Sumicform, a green hedgehog made of bricks, sumaform's mascot](help/sumicform.png)
+
+Sumaform is a way to quickly configure test SUSE Manager setups with clients and servers.
+
+It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being the successor of [suminator](https://github.com/SUSE/suminator/) implemented as [Terraform](https://www.terraform.io/) modules.
 
 ## Getting started
 
