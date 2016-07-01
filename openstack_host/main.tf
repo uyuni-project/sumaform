@@ -62,5 +62,5 @@ EOF
 output "hostname" {
 // HACK: id is taken from instance in order to establish dependencies
 // with other modules - not working when using hostname
-  value = "${coalesce(var.name + var.avahi-domain, openstack_compute_instance_v2.instance.id)}"
+  value = "${coalesce(concat(var.name, ".", var.avahi-domain), openstack_compute_instance_v2.instance.id)}"
 }
