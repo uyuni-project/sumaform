@@ -11,8 +11,8 @@ WORKDIR="/tmp"
 # Stop there!
 
 cd $WORKDIR
-wget -c http://download.suse.de/ibs/home:/SilvioMoioli:/terraform:/sles11sp3/images/sles11sp3.x86_64-3.2.0-Build2.2.qcow2
-wget -c http://download.suse.de/ibs/home:/SilvioMoioli:/terraform:/sles11sp4/images/sles11sp4.x86_64-3.2.0-Build2.1.qcow2
+wget -c http://download.suse.de/ibs/home:/SilvioMoioli:/terraform:/sles11sp3/images/sles11sp3.x86_64.qcow2
+wget -c http://download.suse.de/ibs/home:/SilvioMoioli:/terraform:/sles11sp4/images/sles11sp4.x86_64.qcow2
 wget -c http://download.suse.de/ibs/home:/SilvioMoioli:/terraform:/sles12/images/sles12.x86_64.qcow2
 wget -c http://download.suse.de/ibs/home:/SilvioMoioli:/terraform:/sles12sp1/images/sles12sp1.x86_64.qcow2
 
