@@ -1,0 +1,134 @@
+module "suma21pg" {
+  source = "./openstack_host"
+  name = "suma21pg"
+  image = "sumaform-sles11sp3"
+  version = "2.1-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "suma21spg" {
+  source = "./openstack_host"
+  name = "suma21spg"
+  image = "sumaform-sles11sp3"
+  version = "2.1-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "suma21ora" {
+  source = "./openstack_host"
+  name = "suma21ora"
+  image = "sumaform-sles11sp3"
+  version = "2.1-nightly"
+  database = "oracle"
+  role = "suse-manager-server"
+}
+
+module "suma21sora" {
+  source = "./openstack_host"
+  name = "suma21sora"
+  image = "sumaform-sles11sp3"
+  version = "2.1-stable"
+  database = "oracle"
+  role = "suse-manager-server"
+}
+
+module "suma3pg" {
+  source = "./openstack_host"
+  name = "suma3pg"
+  image = "sumaform-sles12sp1"
+  version = "3-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "suma3pgpool" {
+  source = "./openstack_host"
+  name = "suma3pgpool"
+  image = "sumaform-sles12sp1"
+  version = "3-nightly"
+  database = "pgpool"
+  role = "suse-manager-server"
+}
+
+module "suma3spg" {
+  source = "./openstack_host"
+  name = "suma3spg"
+  image = "sumaform-sles12sp1"
+  version = "3-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "sumaheadpg" {
+  source = "./openstack_host"
+  name = "sumaheadpg"
+  image = "sumaform-sles12sp1"
+  version = "head"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "clisles11sp3" {
+  source = "./openstack_host"
+  name = "clisles11sp3"
+  image = "sumaform-sles11sp3"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+}
+
+module "clisles11sp4" {
+  source = "./openstack_host"
+  name = "clisles11sp4"
+  image = "sumaform-sles11sp4"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+}
+
+module "clisles12" {
+  source = "./openstack_host"
+  name = "clisles12"
+  image = "sumaform-sles12"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+}
+
+module "clisles12sp1" {
+  source = "./openstack_host"
+  name = "clisles12sp1"
+  image = "sumaform-sles12sp1"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+}
+
+module "pg1" {
+  source = "./openstack_host"
+  name = "pg1"
+  image = "sumaform-sles12sp1"
+  role = "postgres"
+}
+
+module "pg2" {
+  source = "./openstack_host"
+  name = "pg2"
+  image = "sumaform-sles12sp1"
+  role = "postgres"
+}
+
+module "minionsles12" {
+  source = "./openstack_host"
+  name = "minionsles12"
+  image = "sumaform-sles12"
+  server = "${module.suma3pg.hostname}"
+  role = "minion"
+}
+
+module "minionsles12sp1" {
+  source = "./openstack_host"
+  name = "minionsles12sp1"
+  image = "sumaform-sles12sp1"
+  server = "${module.suma3pg.hostname}"
+  role = "minion"
+}
+

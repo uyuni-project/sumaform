@@ -1,0 +1,161 @@
+module "images" {
+  source = "./libvirt_images"
+}
+
+// Uncomment below to use a package mirror
+// module "package_mirror" {
+//   source = "./libvirt_package_mirror"
+//   image = "${module.images.sles12sp1}"
+//   libvirt_data_pool = "data"
+// }
+
+module "suma21pg" {
+  source = "./libvirt_host"
+  name = "suma21pg"
+  image = "${module.images.sles11sp3}"
+  version = "2.1-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "suma21spg" {
+  source = "./libvirt_host"
+  name = "suma21spg"
+  image = "${module.images.sles11sp3}"
+  version = "2.1-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "suma21ora" {
+  source = "./libvirt_host"
+  name = "suma21ora"
+  image = "${module.images.sles11sp3}"
+  version = "2.1-nightly"
+  database = "oracle"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "suma21sora" {
+  source = "./libvirt_host"
+  name = "suma21sora"
+  image = "${module.images.sles11sp3}"
+  version = "2.1-stable"
+  database = "oracle"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "suma3pg" {
+  source = "./libvirt_host"
+  name = "suma3pg"
+  image = "${module.images.sles12sp1}"
+  version = "3-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "suma3pgpool" {
+  source = "./libvirt_host"
+  name = "suma3pgpool"
+  image = "${module.images.sles12sp1}"
+  version = "3-nightly"
+  database = "pgpool"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "suma3spg" {
+  source = "./libvirt_host"
+  name = "suma3spg"
+  image = "${module.images.sles12sp1}"
+  version = "3-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "sumaheadpg" {
+  source = "./libvirt_host"
+  name = "sumaheadpg"
+  image = "${module.images.sles12sp1}"
+  version = "head"
+  database = "postgres"
+  role = "suse-manager-server"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "clisles11sp3" {
+  source = "./libvirt_host"
+  name = "clisles11sp3"
+  image = "${module.images.sles11sp3}"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "clisles11sp4" {
+  source = "./libvirt_host"
+  name = "clisles11sp4"
+  image = "${module.images.sles11sp4}"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "clisles12" {
+  source = "./libvirt_host"
+  name = "clisles12"
+  image = "${module.images.sles12}"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "clisles12sp1" {
+  source = "./libvirt_host"
+  name = "clisles12sp1"
+  image = "${module.images.sles12sp1}"
+  server = "${module.suma21pg.hostname}"
+  role = "client"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "pg1" {
+  source = "./libvirt_host"
+  name = "pg1"
+  image = "${module.images.sles12sp1}"
+  role = "postgres"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "pg2" {
+  source = "./libvirt_host"
+  name = "pg2"
+  image = "${module.images.sles12sp1}"
+  role = "postgres"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "minionsles12" {
+  source = "./libvirt_host"
+  name = "minionsles12"
+  image = "${module.images.sles12}"
+  server = "${module.suma3pg.hostname}"
+  role = "minion"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "minionsles12sp1" {
+  source = "./libvirt_host"
+  name = "minionsles12sp1"
+  image = "${module.images.sles12sp1}"
+  server = "${module.suma3pg.hostname}"
+  role = "minion"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
