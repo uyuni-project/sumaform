@@ -24,7 +24,6 @@ resource "libvirt_domain" "domain" {
   name = "${var.name}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
-  metadata = "${var.name}.${var.avahi-domain}"
 
   disk {
     volume_id = "${libvirt_volume.main_disk.id}"
@@ -71,5 +70,5 @@ EOF
 output "hostname" {
     // HACK: hostname is taken from VM metadata in order to
     // establish dependencies with other modules
-    value = "${libvirt_domain.domain.metadata}"
+    value = "${coalesce(concat(var.name, ".", var.avahi-domain), libvirt_domain.domain.id)}"
 }
