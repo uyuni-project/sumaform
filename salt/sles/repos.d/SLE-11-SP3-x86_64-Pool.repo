@@ -2,4 +2,4 @@
 name=SLE-11-SP3-x86_64-Pool
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains["package-mirror"] | default("nu.novell.com", true) }}/repo/$RCE/SLES11-SP3-Pool/sle-11-x86_64/
+baseurl=http://{{ grains.get("package-mirror") | default("nu.novell.com", true) }}/repo/$RCE/SLES11-SP3-Pool/sle-11-x86_64/
