@@ -28,7 +28,7 @@ resource "libvirt_domain" "domain" {
 
   network_interface {
     wait_for_lease = true
-    network = "vagrant-libvirt"
+    network_name = "vagrant-libvirt"
   }
 
   connection {
