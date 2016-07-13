@@ -1,14 +1,19 @@
+hosts_file:
+  file.append:
+    - name: /etc/hosts
+    - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['avahi-domain'] }} {{ grains['hostname'] }}"
+
+set_transient_hostname:
+  cmd.run:
+    - name: hostnamectl set-hostname {{ grains['hostname'] }}.{{ grains['avahi-domain'] }}
+    - onlyif: hostnamectl
+
 hostname:
   cmd.run:
     - name: hostname {{ grains['hostname'] }}.{{ grains['avahi-domain'] }}
   file.managed:
     - name: /etc/hostname
     - text: {{ grains['hostname'] }}.{{ grains['avahi-domain'] }}
-
-hosts file:
-  file.append:
-    - name: /etc/hosts
-    - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['avahi-domain'] }} {{ grains['hostname'] }}"
 
 avahi:
   pkg.installed:
