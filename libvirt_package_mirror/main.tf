@@ -64,5 +64,5 @@ output "hostname" {
     // HACK: hostname is taken from VM metadata in order to
     // establish dependencies with other modules that use
     // the package mirror
-    value = "${coalesce(concat(var.name, ".", var.avahi-domain), libvirt_domain.domain.id)}"
+    value = "${coalesce(concat("package-mirror.", var.avahi-domain), libvirt_domain.domain.id)}"
 }
