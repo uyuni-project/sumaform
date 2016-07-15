@@ -3,8 +3,8 @@ include:
 
 lftp-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/terraform-sles12sp1-x86_64.repo
-    - source: salt://package-mirror/repos.d/terraform-sles12sp1-x86_64.repo
+    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
+    - source: salt://package-mirror/repos.d/home_SilvioMoioli_tools.repo
 
 refresh-repos:
   cmd.run:
