@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-# HACK; workaround for https://infra.nue.suse.com/SelfService/Display.html?id=49948
+# HACK: workaround for https://infra.nue.suse.com/SelfService/Display.html?id=49948
 ping -c 1 euklid.suse.de
 
 cd /srv/mirror
