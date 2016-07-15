@@ -82,3 +82,9 @@ For a very quick start:
 terraform plan # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```
+
+## Customize virtual machine hardware
+
+You can add the following parameters to a `libvirt_host` module in `main.tf` to customize its virtual hardware:
+ - `memory = <N>` to set the machine's RAM to N MiB
+ - `vcpu = <N>` to set the number of virtual CPUs
