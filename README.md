@@ -22,7 +22,7 @@ It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being t
   ```
 - SUSE Linux Enterprise 12 SP1
   ```
-  sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Tumbleweed/home:SilvioMoioli:tools.repo
+  sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
   sudo zypper install terraform-provider-libvirt
   git clone gitlab@gitlab.suse.de:mbologna/sumaform.git
   ```
