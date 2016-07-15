@@ -8,14 +8,31 @@ It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being t
 
 ## Installation
 
- * install [Terraform](https://www.terraform.io/)
-   * on SUSE distros, 1-click installers are available for [Leap](http://software.opensuse.org/ymp/Virtualization:containers/openSUSE_Leap_42.1/terraform.ymp?base=openSUSE%3ALeap%3A42.1&query=terraform), [Tumbleweed](http://software.opensuse.org/ymp/Virtualization:containers/openSUSE_Tumbleweed/terraform.ymp?base=openSUSE%3ATumbleweed&query=terraform) and  [SLE](http://software.opensuse.org/ymp/Virtualization:containers/SLE_12_SP1/terraform.ymp?base=SUSE%3ASLE-12%3AGA&query=terraform)
- * install [terraform-provider-libvirt](https://github.com/dmacvicar/terraform-provider-libvirt)
-   * on SUSE distros, 1-click installers are available for [Leap](http://software.opensuse.org/ymp/Virtualization:containers/openSUSE_Leap_42.1/terraform-provider-libvirt.ymp?base=openSUSE%3ALeap%3A42.1&query=terraform-provider-libvirt), [Tumbleweed](http://software.opensuse.org/ymp/Virtualization:containers/openSUSE_Tumbleweed/terraform-provider-libvirt.ymp?base=openSUSE%3ATumbleweed&query=terraform-provider-libvirt) and  [SLE](http://software.opensuse.org/ymp/Virtualization:containers/SLE_12_SP1/terraform-provider-libvirt.ymp?base=SUSE%3ASLE-12%3AGA&query=terraform-provider-libvirt)
- * clone this repo:
+- OpenSUSE Leap 42.1
   ```
+  sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/home:SilvioMoioli:tools.repo
+  sudo zypper install terraform-provider-libvirt
   git clone gitlab@gitlab.suse.de:mbologna/sumaform.git
-  cd sumaform
+  ```
+- OpenSUSE Tumbleweed
+  ```
+  sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Tumbleweed/home:SilvioMoioli:tools.repo
+  sudo zypper install terraform-provider-libvirt
+  git clone gitlab@gitlab.suse.de:mbologna/sumaform.git
+  ```
+- SUSE Linux Enterprise 12 SP1
+  ```
+  sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Tumbleweed/home:SilvioMoioli:tools.repo
+  sudo zypper install terraform-provider-libvirt
+  git clone gitlab@gitlab.suse.de:mbologna/sumaform.git
+  ```
+- Ubuntu and Debian
+  ```
+  wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
+  sudo alien -i terraform.rpm
+  wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
+  sudo alien -i terraform-provider-libvirt.rpm
+  git clone gitlab@gitlab.suse.de:mbologna/sumaform.git
   ```
 
 ## Backend choice
