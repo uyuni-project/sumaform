@@ -1,19 +1,19 @@
 hosts_file:
   file.append:
     - name: /etc/hosts
-    - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['avahi-domain'] }} {{ grains['hostname'] }}"
+    - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}"
 
 set_transient_hostname:
   cmd.run:
-    - name: hostnamectl set-hostname {{ grains['hostname'] }}.{{ grains['avahi-domain'] }}
+    - name: hostnamectl set-hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
     - onlyif: hostnamectl
 
 hostname:
   cmd.run:
-    - name: hostname {{ grains['hostname'] }}.{{ grains['avahi-domain'] }}
+    - name: hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
   file.managed:
     - name: /etc/hostname
-    - text: {{ grains['hostname'] }}.{{ grains['avahi-domain'] }}
+    - text: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 avahi:
   pkg.installed:
@@ -21,7 +21,7 @@ avahi:
   file.replace:
     - name: /etc/avahi/avahi-daemon.conf
     - pattern: "#domain-name=local"
-    - repl: "domain-name={{ grains['avahi-domain'] }}"
+    - repl: "domain-name={{ grains['domain'] }}"
   service.running:
     - name: avahi-daemon
     - require:

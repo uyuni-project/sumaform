@@ -8,6 +8,6 @@ variable "libvirt_data_pool" {
   default = "default"
 }
 
-variable "avahi-domain" {
+variable "domain" {
   default = "tf.local"
 }

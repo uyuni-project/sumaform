@@ -43,7 +43,7 @@ resource "openstack_compute_instance_v2" "instance" {
 <<EOF
 
 echo "hostname: ${var.name}
-avahi-domain: ${var.avahi-domain}
+domain: ${var.domain}
 package-mirror: ${var.package-mirror}
 version: ${var.version}
 database: ${var.database}
@@ -62,5 +62,5 @@ EOF
 output "hostname" {
 // HACK: id is taken from instance in order to establish dependencies
 // with other modules - not working when using hostname
-  value = "${coalesce(concat(var.name, ".", var.avahi-domain), openstack_compute_instance_v2.instance.id)}"
+  value = "${coalesce(concat(var.name, ".", var.domain), openstack_compute_instance_v2.instance.id)}"
 }

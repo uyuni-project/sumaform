@@ -48,7 +48,7 @@ resource "libvirt_domain" "domain" {
 <<EOF
 
 echo "hostname: package-mirror
-avahi-domain: ${var.avahi-domain}
+domain: ${var.domain}
 role: package-mirror
 " >/etc/salt/grains
 
@@ -64,5 +64,5 @@ output "hostname" {
     // HACK: hostname is taken from VM metadata in order to
     // establish dependencies with other modules that use
     // the package mirror
-    value = "${coalesce(concat("package-mirror.", var.avahi-domain), libvirt_domain.domain.id)}"
+    value = "${coalesce(concat("package-mirror.", var.domain), libvirt_domain.domain.id)}"
 }

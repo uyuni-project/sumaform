@@ -8,7 +8,7 @@ variable "openstack_auth_url" {
   #default = "***REMOVED***.0"
 }
 
-variable "avahi-domain" {
+variable "domain" {
   default = "tf.local"
 }
 
