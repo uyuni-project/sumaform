@@ -64,13 +64,13 @@ config-pgpool-configure-backends:
     - name: /etc/pgpool-II/pgpool.conf
     - text: |
         # Inserted by suminator
-        backend_hostname0 = 'pg1.vagrant.local'
+        backend_hostname0 = 'pg1.tf.local'
         backend_port0 = 5432
         backend_weight0 = 1
         backend_data_directory0 = '/var/lib/pgsql/data'
         backend_flag0 = 'ALLOW_TO_FAILOVER'
 
-        backend_hostname1 = 'pg2.vagrant.local'
+        backend_hostname1 = 'pg2.tf.local'
         backend_port1 = 5432
         backend_weight1 = 1
         backend_data_directory1 = '/var/lib/pgsql/data'

@@ -9,5 +9,5 @@ variable "libvirt_data_pool" {
 }
 
 variable "avahi-domain" {
-  default = "vagrant.local"
+  default = "tf.local"
 }

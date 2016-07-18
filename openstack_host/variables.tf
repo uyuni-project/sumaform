@@ -9,7 +9,7 @@ variable "openstack_auth_url" {
 }
 
 variable "avahi-domain" {
-  default = "vagrant.local"
+  default = "tf.local"
 }
 
 variable "package-mirror" {

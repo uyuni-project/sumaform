@@ -3,7 +3,7 @@ variable "libvirt_pool" {
 }
 
 variable "avahi-domain" {
-  default = "vagrant.local"
+  default = "tf.local"
 }
 
 variable "package-mirror" {
