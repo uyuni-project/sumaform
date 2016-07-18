@@ -100,6 +100,25 @@ terraform plan # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```
 
+## Accessing the Virtual Machines
+
+All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`. Provided your host is on the same network segment of the virtual machines you can access them via:
+
+```
+ssh root@suma3pg.tf.local
+```
+
+You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
+
+```
+Host *.tf.local
+ StrictHostKeyChecking no
+ UserKnownHostsFile=/dev/null
+ User root
+```
+
+Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected.
+
 ## Customize virtual machine hardware
 
 You can add the following parameters to a `libvirt_host` module in `main.tf` to customize its virtual hardware:
