@@ -32,10 +32,10 @@ sles11sp3 channel synchronization:
 sles11sp3 osad activation key:
   cmd.run:
     - name: |
-{% if '2.1' in grains['version'] %}       
+{% if '2.1' in grains['version'] %}
         spacecmd -u admin -p admin -- activationkey_create -n sles11sp3-osad -d sles11sp3-osad -b sles11-sp3-pool-x86_64 -e provisioning_entitled &&
 {% else %}
-        spacecmd -u admin -p admin -- activationkey_create -n sles11sp3-osad -d sles11sp3-osad -b sles11-sp3-pool-x86_64 &&       
+        spacecmd -u admin -p admin -- activationkey_create -n sles11sp3-osad -d sles11sp3-osad -b sles11-sp3-pool-x86_64 &&
 {% endif %}
         spacecmd -u admin -p admin -- activationkey_addchildchannels 1-sles11sp3-osad sles11-sp3-updates-x86_64 sles11-sp3-suse-manager-tools-x86_64 &&
         spacecmd -u admin -p admin -- activationkey_addpackages 1-sles11sp3-osad osad rhncfg-actions

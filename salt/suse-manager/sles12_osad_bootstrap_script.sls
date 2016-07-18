@@ -32,9 +32,9 @@ sles12 channel synchronization:
 sles12 osad activation key:
   cmd.run:
     - name: |
-{% if '2.1' in grains['version'] %}         
+{% if '2.1' in grains['version'] %}
         spacecmd -u admin -p admin -- activationkey_create -n sles12-osad -d sles12-osad -b sles12-pool-x86_64 -e provisioning_entitled &&
-{% else %} 
+{% else %}
         spacecmd -u admin -p admin -- activationkey_create -n sles12-osad -d sles12-osad -b sles12-pool-x86_64 &&
 {% endif %}
         spacecmd -u admin -p admin -- activationkey_addchildchannels 1-sles12-osad sles12-updates-x86_64 sle-manager-tools12-pool-x86_64 sle-manager-tools12-updates-x86_64 &&
