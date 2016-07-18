@@ -68,13 +68,13 @@ docker.sle-image:
 
 docker.minion-image:
   cmd.run:
-    - name: docker build -t minion /vagrant/salt/minion-swarm-host/docker/minion
+    - name: docker build -t minion /srv/salt/minion-swarm-host/docker/minion
     - unless: docker history minion
     - require:
         - cmd: docker.sle-image
         - service: docker.service
 
-/home/vagrant/run.sh:
+/root/run.sh:
   file.managed:
     - source: salt://minion-swarm-host/run.sh
     - mode: 755
