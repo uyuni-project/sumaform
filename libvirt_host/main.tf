@@ -36,7 +36,7 @@ resource "libvirt_domain" "domain" {
 
   connection {
     user = "root"
-    password = "vagrant"
+    password = "linux"
   }
 
   provisioner "file" {
