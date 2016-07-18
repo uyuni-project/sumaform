@@ -38,7 +38,7 @@ resource "libvirt_domain" "domain" {
 
   provisioner "file" {
     source = "salt"
-    destination = "/root"
+    destination = "/srv"
   }
 
   provisioner "remote-exec" {
@@ -54,8 +54,8 @@ role: package-mirror
 
 EOF
       ,
-      "salt-call --force-color --file-root /root/salt --local state.sls terraform-support",
-      "salt-call --force-color --file-root /root/salt --local state.highstate"
+      "salt-call --local state.sls terraform-support",
+      "salt-call --local state.highstate"
     ]
   }
 }

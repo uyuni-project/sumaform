@@ -33,7 +33,7 @@ resource "openstack_compute_instance_v2" "instance" {
 
   provisioner "file" {
     source = "salt"
-    destination = "/root"
+    destination = "/srv"
   }
 
   provisioner "remote-exec" {
@@ -53,8 +53,8 @@ server: ${var.server}
 
 EOF
       ,
-      "salt-call --force-color --file-root /root/salt --local state.sls terraform-support",
-      "salt-call --force-color --file-root /root/salt --local state.highstate"
+      "salt-call --local state.sls terraform-support",
+      "salt-call --local state.highstate"
     ]
   }
 }
