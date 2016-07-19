@@ -128,3 +128,19 @@ Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expe
 You can add the following parameters to a `libvirt_host` module in `main.tf` to customize its virtual hardware:
  - `memory = <N>` to set the machine's RAM to N MiB
  - `vcpu = <N>` to set the number of virtual CPUs
+
+### Update base OS images
+
+ * OpenStack: re-run `upload_images_to_glance.sh`, taint all dependent disks and re-apply the plan:
+```
+ ./openstack_images/upload_images_to_glance.sh
+terraform taint -module=suma3pg libvirt_volume.main_disk
+...
+terraform apply
+```
+
+ * libvirt: taint the VM disk(s) you want to update and re-apply the plan:
+```
+terraform taint -module=images libvirt_volume.sles12sp1
+terraform apply
+```
