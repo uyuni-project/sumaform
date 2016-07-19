@@ -90,7 +90,9 @@ The default configuration expects a libvirt daemon listening on localhost, with 
 
 Create a `main.tf` file by copying `main.tf.libvirt.example`. Keep only hosts that you actually need, since all of them will be created by default once you run Terraform.
 
-## Run Terraform
+## Typical use
+
+### Run Terraform
 
 Refer to the [official guides](https://www.terraform.io/docs/index.html) for a general understanding of Terraform and full commands.
 
@@ -100,7 +102,7 @@ terraform plan # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```
 
-## Accessing the Virtual Machines
+### Accessing the Virtual Machines
 
 All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`. Provided your host is on the same network segment of the virtual machines you can access them via:
 
@@ -119,7 +121,9 @@ Host *.tf.local
 
 Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected.
 
-## Customize virtual machine hardware
+## Advanced use
+
+### Customize virtual machine hardware
 
 You can add the following parameters to a `libvirt_host` module in `main.tf` to customize its virtual hardware:
  - `memory = <N>` to set the machine's RAM to N MiB
