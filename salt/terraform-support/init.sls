@@ -30,6 +30,12 @@ avahi:
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
 
+setup-machine-id:
+  cmd.run:
+    - name: rm /etc/machine-id && systemd-machine-id-setup && touch /etc/machine-id-already-setup
+    - creates: /etc/machine-id-already-setup
+    - onlyif: systemd-machine-id-setup
+
 # HACK: workaround for https://infra.nue.suse.com/SelfService/Display.html?id=49948
 work_around_networking_issue:
   cmd.run:

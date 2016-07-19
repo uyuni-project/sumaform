@@ -21,12 +21,3 @@ salt-minion:
         master: {{grains['server']}}
     - require:
         - pkg: salt-minion
-
-/etc/machine-id:
-  file.absent
-
-new-id:
-  cmd.run:
-    - name: systemd-machine-id-setup
-    - require:
-      - file: /etc/machine-id
