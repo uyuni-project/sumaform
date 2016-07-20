@@ -13,7 +13,7 @@ hostname:
     - name: hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
   file.managed:
     - name: /etc/hostname
-    - text: {{ grains['hostname'] }}.{{ grains['domain'] }}
+    - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 avahi:
   pkg.installed:
