@@ -145,3 +145,33 @@ terraform apply
 terraform taint -module=images libvirt_volume.sles12sp1
 terraform apply
 ```
+
+### Inter-Server Sync (ISS)
+
+Create two SUSE Manager server modules and add `iss-master` and `iss-slave` variable definitions to them, as in the example below:
+
+```
+module "suma21pgm" {
+  source = "./libvirt_host"
+  name = "suma21pgm"
+  image = "${module.images.sles11sp3}"
+  version = "2.1-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+  package-mirror = "${module.package_mirror.hostname}"
+  iss-slave = "suma21pgs.tf.local"
+}
+
+module "suma21pgs" {
+  source = "./libvirt_host"
+  name = "suma21pgs"
+  image = "${module.images.sles11sp3}"
+  version = "2.1-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+  package-mirror = "${module.package_mirror.hostname}"
+  iss-master = "${module.suma21pgm.hostname}"
+}
+```
+
+Please note that `iss-master` is set from `suma21pg`'s module output variable hostname, while `iss-slave` is simply hardcoded. This is needed for terraform to resolve dependencies correctly, as dependency cycles are not permitted.
