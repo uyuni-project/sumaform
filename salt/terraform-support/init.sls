@@ -30,6 +30,14 @@ avahi:
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
 
+configure-full-avahi-resolution:
+  file.replace:
+    - name: /etc/nsswitch.conf
+    - pattern: "(hosts: .*?)mdns([46]?)_minimal(.*)"
+    - repl: "\\1mdns\\2\\3"
+    - require:
+      - pkg: avahi
+
 setup-machine-id:
   cmd.run:
     - name: rm /etc/machine-id && systemd-machine-id-setup && touch /etc/machine-id-already-setup
