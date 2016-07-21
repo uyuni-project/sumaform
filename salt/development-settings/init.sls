@@ -7,6 +7,7 @@ include:
 
 {% if grains['role'] == 'suse-manager-server' %}
   - .rhn
+  - .iss
 
 {% if grains['database'] == 'postgres' %}
   - .postgres
