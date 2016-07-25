@@ -49,6 +49,8 @@ version: ${var.version}
 database: ${var.database}
 role: ${var.role}
 server: ${var.server}
+iss-master: ${var.iss-master}
+iss-slave: ${var.iss-slave}
 " >/etc/salt/grains
 
 EOF

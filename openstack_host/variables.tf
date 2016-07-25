@@ -19,3 +19,11 @@ variable "package-mirror" {
 variable "server" {
   default = "null"
 }
+
+variable "iss-master" {
+  default = "null"
+}
+
+variable "iss-slave" {
+  default = "null"
+}
