@@ -1,5 +1,6 @@
 include:
   - sles.repos
+  - postgres.firewall
 
 postgresql:
   pkg.installed:

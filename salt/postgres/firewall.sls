@@ -13,7 +13,7 @@ configure-firewall:
     - pattern: |
         ^FW_SERVICES_EXT_TCP
     - repl: |
-        FW_SERVICES_EXT_TCP="http https ssh xmpp-client xmpp-server tftp 1521 5432 4505 4506"
+        FW_SERVICES_EXT_TCP="postgresql ssh"
     - append_if_not_found: True
     - require:
       - pkg: firewall
