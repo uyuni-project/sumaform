@@ -1,14 +1,10 @@
 include:
   - client.repos
 
-refresh-repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+salt-minion:
+  pkg.installed:
     - require:
       - sls: client.repos
-
-salt-minion:
-  pkg.installed: []
   service.running:
     - enable: True
     - watch:

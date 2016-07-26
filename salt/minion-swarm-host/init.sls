@@ -1,17 +1,5 @@
 include:
-  - sles
-
-repo-docker:
-  file.managed:
-    - name: /etc/zypp/repos.d/docker.repo
-    - source: salt://minion-swarm-host/repos.d/docker.repo
-
-refresh-repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - sls: sles
-      - file: repo-docker
+  - minion-swarm-host.repos
 
 docker.packages:
   pkg.installed:
@@ -19,7 +7,7 @@ docker.packages:
         - docker
         - python-docker-py
     - require:
-      - cmd: refresh-repos
+      - sls: minion-swarm-host.repos
     - unless: rpm -q docker && rpm -q python-docker-py
 
 vdb1.device:
@@ -55,6 +43,8 @@ docker.sle-image.pkg:
   pkg.installed:
     - pkgs:
         - sles12-docker-image
+    - require:
+      - sls: minion-swarm-host.repos
     - unless: rpm -q sles-12-docker-image
 
 docker.sle-image:

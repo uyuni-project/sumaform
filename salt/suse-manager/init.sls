@@ -3,12 +3,6 @@ include:
   - suse-manager.firewall
   - suse-manager.pgpool
 
-refresh-repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - sls: suse-manager.repos
-
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by SUSE Manager's
 sles-release:
@@ -57,8 +51,8 @@ suse-manager-packages:
       {% endif %}
     {% endif %}
     - require:
+      - sls: suse-manager.repos
       - sls: suse-manager.firewall
-      - cmd: refresh-repos
 
 /root/setup_env.sh:
   file.managed:

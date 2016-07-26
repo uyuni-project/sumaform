@@ -1,11 +1,5 @@
 include:
-  - sles
-
-refresh-repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - sls: sles
+  - sles.repos
 
 postgresql:
   pkg.installed:
@@ -16,7 +10,7 @@ postgresql:
       - postgresql94-contrib
       - timezone
     - require:
-      - cmd: refresh-repos
+      - sls: sles.repos
   service.running:
     - enable: True
 

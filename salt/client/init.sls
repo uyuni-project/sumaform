@@ -1,14 +1,10 @@
 include:
   - client.repos
 
-refresh-repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+wget:
+  pkg.installed:
     - require:
       - sls: client.repos
-
-wget:
-  pkg.installed
 
 /root/bootstrap.sh:
   file.managed:

@@ -1,20 +1,14 @@
 include:
-  - sles
-
-# SUMa repos are a superset of sles repos, ensure they are present
-sles-repos:
-  test.nop:
-    - require:
-      - sls: sles
+  - sles.repos
 
 {% if '2.1' in grains['version'] %}
-suma-pool-repo:
+suse-manager-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-2.1-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-2.1-x86_64-Pool.repo
     - template: jinja
 
-suma-update-repo:
+suse-manager-update-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-2.1-x86_64-Update.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-2.1-x86_64-Update.repo
@@ -22,13 +16,13 @@ suma-update-repo:
 {% endif %}
 
 {% if '3' in grains['version'] %}
-suma-pool-repo:
+suse-manager-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
     - template: jinja
 
-suma-update-repo:
+suse-manager-update-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
@@ -36,13 +30,17 @@ suma-update-repo:
 {% endif %}
 
 {% if 'head' in grains['version'] %}
-suma-pool-repo:
+suse-manager-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
     - template: jinja
 
-suma-devel-head-repo:
+suse-manager-update-repo:
+  file.touch:
+    - name: /tmp/no_update_channel_needed
+
+suse-manager-devel-repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_Head.repo
@@ -50,7 +48,7 @@ suma-devel-head-repo:
 {% endif %}
 
 {% if '2.1-nightly' in grains['version'] %}
-suma-devel-2.1-repo:
+suse-manager-devel-repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_2.1.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_2.1.repo
@@ -58,7 +56,7 @@ suma-devel-2.1-repo:
 {% endif %}
 
 {% if '3-nightly' in grains['version'] %}
-suma-devel-3.0-repo:
+suse-manager-devel-repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_3.0.repo
@@ -66,7 +64,7 @@ suma-devel-3.0-repo:
 {% endif %}
 
 {% if 'oracle' in grains['database'] %}
-oracle-repo:
+suse-manager-oracle-repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Oracle_SLE11.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Oracle_SLE11.repo
@@ -74,9 +72,26 @@ oracle-repo:
 {% endif %}
 
 {% if 'pgpool' in grains['database'] %}
-pgpool-repo:
+suse-manager-pgpool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_pgpool.repo
     - source: salt://suse-manager/repos.d/home_SilvioMoioli_pgpool.repo
     - template: jinja
 {% endif %}
+
+refresh-suse-manager-repos:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - require:
+      - sls: sles.repos
+      - file: suse-manager-pool-repo
+      - file: suse-manager-update-repo
+      {% if ('nightly' in grains['version'] or 'head' in grains['version']) %}
+      - file: suse-manager-devel-repo
+      {% endif %}
+      {% if 'oracle' in grains['database'] %}
+      - file: suse-manager-oracle-repo
+      {% endif %}
+      {% if 'pgpool' in grains['database'] %}
+      - file: suse-manager-pgpool-repo
+      {% endif %}

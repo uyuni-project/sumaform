@@ -1,23 +1,11 @@
 include:
-  - sles
-
-lftp-repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
-    - source: salt://package-mirror/repos.d/home_SilvioMoioli_tools.repo
-
-refresh-repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - sls: sles
-      - file: lftp-repo
+  - package-mirror.repos
 
 lftp:
   pkg.installed:
     - version: '>=4.6.4-1.1'
     - require:
-      - cmd: refresh-repos
+      - sls: package-mirror.repos
 
 /root/mirror.lftp:
   file.managed:
@@ -66,7 +54,7 @@ web_server:
   pkg.installed:
     - name: apache2
     - require:
-      - cmd: refresh-repos
+      - sls: package-mirror.repos
   file.managed:
     - name: /etc/apache2/vhosts.d/package-mirror.conf
     - source: salt://package-mirror/package-mirror.conf
