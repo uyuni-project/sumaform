@@ -144,6 +144,8 @@ postgresql:
 socket-dir:
   file.directory:
     - name: /var/run/postgresql
+    - user: pgpool
+    - group: pgpool
     - dir_mode: 771
 
 # HACK: provide newer version of migration.sh
