@@ -132,3 +132,24 @@ module "minionsles12sp1" {
   role = "minion"
 }
 
+// Inter-Server Sync (ISS)
+
+module "suma21pgmaster" {
+  source = "./openstack_host"
+  name = "suma21pgmaster"
+  image = "sumaform-sles11sp3"
+  version = "2.1-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+  iss-slave = "suma21pgslave.tf.local"
+}
+
+module "suma21pgslave" {
+  source = "./openstack_host"
+  name = "suma21pgslave"
+  image = "sumaform-sles11sp3"
+  version = "2.1-stable"
+  database = "postgres"
+  role = "suse-manager-server"
+  iss-master = "${module.suma21pgmaster.hostname}"
+}
