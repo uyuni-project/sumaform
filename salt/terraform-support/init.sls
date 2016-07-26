@@ -44,6 +44,10 @@ setup-machine-id:
     - creates: /etc/machine-id-already-setup
     - onlyif: systemd-machine-id-setup
 
+clear-minion-id:
+  file.absent:
+    - name: /etc/salt/minion_id
+
 # HACK: workaround for https://infra.nue.suse.com/SelfService/Display.html?id=49948
 work_around_networking_issue:
   cmd.run:
