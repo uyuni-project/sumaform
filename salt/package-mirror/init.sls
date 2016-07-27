@@ -11,6 +11,11 @@ lftp:
   file.managed:
     - source: salt://package-mirror/mirror.lftp
 
+/root/refresh_scc_data.py:
+  file.managed:
+    - source: salt://package-mirror/refresh_scc_data.py
+    - mode: 755
+
 /root/mirror.sh:
   file.managed:
     - source: salt://package-mirror/mirror.sh
@@ -95,32 +100,6 @@ nfsserver:
       - service: nfs
     - watch:
       - file: /etc/exports
-
-# SUSE Manager "from dir" specific files
-
-/srv/mirror/organizations_products_unscoped.json:
-  file.managed:
-    - source: salt://package-mirror/organizations_products_unscoped.json
-    - require:
-      - file: /srv/mirror
-
-/srv/mirror/organizations_repositories.json:
-  file.managed:
-    - source: salt://package-mirror/organizations_repositories.json
-    - require:
-      - file: /srv/mirror
-
-/srv/mirror/organizations_subscriptions.json:
-  file.managed:
-    - source: salt://package-mirror/organizations_subscriptions.json
-    - require:
-      - file: /srv/mirror
-
-/srv/mirror/organizations_orders.json:
-  file.managed:
-    - source: salt://package-mirror/organizations_orders.json
-    - require:
-      - file: /srv/mirror
 
 /srv/mirror/SUSE:
   file.symlink:
