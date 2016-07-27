@@ -1,6 +1,9 @@
-# Allow connections to Postgres from any host
+{% if grains['for-development-only'] and grains['database'] == 'postgres' %}
+
 include:
   - suse-manager
+
+# allow connections from any host
 
 /var/lib/pgsql/data/postgresql.conf:
   file.append:
@@ -22,3 +25,5 @@ postgresql:
     - require:
       - file: /var/lib/pgsql/data/postgresql.conf
       - file: /var/lib/pgsql/data/pg_hba.conf
+
+{% endif %}

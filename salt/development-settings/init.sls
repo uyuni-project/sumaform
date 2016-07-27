@@ -7,8 +7,4 @@ include:
   - .rhn
   - .iss
 
-{% if grains['database'] == 'postgres' %}
-  - .postgres
-{% endif %}
-
 {% endif %}

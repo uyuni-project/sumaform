@@ -1,6 +1,7 @@
 include:
   - suse-manager.repos
   - suse-manager.firewall
+  - suse-manager.postgres
   - suse-manager.pgpool
 
 {% if '2.1' in grains['version'] %}
