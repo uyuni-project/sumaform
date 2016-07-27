@@ -3,6 +3,10 @@ include:
   - suse-manager.firewall
   - suse-manager.postgres
   - suse-manager.pgpool
+  - suse-manager.tomcat
+  - suse-manager.taskomatic
+  - suse-manager.rhn
+  - suse-manager.iss
 
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by SUSE Manager's

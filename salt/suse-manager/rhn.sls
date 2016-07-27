@@ -1,3 +1,5 @@
+{% if grains['for-development-only'] %}
+
 include:
   - suse-manager
 
@@ -94,5 +96,7 @@ configure from dir:
     - require:
       - sls: suse-manager
       - mount: /mirror
+
+{% endif %}
 
 {% endif %}

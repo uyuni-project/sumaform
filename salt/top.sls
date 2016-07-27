@@ -1,7 +1,4 @@
 base:
-  '*':
-    - development-settings
-
   'role:spacewalk-server':
     - match: grain
     - spacewalk
