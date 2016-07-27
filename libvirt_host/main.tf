@@ -64,7 +64,7 @@ for-development-only: True
 
 EOF
       ,
-      "salt-call --force-color --local state.sls terraform-support",
+      "salt-call --force-color --local state.sls terraform-resource",
       "salt-call --force-color --local state.highstate"
     ]
   }

@@ -56,7 +56,7 @@ for-development-only: True
 
 EOF
       ,
-      "salt-call --local state.sls terraform-support",
+      "salt-call --local state.sls terraform-resource",
       "salt-call --local state.highstate"
     ]
   }
