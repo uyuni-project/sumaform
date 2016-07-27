@@ -1,3 +1,7 @@
+firewalld:
+  service.dead:
+    - enable: False
+
 spacewalk-repo:
     file.recurse:
     - name: /etc/yum.repos.d

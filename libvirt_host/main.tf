@@ -59,6 +59,7 @@ role: ${var.role}
 server: ${var.server}
 iss-master: ${var.iss-master}
 iss-slave: ${var.iss-slave}
+for-development-only: True
 " >/etc/salt/grains
 
 EOF
