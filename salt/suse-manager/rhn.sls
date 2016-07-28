@@ -3,7 +3,7 @@
 include:
   - suse-manager
 
-{% if 'stable' not in salt['grains.get']('version', '') %}
+{% if 'stable' not in grains['version'] %}
 
 browser-side-less-configuration:
   file.append:
@@ -15,7 +15,7 @@ browser-side-less-configuration:
     - pkgs:
       - susemanager-frontend-libs-devel
       - spacewalk-branding-devel
-    {% if '2.1' in salt['grains.get']('version', '') %}
+    {% if '2.1' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_2.1
     {% endif %}
     - require:
@@ -26,7 +26,7 @@ browser-side-less-configuration:
 create-first-user:
   http.query:
     - method: POST
-    {% if '2.1' in salt['grains.get']('version', '') %}
+    {% if '2.1' in grains['version'] %}
     - name: https://localhost/rhn/newlogin/CreateFirstUserSubmit.do
     - match: For details on SUSE Manager, please visit our website
     - data: "login=admin&\
