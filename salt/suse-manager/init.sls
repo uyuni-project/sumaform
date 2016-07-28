@@ -77,6 +77,13 @@ suse-manager-setup:
       - sls: suse-manager.pgpool
       {% endif %}
 
+ca-cert-checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - require:
+      - cmd: suse-manager-setup
+
 remove-motd:
   file.absent:
     - name: /etc/motd

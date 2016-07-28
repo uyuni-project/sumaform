@@ -5,13 +5,6 @@ include:
 
 {% if grains['iss-slave'] %}
 
-ca-cert-checksum:
-  cmd.run:
-    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
-    - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
-    - require:
-      - sls: suse-manager.rhn
-
 register-slave:
   cmd.script:
     - name: salt://suse-manager/register_slave.py
