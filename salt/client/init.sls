@@ -6,12 +6,14 @@ wget:
     - require:
       - sls: client.repos
 
-/root/bootstrap.sh:
+bootstrap-script:
   file.managed:
+    - name: /root/bootstrap.sh
     - source: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh
     - source_hash: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh.sha512
     - mode: 755
   cmd.run:
+    - name: /root/bootstrap.sh
     - require:
-      - file: /root/bootstrap.sh
+      - file: bootstrap-script
       - pkg: wget

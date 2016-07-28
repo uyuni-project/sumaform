@@ -9,10 +9,11 @@ salt-minion:
     - enable: True
     - watch:
       - pkg: salt-minion
-      - file: /etc/salt/minion.d/master.conf
+      - file: master-configuration
 
-/etc/salt/minion.d/master.conf:
+master-configuration:
   file.managed:
+    - name: /etc/salt/minion.d/master.conf
     - contents: |
         master: {{grains['server']}}
     - require:

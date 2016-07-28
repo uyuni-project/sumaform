@@ -1,14 +1,16 @@
 # Run with:
 # sudo salt-call --local state.sls client.sles11sp4_osad
 
-/root/bootstrap-sles11sp4-osad.sh:
+osad-bootstrap-script:
   file.managed:
+    - name: /root/bootstrap-sles11sp4-osad.sh
     - source: http://{{grains['server']}}/pub/bootstrap/bootstrap-sles11sp4-osad.sh
     - source_hash: http://{{grains['server']}}/pub/bootstrap/bootstrap-sles11sp4-osad.sh.sha512
     - mode: 755
   cmd.run:
+    - name: /root/bootstrap-sles11sp4-osad.sh
     - require:
-      - file: /root/bootstrap-sles11sp4-osad.sh
+      - file: osad-bootstrap-script
 
 rhnsd:
   service.dead:

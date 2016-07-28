@@ -5,14 +5,16 @@ include:
 
 # allow connections from any host
 
-/var/lib/pgsql/data/postgresql.conf:
+postgres-config:
   file.append:
+    - name: /var/lib/pgsql/data/postgresql.conf
     - text: listen_addresses = '*'
     - require:
       - sls: suse-manager
 
-/var/lib/pgsql/data/pg_hba.conf:
+hba-config:
   file.append:
+    - name: /var/lib/pgsql/data/pg_hba.conf
     - text: host    all     all       0.0.0.0/0      md5
     - require:
       - sls: suse-manager
@@ -20,10 +22,10 @@ include:
 postgresql:
   service.running:
     - watch:
-      - file: /var/lib/pgsql/data/postgresql.conf
-      - file: /var/lib/pgsql/data/pg_hba.conf
+      - file: postgres-config
+      - file: hba-config
     - require:
-      - file: /var/lib/pgsql/data/postgresql.conf
-      - file: /var/lib/pgsql/data/pg_hba.conf
+      - file: postgres-config
+      - file: hba-config
 
 {% endif %}

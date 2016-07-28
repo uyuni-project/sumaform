@@ -1,7 +1,7 @@
 include:
   - minion-swarm-host.repos
 
-docker.packages:
+docker-main:
   pkg.installed:
     - pkgs:
         - docker
@@ -10,18 +10,20 @@ docker.packages:
       - sls: minion-swarm-host.repos
     - unless: rpm -q docker && rpm -q python-docker-py
 
-vdb1.device:
-    cmd.run:
-      - name: /usr/sbin/parted -s /dev/vdb mklabel gpt && /usr/sbin/parted -s /dev/vdb mkpart primary 2048 100% && /sbin/mkfs.btrfs /dev/vdb1
-      - unless: ls /dev/vdb1
+create-docker-partition:
+  cmd.run:
+    - name: /usr/sbin/parted -s /dev/vdb mklabel gpt && /usr/sbin/parted -s /dev/vdb mkpart primary 2048 100% && /sbin/mkfs.btrfs /dev/vdb1
+    - unless: ls /dev/vdb1
 
-/var/lib/docker:
+docker-directory:
   file.directory:
+    - name: /var/lib/docker
     - user: root
     - group: users
     - mode: 700
     - makedirs: True
   mount.mounted:
+    - name: /var/lib/docker
     - device: /dev/vdb1
     - fstype: btrfs
     - mkmnt: True
@@ -29,42 +31,40 @@ vdb1.device:
     - opts:
       - defaults
     - require:
-        - cmd: vdb1.device
+        - cmd: create-docker-partition
 
-docker.service:
+docker-service:
   service.running:
     - name: docker
     - enable: True
     - require:
-      - pkg: docker.packages
-      - file: /var/lib/docker
+      - pkg: docker-main
+      - file: docker-directory
 
-docker.sle-image.pkg:
+docker-sles-12-image:
   pkg.installed:
-    - pkgs:
-        - sles12-docker-image
+    - name: sles12-docker-image
     - require:
       - sls: minion-swarm-host.repos
     - unless: rpm -q sles-12-docker-image
-
-docker.sle-image:
   cmd.run:
     - name: cat /usr/share/suse-docker-images/sles12-docker.*.xz | docker import - suse/sles12
     - unless: docker history suse/sles12
     - require:
-        - pkg: docker.sle-image.pkg
-        - pkg: docker.packages
-        - service: docker.service
+        - pkg: docker-sles-12-image
+        - pkg: docker-main
+        - service: docker-service
 
-docker.minion-image:
+docker-minion-image:
   cmd.run:
     - name: docker build -t minion /srv/salt/minion-swarm-host/docker/minion
     - unless: docker history minion
     - require:
-        - cmd: docker.sle-image
-        - service: docker.service
+        - cmd: docker-sles-12-image
+        - service: docker-service
 
-/root/run.sh:
+run-script:
   file.managed:
+    - name: /root/run.sh
     - source: salt://minion-swarm-host/run.sh
     - mode: 755

@@ -1,16 +1,21 @@
 {% if grains['for-development-only'] %}
 
+include:
+  - suse-manager.rhn
+
 {% if '2.1' in grains['version'] %}
 
-/etc/init.d/tomcat6:
+tomcat6-init-script:
   file.patch:
+    - name: /etc/init.d/tomcat6
     - source: salt://suse-manager/tomcat6.patch
     - hash: md5=bfebb4990690961e435d650009ec4f9f
     - require:
-      - cmd: default bootstrap script
+      - sls: suse-manager.rhn
 
-/etc/tomcat6/tomcat6.conf:
+tomcat6-config:
   file.append:
+    - name: /etc/tomcat6/tomcat6.conf
     - text: "JAVA_OPTS=\"$JAVA_OPTS
           -Xdebug
           -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
@@ -20,49 +25,50 @@
           -Djava.rmi.server.hostname={{ salt['network.interfaces']()['eth0']['inet'][0]['address'] }}
         \""
     - require:
-      - file: /etc/init.d/tomcat6
+      - file: tomcat6-init-script
 
 tomcat6:
   service.running:
     - watch:
       - file: /etc/rhn/rhn.conf
-      - file: /etc/tomcat6/tomcat6.conf
+      - file: tomcat6-config
     - require:
       - file: /etc/rhn/rhn.conf
-      - file: /etc/tomcat6/tomcat6.conf
+      - file: tomcat6-config
 
-speed up refresh after deploy:
+refresh-after-deploy-speedup-config:
   file.replace:
     - name: /etc/apache2/conf.d/zz-spacewalk-www.conf
     - pattern: 'ProxySet min=1\n'
     - repl: 'ProxySet min=1 retry=0\n'
     - require:
-      - cmd: default bootstrap script
+      - sls: suse-manager.rhn
 
 apache2:
   service.running:
     - watch:
       - service: tomcat6
-      - file: speed up refresh after deploy
+      - file: refresh-after-deploy-speedup-config
     - require:
       - service: tomcat6
-      - file: speed up refresh after deploy
+      - file: refresh-after-deploy-speedup-config
 
 {% else %}
 
-/etc/tomcat/tomcat.conf:
+tomcat-config:
   file.replace:
+    - name: /etc/tomcat/tomcat.conf
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
     - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n \1"'
     - require:
-      - cmd: default activation key
+      - sls: suse-manager.rhn
 
 tomcat:
   service.running:
     - watch:
-      - file: /etc/tomcat/tomcat.conf
+      - file: tomcat-config
     - require:
-      - file: /etc/tomcat/tomcat.conf
+      - file: tomcat-config
 
 {% endif %}
 

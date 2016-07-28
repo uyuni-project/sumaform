@@ -59,8 +59,9 @@ suse-manager-packages:
       - sls: suse-manager.repos
       - sls: suse-manager.firewall
 
-/root/setup_env.sh:
+environment-setup-script:
   file.managed:
+    - name: /root/setup_env.sh
     - source: salt://suse-manager/setup_env.sh
     - template: jinja
 
@@ -71,7 +72,7 @@ suse-manager-setup:
     - user: root
     - require:
       - pkg: suse-manager-packages
-      - file: /root/setup_env.sh
+      - file: environment-setup-script
       {% if grains['database'] == 'pgpool' %}
       - sls: suse-manager.pgpool
       {% endif %}

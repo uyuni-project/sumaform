@@ -12,24 +12,25 @@ ca-cert-checksum:
     - require:
       - sls: suse-manager.rhn
 
-/root/register_slave.py:
+register-slave:
   cmd.script:
-    - source: salt://suse-manager/register_slave.py
+    - name: salt://suse-manager/register_slave.py
     - args: "admin admin {{ grains['iss-slave'] }}"
     - require:
-      - sls: suse-manager.rhnw
+      - sls: suse-manager.rhn
 
 {% elif grains['iss-master'] %}
 
-/root/register_master.py:
+register-master:
   cmd.script:
-    - source: salt://development-settings/register_master.py
+    - name: salt://suse-manager/register_master.py
     - args: "admin admin {{ grains['iss-master'] }}"
     - require:
       - sls: suse-manager.rhn
 
-/usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT:
+master-ssl-cert:
   file.managed:
+    - name: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
     - source: http://{{grains['iss-master']}}/pub/RHN-ORG-TRUSTED-SSL-CERT
     - source_hash: http://{{grains['iss-master']}}/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
 

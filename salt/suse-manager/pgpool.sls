@@ -150,8 +150,9 @@ socket-dir:
 
 # HACK: provide newer version of migration.sh
 # (until the Manager-3.0-enable-external-postgres branch is merged)
-/usr/lib/susemanager/bin/migration.sh:
+migration-script:
   file.managed:
+    - name: /usr/lib/susemanager/bin/migration.sh
     - source: salt://suse-manager/migration.sh
 
 {% endif %}

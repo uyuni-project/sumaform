@@ -49,6 +49,6 @@ clear-minion-id:
     - name: /etc/salt/minion_id
 
 # HACK: workaround for https://infra.nue.suse.com/SelfService/Display.html?id=49948
-work_around_networking_issue:
+work-around-networking-issue:
   cmd.run:
     - name: ping -c 1 euklid.suse.de; true

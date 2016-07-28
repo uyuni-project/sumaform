@@ -7,45 +7,52 @@ lftp:
     - require:
       - sls: package-mirror.repos
 
-/root/mirror.lftp:
+lftp-script:
   file.managed:
+    - name: /root/mirror.lftp
     - source: salt://package-mirror/mirror.lftp
 
-/root/refresh_scc_data.py:
+scc-data-refresh-script:
   file.managed:
+    - name: /root/refresh_scc_data.py
     - source: salt://package-mirror/refresh_scc_data.py
     - mode: 755
 
-/root/mirror.sh:
+mirror-script:
   file.managed:
+    - name: /root/mirror.sh
     - source: salt://package-mirror/mirror.sh
     - mode: 755
   cron.present:
+    - name: /root/mirror.sh
     - identifier: PACKAGE_MIRROR
     - user: root
     - hour: 20
     - minute: 0
     - require:
-      - file: /root/mirror.sh
-      - file: /root/mirror.lftp
+      - file: mirror-script
+      - file: lftp-script
       - pkg: lftp
 
-vdb1.device:
-    cmd.run:
-      - name: /usr/sbin/parted -s /dev/vdb mklabel gpt && /usr/sbin/parted -s /dev/vdb mkpart primary 2048 100% && /sbin/mkfs.ext4 /dev/vdb1
-      - unless: ls /dev/vdb1
+mirror-partition:
+  cmd.run:
+    - name: /usr/sbin/parted -s /dev/vdb mklabel gpt && /usr/sbin/parted -s /dev/vdb mkpart primary 2048 100% && /sbin/mkfs.ext4 /dev/vdb1
+    - unless: ls /dev/vdb1
 
 # http serving of mirrored packages
-/etc/fstab:
-  file.managed
+fstab:
+  file.managed:
+    - name: /etc/fstab
 
-/srv/mirror:
+mirror-directory:
   file.directory:
+    - name: /srv/mirror
     - user: wwwrun
     - group: users
     - mode: 755
     - makedirs: True
   mount.mounted:
+    - name: /srv/mirror
     - device: /dev/vdb1
     - fstype: ext4
     - mkmnt: True
@@ -53,9 +60,9 @@ vdb1.device:
     - opts:
       - defaults
     - require:
-      - cmd: vdb1.device
+      - cmd: mirror-partition
 
-web_server:
+web-server:
   pkg.installed:
     - name: apache2
     - require:
@@ -71,17 +78,18 @@ web_server:
     - require:
       - pkg: apache2
       - file: /etc/apache2/vhosts.d/package-mirror.conf
-      - file: /srv/mirror
+      - file: mirror-directory
     - watch:
       - file: /etc/apache2/vhosts.d/package-mirror.conf
 
 # NFS serving of mirrored packages
 
-/etc/exports:
+exports-file:
   file.append:
+    - name: /etc/exports
     - text: /srv/mirror *(ro,sync,no_root_squash)
     - require:
-      - file: /srv/mirror
+      - file: mirror-directory
 
 rpcbind:
   service.running:
@@ -92,15 +100,17 @@ nfs:
     - enable: True
     - require:
       - service: rpcbind
+
 nfsserver:
   service.running:
     - enable: True
     - require:
-      - file: /etc/exports
+      - file: exports-file
       - service: nfs
     - watch:
-      - file: /etc/exports
+      - file: exports-file
 
-/srv/mirror/SUSE:
+suse-symlink:
   file.symlink:
+    - name: /srv/mirror/SUSE
     - target: mirror/SuSE/build.suse.de/SUSE

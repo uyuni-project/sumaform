@@ -5,7 +5,7 @@ include:
 
 {% if 'stable' not in salt['grains.get']('version', '') %}
 
-browser side LESS compilation:
+browser-side-less-configuration:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: development_environment = true
@@ -23,7 +23,7 @@ browser side LESS compilation:
 
 {% endif %}
 
-first user:
+create-first-user:
   http.query:
     - method: POST
     {% if '2.1' in salt['grains.get']('version', '') %}
@@ -53,49 +53,50 @@ first user:
     - require:
       - sls: suse-manager
 
-empty test channel:
+create-empty-channel:
   cmd.run:
     - name: spacecmd -u admin -p admin -- softwarechannel_create --name testchannel -l testchannel -a x86_64
     - unless: spacecmd -u admin -p admin softwarechannel_list | grep -x testchannel
     - require:
-      - http: first user
+      - http: create-first-user
 
-default activation key:
+create-activation-key:
   cmd.run:
     - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel
     - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-DEFAULT
     - require:
-      - cmd: empty test channel
+      - cmd: create-empty-channel
 
-default bootstrap script:
+create-bootstrap-script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
-      - cmd: default activation key
+      - cmd: create-activation-key
 
-default bootstrap script md5:
+create-bootstrap-script-md5:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - require:
-      - cmd: default bootstrap script
+      - cmd: create-bootstrap-script
 
 {% if salt["grains.get"]("package-mirror") %}
 
-/mirror:
+mirror-directory:
   mount.mounted:
+    - name: /mirror
     - device: {{ salt["grains.get"]("package-mirror") }}:/srv/mirror
     - fstype: nfs
     - mkmnt: True
 
-configure from dir:
+rhn-conf-from-dir:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.fromdir = /mirror
     - require:
       - sls: suse-manager
-      - mount: /mirror
+      - mount: mirror-directory
 
 {% endif %}
 

@@ -30,8 +30,9 @@ conf-max-connections:
     - require:
       - service: postgresql
 
-/var/lib/pgsql/data/pg_hba.conf:
+conf-hba:
   file.managed:
+    - name: /var/lib/pgsql/data/pg_hba.conf
     - contents: |
         local all all           peer
         host  all all 0.0.0.0/0 md5
