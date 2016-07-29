@@ -33,7 +33,15 @@ suse-manager-proxy-update-repo:
 suse-manager-devel-repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_2.1.repo
-    - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_2.1.repo
+    - source: salt://suse-manager-proxy/repos.d/Devel_Galaxy_Manager_2.1.repo
+    - template: jinja
+{% endif %}
+
+{% if '3-nightly' in grains['version'] %}
+suse-manager-devel-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0.repo
+    - source: salt://suse-manager-proxy/repos.d/Devel_Galaxy_Manager_3.0.repo
     - template: jinja
 {% endif %}
 
