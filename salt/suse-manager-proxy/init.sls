@@ -11,6 +11,10 @@ sles-release:
 
 proxy-packages:
   pkg.latest:
+    {% if '3-stable' in grains['version'] %}
+    - fromrepo: SUSE-Manager-Proxy-3.0-x86_64-Pool
+    - name: patterns-suma_proxy
+    {% else %}
     - pkgs:
       # proxy
       - suse-manager-proxy-release
@@ -44,6 +48,12 @@ proxy-packages:
       - rhn-custom-info
       - rhnmd
       - rhnpush
+    {% endif %}
+    - require:
+      - sls: suse-manager-proxy.repos
+
+wget:
+  pkg.installed:
     - require:
       - sls: suse-manager-proxy.repos
 
@@ -58,6 +68,7 @@ bootstrap-script:
     - require:
       - file: bootstrap-script
       - pkg: proxy-packages
+      - pkg: wget
 
 /root/config-answers.txt:
   file.managed:

@@ -18,14 +18,14 @@ suse-manager-proxy-update-repo:
 {% if '3' in grains['version'] %}
 suse-manager-proxy-pool-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-Pool.repo
-    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-Pool.repo
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
     - template: jinja
 
 suse-manager-proxy-update-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-Update.repo
-    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-Update.repo
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Update.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Update.repo
     - template: jinja
 {% endif %}
 
