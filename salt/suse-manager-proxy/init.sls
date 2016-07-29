@@ -11,7 +11,10 @@ sles-release:
 
 proxy-packages:
   pkg.latest:
-    {% if '3-stable' in grains['version'] %}
+    {% if 'head' in grains['version'] %}
+    - fromrepo: SUSE-Manager-Head-x86_64-Pool
+    - name: patterns-suma_proxy
+    {% elif '3-stable' in grains['version'] %}
     - fromrepo: SUSE-Manager-Proxy-3.0-x86_64-Pool
     - name: patterns-suma_proxy
     {% elif '3-nightly' in grains['version'] %}

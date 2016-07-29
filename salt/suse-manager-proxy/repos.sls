@@ -29,6 +29,20 @@ suse-manager-proxy-update-repo:
     - template: jinja
 {% endif %}
 
+{% if 'head' in grains['version'] %}
+suse-manager-proxy-pool-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
+    - template: jinja
+
+suse-manager-proxy-update-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Update.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Update.repo
+    - template: jinja
+{% endif %}
+
 {% if '2.1-nightly' in grains['version'] %}
 suse-manager-devel-repo:
   file.managed:
@@ -42,6 +56,14 @@ suse-manager-devel-repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0.repo
     - source: salt://suse-manager-proxy/repos.d/Devel_Galaxy_Manager_3.0.repo
+    - template: jinja
+{% endif %}
+
+{% if 'head' in grains['version'] %}
+suse-manager-devel-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
+    - source: salt://suse-manager-proxy/repos.d/Devel_Galaxy_Manager_Head.repo
     - template: jinja
 {% endif %}
 
