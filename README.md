@@ -146,6 +146,41 @@ terraform taint -module=images libvirt_volume.sles12sp1
 terraform apply
 ```
 
+### SUSE Manager Proxies
+
+Create one SUSE Manager module, and a Proxy module with the `server` variable pointing at it. Then point clients to the proxy, as in the example below:
+
+```
+module "suma3pg" {
+  source = "./libvirt_host"
+  name = "suma3pg"
+  memory = 4096
+  vcpu = 2
+  image = "${module.images.sles12sp1}"
+  version = "3-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "proxy3" {
+  source = "./libvirt_host"
+  name = "proxy3"
+  image = "${module.images.sles12sp1}"
+  server = "${module.suma3pg.hostname}"
+  role = "suse-manager-proxy"
+  version = "3-nightly"
+}
+
+module "clisles12sp1" {
+  source = "./libvirt_host"
+  name = "clisles12sp1"
+  image = "${module.images.sles12sp1}"
+  server = "${module.proxy3.hostname}"
+  role = "client"
+}
+```
+
+
 ### Inter-Server Sync (ISS)
 
 Create two SUSE Manager server modules and add `iss-master` and `iss-slave` variable definitions to them, as in the example below:

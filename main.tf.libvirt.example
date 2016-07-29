@@ -180,6 +180,59 @@ module "minionsles12sp1" {
 }
 
 
+// Proxy
+
+module "proxy21s" {
+  source = "./libvirt_host"
+  name = "proxy21s"
+  image = "${module.images.sles11sp3}"
+  server = "${module.suma21spg.hostname}"
+  role = "suse-manager-proxy"
+  version = "2.1-stable"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "proxy21" {
+  source = "./libvirt_host"
+  name = "proxy21"
+  image = "${module.images.sles11sp3}"
+  server = "${module.suma21pg.hostname}"
+  role = "suse-manager-proxy"
+  version = "2.1-nightly"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "proxy3s" {
+  source = "./libvirt_host"
+  name = "proxy3s"
+  image = "${module.images.sles12sp1}"
+  server = "${module.suma3spg.hostname}"
+  role = "suse-manager-proxy"
+  version = "3-stable"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "proxy3" {
+  source = "./libvirt_host"
+  name = "proxy3"
+  image = "${module.images.sles12sp1}"
+  server = "${module.suma3pg.hostname}"
+  role = "suse-manager-proxy"
+  version = "3-nightly"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+module "proxyhead" {
+  source = "./libvirt_host"
+  name = "proxyhead"
+  image = "${module.images.sles12sp1}"
+  server = "${module.sumaheadpg.hostname}"
+  role = "suse-manager-proxy"
+  version = "head"
+  // package-mirror = "${module.package_mirror.hostname}"
+}
+
+
 // Inter-Server Sync (ISS)
 
 module "suma21pgmaster" {
