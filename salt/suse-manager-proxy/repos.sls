@@ -15,6 +15,14 @@ suse-manager-proxy-update-repo:
     - template: jinja
 {% endif %}
 
+{% if '2.1-nightly' in grains['version'] %}
+suse-manager-devel-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_2.1.repo
+    - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_2.1.repo
+    - template: jinja
+{% endif %}
+
 refresh-suse-manager-proxy-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -22,3 +30,6 @@ refresh-suse-manager-proxy-repos:
       - sls: sles.repos
       - file: suse-manager-proxy-pool-repo
       - file: suse-manager-proxy-update-repo
+      {% if ('nightly' in grains['version'] or 'head' in grains['version']) %}
+      - file: suse-manager-devel-repo
+      {% endif %}
