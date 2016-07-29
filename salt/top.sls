@@ -11,6 +11,10 @@ base:
     - match: grain
     - client
 
+  'role:suse-manager-proxy':
+    - match: grain
+    - suse-manager-proxy
+
   'role:minion':
     - match: grain
     - minion

@@ -1,0 +1,5 @@
+[SUSE-Manager-Proxy-2.1-Update]
+name=SUSE-Manager-Proxy-2.1-Update
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains["package-mirror"] | default("nu.novell.com") }}/repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64/
