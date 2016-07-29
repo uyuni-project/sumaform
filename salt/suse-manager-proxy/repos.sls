@@ -15,6 +15,20 @@ suse-manager-proxy-update-repo:
     - template: jinja
 {% endif %}
 
+{% if '3' in grains['version'] %}
+suse-manager-proxy-pool-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-Pool.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-Pool.repo
+    - template: jinja
+
+suse-manager-proxy-update-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-Update.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-Update.repo
+    - template: jinja
+{% endif %}
+
 {% if '2.1-nightly' in grains['version'] %}
 suse-manager-devel-repo:
   file.managed:

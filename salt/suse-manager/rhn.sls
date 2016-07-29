@@ -62,7 +62,11 @@ create-empty-channel:
 
 create-activation-key:
   cmd.run:
+    {% if '2.1' in grains['version'] %}
     - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel -e provisioning_entitled
+    {% else %}
+    - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel
+    {% endif %}
     - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-DEFAULT
     - require:
       - cmd: create-empty-channel
