@@ -81,7 +81,7 @@ bootstrap-script:
     - source: salt://suse-manager-proxy/config-answers.txt
     - template: jinja
 
-shared-trusted-cert:
+internal-trusted-cert:
   file.managed:
     - name: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
     - source: http://{{grains['server']}}/pub/RHN-ORG-TRUSTED-SSL-CERT
@@ -93,15 +93,15 @@ ssl-build-directory:
   file.directory:
     - name: /root/ssl-build
 
-trusted-cert:
+ssl-building-trusted-cert:
   file.managed:
     - name: /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
     - source: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
     - requires:
-      - file: shared-trusted-cert
+      - file: internal-trusted-cert
       - file: ssl-build-directory
 
-private-ssl-key:
+ssl-building-private-ssl-key:
   file.managed:
     - name: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - source: http://{{grains['server']}}/pub/RHN-ORG-PRIVATE-SSL-KEY
@@ -110,7 +110,7 @@ private-ssl-key:
       - pkg: proxy-packages
       - file: ssl-build-directory
 
-ca-configuration:
+ssl-building-ca-configuration:
   file.managed:
     - name: /root/ssl-build/rhn-ca-openssl.cnf
     - source: http://{{grains['server']}}/pub/rhn-ca-openssl.cnf
@@ -128,9 +128,9 @@ configure-proxy:
     - requires:
       - pkg: proxy-packages
       - file: /root/config-answers.txt
-      - file: trusted-cert
-      - file: private-ssl-key
-      - file: ca-configuration
+      - file: ssl-building-trusted-cert
+      - file: ssl-building-private-ssl-key
+      - file: ssl-building-ca-configuration
 
 create-bootstrap-script:
   cmd.run:
@@ -145,3 +145,36 @@ create-bootstrap-script-md5:
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - require:
       - cmd: create-bootstrap-script
+
+ca-cert-checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - require:
+      - cmd: configure-proxy
+
+private-ssl-key:
+  file.copy:
+    - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
+    - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
+    - mode: 644
+
+private-ssl-key-checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
+    - creates: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
+    - require:
+      - file: private-ssl-key
+
+ca-configuration:
+  file.copy:
+    - name: /srv/www/htdocs/pub/rhn-ca-openssl.cnf
+    - source: /root/ssl-build/rhn-ca-openssl.cnf
+    - mode: 644
+
+ca-configuration-checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
+    - creates: /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
+    - require:
+      - file: ca-configuration

@@ -180,6 +180,7 @@ module "clisles12sp1" {
 }
 ```
 
+Note that proxy chains (proxies of proxies) work as expected.
 
 ### Inter-Server Sync (ISS)
 
