@@ -61,8 +61,7 @@ EOF
 }
 
 output "hostname" {
-    // HACK: hostname is taken from VM metadata in order to
-    // establish dependencies with other modules that use
-    // the package mirror
-    value = "${coalesce(concat("package-mirror.", var.domain), libvirt_domain.domain.id)}"
+    // HACK: this output artificially depends on the domain id
+    // any resource using this output will have to wait until domain is fully up
+    value = "${coalesce("package-mirror.${var.domain}", libvirt_domain.domain.id)}"
 }

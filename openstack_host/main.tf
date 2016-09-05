@@ -63,7 +63,7 @@ EOF
 }
 
 output "hostname" {
-// HACK: id is taken from instance in order to establish dependencies
-// with other modules - not working when using hostname
-  value = "${coalesce(concat(var.name, ".", var.domain), openstack_compute_instance_v2.instance.id)}"
+  // HACK: this output artificially depends on the instance id
+  // any resource using this output will have to wait until instance is fully up
+  value = "${coalesce("${var.name}.${var.domain}", openstack_compute_instance_v2.instance.id)}"
 }
