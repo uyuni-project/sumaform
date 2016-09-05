@@ -36,13 +36,10 @@ resource "openstack_compute_instance_v2" "instance" {
     destination = "/srv"
   }
 
-  provisioner "remote-exec" {
-    inline = [
+  provisioner "file" {
+    content = <<EOF
 
-//HACK: there's currently no better way to deploy a templated file
-<<EOF
-
-echo "hostname: ${var.name}
+hostname: ${var.name}
 domain: ${var.domain}
 package-mirror: ${var.package-mirror}
 version: ${var.version}
@@ -52,12 +49,16 @@ server: ${var.server}
 iss-master: ${var.iss-master}
 iss-slave: ${var.iss-slave}
 for-development-only: True
-" >/etc/salt/grains
 
 EOF
-      ,
-      "salt-call --local state.sls terraform-resource",
-      "salt-call --local state.highstate"
+
+    destination = "/etc/salt/grains"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "salt-call --force-color --local state.sls terraform-resource",
+      "salt-call --force-color --local state.highstate"
     ]
   }
 }

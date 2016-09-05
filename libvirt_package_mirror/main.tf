@@ -41,19 +41,20 @@ resource "libvirt_domain" "domain" {
     destination = "/srv"
   }
 
-  provisioner "remote-exec" {
-    inline = [
+  provisioner "file" {
+    content = <<EOF
 
-//HACK: there's currently no better way to deploy a templated file
-<<EOF
-
-echo "hostname: package-mirror
+hostname: package-mirror
 domain: ${var.domain}
 role: package-mirror
-" >/etc/salt/grains
 
 EOF
-      ,
+
+    destination = "/etc/salt/grains"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       "salt-call --local state.sls terraform-resource",
       "salt-call --local state.highstate"
     ]
