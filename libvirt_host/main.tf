@@ -1,19 +1,3 @@
-variable "name" {}
-variable "image" {}
-variable "version" {
-  default = "null"
-}
-variable "database" {
-  default = "null"
-}
-variable "role" {}
-variable "memory" {
-  default = 512
-}
-variable "vcpu" {
-  default = 1
-}
-
 resource "libvirt_volume" "main_disk" {
   name = "terraform_${var.name}_disk"
   base_volume_id = "${var.image}"

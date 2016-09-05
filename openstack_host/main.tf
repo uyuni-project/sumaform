@@ -1,13 +1,3 @@
-variable "name" {}
-variable "image" {}
-variable "version" {
-  default = "null"
-}
-variable "database" {
-  default = "null"
-}
-variable "role" {}
-
 resource "openstack_compute_floatingip_v2" "floatip_1" {
   region = ""
   pool = "floating"
