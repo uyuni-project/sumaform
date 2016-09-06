@@ -21,7 +21,7 @@ resource "openstack_compute_instance_v2" "instance" {
 
   connection {
     user = "root"
-    password = "vagrant"
+    password = "linux"
   }
 
   provisioner "file" {
