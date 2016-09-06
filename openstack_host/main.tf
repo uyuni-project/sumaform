@@ -1,6 +1,7 @@
-resource "openstack_compute_floatingip_v2" "floatip_1" {
+resource "openstack_compute_floatingip_v2" "floatip" {
   region = ""
   pool = "floating"
+  count = "${var.count}"
 }
 
 resource "openstack_compute_instance_v2" "instance" {
@@ -9,10 +10,12 @@ resource "openstack_compute_instance_v2" "instance" {
   flavor_name = "m1.xlarge"
   security_groups = ["default"]
   region = ""
+  count = "${var.count}"
+
   network {
     uuid = "8cce38fd-443f-4b87-8ea5-ad2dc184064f"
     # Terraform will use this network for provisioning
-    floating_ip = "${openstack_compute_floatingip_v2.floatip_1.address}"
+    floating_ip = "${element(openstack_compute_floatingip_v2.floatip.*.address, count.index)}"
     access_network = true
   }
 
@@ -29,7 +32,7 @@ resource "openstack_compute_instance_v2" "instance" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${var.name}
+hostname: ${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.domain}
 package-mirror: ${var.package-mirror}
 version: ${var.version}

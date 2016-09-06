@@ -1,16 +1,18 @@
 resource "libvirt_volume" "main_disk" {
-  name = "terraform_${var.name}_disk"
+  name = "terraform_${var.name}_${count.index}_disk"
   base_volume_id = "${var.image}"
   pool = "${var.libvirt_pool}"
+  count = "${var.count}"
 }
 
 resource "libvirt_domain" "domain" {
-  name = "${var.name}"
+  name = "${var.name}_${count.index}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
+  count = "${var.count}"
 
   disk {
-    volume_id = "${libvirt_volume.main_disk.id}"
+    volume_id = "${element(libvirt_volume.main_disk.*.id, count.index)}"
   }
 
   network_interface {
@@ -31,7 +33,7 @@ resource "libvirt_domain" "domain" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${var.name}
+hostname: ${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.domain}
 package-mirror: ${var.package-mirror}
 version: ${var.version}

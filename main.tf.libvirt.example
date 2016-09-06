@@ -111,6 +111,7 @@ module "clisles11sp3" {
   image = "${module.images.sles11sp3}"
   server = "${module.suma21pg.hostname}"
   role = "client"
+  count = 1
   // package-mirror = "${module.package_mirror.hostname}"
 }
 
@@ -120,6 +121,7 @@ module "clisles11sp4" {
   image = "${module.images.sles11sp4}"
   server = "${module.suma21pg.hostname}"
   role = "client"
+  count = 1
   // package-mirror = "${module.package_mirror.hostname}"
 }
 
@@ -129,6 +131,7 @@ module "clisles12" {
   image = "${module.images.sles12}"
   server = "${module.suma21pg.hostname}"
   role = "client"
+  count = 1
   // package-mirror = "${module.package_mirror.hostname}"
 }
 
@@ -138,6 +141,7 @@ module "clisles12sp1" {
   image = "${module.images.sles12sp1}"
   server = "${module.suma21pg.hostname}"
   role = "client"
+  count = 1
   // package-mirror = "${module.package_mirror.hostname}"
 }
 
@@ -167,6 +171,7 @@ module "minionsles12" {
   image = "${module.images.sles12}"
   server = "${module.suma3pg.hostname}"
   role = "minion"
+  count = 1
   // package-mirror = "${module.package_mirror.hostname}"
 }
 
@@ -176,6 +181,7 @@ module "minionsles12sp1" {
   image = "${module.images.sles12sp1}"
   server = "${module.suma3pg.hostname}"
   role = "minion"
+  count = 1
   // package-mirror = "${module.package_mirror.hostname}"
 }
 

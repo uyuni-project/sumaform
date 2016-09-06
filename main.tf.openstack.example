@@ -75,6 +75,7 @@ module "clisles11sp3" {
   name = "clisles11sp3"
   image = "sumaform-sles11sp3"
   server = "${module.suma21pg.hostname}"
+  count = 1
   role = "client"
 }
 
@@ -83,6 +84,7 @@ module "clisles11sp4" {
   name = "clisles11sp4"
   image = "sumaform-sles11sp4"
   server = "${module.suma21pg.hostname}"
+  count = 1
   role = "client"
 }
 
@@ -91,6 +93,7 @@ module "clisles12" {
   name = "clisles12"
   image = "sumaform-sles12"
   server = "${module.suma21pg.hostname}"
+  count = 1
   role = "client"
 }
 
@@ -99,6 +102,7 @@ module "clisles12sp1" {
   name = "clisles12sp1"
   image = "sumaform-sles12sp1"
   server = "${module.suma21pg.hostname}"
+  count = 1
   role = "client"
 }
 
@@ -121,6 +125,7 @@ module "minionsles12" {
   name = "minionsles12"
   image = "sumaform-sles12"
   server = "${module.suma3pg.hostname}"
+  count = 1
   role = "minion"
 }
 
@@ -129,6 +134,7 @@ module "minionsles12sp1" {
   name = "minionsles12sp1"
   image = "sumaform-sles12sp1"
   server = "${module.suma3pg.hostname}"
+  count = 1
   role = "minion"
 }
 

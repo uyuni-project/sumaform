@@ -124,6 +124,23 @@ Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expe
 
 ## Advanced use
 
+### Create multiple hosts
+
+Most resources support a `count` variable that allows you to create several instances at once. For example:
+
+```
+module "minionsles12sp1" {
+  source = "./libvirt_host"
+  name = "minionsles12sp1"
+  image = "${module.images.sles12sp1}"
+  server = "${module.suma3pg.hostname}"
+  role = "minion"
+  count = 10
+}
+```
+
+This will create 10 minions connected to the suma3pg server.
+
 ### Customize virtual machine hardware
 
 You can add the following parameters to a `libvirt_host` module in `main.tf` to customize its virtual hardware:

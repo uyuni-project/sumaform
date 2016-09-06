@@ -33,6 +33,11 @@ variable "role"  {
   type = "string"
 }
 
+variable "count"  {
+  description = "Number of hosts like this one"
+  default = 1
+}
+
 variable "server" {
   description = "Main server for this host"
   default = "null"
