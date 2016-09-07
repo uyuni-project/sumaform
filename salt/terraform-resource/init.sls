@@ -1,19 +1,26 @@
-hosts_file:
+hosts-file:
   file.append:
     - name: /etc/hosts
     - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}"
 
-set_transient_hostname:
+set-temporary-hostname:
   cmd.run:
-    - name: hostnamectl set-hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
+    {% if grains['init'] == 'systemd' %}
+    - name: hostnamectl set-hostname {{ grains['hostname'] }}
+    {% else %}
+    - name: hostname {{ grains['hostname'] }}
+    {% endif %}
     - onlyif: hostnamectl
 
-hostname:
-  cmd.run:
-    - name: hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
+set-permanent-hostname:
   file.managed:
     - name: /etc/hostname
-    - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
+    - contents: {{ grains['hostname'] }}
+
+permanent-hostname-backward-compatibility-link:
+  file.symlink:
+    - name: /etc/HOSTNAME
+    - target: /etc/hostname
 
 avahi:
   pkg.installed:
