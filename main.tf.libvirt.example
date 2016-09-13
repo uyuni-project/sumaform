@@ -5,7 +5,7 @@ module "images" {
 // Uncomment below to use a package mirror
 // module "package_mirror" {
 //   source = "./libvirt_package_mirror"
-//   image = "${module.images.sles12sp1}"
+//   image = "${module.images.opensuse421}"
 //   libvirt_data_pool = "data"
 // }
 

@@ -1,3 +1,12 @@
+resource "libvirt_volume" "opensuse421" {
+  name = "sumaform_opensuse421"
+  source = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse421.x86_64.qcow2"
+  pool = "${var.libvirt_pool}"
+}
+output "opensuse421" {
+  value = "${libvirt_volume.opensuse421.id}"
+}
+
 resource "libvirt_volume" "sles11sp3" {
   name = "sumaform_sles11sp3"
   source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp3.x86_64.qcow2"
