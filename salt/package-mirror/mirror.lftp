@@ -32,6 +32,10 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/
 
+# SLES 12 SP2
+mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP2/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP2/x86_64/product/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP2/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP2/x86_64/update/
+
 # SUSE Manager 3.0
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/
@@ -40,7 +44,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.0/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.0/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/
 
-# SLE 12 and 12 SP1 Manager Tools
+# SLE 12 (GA and all SPs) Manager Tools
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
 
@@ -58,7 +62,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 # SUSE Manager Head devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.develHead\.x86_64\.rpm" -i "noarch/.*\.develHead\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP1/ ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP1/
 
-# SLE 12 and 12 SP1 Manager Tools Head
+# SLE 12 (GA and all SPs) Manager Tools Head
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.develHead\.x86_64\.rpm" -i "noarch/.*\.develHead\.noarch\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1 ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
 
 # Oracle server
