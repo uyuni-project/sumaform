@@ -114,3 +114,8 @@ suse-symlink:
   file.symlink:
     - name: /srv/mirror/SUSE
     - target: mirror/SuSE/build.suse.de/SUSE
+
+# HACK: work around a bug in the openSUSE image
+fix-broken-bootloader:
+  cmd.run:
+    - name: update-bootloader --refresh
