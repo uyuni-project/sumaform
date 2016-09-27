@@ -1,3 +1,7 @@
+/aws_images/ec2utils.conf
+/aws_images/upload.sh
+/aws_images/openbare*.json
+
 /terraform.tfstate*
 /.terraform/
 /main.tf
