@@ -22,6 +22,7 @@ permanent-hostname-backward-compatibility-link:
     - name: /etc/HOSTNAME
     - target: /etc/hostname
 
+{% if grains['use-avahi'] %}
 avahi:
   pkg.installed:
     - name: avahi
@@ -44,6 +45,7 @@ configure-full-avahi-resolution:
     - repl: "\\1mdns\\2\\3"
     - require:
       - pkg: avahi
+{% endif %}
 
 setup-machine-id:
   cmd.run:

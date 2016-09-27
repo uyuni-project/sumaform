@@ -34,6 +34,7 @@ resource "openstack_compute_instance_v2" "instance" {
 
 hostname: ${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.domain}
+use-avahi: True
 package-mirror: ${var.package-mirror}
 version: ${var.version}
 database: ${var.database}

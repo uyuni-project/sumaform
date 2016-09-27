@@ -45,6 +45,7 @@ resource "libvirt_domain" "domain" {
 
 hostname: package-mirror
 domain: ${var.domain}
+use-avahi: True
 role: package-mirror
 data_disk_device: vdb
 
