@@ -1,0 +1,87 @@
+provider "aws" {
+  region = "us-east-1"
+  access_key = // add access key as a string here
+  secret_key = // add secret key as a string here
+}
+
+module "aws_network" {
+  source = "./aws_network"
+  availability_zone = "us-east-1e"
+  ssh_allowed_ips = [
+    // add comma-separated IP address strings here, those hosts will
+    // be able to access package-mirror via SSH
+  ]
+  name_prefix = "sumaform"
+}
+
+module "aws_package_mirror" {
+  source = "./aws_package_mirror"
+  region = "us-east-1"
+  availability_zone = "us-east-1e"
+  ami = "ami-164d0801" // change if appropriate (non-SUSE employees or non-us-east-1 region)
+  key_name = // add SSH key name as a string here
+  key_file = // add SSH private key path as a string here
+  data_volume_snapshot_id = "snap-ad7803b1" // change if appropriate (non-SUSE employees or non-us-east-1 region)
+  public_subnet_id = "${module.aws_network.public_subnet_id}"
+  public_security_group_id = "${module.aws_network.public_security_group_id}"
+  name_prefix = "sumaform"
+}
+
+module "aws_suma3pg" {
+  source = "./aws_host"
+  name = "suma3pg"
+  region = "us-east-1"
+  availability_zone = "us-east-1e"
+  ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)
+  instance_type = "m4.2xlarge"
+  volume_size = 100 // GiB
+  key_name = // add SSH key name as a string here
+  key_file = // add SSH private key path as a string here
+  monitoring = true
+  private_subnet_id = "${module.aws_network.private_subnet_id}"
+  private_security_group_id = "${module.aws_network.private_security_group_id}"
+  name_prefix = "sumaform"
+
+  version = "3-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+  package_mirror_public_name = "${module.aws_package_mirror.public_name}"
+  package_mirror_private_name = "${module.aws_package_mirror.private_name}"
+}
+
+module "aws_minion" {
+  source = "./aws_host"
+  name = "minion"
+  count = 10
+  region = "us-east-1"
+  availability_zone = "us-east-1e"
+  ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)
+  instance_type = "t2.nano"
+  volume_size = 2 // GiB
+  key_name = // add SSH key name as a string here
+  key_file = // add SSH private key path as a string here
+  private_subnet_id = "${module.aws_network.private_subnet_id}"
+  private_security_group_id = "${module.aws_network.private_security_group_id}"
+  name_prefix = "sumaform"
+
+  server = "${module.aws_suma3pg.private_names[0]}"
+  role = "minion"
+  package_mirror_public_name = "${module.aws_package_mirror.public_name}"
+  package_mirror_private_name = "${module.aws_package_mirror.private_name}"
+}
+
+output "key_file" {
+  value = // add SSH private key path as a string here
+}
+
+output "package_mirror_public_name" {
+  value = "${module.aws_package_mirror.public_name}"
+}
+
+output "aws_suma3pg_private_name" {
+  value = "${module.aws_suma3pg.private_names[0]}"
+}
+
+output "aws_minion_private_names" {
+  value = ["${module.aws_minion.private_names}"]
+}
