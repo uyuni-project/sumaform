@@ -2,47 +2,47 @@ open http://nu.novell.com/
 
 # SLES 11 SP3
 mirror --continue --delete --loop --parallel=3 --verbose=3 repo/$RCE/SLES11-SP3-Pool/sle-11-x86_64/ repo/$RCE/SLES11-SP3-Pool/sle-11-x86_64/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" repo/$RCE/SLES11-SP3-Updates/sle-11-x86_64/ repo/$RCE/SLES11-SP3-Updates/sle-11-x86_64/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" -x ".*\.drpm" repo/$RCE/SLES11-SP3-Updates/sle-11-x86_64/ repo/$RCE/SLES11-SP3-Updates/sle-11-x86_64/
 
 # SLES 11 SP4
 mirror --continue --delete --loop --parallel=3 --verbose=3 repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64/ repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/ repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" -x ".*\.drpm" repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/ repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/
 
 # SLES 11 SP3 Manager Tools
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" repo/$RCE/SLES11-SP3-SUSE-Manager-Tools/sle-11-x86_64/ repo/$RCE/SLES11-SP3-SUSE-Manager-Tools/sle-11-x86_64/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" -x ".*\.drpm" repo/$RCE/SLES11-SP3-SUSE-Manager-Tools/sle-11-x86_64/ repo/$RCE/SLES11-SP3-SUSE-Manager-Tools/sle-11-x86_64/
 
 # SLES 11 SP4 Manager Tools
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" -x ".*\.drpm" repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/
 
 # SUSE Manager 2.1
 mirror --continue --delete --loop --parallel=3 --verbose=3 repo/$RCE/SUSE-Manager-Server-2.1-Pool/sle-11-x86_64/ repo/$RCE/SUSE-Manager-Server-2.1-Pool/sle-11-x86_64/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64/ repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" -x ".*\.drpm" repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64/ repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64/
 
 # SUSE Manager 2.1 Proxy
 mirror --continue --delete --loop --parallel=3 --verbose=3 repo/$RCE/SUSE-Manager-Proxy-2.1-Pool/sle-11-x86_64/ repo/$RCE/SUSE-Manager-Proxy-2.1-Pool/sle-11-x86_64/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64/ repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "rpm/src/.*" -x ".*\.drpm" repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64/ repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64/
 
 open http://euklid.nue.suse.com/
 
 # SLES 12 GA
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12/x86_64/product/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12/x86_64/update/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12/x86_64/update/
 
 # SLES 12 SP1
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/
 
 # SUSE Manager 3.0
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/
 
 # SUSE Manager 3.0 Proxy
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.0/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.0/x86_64/product/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/
 
 # SLE 12 and 12 SP1 Manager Tools
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
 
 open http://download.suse.de
 
