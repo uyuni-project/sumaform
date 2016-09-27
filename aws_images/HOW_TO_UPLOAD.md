@@ -8,14 +8,6 @@ Building of these images happens via [KIWI](https://github.com/SUSE/kiwi) in the
  * [SLES 12 SP1 image](https://build.suse.de/package/show/Devel:Galaxy:Terraform:Images:AmazonEC2/sles12sp1) (SUSE employees only)
 
 Uploading images built from those projects as new AMIs is non-trivial, as it requires a temporary instance with multiple volumes and switching of the root volume. This is automated via the `ec2uploadimg` tool from the [Enceladus project](https://github.com/SUSE/Enceladus).
-
-## AWS prerequisites
-
-You will need:
- - an AWS account, specifically an Access Key ID and a Secret Access Key
- - [an SSH key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) valid for that account
- - IDs for a subnet and a security group that can be used to access an instance from your host. The easiest way to accomplish this is to use the `aws_network` module in this project, which will create a VPC with a public subnet and security group
- - the name of the region you want to use.
  
 ## Installing `ec2uploadimg`
 
