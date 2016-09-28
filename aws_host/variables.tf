@@ -78,6 +78,16 @@ variable "role"  {
   type = "string"
 }
 
+variable "cc_username" {
+  description = "Username for the Customer Center"
+  default = "null"
+}
+
+variable "cc_password" {
+  description = "Password for the Customer Center"
+  default = "null"
+}
+
 variable "server" {
   description = "Main server for this host"
   default = "null"

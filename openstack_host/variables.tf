@@ -43,6 +43,16 @@ variable "openstack_auth_url" {
   type = "string"
 }
 
+variable "cc_username" {
+  description = "Username for the Customer Center"
+  default = "null"
+}
+
+variable "cc_password" {
+  description = "Password for the Customer Center"
+  default = "null"
+}
+
 variable "iss-master" {
   description = "ISS master server, if any"
   default = "null"

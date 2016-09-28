@@ -3,6 +3,16 @@ variable "image" {
   type = "string"
 }
 
+variable "cc_username" {
+  description = "Username for the Customer Center"
+  type = "string"
+}
+
+variable "cc_password" {
+  description = "Password for the Customer Center"
+  type = "string"
+}
+
 variable "libvirt_main_pool" {
   description = "libvirt storage pool name for this host's main disk"
   default = "default"

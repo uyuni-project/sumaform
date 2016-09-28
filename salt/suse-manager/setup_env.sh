@@ -18,10 +18,10 @@ MANAGER_DB_PORT="5432"
 MANAGER_DB_PROTOCOL="TCP"
 MANAGER_ENABLE_TFTP="Y"
 {% if '2.1' in grains['version'] %}
-NCC_USER="UC7"
-NCC_PASS="***REMOVED***"
-NCC_EMAIL="mc@suse.com"
+NCC_USER="{{ grains.get("cc_username") }}"
+NCC_PASS="{{ grains.get("cc_password") }}"
+NCC_EMAIL="galaxy-noise@suse.de"
 {% else %}
-SCC_USER="UC7"
-SCC_PASS="***REMOVED***"
+SCC_USER="{{ grains.get("cc_username") }}"
+SCC_PASS="{{ grains.get("cc_password") }}"
 {% endif %}

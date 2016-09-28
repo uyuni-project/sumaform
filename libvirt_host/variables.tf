@@ -58,6 +58,16 @@ variable "package-mirror" {
   default = "null"
 }
 
+variable "cc_username" {
+  description = "Username for the Customer Center"
+  default = "null"
+}
+
+variable "cc_password" {
+  description = "Password for the Customer Center"
+  default = "null"
+}
+
 variable "libvirt_pool" {
   description = "libvirt storage pool name for this host's disk"
   default = "default"

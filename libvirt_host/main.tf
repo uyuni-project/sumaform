@@ -40,6 +40,8 @@ package-mirror: ${var.package-mirror}
 version: ${var.version}
 database: ${var.database}
 role: ${var.role}
+cc_username: ${var.cc_username}
+cc_password: ${var.cc_password}
 server: ${var.server}
 iss-master: ${var.iss-master}
 iss-slave: ${var.iss-slave}

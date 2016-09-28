@@ -61,6 +61,8 @@ hostname: ${replace("${aws_instance.instance.private_dns}", ".${var.region}.comp
 domain: ${var.region}.compute.internal
 use-avahi: False
 role: package-mirror
+cc_username: ${var.cc_username}
+cc_password: ${var.cc_password}
 data_disk_device: xvdf
 
 EOF

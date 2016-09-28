@@ -38,6 +38,16 @@ variable "data_volume_snapshot_id" {
   default = ""
 }
 
+variable "cc_username" {
+  description = "Username for the Customer Center"
+  type = "string"
+}
+
+variable "cc_password" {
+  description = "Password for the Customer Center"
+  type = "string"
+}
+
 variable "name_prefix" {
   description = "A prefix for names of objects created by this module"
   default = "sumaform"

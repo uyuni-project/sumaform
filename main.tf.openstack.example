@@ -1,3 +1,13 @@
+variable "cc_username" {
+  description = "SCC or NCC username"
+  default = "UC7"
+}
+
+variable "cc_password" {
+  description = "SCC or NCC password"
+  default = // add password here
+}
+
 module "suma21pg" {
   source = "./openstack_host"
   name = "suma21pg"
@@ -5,6 +15,8 @@ module "suma21pg" {
   version = "2.1-nightly"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "suma21spg" {
@@ -14,6 +26,8 @@ module "suma21spg" {
   version = "2.1-stable"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "suma21ora" {
@@ -23,6 +37,8 @@ module "suma21ora" {
   version = "2.1-nightly"
   database = "oracle"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "suma21sora" {
@@ -41,6 +57,8 @@ module "suma3pg" {
   version = "3-nightly"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "suma3pgpool" {
@@ -50,6 +68,8 @@ module "suma3pgpool" {
   version = "3-nightly"
   database = "pgpool"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "suma3spg" {
@@ -59,6 +79,8 @@ module "suma3spg" {
   version = "3-stable"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "sumaheadpg" {
@@ -68,6 +90,8 @@ module "sumaheadpg" {
   version = "head"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
 }
 
 module "clisles11sp3" {
@@ -195,6 +219,8 @@ module "suma21pgmaster" {
   version = "2.1-stable"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
   iss-slave = "suma21pgslave.tf.local"
 }
 
@@ -205,5 +231,7 @@ module "suma21pgslave" {
   version = "2.1-stable"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
   iss-master = "${module.suma21pgmaster.hostname}"
 }

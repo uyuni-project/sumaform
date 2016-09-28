@@ -23,6 +23,7 @@ mirror-script:
     - name: /root/mirror.sh
     - source: salt://package-mirror/mirror.sh
     - mode: 755
+    - template: jinja
   cron.present:
     - name: /root/mirror.sh
     - identifier: PACKAGE_MIRROR

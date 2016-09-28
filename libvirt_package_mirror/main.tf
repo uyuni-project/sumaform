@@ -47,6 +47,8 @@ hostname: package-mirror
 domain: ${var.domain}
 use-avahi: True
 role: package-mirror
+cc_username: ${var.cc_username}
+cc_password: ${var.cc_password}
 data_disk_device: vdb
 
 EOF

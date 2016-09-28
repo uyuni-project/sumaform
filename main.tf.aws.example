@@ -1,3 +1,13 @@
+variable "cc_username" {
+  description = "SCC or NCC username"
+  default = "UC7"
+}
+
+variable "cc_password" {
+  description = "SCC or NCC password"
+  default = // add password here
+}
+
 provider "aws" {
   region = "us-east-1"
   access_key = // add access key as a string here
@@ -24,6 +34,8 @@ module "aws_package_mirror" {
   data_volume_snapshot_id = "snap-ad7803b1" // change if appropriate (non-SUSE employees or non-us-east-1 region)
   public_subnet_id = "${module.aws_network.public_subnet_id}"
   public_security_group_id = "${module.aws_network.public_security_group_id}"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
   name_prefix = "sumaform"
 }
 
@@ -45,6 +57,8 @@ module "aws_suma3pg" {
   version = "3-nightly"
   database = "postgres"
   role = "suse-manager-server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
   package_mirror_public_name = "${module.aws_package_mirror.public_name}"
   package_mirror_private_name = "${module.aws_package_mirror.private_name}"
 }

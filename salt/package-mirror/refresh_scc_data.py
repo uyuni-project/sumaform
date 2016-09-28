@@ -34,8 +34,11 @@ def save_json(content, path):
   with open(path, 'w') as out_file:
     json.dump(content, out_file, sort_keys=True, indent=4)
 
+if len(sys.argv) != 2:
+    print("USAGE: refresh_scc_data.py SCC_USERNAME:SCC_PASS")
+
 connection = httplib.HTTPSConnection("scc.suse.com")
-token = base64.b64encode(b"UC7:***REMOVED***").decode("ascii")
+token = base64.b64encode(sys.argv[1].encode("ASCII")).decode("ascii")
 headers = { 'Authorization' : 'Basic %s' %  token }
 
 products = get_paginated(connection, headers, "/connect/organizations/products/unscoped")
