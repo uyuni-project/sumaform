@@ -10,7 +10,6 @@ set-temporary-hostname:
     {% else %}
     - name: hostname {{ grains['hostname'] }}
     {% endif %}
-    - onlyif: hostnamectl
 
 set-permanent-hostname:
   file.managed:
@@ -20,6 +19,7 @@ set-permanent-hostname:
 permanent-hostname-backward-compatibility-link:
   file.symlink:
     - name: /etc/HOSTNAME
+    - force: true
     - target: /etc/hostname
 
 {% if grains['use-avahi'] %}
