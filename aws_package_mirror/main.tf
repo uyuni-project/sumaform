@@ -46,7 +46,7 @@ resource "null_resource" "package_mirror_salt_configuration" {
 
   connection {
     host = "${aws_instance.instance.public_dns}"
-    private_key = "${var.key_file}"
+    private_key = "${file(var.key_file)}"
   }
   
   provisioner "file" {

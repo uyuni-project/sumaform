@@ -26,7 +26,7 @@ resource "null_resource" "host_salt_configuration" {
   
   connection {
     host = "${element(aws_instance.instance.*.private_dns, count.index)}"
-    private_key = "${var.key_file}"
+    private_key = "${file(var.key_file)}"
     bastion_host = "${var.package_mirror_public_name}"
   }
 
