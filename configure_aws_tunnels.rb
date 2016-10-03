@@ -36,6 +36,7 @@ Host package-mirror
   StrictHostKeyChecking no
   User root
   IdentityFile #{key_file}
+  ServerAliveInterval 120
 eos
 
 instances.each do |instance|
@@ -46,6 +47,7 @@ instances.each do |instance|
       User root
       IdentityFile #{key_file}
       ProxyCommand ssh root@package-mirror -W %h:%p
+      ServerAliveInterval 120
   eos
   if instance[:symbolic_name] =~ /suma/
     tunnel_string += "  LocalForward 8043 127.0.0.1:443\n"
