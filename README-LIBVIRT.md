@@ -41,6 +41,10 @@ You can add the following parameters to a `libvirt_host` module in `main.tf` to 
  - `memory = <N>` to set the machine's RAM to N MiB
  - `vcpu = <N>` to set the number of virtual CPUs
 
+## Keep a Virtual Machine turned off
+
+You can add `running = false` to any libvirt host to keep it turned off. This is useful if you want to keep the instance around (ie. not [destroying](https://www.terraform.io/intro/getting-started/destroy.html) it) but not to consume resources.
+
 ## Update base OS images
 
 Taint the VM disk(s) you want to update and re-apply the plan:

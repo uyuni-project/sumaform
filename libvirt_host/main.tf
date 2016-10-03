@@ -9,6 +9,7 @@ resource "libvirt_domain" "domain" {
   name = "${var.name}_${count.index}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
+  running = "${var.running}"
   count = "${var.count}"
 
   disk {

@@ -1,3 +1,8 @@
+variable "running" {
+  description = "Whether this host should be turned on or off"
+  default = true
+}
+
 variable "image" {
   description = "Name of the base OS image, see main.tf.libvirt.example"
   type = "string"

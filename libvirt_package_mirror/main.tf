@@ -17,6 +17,7 @@ resource "libvirt_domain" "domain" {
   name = "package-mirror"
   memory = 512
   vcpu = 1
+  running = "${var.running}"
 
   disk {
     volume_id = "${libvirt_volume.main_disk.id}"
