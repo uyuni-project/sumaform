@@ -4,9 +4,11 @@
   
   To render it usable you need to either specify a data disk snapshot that
   contains packages or to upload them from a libvirt package-mirror with the
-  following command:
+  following commands:
 
-  rsync -av0 -e 'ssh -i <SSH KEY>.pem' /srv/mirror root@<PUBLIC DNS NAME>://srv/mirror
+  scp <SSH KEY>.pem root@package-mirror.tf.local://root/key.pem
+  ssh root@package-mirror.tf.local
+  rsync -av0 --delete -e 'ssh -i key.pem' /srv/mirror/ root@<PUBLIC DNS NAME>://srv/mirror/
 */
 
 resource "aws_instance" "instance" {
