@@ -38,6 +38,8 @@ sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/moio/sumaform.git
 ```
 
+You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
+
 ## Backend choice
 
 `sumaform` can deploy virtual machines to:
