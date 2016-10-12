@@ -18,6 +18,10 @@ You can choose to add a special extra virtual machine named `package-mirror` tha
 
 `package-mirror` needs access the SUSE engineering network (or VPN) at package download time.
 
+It can also be configured to use a different `libvirt` storage pool, for example on a separate disk. By default the pool name is `data` and you can configure it with `virt-manager` like so:
+
+![data pool configuration in virt-manager](help/data-pool-configuration.png)
+
 ## Accessing the Virtual Machines
 
 All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`. Provided your host is on the same network segment of the virtual machines you can access them via:
