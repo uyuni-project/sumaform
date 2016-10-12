@@ -31,7 +31,7 @@ module "aws_package_mirror" {
   ami = "ami-164d0801" // change if appropriate (non-SUSE employees or non-us-east-1 region)
   key_name = // add SSH key name as a string here
   key_file = // add SSH private key path as a string here
-  data_volume_snapshot_id = "snap-ad7803b1" // change if appropriate (non-SUSE employees or non-us-east-1 region)
+  data_volume_snapshot_id = "snap-011acc89" // change if appropriate (non-SUSE employees or non-us-east-1 region)
   public_subnet_id = "${module.aws_network.public_subnet_id}"
   public_security_group_id = "${module.aws_network.public_security_group_id}"
   cc_username = "${var.cc_username}"
