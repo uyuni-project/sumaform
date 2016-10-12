@@ -1,3 +1,7 @@
+provider "libvirt" {
+    uri = "qemu:///system"
+}
+
 variable "cc_username" {
   description = "SCC or NCC username"
   default = "UC7"
