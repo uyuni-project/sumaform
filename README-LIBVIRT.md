@@ -2,7 +2,9 @@
 
 ## Set libvirt variables
 
-The default configuration expects a libvirt daemon listening on localhost, with a `default` storage pool and a NAT network called `vagrant-libvirt`. If necessary, create those.
+The default configuration expects a libvirt daemon listening on localhost, with a `default` storage pool and a NAT network called `vagrant-libvirt`. If necessary, create those. If you use `virt-manager` you can set it up like so:
+
+![vagrant-libvirt NAT configuration in virt-manager](help/vagrant-libvirt-NAT-configuration.png)
 
 You can override all of these values with [environment variables or variable files](https://www.terraform.io/docs/configuration/variables.html#environment-variables) looking at defaults in `libvirt_host/variables.tf`.
 
