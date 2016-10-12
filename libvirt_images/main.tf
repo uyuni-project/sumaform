@@ -1,3 +1,7 @@
+provider "libvirt" {
+    uri = "qemu:///system"
+}
+
 resource "libvirt_volume" "opensuse421" {
   name = "sumaform_opensuse421"
   source = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse421.x86_64.qcow2"

@@ -1,3 +1,7 @@
+provider "libvirt" {
+    uri = "qemu:///system"
+}
+
 resource "libvirt_volume" "main_disk" {
   name = "terraform_${var.name}_${count.index}_disk"
   base_volume_id = "${var.image}"
