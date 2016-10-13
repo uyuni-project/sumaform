@@ -73,6 +73,10 @@ terraform plan # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```
 
+### I have a problem!
+
+Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to drop a line to moio at suse dot de!
+
 ## Advanced use
 
 ### Create multiple hosts
