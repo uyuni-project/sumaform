@@ -92,4 +92,14 @@ If the user running `qemu` is not the one you expected:
 
 ### AppArmor
 
+You can detect AppArmor issues by looking at `/var/log/syslog`:
+
+```
+Oct 14 08:10:03 dell kernel: [52456.461754] audit: type=1400 audit(1476425403.666:27):
+apparmor="DENIED" operation="open" profile="libvirt-4d4f9b58-f50d-4f60-a8a1-315c9a2d02c1"
+name="/var/lib/libvirt/images/terraform_package_mirror_main_disk"
+pid=4193 comm="qemu-system-x86" requested_mask="wr" denied_mask="wr"
+fsuid=106 ouid=106
+```
+
 Fixing AppArmor issues is difficult and beyond the scope of this guide. You can disable AppArmor completely in non-security-sensitive environments by adding `security_driver = "none"` to `/etc/libvirt/qemu.conf`.
