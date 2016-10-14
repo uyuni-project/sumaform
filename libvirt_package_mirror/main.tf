@@ -28,7 +28,10 @@ resource "libvirt_domain" "domain" {
 
   network_interface {
     wait_for_lease = true
-    network_name = "vagrant-libvirt"
+    // "terraform-network" if not bridged, "" if bridged
+    network_name = "${element(list("terraform-network", ""), var.bridged)}"
+    // "" if not bridged, ${var.bridge} if bridged
+    bridge = "${element(list("", "${var.bridge}"), var.bridged)}"
   }
 
   connection {

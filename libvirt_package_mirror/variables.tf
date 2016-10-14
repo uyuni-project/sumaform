@@ -28,6 +28,16 @@ variable "libvirt_data_pool" {
   default = "default"
 }
 
+variable "bridged" {
+  description = "set to true to use a bridge device, specified with the bridge variable"
+  default = false
+}
+
+variable "bridge" {
+  description = "an existing bridge device on the libvirt host"
+  default = "br0"
+}
+
 variable "domain" {
   description = "hostname's domain"
   default = "tf.local"

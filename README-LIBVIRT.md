@@ -1,16 +1,25 @@
 # libvirt-specific configuration
 
-## Set libvirt variables
+## Choice of the libvirt host
 
-The default configuration expects a libvirt daemon listening on localhost, with a `default` storage pool and a NAT network called `vagrant-libvirt`. If necessary, create those. If you use `virt-manager` you can set it up like so:
+If you use `terraform` on the same host that runs libvirt, nothing needs to be done.
 
-![vagrant-libvirt NAT configuration in virt-manager](help/vagrant-libvirt-NAT-configuration.png)
+Otherwise, you need to get a libvirt connection URI for your host. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`.
 
-You can override all of these values with [environment variables or variable files](https://www.terraform.io/docs/configuration/variables.html#environment-variables) looking at defaults in `libvirt_host/variables.tf`.
+## Choice of networking setup
+
+If you use `terraform` on the same host that runs libvirt and you do not need to expose virtual machines externally, nothing needs to be done.
+
+Otherwise, you need to create a bridge device on the libvirt host to the network you want to expose your machines on ([Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge)). Please note the bridge device name.
 
 ## Create a `main.tf` file
 
-Create a `main.tf` file by copying `main.tf.libvirt.example`. Keep only hosts that you actually need, since all of them will be created by default once you run Terraform.
+Create a `main.tf` file:
+ - copy `main.tf.libvirt.example` to `main.tf`;
+ - keep only hosts you actually need and delete all others. All hosts configured here will be created by default once you run Terraform
+ - if you use a remote libvirt host, substitute the `uri` in the `provider` block at the top of the file;
+ - if you use bridged networking, add `bridged = true` to any host block that needs it;
+   - if you use bridged networking and the bridge name is not `br0`,  `bridge = <DEVICE_NAME>` as well;
 
 ## Choose whether to use a `package-mirror` host
 
@@ -18,9 +27,11 @@ You can choose to add a special extra virtual machine named `package-mirror` tha
 
 `package-mirror` needs access the SUSE engineering network (or VPN) at package download time.
 
-It can also be configured to use a different `libvirt` storage pool, for example on a separate disk. By default the pool name is `data` and you can configure it with `virt-manager` like so:
+It also by default requires a different `libvirt` storage pool, because typically we want packages to be stored in a separate disk. By default the pool name is `data` and you can configure it with `virt-manager` like so:
 
 ![data pool configuration in virt-manager](help/data-pool-configuration.png)
+
+You can also override this setting and keep packages in the same pool as the base images and disks by changing the `libvirt_data_pool` parameter to `default`.
 
 ## Accessing the Virtual Machines
 
