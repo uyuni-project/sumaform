@@ -45,3 +45,11 @@ module "minsles12sp1" {
   count = 1
   // see modules/libvirt/minion/variables.tf for possible values
 }
+
+# testing env. QA-auto. Control-node where cucumber test run
+module "" {
+  source = "./libvirt_host"
+  name = "control-node"
+  image = "${module.images.sles12sp1}"
+  role = "control-node"
+}
