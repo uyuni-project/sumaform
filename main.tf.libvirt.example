@@ -1,5 +1,5 @@
 provider "libvirt" {
-    uri = "qemu:///system"
+  uri = "qemu:///system"
 }
 
 variable "cc_username" {
@@ -12,11 +12,15 @@ variable "cc_password" {
   default = // add password here
 }
 
+module "network" {
+  source = "./libvirt_network"
+}
+
 module "images" {
   source = "./libvirt_images"
 }
 
-// Uncomment below to use a package mirror
+//// Use a package mirror
 // module "package_mirror" {
 //   source = "./libvirt_package_mirror"
 //   image = "${module.images.opensuse421}"
