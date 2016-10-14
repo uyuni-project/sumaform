@@ -63,3 +63,33 @@ module.network.libvirt_network.network
 $ terraform state rm module.network.libvirt_network.network
 Item removal successful.
 ```
+
+## Q: how can I work around a libvirt permission denied error?
+
+Typical error message follows:
+
+```
+* libvirt_domain.domain: Error creating libvirt domain: [Code-1] [Domain-10]
+internal error: process exited while connecting to monitor:
+2016-10-14T06:49:07.518689Z qemu-system-x86_64: -drive file=/var/lib/libvirt/images/terraform_package_mirror_main_disk,format=qcow2,if=none,id=drive-virtio-disk0:
+Could not open '/var/lib/libvirt/images/terraform_package_mirror_main_disk':
+Permission denied
+```
+
+There are two possible causes: plain Unix permissions or AppArmor.
+
+### Plain Unix permissions
+
+Check that the interested directory (in the case above `/var/lib/libvirt/images`) is writable by the user running `qemu` (you can check it via `ps -eo uname:20,comm | grep qemu-system-x86` when you have at least one virtual machine running).
+
+If the directory has wrong permissions:
+ - fix their them manually via `chmod`/`chown`;
+ - check that the pool definition has right user and permissions via `virsh pool-edit <POOL_NAME>` (note that mode is specified in octal and user/group as IDs, see `id -u <USERNAME>` and `cat /etc/groups`).
+
+If the user running `qemu` is not the one you expected:
+ - change the `user` and `group` variables in `/etc/libvirt/qemu.conf`, typically `root`/`root` will solve any problem
+ - restart the libvirt daemon
+
+### AppArmor
+
+Fixing AppArmor issues is difficult and beyond the scope of this guide. You can disable AppArmor completely in non-security-sensitive environments by adding `security_driver = "none"` to `/etc/libvirt/qemu.conf`.
