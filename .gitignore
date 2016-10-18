@@ -2,6 +2,9 @@
 /aws_images/upload.sh
 /aws_images/openbare*.json
 
+/packer/packer_cache/
+/packer/output*
+
 /terraform.tfstate*
 /.terraform/
 /main.tf
