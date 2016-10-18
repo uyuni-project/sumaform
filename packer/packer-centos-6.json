@@ -3,8 +3,6 @@
     "type": "shell",
     "scripts": [
       "scripts/base.sh",
-      "scripts/epel.sh",
-      "scripts/cloud.sh",
       "scripts/cleanup.sh",
       "scripts/zerodisk.sh"
     ],
