@@ -17,7 +17,7 @@
       "type": "qemu",
       "iso_checksum": "ec49c297d484b9da0787e5944edc38f7c70f21c0f6a60178d8e9a8926d1949f4",
       "iso_checksum_type": "sha256",
-      "iso_url": "http://ftp.tu-chemnitz.de/pub/linux/centos/6.8/isos/x86_64/centos6.8-x86_64-minimal.iso",
+      "iso_url": "http://ftp.tu-chemnitz.de/pub/linux/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso",
       "ssh_wait_timeout": "30s",
       "shutdown_command": "shutdown -P now",
       "disk_size": 104858,
