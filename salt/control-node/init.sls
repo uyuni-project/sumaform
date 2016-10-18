@@ -84,7 +84,7 @@ accept-key:
    cmd.run:
     - name: salt-key -A
     - require:
-      salt-master
+        - salt-master
 
 run-cucumber:
   cmd.run:
