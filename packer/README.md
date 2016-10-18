@@ -3,11 +3,11 @@
  - Download and install [Packer](https://www.packer.io/downloads.html)
  - Run
  ```
- PACKER_LOG=1 packer build centos6.json
+ PACKER_LOG=1 packer build <IMAGE_NAME>.json
  ```
  - in case of errors, run again with full logging:
  ```
- PACKER_LOG=1 packer build centos6.json
+ PACKER_LOG=1 packer build <IMAGE_NAME>.json
  ```
 
 # Credits
