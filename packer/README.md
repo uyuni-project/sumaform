@@ -1,6 +1,6 @@
 # How to rebuild Packer images
 
- - Download and instal [Packer](https://www.packer.io/downloads.html)
+ - Download and install [Packer](https://www.packer.io/downloads.html)
  - Run
  ```
  PACKER_LOG=1 packer build centos6.json
