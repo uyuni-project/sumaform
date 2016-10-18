@@ -14,6 +14,7 @@ binary-install:
   pkg.installed:
     - pkgs:
       - gcc
+      - make
       - ruby
       - zlib-devel
       - ruby-devel
@@ -22,6 +23,8 @@ binary-install:
       - phantomjs
       - owasp-zap
       - mozilla-nss
+      - git-core
+      - ruby2.1-rubygem-bundler
 # this are packaged gems
       - rubygem-cucumber
       - rubygem-syntax
@@ -37,13 +40,26 @@ binary-install:
       - ruby2.1-rubygem-builder
       - rubygem-owasp_zap
       - rubygem-cliver
-
+      - rubygem-twopence
 gems-installation:
 
   gem.installed:
     - names:
        - rake
-       - bundler
        - syntax
        - poltergeist
        - lavanda
+       - highline
+
+git-download-cucumber:
+  cmd.run:
+        - name: git clone -b slenkins https://github.com/SUSE/spacewalk-testsuite-base.git
+
+run-cucumber:
+  cmd.run:
+    - name: |
+         ping -c3{{grains['server']}}
+         ping -c3{{grains['minion']}}
+         ping -c3 {{grains['client']}}
+#        export MINION= export TESTHOST= export CLIENT= export BROWSER=phantomjs; rake
+
