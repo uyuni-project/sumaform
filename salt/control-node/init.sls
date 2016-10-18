@@ -24,8 +24,8 @@ binary-install:
       - owasp-zap
       - mozilla-nss
       - git-core
+      # packaged ruby-gems
       - ruby2.1-rubygem-bundler
-# this are packaged gems
       - rubygem-cucumber
       - rubygem-syntax
       - twopence
@@ -58,8 +58,9 @@ git-download-cucumber:
 run-cucumber:
   cmd.run:
     - name: |
-         ping -c3{{grains['server']}}
-         ping -c3{{grains['minion']}}
-         ping -c3 {{grains['client']}}
-#        export MINION= export TESTHOST= export CLIENT= export BROWSER=phantomjs; rake
-
+         export MINION={{grains['minion']}}; 
+         export TESTHOST={{grains['server']}} 
+         export CLIENT={{grains['client']}}
+         export BROWSER=phantomjs
+         cd /root/spacewalk-testsuite-base
+         rake
