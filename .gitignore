@@ -3,7 +3,7 @@
 /aws_images/openbare*.json
 
 /packer/packer_cache/
-/packer/output/
+/packer/output*
 
 /terraform.tfstate*
 /.terraform/
