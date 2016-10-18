@@ -36,7 +36,7 @@
       "ssh_host_port_min": 2222,
       "ssh_host_port_max": 2229,
       "ssh_username": "root",
-      "ssh_password": "changeme",
+      "ssh_password": "linux",
       "ssh_port": 22,
       "ssh_wait_timeout": "90m",
       "vm_name": "centos6",
