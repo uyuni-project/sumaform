@@ -1,6 +1,6 @@
-/aws_images/ec2utils.conf
-/aws_images/upload.sh
-/aws_images/openbare*.json
+/modules/aws/images/ec2utils.conf
+/modules/aws/images/upload.sh
+/modules/aws/images/openbare*.json
 
 /packer/packer_cache/
 /packer/output*

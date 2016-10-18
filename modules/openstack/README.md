@@ -17,7 +17,7 @@ This project contains a script to upload `suminator`-specific images to Glance:
   ```
   sudo apt install python-glanceclient
   ```
-* customize and run `openstack_images/upload_images_to_glance.sh.example` to upload images to OpenStack through Glance.
+* customize and run `modules/openstack/images/upload_images_to_glance.sh.example` to upload images to OpenStack through Glance.
 
 ## Set OpenStack variables
 

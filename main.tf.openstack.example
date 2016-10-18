@@ -9,7 +9,7 @@ variable "cc_password" {
 }
 
 module "suma21pg" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma21pg"
   image = "sumaform-sles11sp3"
   version = "2.1-nightly"
@@ -20,7 +20,7 @@ module "suma21pg" {
 }
 
 module "suma21spg" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma21spg"
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
@@ -31,7 +31,7 @@ module "suma21spg" {
 }
 
 module "suma21ora" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma21ora"
   image = "sumaform-sles11sp3"
   version = "2.1-nightly"
@@ -42,7 +42,7 @@ module "suma21ora" {
 }
 
 module "suma21sora" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma21sora"
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
@@ -51,7 +51,7 @@ module "suma21sora" {
 }
 
 module "suma3pg" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma3pg"
   image = "sumaform-sles12sp1"
   version = "3-nightly"
@@ -62,7 +62,7 @@ module "suma3pg" {
 }
 
 module "suma3pgpool" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma3pgpool"
   image = "sumaform-sles12sp1"
   version = "3-nightly"
@@ -73,7 +73,7 @@ module "suma3pgpool" {
 }
 
 module "suma3spg" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma3spg"
   image = "sumaform-sles12sp1"
   version = "3-stable"
@@ -84,7 +84,7 @@ module "suma3spg" {
 }
 
 module "sumaheadpg" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "sumaheadpg"
   image = "sumaform-sles12sp1"
   version = "head"
@@ -95,7 +95,7 @@ module "sumaheadpg" {
 }
 
 module "clisles11sp3" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "clisles11sp3"
   image = "sumaform-sles11sp3"
   server = "${module.suma21pg.hostname}"
@@ -104,7 +104,7 @@ module "clisles11sp3" {
 }
 
 module "clisles11sp4" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "clisles11sp4"
   image = "sumaform-sles11sp4"
   server = "${module.suma21pg.hostname}"
@@ -113,7 +113,7 @@ module "clisles11sp4" {
 }
 
 module "clisles12" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "clisles12"
   image = "sumaform-sles12"
   server = "${module.suma21pg.hostname}"
@@ -122,7 +122,7 @@ module "clisles12" {
 }
 
 module "clisles12sp1" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "clisles12sp1"
   image = "sumaform-sles12sp1"
   server = "${module.suma21pg.hostname}"
@@ -131,21 +131,21 @@ module "clisles12sp1" {
 }
 
 module "pg1" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "pg1"
   image = "sumaform-sles12sp1"
   role = "postgres"
 }
 
 module "pg2" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "pg2"
   image = "sumaform-sles12sp1"
   role = "postgres"
 }
 
 module "minionsles12" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "minionsles12"
   image = "sumaform-sles12"
   server = "${module.suma3pg.hostname}"
@@ -154,7 +154,7 @@ module "minionsles12" {
 }
 
 module "minionsles12sp1" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "minionsles12sp1"
   image = "sumaform-sles12sp1"
   server = "${module.suma3pg.hostname}"
@@ -165,7 +165,7 @@ module "minionsles12sp1" {
 // Proxy
 
 module "proxy21s" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "proxy21s"
   image = "sumaform-sles11sp3"
   server = "${module.suma21spg.hostname}"
@@ -174,7 +174,7 @@ module "proxy21s" {
 }
 
 module "proxy21" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy21"
   image = "sumaform-sles11sp3"
   server = "${module.suma21pg.hostname}"
@@ -183,7 +183,7 @@ module "proxy21" {
 }
 
 module "proxy3s" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy3s"
   image = "sumaform-sles12sp1"
   server = "${module.suma3spg.hostname}"
@@ -192,7 +192,7 @@ module "proxy3s" {
 }
 
 module "proxy3" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy3"
   image = "sumaform-sles12sp1"
   server = "${module.suma3pg.hostname}"
@@ -201,7 +201,7 @@ module "proxy3" {
 }
 
 module "proxyhead" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxyhead"
   image = "sumaform-sles12sp1"
   server = "${module.sumaheadpg.hostname}"
@@ -213,7 +213,7 @@ module "proxyhead" {
 // Inter-Server Sync (ISS)
 
 module "suma21pgmaster" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma21pgmaster"
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
@@ -225,7 +225,7 @@ module "suma21pgmaster" {
 }
 
 module "suma21pgslave" {
-  source = "./openstack_host"
+  source = "./modules/openstack/host"
   name = "suma21pgslave"
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
