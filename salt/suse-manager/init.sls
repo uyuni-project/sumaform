@@ -103,3 +103,15 @@ remove-motd:
     - name: /etc/motd
     - require:
       - cmd: suse-manager-setup
+
+/root/.ssh:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 700
+
+
+ssh-key-server:
+  file.managed:
+      - name: /root/.ssh/authorized_keys
+      - source: salt://suse-manager/authorized_keys
