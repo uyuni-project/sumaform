@@ -16,6 +16,10 @@ module "images" {
   source = "./libvirt_images"
 }
 
+module "network" {
+  source = "./libvirt_network"
+}
+
 # testing env. QA-auto. Control-node where cucumber test run
 module "control-node" {
   source = "./libvirt_host"
@@ -26,7 +30,6 @@ module "control-node" {
   server = "${module.suma3pg.hostname}"
   client = "${module.sles12sp1.hostname}" 
   minion = "${module.minion12sp1.hostname}"   
-
 }
 
 module "suma3pg" {

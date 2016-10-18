@@ -9,6 +9,26 @@ init-control-node-repo:
         zypper addrepo http://download.suse.de/install/SLP/SLE-12-SP1-SDK-GM/x86_64/DVD1/ SDK
         zypper -n --gpg-auto-import-keys ref
 
+
+/root/.ssh:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 700
+
+ssh-setup:
+  file.managed:
+      - name: /root/.ssh/id_rsa
+      - source: salt://control-node/id_rsa
+      - user: root
+      - group: root
+      - mode : 600
+
+ssh-pubkey:
+  file.managed:
+      - name: /root/.ssh/id_rsa.pub
+      - source: salt://control-node/id_rsa.pub
+
 binary-install:
 
   pkg.installed:
@@ -16,6 +36,7 @@ binary-install:
       - gcc
       - make
       - ruby
+      - salt-master
       - zlib-devel
       - ruby-devel
       - firefox-bin
@@ -55,6 +76,16 @@ git-download-cucumber:
   cmd.run:
         - name: git clone -b slenkins https://github.com/SUSE/spacewalk-testsuite-base.git
 
+salt-master:
+  service.running: 
+    - enable : True
+
+accept-key:
+   cmd.run:
+    - name: salt-key -A
+    - require:
+      salt-master
+
 run-cucumber:
   cmd.run:
     - name: |
@@ -63,4 +94,4 @@ run-cucumber:
          export CLIENT={{grains['client']}}
          export BROWSER=phantomjs
          cd /root/spacewalk-testsuite-base
-         rake
+
