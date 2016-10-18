@@ -7,13 +7,13 @@
       "scripts/cleanup.sh"
     ],
     "override": {
-      "centos-6": {
+      "centos6": {
         "execute_command": "sh '{{.Path}}'"
       }
     }
   }],
   "builders": [{
-      "name": "centos-6",
+      "name": "centos6",
       "type": "qemu",
       "iso_checksum": "ec49c297d484b9da0787e5944edc38f7c70f21c0f6a60178d8e9a8926d1949f4",
       "iso_checksum_type": "sha256",
