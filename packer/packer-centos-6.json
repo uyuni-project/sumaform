@@ -26,7 +26,7 @@
       "disk_size": 1200,
       "format": "raw",
       "qemuargs": [
-        [ "-m", "1024m" ],
+        [ "-m", "1024M" ],
         ["-machine", "type=pc,accel=kvm"],
         ["-device", "virtio-net-pci,netdev=user.0"]
       ],
