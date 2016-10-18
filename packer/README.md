@@ -3,7 +3,11 @@
  - Download and instal [Packer](https://www.packer.io/downloads.html)
  - Run
  ```
- PACKER_LOG=1 packer build -only="centos-6-cloud-kvm" packer-centos-6.json
+ PACKER_LOG=1 packer build centos6.json
+ ```
+ - in case of errors, run again with full logging:
+ ```
+ PACKER_LOG=1 packer build centos6.json
  ```
 
 # Credits
