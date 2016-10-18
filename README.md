@@ -85,7 +85,7 @@ Most resources support a `count` variable that allows you to create several inst
 
 ```
 module "minionsles12sp1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "minionsles12sp1"
   image = "${module.images.sles12sp1}"
   server = "${module.suma3pg.hostname}"
@@ -102,7 +102,7 @@ Create one SUSE Manager module, and a Proxy module with the `server` variable po
 
 ```
 module "suma3pg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma3pg"
   memory = 4096
   vcpu = 2
@@ -113,7 +113,7 @@ module "suma3pg" {
 }
 
 module "proxy3" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy3"
   image = "${module.images.sles12sp1}"
   server = "${module.suma3pg.hostname}"
@@ -122,7 +122,7 @@ module "proxy3" {
 }
 
 module "clisles12sp1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "clisles12sp1"
   image = "${module.images.sles12sp1}"
   server = "${module.proxy3.hostname}"
@@ -138,7 +138,7 @@ Create two SUSE Manager server modules and add `iss-master` and `iss-slave` vari
 
 ```
 module "suma21pgm" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21pgm"
   image = "${module.images.sles11sp3}"
   version = "2.1-stable"
@@ -149,7 +149,7 @@ module "suma21pgm" {
 }
 
 module "suma21pgs" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21pgs"
   image = "${module.images.sles11sp3}"
   version = "2.1-stable"

@@ -18,16 +18,16 @@ This architecture is loosely inspired from [Segment's AWS Stack](https://segment
 You will need:
  - an AWS account, specifically an Access Key ID and a Secret Access Key
  - [an SSH key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) valid for that account
- - IDs for a subnet and a security group that can be used to access an instance from your host. The easiest way to accomplish this is to use the `aws_network` module in this project, which will create a VPC with a public subnet and security group
+ - IDs for a subnet and a security group that can be used to access an instance from your host. The easiest way to accomplish this is to use the `modules/aws/network` module in this project, which will create a VPC with a public subnet and security group
  - the name of the region you want to use.
 
-SUSE employees using openbare already have AMI images uploaded and data snapshots for the us-east-1 region; others have to follow instructions in [HOW_TO_UPLOAD.md](aws_images/HOW_TO_UPLOAD.md).
+SUSE employees using openbare already have AMI images uploaded and data snapshots for the us-east-1 region; others have to follow instructions in [HOW_TO_UPLOAD.md](modules/aws/images/HOW_TO_UPLOAD.md).
 
 ## package-mirror
 
 In addition to acting as a bastion host for all other instances, the `package-mirror` host serves all repos and packages used by other instances. It works similarly to the one for the libvirt backend, allowing instances in the private subnet to be completely disconnected from the Internet.
 
-Please note that content in `package-mirror` must be refreshed manually at this time, see comments in [aws_package_mirror/main.tf](aws_package_mirror/main.tf).
+Please note that content in `package-mirror` must be refreshed manually at this time, see comments in [modules/aws/package_mirror/main.tf](modules/aws/package_mirror/main.tf).
 
 ## Accessing instances
 

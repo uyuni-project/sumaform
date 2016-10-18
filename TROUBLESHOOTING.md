@@ -30,7 +30,7 @@ Error applying plan:
 
 1 error(s) occurred:
 
-* libvirt_network.network: Error defining libvirt network: [Code-9] [Domain-19] operation failed: network 'terraform-network' already exists with uuid
+* modules/libvirt/network.network: Error defining libvirt network: [Code-9] [Domain-19] operation failed: network 'terraform-network' already exists with uuid
 ```
 
 In this case, Terraform thinks a resource does not exist and must be created (in other words, the resource is not yet in the [Terraform state](https://www.terraform.io/docs/state/)), while in reality it's there already.
@@ -48,7 +48,7 @@ Typical error message follows:
 ```
 Error refreshing state: 1 error(s) occurred:
 
-* libvirt_network.network: [Code-43] [Domain-19] Network not found: no network with matching uuid
+* modules/libvirt/network.network: [Code-43] [Domain-19] Network not found: no network with matching uuid
 ```
 
 This means you have removed manually a Terraform-managed resource, so Terraform believes a resource should exist (it's in the [Terraform state](https://www.terraform.io/docs/state/)) but it's not. This is in general a bug, so an issue should be reported ([example](https://github.com/dmacvicar/terraform-provider-libvirt/issues/74)).

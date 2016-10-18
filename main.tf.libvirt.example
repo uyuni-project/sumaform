@@ -13,16 +13,16 @@ variable "cc_password" {
 }
 
 module "network" {
-  source = "./libvirt_network"
+  source = "./modules/libvirt/network"
 }
 
 module "images" {
-  source = "./libvirt_images"
+  source = "./modules/libvirt/images"
 }
 
 //// Use a package mirror
 // module "package_mirror" {
-//   source = "./libvirt_package_mirror"
+//   source = "./modules/libvirt/package_mirror"
 //   image = "${module.images.opensuse421}"
 //   libvirt_data_pool = "data"
 //   cc_username = "${var.cc_username}"
@@ -30,7 +30,7 @@ module "images" {
 // }
 
 module "suma21pg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21pg"
   memory = 4096
   vcpu = 2
@@ -44,7 +44,7 @@ module "suma21pg" {
 }
 
 module "suma21spg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21spg"
   memory = 4096
   vcpu = 2
@@ -58,7 +58,7 @@ module "suma21spg" {
 }
 
 module "suma21ora" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21ora"
   memory = 4096
   vcpu = 2
@@ -72,7 +72,7 @@ module "suma21ora" {
 }
 
 module "suma21sora" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21sora"
   memory = 4096
   vcpu = 2
@@ -86,7 +86,7 @@ module "suma21sora" {
 }
 
 module "suma3pg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma3pg"
   memory = 4096
   vcpu = 2
@@ -100,7 +100,7 @@ module "suma3pg" {
 }
 
 module "suma3pgpool" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma3pgpool"
   memory = 4096
   vcpu = 2
@@ -114,7 +114,7 @@ module "suma3pgpool" {
 }
 
 module "suma3spg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma3spg"
   memory = 4096
   vcpu = 2
@@ -128,7 +128,7 @@ module "suma3spg" {
 }
 
 module "sumaheadpg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "sumaheadpg"
   memory = 4096
   vcpu = 2
@@ -142,7 +142,7 @@ module "sumaheadpg" {
 }
 
 module "clisles11sp3" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "clisles11sp3"
   image = "${module.images.sles11sp3}"
   server = "${module.suma21pg.hostname}"
@@ -152,7 +152,7 @@ module "clisles11sp3" {
 }
 
 module "clisles11sp4" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "clisles11sp4"
   image = "${module.images.sles11sp4}"
   server = "${module.suma21pg.hostname}"
@@ -162,7 +162,7 @@ module "clisles11sp4" {
 }
 
 module "clisles12" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "clisles12"
   image = "${module.images.sles12}"
   server = "${module.suma21pg.hostname}"
@@ -172,7 +172,7 @@ module "clisles12" {
 }
 
 module "clisles12sp1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "clisles12sp1"
   image = "${module.images.sles12sp1}"
   server = "${module.suma21pg.hostname}"
@@ -182,7 +182,7 @@ module "clisles12sp1" {
 }
 
 module "pg1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "pg1"
   memory = 4096
   vcpu = 2
@@ -192,7 +192,7 @@ module "pg1" {
 }
 
 module "pg2" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "pg2"
   memory = 4096
   vcpu = 2
@@ -202,7 +202,7 @@ module "pg2" {
 }
 
 module "minionsles12" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "minionsles12"
   image = "${module.images.sles12}"
   server = "${module.suma3pg.hostname}"
@@ -212,7 +212,7 @@ module "minionsles12" {
 }
 
 module "minionsles12sp1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "minionsles12sp1"
   image = "${module.images.sles12sp1}"
   server = "${module.suma3pg.hostname}"
@@ -225,7 +225,7 @@ module "minionsles12sp1" {
 // Proxy
 
 module "proxy21s" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy21s"
   image = "${module.images.sles11sp3}"
   server = "${module.suma21spg.hostname}"
@@ -235,7 +235,7 @@ module "proxy21s" {
 }
 
 module "proxy21" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy21"
   image = "${module.images.sles11sp3}"
   server = "${module.suma21pg.hostname}"
@@ -245,7 +245,7 @@ module "proxy21" {
 }
 
 module "proxy3s" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy3s"
   image = "${module.images.sles12sp1}"
   server = "${module.suma3spg.hostname}"
@@ -255,7 +255,7 @@ module "proxy3s" {
 }
 
 module "proxy3" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxy3"
   image = "${module.images.sles12sp1}"
   server = "${module.suma3pg.hostname}"
@@ -265,7 +265,7 @@ module "proxy3" {
 }
 
 module "proxyhead" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "proxyhead"
   image = "${module.images.sles12sp1}"
   server = "${module.sumaheadpg.hostname}"
@@ -278,7 +278,7 @@ module "proxyhead" {
 // Inter-Server Sync (ISS)
 
 module "suma21pgmaster" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21pgmaster"
   image = "${module.images.sles11sp3}"
   version = "2.1-stable"
@@ -292,7 +292,7 @@ module "suma21pgmaster" {
 }
 
 module "suma21pgslave" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma21pgslave"
   image = "${module.images.sles11sp3}"
   version = "2.1-stable"

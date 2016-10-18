@@ -54,7 +54,7 @@ Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expe
 
 ## Customize virtual machine hardware
 
-You can add the following parameters to a `libvirt_host` module in `main.tf` to customize its virtual hardware:
+You can add the following parameters to a `modules/libvirt/host` module in `main.tf` to customize its virtual hardware:
  - `memory = <N>` to set the machine's RAM to N MiB
  - `vcpu = <N>` to set the number of virtual CPUs
 

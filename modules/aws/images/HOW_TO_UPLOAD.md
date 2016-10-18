@@ -25,7 +25,7 @@ Uploading images built from those projects as new AMIs is non-trivial, as it req
 
 ## Configuring `ec2uploadimg`
 
-Copy the [ec2utils example configuration file](https://raw.githubusercontent.com/SUSE/Enceladus/master/ec2utils/ec2utils.conf.example) to `aws_images` and edit it to match your configuration. In particular:
+Copy the [ec2utils example configuration file](https://raw.githubusercontent.com/SUSE/Enceladus/master/ec2utils/ec2utils.conf.example) to `modules/aws/images` and edit it to match your configuration. In particular:
 
  - the `[account-servers]` section must be filled
  - at least one region section must be filled. AKI IDs are not important, leave the default user.

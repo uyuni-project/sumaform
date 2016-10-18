@@ -15,7 +15,7 @@ provider "aws" {
 }
 
 module "aws_network" {
-  source = "./aws_network"
+  source = "./modules/aws/network"
   availability_zone = "us-east-1e"
   ssh_allowed_ips = [
     // add comma-separated IP address strings here, those hosts will
@@ -25,7 +25,7 @@ module "aws_network" {
 }
 
 module "aws_package_mirror" {
-  source = "./aws_package_mirror"
+  source = "./modules/aws/package_mirror"
   region = "us-east-1"
   availability_zone = "us-east-1e"
   ami = "ami-164d0801" // change if appropriate (non-SUSE employees or non-us-east-1 region)
@@ -40,7 +40,7 @@ module "aws_package_mirror" {
 }
 
 module "aws_suma3pg" {
-  source = "./aws_host"
+  source = "./modules/aws/host"
   name = "suma3pg"
   region = "us-east-1"
   availability_zone = "us-east-1e"
@@ -64,7 +64,7 @@ module "aws_suma3pg" {
 }
 
 module "aws_minion" {
-  source = "./aws_host"
+  source = "./modules/aws/host"
   name = "minion"
   count = 10
   region = "us-east-1"

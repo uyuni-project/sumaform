@@ -14,7 +14,7 @@ variable "availability_zone" {
 }
 
 variable "ami" {
-  description = "AMI of the custom openSUSE Terraform image for the us-east-1 region, see aws_images"
+  description = "AMI of the custom openSUSE Terraform image for the us-east-1 region, see modules/aws/images"
   type = "string"
 }
 
@@ -49,12 +49,12 @@ variable "key_file" {
 }
 
 variable "private_subnet_id" {
-  description = "ID of the private subnet, see aws_network"
+  description = "ID of the private subnet, see modules/aws/network"
   type = "string"
 }
 
 variable "private_security_group_id" {
-  description = "ID of the security group of the private subnet, see aws_network"
+  description = "ID of the security group of the private subnet, see modules/aws/network"
   type = "string"
 }
 
