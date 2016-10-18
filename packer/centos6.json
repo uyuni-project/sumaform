@@ -22,7 +22,7 @@
       "ssh_wait_timeout": "30s",
       "shutdown_command": "shutdown -P now",
       "disk_size": 1200,
-      "format": "raw",
+      "format": "qcow2",
       "qemuargs": [
         [ "-m", "1024M" ],
         ["-machine", "type=pc,accel=kvm"],
