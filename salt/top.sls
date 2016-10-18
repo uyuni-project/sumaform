@@ -34,3 +34,11 @@ base:
   'role:control-node':
     - match: grain
     - control-node
+
+  'role:test-client':
+    - match: grain
+    - test-client
+
+  'role:test-minion':
+    - match: grain
+    - test-minion

@@ -1,0 +1,57 @@
+provider "libvirt" {
+    uri = "qemu:///system"
+}
+
+variable "cc_username" {
+  description = "SCC or NCC username"
+  default = "UC7"
+}
+
+variable "cc_password" {
+  description = "SCC or NCC password"
+  default = // add password here
+}
+
+module "images" {
+  source = "./libvirt_images"
+}
+
+# testing env. QA-auto. Control-node where cucumber test run
+module "control-node" {
+  source = "./libvirt_host"
+  name = "control-node"
+  image = "${module.images.sles12sp1}"
+  role = "control-node"
+  # for running the cucumber suite
+  server = "${module.suma3pg.hostname}"
+  client = "${module.sles12sp1.hostname}" 
+  minion = "${module.minion12sp1.hostname}"   
+
+}
+
+module "suma3pg" {
+  source = "./libvirt_host"
+  name = "suma3pg"
+  memory = 4096
+  vcpu = 2
+  image = "${module.images.sles12sp1}"
+  version = "3-nightly"
+  database = "postgres"
+  role = "suse-manager-server"
+}
+
+module "sles12sp1" {
+  source = "./libvirt_host"
+  name = "clisles12sp1"
+  image = "${module.images.sles12sp1}"
+  role = "test-client"
+  count = 1
+}
+
+module "minion12sp1" {
+  source = "./libvirt_host"
+  name = "minion12sp1"
+  image = "${module.images.sles12sp1}"
+  role = "test-minion"
+  count = 1
+}
