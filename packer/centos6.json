@@ -3,6 +3,7 @@
     "type": "shell",
     "scripts": [
       "scripts/base.sh",
+      "scripts/sumaform.sh",
       "scripts/cleanup.sh",
       "scripts/zerodisk.sh"
     ],
