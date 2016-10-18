@@ -56,9 +56,9 @@ The Amazon Web Services backend has been developed for scalability tests and it 
 ## Backend-specific configuration
 
 Please refer to backend-specific guides:
- * [README-LIBVIRT.md](README-LIBVIRT.md)
- * [README-OPENSTACK.md](README-OPENSTACK.md)
- * [README-AWS.md](README-AWS.md)
+ * [libvirt-specific configuration](modules/libvirt/README.md)
+ * [OpenStack-specific configuration](modules/openstack/README.md)
+ * [AWS-specific configuration](modules/aws/README.md)
 
 ## Typical use
 
