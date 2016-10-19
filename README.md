@@ -135,7 +135,7 @@ Note that proxy chains (proxies of proxies) work as expected.
 
 ### Inter-Server Sync (ISS)
 
-Create two SUSE Manager server modules and add `iss-master` and `iss-slave` variable definitions to them, as in the example below:
+Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
 
 ```
 module "suma21pgm" {
@@ -146,7 +146,7 @@ module "suma21pgm" {
   database = "postgres"
   role = "suse-manager-server"
   package-mirror = "${module.package_mirror.hostname}"
-  iss-slave = "suma21pgs.tf.local"
+  iss_slave = "suma21pgs.tf.local"
 }
 
 module "suma21pgs" {
@@ -157,8 +157,8 @@ module "suma21pgs" {
   database = "postgres"
   role = "suse-manager-server"
   package-mirror = "${module.package_mirror.hostname}"
-  iss-master = "${module.suma21pgm.hostname}"
+  iss_master = "${module.suma21pgm.hostname}"
 }
 ```
 
-Please note that `iss-master` is set from `suma21pg`'s module output variable hostname, while `iss-slave` is simply hardcoded. This is needed for terraform to resolve dependencies correctly, as dependency cycles are not permitted.
+Please note that `iss_master` is set from `suma21pg`'s module output variable hostname, while `iss_slave` is simply hardcoded. This is needed for terraform to resolve dependencies correctly, as dependency cycles are not permitted.
