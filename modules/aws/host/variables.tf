@@ -93,12 +93,12 @@ variable "server" {
   default = "null"
 }
 
-variable "iss-master" {
+variable "iss_master" {
   description = "ISS master server, if any"
   default = "null"
 }
 
-variable "iss-slave" {
+variable "iss_slave" {
   description = "ISS slave server, if any"
   default = "null"
 }
