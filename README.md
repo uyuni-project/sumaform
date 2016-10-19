@@ -79,6 +79,10 @@ Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel
 
 ## Advanced use
 
+### Package-mirror
+
+If you are using a package-mirror, don't forget to create a 'data' pool in libvirt, using either `virsh` or `virtual-machine-manager`.
+
 ### Create multiple hosts
 
 Most resources support a `count` variable that allows you to create several instances at once. For example:
