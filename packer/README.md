@@ -3,7 +3,7 @@
  - Download and install [Packer](https://www.packer.io/downloads.html)
  - Run
  ```
- PACKER_LOG=1 packer build <IMAGE_NAME>.json
+ packer build <IMAGE_NAME>.json
  ```
  - in case of errors, run again with full logging:
  ```
