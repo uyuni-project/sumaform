@@ -7,24 +7,24 @@
    - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
    - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
    - add the `bridge = "<DEVICE_NAME>"` variable to all VM modules, eg:
-```terraform
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  ...
-  bridge = "br0"
-}
-```
+   ```terraform
+   module "suma3pg" {
+     source = "./modules/libvirt/suse_manager"
+     ...
+     bridge = "br0"
+   }
+   ```
    - you can specify an optional MAC address by adding a `mac = "CA:FE:BA:BE:00:01"` variable to VM modules
    - change the `name` variable so that it does not collide with machines from other users. For example, add your username as a prefix
  - if your target libvirt host storage pool is not named "default":
    - add `pool = "mypoolname"` to the `images` module and to any VM module that has to be created in that pool, eg:
-```terraform
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  ...
-  pool = "mypoolname"
-}
-```
+   ```terraform
+   module "suma3pg" {
+     source = "./modules/libvirt/suse_manager"
+     ...
+     pool = "mypoolname"
+   }
+   ```
  - upload base OS images to the libvirt host:
 ```
 terraform get
