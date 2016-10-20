@@ -5,6 +5,8 @@
  - copy `main.tf.libvirt.example` to `main.tf`
  - if your VMs are to be deployed on an external libvirt host:
    - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
+ - if your libvirt host storage pool is not named "default":
+   - add `pool = "mypoolname"` to the `images` section
  - upload base OS images to the libvirt host:
    ```
    terraform get
@@ -18,6 +20,15 @@
        source = "./modules/libvirt/suse_manager"
        ...
        bridge = "br0"
+     }
+     ```
+ - if your libvirt host storage pool is not named "default":
+   - add `pool = "mypoolname"` to all VM modules, eg:
+     ```terraform
+     module "suma3pg" {
+       source = "./modules/libvirt/suse_manager"
+       ...
+       pool = "mypoolname"
      }
      ```
  - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copypaste to add more
