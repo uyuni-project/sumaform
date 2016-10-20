@@ -24,7 +24,7 @@ module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   cc_username = "UC7"
   cc_password = // add password here
-  name = "moio-suma3pg"
+  name = "suma3pg"
   
   // see modules/libvirt/suse_manager/variables.tf for possible values
   version = "3-nightly"
@@ -35,7 +35,7 @@ module "suma3pg" {
 
 module "clisles12sp1" {
   source = "./modules/libvirt/client"
-  name = "moio-clisles12sp1"
+  name = "clisles12sp1"
 
   // see modules/libvirt/client/variables.tf for possible values
   image = "sles12sp1"
@@ -48,7 +48,7 @@ module "clisles12sp1" {
 
 module "minionsles12sp1" {
   source = "./modules/libvirt/minion"
-  name = "moio-minionsles12sp1"
+  name = "minionsles12sp1"
 
   // see modules/libvirt/minion/variables.tf for possible values
   image = "sles12sp1"
