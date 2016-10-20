@@ -60,20 +60,34 @@ Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expe
 
 ## package-mirror
 
-If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `package-mirror` that will cache packaged downloaded from the SUSE engineering network (by default every night, or manually by executing `/root/mirror.sh`).
+If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `package-mirror` that will cache packages downloaded from the SUSE engineering network (by default every night, or manually by executing `/root/mirror.sh`).
 
-If you configure it, it will be be used exclusively by other VMs to download SUSE content - that means your setup will be "fully disconnected", not requiring Internet access to operate.
+It will be be used exclusively by other VMs to download SUSE content - that means your setup will be "fully disconnected", not requiring Internet access to operate.
 
-To enable `package-mirror`, uncomment its section in `main.tf` and the `package_mirror` variable in all VM sections.
+To enable `package-mirror`, add the following module in `main.tf`:
+```terraform
+module "package_mirror" {
+  source = "./modules/libvirt/package_mirror"
+  cc_username = "UC7"
+  cc_password = // add password here
+  data_pool = "data"
+}
+```
 
-Note that `package-mirror` needs access the SUSE engineering network (or VPN) at package download time.
-
-Also note that, by default, it requires a different `libvirt` storage pool, because typically we want packages to be stored in a separate disk. By default the pool name is `data` and you can configure it with `virt-manager` like so:
+Note you are encouraged to specify a separate `data` storage pool for this host to store downloaded content. It helps SUSE Manager performance significantly to define such pool on a separate disk. You can configure it with `virt-manager` like in the following image:
 
 ![data pool configuration in virt-manager](/help/data-pool-configuration.png)
 
-You can also override this setting and keep packages in the same pool as the base images and disks by changing the `data_pool` parameter to `default`.
+Omitting the `data_pool` results in the default "default" storage pool being used.
 
+Once the package-mirror is defined, created and populated you can configure any VM to use it with an extra `package_mirror` variable, eg:
+```terraform
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  ...
+  package_mirror = "${module.package_mirror.hostname}"
+}
+```
 
 ## Customize virtual hardware
 
