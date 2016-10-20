@@ -36,6 +36,7 @@ terraform get
 terraform apply -target=module.network -target=module.images
 ```
  - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copypaste to add more
+ - complete `cc_username` and `cc_password` variables
  - run `terraform plan` to see what Terraform is about to do
  - run `terraform apply` to actually have the VMs set up!
 
