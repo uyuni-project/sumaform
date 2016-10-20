@@ -19,6 +19,11 @@
  - if your target libvirt host storage pool is not named "default":
    - add `pool = "mypoolname"` to the `images` module and to any VM module that has to be created in that pool, eg:
    ```terraform
+   module "images" {
+     source = "./modules/libvirt/images"
+     pool = "mypoolname"
+   }
+   ...
    module "suma3pg" {
      source = "./modules/libvirt/suse_manager"
      ...
