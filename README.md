@@ -42,18 +42,17 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
  - Amazon Web Services
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
+If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
 
-If you need a lot of VMs or lack hardware you probably want to use libvirt on an external host with bridged networking.
-
-The OpenStack backend is meant to be used in the SUSE engineering private SUSE OpenStack Cloud installation only. Make sure enough hardware resources are available first.
+The OpenStack backend is meant to be used in the SUSE engineering private SUSE OpenStack Cloud installation only. Make sure enough hardware resources are available before deploying.
 
 The Amazon Web Services backend has been developed for scalability tests and it is used in that context exclusively.
 
 ## Basic `main.tf` configuration
 
-In `sumaform` you define a set of virtual machines you want to in a `main.tf` configuration file. Its contents vary depending on the backend you choose.
+In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
-Refer to backend READMEs to get started:
+Refer to specific READMEs to get started:
  * [libvirt README](modules/libvirt/README.md)
  * [OpenStack README](modules/openstack/README.md)
  * [AWS README](modules/aws/README.md)
