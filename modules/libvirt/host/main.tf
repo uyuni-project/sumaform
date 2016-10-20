@@ -21,6 +21,7 @@ resource "libvirt_domain" "domain" {
     // HACK: evaluates to "terraform-network" if bridge is empty, "" otherwise
     network_name = "${element(list("terraform-network", ""), replace(replace(var.bridge, "/.+/", "1"), "/^$/", "0"))}"
     bridge = "${var.bridge}"
+    mac = "${var.mac}"
   }
 
   connection {

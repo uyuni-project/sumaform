@@ -28,6 +28,11 @@ variable "bridge" {
   default = ""
 }
 
+variable "mac" {
+  description = "a MAC address, in the form AA:BB:CC:11:22:22, only if bridge is specified"
+  default = ""
+}
+
 variable "domain" {
   description = "hostname's domain"
   default = "tf.local"

@@ -43,6 +43,11 @@ variable "bridge" {
   default = ""
 }
 
+variable "mac" {
+  description = "a MAC address, in the form AA:BB:CC:11:22:22, only if bridge is specified"
+  default = ""
+}
+
 variable "grains" {
   description = "custom grain string to be added to this host's configuration"
   default = ""

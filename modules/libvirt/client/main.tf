@@ -9,6 +9,7 @@ module "client" {
   running = "${var.running}"
   pool = "${var.pool}"
   bridge = "${var.bridge}"
+  mac = "${var.mac}"
   grains = <<EOF
 
 package-mirror: ${var.package_mirror}

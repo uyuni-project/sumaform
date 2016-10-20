@@ -19,6 +19,7 @@ module "suse_manager_proxy" {
   running = "${var.running}"
   pool = "${var.pool}"
   bridge = "${var.bridge}"
+  mac = "${var.mac}"
   grains = <<EOF
 
 version: ${var.version}
