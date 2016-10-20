@@ -1,7 +1,7 @@
 resource "libvirt_volume" "main_disk" {
   name = "terraform_${var.name}_${count.index}_disk"
-  base_volume_id = "${var.image}"
-  pool = "${var.libvirt_pool}"
+  base_volume_name = "sumaform_${var.image}"
+  pool = "${var.pool}"
   count = "${var.count}"
 }
 
@@ -18,10 +18,9 @@ resource "libvirt_domain" "domain" {
 
   network_interface {
     wait_for_lease = true
-    // "terraform-network" if not bridged, "" if bridged
-    network_name = "${element(list("terraform-network", ""), var.bridged)}"
-    // "" if not bridged, ${var.bridge} if bridged
-    bridge = "${element(list("", "${var.bridge}"), var.bridged)}"
+    // HACK: evaluates to "terraform-network" if bridge is empty, "" otherwise
+    network_name = "${element(list("terraform-network", ""), replace(replace(var.bridge, "/.+/", "1"), "/^$/", "0"))}"
+    bridge = "${var.bridge}"
   }
 
   connection {
@@ -40,16 +39,7 @@ resource "libvirt_domain" "domain" {
 hostname: ${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.domain}
 use-avahi: True
-package-mirror: ${var.package-mirror}
-version: ${var.version}
-database: ${var.database}
-role: ${var.role}
-cc_username: ${var.cc_username}
-cc_password: ${var.cc_password}
-server: ${var.server}
-iss-master: ${var.iss-master}
-iss-slave: ${var.iss-slave}
-for-development-only: True
+${var.grains}
 
 EOF
 
@@ -65,7 +55,7 @@ EOF
 }
 
 output "hostname" {
-    // HACK: this output artificially depends on the domain id
-    // any resource using this output will have to wait until domain is fully up
-    value = "${coalesce("${var.name}.${var.domain}", libvirt_domain.domain.id)}"
+  // HACK: this output artificially depends on the domain id
+  // any resource using this output will have to wait until domain is fully up
+  value = "${coalesce("${var.name}.${var.domain}", libvirt_domain.domain.id)}"
 }

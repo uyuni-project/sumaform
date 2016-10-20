@@ -2,16 +2,6 @@ provider "libvirt" {
   uri = "qemu:///system"
 }
 
-variable "cc_username" {
-  description = "SCC or NCC username"
-  default = "UC7"
-}
-
-variable "cc_password" {
-  description = "SCC or NCC password"
-  default = // add password here
-}
-
 module "network" {
   source = "./modules/libvirt/network"
 }
@@ -20,287 +10,51 @@ module "images" {
   source = "./modules/libvirt/images"
 }
 
-//// Use a package mirror
-// module "package_mirror" {
-//   source = "./modules/libvirt/package_mirror"
-//   image = "${module.images.opensuse421}"
-//   libvirt_data_pool = "data"
-//   cc_username = "${var.cc_username}"
-//   cc_password = "${var.cc_password}"
-// }
-
-module "suma21pg" {
-  source = "./modules/libvirt/host"
-  name = "suma21pg"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles11sp3}"
-  version = "2.1-nightly"
-  database = "postgres"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
+// Uncomment to use a package mirror
+/*
+module "package_mirror" {
+  source = "./modules/libvirt/package_mirror"
+  cc_username = "UC7"
+  cc_password = // add password here
+  data_pool = "data"
 }
-
-module "suma21spg" {
-  source = "./modules/libvirt/host"
-  name = "suma21spg"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles11sp3}"
-  version = "2.1-stable"
-  database = "postgres"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "suma21ora" {
-  source = "./modules/libvirt/host"
-  name = "suma21ora"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles11sp3}"
-  version = "2.1-nightly"
-  database = "oracle"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "suma21sora" {
-  source = "./modules/libvirt/host"
-  name = "suma21sora"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles11sp3}"
-  version = "2.1-stable"
-  database = "oracle"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
+*/
 
 module "suma3pg" {
-  source = "./modules/libvirt/host"
-  name = "suma3pg"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
+  source = "./modules/libvirt/suse_manager"
+  cc_username = "UC7"
+  cc_password = // add password here
+  name = "moio-suma3pg"
+  
+  // see modules/libvirt/suse_manager/variables.tf for possible values
   version = "3-nightly"
-  database = "postgres"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "suma3pgpool" {
-  source = "./modules/libvirt/host"
-  name = "suma3pgpool"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
-  version = "3-nightly"
-  database = "pgpool"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "suma3spg" {
-  source = "./modules/libvirt/host"
-  name = "suma3spg"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
-  version = "3-stable"
-  database = "postgres"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "sumaheadpg" {
-  source = "./modules/libvirt/host"
-  name = "sumaheadpg"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
-  version = "head"
-  database = "postgres"
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "clisles11sp3" {
-  source = "./modules/libvirt/host"
-  name = "clisles11sp3"
-  image = "${module.images.sles11sp3}"
-  server = "${module.suma21pg.hostname}"
-  role = "client"
-  count = 1
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "clisles11sp4" {
-  source = "./modules/libvirt/host"
-  name = "clisles11sp4"
-  image = "${module.images.sles11sp4}"
-  server = "${module.suma21pg.hostname}"
-  role = "client"
-  count = 1
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "clisles12" {
-  source = "./modules/libvirt/host"
-  name = "clisles12"
-  image = "${module.images.sles12}"
-  server = "${module.suma21pg.hostname}"
-  role = "client"
-  count = 1
-  // package-mirror = "${module.package_mirror.hostname}"
+  
+  // Uncomment below to make use of the package-mirror
+  // package_mirror = "${module.package_mirror.hostname}"
 }
 
 module "clisles12sp1" {
-  source = "./modules/libvirt/host"
-  name = "clisles12sp1"
-  image = "${module.images.sles12sp1}"
-  server = "${module.suma21pg.hostname}"
-  role = "client"
-  count = 1
-  // package-mirror = "${module.package_mirror.hostname}"
-}
+  source = "./modules/libvirt/client"
+  name = "moio-clisles12sp1"
 
-module "pg1" {
-  source = "./modules/libvirt/host"
-  name = "pg1"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
-  role = "postgres"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "pg2" {
-  source = "./modules/libvirt/host"
-  name = "pg2"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
-  role = "postgres"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "minionsles12" {
-  source = "./modules/libvirt/host"
-  name = "minionsles12"
-  image = "${module.images.sles12}"
+  // see modules/libvirt/client/variables.tf for possible values
+  image = "sles12sp1"
   server = "${module.suma3pg.hostname}"
-  role = "minion"
   count = 1
-  // package-mirror = "${module.package_mirror.hostname}"
+
+  // Uncomment below to make use of the package-mirror
+  // package_mirror = "${module.package_mirror.hostname}"
 }
 
 module "minionsles12sp1" {
-  source = "./modules/libvirt/host"
-  name = "minionsles12sp1"
-  image = "${module.images.sles12sp1}"
+  source = "./modules/libvirt/minion"
+  name = "moio-minionsles12sp1"
+
+  // see modules/libvirt/minion/variables.tf for possible values
+  image = "sles12sp1"
   server = "${module.suma3pg.hostname}"
-  role = "minion"
   count = 1
-  // package-mirror = "${module.package_mirror.hostname}"
-}
 
-
-// Proxy
-
-module "proxy21s" {
-  source = "./modules/libvirt/host"
-  name = "proxy21s"
-  image = "${module.images.sles11sp3}"
-  server = "${module.suma21spg.hostname}"
-  role = "suse-manager-proxy"
-  version = "2.1-stable"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "proxy21" {
-  source = "./modules/libvirt/host"
-  name = "proxy21"
-  image = "${module.images.sles11sp3}"
-  server = "${module.suma21pg.hostname}"
-  role = "suse-manager-proxy"
-  version = "2.1-nightly"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "proxy3s" {
-  source = "./modules/libvirt/host"
-  name = "proxy3s"
-  image = "${module.images.sles12sp1}"
-  server = "${module.suma3spg.hostname}"
-  role = "suse-manager-proxy"
-  version = "3-stable"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "proxy3" {
-  source = "./modules/libvirt/host"
-  name = "proxy3"
-  image = "${module.images.sles12sp1}"
-  server = "${module.suma3pg.hostname}"
-  role = "suse-manager-proxy"
-  version = "3-nightly"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "proxyhead" {
-  source = "./modules/libvirt/host"
-  name = "proxyhead"
-  image = "${module.images.sles12sp1}"
-  server = "${module.sumaheadpg.hostname}"
-  role = "suse-manager-proxy"
-  version = "head"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-
-// Inter-Server Sync (ISS)
-
-module "suma21pgmaster" {
-  source = "./modules/libvirt/host"
-  name = "suma21pgmaster"
-  image = "${module.images.sles11sp3}"
-  version = "2.1-stable"
-  database = "postgres"
-  memory = 4096
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  iss-slave = "suma21pgslave.tf.local"
-  // package-mirror = "${module.package_mirror.hostname}"
-}
-
-module "suma21pgslave" {
-  source = "./modules/libvirt/host"
-  name = "suma21pgslave"
-  image = "${module.images.sles11sp3}"
-  version = "2.1-stable"
-  database = "postgres"
-  memory = 4096
-  role = "suse-manager-server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
-  iss-master = "${module.suma21pgmaster.hostname}"
-  // package-mirror = "${module.package_mirror.hostname}"
+  // Uncomment below to make use of the package-mirror
+  // package_mirror = "${module.package_mirror.hostname}"
 }

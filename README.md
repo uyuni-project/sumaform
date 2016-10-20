@@ -41,117 +41,39 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
  - OpenStack private clouds
  - Amazon Web Services
 
-At the moment the recommended backend for general development is the libvirt one.
+The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
 
-The OpenStack backend was tested against the SUSE engineering private SUSE OpenStack Cloud installation only.
+If you need a lot of VMs or lack hardware you probably want to use libvirt on an external host with bridged networking.
+
+The OpenStack backend is meant to be used in the SUSE engineering private SUSE OpenStack Cloud installation only. Make sure enough hardware resources are available first.
 
 The Amazon Web Services backend has been developed for scalability tests and it is used in that context exclusively.
 
-## Backend-specific configuration
+## Basic `main.tf` configuration
 
-Please refer to backend-specific guides:
- * [libvirt-specific configuration](modules/libvirt/README.md)
- * [OpenStack-specific configuration](modules/openstack/README.md)
- * [AWS-specific configuration](modules/aws/README.md)
+In `sumaform` you define a set of virtual machines you want to in a `main.tf` configuration file. Its contents vary depending on the backend you choose.
+
+Refer to backend READMEs to get started:
+ * [libvirt README](modules/libvirt/README.md)
+ * [OpenStack README](modules/openstack/README.md)
+ * [AWS README](modules/aws/README.md)
 
 ## Typical use
-
-### Run Terraform
 
 Refer to the [official guides](https://www.terraform.io/docs/index.html) for a general understanding of Terraform and full commands.
 
 For a very quick start:
 ```
-terraform get # populates modules
-terraform plan # show the provisioning plan
+vim main.tf     # change your VM setup
+terraform get   # populates modules
+terraform plan  # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```
+
+## Advanced use
+
+Please see [README_ADVANCED.md](README_ADVANCED.md).
 
 ### I have a problem!
 
 Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to drop a line to moio at suse dot de!
-
-## Advanced use
-
-### Create multiple hosts
-
-Most resources support a `count` variable that allows you to create several instances at once. For example:
-
-```
-module "minionsles12sp1" {
-  source = "./modules/libvirt/host"
-  name = "minionsles12sp1"
-  image = "${module.images.sles12sp1}"
-  server = "${module.suma3pg.hostname}"
-  role = "minion"
-  count = 10
-}
-```
-
-This will create 10 minions connected to the suma3pg server.
-
-### SUSE Manager Proxies
-
-Create one SUSE Manager module, and a Proxy module with the `server` variable pointing at it. Then point clients to the proxy, as in the example below:
-
-```
-module "suma3pg" {
-  source = "./modules/libvirt/host"
-  name = "suma3pg"
-  memory = 4096
-  vcpu = 2
-  image = "${module.images.sles12sp1}"
-  version = "3-nightly"
-  database = "postgres"
-  role = "suse-manager-server"
-}
-
-module "proxy3" {
-  source = "./modules/libvirt/host"
-  name = "proxy3"
-  image = "${module.images.sles12sp1}"
-  server = "${module.suma3pg.hostname}"
-  role = "suse-manager-proxy"
-  version = "3-nightly"
-}
-
-module "clisles12sp1" {
-  source = "./modules/libvirt/host"
-  name = "clisles12sp1"
-  image = "${module.images.sles12sp1}"
-  server = "${module.proxy3.hostname}"
-  role = "client"
-}
-```
-
-Note that proxy chains (proxies of proxies) work as expected.
-
-### Inter-Server Sync (ISS)
-
-Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
-
-```
-module "suma21pgm" {
-  source = "./modules/libvirt/host"
-  name = "suma21pgm"
-  image = "${module.images.sles11sp3}"
-  version = "2.1-stable"
-  database = "postgres"
-  role = "suse-manager-server"
-  package-mirror = "${module.package_mirror.hostname}"
-  iss_slave = "suma21pgs.tf.local"
-}
-
-module "suma21pgs" {
-  source = "./modules/libvirt/host"
-  name = "suma21pgs"
-  image = "${module.images.sles11sp3}"
-  version = "2.1-stable"
-  database = "postgres"
-  role = "suse-manager-server"
-  package-mirror = "${module.package_mirror.hostname}"
-  iss_master = "${module.suma21pgm.hostname}"
-}
-```
-
-Please note that `iss_master` is set from `suma21pg`'s module output variable hostname, while `iss_slave` is simply hardcoded. This is needed for terraform to resolve dependencies correctly, as dependency cycles are not permitted.

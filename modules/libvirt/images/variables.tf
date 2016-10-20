@@ -1,3 +1,3 @@
-variable "libvirt_pool" {
+variable "pool" {
   default = "default"
 }

@@ -1,13 +1,13 @@
 resource "libvirt_volume" "main_disk" {
   name = "terraform_package_mirror_main_disk"
-  base_volume_id = "${var.image}"
-  pool = "${var.libvirt_main_pool}"
+  base_volume_name = "sumaform_opensuse421"
+  pool = "${var.main_pool}"
 }
 
 resource "libvirt_volume" "data_disk" {
   name = "terraform_package_mirror_data_disk"
   size = 1099511627776 # 1 TiB
-  pool = "${var.libvirt_data_pool}"
+  pool = "${var.data_pool}"
   lifecycle {
     prevent_destroy = true
   }
@@ -28,10 +28,9 @@ resource "libvirt_domain" "domain" {
 
   network_interface {
     wait_for_lease = true
-    // "terraform-network" if not bridged, "" if bridged
-    network_name = "${element(list("terraform-network", ""), var.bridged)}"
-    // "" if not bridged, ${var.bridge} if bridged
-    bridge = "${element(list("", "${var.bridge}"), var.bridged)}"
+    // HACK: evaluates to "terraform-network" if bridge is empty, "" otherwise
+    network_name = "${element(list("terraform-network", ""), replace(replace(var.bridge, "/.+/", "1"), "/^$/", "0"))}"
+    bridge = "${var.bridge}"
   }
 
   connection {
