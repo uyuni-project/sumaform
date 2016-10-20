@@ -76,16 +76,6 @@ git-download-cucumber:
   cmd.run:
         - name: git clone -b slenkins https://github.com/SUSE/spacewalk-testsuite-base.git
 
-salt-master:
-  service.running: 
-    - enable : True
-
-accept-key:
-   cmd.run:
-    - name: salt-key -A
-    - require:
-        - salt-master
-
 run-cucumber:
   cmd.run:
     - name: |
