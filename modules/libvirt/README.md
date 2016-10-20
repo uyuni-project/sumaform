@@ -5,14 +5,6 @@
  - copy `main.tf.libvirt.example` to `main.tf`
  - if your VMs are to be deployed on an external libvirt host:
    - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
- - if your libvirt host storage pool is not named "default":
-   - add `pool = "mypoolname"` to the `images` section
- - upload base OS images to the libvirt host:
-```
-terraform get
-terraform apply -target=module.network -target=module.images
-```
- - if your VMs are to be deployed on an external libvirt host:
    - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
    - add the `bridge = "<DEVICE_NAME>"` variable to all VM modules, eg:
 ```terraform
@@ -22,14 +14,21 @@ module "suma3pg" {
   bridge = "br0"
 }
 ```
- - if your libvirt host storage pool is not named "default":
-   - add `pool = "mypoolname"` to all VM modules, eg:
+   - you can specify an optional MAC address by adding a `mac = "CA:FE:BA:BE:00:01"` variable to VM modules
+   - change the `name` variable so that it does not collide with machines from other users. For example, add your username as a prefix
+ - if your target libvirt host storage pool is not named "default":
+   - add `pool = "mypoolname"` to the `images` module and to any VM module that has to be created in that pool, eg:
 ```terraform
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   ...
   pool = "mypoolname"
 }
+```
+ - upload base OS images to the libvirt host:
+```
+terraform get
+terraform apply -target=module.network -target=module.images
 ```
  - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copypaste to add more
  - run `terraform plan` to see what Terraform is about to do
