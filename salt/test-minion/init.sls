@@ -9,18 +9,15 @@ ssh-setup-minion:
       - name: /root/.ssh/authorized_keys
       - source: salt://test-minion/authorized_keys
 
-salt-minion:
-  pkg.installed
-
-config-minion:
-  file.replace:
-    - name: /etc/salt/minion
-    - pattern: ^#master : salt
-    - repl: master = control-node.tf.local
-    - require :
-      - salt-minion 
+include:
+  - client.repos
 
 salt-minion:
+  pkg.installed:
+    - require:
+      - sls: client.repos
   service.running:
-    - enable : True
-
+    - enable: True
+    - watch:
+      - pkg: salt-minion
+      - file: master-configuration
