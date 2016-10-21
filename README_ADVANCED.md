@@ -24,7 +24,7 @@ A `proxy` module is similar to a `client` module but has a `version` and a `serv
 ```terraform
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = ...
+  cc_username = "UC7"
   cc_password = ...
 
   name = "suma3pg"
@@ -58,7 +58,7 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 ```terraform
 module "suma21pgm" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = ...
+  cc_username = "UC7"
   cc_password = ...
 
   name = "suma21pgm"
@@ -68,7 +68,7 @@ module "suma21pgm" {
 
 module "suma21pgs" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = ...
+  cc_username = "UC7"
   cc_password = ...
 
   name = "suma21pgs"
@@ -86,7 +86,7 @@ Experimental support for a pgpool-II setup is included. You must configure two P
 ```terraform
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = ...
+  cc_username = "UC7"
   cc_password = ...
 
   name = "suma3pg"
