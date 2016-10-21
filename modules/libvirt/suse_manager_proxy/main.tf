@@ -10,6 +10,7 @@ module "suse_manager_proxy" {
   pool = "${var.pool}"
   bridge = "${var.bridge}"
   mac = "${var.mac}"
+  name_prefix = "${var.name_prefix}"
   grains = <<EOF
 
 version: ${var.version}

@@ -1,12 +1,12 @@
 resource "libvirt_volume" "main_disk" {
-  name = "terraform_${var.name}_${count.index}_disk"
+  name = "${var.name_prefix}${var.name}_${count.index}_disk"
   base_volume_id = "${var.image_id}"
   pool = "${var.pool}"
   count = "${var.count}"
 }
 
 resource "libvirt_domain" "domain" {
-  name = "${var.name}_${count.index}"
+  name = "${var.name_prefix}${var.name}_${count.index}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
   running = "${var.running}"
@@ -19,7 +19,7 @@ resource "libvirt_domain" "domain" {
   network_interface {
     wait_for_lease = true
     // HACK: evaluates to "terraform-network" if bridge is empty, "" otherwise
-    network_name = "${element(list("terraform-network", ""), replace(replace(var.bridge, "/.+/", "1"), "/^$/", "0"))}"
+    network_name = "${element(list("${var.name_prefix}nat_network", ""), replace(replace(var.bridge, "/.+/", "1"), "/^$/", "0"))}"
     bridge = "${var.bridge}"
     mac = "${var.mac}"
   }
@@ -37,7 +37,7 @@ resource "libvirt_domain" "domain" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
+hostname: ${var.name_prefix}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.domain}
 use-avahi: True
 ${var.grains}
@@ -58,5 +58,5 @@ EOF
 output "hostname" {
   // HACK: this output artificially depends on the domain id
   // any resource using this output will have to wait until domain is fully up
-  value = "${coalesce("${var.name}.${var.domain}", libvirt_domain.domain.id)}"
+  value = "${coalesce("${var.name_prefix}${var.name}.${var.domain}", libvirt_domain.domain.id)}"
 }

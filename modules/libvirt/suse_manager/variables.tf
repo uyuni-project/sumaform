@@ -77,3 +77,8 @@ variable "domain" {
   description = "hostname's domain"
   default = "tf.local"
 }
+
+variable "name_prefix" {
+  description = "A prefix for names of objects created by this module"
+  default = ""
+}

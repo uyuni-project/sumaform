@@ -15,12 +15,19 @@
    }
    ```
    - you can specify an optional MAC address by adding a `mac = "CA:FE:BA:BE:00:01"` variable to VM modules
-   - change the `name` variable so that it does not collide with machines from other users. For example, add your username as a prefix
+   - if other sumaform users deploy to the same host, add the `name_prefix` variable to all modules (VMs, images, networks) with a unique string (for example, your username) to avoid clashes, eg:
+   ```terraform
+   module "sles12sp1" {
+     source = "./modules/libvirt/images/sles12sp1"
+     ...
+     name_prefix = "moio"
+   }
  - if your target libvirt host storage pool is not named "default":
    - add `pool = "mypoolname"` to any image and VM module that has to be created in that pool, eg:
    ```terraform
    module "sles12sp1" {
      source = "./modules/libvirt/images/sles12sp1"
+     ...
      pool = "mypoolname"
    }
    ...

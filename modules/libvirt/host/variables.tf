@@ -52,3 +52,8 @@ variable "grains" {
   description = "custom grain string to be added to this host's configuration"
   default = ""
 }
+
+variable "name_prefix" {
+  description = "A prefix for names of objects created by this module"
+  default = ""
+}

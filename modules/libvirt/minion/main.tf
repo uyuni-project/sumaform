@@ -10,6 +10,7 @@ module "minion" {
   pool = "${var.pool}"
   bridge = "${var.bridge}"
   mac = "${var.mac}"
+  name_prefix = "${var.name_prefix}"
   grains = <<EOF
 
 package-mirror: ${var.package_mirror}
