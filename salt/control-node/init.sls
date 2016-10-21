@@ -72,9 +72,11 @@ gems-installation:
        - lavanda
        - highline
 
-git-download-cucumber:
-  cmd.run:
-        - name: git clone -b slenkins https://github.com/SUSE/spacewalk-testsuite-base.git
+# clone the cucumber suite
+https://github.com/SUSE/spacewalk-testsuite-base.git:
+  git.latest:
+    - rev: slenkins
+    - target: /root/spacewalk-testsuite-base
 
 run-cucumber:
   cmd.run:
