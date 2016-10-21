@@ -7,10 +7,10 @@ A: you can use [Terraform's taint command](https://www.terraform.io/docs/command
 ```
 $ terraform state list
 ...
-module.suma3pg.libvirt_volume.main_disk
+module.suma3pg.module.suse_manager.libvirt_volume.main_disk
 
-$ terraform taint -module=suma3pg libvirt_volume.main_disk
-The resource libvirt_volume.main_disk in the module root.suma3pg has been marked as tainted!
+$ terraform taint -module=suma3pg.suse_manager libvirt_volume.main_disk
+The resource libvirt_volume.main_disk in the module root.suma3pg.suse_manager has been marked as tainted!
 ```
 
 ## Q: how to update a base OS image with the libvirt backend?
