@@ -1,0 +1,3 @@
+variable "pool" {
+  default = "default"
+}

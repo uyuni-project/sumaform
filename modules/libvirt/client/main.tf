@@ -1,7 +1,7 @@
 module "client" {
   source = "../host"
   name = "${var.name}"
-  image = "${var.image}"
+  image_id = "${var.image_id}"
   domain = "${var.domain}"
   count = "${var.count}"
   memory = "${var.memory}"

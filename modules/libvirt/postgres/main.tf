@@ -1,7 +1,7 @@
 module "postgres" {
   source = "../host"
   name = "${var.name}"
-  image = "sles12sp1"
+  image_id = "${var.image_id}"
   domain = "${var.domain}"
   count = 1
   memory = "${var.memory}"

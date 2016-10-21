@@ -3,6 +3,11 @@ variable "name" {
   type = "string"
 }
 
+variable "image_id" {
+  description = "${module.sles11sp3.id} for 2.1 or ${module.sles12sp1.id} for 3.0 and head"
+  type = "string"
+}
+
 variable "version" {
   description = "One of: 2.1-stable,  2.1-nightly, 3-nightly, 3-stable, head"
   type = "string"

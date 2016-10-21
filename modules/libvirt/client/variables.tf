@@ -3,8 +3,8 @@ variable "name" {
   type = "string"
 }
 
-variable "image" {
-  description = "One of: sles11sp3, sles11sp4, sles12, sles12sp1"
+variable "image_id" {
+  description = "One of: ${modules.sles11sp3.id}, ${modules.sles11sp4.id}, ${modules.sles12.id}, ${modules.sles12sp1.id}"
   type = "string"
 }
 

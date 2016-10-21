@@ -6,9 +6,15 @@ module "network" {
   source = "./modules/libvirt/network"
 }
 
-module "images" {
-  source = "./modules/libvirt/images"
+module "sles11sp3" {
+  source = "./modules/libvirt/images/sles11sp3"
 }
+
+module "sles12sp1" {
+  source = "./modules/libvirt/images/sles12sp1"
+}
+
+// add other base OS image modules here, available list in modules/libvirt/images
 
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
@@ -18,14 +24,15 @@ module "suma3pg" {
   
   // see modules/libvirt/suse_manager/variables.tf for possible values
   version = "3-nightly"
+  image_id = "${module.sles12sp1.id}"
 }
 
-module "clisles12sp1" {
+module "clisles11sp3" {
   source = "./modules/libvirt/client"
-  name = "clisles12sp1"
+  name = "clisles11sp3"
 
   // see modules/libvirt/client/variables.tf for possible values
-  image = "sles12sp1"
+  image_id = "${module.sles11sp3.id}"
   server = "${module.suma3pg.hostname}"
   count = 1
 }
@@ -35,7 +42,7 @@ module "minionsles12sp1" {
   name = "minionsles12sp1"
 
   // see modules/libvirt/minion/variables.tf for possible values
-  image = "sles12sp1"
+  image_id = "${module.sles12sp1.id}"
   server = "${module.suma3pg.hostname}"
   count = 1
 }

@@ -1,6 +1,6 @@
 resource "libvirt_volume" "main_disk" {
   name = "terraform_${var.name}_${count.index}_disk"
-  base_volume_name = "sumaform_${var.image}"
+  base_volume_id = "${var.image_id}"
   pool = "${var.pool}"
   count = "${var.count}"
 }

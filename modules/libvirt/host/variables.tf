@@ -3,8 +3,8 @@ variable "name" {
   type = "string"
 }
 
-variable "image" {
-  description = "name of the base OS image, see modules/libvirt/images"
+variable "image_id" {
+  description = "${module.<OS_NAME>.id}, where <OS_NAME> is one of the directories in libvirt/images"
   type = "string"
 }
 

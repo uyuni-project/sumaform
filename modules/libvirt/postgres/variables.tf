@@ -3,6 +3,11 @@ variable "name" {
   type = "string"
 }
 
+variable "image_id" {
+  description = "${module.sles12sp1.id}, see README_ADVANCED.md"
+  type = "string"
+}
+
 variable "package_mirror" {
   description = "Use ${module.package_mirror.hostname} or leave the default for no package mirror"
   default = "null"

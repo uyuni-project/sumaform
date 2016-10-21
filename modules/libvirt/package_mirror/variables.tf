@@ -1,3 +1,8 @@
+variable "image_id" {
+  description = "${module.opensuse421.id}, see modules/libvirt/README.md"
+  type = "string"
+}
+
 variable "cc_username" {
   description = "Username for the Customer Center"
   type = "string"

@@ -9,7 +9,7 @@ module "minionsles12sp1" {
   source = "./modules/libvirt/minion"
 
   name = "minionsles12sp1"
-  image = "sles12sp1"
+  image_id = "${module.sles12sp1.id}"
   server = "${module.suma3pg.hostname}"
   count = 10
 }
@@ -28,6 +28,7 @@ module "suma3pg" {
   cc_password = ...
 
   name = "suma3pg"
+  image_id = "${module.sles12sp1.id}"
   version = "3-nightly"
 }
 
@@ -35,6 +36,7 @@ module "proxy" {
   source = "./modules/libvirt/suse_manager_proxy"
 
   name = "proxy"
+  image_id = "${module.sles12sp1.id}"
   version = "3-nightly"
   server = "${module.suma3pg.hostname}"
 }
@@ -43,7 +45,7 @@ module "clisles12sp1" {
   source = "./modules/libvirt/client"
 
   name = "clisles12sp1"
-  image = "sles12sp1"
+  image_id = "${module.sles12sp1.id}"
   server = "${module.proxy.hostname}"
   count = 3
 }
@@ -62,6 +64,7 @@ module "suma21pgm" {
   cc_password = ...
 
   name = "suma21pgm"
+  image_id = "${module.sles11sp3.id}"
   version = "2.1-stable"
   iss_slave = "suma21pgs.tf.local"
 }
@@ -72,6 +75,7 @@ module "suma21pgs" {
   cc_password = ...
 
   name = "suma21pgs"
+  image_id = "${module.sles11sp3.id}"
   version = "2.1-stable"
   iss_master = "${module.suma21pgm.hostname}"
 }
@@ -90,6 +94,7 @@ module "suma3pg" {
   cc_password = ...
 
   name = "suma3pg"
+  image_id = "${module.sles12sp1.id}"
   version = "3-nightly"
   database = "pgpool"
 }
@@ -97,10 +102,12 @@ module "suma3pg" {
 module "pg1" {
   source = "./modules/libvirt/postgres"
   name = "pg1"
+  image_id = "${module.sles12sp1.id}"
 }
 
 module "pg2" {
   source = "./modules/libvirt/postgres"
   name = "pg2"
+  image_id = "${module.sles12sp1.id}"
 }
 ```

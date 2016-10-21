@@ -1,17 +1,7 @@
-variable "images" {
-  default = {
-    "2.1-stable" = "sles11sp3"
-    "2.1-nightly" = "sles11sp3"
-    "3-stable" = "sles12sp1"
-    "3-nightly" = "sles12sp1"
-    "head" = "sles12sp1"
-  }
-}
-
 module "suse_manager" {
   source = "../host"
   name = "${var.name}"
-  image = "${lookup(var.images, var.version)}"
+  image_id = "${var.image_id}"
   domain = "${var.domain}"
   count = 1
   memory = "${var.memory}"

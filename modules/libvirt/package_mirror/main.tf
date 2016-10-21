@@ -1,6 +1,6 @@
 resource "libvirt_volume" "main_disk" {
   name = "terraform_package_mirror_main_disk"
-  base_volume_name = "sumaform_opensuse421"
+  base_volume_id = "${var.image_id}"
   pool = "${var.main_pool}"
 }
 
