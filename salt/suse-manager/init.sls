@@ -104,7 +104,7 @@ remove-motd:
     - require:
       - cmd: suse-manager-setup
 
-# add files to the server for the cucumber suite.
+# add files/conf to the server for the cucumber suite.
 
 /root/.ssh:
   file.directory:
@@ -113,28 +113,28 @@ remove-motd:
     - mode: 700
 
 ssh-key-server:
-file.managed:
-- name: /root/.ssh/authorized_keys
-- source: salt://suse-manager/authorized_keys
+  file.managed:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://suse-manager/authorized_keys
 
 anaconda:
-file.managed:
-- name: /root/anaconda-18.37.11-1.fc18.x86_64.rpm
-- source: salt://suse-manager/test-server/anaconda-18.37.11-1.fc18.x86_64.rpm
+  file.managed:
+    - name: /root/anaconda-18.37.11-1.fc18.x86_64.rpm
+    - source: salt://suse-manager/test-server/anaconda-18.37.11-1.fc18.x86_64.rpm
 
 subscription-tools:
-file.managed:
-- name: /root/subscription-tools-1.0-0.noarch.rpm
-- source: salt://suse-manager/test-server/subscription-tools-1.0-0.noarch.rpm
+  file.managed:
+    - name: /root/subscription-tools-1.0-0.noarch.rpm
+    - source: salt://suse-manager/test-server/subscription-tools-1.0-0.noarch.rpm
 
 /root/install:
-file.recurse:
-- source: salt://suse-manager/test-server/install
+  file.recurse:
+    - source: salt://suse-manager/test-server/install
 
 /srv/www/htdocs/pub/:
-file.recurse:
-- source: salt://suse-manager/test-server/pub
+  file.recurse:
+    - source: salt://suse-manager/test-server/pub
 
 /tmp/vCenter.json:
-file.managed:
-- source: salt://suse-manager/test-server/vCenter.json
+  file.managed:
+    - source: salt://suse-manager/test-server/vCenter.json
