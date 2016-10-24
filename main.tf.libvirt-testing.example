@@ -1,5 +1,5 @@
 provider "libvirt" {
-    uri = "qemu:///system"
+  uri = "qemu:///system"
 }
 
 variable "cc_username" {
@@ -12,28 +12,39 @@ variable "cc_password" {
   default = // add password here
 }
 
-module "images" {
-  source = "./libvirt_images"
+module "network" {
+  source = "./modules/libvirt/network"
 }
 
-module "network" {
-  source = "./libvirt_network"
+module "images" {
+  source = "./modules/libvirt/images"
 }
+
+//// Use a package mirror
+// module "package_mirror" {
+//   source = "./modules/libvirt/package_mirror"
+//   image = "${module.images.opensuse421}"
+//   libvirt_data_pool = "data"
+//   cc_username = "${var.cc_username}"
+//   cc_password = "${var.cc_password}"
+// }
+
 
 # testing env. QA-auto. Control-node where cucumber test run
 module "control-node" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "control-node"
   image = "${module.images.sles12sp1}"
   role = "control-node"
-  # for running the cucumber suite
-  server = "${module.suma3pg.hostname}"
-  client = "${module.sles12sp1.hostname}" 
-  minion = "${module.minion12sp1.hostname}"   
+  ## for running the cucumber suite
+ # for use this vars, you have to add it. we don't need this for moment. 
+ # server = "${module.suma3pg.hostname}"
+ # client = "${module.sles12sp1.hostname}"
+ # minion = "${module.minion12sp1.hostname}"
 }
 
 module "suma3pg" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "suma3pg"
   memory = 4096
   vcpu = 2
@@ -44,7 +55,7 @@ module "suma3pg" {
 }
 
 module "sles12sp1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "clisles12sp1"
   image = "${module.images.sles12sp1}"
   role = "test-client"
@@ -52,9 +63,10 @@ module "sles12sp1" {
 }
 
 module "minion12sp1" {
-  source = "./libvirt_host"
+  source = "./modules/libvirt/host"
   name = "minion12sp1"
   image = "${module.images.sles12sp1}"
   role = "test-minion"
   count = 1
 }
+
