@@ -151,5 +151,5 @@ config-cobbler:
 
     file.replace:
     - name: /etc/cobbler/settings
-    - pattern: redhat_management_permissive: 0
-    - repl: redhat_management_permissive: 1
+    - pattern: "redhat_management_permissive: 0"
+    - repl: "redhat_management_permissive: 1"
