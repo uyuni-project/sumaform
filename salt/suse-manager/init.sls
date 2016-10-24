@@ -127,7 +127,7 @@ subscription-tools:
     - name: /root/subscription-tools-1.0-0.noarch.rpm
     - source: salt://suse-manager/test-server/subscription-tools-1.0-0.noarch.rpm
 
-/root/install:
+/install:
   file.recurse:
     - source: salt://suse-manager/test-server/install
 
