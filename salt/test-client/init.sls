@@ -23,6 +23,7 @@ cucumber-prereq:
       - openscap-content
       - openscap-extra-probes
       - openscap-utils
+      - man
 
 include:
   - client.repos
