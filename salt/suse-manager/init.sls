@@ -53,7 +53,6 @@ suse-manager-packages:
       - susemanager-tftpsync
       - susemanager-user_en-pdf
       - timezone
-      - expect
       {% if grains['database'] == 'oracle' %}
       - bc
       - oracle-server
@@ -154,3 +153,6 @@ config-cobbler:
     - name: /etc/cobbler/settings
     - pattern: "redhat_management_permissive: 0"
     - repl: "redhat_management_permissive: 1"
+
+expect:
+  pkg.installed
