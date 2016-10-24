@@ -53,6 +53,7 @@ suse-manager-packages:
       - susemanager-tftpsync
       - susemanager-user_en-pdf
       - timezone
+      - expect
       {% if grains['database'] == 'oracle' %}
       - bc
       - oracle-server
