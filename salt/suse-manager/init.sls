@@ -138,3 +138,18 @@ subscription-tools:
 /tmp/vCenter.json:
   file.managed:
     - source: salt://suse-manager/test-server/vCenter.json
+
+# modify cobbler to be executed from remote-machines.. 
+
+config-cobbler:
+    service:
+    - name : cobblerd.service
+    - running
+    - enable: True
+    - watch : 
+      - file : /etc/cobbler/settings
+
+    file.replace:
+    - name: /etc/cobbler/settings
+    - pattern: redhat_management_permissive: 0
+    - repl: redhat_management_permissive: 1
