@@ -42,3 +42,6 @@ wget:
   pkg.installed:
     - require:
       - sls: client.repos
+
+adaptec-firmware:
+  pkg.installed
