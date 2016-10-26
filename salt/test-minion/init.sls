@@ -34,3 +34,6 @@ salt-minion:
       - sls: client.repos
   service.running:
     - enable: True
+
+aaa_base-extras:
+   pkg.installed
