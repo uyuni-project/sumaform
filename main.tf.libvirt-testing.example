@@ -9,7 +9,8 @@ variable "cc_username" {
 
 variable "cc_password" {
   description = "SCC or NCC password"
-  default = // add password here
+  # WARNING: THIS IS A FAKE PASSWORD; USE THE REAL ONE!
+  default = "siamo io e te, a volere il bene dell'altro, Marracash "
 }
 
 module "network" {
@@ -52,6 +53,10 @@ module "suma3pg" {
   version = "3-nightly"
   database = "postgres"
   role = "suse-manager-server"
+  # we need this for activate the sles repos
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
+
 }
 
 module "sles12sp1" {
