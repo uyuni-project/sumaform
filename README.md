@@ -31,6 +31,7 @@ git clone https://github.com/moio/sumaform.git
 
 Ubuntu and Debian:
 ```
+sudo apt install alien
 wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
 wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
