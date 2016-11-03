@@ -111,7 +111,49 @@ nfsserver:
     - watch:
       - file: exports-file
 
-suse-symlink:
+# symlinks to mimic SMT's folder structure, which is used by the from-dir
+# setting in SUSE Manager
+
+/srv/mirror/repo/$RCE/SLES11-SP3-Pool/sle-11-x86_64:
   file.symlink:
-    - name: /srv/mirror/SUSE
+    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP3-POOL/
+
+/srv/mirror/repo/$RCE/SLES11-SP3-Updates/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP3/x86_64/update/
+
+/srv/mirror/repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL/
+
+/srv/mirror/repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/x86_64/update/
+
+/srv/mirror/repo/$RCE/SLES11-SP3-SUSE-Manager-Tools/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP3-CLIENT-TOOLS/x86_64/update/
+
+/srv/mirror/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
+
+/srv/mirror/repo/$RCE/SUSE-Manager-Server-2.1-Pool/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL/
+
+/srv/mirror/repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update/
+
+/srv/mirror/repo/$RCE/SUSE-Manager-Proxy-2.1-Pool/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL/
+
+/srv/mirror/repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64:
+  file.symlink:
+    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER-PROXY/2.1/x86_64/update/
+
+/srv/mirror/SUSE:
+  file.symlink:
     - target: mirror/SuSE/build.suse.de/SUSE
