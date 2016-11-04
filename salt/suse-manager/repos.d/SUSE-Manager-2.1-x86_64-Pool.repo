@@ -2,4 +2,4 @@
 name=SUSE-Manager-2.1-x86_64-Pool
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("package-mirror") | default("nu.novell.com", true) }}/repo/$RCE/SUSE-Manager-Server-2.1-Pool/sle-11-x86_64/
+baseurl=http://{{ grains.get("package-mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL/
