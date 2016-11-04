@@ -1,17 +1,26 @@
-
 variable "base_configuration" {
   description = "use ${module.base.configuration}, see main.tf.libvirt.example"
   type = "map"
 }
 
+variable "name" {
+  description = "hostname, without the domain part"
+  type = "string"
+}
+
+variable "memory" {
+  description = "RAM memory in MiB"
+  default = 4096
+}
+
+variable "vcpu" {
+  description = "Number of virtual CPUs"
+  default = 2
+}
+
 variable "running" {
   description = "Whether this host should be turned on or off"
   default = true
-}
-
-variable "data_pool" {
-  description = "libvirt storage pool name for this host's data disk"
-  default = "default"
 }
 
 variable "mac" {

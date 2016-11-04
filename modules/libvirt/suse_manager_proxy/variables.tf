@@ -8,9 +8,14 @@ variable "name" {
   type = "string"
 }
 
-variable "image" {
-  description = "One of: opensuse421, sles11sp3, sles11sp4, sles12, sles12sp1"
+variable "version" {
+  description = "One of: 2.1-stable,  2.1-nightly, 3-nightly, 3-stable, head"
   type = "string"
+}
+
+variable "server_configuration" {
+  description = "use ${module.<SERVER_NAME>.configuration}, see see ADVANCED_MAIN_TF.md"
+  type = "map"
 }
 
 variable "count"  {
@@ -24,26 +29,16 @@ variable "memory" {
 }
 
 variable "vcpu" {
-  description = "number of virtual CPUs"
+  description = "Number of virtual CPUs"
   default = 1
 }
 
 variable "running" {
-  description = "whether this host should be turned on or off"
+  description = "Whether this host should be turned on or off"
   default = true
 }
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default = ""
-}
-
-variable "additional_disk" {
-  description = "disk block definition(s) to be added to this host"
-  default = []
-}
-
-variable "grains" {
-  description = "custom grain string to be added to this host's configuration"
   default = ""
 }

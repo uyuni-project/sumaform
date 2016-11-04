@@ -7,19 +7,21 @@ A: you can use [Terraform's taint command](https://www.terraform.io/docs/command
 ```
 $ terraform state list
 ...
-module.suma3pg.libvirt_volume.main_disk
+module.suma3pg.module.suse_manager.libvirt_volume.main_disk
 
-$ terraform taint -module=suma3pg libvirt_volume.main_disk
-The resource libvirt_volume.main_disk in the module root.suma3pg has been marked as tainted!
+$ terraform taint -module=suma3pg.suse_manager libvirt_volume.main_disk
+The resource libvirt_volume.main_disk in the module root.suma3pg.suse_manager has been marked as tainted!
 ```
 
 ## Q: how to update a base OS image with the libvirt backend?
 
-Taint the image resource - it will be redownloaded at next apply (and any virtual machine depending on it will also be re-created).
+Taint the VM disk you want to update and re-apply the plan:
+```
+terraform taint -module=sles12sp1 libvirt_volume.volume
+terraform apply
+```
 
-```
-$ terraform taint -module=images libvirt_volume.sles12sp1
-```
+Note that this will also re-create any VMs depending on the tainted image.
 
 ## Q: how can I work around a "resource already exists" error?
 
