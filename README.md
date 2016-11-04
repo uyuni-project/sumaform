@@ -15,13 +15,6 @@ sudo zypper install terraform-provider-libvirt
 git clone https://github.com/moio/sumaform.git
 ```
 
-OpenSUSE Tumbleweed:
-```
-sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Tumbleweed/home:SilvioMoioli:tools.repo
-sudo zypper install terraform-provider-libvirt
-git clone https://github.com/moio/sumaform.git
-```
-
 SUSE Linux Enterprise 12 SP1:
 ```
 sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
