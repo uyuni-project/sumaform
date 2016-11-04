@@ -30,10 +30,8 @@ tomcat6-config:
 tomcat6:
   service.running:
     - watch:
-      - file: /etc/rhn/rhn.conf
       - file: tomcat6-config
     - require:
-      - file: /etc/rhn/rhn.conf
       - file: tomcat6-config
 
 refresh-after-deploy-speedup-config:
