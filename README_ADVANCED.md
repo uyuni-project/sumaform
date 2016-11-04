@@ -7,10 +7,11 @@ Some modules, for example clients and minions, support a `count` variable that a
 ```terraform
 module "minionsles12sp1" {
   source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
 
   name = "minionsles12sp1"
-  image_id = "${module.sles12sp1.id}"
-  server = "${module.suma3pg.hostname}"
+  image = "sles12sp1"
+  server_configuration = "${module.suma3pg.configuration}"
   count = 10
 }
 ```
@@ -24,29 +25,28 @@ A `proxy` module is similar to a `client` module but has a `version` and a `serv
 ```terraform
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = "UC7"
-  cc_password = ...
+  base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  image_id = "${module.sles12sp1.id}"
   version = "3-nightly"
 }
 
 module "proxy" {
   source = "./modules/libvirt/suse_manager_proxy"
+  base_configuration = "${module.base.configuration}"
 
   name = "proxy"
-  image_id = "${module.sles12sp1.id}"
   version = "3-nightly"
-  server = "${module.suma3pg.hostname}"
+  server_configuration = "${module.suma3pg.configuration}"
 }
 
 module "clisles12sp1" {
   source = "./modules/libvirt/client"
+  base_configuration = "${module.base.configuration}"
 
   name = "clisles12sp1"
-  image_id = "${module.sles12sp1.id}"
-  server = "${module.proxy.hostname}"
+  image = "sles12sp1"
+  server_configuration = "${module.proxy.configuration}"
   count = 3
 }
 ```
@@ -60,24 +60,20 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 ```terraform
 module "suma21pgm" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = "UC7"
-  cc_password = ...
+  base_configuration = "${module.base.configuration}"
 
   name = "suma21pgm"
-  image_id = "${module.sles11sp3.id}"
   version = "2.1-stable"
   iss_slave = "suma21pgs.tf.local"
 }
 
 module "suma21pgs" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = "UC7"
-  cc_password = ...
+  base_configuration = "${module.base.configuration}"
 
   name = "suma21pgs"
-  image_id = "${module.sles11sp3.id}"
   version = "2.1-stable"
-  iss_master = "${module.suma21pgm.hostname}"
+  iss_master = "${module.suma21pgm.configuration["hostname"]}"
 }
 ```
 
@@ -90,24 +86,22 @@ Experimental support for a pgpool-II setup is included. You must configure two P
 ```terraform
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = "UC7"
-  cc_password = ...
+  base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  image_id = "${module.sles12sp1.id}"
   version = "3-nightly"
   database = "pgpool"
 }
 
 module "pg1" {
   source = "./modules/libvirt/postgres"
+  base_configuration = "${module.base.configuration}"
   name = "pg1"
-  image_id = "${module.sles12sp1.id}"
 }
 
 module "pg2" {
   source = "./modules/libvirt/postgres"
+  base_configuration = "${module.base.configuration}"
   name = "pg2"
-  image_id = "${module.sles12sp1.id}"
 }
 ```

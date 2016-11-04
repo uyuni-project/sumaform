@@ -5,40 +5,23 @@
  - copy `main.tf.libvirt.example` to `main.tf`
  - if your VMs are to be deployed on an external libvirt host:
    - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
-   - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
-   - add the `bridge = "<DEVICE_NAME>"` variable to all VM modules, eg:
-   ```terraform
-   module "suma3pg" {
-     source = "./modules/libvirt/suse_manager"
-     ...
-     bridge = "br0"
-   }
-   ```
-   - you can specify an optional MAC address by adding a `mac = "CA:FE:BA:BE:00:01"` variable to VM modules
-   - if other sumaform users deploy to the same host, add the `name_prefix` variable to all modules (VMs, images, networks) with a unique string (for example, your username) to avoid clashes, eg:
-   ```terraform
-   module "sles12sp1" {
-     source = "./modules/libvirt/images/sles12sp1"
-     ...
-     name_prefix = "moio"
-   }
- - if your target libvirt host storage pool is not named "default":
-   - add `pool = "mypoolname"` to any image and VM module that has to be created in that pool, eg:
-   ```terraform
-   module "sles12sp1" {
-     source = "./modules/libvirt/images/sles12sp1"
-     ...
-     pool = "mypoolname"
-   }
-   ...
-   module "suma3pg" {
-     source = "./modules/libvirt/suse_manager"
-     ...
-     pool = "mypoolname"
-   }
-   ```
- - decide the set of virtual machines you want to run. Delete any `module` section relative to images or VMs you don't want to use and feel free to copypaste to add more
- - complete any missing `cc_password` variables
+   - set up bridged networking:
+     - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
+     - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
+     - change the `network_name` variable declaration to empty string (`""`)
+     - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
+   - if other sumaform users deploy to the same host, uncomment the `name_prefix` variable declaration in the `base` module and specify a unique prefix for your VMs
+ - complete the `cc_password` variable in the `base` module
+ - make sure that:
+   - either your target libvirt host has a storage pool named `default`
+   - or you [create one](https://docs.fedoraproject.org/en-US/Fedora/18/html/Virtualization_Administration_Guide/sec-directory-based-storage-pools.html)
+   - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
+ - if you are not using bridged networking, make sure that:
+   - either your target libvirt host has a NAT network which is named `default`
+   - or you [create one](https://wiki.libvirt.org/page/TaskNATSetupVirtManager)
+   - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
+ - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
+ - run `terraform get` to make sure Terraform has detected all modules
  - run `terraform plan` to see what Terraform is about to do
  - run `terraform apply` to actually have the VMs set up!
 
@@ -61,41 +44,35 @@ User root
 
 Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected. SUSE Manager default user is `admin` with password `admin`.
 
+Avahi can be disabled if it is not needed (bridged networking mode, all VMs with static MAC addresses and names known in advance). In that case use the following variables in the `base` module:
+```terraform
+use_avahi = false
+domain = "mgr.suse.de"
+```
+
 ## package-mirror
 
-If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `package-mirror` that will cache packages downloaded from the SUSE engineering network (by default every night, or manually by executing `/root/mirror.sh`).
+If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `package-mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
 
-It will be be used exclusively by other VMs to download SUSE content - that means your setup will be "fully disconnected", not requiring Internet access to operate.
+It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
-To enable `package-mirror`, add the following modules in `main.tf`:
+To enable `package-mirror`, add `package_mirror = "package-mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
 ```terraform
-module "opensuse421" {
-  source = "./modules/libvirt/images/opensuse421"
-}
-
 module "package_mirror" {
   source = "./modules/libvirt/package_mirror"
-  cc_username = "UC7"
-  cc_password = // add password here
-  image_id = "${module.opensuse421.id}"
+  base_configuration = "${module.base.configuration}"
+
   data_pool = "data"
 }
 ```
 
-Note you are encouraged to specify a separate `data` storage pool for this host to store downloaded content. It helps SUSE Manager performance significantly to define such pool on a separate disk. You can configure it with `virt-manager` like in the following image:
+Note you are encouraged to specify an additional libvirt storage pool name (`data` in the example above). Downloaded content will be placed on a separate disk in this pool - it helps SUSE Manager performance significantly if the pool is mapped onto a different physical disk. You can configure a pool with `virt-manager` like in the following image:
 
 ![data pool configuration in virt-manager](/help/data-pool-configuration.png)
 
-Omitting the `data_pool` results in the default "default" storage pool being used.
+Omitting the `data_pool` variable results in the default "default" storage pool being used.
 
-Once the package-mirror is defined, created and populated you can configure any VM to use it with an extra `package_mirror` variable, eg:
-```terraform
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  ...
-  package_mirror = "${module.package_mirror.hostname}"
-}
-```
+Note that packe-mirror must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
 
 ## Customize virtual hardware
 

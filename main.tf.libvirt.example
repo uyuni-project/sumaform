@@ -2,47 +2,46 @@ provider "libvirt" {
   uri = "qemu:///system"
 }
 
-module "network" {
-  source = "./modules/libvirt/network"
-}
+module "base" {
+  source = "./modules/libvirt/base"
 
-module "sles11sp3" {
-  source = "./modules/libvirt/images/sles11sp3"
-}
+  cc_username = "UC7"
+  cc_password = ...
 
-module "sles12sp1" {
-  source = "./modules/libvirt/images/sles12sp1"
+  // optional parameters with defaults below
+  // pool = "default"
+  // network_name = "default" // change to "" if you change bridge below
+  // bridge = ""
+  // name_prefix = ""
 }
-
-// add other base OS image modules here, available list in modules/libvirt/images
 
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
-  cc_username = "UC7"
-  cc_password = // add password here
+  base_configuration = "${module.base.configuration}"
+
   name = "suma3pg"
-  
-  // see modules/libvirt/suse_manager/variables.tf for possible values
   version = "3-nightly"
-  image_id = "${module.sles12sp1.id}"
+  // see modules/libvirt/suse_manager/variables.tf for possible values
 }
 
 module "clisles11sp3" {
   source = "./modules/libvirt/client"
-  name = "clisles11sp3"
+  base_configuration = "${module.base.configuration}"
 
-  // see modules/libvirt/client/variables.tf for possible values
-  image_id = "${module.sles11sp3.id}"
-  server = "${module.suma3pg.hostname}"
+  name = "clisles11sp3"
+  image = "sles11sp3"
+  server_configuration = "${module.suma3pg.configuration}"
   count = 1
+  // see modules/libvirt/client/variables.tf for possible values
 }
 
-module "minionsles12sp1" {
+module "minsles12sp1" {
   source = "./modules/libvirt/minion"
-  name = "minionsles12sp1"
+  base_configuration = "${module.base.configuration}"
 
-  // see modules/libvirt/minion/variables.tf for possible values
-  image_id = "${module.sles12sp1.id}"
-  server = "${module.suma3pg.hostname}"
+  name = "minsles12sp1"
+  image = "sles12sp1"
+  server_configuration = "${module.suma3pg.configuration}"
   count = 1
+  // see modules/libvirt/minion/variables.tf for possible values
 }

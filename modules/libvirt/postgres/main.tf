@@ -1,25 +1,21 @@
 module "postgres" {
   source = "../host"
+  base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image_id = "${var.image_id}"
-  domain = "${var.domain}"
-  count = 1
+  image = "sles12sp1"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
   running = "${var.running}"
-  pool = "${var.pool}"
-  bridge = "${var.bridge}"
   mac = "${var.mac}"
-  name_prefix = "${var.name_prefix}"
   grains = <<EOF
 
-package-mirror: ${var.package_mirror}
+package-mirror: ${var.base_configuration["package_mirror"]}
 role: postgres
 for-development-only: True
 
 EOF
 }
 
-output "hostname" {
-  value = "${module.postgres.hostname}"
+output "configuration" {
+  value = "${module.postgres.configuration}"
 }

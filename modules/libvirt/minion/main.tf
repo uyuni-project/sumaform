@@ -1,26 +1,19 @@
 module "minion" {
   source = "../host"
+  base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image_id = "${var.image_id}"
-  domain = "${var.domain}"
+  image = "${var.image}"
   count = "${var.count}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
   running = "${var.running}"
-  pool = "${var.pool}"
-  bridge = "${var.bridge}"
   mac = "${var.mac}"
-  name_prefix = "${var.name_prefix}"
   grains = <<EOF
 
-package-mirror: ${var.package_mirror}
-server: ${var.server}
+package-mirror: ${var.base_configuration["package_mirror"]}
+server: ${var.server_configuration["hostname"]}
 role: minion
 for-development-only: True
 
 EOF
-}
-
-output "hostname" {
-  value = "${module.minion.hostname}"
 }

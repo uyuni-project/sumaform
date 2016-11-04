@@ -1,26 +1,35 @@
+// Names are calculated as follows:
+// ${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
+// This means:
+//   name_prefix + name (if count = 1)
+//   name_prefix + name + "-" + index (if count > 1)
+
 resource "libvirt_volume" "main_disk" {
-  name = "${var.name_prefix}${var.name}_${count.index}_disk"
-  base_volume_id = "${var.image_id}"
-  pool = "${var.pool}"
+  name = "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}-main-disk"
+  base_volume_id = "${var.base_configuration[var.image]}"
+  pool = "${var.base_configuration["pool"]}"
   count = "${var.count}"
 }
 
 resource "libvirt_domain" "domain" {
-  name = "${var.name_prefix}${var.name}_${count.index}"
+  name = "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   count = "${var.count}"
 
-  disk {
-    volume_id = "${element(libvirt_volume.main_disk.*.id, count.index)}"
-  }
+  // base disk + additional disks if any
+  disk = ["${concat(
+    list(
+      map("volume_id", "${element(libvirt_volume.main_disk.*.id, count.index)}")
+    ),
+    var.additional_disk
+  )}"]
 
   network_interface {
     wait_for_lease = true
-    // HACK: evaluates to "terraform-network" if bridge is empty, "" otherwise
-    network_name = "${element(list("${var.name_prefix}nat_network", ""), replace(replace(var.bridge, "/.+/", "1"), "/^$/", "0"))}"
-    bridge = "${var.bridge}"
+    network_name = "${var.base_configuration["network_name"]}"
+    bridge = "${var.base_configuration["bridge"]}"
     mac = "${var.mac}"
   }
 
@@ -37,9 +46,9 @@ resource "libvirt_domain" "domain" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${var.name_prefix}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
-domain: ${var.domain}
-use-avahi: True
+hostname: ${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
+domain: ${var.base_configuration["domain"]}
+use-avahi: ${var.base_configuration["use_avahi"]}
 ${var.grains}
 
 EOF
@@ -55,8 +64,12 @@ EOF
   }
 }
 
-output "hostname" {
-  // HACK: this output artificially depends on the domain id
-  // any resource using this output will have to wait until domain is fully up
-  value = "${coalesce("${var.name_prefix}${var.name}.${var.domain}", libvirt_domain.domain.id)}"
+output "configuration" {
+  // HACK: work around https://github.com/hashicorp/terraform/issues/9549
+  value = "${
+    map(
+      "id", "${libvirt_domain.domain.0.id}",
+      "hostname", "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-1"), signum(var.count - 1))}.${var.base_configuration["domain"]}"
+    )
+  }"
 }

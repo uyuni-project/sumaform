@@ -1,16 +1,11 @@
+variable "base_configuration" {
+  description = "use ${module.base.configuration}, see main.tf.libvirt.example"
+  type = "map"
+}
+
 variable "name" {
   description = "hostname, without the domain part"
   type = "string"
-}
-
-variable "image_id" {
-  description = "${module.sles12sp1.id}, see README_ADVANCED.md"
-  type = "string"
-}
-
-variable "package_mirror" {
-  description = "Use ${module.package_mirror.hostname} or leave the default for no package mirror"
-  default = "null"
 }
 
 variable "memory" {
@@ -28,27 +23,7 @@ variable "running" {
   default = true
 }
 
-variable "pool" {
-  description = "libvirt storage pool name for this host's disk"
-  default = "default"
-}
-
-variable "bridge" {
-  description = "a bridge device name available on the libvirt host, leave default for NAT"
-  default = ""
-}
-
 variable "mac" {
-  description = "a MAC address, in the form AA:BB:CC:11:22:22, only if bridge is specified"
-  default = ""
-}
-
-variable "domain" {
-  description = "hostname's domain"
-  default = "tf.local"
-}
-
-variable "name_prefix" {
-  description = "A prefix for names of objects created by this module"
+  description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
