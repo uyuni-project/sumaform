@@ -16,6 +16,13 @@ sles-release:
       - sls: suse-manager.repos
 {% endif %}
 
+allow-vendor-changes:
+  file.managed:
+    - name: /etc/zypp/vendors.d/suse
+    - contents: |
+        [main]
+        vendors = SUSE,obs://build.suse.de/Devel:Galaxy:Manager
+
 suse-manager-packages:
   pkg.latest:
     {% if 'head' in grains['version'] %}
@@ -58,6 +65,12 @@ suse-manager-packages:
     - require:
       - sls: suse-manager.repos
       - sls: suse-manager.firewall
+      - file: allow-vendor-changes
+
+salt:
+  pkg.latest:
+    - require:
+      - file: allow-vendor-changes
 
 environment-setup-script:
   file.managed:
