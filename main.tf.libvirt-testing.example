@@ -1,0 +1,76 @@
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+variable "cc_username" {
+  description = "SCC or NCC username"
+  default = "UC7"
+}
+
+variable "cc_password" {
+  description = "SCC or NCC password"
+  # WARNING: THIS IS A FAKE PASSWORD; USE THE REAL ONE!
+  default = "a***REMOVED***"
+}
+
+module "network" {
+  source = "./modules/libvirt/network"
+}
+
+module "images" {
+  source = "./modules/libvirt/images"
+}
+
+//// Use a package mirror
+// module "package_mirror" {
+//   source = "./modules/libvirt/package_mirror"
+//   image = "${module.images.opensuse421}"
+//   libvirt_data_pool = "data"
+//   cc_username = "${var.cc_username}"
+//   cc_password = "${var.cc_password}"
+// }
+
+
+# testing env. QA-auto. Control-node where cucumber test run
+# module "control-node" {
+#  source = "./modules/libvirt/host"
+#  name = "control-node"
+#  image = "${module.images.sles12sp1}"
+#  role = "control-node"
+  ## for running the cucumber suite
+ # for use this vars, you have to add it. we don't need this for moment. 
+ # server = "${module.suma3pg.hostname}"
+ # client = "${module.sles12sp1.hostname}"
+ # minion = "${module.minion12sp1.hostname}"
+# }
+
+# module "suma3pg" {
+#  source = "./modules/libvirt/host"
+#  name = "test-suma3pg"
+#  memory = 4096
+#  vcpu = 2
+#  image = "${module.images.sles12sp1}"
+#  version = "3-nightly"
+#  database = "postgres"
+#  role = "suse-manager-server"
+  # we need this for activate the sles repos
+#  cc_username = "${var.cc_username}"
+#  cc_password = "${var.cc_password}"
+#}
+
+ module "sles12sp1" {
+  source = "./modules/libvirt/host"
+  name = "test-sles12sp1"
+  image = "${module.images.sles12sp1}"
+  role = "test-client"
+  count = 1
+ }
+
+ module "minion12sp1" {
+  source = "./modules/libvirt/host"
+  name = "test-minion12sp1"
+  image = "${module.images.sles12sp1}"
+  role = "test-minion"
+  count = 1
+}
+
