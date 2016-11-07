@@ -104,8 +104,7 @@ remove-motd:
     - require:
       - cmd: suse-manager-setup
 
-# add files/conf to the server for the cucumber suite.
-
+# add files/conf to the server for the cucumber suite, testing.
 /root/.ssh:
   file.directory:
     - user: root
