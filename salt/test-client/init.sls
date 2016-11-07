@@ -1,14 +1,13 @@
 include:
   - client.repos
   - test-client.repos
+  - sles.repos
 
 -init-client-repo:
   cmd.run:
     - name: |
-        zypper ar http://dist.suse.de/install/SLP/SLE-12-SP1-Server-GM/x86_64/DVD1/ sles-12-sp1
         # FIXME: this repo should be removed
         zypper ar http://download.suse.de/ibs/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/SUSE:Updates:SUSE-Manager-Server:3.0:x86_64.repo
-        zypper -n --gpg-auto-import-keys ref
 
 cucumber-prereq:
   
@@ -31,6 +30,7 @@ cucumber-prereq:
     - require:
       - sls: client.repos
       - sls: test-client.repos
+      - sls: sles.repos
 
 /root/.ssh:
   file.directory:
