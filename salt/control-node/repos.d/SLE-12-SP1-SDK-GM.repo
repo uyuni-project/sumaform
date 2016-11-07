@@ -1,0 +1,5 @@
+[SLE-12-SP1-x86_64-SDK]
+name=SLE-12-SP1-x86_64-SDK
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("package-mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build.suse.de/SUSE/Products/SLE-SDK/12-SP1/x86_64/product/
