@@ -1,0 +1,5 @@
+[Devel_Galaxy_BuildRepo]
+name=Repo with new RPMs used for Testsuite (SLE_12_SP1)
+type=rpm-md
+enabled=1
+baseurl=http://download.suse.de/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/
