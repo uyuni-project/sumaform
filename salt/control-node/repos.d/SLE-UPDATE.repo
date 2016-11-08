@@ -1,0 +1,5 @@
+[SUSE_SLE-12_Update]
+name=SLE 12 SP0 Updates (standard)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("package-mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-12:/Update/standard/

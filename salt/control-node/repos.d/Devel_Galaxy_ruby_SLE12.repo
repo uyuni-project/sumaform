@@ -1,0 +1,5 @@
+[Devel_Galaxy_ruby_SLE12]
+name=testsuite packages SLE12 (SLE_12)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("package-mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/ruby:/SLE12/SLE_12/
