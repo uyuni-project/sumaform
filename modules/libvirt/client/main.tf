@@ -13,7 +13,7 @@ module "client" {
 package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: client
-for-development-only: True
+for-development-only: ${element(list("False", "True"), var.for_development_only)}
 
 EOF
 }

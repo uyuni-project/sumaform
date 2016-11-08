@@ -28,7 +28,7 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 role: suse-manager-server
-for-development-only: True
+for-development-only: ${element(list("False", "True"), var.for_development_only)}
 
 EOF
 }

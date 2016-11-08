@@ -28,6 +28,11 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "for_development_only" {
+  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+  default = true
+}
+
 variable "memory" {
   description = "RAM memory in MiB"
   default = 4096
