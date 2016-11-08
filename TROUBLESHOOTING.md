@@ -105,3 +105,11 @@ fsuid=106 ouid=106
 ```
 
 Fixing AppArmor issues is difficult and beyond the scope of this guide. You can disable AppArmor completely in non-security-sensitive environments by adding `security_driver = "none"` to `/etc/libvirt/qemu.conf`.
+
+## Q: how can I workaround a libvirt domain error during the plan?
+
+If you run into this error
+
+`* libvirt_domain.domain: disk.0: expected object, got string`
+
+during the `terraform plan`, make sure you are on the latest `terraform-provider-libvirt` plugin.
