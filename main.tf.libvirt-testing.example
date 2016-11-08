@@ -10,7 +10,7 @@ variable "cc_username" {
 variable "cc_password" {
   description = "SCC or NCC password"
   # WARNING: THIS IS A FAKE PASSWORD; USE THE REAL ONE!
-  default = "a***REMOVED***"
+  default = ".."
 }
 
 module "network" {
