@@ -1,5 +1,5 @@
 [Devel_Galaxy_ruby_test]
-name=Test new ruby packages (SLE_12_SP1)
+name=Test new ruby packages (SLE_12)
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("package-mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/ruby:/test/SLE_12_SP1/
+baseurl=http://{{ grains.get("package-mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/ruby:/test/SLE_12/

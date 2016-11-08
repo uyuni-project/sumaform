@@ -28,8 +28,6 @@ binary-install:
       - gcc
       - make
       - ruby
-      - salt-master
-      - zlib-devel
       - ruby-devel
       - firefox-bin
       - apache2-worker
@@ -40,31 +38,25 @@ binary-install:
       # packaged ruby-gems
       - ruby2.1-rubygem-bundler
       - rubygem-cucumber
-      - rubygem-syntax
       - twopence
+      - ruby2.1-rubygem-rack
       - rubygem-selenium-webdriver
-      - ruby2.1-rubygem-poltergeist
-      - rubygem-rack-1_2
       - rubygem-net-ssh
       - rubygem-websocket-1_0
       - rubygem-websocket-driver
       - ruby2.1-rubygem-jwt
-      - rubygem-mime-types
-      - ruby2.1.rubygem-builder
+      - ruby2.1-rubygem-mime-types
+      - ruby2.1-rubygem-builder
       - rubygem-owasp_zap
       - rubygem-cliver
+      - ruby2.1-rubygem-rake
+      # slenkins-repo to be removed and merge in galaxy
       - rubygem-twopence
+      - rubygem-lavanda
+      - ruby2.1-rubygem-poltergeist
+      - ruby2.1-rubygem-rake
     - require:
       - sls: control-node.repos
-
-gems-installation:
-  gem.installed:
-    - names:
-       - rake
-       - syntax
-       - poltergeist
-       - lavanda
-       - highline
 
 # clone the cucumber suite
 https://github.com/SUSE/spacewalk-testsuite-base.git:
