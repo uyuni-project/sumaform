@@ -1,5 +1,0 @@
-[Devel_SLEnkins]
-name=Devel:SLEnkins (SLE_12_SP1)
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("package-mirror") | default("download.suse.de", true) }}/ibs/Devel:/SLEnkins/SLE_12_SP1/
