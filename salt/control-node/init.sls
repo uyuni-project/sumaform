@@ -39,13 +39,13 @@ binary-install:
       - ruby2.1-rubygem-bundler
       - rubygem-cucumber
       - twopence
-      - ruby2.1-rubygem-rack
+      - rubygem-rack-1_2
       - rubygem-selenium-webdriver
       - rubygem-net-ssh
       - rubygem-websocket-1_0
       - rubygem-websocket-driver
       - ruby2.1-rubygem-jwt
-      - ruby2.1-rubygem-mime-types
+      - rubygem-mime-types
       - ruby2.1-rubygem-builder
       - rubygem-owasp_zap
       - rubygem-cliver
