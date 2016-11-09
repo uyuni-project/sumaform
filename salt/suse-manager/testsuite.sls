@@ -1,5 +1,8 @@
 {% if grains['for-testsuite-only'] %}
 
+include:
+  - suse-manager
+
 /root/.ssh:
   file.directory:
     - user: root
@@ -42,11 +45,14 @@ config-cobbler:
     - enable: True
     - watch : 
       - file : /etc/cobbler/settings
-
+    - require:
+      - sls: suse-manager
     file.replace:
     - name: /etc/cobbler/settings
     - pattern: "redhat_management_permissive: 0"
     - repl: "redhat_management_permissive: 1"
+    - require:
+      - sls: suse-manager
 
 expect:
   pkg.installed
