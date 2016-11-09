@@ -3,16 +3,14 @@
 include:
   - suse-manager
 
-/root/.ssh:
-  file.directory:
+testsuite-authorized-key:
+  file.managed:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://control-node/id_rsa.pub
+    - makedirs: True
     - user: root
     - group: root
     - mode: 700
-
-ssh-key-server:
-  file.managed:
-    - name: /root/.ssh/authorized_keys
-    - source: salt://suse-manager/authorized_keys
 
 anaconda:
   file.managed:
