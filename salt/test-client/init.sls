@@ -3,13 +3,6 @@ include:
   - test-client.repos
   - sles.repos
 
--init-client-repo:
-  cmd.run:
-    - name: |
-        # FIXME: this repo should be removed, but we need this packages then in non-updates repos.
-        # the packages needed there are :  "openscap-content", "openscap-extra-probes", "openscap-utils"
-        zypper ar http://download.suse.de/ibs/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/SUSE:Updates:SUSE-Manager-Server:3.0:x86_64.repo
-
 cucumber-prereq:
   
   pkg.installed:
