@@ -9,11 +9,6 @@ variable "name" {
 }
 
 variable "server_configuration" {
-  description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt.example"
-  type = "map"
-}
-
-variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
 }
