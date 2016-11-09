@@ -12,26 +12,29 @@ testsuite-authorized-key:
     - group: root
     - mode: 700
 
-anaconda:
+anaconda-package-file:
   file.managed:
     - name: /root/anaconda-18.37.11-1.fc18.x86_64.rpm
     - source: salt://suse-manager/test-server/anaconda-18.37.11-1.fc18.x86_64.rpm
 
-subscription-tools:
+subscription-tools-package-file:
   file.managed:
     - name: /root/subscription-tools-1.0-0.noarch.rpm
     - source: salt://suse-manager/test-server/subscription-tools-1.0-0.noarch.rpm
 
-/install:
+test-autoinstallation-directory:
   file.recurse:
+    - name: /install
     - source: salt://suse-manager/test-server/install
 
-/srv/www/htdocs/pub/:
+test-public-directory:
   file.recurse:
+    - name: /srv/www/htdocs/pub/
     - source: salt://suse-manager/test-server/pub
 
-/tmp/vCenter.json:
+test-vcenter-file:
   file.managed:
+    - name: /tmp/vCenter.json
     - source: salt://suse-manager/test-server/vCenter.json
 
 # modify cobbler to be executed from remote-machines.. 
