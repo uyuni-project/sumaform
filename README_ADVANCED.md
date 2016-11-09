@@ -83,6 +83,14 @@ Please note that `iss_master` is set from `suma21pgm`'s module output variable `
 
 It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, client and minion instances, plus a coordination node called a `control-node` which runs the testsuite.
 
+To start the testsuite, use:
+
+```
+ssh root@control-node.tf.local run-testsuite
+```
+
+You can configure a `package-mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
+
 ## pgpool-II replicated database
 
 Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below: 
