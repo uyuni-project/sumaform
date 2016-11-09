@@ -29,7 +29,7 @@ iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 role: suse-manager-server
 for-development-only: ${element(list("False", "True"), var.for_development_only)}
-for-development-only: ${element(list("False", "True"), var.for_testsuite_only)}
+for-testsuite-only: ${element(list("False", "True"), var.for_testsuite_only)}
 
 EOF
 }
