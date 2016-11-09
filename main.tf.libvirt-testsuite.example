@@ -1,0 +1,58 @@
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+module "base" {
+  source = "./modules/libvirt/base"
+
+  cc_username = "UC7"
+  cc_password = ...
+
+  // optional parameters with defaults below
+  // pool = "default"
+  // network_name = "default" // change to "" if you change bridge below
+  // bridge = ""
+  // name_prefix = ""
+}
+
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "3-nightly"
+  for_development_only = false
+  for_testsuite_only = true
+}
+
+module "clisles12sp1" {
+  source = "./modules/libvirt/client"
+  base_configuration = "${module.base.configuration}"
+
+  name = "clisles12sp1"
+  image = "sles12sp1"
+  server_configuration = "${module.suma3pg.configuration}"
+  for_development_only = false
+}
+
+module "minsles12sp1" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "minsles12sp1"
+  image = "sles12sp1"
+  server_configuration = "${module.suma3pg.configuration}"
+  for_development_only = false
+}
+
+module "control-node" {
+  source = "./modules/libvirt/control_node"
+  base_configuration = "${module.base.configuration}"
+
+  name = "control-node"
+  image = "${module.images.sles12sp1}"
+
+  server_configuration = "${module.suma3pg.configuration}"
+  client_configuration = "${module.clisles12sp1.configuration}"
+  minion_configuration = "${module.minion12sp1.configuration}"
+}
