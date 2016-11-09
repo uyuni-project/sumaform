@@ -2,27 +2,25 @@ include:
   - sles.repos
   - control-node.repos
 
-/root/.ssh:
-  file.directory:
+ssh-private-key:
+  file.managed:
+    - name: /root/.ssh/id_rsa
+    - source: salt://control-node/id_rsa
+    - makedirs: True
     - user: root
     - group: root
     - mode: 700
 
-ssh-setup:
+ssh-public-key:
   file.managed:
-      - name: /root/.ssh/id_rsa
-      - source: salt://control-node/id_rsa
-      - user: root
-      - group: root
-      - mode : 600
+    - name: /root/.ssh/id_rsa.pub
+    - source: salt://control-node/id_rsa.pub
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
 
-ssh-pubkey:
-  file.managed:
-      - name: /root/.ssh/id_rsa.pub
-      - source: salt://control-node/id_rsa.pub
-
-binary-install:
-
+cucumber-requisites:
   pkg.installed:
     - pkgs:
       - gcc
@@ -35,7 +33,7 @@ binary-install:
       - owasp-zap
       - mozilla-nss
       - git-core
-      # packaged ruby-gems
+      # packaged ruby gems
       - ruby2.1-rubygem-bundler
       - rubygem-cucumber
       - twopence
@@ -50,7 +48,6 @@ binary-install:
       - rubygem-owasp_zap
       - rubygem-cliver
       - ruby2.1-rubygem-rake
-      # slenkins-repo to be removed and merge in galaxy
       - rubygem-twopence
       - rubygem-lavanda
       - ruby2.1-rubygem-poltergeist
@@ -58,8 +55,8 @@ binary-install:
     - require:
       - sls: control-node.repos
 
-# clone the cucumber suite
-https://github.com/SUSE/spacewalk-testsuite-base.git:
+cucumber-testsuite:
   git.latest:
+    - name: https://github.com/SUSE/spacewalk-testsuite-base.git
     - rev: slenkins
     - target: /root/spacewalk-testsuite-base
