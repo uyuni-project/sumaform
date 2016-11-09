@@ -33,6 +33,7 @@ module "clisles12sp1" {
   image = "sles12sp1"
   server_configuration = "${module.suma3pg.configuration}"
   for_development_only = false
+  for_testsuite_only = true
 }
 
 module "minsles12sp1" {
@@ -43,6 +44,7 @@ module "minsles12sp1" {
   image = "sles12sp1"
   server_configuration = "${module.suma3pg.configuration}"
   for_development_only = false
+  for_testsuite_only = true
 }
 
 module "control-node" {

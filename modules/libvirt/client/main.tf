@@ -14,6 +14,7 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: client
 for-development-only: ${element(list("False", "True"), var.for_development_only)}
+for-testsuite-only: ${element(list("False", "True"), var.for_testsuite_only)}
 
 EOF
 }

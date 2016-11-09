@@ -1,10 +1,13 @@
 include:
   - client.repos
+  - client.testsuite
 
 wget:
   pkg.installed:
     - require:
       - sls: client.repos
+
+{% if grains['for-development-only'] %}
 
 base-bootstrap-script:
   file.managed:
@@ -25,3 +28,5 @@ bootstrap-script:
     - require:
       - file: bootstrap-script
       - pkg: wget
+
+{% endif %}

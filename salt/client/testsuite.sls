@@ -1,10 +1,9 @@
+{% if grains['for-testsuite-only'] %}
+
 include:
   - client.repos
-  - test-client.repos
-  - sles.repos
 
-cucumber-prereq:
-  
+cucumber-requisites:
   pkg.installed:
     - pkgs:
       - subscription-tools
@@ -23,16 +22,13 @@ cucumber-prereq:
       - adaptec-firmware
     - require:
       - sls: client.repos
-      - sls: test-client.repos
-      - sls: sles.repos
 
-/root/.ssh:
-  file.directory:
+testsuite-authorized-key:
+  file.managed:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://client/authorized_keys
+    - makedirs: True
     - user: root
     - group: root
     - mode: 700
-
-ssh-setup:
-  file.managed:
-      - name: /root/.ssh/authorized_keys
-      - source: salt://test-client/authorized_keys
+{% endif %}
