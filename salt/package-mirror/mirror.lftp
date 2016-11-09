@@ -76,4 +76,4 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 
 # Testsuite tools repo
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/ruby:/test/SLE_12/ ibs/Devel:/Galaxy:/ruby:/test/SLE_12/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/ /ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/ ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/
