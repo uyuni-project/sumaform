@@ -52,9 +52,9 @@ module "control-node" {
   base_configuration = "${module.base.configuration}"
 
   name = "control-node"
-  image = "${module.images.sles12sp1}"
+  image = "sles12sp1"
 
   server_configuration = "${module.suma3pg.configuration}"
   client_configuration = "${module.clisles12sp1.configuration}"
-  minion_configuration = "${module.minion12sp1.configuration}"
+  minion_configuration = "${module.minsles12sp1.configuration}"
 }
