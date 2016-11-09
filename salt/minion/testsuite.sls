@@ -17,7 +17,7 @@ cucumber-requisites:
 testsuite-authorized-key:
   file.managed:
     - name: /root/.ssh/authorized_keys
-    - source: salt://client/authorized_keys
+    - source: salt://control-node/id_rsa.pub
     - makedirs: True
     - user: root
     - group: root
