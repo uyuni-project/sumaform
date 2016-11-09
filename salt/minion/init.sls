@@ -16,6 +16,7 @@ salt-minion:
 
 
 {% if grains['for-development-only'] %}
+
 master-configuration:
   file.managed:
     - name: /etc/salt/minion.d/master.conf
@@ -23,4 +24,5 @@ master-configuration:
         master: {{grains['server']}}
     - require:
         - pkg: salt-minion
+
 {% endif %}
