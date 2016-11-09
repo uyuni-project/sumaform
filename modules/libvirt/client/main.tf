@@ -18,3 +18,7 @@ for-testsuite-only: ${element(list("False", "True"), var.for_testsuite_only)}
 
 EOF
 }
+
+output "configuration" {
+  value = "${module.client.configuration}"
+}
