@@ -34,3 +34,6 @@ base:
   'role:control-node':
     - match: grain
     - control-node
+
+  '*':
+    - default-role

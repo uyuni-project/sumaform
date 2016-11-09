@@ -84,6 +84,15 @@ module "aws_minion" {
   package_mirror_private_name = "${module.aws_package_mirror.private_name}"
 }
 
+module "aws_vanilla-client" {
+  source = "./modules/libvirt/host"
+  base_configuration = "${module.base.configuration}"
+
+  name = "vanilla-client"
+  image = "sles12sp1"
+  count = 1
+}
+
 output "key_file" {
   value = // add SSH private key path as a string here
 }
