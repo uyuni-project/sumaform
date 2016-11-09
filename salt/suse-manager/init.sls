@@ -19,6 +19,7 @@ sles-release:
 allow-vendor-changes:
   file.managed:
     - name: /etc/zypp/vendors.d/suse
+    - makedirs: True
     - contents: |
         [main]
         vendors = SUSE,obs://build.suse.de/Devel:Galaxy:Manager
