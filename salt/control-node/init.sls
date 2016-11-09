@@ -60,3 +60,12 @@ cucumber-testsuite:
     - name: https://github.com/SUSE/spacewalk-testsuite-base.git
     - rev: slenkins
     - target: /root/spacewalk-testsuite-base
+
+cucumber-run-script:
+  file.managed:
+    - name: /usr/bin/run-testsuite
+    - source: salt://control-node/run-testsuite.sh
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755
