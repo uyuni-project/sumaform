@@ -86,7 +86,7 @@ It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.c
 To start the testsuite, use:
 
 ```
-ssh root@control-node.tf.local run-testsuite
+ssh -t root@control-node.tf.local run-testsuite
 ```
 
 You can configure a `package-mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
