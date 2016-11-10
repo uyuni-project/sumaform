@@ -51,6 +51,7 @@ server: ${var.server}
 iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 for-development-only: True
+for-testsuite-only: False
 
 EOF
 

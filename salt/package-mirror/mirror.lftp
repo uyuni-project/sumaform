@@ -30,6 +30,10 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12/x86_64/update/
 
+# SLE 12 SP1 SDK
+mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SDK/12-SP1/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SDK/12-SP1/x86_64/product/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SDK/12-SP1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SDK/12-SP1/x86_64/update/
+
 # SLES 12 SP1
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/
@@ -69,3 +73,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 
 # Oracle server
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3/ ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3/
+
+# Testsuite tools repo
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/ruby:/test/SLE_12/ ibs/Devel:/Galaxy:/ruby:/test/SLE_12/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/ ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/

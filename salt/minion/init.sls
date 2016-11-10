@@ -1,5 +1,6 @@
 include:
   - client.repos
+  - minion.testsuite
 
 salt-minion:
   pkg.installed:
@@ -9,7 +10,12 @@ salt-minion:
     - enable: True
     - watch:
       - pkg: salt-minion
+{% if grains['for-development-only'] %}
       - file: master-configuration
+{% endif %}
+
+
+{% if grains['for-development-only'] %}
 
 master-configuration:
   file.managed:
@@ -18,3 +24,5 @@ master-configuration:
         master: {{grains['server']}}
     - require:
         - pkg: salt-minion
+
+{% endif %}

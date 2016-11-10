@@ -30,3 +30,7 @@ base:
   'role:postgres':
     - match: grain
     - postgres
+
+  'role:control-node':
+    - match: grain
+    - control-node

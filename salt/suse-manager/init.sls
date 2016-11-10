@@ -7,6 +7,7 @@ include:
   - suse-manager.taskomatic
   - suse-manager.rhn
   - suse-manager.iss
+  - suse-manager.testsuite
 
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by SUSE Manager's

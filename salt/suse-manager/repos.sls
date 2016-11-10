@@ -79,6 +79,13 @@ suse-manager-pgpool-repo:
     - template: jinja
 {% endif %}
 
+{% if grains['for-testsuite-only'] %}
+lftp-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
+    - source: salt://package-mirror/repos.d/home_SilvioMoioli_tools.repo
+{% endif %}
+
 refresh-suse-manager-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -94,4 +101,7 @@ refresh-suse-manager-repos:
       {% endif %}
       {% if 'pgpool' in grains['database'] %}
       - file: suse-manager-pgpool-repo
+      {% endif %}
+      {% if grains['for-testsuite-only'] %}
+      - file: lftp-repo
       {% endif %}
