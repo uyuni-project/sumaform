@@ -1,4 +1,7 @@
 base:
+  '*':
+    - default
+
   'role:spacewalk-server':
     - match: grain
     - spacewalk

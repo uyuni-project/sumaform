@@ -117,3 +117,19 @@ module "pg2" {
   name = "pg2"
 }
 ```
+
+## Plain hosts
+
+You can have totally unconfigured hosts in your configuration by using the `host` module, for example if you need to test bootstrapping.
+
+A libvirt example follows:
+
+```
+module "vanilla" {
+  source = "./modules/libvirt/host"
+  base_configuration = "${module.base.configuration}"
+
+  name = "vanilla"
+  image = "sles12sp1"
+}
+```
