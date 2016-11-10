@@ -162,15 +162,6 @@ module "minionsles12sp1" {
   role = "minion"
 }
 
-module "vanilla-client" {
-  source = "./modules/libvirt/host"
-  base_configuration = "${module.base.configuration}"
-
-  name = "vanilla-client"
-  image = "sles12sp1"
-  count = 1
-}
-
 // Proxy
 
 module "proxy21s" {
