@@ -1,4 +1,7 @@
 base:
+  '*':
+    - default
+
   'role:spacewalk-server':
     - match: grain
     - spacewalk
@@ -34,6 +37,3 @@ base:
   'role:control-node':
     - match: grain
     - control-node
-
-  '*':
-    - default-role
