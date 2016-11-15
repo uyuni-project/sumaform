@@ -113,3 +113,11 @@ If you run into this error:
 `* libvirt_domain.domain: disk.0: expected object, got string`
 
 during the `terraform plan`, make sure you have an up-to-date `terraform-provider-libvirt` plugin.
+
+## Q: how can I workaround a "dial tcp" libvirt error?
+
+If you run into this error:
+
+`* dial tcp 192.168.122.193:22: getsockopt: network is unreachable`
+
+during the `terraform apply`, it means Terraform was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking parameters according to the [libvirt README](modules/libvirt/README.md).
