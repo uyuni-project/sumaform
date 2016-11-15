@@ -108,7 +108,7 @@ Fixing AppArmor issues is difficult and beyond the scope of this guide. You can 
 
 ## Q: how can I workaround an "expected object, got string" libvirt error during the plan?
 
-If you run into this error
+If you run into this error:
 
 `* libvirt_domain.domain: disk.0: expected object, got string`
 
