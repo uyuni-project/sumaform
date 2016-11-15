@@ -20,6 +20,14 @@ ssh-public-key:
     - group: root
     - mode: 700
 
+authorized-keys:
+  file.managed:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://control-node/id_rsa.pub
+    - user: root
+    - group: root
+    - mode: 700
+
 cucumber-requisites:
   pkg.installed:
     - pkgs:
