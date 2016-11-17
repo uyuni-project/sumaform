@@ -37,7 +37,7 @@ mirror-script:
 
 mirror-partition:
   cmd.run:
-    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev//{{grains['data_disk_device']}} mkpart primary 2048 100% && /sbin/mkfs.ext4 /dev//{{grains['data_disk_device']}}1
+    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev//{{grains['data_disk_device']}} mkpart primary 2048 100% && /sbin/mkfs.xfs /dev//{{grains['data_disk_device']}}1
     - unless: ls /dev//{{grains['data_disk_device']}}1
 
 # http serving of mirrored packages
@@ -55,7 +55,7 @@ mirror-directory:
   mount.mounted:
     - name: /srv/mirror
     - device: /dev//{{grains['data_disk_device']}}1
-    - fstype: ext4
+    - fstype: xfs
     - mkmnt: True
     - persist: True
     - opts:
