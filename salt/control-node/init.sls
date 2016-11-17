@@ -20,6 +20,11 @@ ssh-public-key:
     - group: root
     - mode: 700
 
+virtualhost:
+  file.managed:
+    - name: /tmp/virtualhostmanager.create.json
+    - source salt://control-node/virtualhostmanager.create.json
+
 cucumber-requisites:
   pkg.installed:
     - pkgs:
