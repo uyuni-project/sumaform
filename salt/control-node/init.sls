@@ -33,8 +33,7 @@ virtualhost:
     - name: /tmp/virtualhostmanager.create.json
     - source  salt://control-node/virtualhostmanager.create.json
 
--cucumber-requisites:
-
+cucumber-requisites:
   pkg.installed:
     - pkgs:
       - gcc
