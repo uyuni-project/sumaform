@@ -89,6 +89,11 @@ To start the testsuite, use:
 ssh -t root@control-node.tf.local run-testsuite
 ```
 
+Get HTML results with:
+```
+scp root@control-node.tf.local://root/spacewalk-testsuite-base/output.html .
+```
+
 You can configure a `package-mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
 ## pgpool-II replicated database

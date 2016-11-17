@@ -20,12 +20,19 @@ ssh-public-key:
     - group: root
     - mode: 700
 
+authorized-keys:
+  file.managed:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://control-node/id_rsa.pub
+    - user: root
+    - group: root
+    - mode: 700
+
 virtualhost:
   file.managed:
     - name: /tmp/virtualhostmanager.create.json
-    - source salt://control-node/virtualhostmanager.create.json
+    - source saucumber-requisites:
 
-cucumber-requisites:
   pkg.installed:
     - pkgs:
       - gcc
