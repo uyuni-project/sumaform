@@ -31,7 +31,7 @@ authorized-keys:
 virtualhost:
   file.managed:
     - name: /tmp/virtualhostmanager.create.json
-    - source  salt://control-node/virtualhostmanager.create.json
+    - source: salt://control-node/virtualhostmanager.create.json
 
 cucumber-requisites:
   pkg.installed:
