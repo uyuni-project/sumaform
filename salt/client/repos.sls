@@ -1,3 +1,4 @@
+{% if grains['os'] == 'SUSE' %}
 include:
   - sles.repos
 
@@ -80,3 +81,8 @@ refresh-client-repos:
       - file: testsuite-build-repo
       - file: testsuite-suse-manager-repo
       {% endif %}
+{% else %}
+no-repos:
+  test.nop: []
+{% endif %}
+

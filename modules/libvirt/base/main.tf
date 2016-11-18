@@ -34,6 +34,12 @@ resource "libvirt_volume" "sles12sp2" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_volume" "centos7" {
+  name = "${var.name_prefix}centos7"
+  source = "http://w3.suse.de/~mbologna/sumaform-images/centos7.qcow2"
+  pool = "${var.pool}"
+}
+  
 output "configuration" {
   // HACK: work around https://github.com/hashicorp/terraform/issues/9549
   value = "${
