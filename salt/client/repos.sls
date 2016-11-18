@@ -81,7 +81,8 @@ refresh-client-repos:
       - file: testsuite-build-repo
       - file: testsuite-suse-manager-repo
       {% endif %}
+{% else %}
+no-repos:
+  test.nop: []
 {% endif %}
 
-no-repos-configuration:
-  test.nop: []
