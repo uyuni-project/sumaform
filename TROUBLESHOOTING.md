@@ -132,3 +132,19 @@ module "base" {
   bridge = "br0"
 }
 ```
+
+## Q: how can I workaround an "libvirt_domain.domain: diffs didn't match during apply" libvirt error?
+
+If you have just switched from non-bridged to bridged networking or vice versa you might get the following error:
+
+```
+Error applying plan:
+
+1 error(s) occurred:
+
+* libvirt_domain.domain: diffs didn't match during apply. This is a bug with Terraform and should be reported as a GitHub Issue.
+...
+Mismatch reason: attribute mismatch: network_interface.0.bridge
+```
+
+This is a known issue, simply repeat the `terraform apply` command and it will go away.
