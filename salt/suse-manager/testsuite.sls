@@ -60,7 +60,7 @@ test-autoinstallation-file:
 
 test-vcenter-file:
   file.managed:
-    - name: /tmp/vCenter.json
+    - name: /var/tmp/vCenter.json
     - source: salt://suse-manager/testsuite/vCenter.json
 
 lftp:
