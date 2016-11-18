@@ -38,14 +38,7 @@ output "configuration" {
   // HACK: work around https://github.com/hashicorp/terraform/issues/9549
   value = "${
     map(
-      "opensuse421", "${libvirt_volume.opensuse421.id}",
-      "sles11sp3", "${libvirt_volume.sles11sp3.id}",
-      "sles11sp4", "${libvirt_volume.sles11sp4.id}",
-      "sles12", "${libvirt_volume.sles12.id}",
-      "sles12sp1", "${libvirt_volume.sles12sp1.id}",
-      "sles12sp2", "${libvirt_volume.sles12sp2.id}",
       "network_name", "${var.network_name}",
-
       "cc_username", "${var.cc_username}",
       "cc_password", "${var.cc_password}",
       "package_mirror", "${replace(var.package_mirror, "/^$/", "null")}",

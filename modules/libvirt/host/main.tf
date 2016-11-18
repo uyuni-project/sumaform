@@ -6,7 +6,7 @@
 
 resource "libvirt_volume" "main_disk" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}-main-disk"
-  base_volume_id = "${var.base_configuration[var.image]}"
+  base_volume_name = "${var.base_configuration["name_prefix"]}${var.image}"
   pool = "${var.base_configuration["pool"]}"
   count = "${var.count}"
 }
