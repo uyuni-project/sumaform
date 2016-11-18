@@ -47,11 +47,17 @@ configure-full-avahi-resolution:
       - pkg: avahi
 {% endif %}
 
-setup-machine-id:
+setup-machine-id-with-systemd:
   cmd.run:
     - name: rm /etc/machine-id && systemd-machine-id-setup && touch /etc/machine-id-already-setup
     - creates: /etc/machine-id-already-setup
-    - onlyif: systemd-machine-id-setup
+    - onlyif: test -f /usr/bin/systemd-machine-id-setup
+
+setup-machine-id-with-dbus:
+  cmd.run:
+    - name: dbus-uuidgen --ensure
+    - creates: /var/lib/dbus/machine-id
+    - unless: test -f /usr/bin/systemd-machine-id-setup
 
 clear-minion-id:
   file.absent:
