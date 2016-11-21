@@ -8,16 +8,14 @@ It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being t
 
 ## Installation
 
-OpenSUSE Leap 42.1:
+openSUSE 42.2, 42.1, SUSE Linux Enterprise Server 12 SP1:
 ```
-sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/home:SilvioMoioli:tools.repo
-sudo zypper install terraform-provider-libvirt
-git clone https://github.com/moio/sumaform.git
-```
+# Uncomment one of the following lines depending on your distro
 
-SUSE Linux Enterprise 12 SP1:
-```
-sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.2/home:SilvioMoioli:tools.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/home:SilvioMoioli:tools.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
+
 sudo zypper install terraform-provider-libvirt
 git clone https://github.com/moio/sumaform.git
 ```
