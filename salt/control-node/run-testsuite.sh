@@ -7,6 +7,6 @@ export BROWSER=phantomjs
 BRANCH="{{ grains.get("branch") }}"
 
 cd /root/spacewalk-testsuite-base
-if [ ${BRANCH} == "refhost"]; then rake cucumber:refhost.yml; exit 0 ; fi
+if [ ${BRANCH} == "refhost" ]; then rake cucumber:refhost ; exit 0 ; fi
 # HEAD and 3.0 branch are same for moment.
 rake
