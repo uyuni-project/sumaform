@@ -44,7 +44,7 @@ output "configuration" {
   // HACK: work around https://github.com/hashicorp/terraform/issues/9549
   value = "${
     map(
-     "network_name", "${var.network_name}",
+      "network_name", "${var.network_name}",
       "cc_username", "${var.cc_username}",
       "cc_password", "${var.cc_password}",
       "package_mirror", "${replace(var.package_mirror, "/^$/", "null")}",
