@@ -46,6 +46,8 @@ cucumber-requisites:
       - owasp-zap
       - mozilla-nss
       - git-core
+      - wget
+      - unzip
       # packaged ruby gems
       - ruby2.1-rubygem-bundler
       - rubygem-cucumber
@@ -69,10 +71,13 @@ cucumber-requisites:
       - sls: control-node.repos
 
 cucumber-testsuite:
-  git.latest:
-    - name: https://github.com/SUSE/spacewalk-testsuite-base.git
-    - rev: slenkins
-    - target: /root/spacewalk-testsuite-base
+  cmd.run:
+    # HACK: work around the lack of skip_verify and enforce_toplevel in archive.extracted before salt 2016.11
+    - name: |
+        wget -P /root/ https://github.com/SUSE/spacewalk-testsuite-base/archive/{{ grains.get("branch" )}}.zip
+        unzip /root/{{ grains.get("branch" )}}.zip -d /root/
+        mv /root/spacewalk-testsuite-base-{{ grains.get("branch" )}} /root/spacewalk-testsuite-base
+    - creates: /root/spacewalk-testsuite-base
 
 cucumber-run-script:
   file.managed:

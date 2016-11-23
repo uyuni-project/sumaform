@@ -12,6 +12,7 @@ server: ${var.server_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
 role: control-node
+branch : ${var.branch}
 
 EOF
 }
