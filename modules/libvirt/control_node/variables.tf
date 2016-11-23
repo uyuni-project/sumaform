@@ -29,7 +29,7 @@ variable "running" {
 }
 
 variable "branch" {
-  description = "This variable set up the branch of spacewalk-testsuite, or the refhost"
+  description = "refhost30 refhost manager30 master"
   type = "string"
   default = "manager30"
 }

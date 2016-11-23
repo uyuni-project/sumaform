@@ -96,6 +96,16 @@ scp root@control-node.tf.local://root/spacewalk-testsuite-base/output.html .
 
 You can configure a `package-mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
+
+If you want to select a specific branch, use the variable branch.
+
+This variable, let you select at momemnt 4 types of branches/configuration.
+
+refhost30, refehost (master) -> latest version of suse-mgr
+
+manager30, master -> HEAD (latest version of suse-mgr)
+
+
 ## pgpool-II replicated database
 
 Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below: 
