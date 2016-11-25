@@ -43,6 +43,11 @@ variable "openstack_auth_url" {
   type = "string"
 }
 
+variable "flavor" {
+  description = "OpenStack image flavor: m1.medium, m1.small, etc."
+  type = "string"
+}
+
 variable "cc_username" {
   description = "Username for the Customer Center"
   default = "null"
