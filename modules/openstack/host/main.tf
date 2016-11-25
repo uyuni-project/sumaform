@@ -7,7 +7,7 @@ resource "openstack_compute_floatingip_v2" "floatip" {
 resource "openstack_compute_instance_v2" "instance" {
   name = "${var.name}"
   image_name = "${var.image}"
-  flavor_name = "m1.xlarge"
+  flavor_name = "${var.flavor}"
   security_groups = ["default"]
   region = ""
   count = "${var.count}"
