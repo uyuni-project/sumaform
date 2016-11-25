@@ -13,6 +13,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "image" {
+  description = "One of: sles11sp3, sles11sp4, sles12, sles12sp1"
+  type = "string"
+}
+
 variable "client_configuration" {
   description = "use ${module.<CLIENT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
