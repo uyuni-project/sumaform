@@ -28,6 +28,12 @@ variable "running" {
   default = true
 }
 
+variable "branch" {
+  description = "refhost30 refhost manager30 master"
+  type = "string"
+  default = "manager30"
+}
+
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
