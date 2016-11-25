@@ -18,6 +18,12 @@ variable "client_configuration" {
   type = "map"
 }
 
+variable "branch" {
+  description = "head manager30 refhost30 refhost-head"
+  type = "string"
+  default = "manager30"
+}
+
 variable "minion_configuration" {
   description = "use ${module.<MINION_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
