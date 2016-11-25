@@ -73,6 +73,14 @@ cucumber-testsuite:
     - name: https://github.com/SUSE/spacewalk-testsuite-base.git
     - rev: slenkins
     - target: /root/spacewalk-testsuite-base
+    - require: 
+      - git: git-config
+
+git-config:
+  git.config_set:
+    - name:  http.postBuffer
+    - value: 2M
+    - global: True
 
 cucumber-run-script:
   file.managed:
