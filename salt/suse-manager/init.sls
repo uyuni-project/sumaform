@@ -69,6 +69,15 @@ suse-manager-packages:
       - sls: suse-manager.firewall
       - file: allow-vendor-changes
 
+salt-hack:
+  file.replace:
+    #- name: /usr/lib/systemd/system/salt-master.service
+    - name: /etc/systemd/system.conf
+    - pattern: |
+        ^#DefaultTasksMax=512
+    - repl: |
+        DefaultTasksMax=infinity
+
 salt:
   pkg.latest:
     - require:
