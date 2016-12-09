@@ -29,6 +29,11 @@ variable "minion_configuration" {
   type = "map"
 }
 
+variable "rh_configuration" {
+  description = "use ${module.<REDHAT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  type = "map"
+}
+
 variable "running" {
   description = "Whether this host should be turned on or off"
   default = true

@@ -11,6 +11,7 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
+rh-minion: ${var.rh_configuration["hostname"]}
 role: control-node
 branch : ${var.branch}
 
