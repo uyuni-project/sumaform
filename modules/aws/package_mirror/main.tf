@@ -14,7 +14,7 @@
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
   availability_zone = "${var.availability_zone}"
-  instance_type = "t2.nano"
+  instance_type = "t2.small"
   key_name = "${var.key_name}"
   monitoring = false
   subnet_id = "${var.public_subnet_id}"
