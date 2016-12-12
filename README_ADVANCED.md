@@ -18,6 +18,22 @@ module "minionsles12sp1" {
 
 This will create 10 minions connected to the `suma3pg` server.
 
+## Specifying base OS for SUMA
+You can specifiy a base OS for the `server` by specifying an image variable in the SUMA config.  There is a default mapping if nothing is specified.  This only makes sense for SUMA 3-stable, 3-nightly and head.
+
+```terraform
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+  
+  image = "sles12sp2" 
+  name = "suma3pg"
+  version = "3-nightly"
+} 
+```
+
+This will create a 3-nightly SUMA server based on sles12sp2.
+
 ## Proxies
 
 A `proxy` module is similar to a `client` module but has a `version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
