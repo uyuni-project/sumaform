@@ -1,7 +1,7 @@
 {% if grains['for-development-only'] %}
 
 include:
-  - suse-manager
+  - suse-manager.main
 
 {% if 'stable' not in grains['version'] %}
 
@@ -10,7 +10,7 @@ browser-side-less-configuration:
     - name: /etc/rhn/rhn.conf
     - text: development_environment = true
     - require:
-      - sls: suse-manager
+      - sls: suse-manager.main
   pkg.installed:
     - pkgs:
       - susemanager-frontend-libs-devel
@@ -19,7 +19,7 @@ browser-side-less-configuration:
     - fromrepo: Devel_Galaxy_Manager_2.1
     {% endif %}
     - require:
-      - sls: suse-manager
+      - sls: suse-manager.main
 
 {% endif %}
 
@@ -51,7 +51,7 @@ create-first-user:
     - verify_ssl: False
     - unless: spacecmd -u admin -p admin user_list | grep -x admin
     - require:
-      - sls: suse-manager
+      - sls: suse-manager.main
 
 create-empty-channel:
   cmd.run:
@@ -125,7 +125,7 @@ rhn-conf-from-dir:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.fromdir = /mirror
     - require:
-      - sls: suse-manager
+      - sls: suse-manager.main
       - mount: mirror-directory
 
 {% endif %}
