@@ -47,10 +47,10 @@ module "minsles12sp1" {
   for_testsuite_only = true
 }
 
-module "minredhat" {
+module "mincentos7" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  name = "minredhat"
+  name = "mincentos7"
   image = "centos7"
   server_configuration =  { hostname = "suma3pg.tf.local" }
   for_development_only = false
@@ -66,5 +66,5 @@ module "control-node" {
   server_configuration = "${module.suma3pg.configuration}"
   client_configuration = "${module.clisles12sp1.configuration}"
   minion_configuration = "${module.minsles12sp1.configuration}"
-  rh_configuration = "${module.minredhat.configuration}"
+  centos_configuration = "${module.mincentos7.configuration}"
 }
