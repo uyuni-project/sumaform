@@ -20,6 +20,7 @@ cucumber-requisites:
       - man
       - wget
       - adaptec-firmware
+      - aaa_base-extras
     - require:
       - sls: client.repos
 

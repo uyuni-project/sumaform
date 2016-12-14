@@ -102,4 +102,7 @@ config-cobbler:
 expect:
   pkg.installed
 
+aaa_base-extras:
+  pkg.installed
+
 {% endif %}
