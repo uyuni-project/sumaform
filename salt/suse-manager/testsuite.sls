@@ -1,7 +1,7 @@
 {% if grains['for-testsuite-only'] %}
 
 include:
-  - suse-manager
+  - suse-manager.main
   - suse-manager.repos
 
 testsuite-authorized-key:
@@ -91,13 +91,13 @@ config-cobbler:
     - watch : 
       - file : /etc/cobbler/settings
     - require:
-      - sls: suse-manager
+      - sls: suse-manager.main
     file.replace:
     - name: /etc/cobbler/settings
     - pattern: "redhat_management_permissive: 0"
     - repl: "redhat_management_permissive: 1"
     - require:
-      - sls: suse-manager
+      - sls: suse-manager.main
 
 expect:
   pkg.installed

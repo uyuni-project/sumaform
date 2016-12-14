@@ -12,7 +12,7 @@ module "suse_manager" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "${lookup(var.images, var.version)}"
+  image = "${replace(var.image, "default", lookup(var.images, var.version))}"
   count = 1
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"

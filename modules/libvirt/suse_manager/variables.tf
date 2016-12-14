@@ -28,6 +28,11 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "image" {
+  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3-stable, 3-nightly or head"
+  default = "default"
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

@@ -2,4 +2,4 @@
 name=home_SilvioMoioli_tools
 type=rpm-md
 enabled=1
-baseurl=http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/
+baseurl=http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/

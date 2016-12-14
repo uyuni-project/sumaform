@@ -18,6 +18,22 @@ module "minionsles12sp1" {
 
 This will create 10 minions connected to the `suma3pg` server.
 
+## Change the base OS for supported SUSE Manager versions
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3-stable`, `3-nightly` and `head` that can switch between `sles12sp1` and `sles12sp2`.
+
+The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
+
+```terraform
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+  
+  image = "sles12sp2" 
+  name = "suma3pg"
+  version = "3-nightly"
+} 
+```
+
 ## Proxies
 
 A `proxy` module is similar to a `client` module but has a `version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
