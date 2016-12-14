@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export CENTOSMINION={{ grains.get("centos-minion") }}
 export TESTHOST={{ grains.get("server") }}
 export CLIENT={{ grains.get("client") }}
 export MINION={{ grains.get("minion") }}

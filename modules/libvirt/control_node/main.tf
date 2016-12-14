@@ -11,6 +11,7 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
+centos-minion: ${var.centos_configuration["hostname"]}
 role: control-node
 branch : ${var.branch}
 
