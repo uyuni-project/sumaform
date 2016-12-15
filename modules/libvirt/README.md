@@ -45,7 +45,7 @@ User root
 Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected. SUSE Manager default user is `admin` with password `admin`.
 
 Avahi can be disabled if it is not needed (bridged networking mode, all VMs with static MAC addresses and names known in advance). In that case use the following variables in the `base` module:
-```terraform
+```hcl
 use_avahi = false
 domain = "mgr.suse.de"
 ```
@@ -57,7 +57,7 @@ If you are using `sumaform` outside of the SUSE network you can choose to add a 
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
 To enable `package-mirror`, add `package_mirror = "package-mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
-```terraform
+```hcl
 module "package_mirror" {
   source = "./modules/libvirt/package_mirror"
   base_configuration = "${module.base.configuration}"

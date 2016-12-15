@@ -143,7 +143,7 @@ during the `terraform apply`, it means Terraform was able to create a VM, but th
 
 In particular, if you are using libvirt brigding, make sure the `network` parameter in the `base` module is uncommented and set to the empty string:
 
-```terraform
+```hcl
 module "base" {
   source = "./modules/libvirt/base"
   ...
