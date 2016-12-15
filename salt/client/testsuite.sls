@@ -20,7 +20,10 @@ cucumber-requisites:
       - man
       - wget
       - adaptec-firmware
+      {% if grains['os'] == 'SUSE' %}
       - aaa_base-extras
+      {% endif %}
+     
     - require:
       - sls: client.repos
 
