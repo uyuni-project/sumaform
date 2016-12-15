@@ -66,6 +66,27 @@ $ terraform state rm module.suma3pg.module.suse_manager.libvirt_volume.main_disk
 Item removal successful.
 ```
 
+## Q: how can I work around name resolution problems with `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
+
+Typical error message follows:
+
+```
+Could not resolve hostname suma3pg.tf.local: Name or service not known
+```
+
+Check that:
+ - your firewall is not blocking UDP port 5353
+   - on SUSE systems check YaST -> Security and Users -> Firewall -> Allowed Services, "Zeroconf/Bonjour Multicast DNS" should either appear on the list or be added
+ - avahi is installed and running
+   - typically you can check this via systemd: `systemctl status avahi-daemon`
+ - mdns is configured in glibc's Name Server Switch configuration file
+
+In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
+```
+hosts:          files mdns [NOTFOUND=return] dns
+```
+`mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
+
 ## Q: how can I work around a libvirt permission denied error?
 
 Typical error message follows:
@@ -124,7 +145,7 @@ during the `terraform apply`, it means Terraform was able to create a VM, but th
 
 In particular, if you are using libvirt brigding, make sure the `network` parameter in the `base` module is uncommented and set to the empty string:
 
-```terraform
+```hcl
 module "base" {
   source = "./modules/libvirt/base"
   ...

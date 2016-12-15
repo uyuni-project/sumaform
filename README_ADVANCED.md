@@ -4,7 +4,7 @@
 
 Some modules, for example clients and minions, support a `count` variable that allows you to create several instances at once. For example:
 
-```terraform
+```hcl
 module "minionsles12sp1" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
@@ -23,7 +23,7 @@ You can specifiy a base OS for `suse_manager` modules by specifying an `image` v
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 
-```terraform
+```hcl
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
@@ -38,7 +38,7 @@ module "suma3pg" {
 
 A `proxy` module is similar to a `client` module but has a `version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
 
-```terraform
+```hcl
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
@@ -73,7 +73,7 @@ Note that proxy chains (proxies of proxies) also work as expected. You can find 
 
 Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
 
-```terraform
+```hcl
 module "suma21pgm" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
@@ -118,7 +118,7 @@ You can configure a `package-mirror` host for the testsuite and that will be ben
 
 Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below: 
 
-```terraform
+```hcl
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
@@ -147,7 +147,7 @@ You can have totally unconfigured hosts in your configuration by using the `host
 
 A libvirt example follows:
 
-```
+```hcl
 module "vanilla" {
   source = "./modules/libvirt/host"
   base_configuration = "${module.base.configuration}"
