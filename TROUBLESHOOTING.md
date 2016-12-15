@@ -79,11 +79,13 @@ Check that:
    - on SUSE systems check YaST -> Security and Users -> Firewall -> Allowed Services, "Zeroconf/Bonjour Multicast DNS" should either appear on the list or be added
  - avahi is installed and running
    - typically you can check this via systemd: `systemctl status avahi-daemon`
- - mdns is configured in glibc's Name Server Switch configuration file. In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
-  ```
-  hosts:          files mdns [NOTFOUND=return] dns
-  ```
-  `mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
+ - mdns is configured in glibc's Name Server Switch configuration file
+
+In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
+```
+hosts:          files mdns [NOTFOUND=return] dns
+```
+`mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
 
 ## Q: how can I work around a libvirt permission denied error?
 
