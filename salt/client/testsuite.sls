@@ -23,7 +23,6 @@ cucumber-requisites:
       {% if grains['os'] == 'SUSE' %}
       - aaa_base-extras
       {% endif %}
-     
     - require:
       - sls: client.repos
 
