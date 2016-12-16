@@ -19,3 +19,11 @@ salt:
     - require:
       - file: allow-vendor-changes
       - sls: suse-manager.main
+
+salt-netapi:
+  service.running:
+   - name: salt-api
+   - enable: True
+   - reload: True
+   - watch:
+      - pkg: salt
