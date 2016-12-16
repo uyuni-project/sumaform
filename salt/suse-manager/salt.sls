@@ -20,9 +20,8 @@ salt:
       - file: allow-vendor-changes
       - sls: suse-manager.main
 
-salt-netapi:
+salt-api:
   service.running:
-   - name: salt-api
    - enable: True
    - reload: True
    - watch:
