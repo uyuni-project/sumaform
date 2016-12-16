@@ -47,6 +47,7 @@ cucumber-requisites:
       - mozilla-nss
       - git-core
       - wget
+      - aaa_base-extras
       - unzip
       # packaged ruby gems
       - ruby2.1-rubygem-bundler
