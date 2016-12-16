@@ -19,3 +19,11 @@ salt:
     - require:
       - file: allow-vendor-changes
       - sls: suse-manager.main
+
+# HACK: this is needed because after the upgrade salt-api need restart
+# and restart.sls from salt don't work
+salt-api:
+  cmd.run:
+   - name: systemctl restart salt-api
+   - require:
+      - pkg: salt
