@@ -19,7 +19,7 @@ variable "server_configuration" {
 }
 
 variable "version" {
-  description = "One of: 2.1-stable,  2.1-nightly, 3-nightly, 3-stable, head"
+  description = "Use: head, stable,  see main.tf.libvirt.example"
   type = "string"
 }
 
