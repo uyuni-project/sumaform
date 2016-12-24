@@ -24,6 +24,6 @@ salt:
 # and restart.sls from salt don't work
 salt-api:
   cmd.run:
-   - name: systemctl restart salt-api
+   - name: service salt-api restart
    - require:
-      - pkg: salt
+      - pkg: salt-api

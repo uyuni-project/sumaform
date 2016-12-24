@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export SSHMINION={{ grains.get("ssh-minion") }}
 export CENTOSMINION={{ grains.get("centos-minion") }}
 export TESTHOST={{ grains.get("server") }}
 export CLIENT={{ grains.get("client") }}
