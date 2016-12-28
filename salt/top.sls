@@ -26,10 +26,6 @@ base:
     - match: grain
     - package-mirror
 
-  'role:minion-swarm-host':
-    - match: grain
-    - minion-swarm-host
-
   'role:postgres':
     - match: grain
     - postgres

@@ -1,7 +1,0 @@
-[python]
-name=Python
-type=rpm-md
-baseurl=http://download.opensuse.org/repositories/devel:/languages:/python/SLE_12/
-gpgcheck=1
-gpgkey=http://download.opensuse.org/repositories/devel:/languages:/python/SLE_12//repodata/repomd.xml.key
-enabled=1
