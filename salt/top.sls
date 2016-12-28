@@ -2,10 +2,6 @@ base:
   '*':
     - default
 
-  'role:spacewalk-server':
-    - match: grain
-    - spacewalk
-
   'role:suse-manager-server':
     - match: grain
     - suse-manager
