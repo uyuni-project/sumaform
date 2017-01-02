@@ -12,6 +12,11 @@ lftp-script:
     - name: /root/mirror.lftp
     - source: salt://package-mirror/mirror.lftp
 
+ca-certificates-mozilla:
+  pkg.installed:
+    - require:
+      - sls: package-mirror.repos
+
 scc-data-refresh-script:
   file.managed:
     - name: /root/refresh_scc_data.py
@@ -96,11 +101,17 @@ rpcbind:
   service.running:
     - enable: True
 
+nfs-kernel-server:
+  pkg.installed:
+    - require:
+      - sls: package-mirror.repos
+
 nfs:
   service.running:
     - enable: True
     - require:
       - service: rpcbind
+      - pkg: nfs-kernel-server
 
 nfsserver:
   service.running:
