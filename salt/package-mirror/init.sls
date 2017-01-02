@@ -46,9 +46,6 @@ mirror-partition:
     - unless: ls /dev//{{grains['data_disk_device']}}1
 
 # http serving of mirrored packages
-fstab:
-  file.managed:
-    - name: /etc/fstab
 
 mirror-directory:
   file.directory:
