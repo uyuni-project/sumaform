@@ -3,7 +3,6 @@ include:
 
 lftp:
   pkg.installed:
-    - version: '>=4.6.4-1.1'
     - require:
       - sls: package-mirror.repos
 

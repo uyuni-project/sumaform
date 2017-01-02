@@ -1,5 +1,0 @@
-[home_SilvioMoioli_tools]
-name=home_SilvioMoioli_tools
-type=rpm-md
-enabled=1
-baseurl=http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.2/
