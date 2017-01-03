@@ -2,6 +2,10 @@
 include:
   - sles.repos
 
+{% if 'head' in grains['version'] %}
+# TODO : add repos
+{% endif %}
+
 {% if grains['osrelease'] == '11.3' %}
 sle-manager-tools-pool-repo:
   file.managed:
