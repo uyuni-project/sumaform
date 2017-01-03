@@ -83,7 +83,7 @@ suse-manager-pgpool-repo:
 lftp-repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
-    - source: salt://package-mirror/repos.d/home_SilvioMoioli_tools.repo
+    - source: salt://suse-manager/repos.d/home_SilvioMoioli_tools.repo
 {% endif %}
 
 refresh-suse-manager-repos:
