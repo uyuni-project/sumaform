@@ -3,7 +3,6 @@ include:
 
 lftp:
   pkg.installed:
-    - version: '>=4.6.4-1.1'
     - require:
       - sls: package-mirror.repos
 
@@ -11,6 +10,11 @@ lftp-script:
   file.managed:
     - name: /root/mirror.lftp
     - source: salt://package-mirror/mirror.lftp
+
+ca-certificates-mozilla:
+  pkg.installed:
+    - require:
+      - sls: package-mirror.repos
 
 scc-data-refresh-script:
   file.managed:
@@ -41,9 +45,6 @@ mirror-partition:
     - unless: ls /dev//{{grains['data_disk_device']}}1
 
 # http serving of mirrored packages
-fstab:
-  file.managed:
-    - name: /etc/fstab
 
 mirror-directory:
   file.directory:
@@ -96,11 +97,17 @@ rpcbind:
   service.running:
     - enable: True
 
+nfs-kernel-server:
+  pkg.installed:
+    - require:
+      - sls: package-mirror.repos
+
 nfs:
   service.running:
     - enable: True
     - require:
       - service: rpcbind
+      - pkg: nfs-kernel-server
 
 nfsserver:
   service.running:

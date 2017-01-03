@@ -11,7 +11,7 @@ module "package_mirror" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "package-mirror"
-  image = "opensuse421"
+  image = "opensuse422"
   memory = 512
   vcpu = 1
   running = "${var.running}"

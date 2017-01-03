@@ -67,10 +67,3 @@ clear-minion-id:
 work-around-networking-issue:
   cmd.run:
     - name: ping -c 1 euklid.suse.de; true
-
-# HACK: work around a bug in the openSUSE image
-{% if grains['osfullname'] == 'openSUSE Leap' %}
-fix-broken-bootloader:
-  cmd.run:
-    - name: update-bootloader --refresh
-{% endif %}

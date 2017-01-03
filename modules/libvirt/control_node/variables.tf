@@ -29,6 +29,11 @@ variable "minion_configuration" {
   type = "map"
 }
 
+variable "minionssh_configuration" {
+  description = "use ${module.<MINIONSSH_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  type = "map"
+}
+
 variable "centos_configuration" {
   description = "use ${module.<CENTOS_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"

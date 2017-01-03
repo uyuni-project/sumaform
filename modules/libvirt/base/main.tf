@@ -1,6 +1,6 @@
-resource "libvirt_volume" "opensuse421" {
-  name = "${var.name_prefix}opensuse421"
-  source = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse421.x86_64.qcow2"
+resource "libvirt_volume" "opensuse422" {
+  name = "${var.name_prefix}opensuse422"
+  source = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse422.x86_64.qcow2"
   pool = "${var.pool}"
 }
 

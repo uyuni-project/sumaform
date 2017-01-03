@@ -2,10 +2,6 @@ base:
   '*':
     - default
 
-  'role:spacewalk-server':
-    - match: grain
-    - spacewalk
-
   'role:suse-manager-server':
     - match: grain
     - suse-manager
@@ -25,10 +21,6 @@ base:
   'role:package-mirror':
     - match: grain
     - package-mirror
-
-  'role:minion-swarm-host':
-    - match: grain
-    - minion-swarm-host
 
   'role:postgres':
     - match: grain
