@@ -10,6 +10,9 @@ lftp-script:
   file.managed:
     - name: /root/mirror.lftp
     - source: salt://package-mirror/mirror.lftp
+    
+parted:
+  pkg.installed
 
 ca-certificates-mozilla:
   pkg.installed:
@@ -43,6 +46,8 @@ mirror-partition:
   cmd.run:
     - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev//{{grains['data_disk_device']}} mkpart primary 2048 100% && /sbin/mkfs.ext4 /dev//{{grains['data_disk_device']}}1
     - unless: ls /dev//{{grains['data_disk_device']}}1
+    - require:
+      - pkg: parted
 
 # http serving of mirrored packages
 
