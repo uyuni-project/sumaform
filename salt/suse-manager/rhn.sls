@@ -90,6 +90,8 @@ private-ssl-key:
     - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
     - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - mode: 644
+    - require:
+      - cmd: suse-manager-setup
 
 private-ssl-key-checksum:
   cmd.run:
