@@ -1,7 +1,7 @@
 {% if grains['for-development-only'] %}
 
 include:
-  - suse-manager.main
+  - suse-manager
 
 taskomatic-config:
   file.append:
@@ -9,7 +9,7 @@ taskomatic-config:
     - text: ['wrapper.java.additional.7=-Xdebug',
              'wrapper.java.additional.8=-Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n']
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
 
 taskomatic:
   service.running:

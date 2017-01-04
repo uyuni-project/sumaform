@@ -1,5 +1,5 @@
 include:
-  - sles.repos
+  - default
 
 {% if '2.1' in grains['version'] %}
 suse-manager-pool-repo:
@@ -90,7 +90,7 @@ refresh-suse-manager-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - sls: sles.repos
+      - sls: default
       - file: suse-manager-pool-repo
       - file: suse-manager-update-repo
       {% if ('nightly' in grains['version'] or 'head' in grains['version']) %}

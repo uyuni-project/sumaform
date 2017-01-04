@@ -29,7 +29,7 @@ variable "iss_slave" {
 }
 
 variable "image" {
-  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3-stable, 3-nightly or head"
+  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3-stable or 3-nightly"
   default = "default"
 }
 

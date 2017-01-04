@@ -1,7 +1,7 @@
 {% if grains['database'] == 'pgpool' %}
 
 include:
-  - suse-manager.main
+  - suse-manager
 
 pgpool-II:
   pkg.latest: []

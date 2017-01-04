@@ -22,13 +22,13 @@ resource "libvirt_volume" "sles12" {
   pool = "${var.pool}"
 }
 
-resource "libvirt_volume" "sles12sp1" {  
+resource "libvirt_volume" "sles12sp1" {
   name = "${var.name_prefix}sles12sp1"
   source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
   pool = "${var.pool}"
 }
 
-resource "libvirt_volume" "sles12sp2" {  
+resource "libvirt_volume" "sles12sp2" {
   name = "${var.name_prefix}sles12sp2"
   source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
   pool = "${var.pool}"

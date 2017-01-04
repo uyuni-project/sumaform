@@ -1,5 +1,5 @@
 include:
-  - sles.repos
+  - default
 
 ruby-test-repo:
   file.managed:
@@ -17,6 +17,6 @@ refresh-control-node-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - sls: sles.repos
+      - sls: default
       - file: ruby-test-repo
       - file: sle-12-sp1-sdk-pool

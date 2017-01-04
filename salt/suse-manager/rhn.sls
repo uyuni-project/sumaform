@@ -1,7 +1,7 @@
 {% if grains['for-development-only'] %}
 
 include:
-  - suse-manager.main
+  - suse-manager
 
 {% if 'stable' not in grains['version'] %}
 
@@ -10,7 +10,7 @@ browser-side-less-configuration:
     - name: /etc/rhn/rhn.conf
     - text: development_environment = true
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
   pkg.installed:
     - pkgs:
       - susemanager-frontend-libs-devel
@@ -19,7 +19,7 @@ browser-side-less-configuration:
     - fromrepo: Devel_Galaxy_Manager_2.1
     {% endif %}
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
 
 {% endif %}
 
@@ -51,7 +51,7 @@ create-first-user:
     - verify_ssl: False
     - unless: spacecmd -u admin -p admin user_list | grep -x admin
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
 
 create-empty-channel:
   cmd.run:
@@ -90,6 +90,8 @@ private-ssl-key:
     - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
     - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - mode: 644
+    - require:
+      - cmd: suse-manager-setup
 
 private-ssl-key-checksum:
   cmd.run:
@@ -113,19 +115,24 @@ ca-configuration-checksum:
 
 {% if salt["grains.get"]("package-mirror") %}
 
+/etc/fstab:
+  file.touch
+
 mirror-directory:
   mount.mounted:
     - name: /mirror
     - device: {{ salt["grains.get"]("package-mirror") }}:/srv/mirror
     - fstype: nfs
     - mkmnt: True
+    - require:
+      - file: /etc/fstab
 
 rhn-conf-from-dir:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.fromdir = /mirror
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
       - mount: mirror-directory
 
 {% endif %}
