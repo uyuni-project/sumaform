@@ -60,8 +60,8 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "sudo salt-call --local state.sls terraform-resource",
-      "sudo salt-call --local state.highstate"
+      "salt-call --force-color --local --output=quiet state.sls default,terraform-resource",
+      "salt-call --force-color --local state.highstate"
     ]
   }
 }
