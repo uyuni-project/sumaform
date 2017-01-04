@@ -1,4 +1,8 @@
-# currently there is no configuration general to all minions, still
-# this file needs to exist for minions that do not match any role
-default-configuration:
-  test.nop: []
+include:
+  - default.repos
+
+all-packages-up-to-date:
+  pkg.uptodate:
+    - order: last
+    - require:
+      - sls: default.repos

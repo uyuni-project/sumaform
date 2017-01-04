@@ -1,5 +1,5 @@
 include:
-  - sles.repos
+  - default
   - postgres.firewall
 
 postgresql:
@@ -11,7 +11,7 @@ postgresql:
       - postgresql94-contrib
       - timezone
     - require:
-      - sls: sles.repos
+      - sls: default
   service.running:
     - enable: True
 

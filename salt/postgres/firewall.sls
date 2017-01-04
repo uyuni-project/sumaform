@@ -1,11 +1,11 @@
 include:
-  - sles.repos
+  - default
 
 firewall:
   pkg.installed:
     - name: SuSEfirewall2
     - require:
-      - sls: sles.repos
+      - sls: default
 
 {% if grains['for-development-only'] %}
 

@@ -1,7 +1,7 @@
 {% if grains['for-development-only'] and grains['database'] == 'postgres' %}
 
 include:
-  - suse-manager.main
+  - suse-manager
 
 # allow connections from any host
 
@@ -10,14 +10,14 @@ postgres-config:
     - name: /var/lib/pgsql/data/postgresql.conf
     - text: listen_addresses = '*'
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
 
 hba-config:
   file.append:
     - name: /var/lib/pgsql/data/pg_hba.conf
     - text: host    all     all       0.0.0.0/0      md5
     - require:
-      - sls: suse-manager.main
+      - sls: suse-manager
 
 postgresql:
   service.running:

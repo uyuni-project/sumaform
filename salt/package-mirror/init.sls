@@ -1,10 +1,10 @@
 include:
-  - package-mirror.repos
+  - default
 
 lftp:
   pkg.installed:
     - require:
-      - sls: package-mirror.repos
+      - sls: default
 
 lftp-script:
   file.managed:
@@ -17,7 +17,7 @@ parted:
 ca-certificates-mozilla:
   pkg.installed:
     - require:
-      - sls: package-mirror.repos
+      - sls: default
 
 scc-data-refresh-script:
   file.managed:
@@ -73,7 +73,7 @@ web-server:
   pkg.installed:
     - name: apache2
     - require:
-      - sls: package-mirror.repos
+      - sls: default
   file.managed:
     - name: /etc/apache2/vhosts.d/package-mirror.conf
     - source: salt://package-mirror/package-mirror.conf
@@ -105,7 +105,7 @@ rpcbind:
 nfs-kernel-server:
   pkg.installed:
     - require:
-      - sls: package-mirror.repos
+      - sls: default
 
 nfs:
   service.running:

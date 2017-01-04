@@ -1,5 +1,4 @@
 include:
-  - sles.repos
   - control-node.repos
 
 ssh-private-key:
