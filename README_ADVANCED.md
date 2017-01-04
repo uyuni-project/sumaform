@@ -19,7 +19,7 @@ module "minionsles12sp1" {
 This will create 10 minions connected to the `suma3pg` server.
 
 ## Change the base OS for supported SUSE Manager versions
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3-stable`, `3-nightly` and `head` that can switch between `sles12sp1` and `sles12sp2`.
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3-stable` and `3-nightly` that can switch between `sles12sp1` and `sles12sp2`.
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 
