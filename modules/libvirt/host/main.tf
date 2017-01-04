@@ -59,6 +59,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "salt-call --force-color --local state.sls terraform-resource",
+      "salt-call --force-color --local state.sls selfupdate",
       "salt-call --force-color --local state.highstate"
     ]
   }
