@@ -115,12 +115,17 @@ ca-configuration-checksum:
 
 {% if salt["grains.get"]("package-mirror") %}
 
+/etc/fstab:
+  file.touch
+
 mirror-directory:
   mount.mounted:
     - name: /mirror
     - device: {{ salt["grains.get"]("package-mirror") }}:/srv/mirror
     - fstype: nfs
     - mkmnt: True
+    - require:
+      - file: /etc/fstab
 
 rhn-conf-from-dir:
   file.append:
