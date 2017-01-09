@@ -1,8 +1,9 @@
 include:
   - default.repos
 
-all-packages-up-to-date:
-  pkg.uptodate:
+up-to-date-salt:
+  pkg.latest:
+    - name: salt
     - order: last
     - require:
       - sls: default.repos
