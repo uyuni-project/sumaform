@@ -156,3 +156,20 @@ module "vanilla" {
   image = "sles12sp1"
 }
 ```
+
+## Version Variable for minion/clients
+
+You can specify the variable version also for minion/clients. This vars, by default is "stable", but can be set to "nightly".
+
+```hcl
+module "minsles12sp1" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+  version = "nightly"
+  name = "minsles12sp1"
+  image = "sles12sp1"
+  server_configuration =  { hostname = "suma3pg.tf.local" }
+  for_development_only = false
+  for_testsuite_only = true
+}
+```

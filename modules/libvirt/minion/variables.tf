@@ -13,6 +13,12 @@ variable "image" {
   type = "string"
 }
 
+variable "version" {
+  description = "One of: stable,  nightly"
+  type = "string"
+  default = "stable"
+}
+
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt.example"
   type = "map"
