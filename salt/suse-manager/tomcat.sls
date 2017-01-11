@@ -61,6 +61,13 @@ tomcat-config:
     - require:
       - sls: suse-manager.rhn
 
+tomcat-config-loaded:
+  file.comment:
+    - name: /etc/tomcat/tomcat.conf
+    - regex: '^TOMCAT_CFG_LOADED.*'
+    - require:
+      - sls: suse-manager.rhn
+
 tomcat:
   service.running:
     - watch:
