@@ -72,6 +72,7 @@ module "control-node" {
   source = "./modules/libvirt/control_node"
   base_configuration = "${module.base.configuration}"
 
+  image = "sles12sp1"
   name = "control-node"
 
   server_configuration = "${module.suma3pg.configuration}"
