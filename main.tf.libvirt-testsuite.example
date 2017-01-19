@@ -4,10 +4,8 @@ provider "libvirt" {
 
 module "base" {
   source = "./modules/libvirt/base"
-
   cc_username = "UC7"
   cc_password = ...
-
   // optional parameters with defaults below
   // pool = "default"
   // network_name = "default" // change to "" if you change bridge below
@@ -18,9 +16,9 @@ module "base" {
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
-
   name = "suma3pg"
-  version = "3-nightly"
+  image = "sles12sp2"
+  version = "head"
   for_development_only = false
   for_testsuite_only = true
 }
@@ -28,7 +26,6 @@ module "suma3pg" {
 module "clisles12sp1" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
-
   name = "clisles12sp1"
   image = "sles12sp1"
   server_configuration =  { hostname = "suma3pg.tf.local" }
@@ -39,7 +36,7 @@ module "clisles12sp1" {
 module "minsles12sp1" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-
+  version = "nightly"
   name = "minsles12sp1"
   image = "sles12sp1"
   server_configuration =  { hostname = "suma3pg.tf.local" }
@@ -50,7 +47,7 @@ module "minsles12sp1" {
 module "minsles12sp1ssh" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-
+  version = "nightly"
   name = "minsles12sp1ssh"
   image = "sles12sp1"
   server_configuration =  { hostname = "suma3pg.tf.local" }
@@ -61,6 +58,7 @@ module "minsles12sp1ssh" {
 module "mincentos7" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
+  version = "nightly"
   name = "mincentos7"
   image = "centos7"
   server_configuration =  { hostname = "suma3pg.tf.local" }
@@ -71,9 +69,8 @@ module "mincentos7" {
 module "control-node" {
   source = "./modules/libvirt/control_node"
   base_configuration = "${module.base.configuration}"
-
   name = "control-node"
-
+  branch = "master"
   server_configuration = "${module.suma3pg.configuration}"
   client_configuration = "${module.clisles12sp1.configuration}"
   minion_configuration = "${module.minsles12sp1.configuration}"
