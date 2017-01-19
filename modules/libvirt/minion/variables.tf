@@ -14,8 +14,7 @@ variable "image" {
 }
 
 variable "version" {
-  description = "One of: stable,  nightly"
-  type = "string"
+  description = "A valid SUSE Manager version (eg. 3-nightly, head) see README_ADVANCED.md"
   default = "stable"
 }
 
