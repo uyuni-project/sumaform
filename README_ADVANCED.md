@@ -157,9 +157,9 @@ module "vanilla" {
 }
 ```
 
-## Version Variable for minion/clients
+## Version Variable for minion
 
-You can specify the variable version also for minion/clients. This vars, by default is "stable", but can be set to "nightly".
+You can specify the variable version also for minions. This variable by default is "stable", but can be set to "nightly", for latest version of pkgs.
 
 ```hcl
 module "minsles12sp1" {
