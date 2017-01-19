@@ -157,19 +157,20 @@ module "vanilla" {
 }
 ```
 
-## Version Variable for minion
+## Change minions' Salt version
 
-You can specify the variable version also for minions. This variable by default is "stable", but can be set to "nightly", for latest version of pkgs.
+By default minions will get the latest stable Salt version for their distro (for SLE systems this means the version shipping with the latest stable SUSE Manager repos). You can use the `version` variable to override this and set a particular version of Salt - values taken are the same as the SUSE Manager versions (such as `3-nightly` or `head`). The version identified can be omitted to take the default for the distro, so `stable` and `nightly` are legal values too.
+
+A libvirt example follows:
 
 ```hcl
 module "minsles12sp1" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "nightly"
+
   name = "minsles12sp1"
   image = "sles12sp1"
-  server_configuration =  { hostname = "suma3pg.tf.local" }
-  for_development_only = false
-  for_testsuite_only = true
+  server_configuration = "${module.proxy.configuration}"
+  version = "nightly"
 }
 ```
