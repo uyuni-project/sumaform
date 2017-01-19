@@ -8,6 +8,7 @@
 
   scp <SSH KEY>.pem root@package-mirror.tf.local://root/key.pem
   ssh root@package-mirror.tf.local
+  zypper in rsync
   rsync -av0 --delete -e 'ssh -i key.pem' /srv/mirror/ root@<PUBLIC DNS NAME>://srv/mirror/
 */
 
