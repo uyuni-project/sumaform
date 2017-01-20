@@ -61,6 +61,15 @@ tomcat-config:
     - require:
       - sls: suse-manager.rhn
 
+{% if 'head' in grains['version'] %}
+tomcat-config-loaded:
+  file.comment:
+    - name: /etc/tomcat/tomcat.conf
+    - regex: '^TOMCAT_CFG_LOADED.*'
+    - require:
+      - sls: suse-manager.rhn
+{% endif %}
+
 tomcat:
   service.running:
     - watch:

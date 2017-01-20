@@ -10,6 +10,7 @@ module "client" {
   mac = "${var.mac}"
   grains = <<EOF
 
+version: ${var.version}
 package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: client

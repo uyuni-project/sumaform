@@ -13,6 +13,11 @@ variable "image" {
   type = "string"
 }
 
+variable "version" {
+  description = "A valid SUSE Manager version (eg. 3-nightly, head) see README_ADVANCED.md"
+  default = "stable"
+}
+
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt.example"
   type = "map"
