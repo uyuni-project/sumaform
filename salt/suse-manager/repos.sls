@@ -19,7 +19,7 @@ suse-manager-update-repo:
       - sls: default
 {% endif %}
 
-{% if '3' in grains['version'] %}
+{% if '3-' in grains['version'] %}
 suse-manager-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
@@ -35,6 +35,20 @@ suse-manager-update-repo:
     - template: jinja
     - require:
       - sls: default
+{% endif %}
+
+{% if '3.1' in grains['version'] %}
+suse-manager-pool-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-3.1-x86_64-Pool.repo
+    - source: salt://suse-manager/repos.d/SUSE-Manager-3.1-x86_64-Pool.repo
+    - template: jinja
+    - require:
+      - sls: default
+
+suse-manager-update-repo:
+  file.touch:
+    - name: /tmp/no_update_channel_needed
 {% endif %}
 
 {% if 'head' in grains['version'] %}
