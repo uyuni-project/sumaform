@@ -28,6 +28,9 @@ suse-manager-packages:
     {% elif '3-nightly' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_3.0
     - name: patterns-suma_server
+    {% elif '3.1-stable' in grains['version'] %}
+    - fromrepo: SUSE-Manager-3.1-x86_64-Pool
+    - name: patterns-suma_server
     {% else %}
     - pkgs:
       - cyrus-sasl-digestmd5

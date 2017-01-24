@@ -176,3 +176,20 @@ module "minsles12sp1" {
   version = "nightly"
 }
 ```
+
+### SUSE Manager 3.1 (alpha)
+
+SUSE Manager 3.1 is supported by specifying `version = "3.1-stable"`:
+
+```hcl
+module "suma31pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma31pg"
+  version = "3.1-stable"
+}
+```
+
+Note that the version is called `stable` in continuity with the existing naming schema because it will target the final release of SUSE Manager 3.1.
+However, at the time of writing, this version is still in alpha.
