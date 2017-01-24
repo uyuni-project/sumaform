@@ -116,7 +116,27 @@ os-update-repo:
     - template: jinja
 {% endif %}
 
-{% if '3-stable' in grains.get('version', 'stable') %}
+{% if 'head' in grains['version'] or '3.1-stable' in grains['version'] %}
+tools-pool-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
+    - template: jinja
+
+tools-update-repo:
+  file.touch:
+    - name: /tmp/no_tools_update_channel_needed
+{% elif 'nightly' in grains['version'] %}
+tools-pool-repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
+    - template: jinja
+
+tools-update-repo:
+  file.touch:
+    - name: /tmp/no_tools_update_channel_needed
+{% elif 'stable' in grains.get('version', 'stable') %}
 tools-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
@@ -128,26 +148,6 @@ tools-update-repo:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - source: salt://default/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - template: jinja
-{% elif 'nightly' in grains['version'] %}
-tools-pool-repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
-    - template: jinja
-
-tools-update-repo:
-  file.touch:
-    - name: /tmp/no_tools_update_channel_needed
-{% elif 'head' in grains['version'] or '3.1-stable' in grains['version'] %}
-tools-pool-repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
-    - template: jinja
-
-tools-update-repo:
-  file.touch:
-    - name: /tmp/no_tools_update_channel_needed
 {% endif %}
 {% endif %}
 
