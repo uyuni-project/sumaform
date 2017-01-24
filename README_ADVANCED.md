@@ -177,9 +177,9 @@ module "minsles12sp1" {
 }
 ```
 
-### SUSE Manager 3.1
+### SUSE Manager 3.1 (alpha)
 
-SUSE Manager 3.1 is supported by specifing `version = "3.1-stable"` when you setup a host:
+SUSE Manager 3.1 is supported by specifying `version = "3.1-stable"`:
 
 ```hcl
 module "suma31pg" {
@@ -188,9 +188,8 @@ module "suma31pg" {
 
   name = "suma31pg"
   version = "3.1-stable"
-  // see modules/libvirt/suse_manager/variables.tf for possible values
 }
 ```
 
-NOTE: `stable` name has been chosen as continuity with the 3-branch as it will target the final release of SUSE Manager 3.1
-However, as the time of writing, target version is in Alpha.
+Note that the version is called `stable` in continuity with the existing naming schema because it will target the final release of SUSE Manager 3.1.
+However, at the time of writing, this version is still in alpha.
