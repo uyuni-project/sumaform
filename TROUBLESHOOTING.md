@@ -159,3 +159,17 @@ Mismatch reason: attribute mismatch: network_interface.0.bridge
 ```
 
 This is a known issue, simply repeat the `terraform apply` command and it will go away.
+
+## Q: how do I workaround a "stat salt: no such file or directory" when applying the plan?
+
+If you run `terraform apply` from outside of the sumaform tree, you will get the error message:
+
+```
+Error applying plan:
+
+1 error(s) occurred:
+
+* stat salt: no such file or directory
+```
+
+A simple solution is to create a symbolic link pointing to the `salt` directory on top level of the sumaform files tree. Create this symlink in your current directory.
