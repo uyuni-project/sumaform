@@ -50,7 +50,7 @@ os-update-repo:
     - template: jinja
 {% endif %}
 
-{% if 'stable' in grains.get('version', '') %}
+{% if 'stable' in grains.get('version', 'stable') %}
 tools-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
@@ -136,7 +136,7 @@ tools-pool-repo:
 tools-update-repo:
   file.touch:
     - name: /tmp/no_tools_update_channel_needed
-{% elif 'stable' in grains.get('version', '') %}
+{% elif 'stable' in grains.get('version', 'stable') %}
 tools-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
