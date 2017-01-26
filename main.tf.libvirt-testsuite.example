@@ -23,22 +23,22 @@ module "suma3pg" {
   for_testsuite_only = true
 }
 
-module "clisles12sp1" {
+module "clisles12sp2" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
-  name = "clisles12sp1"
-  image = "sles12sp1"
+  name = "clisles12sp2"
+  image = "sles12sp2"
   server_configuration =  { hostname = "suma3pg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
 
-module "minsles12sp1" {
+module "minsles12sp2" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
   version = "nightly"
-  name = "minsles12sp1"
-  image = "sles12sp1"
+  name = "minsles12sp2"
+  image = "sles12sp2"
   server_configuration =  { hostname = "suma3pg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
@@ -72,8 +72,8 @@ module "control-node" {
   name = "control-node"
   branch = "master"
   server_configuration = "${module.suma3pg.configuration}"
-  client_configuration = "${module.clisles12sp1.configuration}"
-  minion_configuration = "${module.minsles12sp1.configuration}"
+  client_configuration = "${module.clisles12sp2.configuration}"
+  minion_configuration = "${module.minsles12sp2.configuration}"
   centos_configuration = "${module.mincentos7.configuration}"
   minionssh_configuration = "${module.minsles12sp1ssh.configuration}"
 }
