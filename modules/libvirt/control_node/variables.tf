@@ -39,6 +39,11 @@ variable "centos_configuration" {
   type = "map"
 }
 
+variable "memory" {
+  description = "RAM memory in MiB"
+  default = 512
+}
+
 variable "running" {
   description = "Whether this host should be turned on or off"
   default = true
