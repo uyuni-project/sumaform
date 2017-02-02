@@ -2,11 +2,13 @@ include:
   - client.repos
   - minion.testsuite
 
-salt-minion:
+minion:
   pkg.installed:
+    - name: salt-minion
     - require:
       - sls: client.repos
   service.running:
+    - name: salt-minion
     - enable: True
     - watch:
       - pkg: salt-minion
