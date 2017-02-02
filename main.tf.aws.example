@@ -28,7 +28,7 @@ module "aws_package_mirror" {
   source = "./modules/aws/package_mirror"
   region = "us-east-1"
   availability_zone = "us-east-1e"
-  ami = "ami-164d0801" // change if appropriate (non-SUSE employees or non-us-east-1 region)
+  ami = "ami-33ee1f25" // change if appropriate (non-SUSE employees or non-us-east-1 region)
   key_name = // add SSH key name as a string here
   key_file = // add SSH private key path as a string here
   data_volume_snapshot_id = "snap-011acc89" // change if appropriate (non-SUSE employees or non-us-east-1 region)
