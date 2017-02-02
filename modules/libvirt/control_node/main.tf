@@ -3,6 +3,7 @@ module "control_node" {
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
   image = "sles12sp1"
+  memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"
   grains = <<EOF
