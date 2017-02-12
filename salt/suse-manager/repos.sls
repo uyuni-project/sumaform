@@ -122,6 +122,15 @@ lftp-repo:
       - sls: default
 {% endif %}
 
+{% if 'extra_repos' in grains %}
+{% for repo in grains['extra_repos'] %}
+{{ repo }}:
+  pkgrepo.managed:
+    - baseurl: {{ repo }}
+    - priority: 98
+{% endfor %}
+{% endif %}
+
 refresh-suse-manager-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
