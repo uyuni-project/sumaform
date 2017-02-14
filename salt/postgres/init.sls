@@ -53,7 +53,7 @@ postgresql-restart:
 
 create-db:
   cmd.run:
-    - user: postgres
+    - runas: postgres
     - name: createdb -E UTF8 susemanager
     - unless: psql -l | grep susemanager
     - require:
@@ -61,7 +61,7 @@ create-db:
 
 create-plpgsql-lang:
   cmd.run:
-    - user: postgres
+    - runas: postgres
     - name: createlang plpgsql susemanager
     - unless: psql susemanager -c "\dL" | grep plpgsql
     - require:
@@ -69,7 +69,7 @@ create-plpgsql-lang:
 
 create-user:
   cmd.run:
-    - user: postgres
+    - runas: postgres
     - name: echo "CREATE ROLE spacewalk PASSWORD 'spacewalk' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
     - unless: psql -c "\du" | grep spacewalk
     - require:
