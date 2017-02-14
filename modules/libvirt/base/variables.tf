@@ -8,6 +8,11 @@ variable "cc_password" {
   type = "string"
 }
 
+variable "timezone" {
+  description = "Timezone setting for all VMs"
+  default = "CET"
+}
+
 variable "package_mirror" {
   description = "hostname of the package mirror or leave the default for no package mirror"
   default = "null"
