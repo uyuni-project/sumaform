@@ -68,11 +68,8 @@ EOF
 }
 
 output "configuration" {
-  // HACK: work around https://github.com/hashicorp/terraform/issues/9549
-  value = "${
-    map(
-      "id", "${libvirt_domain.domain.0.id}",
-      "hostname", "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
-    )
-  }"
+  value {
+    id = "${libvirt_domain.domain.0.id}"
+    hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
+  }
 }

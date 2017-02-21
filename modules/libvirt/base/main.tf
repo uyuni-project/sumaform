@@ -45,18 +45,15 @@ resource "libvirt_volume" "centos7" {
 }
 
 output "configuration" {
-  // HACK: work around https://github.com/hashicorp/terraform/issues/9549
-  value = "${
-    map(
-      "network_name", "${var.network_name}",
-      "cc_username", "${var.cc_username}",
-      "cc_password", "${var.cc_password}",
-      "package_mirror", "${var.package_mirror == "" ? "null" : var.package_mirror}",
-      "pool", "${var.pool}",
-      "bridge", "${var.bridge}",
-      "use_avahi", "${var.use_avahi == 1 ? "True" : "False"}",
-      "domain", "${var.domain}",
-      "name_prefix", "${var.name_prefix}"
-    )
-  }"
+  value = {
+    network_name = "${var.network_name}"
+    cc_username = "${var.cc_username}"
+    cc_password = "${var.cc_password}"
+    package_mirror = "${var.package_mirror == "" ? "null" : var.package_mirror}"
+    pool = "${var.pool}"
+    bridge = "${var.bridge}"
+    use_avahi = "${var.use_avahi == 1 ? "True" : "False"}"
+    domain = "${var.domain}"
+    name_prefix = "${var.name_prefix}"
+  }
 }
