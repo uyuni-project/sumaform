@@ -65,5 +65,5 @@ variable "mac" {
 
 variable "extra_repos" {
   description = "extra repositories used for installation"
-  default = []
+  default = {}
 }

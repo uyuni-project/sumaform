@@ -123,10 +123,10 @@ lftp-repo:
 {% endif %}
 
 {% if 'extra_repos' in grains %}
-{% for repo in grains['extra_repos'] %}
-{{ repo }}:
+{% for label, url in grains['extra_repos'].items() %}
+{{ label }}:
   pkgrepo.managed:
-    - baseurl: {{ repo }}
+    - baseurl: {{ url }}
     - priority: 98
 {% endfor %}
 {% endif %}
