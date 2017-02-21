@@ -151,6 +151,15 @@ tools-update-repo:
 {% endif %}
 {% endif %}
 
+{% if 'extra_repos' in grains %}
+{% for label, url in grains['extra_repos'].items() %}
+{{ label }}:
+  pkgrepo.managed:
+    - baseurl: {{ url }}
+    - priority: 98
+{% endfor %}
+{% endif %}
+
 allow-vendor-changes:
   file.managed:
     - name: /etc/zypp/vendors.d/suse
@@ -158,7 +167,7 @@ allow-vendor-changes:
     - contents: |
         [main]
         vendors = SUSE,obs://build.suse.de/Devel:Galaxy
-    
+
 refresh-default-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -169,6 +178,16 @@ refresh-default-repos:
       - file: tools-update-repo
 
 {% else %}
+
+{% if 'extra_repos' in grains %}
+{% for label, url in grains['extra_repos'].items() %}
+{{ label }}:
+  pkgrepo.managed:
+    - baseurl: {{ url }}
+    - priority: 98
+{% endfor %}
+{% endif %}
+
 no-default-repos:
   test.nop: []
 {% endif %}
