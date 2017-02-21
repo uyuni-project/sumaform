@@ -6,6 +6,7 @@ module "control_node" {
   memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"
+  extra_repos = "${var.extra_repos}"
   grains = <<EOF
 
 package-mirror: ${var.base_configuration["package_mirror"]}
@@ -16,7 +17,5 @@ centos-minion: ${var.centos_configuration["hostname"]}
 ssh-minion: ${var.minionssh_configuration["hostname"]}
 role: control-node
 branch : ${var.branch}
-${length(var.extra_repos) > 0 ? "extra_repos:" : ""}
-${length(var.extra_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.extra_repos), values(var.extra_repos))) : ""}
 EOF
 }

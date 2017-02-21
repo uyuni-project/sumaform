@@ -18,6 +18,7 @@ module "suse_manager_proxy" {
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  extra_repos = "${var.extra_repos}"
   grains = <<EOF
 
 version: ${var.version}
@@ -25,8 +26,6 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: suse-manager-proxy
 for-development-only: ${element(list("False", "True"), var.for_development_only)}
-${length(var.extra_repos) > 0 ? "extra_repos:" : ""}
-${length(var.extra_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.extra_repos), values(var.extra_repos))) : ""}
 
 EOF
 }

@@ -7,13 +7,12 @@ module "postgres" {
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  extra_repos = "${var.extra_repos}"
   grains = <<EOF
 
 package-mirror: ${var.base_configuration["package_mirror"]}
 role: postgres
 for-development-only: True
-${length(var.extra_repos) > 0 ? "extra_repos:" : ""}
-${length(var.extra_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.extra_repos), values(var.extra_repos))) : ""}
 
 EOF
 }
