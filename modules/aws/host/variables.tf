@@ -14,7 +14,7 @@ variable "availability_zone" {
 }
 
 variable "ami" {
-  description = "AMI of the custom openSUSE Terraform image for the us-east-1 region, see modules/aws/images"
+  description = "AMI image for the selected for the configured region, see modules/aws/images"
   type = "string"
 }
 
