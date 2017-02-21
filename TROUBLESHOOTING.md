@@ -1,6 +1,6 @@
 # Troubleshooting
 
-## Q: I get the error "* Unknown root level key: terraform" whenever I try to `terraform apply`
+## Q: I get the error "* Unknown root level key: terraform"
 
 A: please update your terraform version to >= 0.8.0
 
