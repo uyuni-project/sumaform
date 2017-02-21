@@ -18,3 +18,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "extra_repos" {
+  description = "extra repositories used for installation {label = url}"
+  default = {}
+}

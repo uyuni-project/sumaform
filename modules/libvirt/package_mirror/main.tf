@@ -27,6 +27,8 @@ role: package-mirror
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 data_disk_device: vdb
+${length(var.extra_repos) > 0 ? "extra_repos:" : ""}
+${length(var.extra_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.extra_repos), values(var.extra_repos))) : ""}
 
 EOF
 }

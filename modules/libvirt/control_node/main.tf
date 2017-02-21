@@ -16,5 +16,7 @@ centos-minion: ${var.centos_configuration["hostname"]}
 ssh-minion: ${var.minionssh_configuration["hostname"]}
 role: control-node
 branch : ${var.branch}
+${length(var.extra_repos) > 0 ? "extra_repos:" : ""}
+${length(var.extra_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.extra_repos), values(var.extra_repos))) : ""}
 EOF
 }

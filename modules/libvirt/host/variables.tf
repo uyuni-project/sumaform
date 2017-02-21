@@ -47,3 +47,8 @@ variable "grains" {
   description = "custom grain string to be added to this host's configuration"
   default = ""
 }
+
+variable "extra_repos" {
+  description = "extra repositories used for installation {label = url}"
+  default = {}
+}
