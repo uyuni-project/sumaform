@@ -1,3 +1,7 @@
+terraform {
+    required_version = ">= 0.8.0"
+}
+
 resource "libvirt_volume" "opensuse422" {
   name = "${var.name_prefix}opensuse422"
   source = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse422.x86_64.qcow2"
@@ -39,7 +43,7 @@ resource "libvirt_volume" "centos7" {
   source = "http://w3.nue.suse.com/~mbologna/sumaform-images/centos7.qcow2"
   pool = "${var.pool}"
 }
-  
+   
 output "configuration" {
   // HACK: work around https://github.com/hashicorp/terraform/issues/9549
   value = "${

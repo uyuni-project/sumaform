@@ -1,7 +1,7 @@
 /*
   This module sets up package-mirror host that also acts as a bastion in the
   public subnet.
-  
+
   To render it usable you need to either specify a data disk snapshot that
   contains packages or to upload them from a libvirt package-mirror with the
   following commands:
@@ -11,6 +11,10 @@
   zypper in rsync
   rsync -av0 --delete -e 'ssh -i key.pem' /srv/mirror/ root@<PUBLIC DNS NAME>://srv/mirror/
 */
+
+terraform {
+    required_version = ">= 0.8.0"
+}
 
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
@@ -51,7 +55,7 @@ resource "null_resource" "package_mirror_salt_configuration" {
     host = "${aws_instance.instance.public_dns}"
     private_key = "${file(var.key_file)}"
   }
-  
+
   provisioner "file" {
     source = "salt"
     destination = "/srv/salt"

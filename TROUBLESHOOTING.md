@@ -1,5 +1,9 @@
 # Troubleshooting
 
+## Q: I get the error "* Unknown root level key: terraform"
+
+A: please update your terraform version to >= 0.8.0
+
 ## Q: how to force the re-creation of a resource?
 
 A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the module and resource use `terraform state list`:

@@ -4,6 +4,10 @@
   The public network has an Internet Gateway and accepts SSH connections from a whitelist of trusted IPs.
 */
 
+terraform {
+    required_version = ">= 0.8.0"
+}
+
 resource "aws_vpc" "main" {
   cidr_block = "172.16.0.0/16"
   enable_dns_support = true
@@ -73,7 +77,7 @@ resource "aws_security_group" "public" {
     protocol = "tcp"
     cidr_blocks = ["${formatlist("%s/32", var.ssh_allowed_ips)}"]
   }
-  
+
   ingress {
     from_port = 0
     to_port = 0

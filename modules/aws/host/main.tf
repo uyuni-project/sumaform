@@ -1,3 +1,7 @@
+terraform {
+    required_version = ">= 0.8.0"
+}
+
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
   instance_type = "${var.instance_type}"
@@ -11,7 +15,7 @@ resource "aws_instance" "instance" {
   root_block_device {
     volume_size = "${var.volume_size}"
   }
-  
+
   tags {
     Name = "${var.name_prefix}-${var.name}-${count.index}"
   }
@@ -23,7 +27,7 @@ resource "null_resource" "host_salt_configuration" {
   triggers {
     instance_id = "${element(aws_instance.instance.*.id, count.index)}"
   }
-  
+
   connection {
     host = "${element(aws_instance.instance.*.private_dns, count.index)}"
     private_key = "${file(var.key_file)}"
