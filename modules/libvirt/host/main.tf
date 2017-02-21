@@ -52,6 +52,7 @@ use-avahi: ${var.base_configuration["use_avahi"]}
 timezone: ${var.base_configuration["timezone"]}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
+authorized-keys: ${file("~/.ssh/id_rsa.pub")}
 ${var.grains}
 
 EOF
