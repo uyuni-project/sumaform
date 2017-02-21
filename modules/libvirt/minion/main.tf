@@ -9,6 +9,7 @@ module "minion" {
   running = "${var.running}"
   mac = "${var.mac}"
   extra_repos = "${var.extra_repos}"
+  extra_pkgs = "${var.extra_pkgs}"
   grains = <<EOF
 
 version: ${var.version}

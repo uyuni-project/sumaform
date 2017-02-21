@@ -51,6 +51,8 @@ domain: ${var.base_configuration["domain"]}
 use-avahi: ${var.base_configuration["use_avahi"]}
 ${length(var.extra_repos) > 0 ? "extra_repos:" : ""}
 ${length(var.extra_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.extra_repos), values(var.extra_repos))) : ""}
+${length(var.extra_pkgs) > 0 ? "extra_pkgs:" : ""}
+${length(var.extra_pkgs) > 0 ? join("\n", formatlist("  - %s", var.extra_pkgs)) : ""}
 ${var.grains}
 
 EOF

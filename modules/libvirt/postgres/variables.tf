@@ -32,3 +32,8 @@ variable "extra_repos" {
   description = "extra repositories used for installation {label = url}"
   default = {}
 }
+
+variable "extra_pkgs" {
+  description = "extra packages which should be installed"
+  default = []
+}
