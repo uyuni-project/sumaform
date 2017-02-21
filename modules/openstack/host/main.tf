@@ -1,3 +1,7 @@
+terraform {
+    required_version = ">= 0.8.0"
+}
+
 resource "openstack_compute_floatingip_v2" "floatip" {
   region = ""
   pool = "floating"
