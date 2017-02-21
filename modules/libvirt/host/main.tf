@@ -1,18 +1,18 @@
 // Names are calculated as follows:
-// ${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
+// ${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}
 // This means:
 //   name_prefix + name (if count = 1)
 //   name_prefix + name + "-" + index (if count > 1)
 
 resource "libvirt_volume" "main_disk" {
-  name = "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}-main-disk"
+  name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["name_prefix"]}${var.image}"
   pool = "${var.base_configuration["pool"]}"
   count = "${var.count}"
 }
 
 resource "libvirt_domain" "domain" {
-  name = "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}"
+  name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
   running = "${var.running}"
@@ -46,7 +46,7 @@ resource "libvirt_domain" "domain" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
+hostname: ${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}
 domain: ${var.base_configuration["domain"]}
 use-avahi: ${var.base_configuration["use_avahi"]}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
@@ -72,7 +72,7 @@ output "configuration" {
   value = "${
     map(
       "id", "${libvirt_domain.domain.0.id}",
-      "hostname", "${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-1"), signum(var.count - 1))}.${var.base_configuration["domain"]}"
+      "hostname", "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
     )
   }"
 }

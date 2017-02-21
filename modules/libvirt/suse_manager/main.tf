@@ -13,7 +13,7 @@ module "suse_manager" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "${replace(var.image, "default", lookup(var.images, var.version))}"
+  image = "${var.image == "default" ? lookup(var.images, var.version) : var.image}"
   count = 1
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
@@ -31,8 +31,8 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 role: suse-manager-server
-for-development-only: ${element(list("False", "True"), var.for_development_only)}
-for-testsuite-only: ${element(list("False", "True"), var.for_testsuite_only)}
+for-development-only: ${var.for_development_only == 1 ? "True" : "False"}
+for-testsuite-only: ${var.for_testsuite_only == 1 ? "True" : "False"}
 
 EOF
 }

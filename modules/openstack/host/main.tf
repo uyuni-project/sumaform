@@ -36,7 +36,7 @@ resource "openstack_compute_instance_v2" "instance" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
+hostname: ${var.name}${var.count > 1 ? "-${count.index + 1}" : ""}
 domain: ${var.domain}
 use-avahi: True
 package-mirror: null

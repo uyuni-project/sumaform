@@ -43,7 +43,7 @@ resource "libvirt_volume" "centos7" {
   source = "http://w3.nue.suse.com/~mbologna/sumaform-images/centos7.qcow2"
   pool = "${var.pool}"
 }
-   
+
 output "configuration" {
   // HACK: work around https://github.com/hashicorp/terraform/issues/9549
   value = "${
@@ -51,10 +51,10 @@ output "configuration" {
       "network_name", "${var.network_name}",
       "cc_username", "${var.cc_username}",
       "cc_password", "${var.cc_password}",
-      "package_mirror", "${replace(var.package_mirror, "/^$/", "null")}",
+      "package_mirror", "${var.package_mirror == "" ? "null" : var.package_mirror}",
       "pool", "${var.pool}",
       "bridge", "${var.bridge}",
-      "use_avahi", "${element(list("False", "True"), var.use_avahi)}",
+      "use_avahi", "${var.use_avahi == 1 ? "True" : "False"}",
       "domain", "${var.domain}",
       "name_prefix", "${var.name_prefix}"
     )

@@ -27,7 +27,7 @@ version: ${var.version}
 package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: suse-manager-proxy
-for-development-only: ${element(list("False", "True"), var.for_development_only)}
+for-development-only: ${var.for_development_only == 1 ? "True" : "False"}
 
 EOF
 }
