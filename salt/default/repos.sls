@@ -155,6 +155,7 @@ tools-update-repo:
 {% for label, url in grains['extra_repos'].items() %}
 {{ label }}:
   pkgrepo.managed:
+    - humanname: {{ label }}
     - baseurl: {{ url }}
     - priority: 98
 {% endfor %}
@@ -183,6 +184,7 @@ refresh-default-repos:
 {% for label, url in grains['extra_repos'].items() %}
 {{ label }}:
   pkgrepo.managed:
+    - humanname: {{ label }}
     - baseurl: {{ url }}
     - priority: 98
 {% endfor %}
