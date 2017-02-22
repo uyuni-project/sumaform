@@ -6,7 +6,7 @@ A: please update your terraform version to >= 0.8.0
 
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
 
-You need to [generate a public/private ssh keypair](https://stribika.github.io/2015/01/04/secure-secure-shell.html).
+You need to generate a public/private ssh keypair with `ssh-keygen -t rsa -b 4096 -o -a 100`
 
 ## Q: how to force the re-creation of a resource?
 

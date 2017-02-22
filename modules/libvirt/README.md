@@ -16,6 +16,7 @@
    - either your target libvirt host has a storage pool named `default`
    - or you [create one](https://docs.fedoraproject.org/en-US/Fedora/18/html/Virtualization_Administration_Guide/sec-directory-based-storage-pools.html)
    - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
+ - make sure that you have a ssh public key (`~/.ssh/id_rsa.pub`). If not, generate a public/private ssh keypair with `ssh-keygen -t rsa -b 4096 -o -a 100`.
  - if you are not using bridged networking, make sure that:
    - either your target libvirt host has a NAT network which is named `default`
    - or you [create one](https://wiki.libvirt.org/page/TaskNATSetupVirtManager)
@@ -27,7 +28,22 @@
 
 ## Accessing VMs
 
-All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`. Provided your host is on the same network segment of the virtual machines you can access them via:
+All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`.
+Upon provisioning your default ssh public key (`~/.ssh/id_rsa.pub`) is copied into the remote machine. This means that you can access every machine without supplying any password.
+
+If you want to use another key, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
+
+```hcl
+module "base" {
+  [...]
+  ssh_key_path = "~/.ssh/id_mbologna_terraform.pub"
+  [...]
+}
+```
+
+If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file `ssh_key_path = ""`.
+
+Provided your host is on the same network segment of the virtual machines you can access them via:
 
 ```
 ssh root@moio-suma3pg.tf.local
