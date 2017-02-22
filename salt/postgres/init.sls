@@ -53,10 +53,10 @@ postgresql-restart:
 
 create-db:
   cmd.run:
-{% if grains['saltversion'] == '2015.8.12' %}
-    - user: postgres
-{% else %}
+{% if grains['saltversion'] > '2016' %}
     - runas: postgres
+{% else %}
+    - user: postgres
 {% endif %}
     - name: createdb -E UTF8 susemanager
     - unless: psql -l | grep susemanager
@@ -65,10 +65,10 @@ create-db:
 
 create-plpgsql-lang:
   cmd.run:
-{% if grains['saltversion'] == '2015.8.12' %}
-    - user: postgres
-{% else %}
+{% if grains['saltversion'] > '2016' %}
     - runas: postgres
+{% else %}
+    - user: postgres
 {% endif %}
     - name: createlang plpgsql susemanager
     - unless: psql susemanager -c "\dL" | grep plpgsql
@@ -77,10 +77,10 @@ create-plpgsql-lang:
 
 create-user:
   cmd.run:
-{% if grains['saltversion'] == '2015.8.12' %}
-      - user: postgres
+{% if grains['saltversion'] > '2016' %}
+    - runas: postgres
 {% else %}
-      - runas: postgres
+    - user: postgres
 {% endif %}
     - name: echo "CREATE ROLE spacewalk PASSWORD 'spacewalk' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
     - unless: psql -c "\du" | grep spacewalk
