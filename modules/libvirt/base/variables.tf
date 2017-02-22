@@ -13,6 +13,11 @@ variable "timezone" {
   default = "Europe/Berlin"
 }
 
+variable "ssh_key_path" {
+  description = "path of pub ssh key you want to use as auth or leave it blank for no ssh auth"
+  default = "~/.ssh/id_rsa.pub"
+}
+
 variable "package_mirror" {
   description = "hostname of the package mirror or leave the default for no package mirror"
   default = "null"
