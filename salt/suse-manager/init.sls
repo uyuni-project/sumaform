@@ -73,7 +73,6 @@ suse-manager-setup:
   cmd.run:
     - name: /usr/lib/susemanager/bin/migration.sh -l /var/log/susemanager_setup.log -s
     - creates: /root/.MANAGER_SETUP_COMPLETE
-    - user: root
     - require:
       - pkg: suse-manager-packages
       - file: environment-setup-script
