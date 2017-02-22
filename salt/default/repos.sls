@@ -151,15 +151,13 @@ tools-update-repo:
 {% endif %}
 {% endif %}
 
-{% if 'additional_repos' in grains %}
 {% for label, url in grains['additional_repos'].items() %}
-{{ label }}:
+{{ label }}-repo:
   pkgrepo.managed:
     - humanname: {{ label }}
     - baseurl: {{ url }}
     - priority: 98
 {% endfor %}
-{% endif %}
 
 allow-vendor-changes:
   file.managed:

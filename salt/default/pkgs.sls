@@ -1,10 +1,10 @@
-{% if 'additional_packages' in grains %}
+{% if grains['additional_packages'] %}
 install_additional_packages:
   pkg.latest:
+    - pkgs:
+{% for package in grains['additional_packages'] %}
+      - {{ package }}
+{% endfor %}
     - require:
       - sls: default.repos
-    - pkgs:
-{% for pkg in grains['additional_packages'] %}
-      - {{pkg}}
-{% endfor %}
 {% endif %}
