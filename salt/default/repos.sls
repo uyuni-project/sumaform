@@ -151,14 +151,6 @@ tools-update-repo:
 {% endif %}
 {% endif %}
 
-{% for label, url in grains['additional_repos'].items() %}
-{{ label }}-repo:
-  pkgrepo.managed:
-    - humanname: {{ label }}
-    - baseurl: {{ url }}
-    - priority: 98
-{% endfor %}
-
 allow-vendor-changes:
   file.managed:
     - name: /etc/zypp/vendors.d/suse
@@ -176,18 +168,15 @@ refresh-default-repos:
       - file: tools-pool-repo
       - file: tools-update-repo
 
-{% else %}
+{% endif %}
 
-{% if 'additional_repos' in grains %}
 {% for label, url in grains['additional_repos'].items() %}
-{{ label }}:
+{{ label }}-repo:
   pkgrepo.managed:
     - humanname: {{ label }}
     - baseurl: {{ url }}
     - priority: 98
 {% endfor %}
-{% endif %}
 
-no-default-repos:
+default-repos:
   test.nop: []
-{% endif %}
