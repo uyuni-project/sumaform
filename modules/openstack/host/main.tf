@@ -45,7 +45,7 @@ database: ${var.database}
 role: ${var.role}
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}
-server: ${var.server}
+server: ${var.server_configuration["hostname"]}
 iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 for-development-only: True
@@ -66,8 +66,9 @@ EOF
   }
 }
 
-output "hostname" {
-  // HACK: this output artificially depends on the instance id
-  // any resource using this output will have to wait until instance is fully up
-  value = "${coalesce("${var.name}.${var.domain}", openstack_compute_instance_v2.instance.id)}"
+output "configuration" {
+  value {
+    id = "${openstack_compute_instance_v2.instance.id}"
+    hostname = "${var.name}.${var.domain}"
+  }
 }
