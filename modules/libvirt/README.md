@@ -72,7 +72,7 @@ Note you are encouraged to specify an additional libvirt storage pool name (`dat
 
 Omitting the `data_pool` variable results in the default "default" storage pool being used.
 
-Note that packe-mirror must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
+Note that package-mirror must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
 
 ## Customize virtual hardware
 
