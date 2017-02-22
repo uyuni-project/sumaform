@@ -13,6 +13,16 @@ variable "image" {
   type = "string"
 }
 
+variable "additional_repos" {
+  description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  default = {}
+}
+
+variable "additional_packages" {
+  description = "extra packages to install, see README_ADVANCED.md"
+  default = []
+}
+
 variable "count"  {
   description = "number of hosts like this one"
   default = 1
@@ -46,14 +56,4 @@ variable "additional_disk" {
 variable "grains" {
   description = "custom grain string to be added to this host's configuration"
   default = ""
-}
-
-variable "additional_repos" {
-  description = "extra repositories used for installation {label = url}"
-  default = {}
-}
-
-variable "additional_packages" {
-  description = "extra packages which should be installed"
-  default = []
 }
