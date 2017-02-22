@@ -73,12 +73,6 @@ suse-manager-setup:
   cmd.run:
     - name: /usr/lib/susemanager/bin/migration.sh -l /var/log/susemanager_setup.log -s
     - creates: /root/.MANAGER_SETUP_COMPLETE
-    {% if grains['saltversion'] == '2015.8.12' %}
-    - user: root
-    {% else %}
-    # Salt version '2016.3.5' and 2016.11.2' use 'runas` instead of 'user'
-    - runas: root
-    {% endif %}
     - require:
       - pkg: suse-manager-packages
       - file: environment-setup-script
