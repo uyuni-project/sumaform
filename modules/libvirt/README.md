@@ -10,7 +10,7 @@
      - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
      - change the `network_name` variable declaration to empty string (`""`)
      - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
-   - if other sumaform users deploy to the same host, uncomment the `name_prefix` variable declaration in the `base` module and specify a unique prefix for your VMs
+   - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
  - complete the `cc_password` variable in the `base` module
  - make sure that:
    - either your target libvirt host has a storage pool named `default`
