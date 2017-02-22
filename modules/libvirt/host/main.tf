@@ -49,10 +49,8 @@ resource "libvirt_domain" "domain" {
 hostname: ${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.base_configuration["domain"]}
 use-avahi: ${var.base_configuration["use_avahi"]}
-${length(var.additional_repos) > 0 ? "additional_repos:" : ""}
-${length(var.additional_repos) > 0 ? join("\n", formatlist("  %s: %s", keys(var.additional_repos), values(var.additional_repos))) : ""}
-${length(var.additional_packages) > 0 ? "additional_packages:" : ""}
-${length(var.additional_packages) > 0 ? join("\n", formatlist("  - %s", var.additional_packages)) : ""}
+additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
+additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 ${var.grains}
 
 EOF
