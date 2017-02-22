@@ -151,8 +151,8 @@ tools-update-repo:
 {% endif %}
 {% endif %}
 
-{% if 'extra_repos' in grains %}
-{% for label, url in grains['extra_repos'].items() %}
+{% if 'additional_repos' in grains %}
+{% for label, url in grains['additional_repos'].items() %}
 {{ label }}:
   pkgrepo.managed:
     - humanname: {{ label }}
@@ -180,8 +180,8 @@ refresh-default-repos:
 
 {% else %}
 
-{% if 'extra_repos' in grains %}
-{% for label, url in grains['extra_repos'].items() %}
+{% if 'additional_repos' in grains %}
+{% for label, url in grains['additional_repos'].items() %}
 {{ label }}:
   pkgrepo.managed:
     - humanname: {{ label }}

@@ -7,8 +7,8 @@ module "postgres" {
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
-  extra_repos = "${var.extra_repos}"
-  extra_pkgs = "${var.extra_pkgs}"
+  additional_repos = "${var.additional_repos}"
+  additional_packages = "${var.additional_packages}"
   grains = <<EOF
 
 package-mirror: ${var.base_configuration["package_mirror"]}

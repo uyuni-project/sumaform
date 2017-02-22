@@ -54,12 +54,12 @@ variable "mac" {
   default = ""
 }
 
-variable "extra_repos" {
+variable "additional_repos" {
   description = "extra repositories used for installation {label = url}"
   default = {}
 }
 
-variable "extra_pkgs" {
+variable "additional_packages" {
   description = "extra packages which should be installed"
   default = []
 }

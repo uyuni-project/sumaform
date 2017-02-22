@@ -16,8 +16,8 @@ module "package_mirror" {
   vcpu = 1
   running = "${var.running}"
   mac = "${var.mac}"
-  extra_repos = "${var.extra_repos}"
-  extra_pkgs = "${var.extra_pkgs}"
+  additional_repos = "${var.additional_repos}"
+  additional_packages = "${var.additional_packages}"
 
   additional_disk {
     volume_id = "${libvirt_volume.data_disk.id}"
