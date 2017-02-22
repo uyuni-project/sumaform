@@ -3,6 +3,13 @@
 include:
   - suse-manager
 
+incomplete-package-import-reposync:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: incomplete_package_import = 1
+    - require:
+      - sls: suse-manager
+
 {% if 'stable' not in grains['version'] %}
 
 browser-side-less-configuration:
