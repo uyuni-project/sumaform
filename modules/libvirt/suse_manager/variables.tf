@@ -43,6 +43,16 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "additional_repos" {
+  description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  default = {}
+}
+
+variable "additional_packages" {
+  description = "extra packages to install, see README_ADVANCED.md"
+  default = []
+}
+
 variable "memory" {
   description = "RAM memory in MiB"
   default = 4096

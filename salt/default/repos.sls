@@ -158,7 +158,7 @@ allow-vendor-changes:
     - contents: |
         [main]
         vendors = SUSE,obs://build.suse.de/Devel:Galaxy
-    
+
 refresh-default-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -168,7 +168,15 @@ refresh-default-repos:
       - file: tools-pool-repo
       - file: tools-update-repo
 
-{% else %}
-no-default-repos:
-  test.nop: []
 {% endif %}
+
+{% for label, url in grains['additional_repos'].items() %}
+{{ label }}-repo:
+  pkgrepo.managed:
+    - humanname: {{ label }}
+    - baseurl: {{ url }}
+    - priority: 98
+{% endfor %}
+
+default-repos:
+  test.nop: []

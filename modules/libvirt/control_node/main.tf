@@ -6,6 +6,8 @@ module "control_node" {
   memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"
+  additional_repos = "${var.additional_repos}"
+  additional_packages = "${var.additional_packages}"
   grains = <<EOF
 
 package-mirror: ${var.base_configuration["package_mirror"]}

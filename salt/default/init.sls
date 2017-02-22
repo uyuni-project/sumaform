@@ -1,5 +1,6 @@
 include:
   - default.repos
+  - default.pkgs
 
 up-to-date-salt:
   pkg.latest:

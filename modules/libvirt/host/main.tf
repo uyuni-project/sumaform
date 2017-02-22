@@ -49,6 +49,8 @@ resource "libvirt_domain" "domain" {
 hostname: ${var.base_configuration["name_prefix"]}${var.name}${element(list("", "-${count.index  + 1}"), signum(var.count - 1))}
 domain: ${var.base_configuration["domain"]}
 use-avahi: ${var.base_configuration["use_avahi"]}
+additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
+additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 ${var.grains}
 
 EOF
@@ -58,6 +60,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
+      "test -e /etc/fstab || touch /etc/fstab",
       "salt-call --force-color --local --output=quiet state.sls default,terraform-resource",
       "salt-call --force-color --local state.highstate"
     ]

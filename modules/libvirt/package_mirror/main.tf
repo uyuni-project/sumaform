@@ -16,11 +16,13 @@ module "package_mirror" {
   vcpu = 1
   running = "${var.running}"
   mac = "${var.mac}"
-  
+  additional_repos = "${var.additional_repos}"
+  additional_packages = "${var.additional_packages}"
+
   additional_disk {
     volume_id = "${libvirt_volume.data_disk.id}"
   }
-  
+
   grains = <<EOF
 
 role: package-mirror

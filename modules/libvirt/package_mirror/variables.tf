@@ -9,6 +9,16 @@ variable "running" {
   default = true
 }
 
+variable "additional_repos" {
+  description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  default = {}
+}
+
+variable "additional_packages" {
+  description = "extra packages to install, see README_ADVANCED.md"
+  default = []
+}
+
 variable "data_pool" {
   description = "libvirt storage pool name for this host's data disk"
   default = "default"

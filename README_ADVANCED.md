@@ -193,3 +193,28 @@ module "suma31pg" {
 
 Note that the version is called `stable` in continuity with the existing naming schema because it will target the final release of SUSE Manager 3.1.
 However, at the time of writing, this version is still in alpha.
+
+### Add custom repos and packages
+
+You can specify custom repos and packages to be installed at deploy time for a specific host:
+
+```hcl
+module "minsles12sp1" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "minsles12sp1"
+  image = "sles12sp1"
+  server_configuration = "${module.suma3pg.configuration}"
+
+  additional_repos {
+    tools = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP2/"
+    virtualization_containers = "http://download.opensuse.org/repositories/Virtualization:/containers/SLE_12_SP2/"
+  }
+
+  additional_packages = [
+    "terraform",
+    "htop"
+  ]
+}
+```

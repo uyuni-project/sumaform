@@ -33,6 +33,16 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "additional_repos" {
+  description = "extra repositories used for installation {label = url}"
+  default = {}
+}
+
+variable "additional_packages" {
+  description = "extra packages which should be installed"
+  default = []
+}
+
 variable "count"  {
   description = "number of hosts like this one"
   default = 1

@@ -8,6 +8,8 @@ module "client" {
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  additional_repos = "${var.additional_repos}"
+  additional_packages = "${var.additional_packages}"
   grains = <<EOF
 
 version: ${var.version}
