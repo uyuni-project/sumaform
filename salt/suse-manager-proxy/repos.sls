@@ -19,7 +19,7 @@ suse-manager-proxy-update-repo:
       - sls: default
 {% endif %}
 
-{% if '3' in grains['version'] %}
+{% if '3-' in grains['version'] %}
 suse-manager-proxy-pool-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
@@ -37,22 +37,32 @@ suse-manager-proxy-update-repo:
       - sls: default
 {% endif %}
 
-{% if 'head' in grains['version'] %}
+{% if '3.1' in grains['version'] %}
 suse-manager-proxy-pool-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
-    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: default
 
 suse-manager-proxy-update-repo:
+  file.touch:
+    - name: /tmp/no_update_channel_needed
+{% endif %}
+
+{% if 'head' in grains['version'] %}
+suse-manager-proxy-pool-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Update.repo
-    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Update.repo
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
+    - source: salt://suse-manager-proxy/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: default
+
+suse-manager-proxy-update-repo:
+  file.touch:
+    - name: /tmp/no_update_channel_needed
 {% endif %}
 
 {% if '2.1-nightly' in grains['version'] %}
