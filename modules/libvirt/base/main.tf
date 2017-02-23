@@ -49,6 +49,7 @@ output "configuration" {
     network_name = "${var.network_name}"
     cc_username = "${var.cc_username}"
     cc_password = "${var.cc_password}"
+    timezone = "${var.timezone}"
     package_mirror = "${var.package_mirror == "" ? "null" : var.package_mirror}"
     pool = "${var.pool}"
     bridge = "${var.bridge}"
