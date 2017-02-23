@@ -233,5 +233,5 @@ module "suma21pgslave" {
   role = "suse-manager-server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
-  server_configuration = "${module.suma21pgmaster.configuration}"
+  iss_master = "${module.suma21pgmaster.configuration["hostname"]}"
 }
