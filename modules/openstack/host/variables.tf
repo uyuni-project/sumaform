@@ -28,9 +28,9 @@ variable "count"  {
   default = 1
 }
 
-variable "server" {
-  description = "Main server for this host"
-  default = "null"
+variable "server_configuration" {
+  description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.openstack.example"
+  default = { hostname = "null" }
 }
 
 variable "openstack_tenant_name" {
