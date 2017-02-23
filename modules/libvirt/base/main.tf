@@ -52,7 +52,7 @@ output "configuration" {
     package_mirror = "${var.package_mirror == "" ? "null" : var.package_mirror}"
     pool = "${var.pool}"
     bridge = "${var.bridge}"
-    use_avahi = "${var.use_avahi == 1 ? "True" : "False"}"
+    use_avahi = "${var.use_avahi ? "True" : "False"}"
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
   }
