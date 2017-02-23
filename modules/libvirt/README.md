@@ -16,7 +16,7 @@
    - either your target libvirt host has a storage pool named `default`
    - or you [create one](https://docs.fedoraproject.org/en-US/Fedora/18/html/Virtualization_Administration_Guide/sec-directory-based-storage-pools.html)
    - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
- - make sure that you have a ssh public key (`~/.ssh/id_rsa.pub`). If not, generate a public/private ssh keypair with `ssh-keygen -t rsa -b 4096 -o -a 100`.
+   - that you have a ssh public key (`~/.ssh/id_rsa.pub`). If not, generate a public/private ssh keypair with `ssh-keygen -t rsa -b 4096 -o -a 100`.
  - if you are not using bridged networking, make sure that:
    - either your target libvirt host has a NAT network which is named `default`
    - or you [create one](https://wiki.libvirt.org/page/TaskNATSetupVirtManager)
