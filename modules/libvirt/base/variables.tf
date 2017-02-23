@@ -10,7 +10,7 @@ variable "cc_password" {
 
 variable "timezone" {
   description = "Timezone setting for all VMs"
-  default = "CET"
+  default = "Europe/Berlin"
 }
 
 variable "package_mirror" {
