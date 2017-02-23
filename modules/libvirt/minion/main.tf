@@ -16,8 +16,8 @@ version: ${var.version}
 package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minion
-for-development-only: ${element(list("False", "True"), var.for_development_only)}
-for-testsuite-only: ${element(list("False", "True"), var.for_testsuite_only)}
+for-development-only: ${var.for_development_only ? "True" : "False"}
+for-testsuite-only: ${var.for_testsuite_only ? "True" : "False"}
 
 EOF
 }
