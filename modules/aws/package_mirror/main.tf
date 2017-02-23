@@ -71,6 +71,8 @@ role: package-mirror
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}
 data_disk_device: xvdf
+additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
+additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 
 EOF
 
