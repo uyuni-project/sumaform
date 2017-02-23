@@ -68,6 +68,16 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "additional_repos" {
+  description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  default = {}
+}
+
+variable "additional_packages" {
+  description = "extra packages to install, see README_ADVANCED.md"
+  default = []
+}
+
 variable "domain" {
   description = "hostname's domain"
   default = "tf.local"

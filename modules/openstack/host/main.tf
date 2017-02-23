@@ -50,6 +50,8 @@ iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 for-development-only: True
 for-testsuite-only: False
+additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
+additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 
 EOF
 
