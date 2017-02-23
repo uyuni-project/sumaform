@@ -142,6 +142,15 @@ rhn-conf-from-dir:
       - sls: suse-manager
       - mount: mirror-directory
 
+{% elif salt["grains.get"]("smt") %}
+
+rhn-conf-mirror:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}
+    - require:
+      - sls: suse-manager
+
 {% endif %}
 
 {% endif %}
