@@ -1,7 +1,6 @@
 base:
   '*':
     - default
-    - timezone
 
   'role:suse-manager-server':
     - match: grain
