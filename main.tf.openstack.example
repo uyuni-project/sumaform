@@ -174,7 +174,7 @@ module "proxy21s" {
 }
 
 module "proxy21" {
-  source = "./modules/libvirt/host"
+  source = "./modules/openstack/host"
   name = "proxy21"
   image = "sumaform-sles11sp3"
   server_configuration = "${module.suma21pg.configuration}"
@@ -183,7 +183,7 @@ module "proxy21" {
 }
 
 module "proxy3s" {
-  source = "./modules/libvirt/host"
+  source = "./modules/openstack/host"
   name = "proxy3s"
   image = "sumaform-sles12sp1"
   server_configuration = "${module.suma3spg.configuration}"
@@ -192,7 +192,7 @@ module "proxy3s" {
 }
 
 module "proxy3" {
-  source = "./modules/libvirt/host"
+  source = "./modules/openstack/host"
   name = "proxy3"
   image = "sumaform-sles12sp1"
   server_configuration = "${module.suma3pg.configuration}"
@@ -201,7 +201,7 @@ module "proxy3" {
 }
 
 module "proxyhead" {
-  source = "./modules/libvirt/host"
+  source = "./modules/openstack/host"
   name = "proxyhead"
   image = "sumaform-sles12sp1"
   server_configuration = "${module.sumaheadpg.configuration}"
