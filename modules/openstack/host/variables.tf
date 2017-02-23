@@ -68,6 +68,11 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "timezone" {
+  description = "Timezone setting for this VM"
+  default = "Europe/Berlin"
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}
