@@ -3,12 +3,16 @@
 include:
   - suse-manager
 
-# allow connections from any host
+# allow connections from any host, allow non-durable but faster operation
+# see https://www.postgresql.org/docs/current/static/non-durability.html
 
 postgres-config:
   file.append:
     - name: /var/lib/pgsql/data/postgresql.conf
-    - text: listen_addresses = '*'
+    - text: |
+        listen_addresses = '*'
+        fsync = off
+        full_page_writes = off
     - require:
       - sls: suse-manager
 
