@@ -27,7 +27,22 @@
 
 ## Accessing VMs
 
-All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`. Provided your host is on the same network segment of the virtual machines you can access them via:
+All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`.
+Upon provisioning your SSH public key (by default `~/.ssh/id_rsa.pub`) is copied into the remote machine. This means that you can access every machine without supplying any password.
+
+If you want to use another key, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
+
+```hcl
+module "base" {
+  [...]
+  ssh_key_path = "~/.ssh/id_mbologna_terraform.pub"
+  [...]
+}
+```
+
+If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
+
+Provided your host is on the same network segment of the virtual machines you can access them via:
 
 ```
 ssh root@moio-suma3pg.tf.local

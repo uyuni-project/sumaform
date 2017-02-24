@@ -51,6 +51,7 @@ output "configuration" {
     cc_password = "${var.cc_password}"
     timezone = "${var.timezone}"
     package_mirror = "${var.package_mirror == "" ? "null" : var.package_mirror}"
+    ssh_key_path = "${var.ssh_key_path}"
     pool = "${var.pool}"
     bridge = "${var.bridge}"
     use_avahi = "${var.use_avahi ? "True" : "False"}"
