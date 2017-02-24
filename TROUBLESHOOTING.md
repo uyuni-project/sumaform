@@ -6,7 +6,7 @@ A: please update your terraform version to >= 0.8.0
 
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
 
-You need to generate a public/private ssh keypair with `ssh-keygen -t rsa -b 4096 -o -a 100`
+Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See [Accessing VMs](modules/libvirt/README.md#accessing-vms) for details.
 
 ## Q: how to force the re-creation of a resource?
 

@@ -14,7 +14,7 @@ variable "timezone" {
 }
 
 variable "ssh_key_path" {
-  description = "path of pub ssh key you want to use as auth or leave it blank for no ssh auth"
+  description = "path of pub ssh key you want to use to access VMs, see libvirt/README.md"
   default = "~/.ssh/id_rsa.pub"
 }
 
