@@ -1,6 +1,6 @@
 # Troubleshooting
 
-## Q: I get the error "* Unknown root level key: terraform"
+## Q: I get the error "* Unknown root level key: terraform" or "Error downloading modules: ... parse error: syntax error"
 
 A: please update your terraform version to >= 0.8.0
 
