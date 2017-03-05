@@ -167,6 +167,18 @@ refresh-default-repos:
       - file: os-update-repo
       - file: tools-pool-repo
       - file: tools-update-repo
+{% endif %}
+
+{% if grains['os_family'] == 'RedHat' %}
+
+galaxy_key:
+  file.managed:
+    - name: /tmp/galaxy.key
+    - source: salt://default/galaxy.key
+  cmd.wait:
+    - name: rpm --import /tmp/galaxy.key
+    - watch:
+      - file: galaxy_key
 
 {% endif %}
 
