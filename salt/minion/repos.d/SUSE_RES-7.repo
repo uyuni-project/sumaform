@@ -1,0 +1,5 @@
+[SUSE_RES-7.repo]
+name=SUSE Manager 3 RES7-SUSE-Manager-Tools (SUSE_RES-7_Update_standard)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("package-mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
