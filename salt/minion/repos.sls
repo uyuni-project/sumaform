@@ -1,3 +1,4 @@
+{% if grains['os'] == 'CentOS'%}
 centos-salt-pkg:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE_RES-7_Update_standard.repo
@@ -7,3 +8,4 @@ centos-salt-pkg:
 refresh-client-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
+{% endif %}
