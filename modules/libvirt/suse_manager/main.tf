@@ -30,6 +30,7 @@ database: ${var.database}
 package-mirror: ${var.base_configuration["package_mirror"]}
 iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
+smt: ${var.smt}
 role: suse-manager-server
 for-development-only: ${var.for_development_only ? "True" : "False"}
 for-testsuite-only: ${var.for_testsuite_only ? "True" : "False"}

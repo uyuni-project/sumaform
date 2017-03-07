@@ -194,6 +194,21 @@ module "suma31pg" {
 Note that the version is called `stable` in continuity with the existing naming schema because it will target the final release of SUSE Manager 3.1.
 However, at the time of writing, this version is still in alpha.
 
+### SMT
+
+You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a package mirror is not used:
+
+```hcl
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "3-nightly"
+  smt = "http://smt.suse.de"
+}
+```
+
 ### Add custom repos and packages
 
 You can specify custom repos and packages to be installed at deploy time for a specific host:

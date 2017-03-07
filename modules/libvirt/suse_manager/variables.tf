@@ -43,6 +43,11 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "smt" {
+  description = "URL to an SMT server to get packages from"
+  default = "null"
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}
