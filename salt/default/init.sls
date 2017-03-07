@@ -4,7 +4,9 @@ include:
 
 up-to-date-salt:
   pkg.latest:
-    - name: salt
+    - pkgs:
+      - salt
+      - salt-minion
     - order: last
     - require:
       - sls: default.repos
