@@ -27,11 +27,11 @@ The following example creates a SUSE Manager server using "nightly" packages fro
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
-  
-  image = "sles12sp2" 
+
+  image = "sles12sp2"
   name = "suma3pg"
   version = "3-nightly"
-} 
+}
 ```
 
 ## Proxies
@@ -116,7 +116,7 @@ You can configure a `package-mirror` host for the testsuite and that will be ben
 
 ## pgpool-II replicated database
 
-Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below: 
+Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below:
 
 ```hcl
 module "suma3pg" {
