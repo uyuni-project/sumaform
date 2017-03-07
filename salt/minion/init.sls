@@ -1,14 +1,17 @@
 include:
-  - client.repos
   - minion.testsuite
-  - minion.repos
+  - centos.repos
+  - client.repos
 
 minion:
   pkg.installed:
     - name: salt-minion
     - require:
-      - sls: minion.repos
+{% if grains['os'] == 'CentOS'%}
+      - sls: centos.repos
+{% elif grains['os'] == 'SUSE' %}
       - sls: client.repos
+{% endif %}
   service.running:
     - name: salt-minion
     - enable: True
