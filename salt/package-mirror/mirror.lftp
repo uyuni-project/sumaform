@@ -90,5 +90,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/ruby:/test/SLE_12/ ibs/Devel:/Galaxy:/ruby:/test/SLE_12/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/ ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/
 
-# Centos 7 update repo
+# Centos 7 devel update repo
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
+# Centos 8 tool repo
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/

@@ -181,13 +181,30 @@ galaxy_key:
       - file: galaxy_key
 {% if grains['os'] == 'CentOS' %}
   {% if grains['osmajorrelease'] == '7' %}
-centos-salt-repo:
+    {% if 'nightly' in grains['version'] %}
+centos-salt-devel-repo:
   file.managed:
-    - name: /etc/yum.repos.d/SUSE_RES-7_Update_standard.repo
-    - source: salt://default/repos.d/SUSE_RES-7.repo
+    - name: /etc/yum.repos.d/SUSE_RES-7_devel_Tools_Update_standard.repo
+    - source: salt://default/repos.d/SUSE_RES-7-Update-develtool.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
+centos-salt-stable-repo-fordevel:
+  file.managed:
+    - name: /etc/yum.repos.d/SUSE_RES-7_Tools_Update_standard.repo
+    - source: salt://default/repos.d/SUSE_RES-7-Update-tool.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
+    {% elif 'stable' in grains['version'] %}
+centos-salt-stable-repo:
+  file.managed:
+    - name: /etc/yum.repos.d/SUSE_RES-7_Tools_Update_standard.repo
+    - source: salt://default/repos.d/SUSE_RES-7-Update-tool.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
+    {% endif %}
   {% endif %}
 {% endif %}
 {% endif %}
