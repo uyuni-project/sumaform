@@ -179,9 +179,18 @@ galaxy_key:
     - name: rpm --import /tmp/galaxy.key
     - watch:
       - file: galaxy_key
-
+{% if grains['os'] == 'CentOS' %}
+  {% if grains['osmajorrelease'] == '7' %}
+centos-salt-repo:
+  file.managed:
+    - name: /etc/yum.repos.d/SUSE_RES-7_Update_standard.repo
+    - source: salt://default/repos.d/SUSE_RES-7.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
+  {% endif %}
 {% endif %}
-
+{% endif %}
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}-repo:
   pkgrepo.managed:
