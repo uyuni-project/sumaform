@@ -181,32 +181,35 @@ galaxy_key:
       - file: galaxy_key
 
 {% if grains['osmajorrelease'] == '7' %}
-  {% if 'nightly' in grains['version'] %}
-centos-salt-devel-repo:
+{% if 'head' in grains.get('version', '') or '3.1-stable' in grains.get('version', '') %}
+tools-repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
-centos-salt-stable-repo-fordevel:
+{% elif 'nightly' in grains.get('version', '') %}
+tools-repo:
+  file.managed:
+    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
+{% elif 'stable' in grains.get('version', 'stable') %}
+tools-repo:
   file.managed:
     - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
     - source: salt://default/repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
-  {% elif 'stable' in grains['version'] %}
-centos-salt-stable-repo:
-  file.managed:
-    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
-    - source: salt://default/repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
-  {% endif %}
 {% endif %}
 {% endif %}
+
+{% endif %}
+
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}-repo:
   pkgrepo.managed:
