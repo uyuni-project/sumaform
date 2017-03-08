@@ -179,13 +179,14 @@ galaxy_key:
     - name: rpm --import /tmp/galaxy.key
     - watch:
       - file: galaxy_key
+
 {% if grains['os'] == 'CentOS' %}
   {% if grains['osmajorrelease'] == '7' %}
     {% if 'nightly' in grains['version'] %}
 centos-salt-devel-repo:
   file.managed:
-    - name: /etc/yum.repos.d/SUSE_RES-7_devel_Tools_Update_standard.repo
-    - source: salt://default/repos.d/SUSE_RES-7-Update-develtool.repo
+    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
