@@ -191,16 +191,16 @@ centos-salt-devel-repo:
       - cmd: galaxy_key
 centos-salt-stable-repo-fordevel:
   file.managed:
-    - name: /etc/yum.repos.d/SUSE_RES-7_Tools_Update_standard.repo
-    - source: salt://default/repos.d/SUSE_RES-7-Update-tool.repo
+    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
     {% elif 'stable' in grains['version'] %}
 centos-salt-stable-repo:
   file.managed:
-    - name: /etc/yum.repos.d/SUSE_RES-7_Tools_Update_standard.repo
-    - source: salt://default/repos.d/SUSE_RES-7-Update-tool.repo
+    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key

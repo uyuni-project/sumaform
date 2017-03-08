@@ -1,5 +1,5 @@
-[SUSE_Updates_RES_7-CLIENT-TOOLS_x86_64]
-name=SUSE:Updates:RES:7-CLIENT-TOOLS:x86_64 (update
+[SLE-Manager-Tools-RES-7-x86_64]
+name=SLE-Manager-Tools-RES-7-x86_64
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("package-mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
