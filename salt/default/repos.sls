@@ -180,9 +180,8 @@ galaxy_key:
     - watch:
       - file: galaxy_key
 
-{% if grains['os'] == 'CentOS' %}
-  {% if grains['osmajorrelease'] == '7' %}
-    {% if 'nightly' in grains['version'] %}
+{% if grains['osmajorrelease'] == '7' %}
+  {% if 'nightly' in grains['version'] %}
 centos-salt-devel-repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
@@ -197,7 +196,7 @@ centos-salt-stable-repo-fordevel:
     - template: jinja
     - require:
       - cmd: galaxy_key
-    {% elif 'stable' in grains['version'] %}
+  {% elif 'stable' in grains['version'] %}
 centos-salt-stable-repo:
   file.managed:
     - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
@@ -205,7 +204,6 @@ centos-salt-stable-repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
-    {% endif %}
   {% endif %}
 {% endif %}
 {% endif %}
