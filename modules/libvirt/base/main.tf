@@ -40,7 +40,7 @@ resource "libvirt_volume" "sles12sp2" {
 
 resource "libvirt_volume" "centos7" {
   name = "${var.name_prefix}centos7"
-  source = "https://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v2.qcow2"
+  source = "http://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v2.qcow2"
   pool = "${var.pool}"
 }
 
