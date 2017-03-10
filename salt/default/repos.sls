@@ -50,11 +50,11 @@ os-update-repo:
     - template: jinja
 {% endif %}
 
-{% if 'stable' in grains.get('version', 'stable') %}
+{% if 'head' in grains.get('version', '') or '3.1-stable' in grains.get('version', '') %}
 tools-pool-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
-    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
 {% elif 'nightly' in grains.get('version', '') %}
 tools-pool-repo:
@@ -62,11 +62,11 @@ tools-pool-repo:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
-{% elif 'head' in grains.get('version', '') %}
+{% elif 'stable' in grains.get('version', 'stable') %}
 tools-pool-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
     - template: jinja
 {% endif %}
 
@@ -157,7 +157,7 @@ allow-vendor-changes:
     - makedirs: True
     - contents: |
         [main]
-        vendors = SUSE,obs://build.suse.de/Devel:Galaxy
+        vendors = SUSE,obs://build.suse.de/Devel:Galaxy,openSUSE Build Service
 
 refresh-default-repos:
   cmd.run:
