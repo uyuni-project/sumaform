@@ -13,13 +13,18 @@ docker-update-repo:
       - sls: default
 docker-pool-repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE_Updates_SLE-Module-Containers_12_x86_64.repo
-    - source: salt://minion/repos.d/SUSE_Updates_SLE-Module-Containers_12_x86_64.repo
+    - name: /etc/zypp/repos.d/SUSE_Pool_SLE-Module-Containers_12_x86_64.repo
+    - source: salt://minion/repos.d/SUSE_Pool_SLE-Module-Containers_12_x86_64.repo
     - template: jinja
     - require:
       - sls: default
 refresh-minion-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
+
+{% else %}
+
+no-minion-repos:
+  test.nop: []
 
 {% endif %}
