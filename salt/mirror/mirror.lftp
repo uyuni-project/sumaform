@@ -1,12 +1,9 @@
 open http://euklid.nue.suse.com/
 
 # Docker 12 Pool
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" /mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Containers/12/x86_64/product/ mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
-mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" /mirror/SuSE/build-ncc.suse.de/SUSE/Products/SLE-Module-Containers/12/x86_64/product/
-
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" /mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Containers/12/x86_64/product/
 # Docker 12 Update
-
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/SUSE/Updates/SLE-Module-Containers/12/x86_64/update/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Containers/12/x86_64/
 
 
 # SLES 11 SP3
