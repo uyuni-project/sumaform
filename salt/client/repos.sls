@@ -11,22 +11,11 @@ testsuite-build-repo:
     - require:
       - sls: default
 
-# HACK: this repo should be removed, but we need this packages not otherwise available:
-# "openscap-content", "openscap-extra-probes", "openscap-utils"
-testsuite-suse-manager-repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
-    - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
-    - template: jinja
-    - require:
-      - sls: default
-
 refresh-client-repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: testsuite-build-repo
-      - file: testsuite-suse-manager-repo
 
 {% else %}
 

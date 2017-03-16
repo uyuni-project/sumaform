@@ -6,11 +6,16 @@ include:
 cucumber-requisites:
   pkg.installed:
     - pkgs:
-      - andromeda-dummy 
-      - milkyway-dummy 
-      - virgo-dummy
       - salt-minion
+      - openscap-extra-probes
+      - openscap-utils
+      {% if grains['os'] == 'SUSE' %}
+      - openscap-content
+      - andromeda-dummy
+      - milkyway-dummy
+      - virgo-dummy
       - aaa_base-extras
+      {% endif %}
     - require:
       - sls: client.repos
 

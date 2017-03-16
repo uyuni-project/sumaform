@@ -11,16 +11,16 @@ cucumber-requisites:
       - spacewalk-check
       - spacewalk-oscap
       - rhncfg-actions
-      - andromeda-dummy 
-      - milkyway-dummy
-      - virgo-dummy
-      - openscap-content
       - openscap-extra-probes
       - openscap-utils
       - man
       - wget
       - adaptec-firmware
       {% if grains['os'] == 'SUSE' %}
+      - openscap-content
+      - andromeda-dummy
+      - milkyway-dummy
+      - virgo-dummy
       - aaa_base-extras
       {% endif %}
     - require:
