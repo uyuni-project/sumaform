@@ -33,6 +33,11 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "container_build_host" {
+  description = "whether this host should be pre-configured with settings necessary pkgs for container build host"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories used for installation {label = url}"
   default = {}

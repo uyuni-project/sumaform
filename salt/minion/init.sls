@@ -17,7 +17,40 @@ minion:
 {% endif %}
 
 
+<<<<<<< c951dd82d8953529b6da7fa016678bbdfeeb18ff
 {% if grains['for_development_only'] %}
+=======
+{% if grains['os'] == 'SUSE' and grains['for-testsuite-only'] and grains['container_build_host'] %}
+
+inst_ca-certificates:
+  pkg.installed:
+    - name: ca-certificates
+
+sle-minion-registry_cert:
+  file.managed:
+    - name: /etc/pki/trust/anchors/registry.mgr.suse.de.pem
+    - source: salt://minion/registry.mgr.suse.de.pem
+    - makedirs: True
+
+suse_cert:
+  file.managed:
+    - name: /etc/pki/trust/anchors/SUSE_Trust_Root.crt.pem
+    - source: salt://minion/SUSE_Trust_Root.crt.pem
+    - makedirs: True
+
+update_ca_truststore:
+  cmd.wait:
+    - name: /usr/sbin/update-ca-certificates
+    - watch:
+      - file: registry_cert
+      - file: suse_cert
+    - require:
+      - pkg: inst_ca-certificates
+
+{% endif %}
+
+{% if grains['for-development-only'] %}
+>>>>>>> Adding variable build_host_container
 
 master_configuration:
   file.managed:

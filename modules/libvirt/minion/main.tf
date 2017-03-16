@@ -18,7 +18,7 @@ server: ${var.server_configuration["hostname"]}
 role: minion
 for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
-
+container_build_host: ${var.container_build_host}
 EOF
 }
 
