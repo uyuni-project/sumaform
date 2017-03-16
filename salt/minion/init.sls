@@ -26,16 +26,16 @@ inst_ca-certificates:
   pkg.installed:
     - name: ca-certificates
 
-sle-minion-registry_cert:
+registry_cert:
   file.managed:
     - name: /etc/pki/trust/anchors/registry.mgr.suse.de.pem
-    - source: salt://minion/registry.mgr.suse.de.pem
+    - source: salt://minion/certs/registry.mgr.suse.de.pem
     - makedirs: True
 
 suse_cert:
   file.managed:
     - name: /etc/pki/trust/anchors/SUSE_Trust_Root.crt.pem
-    - source: salt://minion/SUSE_Trust_Root.crt.pem
+    - source: salt://minion/certs/SUSE_Trust_Root.crt.pem
     - makedirs: True
 
 update_ca_truststore:
