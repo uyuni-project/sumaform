@@ -302,3 +302,21 @@ module "evil-minions" {
   // see modules/libvirt/evil_minions/variables.tf for possible values
 }
 ```
+## Use specific images on demand
+
+You can select which image, disks you want to use with sumaform.
+This is specially usefull for sparing time and space. By default we build all images.
+For the images we build look at "modules/libvirt/base/variables.tf" to see all images.
+Here an example:
+
+```hcl
+module "base" {
+  source = "./modules/libvirt/base"
+
+  cc_username = "UC7"
+  cc_password = ...
+  images = ["centos7", "sles12sp2"] 
+  }
+
+}
+```
