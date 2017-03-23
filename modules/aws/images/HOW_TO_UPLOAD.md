@@ -8,7 +8,7 @@ Building of these images happens via [KIWI](https://github.com/SUSE/kiwi) in the
  * [SLES 12 SP1 image](https://build.suse.de/package/show/Devel:Galaxy:Terraform:Images:AmazonEC2/sles12sp1) (SUSE employees only)
 
 Uploading images built from those projects as new AMIs is non-trivial, as it requires a temporary instance with multiple volumes and switching of the root volume. This is automated via the `ec2uploadimg` tool from the [Enceladus project](https://github.com/SUSE/Enceladus).
- 
+
 ## Installing `ec2uploadimg`
 
  - SUSE distributions:
@@ -72,4 +72,24 @@ ec2uploadimg \
   --security-group-ids <SECURITY_GROUP_ID> \
   --wait-count 3 \
   /tmp/sles12sp1.x86_64.raw.xz
+```
+
+wget http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp2.x86_64.raw.xz -O /tmp/sles12sp2.x86_64.raw.xz
+ec2uploadimg \
+  --file ec2utils.conf \
+  --account servers \
+  --backing-store ssd \
+  --description <DESCRIPTION> \
+  --grub2 \
+  --machine x86_64 \
+  --name <NAME> \
+  --sriov-support \
+  --virt-type hvm \
+  --root-volume-size 2 \
+  --verbose \
+  --regions us-east-1 \
+  --vpc-subnet-id <PUBLIC_VPC_SUBNET_ID> \
+  --security-group-ids <SECURITY_GROUP_ID> \
+  --wait-count 3 \
+  /tmp/sles12sp2.x86_64.raw.xz
 ```
