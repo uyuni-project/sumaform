@@ -16,11 +16,7 @@ minion:
       - file: master_configuration
 {% endif %}
 
-
-<<<<<<< c951dd82d8953529b6da7fa016678bbdfeeb18ff
-{% if grains['for_development_only'] %}
-=======
-{% if grains['os'] == 'SUSE' and grains['for-testsuite-only'] and grains['container_build_host'] %}
+{% if grains['os'] == 'SUSE' and grains['for_testsuite_only'] and grains['container_build_host'] %}
 
 inst_ca-certificates:
   pkg.installed:
@@ -49,8 +45,7 @@ update_ca_truststore:
 
 {% endif %}
 
-{% if grains['for-development-only'] %}
->>>>>>> Adding variable build_host_container
+{% if grains['for_development_only'] %}
 
 master_configuration:
   file.managed:

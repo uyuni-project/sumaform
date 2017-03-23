@@ -2,7 +2,7 @@ include:
   - default
 
 # install docker repos only for testing and sles-minion, only 1 of the 2 sles minion
-{% if grains['os'] == 'SUSE' and grains['container_build_host'] %}
+{% if grains['os'] == 'SUSE' and grains['container_build_host'] and grains['for_testsuite_only'] %}
 docker-update-repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE_Updates_SLE-Module-Containers_12_x86_64.repo
