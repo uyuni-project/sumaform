@@ -157,6 +157,25 @@ module "vanilla" {
 }
 ```
 
+## Minion swarm hosts
+
+It is possible to create large numbers of simulated minions using Salt's [minion swarm test script](https://docs.saltstack.com/en/latest/topics/releases/0.9.9.html#minion-swarm).
+
+A libvirt example follows:
+
+```
+module "minion-swarm" {
+  source = "./modules/libvirt/minion-swarm"
+  base_configuration = "${module.base.configuration}"
+
+  name = "ms"
+  count = 2
+  server_configuration = "${module.suma3pg.configuration}"
+}
+```
+
+This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with stable Salt version are supported.
+
 ## Change Salt/SUSE Manager tools version in minion or client
 
 By default minions will get the latest stable Salt version for their distro (for SLE systems this means the version shipping with the latest stable SUSE Manager Tools repo). You can use the `version` variable to override this and set a particular version of Salt - values taken are the same as the SUSE Manager versions (such as `3-nightly` or `head`). The version identified can be omitted to take the default for the distro, so `stable` and `nightly` are legal values too.

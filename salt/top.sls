@@ -18,6 +18,10 @@ base:
     - match: grain
     - minion
 
+  'role:minion-swarm':
+    - match: grain
+    - minion-swarm
+
   'role:package-mirror':
     - match: grain
     - package-mirror
