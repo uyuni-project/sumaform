@@ -54,8 +54,8 @@ cc_password: ${var.cc_password}
 server: ${var.server}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
-for-development-only: True
-for-testsuite-only: False
+for_development_only: True
+for_testsuite_only: False
 timezone: ${var.timezone}
 authorized-keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}

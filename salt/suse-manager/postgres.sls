@@ -1,4 +1,4 @@
-{% if grains['for-development-only'] and grains['database'] == 'postgres' %}
+{% if grains['for_development_only'] and grains['database'] == 'postgres' %}
 
 include:
   - suse-manager

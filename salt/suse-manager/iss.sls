@@ -1,4 +1,4 @@
-{% if grains['for-development-only'] %}
+{% if grains['for_development_only'] %}
 
 include:
   - suse-manager.rhn

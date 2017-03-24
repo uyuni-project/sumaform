@@ -13,7 +13,7 @@ module "postgres" {
 
 mirror: ${var.base_configuration["mirror"]}
 role: postgres
-for-development-only: True
+for_development_only: True
 
 EOF
 }

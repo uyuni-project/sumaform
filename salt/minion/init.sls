@@ -12,12 +12,12 @@ minion:
     - enable: True
     - watch:
       - pkg: salt-minion
-{% if grains['for-development-only'] %}
+{% if grains['for_development_only'] %}
       - file: master-configuration
 {% endif %}
 
 
-{% if grains['for-development-only'] %}
+{% if grains['for_development_only'] %}
 
 master-configuration:
   file.managed:

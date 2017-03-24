@@ -1,7 +1,7 @@
 include:
   - default
 
-{% if grains['os'] == 'SUSE' and grains['for-testsuite-only'] %}
+{% if grains['os'] == 'SUSE' and grains['for_testsuite_only'] %}
 
 testsuite-build-repo:
   file.managed:

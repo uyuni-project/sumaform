@@ -16,8 +16,8 @@ version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minion
-for-development-only: ${var.for_development_only ? "True" : "False"}
-for-testsuite-only: ${var.for_testsuite_only ? "True" : "False"}
+for_development_only: ${var.for_development_only ? "True" : "False"}
+for_testsuite_only: ${var.for_testsuite_only ? "True" : "False"}
 
 EOF
 }

@@ -1,4 +1,4 @@
-{% if grains['for-testsuite-only'] %}
+{% if grains['for_testsuite_only'] %}
 
 include:
   - suse-manager

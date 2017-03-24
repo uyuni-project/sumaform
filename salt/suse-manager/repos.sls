@@ -113,7 +113,7 @@ suse-manager-pgpool-repo:
       - sls: default
 {% endif %}
 
-{% if grains['for-testsuite-only'] %}
+{% if grains['for_testsuite_only'] %}
 lftp-repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
@@ -137,6 +137,6 @@ refresh-suse-manager-repos:
       {% if 'pgpool' in grains['database'] %}
       - file: suse-manager-pgpool-repo
       {% endif %}
-      {% if grains['for-testsuite-only'] %}
+      {% if grains['for_testsuite_only'] %}
       - file: lftp-repo
       {% endif %}

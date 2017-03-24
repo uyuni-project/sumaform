@@ -7,7 +7,7 @@ wget:
     - require:
       - sls: client.repos
 
-{% if grains['for-development-only'] %}
+{% if grains['for_development_only'] %}
 
 base-bootstrap-script:
   file.managed:
