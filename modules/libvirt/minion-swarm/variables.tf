@@ -18,6 +18,11 @@ variable "minion-count"  {
   default = 200
 }
 
+variable "start-delay"  {
+  description = "number of seconds to wait between spawns"
+  default = 6
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}

@@ -74,7 +74,7 @@ minion-swarm-service:
         Description=Minion Swarm Host
 
         [Service]
-        ExecStart=/usr/bin/minionswarm.py --minions {{grains["minion-count"]}} --start-delay 6 --master {{grains['server']}} --name {{grains['hostname']}} --no-clean --temp-dir=/tmp/swarm --rand-machine-id --rand-uuid --rand-ver
+        ExecStart=/usr/bin/minionswarm.py --minions {{grains["minion-count"]}} --start-delay {{grains["start-delay"]}} --master {{grains['server']}} --name {{grains['hostname']}} --no-clean --temp-dir=/tmp/swarm --rand-machine-id --rand-uuid --rand-ver
 
         [Install]
         WantedBy=multi-user.target

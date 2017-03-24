@@ -17,6 +17,7 @@ package-mirror: ${var.base_configuration["package_mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minion-swarm
 minion-count: ${var.minion-count}
+start-delay: ${var.start-delay}
 swap_file_size: ${var.swap_file_size}
 
 EOF
