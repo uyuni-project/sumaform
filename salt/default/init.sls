@@ -32,8 +32,8 @@ timezone_symlink:
     - require:
       - pkg: timezone_package
 
-authorized-keys:
+authorized_keys:
   file.append:
     - name: /root/.ssh/authorized_keys
-    - text: {{ salt["grains.get"]("authorized-keys") }}
+    - text: {{ salt["grains.get"]("authorized_keys") }}
     - makedirs: True

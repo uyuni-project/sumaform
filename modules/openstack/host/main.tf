@@ -51,7 +51,7 @@ iss_slave: ${var.iss_slave}
 for_development_only: True
 for_testsuite_only: False
 timezone: ${var.timezone}
-authorized-keys: null
+authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 

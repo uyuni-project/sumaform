@@ -50,7 +50,7 @@ minion-count: 100
 start-delay: 3
 swap_file_size: 3000
 timezone: ${var.timezone}
-authorized-keys: null
+authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 
