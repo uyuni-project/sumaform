@@ -28,8 +28,8 @@ cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 database: ${var.database}
 mirror: ${var.base_configuration["mirror"]}
-iss-master: ${var.iss_master}
-iss-slave: ${var.iss_slave}
+iss_master: ${var.iss_master}
+iss_slave: ${var.iss_slave}
 smt: ${var.smt}
 role: suse-manager-server
 for-development-only: ${var.for_development_only ? "True" : "False"}

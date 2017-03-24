@@ -46,8 +46,8 @@ role: ${var.role}
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}
 server: ${var.server_configuration["hostname"]}
-iss-master: ${var.iss_master}
-iss-slave: ${var.iss_slave}
+iss_master: ${var.iss_master}
+iss_slave: ${var.iss_slave}
 for-development-only: True
 for-testsuite-only: False
 timezone: ${var.timezone}
