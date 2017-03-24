@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export SSHMINION={{ grains.get("ssh-minion") }}
-export CENTOSMINION={{ grains.get("centos-minion") }}
+export SSHMINION={{ grains.get("ssh_minion") }}
+export CENTOSMINION={{ grains.get("centos_minion") }}
 export TESTHOST={{ grains.get("server") }}
 export CLIENT={{ grains.get("client") }}
 export MINION={{ grains.get("minion") }}
