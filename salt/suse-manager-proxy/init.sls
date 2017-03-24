@@ -63,24 +63,24 @@ wget:
     - require:
       - sls: suse-manager-proxy.repos
 
-base-bootstrap-script:
+base_bootstrap_script:
   file.managed:
     - name: /root/bootstrap.sh
     - source: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh
     - source_hash: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh.sha512
     - mode: 755
 
-bootstrap-script:
+bootstrap_script:
   file.replace:
     - name: /root/bootstrap.sh
     - pattern: ^PROFILENAME="".*$
     - repl: PROFILENAME="{{grains['fqdn']}}"
     - require:
-      - file: base-bootstrap-script
+      - file: base_bootstrap_script
   cmd.run:
     - name: /root/bootstrap.sh
     - require:
-      - file: bootstrap-script
+      - file: bootstrap_script
       - pkg: proxy-packages
       - pkg: wget
 
@@ -140,19 +140,19 @@ configure-proxy:
       - file: ssl-building-private-ssl-key
       - file: ssl-building-ca-configuration
 
-create-bootstrap-script:
+create_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
       - cmd: configure-proxy
 
-create-bootstrap-script-md5:
+create_bootstrap_script_md5:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - require:
-      - cmd: create-bootstrap-script
+      - cmd: create_bootstrap_script
 
 ca-cert-checksum:
   cmd.run:

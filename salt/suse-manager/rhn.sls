@@ -78,19 +78,19 @@ create-activation-key:
     - require:
       - cmd: create-empty-channel
 
-create-bootstrap-script:
+create_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
       - cmd: create-activation-key
 
-create-bootstrap-script-md5:
+create_bootstrap_script_md5:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - require:
-      - cmd: create-bootstrap-script
+      - cmd: create_bootstrap_script
 
 private-ssl-key:
   file.copy:

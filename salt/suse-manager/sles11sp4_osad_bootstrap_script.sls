@@ -43,16 +43,16 @@ create-sles11sp4-activation-key:
     - require:
       - cmd: sync-sles11sp4-channels
 
-create-sles11sp4-bootstrap-script:
+create_sles11sp4_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-sles11sp4-osad --script=bootstrap-sles11sp4-osad.sh --allow-config-actions --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap-sles11sp4-osad.sh
     - require:
       - cmd: create-sles11sp4-activation-key
 
-create-sles11sp4-bootstrap-script-md5:
+create_sles11sp4_bootstrap_script_md5:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap-sles11sp4-osad.sh > /srv/www/htdocs/pub/bootstrap/bootstrap-sles11sp4-osad.sh.sha512
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap-sles11sp4-osad.sh.sha512
     - require:
-      - cmd: create-sles11sp4-bootstrap-script
+      - cmd: create_sles11sp4_bootstrap_script

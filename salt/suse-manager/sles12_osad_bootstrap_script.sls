@@ -43,19 +43,19 @@ create-sles12-activation-key:
     - require:
       - cmd: sync-sles12-channels
 
-create-sles12-bootstrap-script:
+create_sles12_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-sles12-osad --script=bootstrap-sles12-osad.sh --allow-config-actions --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap-sles12-osad.sh
     - require:
       - cmd: create-sles12-activation-key
 
-create-sles12-bootstrap-script-md5:
+create_sles12_bootstrap_script_md5:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap-sles12-osad.sh > /srv/www/htdocs/pub/bootstrap/bootstrap-sles12-osad.sh.sha512
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap-sles12-osad.sh.sha512
     - require:
-      - cmd: create-sles12-bootstrap-script
+      - cmd: create_sles12_bootstrap_script
 
 {% if '2.1' in grains['version'] %}
 create-sles12-bootstrap-repo:
