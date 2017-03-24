@@ -22,9 +22,9 @@ base:
     - match: grain
     - minion-swarm
 
-  'role:package-mirror':
+  'role:mirror':
     - match: grain
-    - package-mirror
+    - mirror
 
   'role:postgres':
     - match: grain

@@ -11,7 +11,7 @@ module "postgres" {
   additional_packages = "${var.additional_packages}"
   grains = <<EOF
 
-package-mirror: ${var.base_configuration["package_mirror"]}
+mirror: ${var.base_configuration["mirror"]}
 role: postgres
 for-development-only: True
 

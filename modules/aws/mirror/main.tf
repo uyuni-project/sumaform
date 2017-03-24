@@ -1,13 +1,13 @@
 /*
-  This module sets up package-mirror host that also acts as a bastion in the
+  This module sets up a mirror host that also acts as a bastion in the
   public subnet.
 
   To render it usable you need to either specify a data disk snapshot that
-  contains packages or to upload them from a libvirt package-mirror with the
+  contains packages or to upload them from a libvirt mirror with the
   following commands:
 
-  scp <SSH KEY>.pem root@package-mirror.tf.local://root/key.pem
-  ssh root@package-mirror.tf.local
+  scp <SSH KEY>.pem root@mirror.tf.local://root/key.pem
+  ssh root@mirror.tf.local
   zypper in rsync
   rsync -av0 --delete -e 'ssh -i key.pem' /srv/mirror/ root@<PUBLIC DNS NAME>://srv/mirror/
 */
@@ -26,7 +26,7 @@ resource "aws_instance" "instance" {
   vpc_security_group_ids = ["${var.public_security_group_id}"]
 
   tags {
-    Name = "${var.name_prefix}-package-mirror"
+    Name = "${var.name_prefix}-mirror"
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_ebs_volume" "data_disk" {
     type = "sc1"
     snapshot_id = "${var.data_volume_snapshot_id}"
     tags {
-      Name = "${var.name_prefix}-package-mirror-data-volume"
+      Name = "${var.name_prefix}-mirror-data-volume"
     }
 }
 
@@ -46,7 +46,7 @@ resource "aws_volume_attachment" "data_disk_attachment" {
   instance_id = "${aws_instance.instance.id}"
 }
 
-resource "null_resource" "package_mirror_salt_configuration" {
+resource "null_resource" "mirror_salt_configuration" {
   triggers {
     instance_id = "${aws_instance.instance.id}"
   }
@@ -67,7 +67,7 @@ resource "null_resource" "package_mirror_salt_configuration" {
 hostname: ${replace("${aws_instance.instance.private_dns}", ".${var.region}.compute.internal", "")}
 domain: ${var.region}.compute.internal
 use_avahi: False
-role: package-mirror
+role: mirror
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}
 data_disk_device: xvdf

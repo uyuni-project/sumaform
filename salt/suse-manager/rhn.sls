@@ -120,7 +120,7 @@ ca-configuration-checksum:
     - require:
       - file: ca-configuration
 
-{% if salt["grains.get"]("package-mirror") %}
+{% if salt["grains.get"]("mirror") %}
 
 /etc/fstab:
   file.touch
@@ -128,7 +128,7 @@ ca-configuration-checksum:
 mirror-directory:
   mount.mounted:
     - name: /mirror
-    - device: {{ salt["grains.get"]("package-mirror") }}:/srv/mirror
+    - device: {{ salt["grains.get"]("mirror") }}:/srv/mirror
     - fstype: nfs
     - mkmnt: True
     - require:

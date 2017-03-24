@@ -8,7 +8,7 @@ Modules provided by this project will create:
    - one private, that can only access other hosts in the VPC
    - one public, that can also access the Internet and accepts connections from an IP whitelist
  - security groups, routing tables, Internet gateways as appropriate
- - one `package-mirror` host in the public network that works as a bastion host
+ - one `mirror` host in the public network that works as a bastion host
  - SUSE Manager servers, clients and proxies in the private network
 
 This architecture is loosely inspired from [Segment's AWS Stack](https://segment.com/blog/the-segment-aws-stack/).
@@ -23,15 +23,15 @@ You will need:
 
 SUSE employees using openbare already have AMI images uploaded and data snapshots for the us-east-1 region; others have to follow instructions in [HOW_TO_UPLOAD.md](modules/aws/images/HOW_TO_UPLOAD.md).
 
-## package-mirror
+## mirror
 
-In addition to acting as a bastion host for all other instances, the `package-mirror` host serves all repos and packages used by other instances. It works similarly to the one for the libvirt backend, allowing instances in the private subnet to be completely disconnected from the Internet.
+In addition to acting as a bastion host for all other instances, the `mirror` host serves all repos and packages used by other instances. It works similarly to the one for the libvirt backend, allowing instances in the private subnet to be completely disconnected from the Internet.
 
-Please note that content in `package-mirror` must be refreshed manually at this time, see comments in [modules/aws/package_mirror/main.tf](modules/aws/package_mirror/main.tf).
+Please note that content in `mirror` must be refreshed manually at this time, see comments in [modules/aws/mirror/main.tf](modules/aws/mirror/main.tf).
 
 ## Accessing instances
 
-`package-mirror` is accessible through SSH at the public name noted in outputs.
+`mirror` is accessible through SSH at the public name noted in outputs.
 
 ```
 $ terraform apply
@@ -40,13 +40,13 @@ Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-package_mirror_public_name = ec2-XXX-XXX-XXX-XXX.compute-1.amazonaws.com
+mirror_public_name = ec2-XXX-XXX-XXX-XXX.compute-1.amazonaws.com
 
 $ ssh -i key.pem root@ec2-XXX-XXX-XXX-XXX.compute-1.amazonaws.com
 ip-YYY-YYY-YYY-YYY:~ #
 ```
 
-Other hosts are accessible via SSH from the `package-mirror` itself.
+Other hosts are accessible via SSH from the `mirror` itself.
 
 This project provides a utility script, `configure_aws_tunnels.rb`, which will add `Host` definitions in your SSH config file so that you don't have to input tunneling flags manually.
 

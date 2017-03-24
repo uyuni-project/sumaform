@@ -13,7 +13,7 @@ module "minion-swarm" {
   grains = <<EOF
 
 version: 3-stable
-package-mirror: ${var.base_configuration["package_mirror"]}
+mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minion-swarm
 minion-count: ${var.minion-count}

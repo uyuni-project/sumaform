@@ -1,5 +1,5 @@
 resource "libvirt_volume" "data_disk" {
-  name = "${var.base_configuration["name_prefix"]}terraform_package_mirror_data_disk"
+  name = "${var.base_configuration["name_prefix"]}mirror-data-disk"
   size = 1099511627776 # 1 TiB
   pool = "${var.data_pool}"
   lifecycle {
@@ -7,10 +7,10 @@ resource "libvirt_volume" "data_disk" {
   }
 }
 
-module "package_mirror" {
+module "mirror" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
-  name = "package-mirror"
+  name = "mirror"
   image = "opensuse422"
   memory = 512
   vcpu = 1
@@ -25,7 +25,7 @@ module "package_mirror" {
 
   grains = <<EOF
 
-role: package-mirror
+role: mirror
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 data_disk_device: vdb

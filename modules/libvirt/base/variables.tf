@@ -18,8 +18,8 @@ variable "ssh_key_path" {
   default = "~/.ssh/id_rsa.pub"
 }
 
-variable "package_mirror" {
-  description = "hostname of the package mirror or leave the default for no package mirror"
+variable "mirror" {
+  description = "hostname of the mirror host or leave the default for no mirror"
   default = "null"
 }
 

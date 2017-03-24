@@ -50,7 +50,7 @@ output "configuration" {
     cc_username = "${var.cc_username}"
     cc_password = "${var.cc_password}"
     timezone = "${var.timezone}"
-    package_mirror = "${var.package_mirror == "" ? "null" : var.package_mirror}"
+    mirror = "${var.mirror == "" ? "null" : var.mirror}"
     ssh_key_path = "${var.ssh_key_path}"
     pool = "${var.pool}"
     bridge = "${var.bridge}"

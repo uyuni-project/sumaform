@@ -112,7 +112,7 @@ Get HTML results with:
 scp root@control-node.tf.local://root/spacewalk-testsuite-base/output.html .
 ```
 
-You can configure a `package-mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
+You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
 ## pgpool-II replicated database
 
@@ -215,7 +215,7 @@ However, at the time of writing, this version is still in alpha.
 
 ### SMT
 
-You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a package mirror is not used:
+You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
 
 ```hcl
 module "suma3pg" {

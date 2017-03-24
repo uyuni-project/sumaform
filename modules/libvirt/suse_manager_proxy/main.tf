@@ -24,7 +24,7 @@ module "suse_manager_proxy" {
   grains = <<EOF
 
 version: ${var.version}
-package-mirror: ${var.base_configuration["package_mirror"]}
+mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: suse-manager-proxy
 for-development-only: ${var.for_development_only ? "True" : "False"}

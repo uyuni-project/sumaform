@@ -27,7 +27,7 @@ version: ${var.version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 database: ${var.database}
-package-mirror: ${var.base_configuration["package_mirror"]}
+mirror: ${var.base_configuration["mirror"]}
 iss-master: ${var.iss_master}
 iss-slave: ${var.iss_slave}
 smt: ${var.smt}

@@ -92,8 +92,8 @@ Typical error message follows:
 ```
 * libvirt_domain.domain: Error creating libvirt domain: [Code-1] [Domain-10]
 internal error: process exited while connecting to monitor:
-2016-10-14T06:49:07.518689Z qemu-system-x86_64: -drive file=/var/lib/libvirt/images/terraform_package_mirror_main_disk,format=qcow2,if=none,id=drive-virtio-disk0:
-Could not open '/var/lib/libvirt/images/terraform_package_mirror_main_disk':
+2016-10-14T06:49:07.518689Z qemu-system-x86_64: -drive file=/var/lib/libvirt/images/mirror-main-disk,format=qcow2,if=none,id=drive-virtio-disk0:
+Could not open '/var/lib/libvirt/images/mirror-main-disk':
 Permission denied
 ```
 
@@ -118,7 +118,7 @@ You can detect AppArmor issues by looking at `/var/log/syslog`:
 ```
 Oct 14 08:10:03 dell kernel: [52456.461754] audit: type=1400 audit(1476425403.666:27):
 apparmor="DENIED" operation="open" profile="libvirt-4d4f9b58-f50d-4f60-a8a1-315c9a2d02c1"
-name="/var/lib/libvirt/images/terraform_package_mirror_main_disk"
+name="/var/lib/libvirt/images/terraform_mirror_main_disk"
 pid=4193 comm="qemu-system-x86" requested_mask="wr" denied_mask="wr"
 fsuid=106 ouid=106
 ```

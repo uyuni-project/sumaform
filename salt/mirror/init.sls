@@ -9,7 +9,7 @@ lftp:
 lftp-script:
   file.managed:
     - name: /root/mirror.lftp
-    - source: salt://package-mirror/mirror.lftp
+    - source: salt://mirror/mirror.lftp
     
 parted:
   pkg.installed
@@ -22,18 +22,18 @@ ca-certificates-mozilla:
 scc-data-refresh-script:
   file.managed:
     - name: /root/refresh_scc_data.py
-    - source: salt://package-mirror/refresh_scc_data.py
+    - source: salt://mirror/refresh_scc_data.py
     - mode: 755
 
 mirror-script:
   file.managed:
     - name: /root/mirror.sh
-    - source: salt://package-mirror/mirror.sh
+    - source: salt://mirror/mirror.sh
     - mode: 755
     - template: jinja
   cron.present:
     - name: /root/mirror.sh
-    - identifier: PACKAGE_MIRROR
+    - identifier: MIRROR
     - user: root
     - hour: 20
     - minute: 0
@@ -75,8 +75,8 @@ web-server:
     - require:
       - sls: default
   file.managed:
-    - name: /etc/apache2/vhosts.d/package-mirror.conf
-    - source: salt://package-mirror/package-mirror.conf
+    - name: /etc/apache2/vhosts.d/mirror.conf
+    - source: salt://mirror/mirror.conf
     - require:
       - pkg: apache2
   service.running:
@@ -84,10 +84,10 @@ web-server:
     - enable: True
     - require:
       - pkg: apache2
-      - file: /etc/apache2/vhosts.d/package-mirror.conf
+      - file: /etc/apache2/vhosts.d/mirror.conf
       - file: mirror-directory
     - watch:
-      - file: /etc/apache2/vhosts.d/package-mirror.conf
+      - file: /etc/apache2/vhosts.d/mirror.conf
 
 # NFS serving of mirrored packages
 

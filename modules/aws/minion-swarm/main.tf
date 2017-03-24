@@ -28,7 +28,7 @@ resource "null_resource" "host_salt_configuration" {
   connection {
     host = "${element(aws_instance.instance.*.private_dns, count.index)}"
     private_key = "${file(var.key_file)}"
-    bastion_host = "${var.package_mirror_public_name}"
+    bastion_host = "${var.mirror_public_name}"
   }
 
   provisioner "file" {
@@ -42,7 +42,7 @@ resource "null_resource" "host_salt_configuration" {
 hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)}", ".${var.region}.compute.internal", "")}
 domain: ${var.region}.compute.internal
 use_avahi: False
-package-mirror: ${var.package_mirror_private_name}
+mirror: ${var.mirror_private_name}
 version: 3-stable
 role: minion-swarm
 server: ${var.server}

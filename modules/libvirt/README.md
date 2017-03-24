@@ -65,16 +65,16 @@ use_avahi = false
 domain = "mgr.suse.de"
 ```
 
-## package-mirror
+## mirror
 
-If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `package-mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
+If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
 
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
-To enable `package-mirror`, add `package_mirror = "package-mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
+To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
 ```hcl
-module "package_mirror" {
-  source = "./modules/libvirt/package_mirror"
+module "mirror" {
+  source = "./modules/libvirt/mirror"
   base_configuration = "${module.base.configuration}"
 
   data_pool = "data"
@@ -87,7 +87,7 @@ Note you are encouraged to specify an additional libvirt storage pool name (`dat
 
 Omitting the `data_pool` variable results in the default "default" storage pool being used.
 
-Note that package-mirror must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
+Note that `mirror` must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
 
 ## Customize virtual hardware
 

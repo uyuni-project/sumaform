@@ -73,12 +73,12 @@ variable "additional_packages" {
   default = []
 }
 
-variable "package_mirror_public_name" {
-  description = "package-mirror's public DNS name"
+variable "mirror_public_name" {
+  description = "mirror's public DNS name"
   type = "string"
 }
 
-variable "package_mirror_private_name" {
-  description = "package-mirror's private DNS name"
+variable "mirror_private_name" {
+  description = "mirror's private DNS name"
   type = "string"
 }

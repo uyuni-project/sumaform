@@ -19,13 +19,13 @@ module "aws_network" {
   availability_zone = "us-east-1e"
   ssh_allowed_ips = [
     // add comma-separated IP address strings here, those hosts will
-    // be able to access package-mirror via SSH
+    // be able to access mirror via SSH
   ]
   name_prefix = "sumaform"
 }
 
-module "aws_package_mirror" {
-  source = "./modules/aws/package_mirror"
+module "aws_mirror" {
+  source = "./modules/aws/mirror"
   region = "us-east-1"
   availability_zone = "us-east-1e"
   ami = "ami-33ee1f25" // change if appropriate (non-SUSE employees or non-us-east-1 region)
@@ -59,8 +59,8 @@ module "aws_suma3pg" {
   role = "suse-manager-server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
-  package_mirror_public_name = "${module.aws_package_mirror.public_name}"
-  package_mirror_private_name = "${module.aws_package_mirror.private_name}"
+  mirror_public_name = "${module.aws_mirror.public_name}"
+  mirror_private_name = "${module.aws_mirror.private_name}"
 }
 
 module "aws_minion" {
@@ -80,16 +80,16 @@ module "aws_minion" {
 
   server = "${module.aws_suma3pg.private_names[0]}"
   role = "minion"
-  package_mirror_public_name = "${module.aws_package_mirror.public_name}"
-  package_mirror_private_name = "${module.aws_package_mirror.private_name}"
+  mirror_public_name = "${module.aws_mirror.public_name}"
+  mirror_private_name = "${module.aws_mirror.private_name}"
 }
 
 output "key_file" {
   value = // add SSH private key path as a string here
 }
 
-output "package_mirror_public_name" {
-  value = "${module.aws_package_mirror.public_name}"
+output "mirror_public_name" {
+  value = "${module.aws_mirror.public_name}"
 }
 
 output "aws_suma3pg_private_name" {

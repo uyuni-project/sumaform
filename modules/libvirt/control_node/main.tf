@@ -10,7 +10,7 @@ module "control_node" {
   additional_packages = "${var.additional_packages}"
   grains = <<EOF
 
-package-mirror: ${var.base_configuration["package_mirror"]}
+mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}

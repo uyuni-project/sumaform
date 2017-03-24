@@ -5,7 +5,7 @@ require 'json'
 
 output = JSON.parse(`terraform output -json`)
 
-package_mirror_private_name = output["package_mirror_public_name"]["value"]
+mirror_private_name = output["mirror_public_name"]["value"]
 
 single_instances = output
   .map do |name, value|
@@ -31,8 +31,8 @@ key_file = output["key_file"]["value"]
 
 tunnel_string = <<~eos
 # sumaform configuration start
-Host package-mirror
-  HostName #{package_mirror_private_name}
+Host mirror
+  HostName #{mirror_private_name}
   StrictHostKeyChecking no
   User root
   IdentityFile #{key_file}
@@ -46,7 +46,7 @@ instances.each do |instance|
       StrictHostKeyChecking no
       User root
       IdentityFile #{key_file}
-      ProxyCommand ssh root@package-mirror -W %h:%p
+      ProxyCommand ssh root@mirror -W %h:%p
       ServerAliveInterval 120
   eos
   if instance[:symbolic_name] =~ /suma/

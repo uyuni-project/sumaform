@@ -39,7 +39,7 @@ resource "openstack_compute_instance_v2" "instance" {
 hostname: ${var.name}${var.count > 1 ? "-${count.index + 1}" : ""}
 domain: ${var.domain}
 use_avahi: True
-package-mirror: null
+mirror: null
 version: ${var.version}
 database: ${var.database}
 role: ${var.role}
