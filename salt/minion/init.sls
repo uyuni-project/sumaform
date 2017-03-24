@@ -13,13 +13,13 @@ minion:
     - watch:
       - pkg: salt-minion
 {% if grains['for_development_only'] %}
-      - file: master-configuration
+      - file: master_configuration
 {% endif %}
 
 
 {% if grains['for_development_only'] %}
 
-master-configuration:
+master_configuration:
   file.managed:
     - name: /etc/salt/minion.d/master.conf
     - contents: |

@@ -2,7 +2,7 @@ include:
   - default.repos
   - default.pkgs
 
-up-to-date-salt:
+up_to_date_salt:
   pkg.latest:
     - pkgs:
       - salt

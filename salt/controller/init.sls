@@ -1,7 +1,7 @@
 include:
   - controller.repos
 
-ssh-private-key:
+ssh_private_key:
   file.managed:
     - name: /root/.ssh/id_rsa
     - source: salt://controller/id_rsa
@@ -10,7 +10,7 @@ ssh-private-key:
     - group: root
     - mode: 700
 
-ssh-public-key:
+ssh_public_key:
   file.managed:
     - name: /root/.ssh/id_rsa.pub
     - source: salt://controller/id_rsa.pub
@@ -69,7 +69,7 @@ cucumber_requisites:
     - require:
       - sls: controller.repos
 
-cucumber-testsuite:
+cucumber_testsuite:
   cmd.run:
     # HACK: work around the lack of skip_verify and enforce_toplevel in archive.extracted before salt 2016.11
     - name: |
@@ -78,7 +78,7 @@ cucumber-testsuite:
         mv /root/spacewalk-testsuite-base-{{ grains.get("branch" )}} /root/spacewalk-testsuite-base
     - creates: /root/spacewalk-testsuite-base
 
-cucumber-run-script:
+cucumber_run_script:
   file.managed:
     - name: /usr/bin/run-testsuite
     - source: salt://controller/run-testsuite.sh

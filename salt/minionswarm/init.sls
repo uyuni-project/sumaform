@@ -1,4 +1,4 @@
-suse-manager-pool-repo:
+suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
@@ -6,7 +6,7 @@ suse-manager-pool-repo:
     - require:
       - sls: default
 
-suse-manager-update-repo:
+suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
@@ -14,12 +14,12 @@ suse-manager-update-repo:
     - require:
       - sls: default
 
-refresh-suse-manager-repos:
+refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: suse-manager-pool-repo
-      - file: suse-manager-update-repo
+      - file: suse_manager_pool_repo
+      - file: suse_manager_pool_repo
 
 {% if grains.has_key('swap_file_size') %}
 file_swap:
@@ -37,36 +37,37 @@ file_swap:
       - cmd: file_swap
 {% endif %}
 
-salt-master:
+salt_master:
   pkg.installed:
+    - name: salt-master
     - require:
-      - cmd: refresh-suse-manager-repos
+      - cmd: refresh_suse_manager_repos
 
 patch:
   pkg.installed:
     - require:
       - sls: default
 
-file-client-race-condition-fix:
+file_client_race_condition_fix:
   file.patch:
     - name: /usr/lib/python2.7/site-packages/salt/fileclient.py
     - source: salt://minionswarm/0001-Fix-race-condition-on-cache-directory-creation.patch
     - hash: sha1:b90c28cb3993333c3efcccf59c50f4dc196f809d
     - require:
       - pkg: patch
-      - pkg: salt-master
+      - pkg: salt_master
 
-minionswarm-script:
+minionswarm_script:
   file.managed:
     - name: /usr/bin/minionswarm.py
     - source: salt://minionswarm/minionswarm.py
     - mode: 700
     - require:
       - pkg: salt-master
-      - file: file-client-race-condition-fix
+      - file: file_client_race_condition_fix
       - mount: file_swap
 
-minionswarm-service:
+minionswarm_service:
   file.managed:
     - name: /etc/systemd/system/minionswarm.service
     - contents: |
@@ -79,9 +80,9 @@ minionswarm-service:
         [Install]
         WantedBy=multi-user.target
     - require:
-      - file: minionswarm-script
+      - file: minionswarm_script
   service.running:
     - name: minionswarm
     - enable: True
     - require:
-      - file: minionswarm-service
+      - file: minionswarm_service

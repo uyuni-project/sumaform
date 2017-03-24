@@ -1,7 +1,7 @@
 include:
   - default
 
-ruby-test-repo:
+ruby_test_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_ruby_test.repo
     - source: salt://controller/repos.d/Devel_Galaxy_ruby_test.repo
@@ -9,7 +9,7 @@ ruby-test-repo:
     - require:
       - sls: default
 
-sle-12-sp1-sdk-pool:
+sle_12_sp1_sdk_pool:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP1-SDK-x86_64-Pool.repo
     - source: salt://controller/repos.d/SLE-12-SP1-SDK-x86_64-Pool.repo
@@ -17,9 +17,9 @@ sle-12-sp1-sdk-pool:
     - require:
       - sls: default
 
-refresh-controller-repos:
+refresh_controller_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: ruby-test-repo
-      - file: sle-12-sp1-sdk-pool
+      - file: ruby_test_repo
+      - file: sle_12_sp1_sdk_pool
