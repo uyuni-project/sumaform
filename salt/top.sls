@@ -18,9 +18,9 @@ base:
     - match: grain
     - minion
 
-  'role:minion-swarm':
+  'role:minionswarm':
     - match: grain
-    - minion-swarm
+    - minionswarm
 
   'role:mirror':
     - match: grain

@@ -50,28 +50,28 @@ patch:
 file-client-race-condition-fix:
   file.patch:
     - name: /usr/lib/python2.7/site-packages/salt/fileclient.py
-    - source: salt://minion-swarm/0001-Fix-race-condition-on-cache-directory-creation.patch
+    - source: salt://minionswarm/0001-Fix-race-condition-on-cache-directory-creation.patch
     - hash: sha1:b90c28cb3993333c3efcccf59c50f4dc196f809d
     - require:
       - pkg: patch
       - pkg: salt-master
 
-minion-swarm-script:
+minionswarm-script:
   file.managed:
     - name: /usr/bin/minionswarm.py
-    - source: salt://minion-swarm/minionswarm.py
+    - source: salt://minionswarm/minionswarm.py
     - mode: 700
     - require:
       - pkg: salt-master
       - file: file-client-race-condition-fix
       - mount: file_swap
 
-minion-swarm-service:
+minionswarm-service:
   file.managed:
-    - name: /etc/systemd/system/minion-swarm.service
+    - name: /etc/systemd/system/minionswarm.service
     - contents: |
         [Unit]
-        Description=Minion Swarm Host
+        Description=minionswarm
 
         [Service]
         ExecStart=/usr/bin/minionswarm.py --minions {{grains["minion-count"]}} --start-delay {{grains["start-delay"]}} --master {{grains['server']}} --name {{grains['hostname']}} --no-clean --temp-dir=/tmp/swarm --rand-machine-id --rand-uuid --rand-ver
@@ -79,9 +79,9 @@ minion-swarm-service:
         [Install]
         WantedBy=multi-user.target
     - require:
-      - file: minion-swarm-script
+      - file: minionswarm-script
   service.running:
-    - name: minion-swarm
+    - name: minionswarm
     - enable: True
     - require:
-      - file: minion-swarm-service
+      - file: minionswarm-service

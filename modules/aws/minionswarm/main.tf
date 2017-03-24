@@ -44,7 +44,7 @@ domain: ${var.region}.compute.internal
 use_avahi: False
 mirror: ${var.mirror_private_name}
 version: 3-stable
-role: minion-swarm
+role: minionswarm
 server: ${var.server}
 minion-count: 100
 start-delay: 3

@@ -1,4 +1,4 @@
-module "minion-swarm" {
+module "minionswarm" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
@@ -15,7 +15,7 @@ module "minion-swarm" {
 version: 3-stable
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: minion-swarm
+role: minionswarm
 minion-count: ${var.minion-count}
 start-delay: ${var.start-delay}
 swap_file_size: ${var.swap_file_size}
@@ -24,5 +24,5 @@ EOF
 }
 
 output "configuration" {
-  value = "${module.minion-swarm.configuration}"
+  value = "${module.minionswarm.configuration}"
 }

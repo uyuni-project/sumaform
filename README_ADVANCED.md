@@ -157,15 +157,15 @@ module "vanilla" {
 }
 ```
 
-## Minion swarm hosts
+## `minionswarm` hosts
 
-It is possible to create large numbers of simulated minions using Salt's [minion swarm test script](https://docs.saltstack.com/en/latest/topics/releases/0.9.9.html#minion-swarm).
+It is possible to create large numbers of simulated minions using Salt's [minionswarm test script](https://docs.saltstack.com/en/latest/topics/releases/0.9.9.html#minionswarm).
 
 A libvirt example follows:
 
 ```
-module "minion-swarm" {
-  source = "./modules/libvirt/minion-swarm"
+module "minionswarm" {
+  source = "./modules/libvirt/minionswarm"
   base_configuration = "${module.base.configuration}"
 
   name = "ms"
