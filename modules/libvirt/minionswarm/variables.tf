@@ -13,12 +13,12 @@ variable "server_configuration" {
   type = "map"
 }
 
-variable "minion-count"  {
+variable "minion_count"  {
   description = "number of minions that this swarm will spawn"
   default = 200
 }
 
-variable "start-delay"  {
+variable "start_delay"  {
   description = "number of seconds to wait between spawns"
   default = 6
 }

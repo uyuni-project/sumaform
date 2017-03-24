@@ -16,8 +16,8 @@ version: 3-stable
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minionswarm
-minion-count: ${var.minion-count}
-start-delay: ${var.start-delay}
+minion_count: ${var.minion_count}
+start_delay: ${var.start_delay}
 swap_file_size: ${var.swap_file_size}
 
 EOF

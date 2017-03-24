@@ -46,8 +46,8 @@ mirror: ${var.mirror_private_name}
 version: 3-stable
 role: minionswarm
 server: ${var.server}
-minion-count: 100
-start-delay: 3
+minion_count: 100
+start_delay: 3
 swap_file_size: 3000
 timezone: ${var.timezone}
 authorized_keys: null
