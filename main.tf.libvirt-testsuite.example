@@ -66,10 +66,10 @@ module "mincentos7" {
   for_testsuite_only = true
 }
 
-module "control-node" {
-  source = "./modules/libvirt/control_node"
+module "controller" {
+  source = "./modules/libvirt/controller"
   base_configuration = "${module.base.configuration}"
-  name = "control-node"
+  name = "controller"
   branch = "master"
   server_configuration = "${module.suma3pg.configuration}"
   client_configuration = "${module.clisles12sp2.configuration}"

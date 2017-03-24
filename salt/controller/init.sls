@@ -1,10 +1,10 @@
 include:
-  - control-node.repos
+  - controller.repos
 
 ssh-private-key:
   file.managed:
     - name: /root/.ssh/id_rsa
-    - source: salt://control-node/id_rsa
+    - source: salt://controller/id_rsa
     - makedirs: True
     - user: root
     - group: root
@@ -13,22 +13,22 @@ ssh-private-key:
 ssh-public-key:
   file.managed:
     - name: /root/.ssh/id_rsa.pub
-    - source: salt://control-node/id_rsa.pub
+    - source: salt://controller/id_rsa.pub
     - makedirs: True
     - user: root
     - group: root
     - mode: 700
 
-authorized_keys-control-node:
+authorized_keys_controller:
   file.append:
     - name: /root/.ssh/authorized_keys
-    - source: salt://control-node/id_rsa.pub
+    - source: salt://controller/id_rsa.pub
     - makedirs: True
 
 virtualhost:
   file.managed:
     - name: /tmp/virtualhostmanager.create.json
-    - source: salt://control-node/virtualhostmanager.create.json
+    - source: salt://controller/virtualhostmanager.create.json
 
 cucumber-requisites:
   pkg.installed:
@@ -67,7 +67,7 @@ cucumber-requisites:
       - ruby2.1-rubygem-poltergeist
       - ruby2.1-rubygem-rake
     - require:
-      - sls: control-node.repos
+      - sls: controller.repos
 
 cucumber-testsuite:
   cmd.run:
@@ -81,7 +81,7 @@ cucumber-testsuite:
 cucumber-run-script:
   file.managed:
     - name: /usr/bin/run-testsuite
-    - source: salt://control-node/run-testsuite.sh
+    - source: salt://controller/run-testsuite.sh
     - template: jinja
     - user: root
     - group: root

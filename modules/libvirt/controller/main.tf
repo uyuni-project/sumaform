@@ -1,4 +1,4 @@
-module "control_node" {
+module "controller" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
@@ -16,7 +16,7 @@ client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
 centos-minion: ${var.centos_configuration["hostname"]}
 ssh-minion: ${var.minionssh_configuration["hostname"]}
-role: control-node
+role: controller
 branch : ${var.branch}
 EOF
 }

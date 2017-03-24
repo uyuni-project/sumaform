@@ -22,7 +22,7 @@ cucumber-requisites:
 testsuite-authorized-key:
   file.append:
     - name: /root/.ssh/authorized_keys
-    - source: salt://control-node/id_rsa.pub
+    - source: salt://controller/id_rsa.pub
     - makedirs: True
 
 {% endif %}
