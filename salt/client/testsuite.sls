@@ -3,7 +3,7 @@
 include:
   - client.repos
 
-cucumber-requisites:
+cucumber_requisites:
   pkg.installed:
     - pkgs:
       - subscription-tools
@@ -26,7 +26,7 @@ cucumber-requisites:
     - require:
       - sls: client.repos
 
-testsuite-authorized-key:
+testsuite_authorized_key:
   file.append:
     - name: /root/.ssh/authorized_keys
     - source: salt://controller/id_rsa.pub

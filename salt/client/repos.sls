@@ -3,7 +3,7 @@ include:
 
 {% if grains['os'] == 'SUSE' and grains['for_testsuite_only'] %}
 
-testsuite-build-repo:
+testsuite_build_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
     - source: salt://client/repos.d/Devel_Galaxy_BuildRepo.repo
@@ -11,11 +11,11 @@ testsuite-build-repo:
     - require:
       - sls: default
 
-refresh-client-repos:
+refresh_client_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: testsuite-build-repo
+      - file: testsuite_build_repo
 
 {% else %}
 

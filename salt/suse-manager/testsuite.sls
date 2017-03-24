@@ -4,7 +4,7 @@ include:
   - suse-manager
   - suse-manager.repos
 
-testsuite-authorized-key:
+testsuite_authorized_key:
   file.append:
     - name: /root/.ssh/authorized_keys
     - source: salt://controller/id_rsa.pub
