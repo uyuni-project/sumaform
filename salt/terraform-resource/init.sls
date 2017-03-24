@@ -22,7 +22,7 @@ permanent-hostname-backward-compatibility-link:
     - force: true
     - target: /etc/hostname
 
-{% if grains['use-avahi'] %}
+{% if grains['use_avahi'] %}
 avahi:
   pkg.installed:
     - name: avahi

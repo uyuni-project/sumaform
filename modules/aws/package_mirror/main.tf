@@ -66,7 +66,7 @@ resource "null_resource" "package_mirror_salt_configuration" {
 
 hostname: ${replace("${aws_instance.instance.private_dns}", ".${var.region}.compute.internal", "")}
 domain: ${var.region}.compute.internal
-use-avahi: False
+use_avahi: False
 role: package-mirror
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}

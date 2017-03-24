@@ -41,7 +41,7 @@ resource "null_resource" "host_salt_configuration" {
 
 hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)}", ".${var.region}.compute.internal", "")}
 domain: ${var.region}.compute.internal
-use-avahi: False
+use_avahi: False
 package-mirror: ${var.package_mirror_private_name}
 version: 3-stable
 role: minion-swarm
