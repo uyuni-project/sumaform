@@ -6,7 +6,7 @@ lftp:
     - require:
       - sls: default
 
-lftp-script:
+lftp_script:
   file.managed:
     - name: /root/mirror.lftp
     - source: salt://mirror/mirror.lftp
@@ -14,18 +14,19 @@ lftp-script:
 parted:
   pkg.installed
 
-ca-certificates-mozilla:
+mozilla_certificates:
   pkg.installed:
+    - name: ca-certificates-mozilla
     - require:
       - sls: default
 
-scc-data-refresh-script:
+scc_data_refresh_script:
   file.managed:
     - name: /root/refresh_scc_data.py
     - source: salt://mirror/refresh_scc_data.py
     - mode: 755
 
-mirror-script:
+mirror_script:
   file.managed:
     - name: /root/mirror.sh
     - source: salt://mirror/mirror.sh
@@ -38,11 +39,11 @@ mirror-script:
     - hour: 20
     - minute: 0
     - require:
-      - file: mirror-script
-      - file: lftp-script
+      - file: mirror_script
+      - file: lftp_script
       - pkg: lftp
 
-mirror-partition:
+mirror_partition:
   cmd.run:
     - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev//{{grains['data_disk_device']}} mkpart primary 2048 100% && /sbin/mkfs.ext4 /dev//{{grains['data_disk_device']}}1
     - unless: ls /dev//{{grains['data_disk_device']}}1
@@ -51,7 +52,7 @@ mirror-partition:
 
 # http serving of mirrored packages
 
-mirror-directory:
+mirror_directory:
   file.directory:
     - name: /srv/mirror
     - user: wwwrun
@@ -67,9 +68,9 @@ mirror-directory:
     - opts:
       - defaults
     - require:
-      - cmd: mirror-partition
+      - cmd: mirror_partition
 
-web-server:
+web_server:
   pkg.installed:
     - name: apache2
     - require:
@@ -85,25 +86,26 @@ web-server:
     - require:
       - pkg: apache2
       - file: /etc/apache2/vhosts.d/mirror.conf
-      - file: mirror-directory
+      - file: mirror_directory
     - watch:
       - file: /etc/apache2/vhosts.d/mirror.conf
 
 # NFS serving of mirrored packages
 
-exports-file:
+exports_file:
   file.append:
     - name: /etc/exports
     - text: /srv/mirror *(ro,sync,no_root_squash)
     - require:
-      - file: mirror-directory
+      - file: mirror_directory
 
 rpcbind:
   service.running:
     - enable: True
 
-nfs-kernel-server:
+nfs_kernel_support:
   pkg.installed:
+    - name: nfs-kernel-server
     - require:
       - sls: default
 
@@ -114,14 +116,15 @@ nfs:
       - service: rpcbind
       - pkg: nfs-kernel-server
 
-nfsserver:
+nfs_server:
   service.running:
+    - name: nfsserver
     - enable: True
     - require:
-      - file: exports-file
+      - file: exports_file
       - service: nfs
     - watch:
-      - file: exports-file
+      - file: exports_file
 
 # symlinks to mimic SMT's folder structure, which is used by the from-dir
 # setting in SUSE Manager
