@@ -57,7 +57,7 @@ tools_base_repo:
     - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
     - template: jinja
 
-tools-devel-repo:
+tools_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
@@ -69,7 +69,7 @@ tools_base_repo:
     - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
     - template: jinja
 
-tools-devel-repo:
+tools_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo

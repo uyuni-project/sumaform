@@ -1,9 +1,9 @@
-hosts-file:
+hosts_file:
   file.append:
     - name: /etc/hosts
     - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}"
 
-set-temporary-hostname:
+temporary_hostname:
   cmd.run:
     {% if grains['init'] == 'systemd' %}
     - name: hostnamectl set-hostname {{ grains['hostname'] }}
@@ -11,12 +11,12 @@ set-temporary-hostname:
     - name: hostname {{ grains['hostname'] }}
     {% endif %}
 
-set-permanent-hostname:
+permanent_hostname:
   file.managed:
     - name: /etc/hostname
     - contents: {{ grains['hostname'] }}
 
-permanent-hostname-backward-compatibility-link:
+permanent_hostname_backward_compatibility_link:
   file.symlink:
     - name: /etc/HOSTNAME
     - force: true
@@ -38,7 +38,7 @@ avahi:
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
 
-configure-full-avahi-resolution:
+avahi_resolution_configuration:
   file.replace:
     - name: /etc/nsswitch.conf
     - pattern: "(hosts: .*?)mdns([46]?)_minimal(.*)"
@@ -47,18 +47,18 @@ configure-full-avahi-resolution:
       - pkg: avahi
 {% endif %}
 
-setup-machine-id-with-systemd:
+systemd_machine_id:
   cmd.run:
     - name: rm /etc/machine-id && systemd-machine-id-setup && touch /etc/machine-id-already-setup
     - creates: /etc/machine-id-already-setup
     - onlyif: test -f /usr/bin/systemd-machine-id-setup
 
-setup-machine-id-with-dbus:
+dbus_machine_id:
   cmd.run:
     - name: dbus-uuidgen --ensure
     - creates: /var/lib/dbus/machine-id
     - unless: test -f /usr/bin/systemd-machine-id-setup
 
-clear-minion-id:
+minion_id_cleared:
   file.absent:
     - name: /etc/salt/minion_id
