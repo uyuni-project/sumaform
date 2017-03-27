@@ -9,14 +9,14 @@ firewall:
 
 {% if grains['for_development_only'] %}
 
-disable-firewall:
+disable_firewall:
   service.dead:
     - name: SuSEfirewall2
     - enable: False
 
 {% else %}
 
-configure-firewall:
+firewall_configuration:
   file.replace:
     - name: /etc/sysconfig/SuSEfirewall2
     - pattern: |

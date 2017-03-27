@@ -15,14 +15,14 @@ postgresql:
   service.running:
     - enable: True
 
-conf-listen-addresses:
+postgresql_listen_addresses_configuration:
   file.append:
     - name: /var/lib/pgsql/data/postgresql.conf
     - text: listen_addresses = '*'
     - require:
       - service: postgresql
 
-conf-max-connections:
+postgresql_max_connections_configuration:
   file.replace:
     - name: /var/lib/pgsql/data/postgresql.conf
     - pattern: max_connections = .*
@@ -30,7 +30,7 @@ conf-max-connections:
     - require:
       - service: postgresql
 
-conf-hba:
+postgresql_hba_configuration:
   file.managed:
     - name: /var/lib/pgsql/data/pg_hba.conf
     - contents: |
@@ -43,15 +43,15 @@ conf-hba:
 # HACK: postgresql.conf and pg_hba.conf are created by Postgres after the first
 # time the service starts. As salt prohibites dependency cycles, we force
 # restarting the service when those files change
-postgresql-restart:
+postgresql_restart:
   cmd.run:
     - name: systemctl restart postgresql
     - onchanges:
-      - file: conf-listen-addresses
-      - file: conf-max-connections
+      - file: postgresql_listen_addresses_configuration
+      - file: postgresql_max_connections_configuration
       - file: /var/lib/pgsql/data/pg_hba.conf
 
-create-db:
+postgresql_database_creation:
   cmd.run:
 {% if grains['saltversion'] > '2016' %}
     - runas: postgres
@@ -63,7 +63,7 @@ create-db:
     - require:
       - service: postgresql
 
-create-plpgsql-lang:
+postgresql_language_configuration:
   cmd.run:
 {% if grains['saltversion'] > '2016' %}
     - runas: postgres
@@ -73,9 +73,9 @@ create-plpgsql-lang:
     - name: createlang plpgsql susemanager
     - unless: psql susemanager -c "\dL" | grep plpgsql
     - require:
-      - cmd: create-db
+      - cmd: postgresql_database_creation
 
-create-user:
+postgresql_user:
   cmd.run:
 {% if grains['saltversion'] > '2016' %}
     - runas: postgres
@@ -85,4 +85,4 @@ create-user:
     - name: echo "CREATE ROLE spacewalk PASSWORD 'spacewalk' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
     - unless: psql -c "\du" | grep spacewalk
     - require:
-      - cmd: create-db
+      - cmd: postgresql_database_creation
