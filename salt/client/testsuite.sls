@@ -26,6 +26,14 @@ cucumber_requisites:
     - require:
       - sls: client.repos
 
+{% if grains['os_family'] == 'Suse' %}
+enforce_latest_libzypp:
+  pkg.latest:
+    - name: libzypp
+    - require:
+      - sls: client.repos
+{% endif %}
+
 testsuite_authorized_key:
   file.append:
     - name: /root/.ssh/authorized_keys
