@@ -1,5 +1,5 @@
 # Run with:
-# sudo salt-call --file-root /vagrant/salt --pillar-root=/vagrant/pillar --local state.sls suse-manager.sles11sp4_osad_bootstrap_script
+# sudo salt-call --local state.sls suse_manager_server.sles11sp4_osad_bootstrap_script
 
 mgr_sync_auth:
   file.append:

@@ -1,14 +1,14 @@
 {% if grains['for_development_only'] %}
 
 include:
-  - suse-manager
+  - suse_manager_server
 
 incomplete_package_import_reposync:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: incomplete_package_import = 1
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
 
 {% if 'stable' not in grains['version'] %}
 
@@ -17,7 +17,7 @@ browser_side_less_configuration:
     - name: /etc/rhn/rhn.conf
     - text: development_environment = true
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
   pkg.installed:
     - pkgs:
       - susemanager-frontend-libs-devel
@@ -26,7 +26,7 @@ browser_side_less_configuration:
     - fromrepo: Devel_Galaxy_Manager_2.1
     {% endif %}
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
 
 {% endif %}
 
@@ -58,7 +58,7 @@ create_first_user:
     - verify_ssl: False
     - unless: spacecmd -u admin -p admin user_list | grep -x admin
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
 
 create_empty_channel:
   cmd.run:
@@ -140,7 +140,7 @@ rhn_conf_from_dir:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.fromdir = /mirror
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
       - mount: mirror_directory
 
 {% elif salt["grains.get"]("smt") %}
@@ -150,7 +150,7 @@ rhn_conf_mirror:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
 
 {% endif %}
 

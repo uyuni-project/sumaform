@@ -1,7 +1,7 @@
 suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
-    - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
+    - source: salt://suse_manager_server/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: default
@@ -9,7 +9,7 @@ suse_manager_pool_repo:
 suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
-    - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
+    - source: salt://suse_manager_server/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
     - template: jinja
     - require:
       - sls: default

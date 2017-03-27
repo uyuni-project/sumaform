@@ -4,7 +4,7 @@ base:
 
   'role:suse_manager_server':
     - match: grain
-    - suse-manager
+    - suse_manager_server
 
   'role:client':
     - match: grain
@@ -12,7 +12,7 @@ base:
 
   'role:suse_manager_proxy':
     - match: grain
-    - suse-manager-proxy
+    - suse_manager_proxy
 
   'role:minion':
     - match: grain

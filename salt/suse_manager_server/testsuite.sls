@@ -1,8 +1,8 @@
 {% if grains['for_testsuite_only'] %}
 
 include:
-  - suse-manager
-  - suse-manager.repos
+  - suse_manager_server
+  - suse_manager_server.repos
 
 testsuite_authorized_key:
   file.append:
@@ -47,23 +47,23 @@ sles_autoinstallation_linux_file:
 test_package_without_vendor_file:
   file.managed:
     - name: /root/subscription-tools-1.0-0.noarch.rpm
-    - source: salt://suse-manager/testsuite/subscription-tools-1.0-0.noarch.rpm
+    - source: salt://suse_manager_server/testsuite/subscription-tools-1.0-0.noarch.rpm
 
 test_autoinstallation_file:
   file.managed:
     - name: /install/empty.xml
-    - source: salt://suse-manager/testsuite/empty.xml
+    - source: salt://suse_manager_server/testsuite/empty.xml
     - makedirs: True
 
 test_vcenter_file:
   file.managed:
     - name: /var/tmp/vCenter.json
-    - source: salt://suse-manager/testsuite/vCenter.json
+    - source: salt://suse_manager_server/testsuite/vCenter.json
 
 lftp:
   pkg.installed:
     - require:
-      - sls: suse-manager.repos
+      - sls: suse_manager_server.repos
 
 test_repo:
   cmd.run:
@@ -88,13 +88,13 @@ cobbler_configuration:
     - watch :
       - file : /etc/cobbler/settings
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
     file.replace:
     - name: /etc/cobbler/settings
     - pattern: "redhat_management_permissive: 0"
     - repl: "redhat_management_permissive: 1"
     - require:
-      - sls: suse-manager
+      - sls: suse_manager_server
 
 expect:
   pkg.installed

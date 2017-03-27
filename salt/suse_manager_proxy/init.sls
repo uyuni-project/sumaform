@@ -1,5 +1,5 @@
 include:
-  - suse-manager-proxy.repos
+  - suse_manager_proxy.repos
 
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by proxy's
@@ -7,7 +7,7 @@ sles_release_fix:
   pkg.removed:
     - name: sles-release
     - require:
-      - sls: suse-manager-proxy.repos
+      - sls: suse_manager_proxy.repos
 {% endif %}
 
 proxy-packages:
@@ -57,12 +57,12 @@ proxy-packages:
       - rhnpush
     {% endif %}
     - require:
-      - sls: suse-manager-proxy.repos
+      - sls: suse_manager_proxy.repos
 
 wget:
   pkg.installed:
     - require:
-      - sls: suse-manager-proxy.repos
+      - sls: suse_manager_proxy.repos
 
 base_bootstrap_script:
   file.managed:
@@ -87,7 +87,7 @@ bootstrap_script:
 
 /root/config-answers.txt:
   file.managed:
-    - source: salt://suse-manager-proxy/config-answers.txt
+    - source: salt://suse_manager_proxy/config-answers.txt
     - template: jinja
 
 internal-trusted-cert:

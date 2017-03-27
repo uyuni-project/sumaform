@@ -1,17 +1,17 @@
 {% if grains['for_development_only'] %}
 
 include:
-  - suse-manager.rhn
+  - suse_manager_server.rhn
 
 {% if '2.1' in grains['version'] %}
 
 tomcat6_init_script:
   file.patch:
     - name: /etc/init.d/tomcat6
-    - source: salt://suse-manager/tomcat6.patch
+    - source: salt://suse_manager_server/tomcat6.patch
     - hash: md5=bfebb4990690961e435d650009ec4f9f
     - require:
-      - sls: suse-manager.rhn
+      - sls: suse_manager_server.rhn
 
 tomcat6_config:
   file.append:
@@ -40,7 +40,7 @@ refresh_after_deploy_speedup_config:
     - pattern: 'ProxySet min=1\n'
     - repl: 'ProxySet min=1 retry=0\n'
     - require:
-      - sls: suse-manager.rhn
+      - sls: suse_manager_server.rhn
 
 apache2:
   service.running:
@@ -59,7 +59,7 @@ tomcat_config:
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
     - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n \1"'
     - require:
-      - sls: suse-manager.rhn
+      - sls: suse_manager_server.rhn
 
 {% if 'head' in grains['version'] %}
 tomcat_config_loaded:
@@ -67,7 +67,7 @@ tomcat_config_loaded:
     - name: /etc/tomcat/tomcat.conf
     - regex: '^TOMCAT_CFG_LOADED.*'
     - require:
-      - sls: suse-manager.rhn
+      - sls: suse_manager_server.rhn
 {% endif %}
 
 tomcat:

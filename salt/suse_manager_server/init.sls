@@ -1,13 +1,13 @@
 include:
-  - suse-manager.repos
-  - suse-manager.firewall
-  - suse-manager.postgres
-  - suse-manager.pgpool
-  - suse-manager.tomcat
-  - suse-manager.taskomatic
-  - suse-manager.rhn
-  - suse-manager.iss
-  - suse-manager.testsuite
+  - suse_manager_server.repos
+  - suse_manager_server.firewall
+  - suse_manager_server.postgres
+  - suse_manager_server.pgpool
+  - suse_manager_server.tomcat
+  - suse_manager_server.taskomatic
+  - suse_manager_server.rhn
+  - suse_manager_server.iss
+  - suse_manager_server.testsuite
 
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by SUSE Manager's
@@ -15,7 +15,7 @@ sles_release_fix:
   pkg.removed:
     - name: sles-release
     - require:
-      - sls: suse-manager.repos
+      - sls: suse_manager_server.repos
 {% endif %}
 
 suse_manager_packages:
@@ -61,13 +61,13 @@ suse_manager_packages:
       {% endif %}
     {% endif %}
     - require:
-      - sls: suse-manager.repos
-      - sls: suse-manager.firewall
+      - sls: suse_manager_server.repos
+      - sls: suse_manager_server.firewall
 
 environment_setup_script:
   file.managed:
     - name: /root/setup_env.sh
-    - source: salt://suse-manager/setup_env.sh
+    - source: salt://suse_manager_server/setup_env.sh
     - template: jinja
 
 suse_manager_setup:
@@ -78,7 +78,7 @@ suse_manager_setup:
       - pkg: suse_manager_packages
       - file: environment_setup_script
       {% if grains['database'] == 'pgpool' %}
-      - sls: suse-manager.pgpool
+      - sls: suse_manager_server.pgpool
       {% endif %}
 
 ca_cert_checksum:

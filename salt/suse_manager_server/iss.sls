@@ -1,25 +1,25 @@
 {% if grains['for_development_only'] %}
 
 include:
-  - suse-manager.rhn
+  - suse_manager_server.rhn
 
 {% if grains['iss_slave'] %}
 
 register_slave:
   cmd.script:
-    - name: salt://suse-manager/register_slave.py
+    - name: salt://suse_manager_server/register_slave.py
     - args: "admin admin {{ grains['iss_slave'] }}"
     - require:
-      - sls: suse-manager.rhn
+      - sls: suse_manager_server.rhn
 
 {% elif grains['iss_master'] %}
 
 register_master:
   cmd.script:
-    - name: salt://suse-manager/register_master.py
+    - name: salt://suse_manager_server/register_master.py
     - args: "admin admin {{ grains['iss_master'] }}"
     - require:
-      - sls: suse-manager.rhn
+      - sls: suse_manager_server.rhn
 
 master_ssl_cert:
   file.managed:

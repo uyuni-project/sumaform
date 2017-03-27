@@ -1,7 +1,7 @@
 {% if grains['database'] == 'pgpool' %}
 
 include:
-  - suse-manager
+  - suse_manager_server
 
 pgpool:
   pkg.latest:
@@ -154,6 +154,6 @@ socket_dir:
 migration_script:
   file.managed:
     - name: /usr/lib/susemanager/bin/migration.sh
-    - source: salt://suse-manager/migration.sh
+    - source: salt://suse_manager_server/migration.sh
 
 {% endif %}
