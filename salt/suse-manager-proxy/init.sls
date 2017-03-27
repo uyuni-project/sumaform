@@ -3,8 +3,9 @@ include:
 
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by proxy's
-sles-release:
+sles_release_fix:
   pkg.removed:
+    - name: sles-release
     - require:
       - sls: suse-manager-proxy.repos
 {% endif %}
@@ -154,7 +155,7 @@ create_bootstrap_script_md5:
     - require:
       - cmd: create_bootstrap_script
 
-ca-cert-checksum:
+ca_cert_checksum:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
     - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512

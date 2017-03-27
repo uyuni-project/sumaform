@@ -6,7 +6,7 @@ include:
 # allow connections from any host, allow non-durable but faster operation
 # see https://www.postgresql.org/docs/current/static/non-durability.html
 
-postgres-config:
+postgresql_listen_addresses_configuration:
   file.append:
     - name: /var/lib/pgsql/data/postgresql.conf
     - text: |
@@ -16,7 +16,7 @@ postgres-config:
     - require:
       - sls: suse-manager
 
-hba-config:
+postgresql_hba_configuration:
   file.append:
     - name: /var/lib/pgsql/data/pg_hba.conf
     - text: host    all     all       0.0.0.0/0      md5
@@ -26,10 +26,10 @@ hba-config:
 postgresql:
   service.running:
     - watch:
-      - file: postgres-config
-      - file: hba-config
+      - file: postgresql_listen_addresses_configuration
+      - file: postgresql_hba_configuration
     - require:
-      - file: postgres-config
-      - file: hba-config
+      - file: postgresql_listen_addresses_configuration
+      - file: postgresql_hba_configuration
 
 {% endif %}

@@ -5,7 +5,7 @@ include:
 
 {% if '2.1' in grains['version'] %}
 
-tomcat6-init-script:
+tomcat6_init_script:
   file.patch:
     - name: /etc/init.d/tomcat6
     - source: salt://suse-manager/tomcat6.patch
@@ -13,7 +13,7 @@ tomcat6-init-script:
     - require:
       - sls: suse-manager.rhn
 
-tomcat6-config:
+tomcat6_config:
   file.append:
     - name: /etc/tomcat6/tomcat6.conf
     - text: "JAVA_OPTS=\"$JAVA_OPTS
@@ -25,16 +25,16 @@ tomcat6-config:
           -Djava.rmi.server.hostname={{ salt['network.interfaces']()['eth0']['inet'][0]['address'] }}
         \""
     - require:
-      - file: tomcat6-init-script
+      - file: tomcat6_init_script
 
 tomcat6:
   service.running:
     - watch:
-      - file: tomcat6-config
+      - file: tomcat6_config
     - require:
-      - file: tomcat6-config
+      - file: tomcat6_config
 
-refresh-after-deploy-speedup-config:
+refresh_after_deploy_speedup_config:
   file.replace:
     - name: /etc/apache2/conf.d/zz-spacewalk-www.conf
     - pattern: 'ProxySet min=1\n'
@@ -46,14 +46,14 @@ apache2:
   service.running:
     - watch:
       - service: tomcat6
-      - file: refresh-after-deploy-speedup-config
+      - file: refresh_after_deploy_speedup_config
     - require:
       - service: tomcat6
-      - file: refresh-after-deploy-speedup-config
+      - file: refresh_after_deploy_speedup_config
 
 {% else %}
 
-tomcat-config:
+tomcat_config:
   file.replace:
     - name: /etc/tomcat/tomcat.conf
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
@@ -62,7 +62,7 @@ tomcat-config:
       - sls: suse-manager.rhn
 
 {% if 'head' in grains['version'] %}
-tomcat-config-loaded:
+tomcat_config_loaded:
   file.comment:
     - name: /etc/tomcat/tomcat.conf
     - regex: '^TOMCAT_CFG_LOADED.*'
@@ -73,9 +73,9 @@ tomcat-config-loaded:
 tomcat:
   service.running:
     - watch:
-      - file: tomcat-config
+      - file: tomcat_config
     - require:
-      - file: tomcat-config
+      - file: tomcat_config
 
 {% endif %}
 

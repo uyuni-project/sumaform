@@ -3,8 +3,9 @@
 include:
   - suse-manager
 
-pgpool-II:
-  pkg.latest: []
+pgpool:
+  pkg.latest:
+    - name: pgpool-II
   user.present:
     - name: pgpool
     - groups:
@@ -15,20 +16,20 @@ pgpool-II:
     - enable: True
     - require:
       - service: postgresql
-      - file: socket-dir
-      - cmd: generate-pgpool-md5-hash
-      - file: config-pgpool-listen-to-all
-      - file: config-pgpool-use-default-postgres-port
-      - file: config-pgpool-use-default-postgres-socket-dir
-      - file: config-pgpool-comment-default-backend
-      - file: config-pgpool-configure-backends
-      - file: config-pgpool-pool-size
-      - file: config-pgpool-enable-replication
-      - file: config-pgpool-replicate-select
-      - file: config-pgpool-enable-hba
-      - file: config-pgpool-hba
+      - file: socket_dir
+      - cmd: generate_pgpool_md5_hash
+      - file: config_pgpool_listen_to_all
+      - file: config_pgpool_use_default_postgres_port
+      - file: config_pgpool_use_default_postgres_socket_dir
+      - file: config_pgpool_comment_default_backend
+      - file: config_pgpool_configure_backends
+      - file: config_pgpool_pool_size
+      - file: config_pgpool_enable_replication
+      - file: config_pgpool_replicate_select
+      - file: config_pgpool_enable_hba
+      - file: config_pgpool_hba
 
-config-pgpool-listen-to-all:
+config_pgpool_listen_to_all:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^listen_addresses = .*
@@ -36,7 +37,7 @@ config-pgpool-listen-to-all:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-use-default-postgres-port:
+config_pgpool_use_default_postgres_port:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^port = .*
@@ -44,7 +45,7 @@ config-pgpool-use-default-postgres-port:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-use-default-postgres-socket-dir:
+config_pgpool_use_default_postgres_socket_dir:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^socket_dir = .*
@@ -52,14 +53,14 @@ config-pgpool-use-default-postgres-socket-dir:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-comment-default-backend:
+config_pgpool_comment_default_backend:
   file.comment:
     - name: /etc/pgpool-II/pgpool.conf
     - regex: ^backend_.*
     - require:
       - pkg: pgpool-II
 
-config-pgpool-configure-backends:
+config_pgpool_configure_backends:
   file.append:
     - name: /etc/pgpool-II/pgpool.conf
     - text: |
@@ -78,7 +79,7 @@ config-pgpool-configure-backends:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-pool-size:
+config_pgpool_pool_size:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^num_init_children = .*
@@ -86,7 +87,7 @@ config-pgpool-pool-size:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-enable-replication:
+config_pgpool_enable_replication:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^replication_mode = off
@@ -94,7 +95,7 @@ config-pgpool-enable-replication:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-replicate-select:
+config_pgpool_replicate_select:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^replicate_select = off
@@ -102,7 +103,7 @@ config-pgpool-replicate-select:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-enable-hba:
+config_pgpool_enable_hba:
   file.replace:
     - name: /etc/pgpool-II/pgpool.conf
     - pattern: ^enable_pool_hba = off
@@ -110,7 +111,7 @@ config-pgpool-enable-hba:
     - require:
       - pkg: pgpool-II
 
-config-pgpool-hba:
+config_pgpool_hba:
   file.managed:
     - name: /etc/pgpool-II/pool_hba.conf
     - contents: |
@@ -120,7 +121,7 @@ config-pgpool-hba:
     - require:
       - pkg: pgpool-II
 
-generate-pgpool-md5-hash:
+generate_pgpool_md5_hash:
   cmd.run:
     - name: pg_md5 -m -u spacewalk spacewalk
     - unless: grep spacewalk < /etc/pgpool-II/pool_passwd
@@ -128,20 +129,20 @@ generate-pgpool-md5-hash:
       - pkg: pgpool-II
 
 # HACK: currently the taskomatic unit requires postgresql
-taskomatic-do-not-require-postgres:
+taskomatic_do_not_require_postgres:
   file.comment:
     - name: /usr/lib/systemd/system/taskomatic.service
     - regex: Wants=postgresql.service
     - require:
-      - pkg: suse-manager-packages
+      - pkg: suse_manager_packages
 
 postgresql:
   service.dead:
     - enable: False
     - require:
-      - file: taskomatic-do-not-require-postgres
+      - file: taskomatic_do_not_require_postgres
 
-socket-dir:
+socket_dir:
   file.directory:
     - name: /var/run/postgresql
     - user: pgpool
@@ -150,7 +151,7 @@ socket-dir:
 
 # HACK: provide newer version of migration.sh
 # (until the Manager-3.0-enable-external-postgres branch is merged)
-migration-script:
+migration_script:
   file.managed:
     - name: /usr/lib/susemanager/bin/migration.sh
     - source: salt://suse-manager/migration.sh

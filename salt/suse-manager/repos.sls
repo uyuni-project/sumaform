@@ -2,7 +2,7 @@ include:
   - default
 
 {% if '2.1' in grains['version'] %}
-suse-manager-pool-repo:
+suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-2.1-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-2.1-x86_64-Pool.repo
@@ -10,7 +10,7 @@ suse-manager-pool-repo:
     - require:
       - sls: default
 
-suse-manager-update-repo:
+suse_manager_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-2.1-x86_64-Update.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-2.1-x86_64-Update.repo
@@ -20,7 +20,7 @@ suse-manager-update-repo:
 {% endif %}
 
 {% if '3-' in grains['version'] %}
-suse-manager-pool-repo:
+suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
@@ -28,7 +28,7 @@ suse-manager-pool-repo:
     - require:
       - sls: default
 
-suse-manager-update-repo:
+suse_manager_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
@@ -38,7 +38,7 @@ suse-manager-update-repo:
 {% endif %}
 
 {% if '3.1' in grains['version'] %}
-suse-manager-pool-repo:
+suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.1-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-3.1-x86_64-Pool.repo
@@ -46,13 +46,13 @@ suse-manager-pool-repo:
     - require:
       - sls: default
 
-suse-manager-update-repo:
+suse_manager_update_repo:
   file.touch:
     - name: /tmp/no_update_channel_needed
 {% endif %}
 
 {% if 'head' in grains['version'] %}
-suse-manager-pool-repo:
+suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
     - source: salt://suse-manager/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
@@ -60,11 +60,11 @@ suse-manager-pool-repo:
     - require:
       - sls: default
 
-suse-manager-update-repo:
+suse_manager_update_repo:
   file.touch:
     - name: /tmp/no_update_channel_needed
 
-suse-manager-devel-repo:
+suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_Head.repo
@@ -74,7 +74,7 @@ suse-manager-devel-repo:
 {% endif %}
 
 {% if '2.1-nightly' in grains['version'] %}
-suse-manager-devel-repo:
+suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_2.1.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_2.1.repo
@@ -84,7 +84,7 @@ suse-manager-devel-repo:
 {% endif %}
 
 {% if '3-nightly' in grains['version'] %}
-suse-manager-devel-repo:
+suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Manager_3.0.repo
@@ -94,7 +94,7 @@ suse-manager-devel-repo:
 {% endif %}
 
 {% if 'oracle' in grains['database'] %}
-suse-manager-oracle-repo:
+suse_manager_oracle_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Oracle_SLE11.repo
     - source: salt://suse-manager/repos.d/Devel_Galaxy_Oracle_SLE11.repo
@@ -104,7 +104,7 @@ suse-manager-oracle-repo:
 {% endif %}
 
 {% if 'pgpool' in grains['database'] %}
-suse-manager-pgpool-repo:
+suse_manager_pgpool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_pgpool.repo
     - source: salt://suse-manager/repos.d/home_SilvioMoioli_pgpool.repo
@@ -114,7 +114,7 @@ suse-manager-pgpool-repo:
 {% endif %}
 
 {% if grains['for_testsuite_only'] %}
-lftp-repo:
+lftp_repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
     - source: salt://suse-manager/repos.d/home_SilvioMoioli_tools.repo
@@ -122,21 +122,21 @@ lftp-repo:
       - sls: default
 {% endif %}
 
-refresh-suse-manager-repos:
+refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: suse-manager-pool-repo
-      - file: suse-manager-update-repo
+      - file: suse_manager_pool_repo
+      - file: suse_manager_update_repo
       {% if ('nightly' in grains['version'] or 'head' in grains['version']) %}
-      - file: suse-manager-devel-repo
+      - file: suse_manager_devel_repo
       {% endif %}
       {% if 'oracle' in grains['database'] %}
-      - file: suse-manager-oracle-repo
+      - file: suse_manager_oracle_repo
       {% endif %}
       {% if 'pgpool' in grains['database'] %}
-      - file: suse-manager-pgpool-repo
+      - file: suse_manager_pgpool_repo
       {% endif %}
       {% if grains['for_testsuite_only'] %}
-      - file: lftp-repo
+      - file: lftp_repo
       {% endif %}

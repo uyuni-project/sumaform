@@ -3,7 +3,7 @@
 include:
   - suse-manager
 
-taskomatic-config:
+taskomatic_config:
   file.append:
     - name: /usr/share/rhn/config-defaults/rhn_taskomatic_daemon.conf
     - text: ['wrapper.java.additional.7=-Xdebug',
@@ -14,8 +14,8 @@ taskomatic-config:
 taskomatic:
   service.running:
     - watch:
-      - file: taskomatic-config
+      - file: taskomatic_config
     - require:
-      - file: taskomatic-config
+      - file: taskomatic_config
 
 {% endif %}

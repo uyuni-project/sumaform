@@ -3,7 +3,7 @@
 include:
   - suse-manager
 
-incomplete-package-import-reposync:
+incomplete_package_import_reposync:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: incomplete_package_import = 1
@@ -12,7 +12,7 @@ incomplete-package-import-reposync:
 
 {% if 'stable' not in grains['version'] %}
 
-browser-side-less-configuration:
+browser_side_less_configuration:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: development_environment = true
@@ -30,7 +30,7 @@ browser-side-less-configuration:
 
 {% endif %}
 
-create-first-user:
+create_first_user:
   http.query:
     - method: POST
     {% if '2.1' in grains['version'] %}
@@ -60,14 +60,14 @@ create-first-user:
     - require:
       - sls: suse-manager
 
-create-empty-channel:
+create_empty_channel:
   cmd.run:
     - name: spacecmd -u admin -p admin -- softwarechannel_create --name testchannel -l testchannel -a x86_64
     - unless: spacecmd -u admin -p admin softwarechannel_list | grep -x testchannel
     - require:
-      - http: create-first-user
+      - http: create_first_user
 
-create-activation-key:
+create_activation_key:
   cmd.run:
     {% if '2.1' in grains['version'] %}
     - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel -e provisioning_entitled
@@ -76,14 +76,14 @@ create-activation-key:
     {% endif %}
     - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-DEFAULT
     - require:
-      - cmd: create-empty-channel
+      - cmd: create_empty_channel
 
 create_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
-      - cmd: create-activation-key
+      - cmd: create_activation_key
 
 create_bootstrap_script_md5:
   cmd.run:
@@ -92,40 +92,41 @@ create_bootstrap_script_md5:
     - require:
       - cmd: create_bootstrap_script
 
-private-ssl-key:
+private_ssl_key:
   file.copy:
     - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
     - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - mode: 644
     - require:
-      - cmd: suse-manager-setup
+      - cmd: suse_manager_setup
 
-private-ssl-key-checksum:
+private_ssl_key_checksum:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
     - creates: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
     - require:
-      - file: private-ssl-key
+      - file: private_ssl_key
 
-ca-configuration:
+ca_configuration:
   file.copy:
     - name: /srv/www/htdocs/pub/rhn-ca-openssl.cnf
     - source: /root/ssl-build/rhn-ca-openssl.cnf
     - mode: 644
 
-ca-configuration-checksum:
+ca_configuration_checksum:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
     - creates: /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
     - require:
-      - file: ca-configuration
+      - file: ca_configuration
 
 {% if salt["grains.get"]("mirror") %}
 
-/etc/fstab:
-  file.touch
+non_empty_fstab:
+  file.touch:
+    - name: /etc/fstab
 
-mirror-directory:
+mirror_directory:
   mount.mounted:
     - name: /mirror
     - device: {{ salt["grains.get"]("mirror") }}:/srv/mirror
@@ -134,17 +135,17 @@ mirror-directory:
     - require:
       - file: /etc/fstab
 
-rhn-conf-from-dir:
+rhn_conf_from_dir:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.fromdir = /mirror
     - require:
       - sls: suse-manager
-      - mount: mirror-directory
+      - mount: mirror_directory
 
 {% elif salt["grains.get"]("smt") %}
 
-rhn-conf-mirror:
+rhn_conf_mirror:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}

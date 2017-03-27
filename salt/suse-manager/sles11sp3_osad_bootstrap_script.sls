@@ -1,35 +1,35 @@
 # Run with:
 # sudo salt-call --local state.sls suse-manager.sles11sp3_osad_bootstrap_script
 
-mgr-sync-auth:
+mgr_sync_auth:
   file.append:
     - name: /root/.mgr-sync
     - text: |
         mgrsync.user = admin
         mgrsync.password = admin
 
-refresh-scc-data:
+scc_data_refresh:
 {% if '2.1' in grains['version'] %}
   cmd.run:
     - name: mgr-sync enable-scc
     - creates: /var/lib/spacewalk/scc/migrated
     - require:
-      - file: mgr-sync-auth
+      - file: mgr_sync_auth
 {% else %}
   cmd.run:
     - name: mgr-sync refresh
     - require:
-      - file: mgr-sync-auth
+      - file: mgr_sync_auth
 {% endif %}
 
-sync-sles11sp3-channels:
+sync_sles11sp3_channels:
   cmd.run:
     - name: mgr-sync add channel sles11-sp3-pool-x86_64 sles11-sp3-updates-x86_64 sles11-sp3-suse-manager-tools-x86_64
     - unless: mgr-sync list channel -c -f sles11-sp3-suse-manager-tools-x86_64 | grep "\[I\] sles11-sp3-suse-manager-tools-x86_64"
     - require:
-      - cmd: refresh-scc-data
+      - cmd: scc_data_refresh
 
-create-sles11sp3-activation-key:
+create_sles11sp3_activation_key:
   cmd.run:
     - name: |
 {% if '2.1' in grains['version'] %}
@@ -41,14 +41,14 @@ create-sles11sp3-activation-key:
         spacecmd -u admin -p admin -- activationkey_addpackages 1-sles11sp3-osad osad rhncfg-actions
     - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-sles11sp3-osad
     - require:
-      - cmd: sync-sles11sp3-channels
+      - cmd: sync_sles11sp3_channels
 
 create_sles11sp3_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-sles11sp3-osad --script=bootstrap-sles11sp3-osad.sh --allow-config-actions --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap-sles11sp3-osad.sh
     - require:
-      - cmd: create-sles11sp3-activation-key
+      - cmd: create_sles11sp3_activation_key
 
 create_sles11sp3_bootstrap_script_md5:
   cmd.run:

@@ -11,13 +11,14 @@ include:
 
 {% if '2.1' in grains['version'] %}
 # remove SLES product release package, it's replaced by SUSE Manager's
-sles-release:
+sles_release_fix:
   pkg.removed:
+    - name: sles-release
     - require:
       - sls: suse-manager.repos
 {% endif %}
 
-suse-manager-packages:
+suse_manager_packages:
   pkg.latest:
     {% if 'head' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_Head
@@ -63,32 +64,32 @@ suse-manager-packages:
       - sls: suse-manager.repos
       - sls: suse-manager.firewall
 
-environment-setup-script:
+environment_setup_script:
   file.managed:
     - name: /root/setup_env.sh
     - source: salt://suse-manager/setup_env.sh
     - template: jinja
 
-suse-manager-setup:
+suse_manager_setup:
   cmd.run:
     - name: /usr/lib/susemanager/bin/migration.sh -l /var/log/susemanager_setup.log -s
     - creates: /root/.MANAGER_SETUP_COMPLETE
     - require:
-      - pkg: suse-manager-packages
-      - file: environment-setup-script
+      - pkg: suse_manager_packages
+      - file: environment_setup_script
       {% if grains['database'] == 'pgpool' %}
       - sls: suse-manager.pgpool
       {% endif %}
 
-ca-cert-checksum:
+ca_cert_checksum:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
     - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
     - require:
-      - cmd: suse-manager-setup
+      - cmd: suse_manager_setup
 
-remove-motd:
+no_motd:
   file.absent:
     - name: /etc/motd
     - require:
-      - cmd: suse-manager-setup
+      - cmd: suse_manager_setup

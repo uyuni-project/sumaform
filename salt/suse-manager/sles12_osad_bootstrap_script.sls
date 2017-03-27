@@ -1,35 +1,35 @@
 # Run with:
 # sudo salt-call --local state.sls suse-manager.sles12_osad_bootstrap_script
 
-mgr-sync-auth:
+mgr_sync_auth:
   file.append:
     - name: /root/.mgr-sync
     - text: |
         mgrsync.user = admin
         mgrsync.password = admin
 
-refresh-scc-data:
+scc_data_refresh:
 {% if '2.1' in grains['version'] %}
   cmd.run:
     - name: mgr-sync enable-scc
     - creates: /var/lib/spacewalk/scc/migrated
     - require:
-      - file: mgr-sync-auth
+      - file: mgr_sync_auth
 {% else %}
   cmd.run:
     - name: mgr-sync refresh
     - require:
-      - file: mgr-sync-auth
+      - file: mgr_sync_auth
 {% endif %}
 
-sync-sles12-channels:
+sync_sles12_channels:
   cmd.run:
     - name: mgr-sync add channel sles12-pool-x86_64 sles12-updates-x86_64 sle-manager-tools12-pool-x86_64 sle-manager-tools12-updates-x86_64
     - unless: mgr-sync list channel -c -f sle-manager-tools12-updates-x86_64 | grep "\[I\] sle-manager-tools12-updates-x86_64"
     - require:
-      - cmd: refresh-scc-data
+      - cmd: scc_data_refresh
 
-create-sles12-activation-key:
+create_sles12_activation_key:
   cmd.run:
     - name: |
 {% if '2.1' in grains['version'] %}
@@ -41,14 +41,14 @@ create-sles12-activation-key:
         spacecmd -u admin -p admin -- activationkey_addpackages 1-sles12-osad osad rhncfg-actions
     - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-sles12-osad
     - require:
-      - cmd: sync-sles12-channels
+      - cmd: sync_sles12_channels
 
 create_sles12_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-sles12-osad --script=bootstrap-sles12-osad.sh --allow-config-actions --no-up2date
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap-sles12-osad.sh
     - require:
-      - cmd: create-sles12-activation-key
+      - cmd: create_sles12_activation_key
 
 create_sles12_bootstrap_script_md5:
   cmd.run:
@@ -58,10 +58,10 @@ create_sles12_bootstrap_script_md5:
       - cmd: create_sles12_bootstrap_script
 
 {% if '2.1' in grains['version'] %}
-create-sles12-bootstrap-repo:
+create_sles12_bootstrap_repo:
   cmd.run:
     - name: mgr-create-bootstrap-repo --create=SLE-12-x86_64
     - creates: /srv/www/htdocs/pub/repositories/sle/12/0
     - require:
-      - cmd: sync-sles12-channels
+      - cmd: sync_sles12_channels
 {% endif %}
