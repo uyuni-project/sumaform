@@ -26,7 +26,7 @@ module "suse_manager_proxy" {
 version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: suse-manager-proxy
+role: suse_manager_proxy
 for_development_only: ${var.for_development_only ? "True" : "False"}
 
 EOF

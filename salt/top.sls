@@ -2,7 +2,7 @@ base:
   '*':
     - default
 
-  'role:suse-manager-server':
+  'role:suse_manager_server':
     - match: grain
     - suse-manager
 
@@ -10,7 +10,7 @@ base:
     - match: grain
     - client
 
-  'role:suse-manager-proxy':
+  'role:suse_manager_proxy':
     - match: grain
     - suse-manager-proxy
 

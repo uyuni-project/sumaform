@@ -14,7 +14,7 @@ module "suma21pg" {
   image = "sumaform-sles11sp3"
   version = "2.1-nightly"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -25,7 +25,7 @@ module "suma21spg" {
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -36,7 +36,7 @@ module "suma21ora" {
   image = "sumaform-sles11sp3"
   version = "2.1-nightly"
   database = "oracle"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -47,7 +47,7 @@ module "suma21sora" {
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
   database = "oracle"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
 }
 
 module "suma3pg" {
@@ -56,7 +56,7 @@ module "suma3pg" {
   image = "sumaform-sles12sp1"
   version = "3-nightly"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -67,7 +67,7 @@ module "suma3pgpool" {
   image = "sumaform-sles12sp1"
   version = "3-nightly"
   database = "pgpool"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -78,7 +78,7 @@ module "suma3spg" {
   image = "sumaform-sles12sp1"
   version = "3-stable"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -89,7 +89,7 @@ module "sumaheadpg" {
   image = "sumaform-sles12sp1"
   version = "head"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
 }
@@ -169,7 +169,7 @@ module "proxy21s" {
   name = "proxy21s"
   image = "sumaform-sles11sp3"
   server_configuration = "${module.suma21spg.configuration}"
-  role = "suse-manager-proxy"
+  role = "suse_manager_proxy"
   version = "2.1-stable"
 }
 
@@ -178,7 +178,7 @@ module "proxy21" {
   name = "proxy21"
   image = "sumaform-sles11sp3"
   server_configuration = "${module.suma21pg.configuration}"
-  role = "suse-manager-proxy"
+  role = "suse_manager_proxy"
   version = "2.1-nightly"
 }
 
@@ -187,7 +187,7 @@ module "proxy3s" {
   name = "proxy3s"
   image = "sumaform-sles12sp1"
   server_configuration = "${module.suma3spg.configuration}"
-  role = "suse-manager-proxy"
+  role = "suse_manager_proxy"
   version = "3-stable"
 }
 
@@ -196,7 +196,7 @@ module "proxy3" {
   name = "proxy3"
   image = "sumaform-sles12sp1"
   server_configuration = "${module.suma3pg.configuration}"
-  role = "suse-manager-proxy"
+  role = "suse_manager_proxy"
   version = "3-nightly"
 }
 
@@ -205,7 +205,7 @@ module "proxyhead" {
   name = "proxyhead"
   image = "sumaform-sles12sp1"
   server_configuration = "${module.sumaheadpg.configuration}"
-  role = "suse-manager-proxy"
+  role = "suse_manager_proxy"
   version = "head"
 }
 
@@ -218,7 +218,7 @@ module "suma21pgmaster" {
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
   iss_slave = "suma21pgslave.tf.local"
@@ -230,7 +230,7 @@ module "suma21pgslave" {
   image = "sumaform-sles11sp3"
   version = "2.1-stable"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
   iss_master = "${module.suma21pgmaster.configuration["hostname"]}"

@@ -56,7 +56,7 @@ module "aws_suma3pg" {
 
   version = "3-nightly"
   database = "postgres"
-  role = "suse-manager-server"
+  role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
   mirror_public_name = "${module.aws_mirror.public_name}"
