@@ -10,7 +10,7 @@ lftp-script:
   file.managed:
     - name: /root/mirror.lftp
     - source: salt://mirror/mirror.lftp
-    
+
 parted:
   pkg.installed
 
