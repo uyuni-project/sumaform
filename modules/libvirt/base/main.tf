@@ -54,7 +54,7 @@ output "configuration" {
     ssh_key_path = "${var.ssh_key_path}"
     pool = "${var.pool}"
     bridge = "${var.bridge}"
-    use_avahi = "${var.use_avahi ? "True" : "False"}"
+    use_avahi = "${var.use_avahi}"
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
   }
