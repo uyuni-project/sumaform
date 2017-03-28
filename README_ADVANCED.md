@@ -252,22 +252,3 @@ module "minsles12sp1" {
   ]
 }
 ```
-
-# Enable a minion to be docker build host container (testsuite only)
-
-You need to set the variable ```container_build_host = true``` and the var ```for_testsuite_only = true```
-**NOTE**: the variable works for sles 12 family minions.
-
-```hcl
-module "minsles12sp2" {
-  source = "./modules/libvirt/minion"
-  base_configuration = "${module.base.configuration}"
-
-  name = "minsles12sp2"
-  image = "sles12sp2"
-  container_build_host = true
-  for_testsuite_only = true
-  server_configuration = "${module.proxy.configuration}"
-  version = "nightly"
-}
-```
