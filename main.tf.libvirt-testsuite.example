@@ -39,7 +39,6 @@ module "minsles12sp2" {
   version = "head"
   name = "minsles12sp2"
   image = "sles12sp2"
-  container_build_host = true
   server_configuration =  { hostname = "suma3pg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
