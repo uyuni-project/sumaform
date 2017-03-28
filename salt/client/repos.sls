@@ -19,7 +19,9 @@ refresh_client_repos:
 
 {% else %}
 
-no-client-repos:
-  test.nop: []
+no_client_repos:
+  test.nop:
+    - require:
+      - sls: default
 
 {% endif %}
