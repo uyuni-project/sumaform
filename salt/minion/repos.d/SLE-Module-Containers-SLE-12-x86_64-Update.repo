@@ -1,5 +1,5 @@
-[SUSE_Updates_SLE-Module-Containers_12_x86_64]
-name=SUSE:Updates:SLE-Module-Containers:12:x86_64 (update)
+[SLE-Module-Containers-SLE-12-x86_64-Update]
+name=SLE-Module-Containers-SLE-12-x86_64-Update
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("package-mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Containers/12/x86_64/update/

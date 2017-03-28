@@ -5,16 +5,16 @@ include:
 
 containers_pool_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE_Pool_SLE-Module-Containers_12_x86_64.repo
-    - source: salt://minion/repos.d/SUSE_Pool_SLE-Module-Containers_12_x86_64.repo
+    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
+    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: client.repos
 
 containers_updates_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE_Updates_SLE-Module-Containers_12_x86_64.repo
-    - source: salt://minion/repos.d/SUSE_Updates_SLE-Module-Containers_12_x86_64.repo
+    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
+    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
     - template: jinja
     - require:
       - sls: client.repos
