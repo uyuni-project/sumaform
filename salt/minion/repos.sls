@@ -28,7 +28,9 @@ refresh_minion_repos:
 
 {% else %}
 
-no-minion-repos:
-  test.nop: []
+no_minion_repos:
+  test.nop:
+    - require:
+      - sls: client.repos
 
 {% endif %}
