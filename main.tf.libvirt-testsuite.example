@@ -36,7 +36,7 @@ module "clisles12sp2" {
 module "minsles12sp2" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "nightly"
+  version = "head"
   name = "minsles12sp2"
   image = "sles12sp2"
   server_configuration =  { hostname = "suma3pg.tf.local" }
@@ -47,7 +47,7 @@ module "minsles12sp2" {
 module "minsles12sp1ssh" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "nightly"
+  version = "head"
   name = "minsles12sp1ssh"
   image = "sles12sp1"
   server_configuration =  { hostname = "suma3pg.tf.local" }
@@ -58,7 +58,7 @@ module "minsles12sp1ssh" {
 module "mincentos7" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "nightly"
+  version = "head"
   name = "mincentos7"
   image = "centos7"
   server_configuration =  { hostname = "suma3pg.tf.local" }

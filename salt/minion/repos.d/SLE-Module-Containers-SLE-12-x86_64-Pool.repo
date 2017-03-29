@@ -1,0 +1,5 @@
+[SLE-Module-Containers-SLE-12-x86_64-Pool]
+name=SLE-Module-Containers-SLE-12-x86_64-Pool
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("package-mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Containers/12/x86_64/product/

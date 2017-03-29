@@ -54,6 +54,10 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 # RES 7 Manager Tools
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/ mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
 
+# SLE 12 (GA and all SPs) Container Module
+mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Containers/12/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Containers/12/x86_64/product/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" -x "update_debug/.*" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Containers/12/x86_64/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Containers/12/x86_64/
+
 open http://download.suse.de
 
 # SUSE Manager 3.1
