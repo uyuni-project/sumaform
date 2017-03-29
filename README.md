@@ -41,7 +41,7 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
 
-The Amazon Web Services backend has been developed for scalability tests and it is used in that context exclusively.
+The Amazon Web Services backend has been developed for scalability tests of SUSE Manager and it is only currently used in that context.
 
 ## Basic `main.tf` configuration
 
