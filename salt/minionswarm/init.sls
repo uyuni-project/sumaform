@@ -6,7 +6,7 @@ suse_manager_pool_repo:
     - require:
       - sls: default
 
-suse_manager_pool_repo:
+suse_manager_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
     - source: salt://suse_manager_server/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
@@ -19,7 +19,7 @@ refresh_suse_manager_repos:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: suse_manager_pool_repo
-      - file: suse_manager_pool_repo
+      - file: suse_manager_update_repo
 
 {% if grains.has_key('swap_file_size') %}
 file_swap:
