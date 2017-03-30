@@ -252,3 +252,27 @@ module "minsles12sp1" {
   ]
 }
 ```
+
+### Prometheus/Grafana monitoring
+
+It is possible to install Prometheus exporters on a SUSE Manager Server instance via the `monitored` flag. Those can be consumed by Prometheus and Grafana server to analyze visually. A libvirt example follows:
+
+
+```hcl
+module "suma31pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma31pg"
+  version = "head"
+  monitored = true
+}
+
+module "grafana" {
+  source = "./modules/libvirt/grafana"
+  base_configuration = "${module.base.configuration}"
+  server_configuration = "${module.suma31pg.configuration}"
+}
+```
+
+Grafana is accessible at http://grafana.tf.local with username and password `admin`.

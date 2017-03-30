@@ -113,11 +113,12 @@ suse_manager_pgpool_repo:
       - sls: default
 {% endif %}
 
-{% if grains['for_testsuite_only'] %}
-lftp_repo:
+{% if grains['for_testsuite_only'] or grains.get('monitored', false) %}
+tools_repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
     - source: salt://suse_manager_server/repos.d/home_SilvioMoioli_tools.repo
+    - template: jinja
     - require:
       - sls: default
 {% endif %}
@@ -137,6 +138,6 @@ refresh_suse_manager_repos:
       {% if 'pgpool' in grains['database'] %}
       - file: suse_manager_pgpool_repo
       {% endif %}
-      {% if grains['for_testsuite_only'] %}
-      - file: lftp_repo
+      {% if grains['for_testsuite_only'] or grains.get('monitored', false) %}
+      - file: tools_repo
       {% endif %}

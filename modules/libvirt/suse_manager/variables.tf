@@ -48,6 +48,11 @@ variable "smt" {
   default = "null"
 }
 
+variable "monitored" {
+  description = "whether this host should be monitored via Prometheus"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}

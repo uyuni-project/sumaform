@@ -33,3 +33,7 @@ base:
   'role:controller':
     - match: grain
     - controller
+
+  'role:grafana':
+    - match: grain
+    - grafana
