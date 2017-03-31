@@ -56,7 +56,7 @@ prometheus_service:
 grafana:
   archive.extracted:
     - name: /opt/grafana
-    - source: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.2.0.linux-x64.tar.gz
+    - source: http://users.suse.com/~smoioli/sumaform-data/grafana-4.2.0.linux-x64.tar.gz
     - source_hash: sha256=e9927baaaf6cbcab64892dedd11ccf509e4edea54670db4250b9e7568466ec61
     - archive_format: tar
     - tar_options: --strip-components=1

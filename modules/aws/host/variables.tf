@@ -33,11 +33,6 @@ variable "count"  {
   default = 1
 }
 
-variable "monitoring" {
-  description = "Wether to enable AWS's Detailed Monitoring"
-  default = false
-}
-
 variable "key_name" {
   description = "Name of the SSH key for the instance"
   type = "string"
@@ -101,6 +96,11 @@ variable "iss_master" {
 variable "iss_slave" {
   description = "ISS slave server, if any"
   default = "null"
+}
+
+variable "monitored" {
+  description = "whether this host should be monitored via Prometheus"
+  default = false
 }
 
 variable "timezone" {

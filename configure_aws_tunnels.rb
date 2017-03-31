@@ -52,6 +52,9 @@ instances.each do |instance|
   if instance[:symbolic_name] =~ /suma/
     tunnel_string += "  LocalForward 8043 127.0.0.1:443\n"
   end
+  if instance[:symbolic_name] =~ /grafana/
+    tunnel_string += "  LocalForward 8080 127.0.0.1:80\n"
+  end
 end
 
 tunnel_string += "# sumaform configuration end"

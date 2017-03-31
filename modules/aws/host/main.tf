@@ -8,7 +8,6 @@ resource "aws_instance" "instance" {
   count = "${var.count}"
   availability_zone = "${var.availability_zone}"
   key_name = "${var.key_name}"
-  monitoring = "${var.monitoring}"
   subnet_id = "${var.private_subnet_id}"
   vpc_security_group_ids = ["${var.private_security_group_id}"]
 
@@ -56,6 +55,7 @@ iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 for_development_only: True
 for_testsuite_only: False
+monitored: ${var.monitored}
 timezone: ${var.timezone}
 authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
