@@ -67,6 +67,13 @@ minionswarm_script:
       - file: file_client_race_condition_fix
       - mount: file_swap
 
+minionswarm_configuration:
+  file.managed:
+    - name: /etc/minionswarm/minion
+    - makedirs: True
+    - contents: |
+        mine_return_job: True
+
 minionswarm_service:
   file.managed:
     - name: /etc/systemd/system/minionswarm.service
@@ -75,12 +82,13 @@ minionswarm_service:
         Description=minionswarm
 
         [Service]
-        ExecStart=/usr/bin/minionswarm.py --minions {{grains["minion_count"]}} --start-delay {{grains["start_delay"]}} --master {{grains['server']}} --name {{grains['hostname']}} --no-clean --temp-dir=/tmp/swarm --rand-machine-id --rand-uuid --rand-ver
+        ExecStart=/usr/bin/minionswarm.py --minions {{grains["minion_count"]}} --start-delay {{grains["start_delay"]}} --master {{grains['server']}} --name {{grains['hostname']}} --no-clean --temp-dir=/tmp/swarm --rand-machine-id --rand-uuid --rand-ver --config-dir=/etc/minionswarm
 
         [Install]
         WantedBy=multi-user.target
     - require:
       - file: minionswarm_script
+      - file: minionswarm_configuration
   service.running:
     - name: minionswarm
     - enable: True
