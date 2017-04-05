@@ -92,3 +92,10 @@ testsuite_env_vars:
     - user: root
     - group: root
     - mode: 755
+
+extra_pkgs:
+  pkg.installed:
+    - pkgs:
+      - tmux
+    - require:
+      - sls: controller.repos
