@@ -63,16 +63,7 @@ grafana:
     - keep: True
     - if_missing: /opt/grafana
 
-grafana_database:
-  file.managed:
-    - name: /opt/grafana/data/grafana.db
-    - makedirs: True
-    - source: salt://grafana/grafana.db
-    - replace: False
-    - require:
-      - archive: grafana
-
-grafana_configuration:
+grafana_configuration_file:
   file.replace:
     - name: /opt/grafana/conf/sample.ini
     - pattern: ;http_port = 3000
@@ -94,10 +85,23 @@ grafana_service:
         WantedBy=multi-user.target
     - require:
       - archive: grafana
-      - file: grafana_configuration
-      - file: grafana_database
+      - file: grafana_configuration_file
   service.running:
     - name: grafana
     - enable: True
     - require:
       - file: grafana_service
+
+grafana_dashboard_dump_file:
+  file.managed:
+    - name: /opt/grafana/conf/dashboard.json
+    - source: salt://grafana/dashboard.json
+    - require:
+      - archive: grafana
+
+grafana_configuration:
+  cmd.script:
+    - name: salt://grafana/setup_grafana.py
+    - require:
+      - service: grafana
+      - file: grafana_dashboard_dump_file
