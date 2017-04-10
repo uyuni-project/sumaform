@@ -41,8 +41,8 @@ resource "null_resource" "host_salt_configuration" {
   provisioner "file" {
     content = <<EOF
 
-hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)}", ".${var.region}.compute.internal", "")}
-domain: ${var.region}.compute.internal
+hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)}", ".${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}", "")}
+domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}
 use_avahi: False
 mirror: ${var.mirror_private_name}
 version: ${var.version}

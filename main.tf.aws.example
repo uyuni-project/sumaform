@@ -16,6 +16,7 @@ provider "aws" {
 
 module "aws_network" {
   source = "./modules/aws/network"
+  region = "us-east-1"
   availability_zone = "us-east-1e"
   ssh_allowed_ips = [
     // add comma-separated IP address strings here, those hosts will

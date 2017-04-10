@@ -66,6 +66,20 @@ resource "aws_main_route_table_association" "vpc_internet" {
   route_table_id = "${aws_route_table.internet.id}"
 }
 
+resource "aws_vpc_dhcp_options" "dhcp_options" {
+  domain_name = "${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal" }"
+  domain_name_servers = ["AmazonProvidedDNS"]
+
+  tags {
+    Name = "${var.name_prefix}-dhcp-option-set"
+  }
+}
+
+resource "aws_vpc_dhcp_options_association" "vpc_dhcp_options" {
+  vpc_id = "${aws_vpc.main.id}"
+  dhcp_options_id = "${aws_vpc_dhcp_options.dhcp_options.id}"
+}
+
 resource "aws_security_group" "public" {
   name = "${var.name_prefix}-public-security-group"
   description = "Allow inbound connections from the private subnet; allow SSH connections from whitelisted IPs; allow all outbound connections"

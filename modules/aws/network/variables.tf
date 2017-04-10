@@ -1,3 +1,8 @@
+variable "region" {
+  description = "Region where the instance is created"
+  type = "string"
+}
+
 variable "availability_zone" {
   description = "Availability zone where the instance is created"
   type = "string"
