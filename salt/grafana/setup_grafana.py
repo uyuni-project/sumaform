@@ -29,7 +29,7 @@ for retries in range(0,10):
     except socket.error as e:
         if e.errno != errno.ECONNREFUSED:
             raise e
-        print("retry")
+        print("Connection refused, retrying...")
         time.sleep(1)
 
 token = base64.b64encode("admin:admin".encode("ASCII")).decode("ascii")
