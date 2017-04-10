@@ -34,8 +34,8 @@ variable "public_security_group_id" {
 }
 
 variable "data_volume_snapshot_id" {
-  description = "ID of an optional snapshot of the data volume"
-  default = ""
+  description = "ID of an optional snapshot of the data volume, leave default to look up an ID automatically or use the empty string to start with a blank volume"
+  default = "auto"
 }
 
 variable "cc_username" {

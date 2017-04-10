@@ -10,6 +10,11 @@
   ssh root@mirror.tf.local
   zypper in rsync
   rsync -av0 --delete -e 'ssh -i key.pem' /srv/mirror/ root@<PUBLIC DNS NAME>://srv/mirror/
+
+  Once the disk is populated you should take a snapshot of the data volume and add
+  "<PREFIX>-mirror-data-volume-snapshot" as the Name tag, then you can remove
+  the data_volume_snapshot_id line in main.tf and this module will automatically
+  look up the ID in subsequent runs of `terraform apply`.
 */
 
 terraform {
@@ -30,11 +35,20 @@ resource "aws_instance" "instance" {
   }
 }
 
+data "aws_ebs_snapshot" "data_disk_snapshot" {
+  most_recent = true
+
+  filter {
+    name   = "tag:Name"
+    values = ["${var.name_prefix}-mirror-data-volume-snapshot"]
+  }
+}
+
 resource "aws_ebs_volume" "data_disk" {
     availability_zone = "${var.availability_zone}"
     size = 500 # GiB
     type = "sc1"
-    snapshot_id = "${var.data_volume_snapshot_id}"
+    snapshot_id = "${var.data_volume_snapshot_id == "auto" ? data.aws_ebs_snapshot.data_disk_snapshot.id : var.data_volume_snapshot_id}"
     tags {
       Name = "${var.name_prefix}-mirror-data-volume"
     }
