@@ -37,11 +37,8 @@ cucumber_requisites:
       - make
       - ruby
       - ruby-devel
-      - firefox-bin
       - apache2-worker
       - phantomjs
-      - owasp-zap
-      - mozilla-nss
       - git-core
       - wget
       - aaa_base-extras
@@ -58,7 +55,6 @@ cucumber_requisites:
       - ruby2.1-rubygem-jwt
       - rubygem-mime-types
       - ruby2.1-rubygem-builder
-      - rubygem-owasp_zap
       - rubygem-cliver
       - ruby2.1-rubygem-rake
       - rubygem-twopence
