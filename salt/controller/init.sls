@@ -86,3 +86,12 @@ cucumber_run_script:
     - user: root
     - group: root
     - mode: 755
+
+testsuite_env_vars:
+  file.managed:
+    - name: /root/.bashrc
+    - source: salt://controller/bashrc
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755

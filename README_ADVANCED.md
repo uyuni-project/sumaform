@@ -107,6 +107,11 @@ To start the testsuite, use:
 ssh -t root@controller.tf.local run-testsuite
 ```
 
+To run individual Cucumber features, use:
+```
+ssh -t root@controller.tf.local cucumber spacewalk-testsuite-base/features/my_feature.feature
+```
+
 Get HTML results with:
 ```
 scp root@controller.tf.local://root/spacewalk-testsuite-base/output.html .
