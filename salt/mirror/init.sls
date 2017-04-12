@@ -177,6 +177,12 @@ nfs_server:
     - makedirs: True
     - force: True
 
+/srv/mirror/repo/$RCE/RES7/x86_64:
+  file.symlink:
+    - target: ../../../x86_64/
+    - makedirs: True
+    - force: True
+
 /srv/mirror/repo/$RCE/SUSE-Manager-Server-2.1-Pool/sle-11-x86_64:
   file.symlink:
     - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL/
