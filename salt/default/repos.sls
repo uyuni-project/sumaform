@@ -229,6 +229,7 @@ tools_repo:
     - humanname: {{ label }}
     - baseurl: {{ url }}
     - priority: 98
+    - gpgcheck: 0
 {% endfor %}
 
 default_repos:
