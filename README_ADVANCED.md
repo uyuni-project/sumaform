@@ -93,7 +93,7 @@ module "suma21pgs" {
 }
 ```
 
-Please note that `iss_master` is set from `suma21pgm`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Trraform to resolve dependencies correctly, as dependency cycles are not permitted.
+Please note that `iss_master` is set from `suma21pgm`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
 
 ## Cucumber testsuite
 
