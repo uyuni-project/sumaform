@@ -39,6 +39,7 @@ cucumber_requisites:
       - ruby-devel
       - apache2-worker
       - phantomjs
+      - cantarell-fonts
       - git-core
       - wget
       - aaa_base-extras
