@@ -3,10 +3,10 @@
 include:
   - suse_manager_server
 
-incomplete_package_import_reposync:
+package_import_skip_changelog_reposync:
   file.append:
     - name: /etc/rhn/rhn.conf
-    - text: incomplete_package_import = 1
+    - text: package_import_skip_changelog = 1
     - require:
       - sls: suse_manager_server
 
