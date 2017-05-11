@@ -40,7 +40,7 @@ variable "count"  {
 
 variable "memory" {
   description = "RAM memory in MiB"
-  default = 512
+  default = 1024
 }
 
 variable "vcpu" {
