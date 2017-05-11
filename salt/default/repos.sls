@@ -194,6 +194,13 @@ galaxy_key:
       - file: galaxy_key
 
 {% if grains['osmajorrelease'] == '7' %}
+tools_base_res7_repo:
+  file.managed:
+    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
 {% if 'head' in grains.get('version', '') or '3.1-stable' in grains.get('version', '') %}
 tools_repo:
   file.managed:
@@ -207,14 +214,6 @@ tools_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
-{% elif 'stable' in grains.get('version', 'stable') %}
-tools_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
-    - source: salt://default/repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
