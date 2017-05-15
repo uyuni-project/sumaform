@@ -23,6 +23,11 @@ variable "for_development_only" {
   default = true
 }
 
+variable "test_sle_updates" {
+  description = "This adds and updates sle packages from the test repo"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}

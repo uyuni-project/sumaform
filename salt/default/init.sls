@@ -36,6 +36,12 @@ timezone_symlink:
     - require:
       - pkg: timezone_package
 
+
+{% if grains['test_sle_updates'] %}
+update_sles_test:
+  pkg.uptodate
+{% endif %}
+
 authorized_keys:
   file.append:
     - name: /root/.ssh/authorized_keys

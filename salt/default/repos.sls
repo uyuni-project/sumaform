@@ -29,6 +29,14 @@ tools_devel_repo:
 
 {% if '11' in grains['osrelease'] %}
 {% if grains['osrelease'] == '11.3' %}
+
+{% if grains['test_sle_updates'] %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
+{% endif %}
+
 os_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Pool.repo
@@ -41,6 +49,14 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-11-SP3-x86_64-Update.repo
     - template: jinja
 {% elif grains['osrelease'] == '11.4' %}
+
+{% if grains['test_sle_updates'] %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
+{% endif %}
+
 os_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Pool.repo
@@ -102,6 +118,14 @@ tools_devel_repo:
 
 {% if '12' in grains['osrelease'] %}
 {% if grains['osrelease'] == '12' %}
+
+{% if grains['test_sle_updates'] %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-12-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-12-x86_64-Test-Update.repo
+{% endif %}
+
 os_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-x86_64-Pool.repo
@@ -114,6 +138,14 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-12-x86_64-Update.repo
     - template: jinja
 {% elif grains['osrelease'] == '12.1' %}
+
+{% if grains['test_sle_updates'] %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
+{% endif %}
+
 os_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP1-x86_64-Pool.repo
@@ -126,6 +158,14 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-12-SP1-x86_64-Update.repo
     - template: jinja
 {% elif grains['osrelease'] == '12.2' %}
+
+{% if grains['test_sle_updates'] %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
+{% endif %}
+
 os_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP2-x86_64-Pool.repo
