@@ -9,7 +9,7 @@ variable "name" {
 }
 
 variable "version" {
-  description = "One of: 2.1-stable,  2.1-nightly, 3-nightly, 3-stable, 3.1-stable, head"
+  description = "One of: 2.1-released,  2.1-nightly, 3-nightly, 3-released, 3.1-released, head"
   type = "string"
 }
 

@@ -15,7 +15,7 @@ proxy-packages:
     {% if 'head' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_Head
     - name: patterns-suma_proxy
-    {% elif '3-stable' in grains['version'] %}
+    {% elif '3-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-Proxy-3.0-x86_64-Pool
     - name: patterns-suma_proxy
     {% elif '3-nightly' in grains['version'] %}

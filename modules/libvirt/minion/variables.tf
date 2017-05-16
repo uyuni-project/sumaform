@@ -15,7 +15,7 @@ variable "image" {
 
 variable "version" {
   description = "A valid SUSE Manager version (eg. 3-nightly, head) see README_ADVANCED.md"
-  default = "stable"
+  default = "released"
 }
 
 variable "server_configuration" {

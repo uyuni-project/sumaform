@@ -10,7 +10,7 @@ package_import_skip_changelog_reposync:
     - require:
       - sls: suse_manager_server
 
-{% if 'stable' not in grains['version'] %}
+{% if 'released' not in grains['version'] %}
 
 browser_side_less_configuration:
   file.append:

@@ -19,7 +19,7 @@ module "minionsles12sp1" {
 This will create 10 minions connected to the `suma3pg` server.
 
 ## Change the base OS for supported SUSE Manager versions
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3-stable` and `3-nightly` that can switch between `sles12sp1` and `sles12sp2`.
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3-released` and `3-nightly` that can switch between `sles12sp1` and `sles12sp2`.
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 
@@ -79,7 +79,7 @@ module "suma21pgm" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma21pgm"
-  version = "2.1-stable"
+  version = "2.1-released"
   iss_slave = "suma21pgs.tf.local"
 }
 
@@ -88,7 +88,7 @@ module "suma21pgs" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma21pgs"
-  version = "2.1-stable"
+  version = "2.1-released"
   iss_master = "${module.suma21pgm.configuration["hostname"]}"
 }
 ```
@@ -179,11 +179,11 @@ module "minionswarm" {
 }
 ```
 
-This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with stable Salt version are supported.
+This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
 
 ## Change Salt/SUSE Manager tools version in minion or client
 
-By default minions will get the latest stable Salt version for their distro (for SLE systems this means the version shipping with the latest stable SUSE Manager Tools repo). You can use the `version` variable to override this and set a particular version of Salt - values taken are the same as the SUSE Manager versions (such as `3-nightly` or `head`). The version identified can be omitted to take the default for the distro, so `stable` and `nightly` are legal values too.
+By default minions will get the latest stable Salt version for their distro (for SLE systems this means the version shipping with the latest released SUSE Manager Tools repo). You can use the `version` variable to override this and set a particular version of Salt - values taken are the same as the SUSE Manager versions (such as `3-nightly` or `head`). The version identified can be omitted to take the default for the distro, so `released` and `nightly` are legal values too.
 
 The same mechanism works for clients, in that case the SUSE Manager Tools versions change instead of Salt. For example, `version = "head"` will install SUSE Manager Tools from the upcoming SUSE Manager major release.
 
@@ -203,7 +203,7 @@ module "minsles12sp1" {
 
 ### SUSE Manager 3.1 (alpha)
 
-SUSE Manager 3.1 is supported by specifying `version = "3.1-stable"`:
+SUSE Manager 3.1 is supported by specifying `version = "3.1-released"`:
 
 ```hcl
 module "suma31pg" {
@@ -211,12 +211,9 @@ module "suma31pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  version = "3.1-stable"
+  version = "3.1-released"
 }
 ```
-
-Note that the version is called `stable` in continuity with the existing naming schema because it will target the final release of SUSE Manager 3.1.
-However, at the time of writing, this version is still in alpha.
 
 ### SMT
 

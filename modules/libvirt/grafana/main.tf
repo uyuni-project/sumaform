@@ -11,7 +11,7 @@ module "grafana" {
 
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-version: stable
+version: released
 role: grafana
 
 EOF

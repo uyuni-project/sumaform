@@ -9,7 +9,7 @@ variable "name" {
 }
 
 variable "version" {
-  description = "One of: 2.1-stable,  2.1-nightly, 3-nightly, 3-stable, 3.1-stable, head"
+  description = "One of: 2.1-released,  2.1-nightly, 3-nightly, 3-released, 3.1-released, head"
   type = "string"
 }
 
@@ -29,7 +29,7 @@ variable "iss_slave" {
 }
 
 variable "image" {
-  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3-stable or 3-nightly"
+  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3-released or 3-nightly"
   default = "default"
 }
 
