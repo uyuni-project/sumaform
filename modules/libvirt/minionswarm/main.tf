@@ -12,7 +12,7 @@ module "minionswarm" {
   additional_packages = "${var.additional_packages}"
   grains = <<EOF
 
-version: 3-released
+version: 3.0-released
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minionswarm
