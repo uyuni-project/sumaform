@@ -1,0 +1,5 @@
+[SUSE-Manager-3.1-x86_64-Update]
+name=SUSE-Manager-3.1-x86_64-Update
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.1/x86_64/update/
