@@ -19,7 +19,7 @@ suse_manager_update_repo:
       - sls: default
 {% endif %}
 
-{% if '3-' in grains['version'] %}
+{% if '3.0' in grains['version'] %}
 suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-3.0-x86_64-Pool.repo
