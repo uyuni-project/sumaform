@@ -47,8 +47,12 @@ suse_manager_pool_repo:
       - sls: default
 
 suse_manager_update_repo:
-  file.touch:
-    - name: /tmp/no_update_channel_needed
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-3.1-x86_64-Update.repo
+    - source: salt://suse_manager_server/repos.d/SUSE-Manager-3.1-x86_64-Update.repo
+    - template: jinja
+    - require:
+      - sls: default
 {% endif %}
 
 {% if 'head' in grains['version'] %}
