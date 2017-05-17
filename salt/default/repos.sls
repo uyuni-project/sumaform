@@ -50,7 +50,30 @@ os_update_repo:
     - template: jinja
 {% endif %}
 
-{% if 'head' in grains.get('version', '') or '3.1-released' in grains.get('version', '') %}
+
+{% if 'released' in grains.get('version', 'released') %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+    - template: jinja
+
+tools_update_repo:
+  file.touch:
+    - name: /tmp/no_tools_update_channel_needed
+{% elif 'nightly' in grains.get('version', '') %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+    - template: jinja
+
+tools_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-11-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-11-x86_64.repo
+    - template: jinja
+{% elif 'head' in grains.get('version', '') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
@@ -62,28 +85,6 @@ tools_update_repo:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
-{% elif 'nightly' in grains.get('version', '') %}
-tools_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
-    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
-    - template: jinja
-
-tools_update_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
-    - template: jinja
-{% elif 'released' in grains.get('version', 'released') %}
-tools_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
-    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
-    - template: jinja
-
-tools_update_repo:
-  file.touch:
-    - name: /tmp/no_tools_update_channel_needed
 {% endif %}
 
 {% endif %}
@@ -129,27 +130,8 @@ os_update_repo:
     - template: jinja
 {% endif %}
 
-{% if 'head' in grains.get('version', '') or '3.1-released' in grains.get('version', '') %}
-tools_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
-    - template: jinja
 
-tools_update_repo:
-  file.touch:
-    - name: /tmp/no_tools_update_channel_needed
-{% elif 'nightly' in grains.get('version', '') %}
-tools_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
-    - template: jinja
-
-tools_update_repo:
-  file.touch:
-    - name: /tmp/no_tools_update_channel_needed
-{% elif 'released' in grains.get('version', 'released') %}
+{% if 'released' in grains.get('version', 'released') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
@@ -161,6 +143,29 @@ tools_update_repo:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - source: salt://default/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - template: jinja
+{% elif 'nightly' in grains.get('version', '') %}
+
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-12-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-12-x86_64.repo
+    - template: jinja
+
+tools_update_repo:
+  file.touch:
+    - name: /tmp/no_tools_update_channel_needed
+
+{% elif 'head' in grains.get('version', '') %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
+    - template: jinja
+
+tools_update_repo:
+  file.touch:
+    - name: /tmp/no_tools_update_channel_needed
+
 {% endif %}
 {% endif %}
 
@@ -201,7 +206,7 @@ tools_pool_repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
-{% if 'head' in grains.get('version', '') or '3.1-released' in grains.get('version', '') %}
+{% if 'head' in grains.get('version', '') %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
@@ -212,8 +217,8 @@ tools_update_repo:
 {% elif 'nightly' in grains.get('version', '') %}
 tools_update_repo:
   file.managed:
-    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
+    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.1_RES-Manager-Tools-7-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_RES-Manager-Tools-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
