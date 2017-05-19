@@ -21,7 +21,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  version = "3-nightly"
+  version = "3.0-nightly"
   // see modules/libvirt/suse_manager/variables.tf for possible values
 }
 

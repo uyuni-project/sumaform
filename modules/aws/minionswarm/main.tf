@@ -43,7 +43,7 @@ hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)
 domain: ${var.region}.compute.internal
 use_avahi: False
 mirror: ${var.mirror_private_name}
-version: 3-stable
+version: 3.0-released
 role: minionswarm
 server: ${var.server}
 minion_count: 100

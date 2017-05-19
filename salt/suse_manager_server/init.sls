@@ -24,13 +24,13 @@ suse_manager_packages:
     {% if 'head' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_Head
     - name: patterns-suma_server
-    {% elif '3-stable' in grains['version'] %}
+    {% elif '3.0-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-3.0-x86_64-Pool
     - name: patterns-suma_server
-    {% elif '3-nightly' in grains['version'] %}
+    {% elif '3.0-nightly' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_3.0
     - name: patterns-suma_server
-    {% elif '3.1-stable' in grains['version'] %}
+    {% elif '3.1-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-3.1-x86_64-Pool
     - name: patterns-suma_server
     {% else %}
