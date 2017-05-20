@@ -81,6 +81,9 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 # SUSE Manager 3.0 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.devel30\.x86_64\.rpm" -i "noarch/.*\.devel30\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update/ ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update/
 
+# SUSE Manager 3.1 devel
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.devel31\.x86_64\.rpm" -i "noarch/.*\.devel31\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2/ ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2/
+
 # SLE 11 (SP3 and SP4) Manager Tools 3.0 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/ ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/
 
@@ -89,9 +92,6 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 
 # RES 7 Manager Tools 3.0 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/ ibs/Devel:/Galaxy:/Manager:/3.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
-
-# SUSE Manager 3.1 devel
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.devel31\.x86_64\.rpm" -i "noarch/.*\.devel31\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2/ ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2/
 
 # SLE 11 (SP3 and SP4) Manager Tools 3.1 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/ ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/
