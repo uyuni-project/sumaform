@@ -1,0 +1,190 @@
+---
+header:
+  socket: REQ
+  time: 1495464284.398881
+load:
+  cmd: _auth
+  id: evil-minions-2.tf.local
+  pub: '-----BEGIN PUBLIC KEY-----
+
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt6a/gvrWeVOLhOCNf7pS
+
+    1xI0DvzbKr5SgUDuRcrlp2hBOT5ZXtg21i+tcTv1k3Rr7m/PL4+18LibuArXm/FK
+
+    vKjSGj77e6rlTV6KB3rmU1gpH9vVsv35KBmS7ubiwzgRc62wMTxMCq6/sgNadLJl
+
+    VGdrGw8q3MpgAzyKe4cP6/TEN5R64npN4VR1f7pTtFDnfHETelmm830TP3/gcYA9
+
+    U/iJr+S9b8xXEOyQ4xu6i0KB8C+Hq7QUEpi//VLEHWC0joubNY15fE8pmeKvw4YM
+
+    2x0WzNdp6DvTGvq0qamiIJcfc19A9iwngGYRJSB4l1z7FYRtgbPcV3d6KHr8cvjq
+
+    ewIDAQAB
+
+    -----END PUBLIC KEY-----'
+  token: !!binary |
+    oG6Lh/iv2nOPycOlfaToQ0NN6q46CAOweVm2p3rAKSm49zGZHsf28k8sS2xADI/fVQFGUxf6HO0q
+    t7b+IajGz+Cl0JnHvHdNw7bHL/y3njs2kS+d2CRrVBGBwNFlMCq4YsKFc3Q1ASDTFmwrFpAT59LA
+    VLBt0UKj5DSbRw1wiTb4fiuw9Qm1udLq9loa4tFoVDGAfJByqzdPGhALVbPBolCayoCaF21tMkRL
+    InPboV/P3HS4oLe2Pw2fYQSlFavzthjt4nDxLuprvCRs/QOffZNVnWXe6CMEVdKcakUM9xtgKr0S
+    T+PDBGBjDCrXPJZ+MrzHNhx3uMdpgxYjmdzZ0A==
+---
+header:
+  socket: REP
+  time: 1495464284.403882
+load:
+  enc: clear
+  load:
+    ret: true
+---
+header:
+  socket: REQ
+  time: 1495464294.409109
+load:
+  cmd: _auth
+  id: evil-minions-2.tf.local
+  pub: '-----BEGIN PUBLIC KEY-----
+
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt6a/gvrWeVOLhOCNf7pS
+
+    1xI0DvzbKr5SgUDuRcrlp2hBOT5ZXtg21i+tcTv1k3Rr7m/PL4+18LibuArXm/FK
+
+    vKjSGj77e6rlTV6KB3rmU1gpH9vVsv35KBmS7ubiwzgRc62wMTxMCq6/sgNadLJl
+
+    VGdrGw8q3MpgAzyKe4cP6/TEN5R64npN4VR1f7pTtFDnfHETelmm830TP3/gcYA9
+
+    U/iJr+S9b8xXEOyQ4xu6i0KB8C+Hq7QUEpi//VLEHWC0joubNY15fE8pmeKvw4YM
+
+    2x0WzNdp6DvTGvq0qamiIJcfc19A9iwngGYRJSB4l1z7FYRtgbPcV3d6KHr8cvjq
+
+    ewIDAQAB
+
+    -----END PUBLIC KEY-----'
+  token: !!binary |
+    UiE916gP48ixvew6wT6w8VjnnsX1bxxuib48xMBwwr6AIr1ARPOuNmJbIxZkvrJEqYZzGNlqnpjN
+    d4UJpVeoru2N/9hiEyW/aNLDg9xepMZIyrvV1Wqns3PQoAG+IQm7um6ghZGyl/FSUJaB0yauljr+
+    K42JjpBWbJQ0wJ/MvBQfY4ktM0E6QUhKhn03BYqb4V3pr3ox8ZMFZI5HSqrObIy5D3YwssQzR+IN
+    xtbAxh/3rxZo0NCJxVzFBHhhCn747qi+7E8vm3WxyoTSe4yz7OwGZ+HP/Qsq2VyHiF1hbu+fskRK
+    2YIoEr7kg6GFqtehZ4T1KMUdpmU0zdPumMn4og==
+---
+header:
+  socket: REP
+  time: 1495464294.422311
+load:
+  aes: !!binary |
+    mqjkG3I/iKBxgVb1rzCSeOZBbRGjoQ0iqievuqj4L1SmB6zVCEo/x5mGbZZjUYoMuCdrrnvHrt3Z
+    5PKb6YSSu5M9cUNU3olz2Jk667gC5JCWITtwaR6iwNM/hlczzTD9wNCyyDoJBmwzz7VGHKPo8vnT
+    w7g6oytPk05LbG85AO3gQ09Yy4nfmc+fiACYbkZIJP48d0RBQzqtdVM0bh7Usdgts7iyF9I7YE8H
+    XKBG/IUr4aR0j+oiCMxPJfNcZlpdelLMJValkNConskHaw5ctUetEf8a/V6YIIKq4ary0OkrmUuS
+    FffphbZwLntVAjvqgFGjQBfWbAdN+40rcudbSw==
+  enc: pub
+  pub_key: '-----BEGIN PUBLIC KEY-----
+
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6+DXHP08gWyVV+jTA/kX
+
+    DYB4eXmTGF0X2XBFWXKMbT/kfUWrco3HZARAJG02MRKYwKNXHlSx2/5rmrTTEtCv
+
+    SQdGCeBRxbHGRVrNCrUQt9ShHXT7HC8ioFvIMO7uUPl8d2y0MbB/Co1tsQ1FKMbb
+
+    bwpfyQf1RkGkkWoR6n4YT866dTdvy0bwQiWyGtiVxaXvxrtKEgnypHkGiPqhlUfk
+
+    4Lzy9CFdvqT3JNook28UrYoOpeI9t+5GJ3v0gD9Un6DjqQMSrLCT1wwWipzBJyvZ
+
+    j6rlqf4w/TmXaMPJb/lIJi1erWdfZnI9ImbtRBYm19iieCAhldtbrSTm5UyafO5z
+
+    MQIDAQAB
+
+    -----END PUBLIC KEY-----'
+  publish_port: 4505
+  sig: !!binary |
+    EfO8Nep0rLKO37yEEpWXUwOljuaIXTlAyFWmHS2e+bvQXq+QTHLWVOEJ1H7GEcSOLVOmCeS8yLUB
+    7NFRge6CHIU52IXUi/jix0YNWBrxucWUZKQ3sKXtskZ+JXoZ+pNg2z2rVTQs5Fj5yPuUz/1Si8gr
+    aPCSzwCtNdGSbRU+RL0IIBCMEbIPIm2KFoo9r3ug5IyUz5v0bhtgEseEHZx5yxB1oljUHePfCJsg
+    RxLtdan/PenWklZaQe9Ttc65zIFGIpUILZ26PENVpIahkATBWIQZ5uzYYhHvbhDSrK1hAN792tvv
+    TcihNbRiwSOGdNOAYMWe2EAh25LDOQEoMUR+Zg==
+  token: !!binary |
+    TEpR7lbB2nDObsVajJ5D5wTRoym3Mhk8o3ke/sj9fRsaa9VtDZDv15zDjfL/thwsswngUlsWmrys
+    rG76hLK270nkmUtwBnjDcoRTxKenoBaocNoV3NlJF7qVusfEWHKMWbUvlUMBD1FI3PrUXpe01NDx
+    RvkvSVMsTOAPaSGVjTcyafoR6FDhHjVBK5odDylzbQXe2TA9aTCzsm6sMfqj7wdbhi+ToRDcLUzW
+    O5imKDrlvpOK1T6RUFOMwyBlz2VNBPFccBBZ8S/wxkCYMgz3iqqkDQyst371EzZora32sxrgcGOx
+    0inHLNyLMDdIHb3O1IYKKrw9GNVvW/e/DdXJnw==
+---
+header:
+  socket: REQ
+  time: 1495464294.731916
+load:
+  cmd: _minion_event
+  data: Minion evil-minions-2.tf.local started at Mon May 22 16:44:54 2017
+  id: evil-minions-2.tf.local
+  pretag: null
+  tag: minion_start
+  tok: !!binary |
+    V/a5IKasS8PU618/v9x/cPb+YgsIg48epKTh2+SU0ah6Vk5TjmX5OuMcK+cGZvFs0vfYy7bt4/r2
+    7p/Prvt5cHgo5JL77m6qtU0BUR4IuzR8gpM45OZP83lwFyio1zbDaLkL6bloXjf/pKJKw4t04yAz
+    qj8ngPOoVwXjDBuDQ8I12znu+5gdrQHuVIAbgKpvMl42fx5nlpzLkhr1zpxBdRABHnmFB3hN5Eq6
+    aH0BLEd8jB9LkzUIRLI3nwWnt5m1Ai8EHwK0KeN+4IAxNId2BiDcStX4BvK9qTvYvhSSyqlwCj31
+    uNxQEoG7sgzM1iNN8gXncr1Wx1rt4ug5+AzHyg==
+---
+header:
+  socket: REP
+  time: 1495464294.73642
+load: null
+---
+header:
+  socket: REQ
+  time: 1495464294.741593
+load:
+  cmd: _minion_event
+  data: Minion evil-minions-2.tf.local started at Mon May 22 16:44:54 2017
+  id: evil-minions-2.tf.local
+  pretag: null
+  tag: salt/minion/evil-minions-2.tf.local/start
+  tok: !!binary |
+    V/a5IKasS8PU618/v9x/cPb+YgsIg48epKTh2+SU0ah6Vk5TjmX5OuMcK+cGZvFs0vfYy7bt4/r2
+    7p/Prvt5cHgo5JL77m6qtU0BUR4IuzR8gpM45OZP83lwFyio1zbDaLkL6bloXjf/pKJKw4t04yAz
+    qj8ngPOoVwXjDBuDQ8I12znu+5gdrQHuVIAbgKpvMl42fx5nlpzLkhr1zpxBdRABHnmFB3hN5Eq6
+    aH0BLEd8jB9LkzUIRLI3nwWnt5m1Ai8EHwK0KeN+4IAxNId2BiDcStX4BvK9qTvYvhSSyqlwCj31
+    uNxQEoG7sgzM1iNN8gXncr1Wx1rt4ug5+AzHyg==
+---
+header:
+  socket: REP
+  time: 1495464294.746309
+load: null
+---
+header:
+  socket: PUB
+  time: 1495464306.263115
+load:
+  enc: aes
+  load:
+    arg: []
+    fun: test.ping
+    jid: '20170522164506247433'
+    ret: ''
+    tgt: evil-minions-2.tf.local
+    tgt_type: glob
+    user: root
+  sig: !!binary |
+    tz6FZHqvbwccKA9nKX20ylqIJfr7BLDBzlwBZleO8dowGXMyh1LRxJDj1v3TUYbP3TqJli5W4EyX
+    DXA2gJjy8WvZFIfw25Dg9IlOkZsILQ6CbOAPGL0Ak39/lKfjss7NzE5YpajfGeVpG5rqi7at0Mh8
+    f8qZEV4/7C3FdDUhrD+nogF+JKi6SQsXYmDru9kekxqn/jsnElLo9ETz9famJGt85tlY7Mv+2sjx
+    mrFzISQXGr14mhqiLS43agxwuKsNzUsSDZrPKCin4kFIBEOxeSPbslDVYfhWW9gHYmoOhjDGQN6Q
+    c/lc4ZPoJgPIawpyI0qjLR/QKnZrMUR1STHHVg==
+---
+header:
+  socket: REQ
+  time: 1495464306.329692
+load:
+  cmd: _return
+  fun: test.ping
+  fun_args: []
+  id: evil-minions-2.tf.local
+  jid: '20170522164506247433'
+  retcode: 0
+  return: true
+  success: true
+---
+header:
+  socket: REP
+  time: 1495464306.33944
+load: null

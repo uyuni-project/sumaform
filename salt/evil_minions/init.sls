@@ -1,17 +1,9 @@
 include:
   - evil_minions.repos
 
-master_configuration:
-  file.managed:
-    - name: /etc/salt/minion.d/master.conf
-    - contents: |
-        master: {{ grains['server'] }}
-
 disable_salt_minion:
   service.disabled:
     - name: salt-minion
-    - require:
-      - file: master_configuration
 
 install_evil_minions:
   pkg.installed:
@@ -22,3 +14,30 @@ install_evil_minions:
     - target: /root/evil-minions
     - require:
       - pkg: git-core
+
+install_minion_dump_yml_file:
+  file.managed:
+    - name: /root/minion-dump.yml
+    - source: salt://evil_minions/{{grains['minion_dump_yml_file']}}
+
+evil_minions_service:
+  file.managed:
+    - name: /etc/systemd/system/evil-minions.service
+    - contents: |
+        [Unit]
+        Description=evil-minions
+
+        [Service]
+        ExecStart=/root/evil-minions/evil-minions --count {{grains["minion_count"]}} --processes {{grains['minion_pool']}} --dump-path /root/minion-dump.yml --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains['id']}} {{grains['server']}}
+
+        [Install]
+        WantedBy=multi-user.target
+    - require:
+      - git: install_evil_minions
+      - file: install_minion_dump_yml_file
+
+  service.running:
+    - name: evil-minions
+    - enable: True
+    - require:
+      - file: evil_minions_service
