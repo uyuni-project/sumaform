@@ -8,11 +8,6 @@ variable "name" {
   type = "string"
 }
 
-variable "image" {
-  description = "One of: sles11sp3, sles11sp4, sles12, sles12sp1, sles12sp2, centos7"
-  type = "string"
-}
-
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt.example"
   type = "map"
@@ -23,19 +18,20 @@ variable "minion_count"  {
   default = 200
 }
 
-variable "start_delay"  {
-  description = "number of seconds to wait between spawns"
-  default = 6
+variable "minion_pool" {
+  description = "number of evil-minions processes"
+  default = 2
 }
 
-variable "additional_repos" {
-  description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
-  default = {}
+variable "minion_dump_yml_file" {
+  description = "Salt minion YaML dump file"
+  type = "string"
+  default = "minion-dump.yml"
 }
 
-variable "additional_packages" {
-  description = "extra packages to install, see README_ADVANCED.md"
-  default = []
+variable "slowdown_factor"  {
+  description = "slowdown factor for evil-minions"
+  default = 1.0
 }
 
 variable "count"  {
