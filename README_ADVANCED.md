@@ -290,7 +290,6 @@ module "evil-minions" {
   base_configuration = "${module.base.configuration}"
 
   name = "evil-minions"
-  image = "sles12sp2"
   server_configuration = "${module.suma31pg.configuration}"
   // see modules/libvirt/evil_minions/variables.tf for possible values
 }
