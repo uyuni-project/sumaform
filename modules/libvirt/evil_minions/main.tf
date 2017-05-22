@@ -11,13 +11,10 @@ module "evil_minions" {
   grains = <<EOF
 
 version: 3.1-released
-image: sles12sp2
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: evil_minions
 minion_count: ${var.minion_count}
-minion_pool: ${var.minion_pool}
-minion_dump_yml_file: ${var.minion_dump_yml_file}
 slowdown_factor: ${var.slowdown_factor}
 
 EOF

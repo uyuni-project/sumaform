@@ -15,10 +15,10 @@ install_evil_minions:
     - require:
       - pkg: git-core
 
-install_minion_dump_yml_file:
+install_minion_dump_yaml_file:
   file.managed:
     - name: /root/minion-dump.yml
-    - source: salt://evil_minions/{{grains['minion_dump_yml_file']}}
+    - source: salt://evil_minions/minion-dump-default.yml
 
 evil_minions_service:
   file.managed:
@@ -34,7 +34,7 @@ evil_minions_service:
         WantedBy=multi-user.target
     - require:
       - git: install_evil_minions
-      - file: install_minion_dump_yml_file
+      - file: install_minion_dump_yaml_file
 
   service.running:
     - name: evil-minions

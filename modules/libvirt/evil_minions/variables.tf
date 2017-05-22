@@ -18,15 +18,10 @@ variable "minion_count"  {
   default = 200
 }
 
-variable "minion_pool" {
-  description = "number of evil-minions processes"
-  default = 2
-}
-
 variable "minion_dump_yml_file" {
-  description = "Salt minion YaML dump file"
+  description = "path to salt minion yaml dump file"
   type = "string"
-  default = "minion-dump.yml"
+  default = ""
 }
 
 variable "slowdown_factor"  {
