@@ -28,7 +28,7 @@ evil_minions_service:
         Description=evil-minions
 
         [Service]
-        ExecStart=/root/evil-minions/evil-minions --count {{grains["minion_count"]}} --processes {{grains['minion_pool']}} --dump-path /root/minion-dump.yml --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains['id']}} {{grains['server']}}
+        ExecStart=/root/evil-minions/evil-minions --count {{grains["minion_count"]}} --processes {{grains['num_cpus']}} --dump-path /root/minion-dump.yml --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains['id']}} {{grains['server']}}
 
         [Install]
         WantedBy=multi-user.target
