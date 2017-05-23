@@ -57,7 +57,7 @@ tomcat_config:
   file.replace:
     - name: /etc/tomcat/tomcat.conf
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
-    - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n \1"'
+    - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n -Dcom.sun.management.jmxremote.port=3333 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{grains['fqdn']}} \1"'
     - require:
       - sls: suse_manager_server.rhn
 

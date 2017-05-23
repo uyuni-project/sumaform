@@ -119,7 +119,7 @@ jmx_exporter_configuration:
     - name: /etc/jmx_exporter/jmx_exporter.yml
     - makedirs: True
     - contents: |
-        hostPort: localhost:5555
+        hostPort: localhost:3333
         username:
         password:
 
