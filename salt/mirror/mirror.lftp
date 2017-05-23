@@ -47,6 +47,14 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.0/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.0/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.0/x86_64/update/
 
+# SUSE Manager 3.1
+mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.1/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.1/x86_64/product/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Server/3.1/x86_64/update/
+
+# SUSE Manager 3.1 Proxy
+mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.1/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Proxy/3.1/x86_64/product/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.1/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SUSE-Manager-Proxy/3.1/x86_64/update/
+
 # SLE 12 (GA and all SPs) Manager Tools
 mirror --continue --delete --loop --parallel=3 --verbose=3 mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/ mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc/.*" -x ".*\.drpm" mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/ mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
@@ -64,12 +72,6 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 
 open http://download.suse.de
 
-# SUSE Manager 3.1
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/ ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/
-
-# SUSE Manager 3.1 Proxy
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Proxy-3.1-POOL-x86_64-Media1/ ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Proxy-3.1-POOL-x86_64-Media1/
-
 # SUSE Manager Head
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/ ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/
 
@@ -79,6 +81,9 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 # SUSE Manager 3.0 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.devel30\.x86_64\.rpm" -i "noarch/.*\.devel30\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update/ ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update/
 
+# SUSE Manager 3.1 devel
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.devel31\.x86_64\.rpm" -i "noarch/.*\.devel31\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2/ ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2/
+
 # SLE 11 (SP3 and SP4) Manager Tools 3.0 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/ ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/
 
@@ -87,6 +92,15 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 
 # RES 7 Manager Tools 3.0 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/ ibs/Devel:/Galaxy:/Manager:/3.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
+
+# SLE 11 (SP3 and SP4) Manager Tools 3.1 devel
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/ ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/
+
+# SLE 12 (GA and all SPs) Manager Tools 3.1 devel
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.1:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/ ibs/Devel:/Galaxy:/Manager:/3.1:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+
+# RES 7 Manager Tools 3.1 devel
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/ ibs/Devel:/Galaxy:/Manager:/3.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
 
 # SUSE Manager Head devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.develHead\.x86_64\.rpm" -i "noarch/.*\.develHead\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2/ ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2/
