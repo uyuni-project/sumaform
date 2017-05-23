@@ -16,9 +16,10 @@ install_evil_minions:
       - pkg: git-core
 
 install_minion_dump_yaml_file:
-  file.managed:
+  file.decode:
     - name: /root/minion-dump.yml
-    - source: salt://evil_minions/minion-dump-default.yml
+    - encoding_type: base64
+    - encoded_data: {{ grains['minion_dump_yaml'] }}
 
 evil_minions_service:
   file.managed:

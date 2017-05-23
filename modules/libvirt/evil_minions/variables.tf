@@ -21,7 +21,7 @@ variable "minion_count"  {
 variable "minion_dump_yml_file" {
   description = "path to salt minion yaml dump file"
   type = "string"
-  default = ""
+  default = "salt/evil_minions/minion-dump-default.yml"
 }
 
 variable "slowdown_factor"  {
