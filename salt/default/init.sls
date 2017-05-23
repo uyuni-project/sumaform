@@ -2,11 +2,13 @@ include:
   - default.repos
   - default.pkgs
 
-up_to_date_salt:
+up_to_date_salt_and_sypper:
   pkg.latest:
     - pkgs:
       - salt
       - salt-minion
+      - zypper
+      - libzypp
     - order: last
     - require:
       - sls: default.repos
