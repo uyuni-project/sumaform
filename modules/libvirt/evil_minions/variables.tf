@@ -13,8 +13,8 @@ variable "server_configuration" {
   type = "map"
 }
 
-variable "minion_count"  {
-  description = "number of minions that this swarm will spawn"
+variable "evil_minion_count"  {
+  description = "number of minions that will be spawned by evil-minions"
   default = 200
 }
 
@@ -26,7 +26,7 @@ variable "minion_dump_yml_file" {
 
 variable "slowdown_factor"  {
   description = "slowdown factor for evil-minions"
-  default = 1.0
+  default = 0
 }
 
 variable "count"  {

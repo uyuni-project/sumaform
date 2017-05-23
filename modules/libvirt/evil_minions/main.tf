@@ -14,7 +14,7 @@ version: 3.1-released
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: evil_minions
-minion_count: ${var.minion_count}
+evil_minion_count: ${var.evil_minion_count}
 slowdown_factor: ${var.slowdown_factor}
 minion_dump_yaml: ${base64encode(file(var.minion_dump_yml_file))}
 
