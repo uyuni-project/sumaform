@@ -29,7 +29,7 @@ multiple_instances = output
 instances = single_instances + multiple_instances
 key_file = output["key_file"]["value"]
 
-tunnel_string = <<~eos
+tunnel_string = <<-eos
 # sumaform configuration start
 Host mirror
   HostName #{mirror_private_name}
@@ -40,7 +40,7 @@ Host mirror
 eos
 
 instances.each do |instance|
-  tunnel_string += <<~eos
+  tunnel_string += <<-eos
     Host #{instance[:symbolic_name]}
       HostName #{instance[:private_name]}
       StrictHostKeyChecking no
