@@ -278,3 +278,19 @@ module "grafana" {
 ```
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
+
+
+## Evil Minions load generator
+
+You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. A libvirt example would be:
+
+```hcl
+module "evil-minions" {
+  source = "./modules/libvirt/evil_minions"
+  base_configuration = "${module.base.configuration}"
+
+  name = "evil-minions"
+  server_configuration = "${module.suma31pg.configuration}"
+  // see modules/libvirt/evil_minions/variables.tf for possible values
+}
+```
