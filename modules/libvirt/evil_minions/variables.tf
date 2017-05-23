@@ -29,6 +29,11 @@ variable "slowdown_factor"  {
   default = 0
 }
 
+variable "install_from_git"  {
+  description = "install latest version of evil-minion from github"
+  default = false
+}
+
 variable "count"  {
   description = "number of hosts like this one"
   default = 1
