@@ -2,11 +2,15 @@ include:
   - default.repos
   - default.pkgs
 
-up_to_date_salt:
+up_to_date_pkgs:
   pkg.latest:
     - pkgs:
       - salt
       - salt-minion
+{% if grains['os_family'] == 'Suse' %}
+      - zypper
+      - libzypp
+{% endif %}
     - order: last
     - require:
       - sls: default.repos
