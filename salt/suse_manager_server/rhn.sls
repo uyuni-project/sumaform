@@ -80,7 +80,7 @@ create_activation_key:
 
 create_bootstrap_script:
   cmd.run:
-    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date
+    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date {{'--traditional' if '2.1' not in grains['version'] and '3.0' not in grains['version']}}
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
       - cmd: create_activation_key
