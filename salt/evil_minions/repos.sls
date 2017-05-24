@@ -1,16 +1,16 @@
 include:
   - default
 
-evil_minions_repo:
+tools_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/home:PSuarezHernandez.repo
-    - source: salt://evil_minions/repos.d/home:PSuarezHernandez.repo
+    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
+    - source: salt://evil_minions/repos.d/home_SilvioMoioli_tools.repo
     - template: jinja
     - require:
       - sls: default
 
-refresh_evil_minions_repos:
+refresh_tools_repo:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: evil_minions_repo
+      - file: tools_repo

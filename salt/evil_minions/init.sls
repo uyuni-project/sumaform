@@ -8,6 +8,8 @@ disable_salt_minion:
 install_evil_minions:
   pkg.installed:
     - name: evil-minions
+    - require:
+      - cmd: refresh_tools_repo
 
 install_minion_dump_yaml_file:
   file.decode:

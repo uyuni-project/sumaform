@@ -1,7 +1,0 @@
-[home_PSuarezHernandez]
-name=home:PSuarezHernandez (SLE_12_SP2)
-type=rpm-md
-baseurl=http://download.opensuse.org/repositories/home:/PSuarezHernandez/SLE_12_SP2/
-gpgcheck=1
-gpgkey=http://download.opensuse.org/repositories/home:/PSuarezHernandez/SLE_12_SP2//repodata/repomd.xml.key
-enabled=1
