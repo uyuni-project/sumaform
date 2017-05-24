@@ -1,27 +1,24 @@
 # Advanced `main.tf` configurations
 
-## Using versions
+## Changing product versions
 
-Variable ``version`` can be used on server, proxy, clients and minions to select:
- * SUSE Manager version on server and proxy,
- * SUSE Manager Tools version on minion or client.
+Some modules have a ``version`` variable that determines the software version. Specifically:
+ * in `suse_manager`, `suse_manager_proxy` etc. `version` determines the SUSE Manager product version,
+ * in `minion`, `client`, etc. `version` determines the SUSE Manager Tools version.
 
-If you don't specify ``version``, the default value is taken from the chosen distribution.
+Legal values for released software are:
+ * `2.1-released` (latest released Maintenance Update for SUSE Manager 2.1 and Tools)
+ * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
+ * `3.1-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.1 and Tools)
 
-The version of Salt on minions is the one shipping with the SUSE Manager Tools.
+Legal values for work-in-progress software are:
+ * `2.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:2.1)
+ * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
+ * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
 
-The legal values for released software are at the time of this writing:
- * 2.1-released (GMC)
- * 3.0-released (GMC)
- * 3.1-released (latest alpha or beta)
-
-The legal values for work in progress software are at the time of this writing:
- * 2.1-nightly
- * 3.0-nightly
- * 3.1-head
-
-The version identified can be omitted to take the default for the distribution, so `released` and `nightly` are legal values too.
-
+Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
+Note: on clients and minions only, the version number can be omitted to take the default for the distribution, eg. `released` and `nightly` are legal values.
 
 A libvirt example follows:
 
@@ -44,9 +41,6 @@ module "suma31pg" {
   version = "3.1-released"
 }
 ```
-
-Note that the version is called `released` in continuity with the existing naming schema because it will target the final release of SUSE Manager 3.1.
-However, at the time of writing, this version is still in beta.
 
 ## Multiple VMs of the same type
 
