@@ -17,7 +17,6 @@ role: evil_minions
 evil_minion_count: ${var.evil_minion_count}
 slowdown_factor: ${var.slowdown_factor}
 minion_dump_yaml: ${base64encode(file(var.minion_dump_yml_file))}
-install_from_git: ${var.install_from_git}
 
 EOF
 }
