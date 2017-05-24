@@ -35,7 +35,7 @@ smt: ${var.smt}
 role: suse_manager_server
 for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
-test_sle_updates: ${var.test_sle_updates}
+use_unreleased_updates: ${var.use_unreleased_updates}
 monitored: ${var.monitored}
 
 EOF

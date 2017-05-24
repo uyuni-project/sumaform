@@ -29,7 +29,7 @@ mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: suse_manager_proxy
 for_development_only: ${var.for_development_only}
-test_sle_updates: ${var.test_sle_updates}
+use_unreleased_updates: ${var.use_unreleased_updates}
 
 EOF
 }
