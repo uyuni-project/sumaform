@@ -1,5 +1,47 @@
 # Advanced `main.tf` configurations
 
+## Changing product versions
+
+Some modules have a ``version`` variable that determines the software version. Specifically:
+ * in `suse_manager`, `suse_manager_proxy` etc. `version` determines the SUSE Manager product version,
+ * in `minion`, `client`, etc. `version` determines the SUSE Manager Tools version.
+
+Legal values for released software are:
+ * `2.1-released` (latest released Maintenance Update for SUSE Manager 2.1 and Tools)
+ * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
+ * `3.1-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.1 and Tools)
+
+Legal values for work-in-progress software are:
+ * `2.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:2.1)
+ * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
+ * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
+
+Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
+Note: on clients and minions only, the version number can be omitted to take the default for the distribution, eg. `released` and `nightly` are legal values.
+
+A libvirt example follows:
+
+```hcl
+module "minsles12sp1" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "minsles12sp1"
+  image = "sles12sp1"
+  server_configuration = "${module.proxy.configuration}"
+  version = "nightly"
+}
+
+module "suma31pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma31pg"
+  version = "3.1-released"
+}
+```
+
 ## Multiple VMs of the same type
 
 Some modules, for example clients and minions, support a `count` variable that allows you to create several instances at once. For example:
@@ -19,7 +61,7 @@ module "minionsles12sp1" {
 This will create 10 minions connected to the `suma3pg` server.
 
 ## Change the base OS for supported SUSE Manager versions
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0-released` and `3.0-nightly` that can switch between `sles12sp1` and `sles12sp2`.
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1` and `sles12sp2`.
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 
@@ -180,40 +222,6 @@ module "minionswarm" {
 ```
 
 This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
-
-## Change Salt/SUSE Manager tools version in minion or client
-
-By default minions will get the latest stable Salt version for their distro (for SLE systems this means the version shipping with the latest released SUSE Manager Tools repo). You can use the `version` variable to override this and set a particular version of Salt - values taken are the same as the SUSE Manager versions (such as `3.0-nightly` or `head`). The version identified can be omitted to take the default for the distro, so `released` and `nightly` are legal values too.
-
-The same mechanism works for clients, in that case the SUSE Manager Tools versions change instead of Salt. For example, `version = "head"` will install SUSE Manager Tools from the upcoming SUSE Manager major release.
-
-A libvirt example follows:
-
-```hcl
-module "minsles12sp1" {
-  source = "./modules/libvirt/minion"
-  base_configuration = "${module.base.configuration}"
-
-  name = "minsles12sp1"
-  image = "sles12sp1"
-  server_configuration = "${module.proxy.configuration}"
-  version = "nightly"
-}
-```
-
-### SUSE Manager 3.1 (alpha)
-
-SUSE Manager 3.1 is supported by specifying `version = "3.1-released"`:
-
-```hcl
-module "suma31pg" {
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  name = "suma31pg"
-  version = "3.1-released"
-}
-```
 
 ### SMT
 
