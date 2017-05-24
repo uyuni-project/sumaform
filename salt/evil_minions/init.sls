@@ -26,6 +26,7 @@ evil_minions_service:
 
         [Service]
         ExecStart=/usr/bin/evil-minions --count {{grains["evil_minion_count"]}} --processes {{grains['num_cpus']}} --dump-path /root/minion-dump.yml --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains['id']}} {{grains['server']}}
+        LimitNOFILE=512000
 
         [Install]
         WantedBy=multi-user.target
