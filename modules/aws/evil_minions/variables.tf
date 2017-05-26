@@ -65,7 +65,7 @@ variable "timezone" {
 
 variable "evil_minion_count"  {
   description = "number of minions that will be spawned by evil-minions"
-  default = 200
+  default = 500
 }
 
 variable "minion_dump_yml_file" {
