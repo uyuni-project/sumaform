@@ -7,13 +7,9 @@ disable_salt_minion:
 
 install_evil_minions:
   pkg.installed:
-    - name: git-core
-
-  git.latest:
-    - name: https://github.com/moio/evil-minions
-    - target: /root/evil-minions
+    - name: evil-minions
     - require:
-      - pkg: git-core
+      - cmd: refresh_tools_repo
 
 install_minion_dump_yaml_file:
   file.decode:
@@ -29,12 +25,13 @@ evil_minions_service:
         Description=evil-minions
 
         [Service]
-        ExecStart=/root/evil-minions/evil-minions --count {{grains["evil_minion_count"]}} --processes {{grains['num_cpus']}} --dump-path /root/minion-dump.yml --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains['id']}} {{grains['server']}}
+        ExecStart=/usr/bin/evil-minions --count {{grains["evil_minion_count"]}} --processes {{grains['num_cpus']}} --dump-path /root/minion-dump.yml --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains['id']}} {{grains['server']}}
+        LimitNOFILE=512000
 
         [Install]
         WantedBy=multi-user.target
     - require:
-      - git: install_evil_minions
+      - pkg: install_evil_minions
       - file: install_minion_dump_yaml_file
 
   service.running:
