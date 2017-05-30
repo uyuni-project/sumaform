@@ -1,5 +1,5 @@
-[SUSE_Maintenance_Test_SLE-SERVER_12-SP1_x86_64]
-name=SUSE:Maintenance:Test:SLE-SERVER:12-SP1:x86_64 (update)
+[SLE-12-SP1-x86_64-Test-Update]
+name=SLE-12-SP1-x86_64-Test-Update
 type=rpm-md
 baseurl=http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/
 gpgcheck=1
