@@ -37,7 +37,7 @@ timezone_symlink:
       - pkg: timezone_package
 
 
-{% if grains['use_unreleased_updates'] %}
+{% if grains.get('use_unreleased_updates', False) %}
 update_sles_test:
   pkg.uptodate
 {% endif %}

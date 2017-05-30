@@ -30,7 +30,7 @@ tools_devel_repo:
 {% if '11' in grains['osrelease'] %}
 {% if grains['osrelease'] == '11.3' %}
 
-{% if grains['use_unreleased_updates'] %}
+{% if grains.get('use_unreleased_updates', False) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
@@ -50,7 +50,7 @@ os_update_repo:
     - template: jinja
 {% elif grains['osrelease'] == '11.4' %}
 
-{% if grains['use_unreleased_updates'] %}
+{% if grains.get('use_unreleased_updates', False) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
@@ -119,7 +119,7 @@ tools_devel_repo:
 {% if '12' in grains['osrelease'] %}
 {% if grains['osrelease'] == '12' %}
 
-{% if grains['use_unreleased_updates'] %}
+{% if grains.get('use_unreleased_updates', False) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-x86_64-Test-Update.repo
@@ -139,7 +139,7 @@ os_update_repo:
     - template: jinja
 {% elif grains['osrelease'] == '12.1' %}
 
-{% if grains['use_unreleased_updates'] %}
+{% if grains.get('use_unreleased_updates', False) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
@@ -159,7 +159,7 @@ os_update_repo:
     - template: jinja
 {% elif grains['osrelease'] == '12.2' %}
 
-{% if grains['use_unreleased_updates'] %}
+{% if grains.get('use_unreleased_updates', False) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
