@@ -1,7 +1,7 @@
 [SLE-12-SP2-x86_64-Test-Update]
 name=SLE-12-SP2-x86_64-Test-Update
 type=rpm-md
-baseurl=http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
 gpgcheck=1
-gpgkey=http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update//repodata/repomd.xml.key
+gpgkey=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/repodata/repomd.xml.key
 enabled=1
