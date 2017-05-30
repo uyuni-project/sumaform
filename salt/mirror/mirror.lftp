@@ -72,6 +72,24 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 
 open http://download.suse.de
 
+# unreleased sle update repo
+# 11sp3
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP3:/x86_64/update/ /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP3:/x86_64/update/
+# 11sp4
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update/ /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update/
+# 12
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/ /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/
+# 12sp1
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/ /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/
+# 12sp2
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/ /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
+
+# SUSE Manager 3.1
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/ ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/
+
+# SUSE Manager 3.1 Proxy
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Proxy-3.1-POOL-x86_64-Media1/ ibs/SUSE:/SLE-12-SP2:/Update:/Products:/Manager31/images/repo/SUSE-Manager-Proxy-3.1-POOL-x86_64-Media1/
+
 # SUSE Manager Head
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/ ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/
 
