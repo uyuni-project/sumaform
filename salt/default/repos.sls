@@ -35,6 +35,7 @@ test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
     - source: salt://default/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
+    - template: jinja
 {% endif %}
 
 os_pool_repo:
@@ -55,6 +56,7 @@ test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
     - source: salt://default/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
+    - template: jinja
 {% endif %}
 
 os_pool_repo:
@@ -124,6 +126,7 @@ test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-x86_64-Test-Update.repo
     - source: salt://default/repos.d/SLE-12-x86_64-Test-Update.repo
+    - template: jinja
 {% endif %}
 
 os_pool_repo:
@@ -144,6 +147,7 @@ test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
     - source: salt://default/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
+    - template: jinja
 {% endif %}
 
 os_pool_repo:
@@ -164,6 +168,7 @@ test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
     - source: salt://default/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
+    - template: jinja
 {% endif %}
 
 os_pool_repo:
