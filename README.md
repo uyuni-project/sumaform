@@ -13,7 +13,6 @@ openSUSE 42.2, 42.1, SUSE Linux Enterprise Server 12 SP1:
 # Uncomment one of the following lines depending on your distro
 
 #sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.2/home:SilvioMoioli:tools.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/home:SilvioMoioli:tools.repo
 #sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
 
 sudo zypper install terraform-provider-libvirt
