@@ -11,7 +11,8 @@ module "base" {
   // network_name = "default" // change to "" if you change bridge below
   // bridge = ""
   // name_prefix = ""
-  images = ["centos7", "sles12sp2"]
+  // you need always sles12sp1 because controller is based on that.
+  images = ["centos7", "sles12sp1", "sles12sp2"]
 }
 
 module "suma3pg" {

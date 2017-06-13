@@ -3,7 +3,7 @@ terraform {
 }
 
 resource "libvirt_volume" "volumes" {
-  name = "${element(var.images, count.index)}"
+  name = "${var.name_prefix}${element(var.images, count.index)}"
   source = "${var.image_locations["${element(var.images, count.index)}"]}"
   count = "${length(var.images)}"
   pool = "${var.pool}"
