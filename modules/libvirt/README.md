@@ -98,3 +98,20 @@ You can add the following parameters to a `modules/libvirt/host` module in `main
 ## Keep a VM turned off
 
 You can add `running = false` to any libvirt host to keep it turned off. This is useful if you want to keep the instance around (ie. not [destroying](https://www.terraform.io/intro/getting-started/destroy.html) it) but not to consume resources.
+
+## Only upload a subset of available images
+
+By default all known base OS images are uploaded to the libvirt host (currently several versions of SLES and CentOS). It is possible to limit the OS selection in order to avoid wasting space and bandwidth, if the needed OSs are known a priori.
+
+In order to do that use the `images` variable in the `base` module, like in the following example:
+
+```hcl
+module "base" {
+  source = "./modules/libvirt/base"
+
+  ...
+  images = ["centos7", "sles12sp2"]
+}
+```
+
+The list of all supported images is available in "modules/libvirt/base/main.tf".
