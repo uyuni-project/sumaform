@@ -54,21 +54,21 @@ variable "name_prefix" {
 }
 
 variable "images" {
-  description = "define which image, disk use with sumaform"
-  default =["centos7",  "opensuse422",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2"]
+  description = "list of images to be uploaded to the libvirt host, leave default for all"
+  default = ["centos7",  "opensuse422",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2"]
   type = "list"
 }
 
-variable "images_src" {
-  description = "define which image, disk use with sumaform"
+variable "image_locations" {
+  description = "list of locations to download images, override to add custom ones"
   default = {
-   centos7 = "http://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v2.qcow2"
-   opensuse422 = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse422.x86_64.qcow2"
-   sles11sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp3.x86_64.qcow2"
-   sles11sp4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
-   sles12 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
-   sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
-   sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
+    centos7 = "http://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v2.qcow2"
+    opensuse422 = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images/images/opensuse422.x86_64.qcow2"
+    sles11sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp3.x86_64.qcow2"
+    sles11sp4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
+    sles12 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
+    sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
+    sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
   }
   type = "map"
 }

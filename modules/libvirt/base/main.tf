@@ -2,9 +2,9 @@ terraform {
     required_version = ">= 0.8.0"
 }
 
- resource "libvirt_volume" "volumes" {
+resource "libvirt_volume" "volumes" {
   name = "${element(var.images, count.index)}"
-  source = "${var.images_src["${element(var.images, count.index)}"]}"
+  source = "${var.image_locations["${element(var.images, count.index)}"]}"
   count = "${length(var.images)}"
   pool = "${var.pool}"
 }
