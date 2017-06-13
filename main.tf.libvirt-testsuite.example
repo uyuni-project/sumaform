@@ -12,7 +12,6 @@ module "base" {
   // bridge = ""
   // name_prefix = ""
   images = ["centos7", "sles12sp2"]
-  }
 }
 
 module "suma3pg" {
