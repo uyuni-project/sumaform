@@ -3,4 +3,4 @@ name=Devel Project for SUSE Manager Head (SLE_12_SP2)
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2/
-priority=98
+priority=96

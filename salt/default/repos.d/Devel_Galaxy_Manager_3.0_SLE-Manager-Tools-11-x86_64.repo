@@ -3,3 +3,4 @@ name=Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse/
+priority=98

@@ -3,3 +3,4 @@ name=SUSE-Manager-2.1-x86_64-Pool
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL/
+priority=97

@@ -3,3 +3,4 @@ name=SUSE-Manager-2.1-x86_64-Update
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update/
+priority=97

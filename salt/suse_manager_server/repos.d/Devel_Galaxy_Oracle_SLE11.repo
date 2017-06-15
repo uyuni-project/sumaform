@@ -3,3 +3,4 @@ name=Oracle for SLE 11 (SLE_11_SP3)
 type=rpm-md
 enabled=1
 baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3/
+priority=96
