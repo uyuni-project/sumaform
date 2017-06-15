@@ -15,15 +15,15 @@ os_update_repo:
 
 tools_pool_repo:
   file.touch:
-    - name: /tmp/no_tools_pool_channel_needed
+    - name: /tmp/no_tools_pool_repo_needed
 
 tools_update_repo:
   file.touch:
-    - name: /tmp/no_tools_update_channel_needed
+    - name: /tmp/no_tools_update_repo_needed
 
 tools_devel_repo:
   file.touch:
-    - name: /tmp/no_tools_devel_channel_needed
+    - name: /tmp/no_tools_devel_repo_needed
 {% endif %}
 
 
@@ -62,13 +62,13 @@ tools_pool_repo:
 
 tools_update_repo:
   file.touch:
-    - name: /tmp/no_tools_update_channel_needed
+    - name: /tmp/no_tools_update_repo_needed
 
 {% if 'released' in grains.get('version', 'released') %}
 
 tools_devel_repo:
   file.touch:
-    - name: /tmp/no_tools_devel_channel_needed
+    - name: /tmp/no_tools_devel_repo_needed
 
 {% elif '3.0-nightly' in grains.get('version', '') %}
 
@@ -156,7 +156,7 @@ tools_update_repo:
 
 tools_devel_repo:
   file.touch:
-    - name: /tmp/no_tools_devel_channel_needed
+    - name: /tmp/no_tools_devel_repo_needed
 
 {% elif '3.0-nightly' in grains.get('version', '') %}
 
