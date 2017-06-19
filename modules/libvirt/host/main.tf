@@ -16,6 +16,7 @@ resource "libvirt_volume" "main_disk" {
   base_volume_name = "${var.base_configuration["name_prefix"]}${var.image}"
   pool = "${var.base_configuration["pool"]}"
   count = "${var.count}"
+  depends_on = ["libvirt_volume.volumes"]
 }
 
 resource "libvirt_domain" "domain" {
