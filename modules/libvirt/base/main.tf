@@ -2,13 +2,6 @@ terraform {
     required_version = ">= 0.8.0"
 }
 
-resource "libvirt_volume" "volumes" {
-  name = "${var.name_prefix}${element(var.images, count.index)}"
-  source = "${var.image_locations["${element(var.images, count.index)}"]}"
-  count = "${length(var.images)}"
-  pool = "${var.pool}"
-}
-
 output "configuration" {
   value = {
     network_name = "${var.network_name}"
