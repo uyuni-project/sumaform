@@ -4,6 +4,13 @@
 //   name_prefix + name (if count = 1)
 //   name_prefix + name + "-" + index (if count > 1)
 
+resource "libvirt_volume" "volumes" {
+  name = "${var.base_configuration["name_prefix"]}${element(var.images, count.index)}"
+  source = "${var.image_locations["${element(var.images, count.index)}"]}"
+  count = "${length(var.images)}"
+  pool = "${var.base_configuration["pool"]}"
+}
+
 resource "libvirt_volume" "main_disk" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["name_prefix"]}${var.image}"
