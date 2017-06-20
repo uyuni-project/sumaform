@@ -265,7 +265,7 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: {{ label }}
     - baseurl: {{ url }}
-    - priority: 98
+    - priority: 95
     - gpgcheck: 0
 {% endfor %}
 
