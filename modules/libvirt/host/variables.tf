@@ -28,11 +28,6 @@ variable "count"  {
   default = 1
 }
 
-variable "use_unreleased_updates" {
-  description = "This adds and updates sle packages from the test repo"
-  default = false
-}
-
 variable "memory" {
   description = "RAM memory in MiB"
   default = 512
