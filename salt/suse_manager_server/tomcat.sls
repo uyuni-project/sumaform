@@ -61,7 +61,7 @@ tomcat_config:
     - require:
       - sls: suse_manager_server.rhn
 
-{% if 'head' in grains['version'] %}
+{% if '2.1' not in grains['version'] %}
 tomcat_config_loaded:
   file.comment:
     - name: /etc/tomcat/tomcat.conf
