@@ -231,6 +231,16 @@ tools_pool_repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
+
+suse_res7_key:
+  file.managed:
+    - name: /tmp/suse_res7.key
+    - source: salt://default/suse_res7.key
+  cmd.wait:
+    - name: rpm --import /tmp/suse_res7.key
+    - watch:
+      - file: suse_res7_key
+
 {% if 'head' in grains.get('version', '') %}
 tools_update_repo:
   file.managed:
