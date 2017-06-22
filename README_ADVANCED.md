@@ -302,3 +302,18 @@ module "evil-minions" {
   // see modules/libvirt/evil_minions/variables.tf for possible values
 }
 ```
+
+## Use SUSE Linux Enterprise unreleased (Test) packages
+
+It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages currently in QA, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_unreleased_updates` flag. Libvirt example:
+
+```hcl
+module "sumaheadpg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "sumaheadpg"
+  version = "head"
+  use_unreleased_updates = true
+}
+```
