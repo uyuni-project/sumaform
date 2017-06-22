@@ -43,6 +43,11 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "use_unreleased_updates" {
+  description = "This adds and updates sle packages from the test repo"
+  default = false
+}
+
 variable "smt" {
   description = "URL to an SMT server to get packages from"
   default = "null"

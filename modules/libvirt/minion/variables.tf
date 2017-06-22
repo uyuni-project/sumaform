@@ -33,6 +33,11 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "use_unreleased_updates" {
+  description = "This adds and updates sle packages from the test repo"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories used for installation {label = url}"
   default = {}

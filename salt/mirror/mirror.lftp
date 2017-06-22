@@ -72,6 +72,21 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -x "src/.*" -x "nosrc
 
 open http://download.suse.de
 
+# SLES 11 SP3 Test
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP3:/x86_64/update/ ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP3:/x86_64/update/
+
+# SLES 11 SP4 Test
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update/ ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update/
+
+# SLES 12 Test
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/ ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/
+
+# SLES 12 SP1 Test
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/ ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/
+
+# SLES 12 SP2 Test
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/ ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
+
 # SUSE Manager Head
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/ ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/
 

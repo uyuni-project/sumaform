@@ -18,6 +18,7 @@ server: ${var.server_configuration["hostname"]}
 role: minion
 for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
+use_unreleased_updates: ${var.use_unreleased_updates}
 EOF
 }
 

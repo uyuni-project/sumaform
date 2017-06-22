@@ -2,19 +2,6 @@ include:
   - default.repos
   - default.pkgs
 
-up_to_date_pkgs:
-  pkg.latest:
-    - pkgs:
-      - salt
-      - salt-minion
-{% if grains['os_family'] == 'Suse' %}
-      - zypper
-      - libzypp
-{% endif %}
-    - order: last
-    - require:
-      - sls: default.repos
-
 timezone_setting:
   timezone.system:
     - name: {{ grains['timezone'] }}
@@ -35,6 +22,12 @@ timezone_symlink:
     - force: true
     - require:
       - pkg: timezone_package
+
+
+{% if grains.get('use_unreleased_updates', False) %}
+update_sles_test:
+  pkg.uptodate
+{% endif %}
 
 authorized_keys:
   file.append:
