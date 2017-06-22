@@ -1,8 +1,17 @@
 include:
   - default.repos
   - default.pkgs
+  {% if grains['hostname'] and grains['domain'] %}
+  - default.hostname
+  {% endif %}
+  {% if grains['use_avahi'] %}
+  - default.avahi
+  {% endif %}
+  {% if grains['reset_ids'] %}
+  - default.ids
+  {% endif %}
 
-up_to_date_pkgs:
+minimal_package_update:
   pkg.latest:
     - pkgs:
       - salt
@@ -35,7 +44,6 @@ timezone_symlink:
     - force: true
     - require:
       - pkg: timezone_package
-
 
 {% if grains.get('use_unreleased_updates', False) %}
 update_sles_test:

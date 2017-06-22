@@ -81,7 +81,11 @@ bootstrap_script:
   file.replace:
     - name: /root/bootstrap.sh
     - pattern: ^PROFILENAME="".*$
+    {% if grains['hostname'] and grains['domain'] %}
+    - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
+    {% else %}
     - repl: PROFILENAME="{{grains['fqdn']}}"
+    {% endif %}
     - require:
       - file: base_bootstrap_script
   cmd.run:

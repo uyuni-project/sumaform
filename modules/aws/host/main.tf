@@ -60,6 +60,7 @@ timezone: ${var.timezone}
 authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
+reset_ids: true
 
 EOF
 
@@ -68,7 +69,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "salt-call --force-color --local --output=quiet state.sls default,terraform-resource",
+      "salt-call --local --output=quiet state.sls_id minimal_package_update default",
       "salt-call --force-color --local state.highstate"
     ]
   }

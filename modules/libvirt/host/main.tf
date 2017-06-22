@@ -53,6 +53,7 @@ timezone: ${var.base_configuration["timezone"]}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 authorized_keys: ${file(var.base_configuration["ssh_key_path"])}
+reset_ids: true
 ${var.grains}
 
 EOF
@@ -63,7 +64,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "test -e /etc/fstab || touch /etc/fstab",
-      "salt-call --force-color --local --output=quiet state.sls default,terraform-resource",
+      "salt-call --local --output=quiet state.sls_id minimal_package_update default",
       "salt-call --force-color --local state.highstate"
     ]
   }
