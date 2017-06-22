@@ -38,9 +38,15 @@ resource "libvirt_domain" "domain" {
     password = "linux"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /opt/sumaform/srv"
+    ]
+  }
+
   provisioner "file" {
     source = "salt"
-    destination = "/srv"
+    destination = "/opt/sumaform/srv"
   }
 
   provisioner "file" {
@@ -64,8 +70,8 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "test -e /etc/fstab || touch /etc/fstab",
-      "salt-call --local --output=quiet state.sls_id minimal_package_update default",
-      "salt-call --force-color --local state.highstate"
+      "salt-call --local --file-root=/opt/sumaform/srv/salt/ --output=quiet state.sls_id minimal_package_update default",
+      "salt-call --local --file-root=/opt/sumaform/srv/salt/ --force-color state.highstate"
     ]
   }
 }
