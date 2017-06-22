@@ -63,7 +63,6 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "test -e /etc/fstab || touch /etc/fstab",
-      "salt-call --force-color --local --output=quiet state.sls default.updatesalt",
       "salt-call --force-color --local --output=quiet state.sls default,terraform-resource",
       "salt-call --force-color --local state.highstate"
     ]
