@@ -33,7 +33,7 @@ resource "null_resource" "host_salt_configuration" {
 
   provisioner "file" {
     source = "salt"
-    destination = "/srv/salt"
+    destination = "/root"
   }
 
   provisioner "file" {
@@ -62,8 +62,8 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "salt-call --local --output=quiet state.sls_id minimal_package_update default",
-      "salt-call --force-color --local state.highstate"
+      "salt-call --local --file-root=/root/salt/ --output=quiet state.sls_id minimal_package_update default",
+      "salt-call --local --file-root=/root/salt/ --force-color state.highstate"
     ]
   }
 }
