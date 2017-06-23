@@ -317,7 +317,6 @@ module "sumaheadpg" {
   use_unreleased_updates = true
 }
 ```
-
 ## E-mail configuration
 
 With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
@@ -333,5 +332,20 @@ module "suma3pg" {
   version = "head"
 
   from_email = "root@mbologna.openvpn.suse.de"
+}
+```
+
+Internal Server Error and relative stacktrace are sent via e-mail by default to `galaxy-noise@suse.de`.
+By suppling the parameter `traceback_email` you can override that address to have them in your inbox:
+
+```
+module "sumamail3" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "sumamail3"
+  version = "head"
+
+  traceback_email = "michele.bologna@chameleon-mail.com"
 }
 ```

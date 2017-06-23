@@ -92,3 +92,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "traceback_email" {
+  description = "email address used in SUMa to send ISE stacktraces"
+  default = "null"
+}
