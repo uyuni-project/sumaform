@@ -37,6 +37,7 @@ for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
 use_unreleased_updates: ${var.use_unreleased_updates}
 monitored: ${var.monitored}
+suma_email_from: ${var.suma_email_from}
 
 EOF
 }

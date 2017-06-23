@@ -48,6 +48,11 @@ variable "use_unreleased_updates" {
   default = false
 }
 
+variable "suma_email_from" {
+  description = "email address used in SUMa as sender for emails"
+  default = "null"
+}
+
 variable "smt" {
   description = "URL to an SMT server to get packages from"
   default = "null"
