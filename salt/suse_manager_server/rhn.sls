@@ -41,7 +41,7 @@ create_first_user:
              desiredpasswordConfirm=admin&\
              firstNames=Administrator&\
              lastName=McAdmin&\
-             email=admin%40admin.admin&\
+             email=galaxy-noise%40suse.de&\
              account_type=create_sat"
     {% else %}
     - name: https://localhost/rhn/newlogin/CreateFirstUser.do
@@ -51,7 +51,7 @@ create_first_user:
              login=admin&\
              desiredpassword=admin&\
              desiredpasswordConfirm=admin&\
-             email=admin%40admin.admin&\
+             email=galaxy-noise%40suse.de&\
              firstNames=Administrator&\
              lastName=McAdmin"
     {% endif %}
