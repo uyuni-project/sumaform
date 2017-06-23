@@ -98,12 +98,12 @@ no_motd:
     - require:
       - cmd: suse_manager_setup
 
-{% if grains['suma_email_from'] %}
+{% if grains['from_email'] %}
 substitute_email_sender_address:
   file.replace:
     - name: /etc/rhn/rhn.conf
     - pattern: web.default_mail_from.*
-    - repl: web.default_mail_from = {{ grains.get('suma_email_from') }}
+    - repl: web.default_mail_from = {{ grains.get('from_email') }}
     - require:
         - cmd: suse_manager_setup
 {% endif %}
