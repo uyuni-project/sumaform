@@ -187,3 +187,7 @@ A simple solution is to create a symbolic link pointing to the `salt` directory 
 The error means that there is no such version as "3-stable" for the desired resource. Specifically, all SUSE Manager 3.0 versions have been renamed to get a `3.0-` prefix instead of the old `3-` one to avoid confusion with 3.1, moreover `stable` has been replaced by `released` to take into account beta versions.
 
 In this specific example, use `3.0-released` instead of `3-stable`. In other cases, please check the `variables.tf` file of the module you want to use.
+
+## Q: how do I re-apply the Salt state that was used to provision the machine?
+
+Run `salt-call --local --file-root=/root/salt state.highstate`.
