@@ -15,10 +15,10 @@ module "base" {
   images = ["centos7", "sles12sp1", "sles12sp2"]
 }
 
-module "suma3pg" {
+module "sumaheadpg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
-  name = "suma3pg"
+  name = "sumaheadpg"
   image = "sles12sp2"
   version = "head"
   for_development_only = false
@@ -30,7 +30,7 @@ module "clisles12sp2" {
   base_configuration = "${module.base.configuration}"
   name = "clisles12sp2"
   image = "sles12sp2"
-  server_configuration =  { hostname = "suma3pg.tf.local" }
+  server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
@@ -41,7 +41,7 @@ module "minsles12sp2" {
   version = "head"
   name = "minsles12sp2"
   image = "sles12sp2"
-  server_configuration =  { hostname = "suma3pg.tf.local" }
+  server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
@@ -52,7 +52,7 @@ module "minsles12sp1ssh" {
   version = "head"
   name = "minsles12sp1ssh"
   image = "sles12sp1"
-  server_configuration =  { hostname = "suma3pg.tf.local" }
+  server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
@@ -63,7 +63,7 @@ module "mincentos7" {
   version = "head"
   name = "mincentos7"
   image = "centos7"
-  server_configuration =  { hostname = "suma3pg.tf.local" }
+  server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
@@ -73,7 +73,7 @@ module "controller" {
   base_configuration = "${module.base.configuration}"
   name = "controller"
   branch = "master"
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.sumaheadpg.configuration}"
   client_configuration = "${module.clisles12sp2.configuration}"
   minion_configuration = "${module.minsles12sp2.configuration}"
   centos_configuration = "${module.mincentos7.configuration}"
