@@ -223,7 +223,7 @@ module "minionswarm" {
 
 This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
 
-### SMT
+## SMT
 
 You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
 
@@ -238,7 +238,7 @@ module "suma3pg" {
 }
 ```
 
-### Add custom repos and packages
+## Add custom repos and packages
 
 You can specify custom repos and packages to be installed at deploy time for a specific host:
 
@@ -263,7 +263,7 @@ module "minsles12sp1" {
 }
 ```
 
-### Prometheus/Grafana monitoring
+## Prometheus/Grafana monitoring
 
 It is possible to install Prometheus exporters on a SUSE Manager Server instance via the `monitored` flag. Those can be consumed by Prometheus and Grafana server to analyze visually. A libvirt example follows:
 
