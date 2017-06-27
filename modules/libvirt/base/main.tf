@@ -10,6 +10,7 @@ resource "libvirt_volume" "volumes" {
 }
 
 output "configuration" {
+  depends_on = ["libvirt_volume.volumes"]
   value = {
     network_name = "${var.network_name}"
     cc_username = "${var.cc_username}"
