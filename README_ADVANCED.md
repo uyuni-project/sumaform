@@ -320,20 +320,19 @@ module "sumaheadpg" {
 
 ## Emails
 
-With the default configuration, whenever we bring up a SUMa machine,
+With the default configuration, whenever we bring up a SUSE Manager machine,
 `rhn.conf` is instructed to use root@`hostname -d` as the email sender.
-Emails are then using `root@tf.local`, which may be discarded by the
-recipient's SMTP server due to being a non-existent domain.
+The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
 
-With this PR we can override email address to use as 'from' by
+We can override email address to use as 'from' by
 supplying the parameter: `from_email`. E.g.:
 
 ```
-module "sumamail2" {
+module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "sumamail2"
+  name = "suma3pg"
   version = "head"
 
   from_email = "root@mbologna.openvpn.suse.de"
