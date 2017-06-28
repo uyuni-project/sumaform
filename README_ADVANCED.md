@@ -317,3 +317,21 @@ module "sumaheadpg" {
   use_unreleased_updates = true
 }
 ```
+
+## E-mail configuration
+
+With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
+
+This setting can be overridden with a custom 'from' address by supplying the parameter: `from_email`. A libvirt example would be:
+
+```
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "head"
+
+  from_email = "root@mbologna.openvpn.suse.de"
+}
+```

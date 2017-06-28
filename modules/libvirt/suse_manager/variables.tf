@@ -48,6 +48,11 @@ variable "use_unreleased_updates" {
   default = false
 }
 
+variable "from_email" {
+  description = "email address used as sender for emails"
+  default = "null"
+}
+
 variable "smt" {
   description = "URL to an SMT server to get packages from"
   default = "null"
