@@ -103,7 +103,7 @@ substitute_email_sender_address:
   file.replace:
     - name: /etc/rhn/rhn.conf
     - pattern: web.default_mail_from.*
-    - repl: web.default_mail_from = {{ grains.get('from_email') }}
+    - repl: web.default_mail_from = {{ grains['from_email'] }}
     - require:
         - cmd: suse_manager_setup
 {% endif %}

@@ -68,10 +68,10 @@ variable "evil_minion_count"  {
   default = 500
 }
 
-variable "minion_dump_yml_file" {
+variable "dump_file" {
   description = "path to salt minion yaml dump file"
   type = "string"
-  default = "salt/evil_minions/minion-dump-default.yml"
+  default = "salt/evil_minions/minion-dump-default.mp"
 }
 
 variable "slowdown_factor"  {
