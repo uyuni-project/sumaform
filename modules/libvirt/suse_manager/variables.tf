@@ -49,7 +49,7 @@ variable "use_unreleased_updates" {
 }
 
 variable "from_email" {
-  description = "email address used in SUMa as sender for emails"
+  description = "email address used as sender for emails"
   default = "null"
 }
 
