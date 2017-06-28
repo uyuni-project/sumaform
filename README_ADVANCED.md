@@ -318,14 +318,11 @@ module "sumaheadpg" {
 }
 ```
 
-## Emails
+## E-mail configuration
 
-With the default configuration, whenever we bring up a SUSE Manager machine,
-`rhn.conf` is instructed to use root@`hostname -d` as the email sender.
-The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
+With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
 
-We can override email address to use as 'from' by
-supplying the parameter: `from_email`. E.g.:
+This setting can be overridden with a custom 'from' address by supplying the parameter: `from_email`. A libvirt example would be:
 
 ```
 module "suma3pg" {
