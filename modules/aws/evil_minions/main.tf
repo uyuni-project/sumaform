@@ -48,7 +48,7 @@ role: evil_minions
 server: ${var.server}
 evil_minion_count: ${var.evil_minion_count}
 slowdown_factor: ${var.slowdown_factor}
-minion_dump_yaml: ${base64encode(file(var.minion_dump_yml_file))}
+dump: ${base64encode(file(var.dump_file))}
 timezone: ${var.timezone}
 authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
