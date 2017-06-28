@@ -63,6 +63,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
+      "test -e /etc/fstab || touch /etc/fstab",
       "salt-call --local --file-root=/root/salt/ --output=quiet state.sls_id minimal_package_update default",
       "salt-call --local --file-root=/root/salt/ --force-color state.highstate"
     ]
