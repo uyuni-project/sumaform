@@ -86,9 +86,9 @@ environment_setup_script:
     - name: /root/setup_env.sh
     - source: salt://suse_manager_server/setup_env.sh
     - template: jinja
-  require:
     {% if '3.0-released' in grains['version'] %}
-    - pkg: uninstall-postgres-96
+    - require:
+      - pkg: uninstall-postgres-96
     {% endif %}
 
 {% if '3.0-released' in grains['version'] %}
