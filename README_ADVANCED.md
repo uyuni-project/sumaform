@@ -18,6 +18,7 @@ Legal values for work-in-progress software are:
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
+
 Note: on clients and minions only, the version number can be omitted to take the default for the distribution, eg. `released` and `nightly` are legal values.
 
 A libvirt example follows:
