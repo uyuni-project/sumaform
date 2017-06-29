@@ -27,10 +27,6 @@ postgresql-fixed-version-workaround:
       - postgresql94
       - postgresql94-server
       - postgresql94-contrib
-
-postgresql-lock-packages:
-  cmd.run:
-    - name: zypper al postgresql
 {% endif %}
 
 suse_manager_packages:
@@ -83,7 +79,6 @@ suse_manager_packages:
       - sls: suse_manager_server.firewall
       {% if '3.0-released' in grains['version'] %}
       - pkg: postgresql-fixed-version-workaround
-      - cmd: postgresql-lock-packages
       {% endif %}
 
 environment_setup_script:
@@ -102,7 +97,7 @@ uninstall-postgres-96:
     - pkgs:
       - postgresql96
       - postgresql-init: 9.6
-      - postgresql96-contrib-9.6
+      - postgresql96-contrib
       - postgresql96-server
 {% endif %}
 
