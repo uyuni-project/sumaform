@@ -72,7 +72,6 @@ module "controller" {
   source = "./modules/libvirt/controller"
   base_configuration = "${module.base.configuration}"
   name = "controller"
-  branch = "master"
   server_configuration = "${module.sumaheadpg.configuration}"
   client_configuration = "${module.clisles12sp2.configuration}"
   minion_configuration = "${module.minsles12sp2.configuration}"
