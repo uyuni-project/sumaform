@@ -335,7 +335,7 @@ module "suma3pg" {
 }
 ```
 
-Internal Server Error and relative stacktrace are sent via e-mail by default to `galaxy-noise@suse.de`.
+Internal Server Errors and relative stacktraces are sent via e-mail by default to `galaxy-noise@suse.de`.
 By suppling the parameter `traceback_email` you can override that address to have them in your inbox:
 
 ```
