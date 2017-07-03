@@ -19,9 +19,8 @@ variable "client_configuration" {
 }
 
 variable "branch" {
-  description = "One of: manager30, master, manager31"
-  type = "string"
-  default = "manager30"
+  description = "Leave default for automatic selection or specify an existing branch of spacewalk-testsuite-base"
+  default = "default"
 }
 
 variable "minion_configuration" {

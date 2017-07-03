@@ -27,6 +27,6 @@ minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
 role: controller
-branch: ${lookup(var.testsuite-branch, var.server_configuration["version"])}
+branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["version"]) : var.branch}
 EOF
 }
