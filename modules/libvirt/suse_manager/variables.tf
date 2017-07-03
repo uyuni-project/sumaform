@@ -94,6 +94,6 @@ variable "mac" {
 }
 
 variable "traceback_email" {
-  description = "email address used in SUMa to send ISE stacktraces"
+  description = "recipient email address that will receive errors during usage"
   default = "null"
 }
