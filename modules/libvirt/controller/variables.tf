@@ -19,7 +19,7 @@ variable "client_configuration" {
 }
 
 variable "branch" {
-  description = "One of: manager30, master"
+  description = "One of: manager30, master, manager31"
   type = "string"
   default = "manager30"
 }
