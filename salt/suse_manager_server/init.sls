@@ -125,7 +125,7 @@ no_motd:
     - require:
       - cmd: suse_manager_setup
 
-{% if grains['from_email'] %}
+{% if grains.get('from_email') %}
 substitute_email_sender_address:
   file.replace:
     - name: /etc/rhn/rhn.conf
