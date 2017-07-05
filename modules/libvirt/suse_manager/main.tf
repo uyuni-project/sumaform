@@ -44,5 +44,9 @@ EOF
 }
 
 output "configuration" {
-  value = "${module.suse_manager.configuration}"
+  value {
+    id = "${module.suse_manager.configuration["id"]}"
+    hostname = "${module.suse_manager.configuration["hostname"]}"
+    version = "${var.version}"
+  }
 }

@@ -67,13 +67,12 @@ cucumber_requisites:
       - sls: controller.repos
 
 cucumber_testsuite:
-  cmd.run:
-    # HACK: work around the lack of skip_verify and enforce_toplevel in archive.extracted before salt 2016.11
-    - name: |
-        wget -P /root/ https://github.com/SUSE/spacewalk-testsuite-base/archive/{{ grains.get("branch" )}}.zip
-        unzip /root/{{ grains.get("branch" )}}.zip -d /root/
-        mv /root/spacewalk-testsuite-base-{{ grains.get("branch" )}} /root/spacewalk-testsuite-base
-    - creates: /root/spacewalk-testsuite-base
+  git.latest:
+    - name: https://github.com/SUSE/spacewalk-testsuite-base
+    - branch: {{ grains.get("branch") }}
+    - target: /root/spacewalk-testsuite-base
+    - require:
+      - pkg: cucumber_requisites
 
 cucumber_run_script:
   file.managed:
