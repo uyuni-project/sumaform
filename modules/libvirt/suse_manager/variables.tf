@@ -43,6 +43,11 @@ variable "for_testsuite_only" {
   default = false
 }
 
+variable "unsafe_postgres" {
+  description = "whether to use PostgreSQL settings that improve performance by worsening durability"
+  default = true
+}
+
 variable "use_unreleased_updates" {
   description = "This adds and updates sle packages from the test repo"
   default = false
