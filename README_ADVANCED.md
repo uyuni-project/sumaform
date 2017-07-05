@@ -142,7 +142,7 @@ Please note that `iss_master` is set from `suma21pgm`'s module output variable `
 
 It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
-You can select a branch of the Cucumber testsuite git repo via the `branch` variable in the `controller`, default is `manager30` for the SUSE Manager 3.0 testsuite.
+You can select [a branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/blob/master/docs/branches.md) via the `branch` variable in the `controller`. If nothing is specified, an automatic selection of the correct branch will be used, [according to this map](https://github.com/moio/sumaform/blob/1ba9238fd5891ef380401065410f5dce894e6766/modules/libvirt/controller/main.tf#L1-L9).
 
 To start the testsuite, use:
 
