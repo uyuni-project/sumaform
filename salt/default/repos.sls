@@ -200,17 +200,7 @@ tools_update_repo:
     - source: salt://default/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - template: jinja
 
-
-{# HACK: remove this clause as soon as salt 2016.11 lands in SLE-Manager-Tools-SLE-12-x86_64-Update #}
-{% if '3.1-released' in grains.get('version', 'released') %}
-
-tools_devel_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-12-x86_64.repo
-    - template: jinja
-
-{% elif 'released' in grains.get('version', 'released') %}
+{% if 'released' in grains.get('version', 'released') %}
 
 tools_devel_repo:
   file.touch:
