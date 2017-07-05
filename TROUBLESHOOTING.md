@@ -75,9 +75,9 @@ Could not resolve hostname suma3pg.tf.local: Name or service not known
 Check that:
  - your firewall is not blocking UDP port 5353
    - on SUSE systems check YaST -> Security and Users -> Firewall -> Allowed Services, "Zeroconf/Bonjour Multicast DNS" should either appear on the list or be added
-   
+
    or
-   
+
    - edit `/etc/sysconfig/SuSEfirewall2` and add `mdns` to `FW_SERVICES_DMZ_UDP`
      (assuming that your bridge interface is in `FW_DEV_DMZ`)
  - avahi is installed and running
