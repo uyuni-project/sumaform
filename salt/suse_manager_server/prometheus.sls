@@ -122,7 +122,9 @@ jmx_exporter_configuration:
         hostPort: localhost:3333
         username:
         password:
-
+        whitelistObjectNames:
+          - java.lang:type=Threading,*
+          - java.lang:type=Memory,*
         rules:
         - pattern: ".*"
 
