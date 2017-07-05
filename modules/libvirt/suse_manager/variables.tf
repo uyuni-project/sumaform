@@ -92,3 +92,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "traceback_email" {
+  description = "recipient email address that will receive errors during usage"
+  default = "null"
+}
