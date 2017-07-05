@@ -134,3 +134,13 @@ substitute_email_sender_address:
     - require:
         - cmd: suse_manager_setup
 {% endif %}
+
+{% if grains.get('traceback_email') %}
+substitute_email_traceback_address:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: traceback_mail*
+    - repl: traceback_mail = {{ grains['traceback_email'] }}
+    - require:
+        - cmd: suse_manager_setup
+{% endif %}

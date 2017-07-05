@@ -288,7 +288,6 @@ module "grafana" {
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
 
-
 ## Evil Minions load generator
 
 You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. A libvirt example would be:
@@ -334,5 +333,20 @@ module "suma3pg" {
   version = "head"
 
   from_email = "root@mbologna.openvpn.suse.de"
+}
+```
+
+Internal Server Errors and relative stacktraces are sent via e-mail by default to `galaxy-noise@suse.de`.
+By suppling the parameter `traceback_email` you can override that address to have them in your inbox:
+
+```
+module "sumamail3" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "sumamail3"
+  version = "head"
+
+  traceback_email = "michele.bologna@chameleon-mail.com"
 }
 ```
