@@ -287,7 +287,6 @@ module "grafana" {
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
 
-
 ## Evil Minions load generator
 
 You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. A libvirt example would be:
@@ -317,6 +316,7 @@ module "sumaheadpg" {
   use_unreleased_updates = true
 }
 ```
+
 ## E-mail configuration
 
 With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
