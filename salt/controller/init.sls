@@ -69,8 +69,10 @@ cucumber_requisites:
 cucumber_testsuite:
   git.latest:
     - name: https://github.com/SUSE/spacewalk-testsuite-base
-    - branch: {{ grains.get("branch") }}
     - target: /root/spacewalk-testsuite-base
+    - branch: {{ grains.get("branch") }}
+    - rev: {{ grains.get("branch") }}
+    - force_reset: True
     - require:
       - pkg: cucumber_requisites
 
