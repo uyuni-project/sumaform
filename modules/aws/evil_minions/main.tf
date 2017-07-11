@@ -1,6 +1,6 @@
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
-  instance_type = "t2.medium"
+  instance_type = "${var.instance_type}"
   count = "${var.count}"
   availability_zone = "${var.availability_zone}"
   key_name = "${var.key_name}"

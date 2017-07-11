@@ -18,6 +18,11 @@ variable "ami" {
   type = "string"
 }
 
+variable "instance_type" {
+  description = "Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
+  default = "t2.medium"
+}
+
 variable "count"  {
   description = "Number of hosts like this one"
   default = 1
