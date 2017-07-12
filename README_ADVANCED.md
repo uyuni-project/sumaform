@@ -16,6 +16,7 @@ Legal values for work-in-progress software are:
  * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
  * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
+ * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 

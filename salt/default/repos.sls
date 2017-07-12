@@ -222,7 +222,7 @@ tools_devel_repo:
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-12-x86_64.repo
     - template: jinja
 
-{% elif 'head' in grains.get('version', '') %}
+{% elif 'head' in grains.get('version', '') or 'test' in grains.get('version', '') %}
 tools_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
@@ -314,7 +314,7 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: {{ label }}
     - baseurl: {{ url }}
-    - priority: 95
+    - priority: 94
     - gpgcheck: 0
 {% endfor %}
 

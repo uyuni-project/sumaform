@@ -5,6 +5,7 @@ variable "testsuite-branch" {
     "3.1-released" = "manager31"
     "3.1-nightly" = "manager31"
     "head" = "master"
+    "test" = "master"
   }
 }
 

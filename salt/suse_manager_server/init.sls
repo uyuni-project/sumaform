@@ -31,7 +31,7 @@ postgresql-fixed-version-workaround:
 
 suse_manager_packages:
   pkg.latest:
-    {% if 'head' in grains['version'] %}
+    {% if 'head' in grains['version'] or 'test' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_Head
     - name: patterns-suma_server
     {% elif '3.0-released' in grains['version'] %}
