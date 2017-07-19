@@ -88,7 +88,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/ ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
 
 # SUSE Manager Head
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/ ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.1-POOL-x86_64-Media1/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.rpm" -i "noarch/.*\.rpm" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1/ ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1/
 
 # SUSE Manager 2.1 devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/2.1/SLE_11_SP3/ ibs/Devel:/Galaxy:/Manager:/2.1/SLE_11_SP3/
