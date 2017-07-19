@@ -289,6 +289,22 @@ module "grafana" {
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
 
+## Filebeat forwarder
+
+[filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/index.html)
+is a log forwarder, pushing local log files to either
+[logstash](https://www.elastic.co/products/logstash) or
+[elasticsearch](https://www.elastic.co/products/elasticsearch)
+
+You can enable log forwarding in your `main.tf` file by setting
+
+```hcl
+  filebeat = true
+```
+
+This will forward SUSE Manager Server logs to `logstash.mgr.suse.de:5045`
+
+
 ## Evil Minions load generator
 
 You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. A libvirt example would be:
