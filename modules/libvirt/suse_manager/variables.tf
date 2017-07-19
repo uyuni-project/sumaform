@@ -68,6 +68,11 @@ variable "monitored" {
   default = false
 }
 
+variable "filebeat" {
+  description = "whether this host should run filebeat to forward logs"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}
