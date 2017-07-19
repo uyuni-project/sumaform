@@ -1,0 +1,71 @@
+filebeat:
+  shutdown_timeout: 0
+  name: "${JOB_NAME:${HOSTNAME}}"
+  index: "${JOB_NAME:${HOSTNAME}}-${BUILD_ID:0}"
+  fields: { build: "${BUILD_ID:0}", job: "${JOB_NAME}" }
+  fields_under_root: true
+  path.data: /var/lib/filebeat
+  prospectors:
+    -
+      paths:
+        - /var/log/apache2/access_log
+      encoding: utf-8
+      input_type: log
+      document_type: access_log
+
+    -
+      paths:
+        - /var/log/apache2/error_log
+      encoding: utf-8
+      input_type: log
+      document_type: error_log
+
+    -
+      paths:
+        - /var/log/rhn/rhn_web_api.log
+      encoding: utf-8
+      input_type: log
+      document_type: rhn_web_api
+      multiline:
+        pattern: ^[^\[]
+        negate: false
+        match: after
+
+    -
+      paths:
+        - /var/log/rhn/rhn_web_ui.log
+      encoding: utf-8
+      input_type: log
+      document_type: rhn_web_ui
+      multiline:
+        pattern: ^[^[:digit:]]
+        negate: false
+        match: after
+
+    -
+      paths:
+        - /var/log/rhn/osa-dispatcher.log
+      encoding: utf-8
+      input_type: log
+      document_type: osa-dispatcher
+
+    -
+      paths:
+        - /var/log/rhn/rhn_server_xmlrpc.log
+      encoding: utf-8
+      input_type: log
+      document_type: rhn_server_xmlrpc
+
+output:
+  logstash:
+    # see also logstash/input.conf
+    hosts: ["logstash.mgr.suse.de:5045"]
+    index: "${JOB_NAME:${HOSTNAME}}-${BUILD_ID:0}"
+    fields: { build: "${BUILD_ID:0}", job: "${JOB_NAME}" }
+    fields_under_root: true
+
+shipper:
+
+logging:
+  files:
+    rotateeverybytes: 10485760 # = 10MB
