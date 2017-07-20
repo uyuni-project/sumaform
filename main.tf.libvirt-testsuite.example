@@ -10,68 +10,68 @@ module "base" {
   // pool = "default"
   // network_name = "default" // change to "" if you change bridge below
   // bridge = ""
-  name_prefix = "head-"
+  // name_prefix = ""
   // you need always sles12sp1 because controller is based on that.
   images = ["centos7", "sles12sp1", "sles12sp2"]
 }
 
-module "srv" {
+module "head-srv" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
-  name = "srv"
+  name = "head-srv"
   image = "sles12sp2"
   version = "head"
   for_development_only = false
   for_testsuite_only = true
 }
 
-module "cli-sles12sp2" {
+module "head-cli-sles12sp2" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
-  name = "cli-sles12sp2"
+  name = "head-cli-sles12sp2"
   image = "sles12sp2"
   server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
 
-module "min-sles12sp2" {
+module "head-min-sles12sp2" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
   version = "head"
-  name = "min-sles12sp2"
+  name = "head-min-sles12sp2"
   image = "sles12sp2"
   server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
 
-module "minssh-sles12sp2" {
+module "head-minssh-sles12sp2" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
   version = "head"
-  name = "minssh-sles12sp2"
+  name = "head-minssh-sles12sp2"
   image = "sles12sp2"
   server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
 
-module "min-centos7" {
+module "head-min-centos7" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
   version = "head"
-  name = "min-centos7"
+  name = "head-min-centos7"
   image = "centos7"
   server_configuration =  { hostname = "sumaheadpg.tf.local" }
   for_development_only = false
   for_testsuite_only = true
 }
 
-module "ctl" {
+module "head-ctl" {
   source = "./modules/libvirt/controller"
   base_configuration = "${module.base.configuration}"
-  name = "ctl"
+  name = "head-ctl"
   server_configuration = "${module.srv.configuration}"
   client_configuration = "${module.cli-sles12sp2.configuration}"
   minion_configuration = "${module.min-sles12sp2.configuration}"
