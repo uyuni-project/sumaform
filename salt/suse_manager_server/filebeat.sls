@@ -19,8 +19,9 @@ filebeat:
 
 filebeat_configuration:
   file.managed:
-    - name: /etc/filebeat/filebeat.yml:
+    - name: /etc/filebeat/filebeat.yml
     - source: salt://suse_manager_server/filebeat.yml
+    - template: jinja
     - makedirs: True
 
 service:

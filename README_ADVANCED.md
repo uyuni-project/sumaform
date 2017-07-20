@@ -302,7 +302,7 @@ module "suma31pg" {
 
   name = "suma31pg"
   version = "3.1-released"
-  filebeat = true
+  filebeat = "logstash.mgr.suse.de:5045"
 }
 ```
 

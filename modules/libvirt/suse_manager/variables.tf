@@ -69,8 +69,8 @@ variable "monitored" {
 }
 
 variable "filebeat" {
-  description = "whether this host should run filebeat to forward logs"
-  default = false
+  description = "hostname:port address to a logstash or elasticsearch server to push logs to, see README_ADVANCED.md"
+  default = "null"
 }
 
 variable "additional_repos" {
