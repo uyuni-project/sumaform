@@ -17,9 +17,9 @@ filebeat:
       - sls: suse_manager_server
       - cmd: refresh_filebeat_repos
 
-# inject filebeat.yml
-/etc/filebeat/filebeat.yml:
+filebeat_configuration:
   file.managed:
+    - name: /etc/filebeat/filebeat.yml:
     - source: salt://suse_manager_server/filebeat.yml
     - makedirs: True
 
@@ -27,9 +27,9 @@ service:
   service.running:
     - name: filebeat
     - watch:
-      - file: /etc/filebeat/filebeat.yml
+      - file: filebeat_configuration
     - require:
       - pkg: filebeat
-      - file: /etc/filebeat/filebeat.yml
+      - file: filebeat_configuration
 
 {% endif %}
