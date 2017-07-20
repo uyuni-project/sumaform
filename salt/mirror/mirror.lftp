@@ -144,6 +144,9 @@ open http://download.opensuse.org
 # Tools from Silvio Moioli's repo
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist"  /repositories/home:/SilvioMoioli:/tools/SLE_12_SP2/ repositories/home:/SilvioMoioli:/tools/SLE_12_SP2/
 
+# security:logging (filebeat)
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist"  /repositories/security:/logging/SLE_12_SP2/ repositories/security:/logging/SLE_12_SP2/
+
 open https://s3-us-west-2.amazonaws.com
 
 # Grafana
