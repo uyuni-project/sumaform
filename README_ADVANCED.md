@@ -289,9 +289,10 @@ module "grafana" {
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
 
-## Filebeat forwarder
+## Log forwarding
 
-[Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/index.html) is a log forwarder, pushing local log files to either [Logstash](https://www.elastic.co/products/logstash) or [Elasticsearch](https://www.elastic.co/products/elasticsearch).
+Log forwarding can be enabled by setting the `log_server` variable to
+*hostname*:*port*
 
 You can enable log forwarding for SUSE Manager modules. A libvirt example follows:
 
@@ -307,6 +308,16 @@ module "suma31pg" {
 ```
 
 This will forward SUSE Manager Server logs to `logstash.mgr.suse.de:5045`.
+
+Setting this variable installs the `filebeat` package. [Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/index.html) is a log forwarder, pushing local log files to either [Logstash](https://www.elastic.co/products/logstash) or [Elasticsearch](https://www.elastic.co/products/elasticsearch).
+
+The logstash input plugin for filebeat usually listens on port 5045.
+With the [right configuration](https://github.com/kkaempf/logstash-tester/tree/openSUSE/spacewalk/config),
+this gives you fully parsed logs for analysis.
+
+Elasticsearch listens on port 9200 and provides full text search on
+logs.
+
 
 ## Evil Minions load generator
 
