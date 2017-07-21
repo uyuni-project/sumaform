@@ -291,7 +291,7 @@ Grafana is accessible at http://grafana.tf.local with username and password `adm
 
 ## Filebeat forwarder
 
-[filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/index.html) is a log forwarder, pushing local log files to either [logstash](https://www.elastic.co/products/logstash) or [elasticsearch](https://www.elastic.co/products/elasticsearch).
+[Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/index.html) is a log forwarder, pushing local log files to either [Logstash](https://www.elastic.co/products/logstash) or [Elasticsearch](https://www.elastic.co/products/elasticsearch).
 
 You can enable log forwarding for SUSE Manager modules. A libvirt example follows:
 
@@ -302,7 +302,7 @@ module "suma31pg" {
 
   name = "suma31pg"
   version = "3.1-released"
-  filebeat = "logstash.mgr.suse.de:5045"
+  log_server = "logstash.mgr.suse.de:5045"
 }
 ```
 

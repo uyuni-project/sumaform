@@ -59,7 +59,7 @@ filebeat:
 output:
   logstash:
     # see also logstash/input.conf
-    hosts: ["{{ grains.get("filebeat") }}"]
+    hosts: ["{{ grains.get("log_server") }}"]
     index: "${JOB_NAME:${HOSTNAME}}-${BUILD_ID:0}"
     fields: { build: "${BUILD_ID:0}", job: "${JOB_NAME}" }
     fields_under_root: true

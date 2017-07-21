@@ -1,4 +1,4 @@
-{% if grains.get('filebeat', false) %}
+{% if grains.get('log_server', false) %}
 
 include:
   - default

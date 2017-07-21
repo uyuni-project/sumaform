@@ -167,7 +167,7 @@ tools_repo:
       - sls: default
 {% endif %}
 
-{% if grains.get('filebeat', false) %}
+{% if grains.get('log_server', false) %}
 filebeat_repo:
   file.managed:
     - name: /etc/zypp/repos.d/filebeat.repo

@@ -68,8 +68,8 @@ variable "monitored" {
   default = false
 }
 
-variable "filebeat" {
-  description = "hostname:port address to a logstash or elasticsearch server to push logs to, see README_ADVANCED.md"
+variable "log_server" {
+  description = "hostname:port address to a Logstash or Elasticsearch server to push logs to, see README_ADVANCED.md"
   default = "null"
 }
 
