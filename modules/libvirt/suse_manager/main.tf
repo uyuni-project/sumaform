@@ -39,6 +39,7 @@ for_testsuite_only: ${var.for_testsuite_only}
 unsafe_postgres: ${var.unsafe_postgres}
 use_unreleased_updates: ${var.use_unreleased_updates}
 monitored: ${var.monitored}
+log_server: ${var.log_server}
 from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
 

@@ -167,6 +167,16 @@ tools_repo:
       - sls: default
 {% endif %}
 
+{% if grains.get('log_server', false) %}
+filebeat_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/filebeat.repo
+    - source: salt://suse_manager_server/repos.d/filebeat.repo
+    - template: jinja
+    - require:
+      - sls: default
+{% endif %}
+
 refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -187,4 +197,7 @@ refresh_suse_manager_repos:
       {% endif %}
       {% if grains['for_testsuite_only'] or grains.get('monitored', false) %}
       - file: tools_repo
+      {% endif %}
+      {% if grains.get('filebeat', false) %}
+      - file: filebeat_repo
       {% endif %}
