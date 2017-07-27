@@ -30,7 +30,7 @@ module "head-cli-sles12sp2" {
   base_configuration = "${module.base.configuration}"
   name = "head-cli-sles12sp2"
   image = "sles12sp2"
-  server_configuration =  { hostname = "sumaheadpg.tf.local" }
+  server_configuration = "${module.head-srv.configuration}"
   for_development_only = false
   for_testsuite_only = true
 }
@@ -41,7 +41,7 @@ module "head-min-sles12sp2" {
   version = "head"
   name = "head-min-sles12sp2"
   image = "sles12sp2"
-  server_configuration =  { hostname = "sumaheadpg.tf.local" }
+  server_configuration =  "${module.head-srv.configuration}"
   for_development_only = false
   for_testsuite_only = true
 }
@@ -63,7 +63,7 @@ module "head-min-centos7" {
   version = "head"
   name = "head-min-centos7"
   image = "centos7"
-  server_configuration =  { hostname = "sumaheadpg.tf.local" }
+  server_configuration =  "${module.head-srv.configuration}"
   for_development_only = false
   for_testsuite_only = true
 }
