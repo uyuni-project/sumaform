@@ -72,10 +72,10 @@ module "head-ctl" {
   source = "./modules/libvirt/controller"
   base_configuration = "${module.base.configuration}"
   name = "head-ctl"
-  server_configuration = "${module.srv.configuration}"
-  client_configuration = "${module.cli-sles12sp2.configuration}"
-  minion_configuration = "${module.min-sles12sp2.configuration}"
-  centos_configuration = "${module.min-centos7.configuration}"
-  minionssh_configuration = "${module.minssh-sles12sp2.configuration}"
+  server_configuration = "${module.head-srv.configuration}"
+  client_configuration = "${module.head-cli-sles12sp2.configuration}"
+  minion_configuration = "${module.head-min-sles12sp2.configuration}"
+  centos_configuration = "${module.head-min-centos7.configuration}"
+  minionssh_configuration = "${module.head-minssh-sles12sp2.configuration}"
   # branch = "master" # See modules/libvirt/controller/variables.tf for possible values
 }
