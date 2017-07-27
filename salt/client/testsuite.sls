@@ -33,10 +33,4 @@ enforce_latest_libzypp:
     - require:
       - sls: client.repos
 {% endif %}
-
-testsuite_authorized_key:
-  file.append:
-    - name: /root/.ssh/authorized_keys
-    - source: salt://controller/id_rsa.pub
-    - makedirs: True
 {% endif %}

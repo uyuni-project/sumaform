@@ -19,12 +19,6 @@ cucumber_requisites:
     - require:
       - sls: minion.repos
 
-testsuite_authorized_key:
-  file.append:
-    - name: /root/.ssh/authorized_keys
-    - source: salt://controller/id_rsa.pub
-    - makedirs: True
-
 {% if grains['os'] == 'SUSE' and grains['osrelease'] == '12.2' %}
 
 certificates:

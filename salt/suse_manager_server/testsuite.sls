@@ -4,12 +4,6 @@ include:
   - suse_manager_server
   - suse_manager_server.repos
 
-testsuite_authorized_key:
-  file.append:
-    - name: /root/.ssh/authorized_keys
-    - source: salt://controller/id_rsa.pub
-    - makedirs: True
-
 anaconda_package_file:
   file.managed:
     - name: /root/anaconda-18.37.11-1.fc18.x86_64.rpm
