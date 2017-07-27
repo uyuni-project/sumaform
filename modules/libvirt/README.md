@@ -40,6 +40,9 @@ module "base" {
 }
 ```
 
+`ssh_key_path` option can also be specified on a per-host basis. In this case, the key specified is an additional key,
+copied to the machine as well as the `ssh_key_path` specified in the `base` section.
+
 If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
 
 Provided your host is on the same network segment of the virtual machines you can access them via:
