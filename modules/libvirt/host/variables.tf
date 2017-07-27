@@ -57,3 +57,8 @@ variable "grains" {
   description = "custom grain string to be added to this host's configuration"
   default = ""
 }
+
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
+  default = "/dev/null" # we cannot use "": terraform tries to open this file at host/main.tf:55
+}
