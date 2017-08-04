@@ -66,6 +66,7 @@ module "head-min-centos7" {
   server_configuration = { hostname = "head-srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
+  ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
 module "head-ctl" {
