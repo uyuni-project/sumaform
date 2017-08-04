@@ -110,5 +110,5 @@ variable "traceback_email" {
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
-  default = ""
+  default = "/dev/null"
 }
