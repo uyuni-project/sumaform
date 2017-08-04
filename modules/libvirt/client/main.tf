@@ -10,6 +10,7 @@ module "client" {
   mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
+  ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
 version: ${var.version}

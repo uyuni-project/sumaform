@@ -107,3 +107,8 @@ variable "traceback_email" {
   description = "recipient email address that will receive errors during usage"
   default = "null"
 }
+
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
+  default = ""
+}

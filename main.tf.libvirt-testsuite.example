@@ -23,6 +23,7 @@ module "head-srv" {
   version = "head"
   for_development_only = false
   for_testsuite_only = true
+  ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
 module "head-cli-sles12sp2" {
@@ -33,6 +34,7 @@ module "head-cli-sles12sp2" {
   server_configuration =  { hostname = "head-srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
+  ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
 module "head-min-sles12sp2" {
@@ -44,17 +46,15 @@ module "head-min-sles12sp2" {
   server_configuration = { hostname = "head-srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
+  ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
 module "head-minssh-sles12sp2" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/libvirt/host"
   base_configuration = "${module.base.configuration}"
-  version = "head"
   name = "head-minssh-sles12sp2"
   image = "sles12sp2"
-  server_configuration = { hostname = "head-srv.tf.local" }
-  for_development_only = false
-  for_testsuite_only = true
+  ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
 module "head-min-centos7" {

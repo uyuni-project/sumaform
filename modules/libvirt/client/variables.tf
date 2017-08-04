@@ -72,3 +72,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
+  default = ""
+}

@@ -50,8 +50,13 @@ update_sles_test:
   pkg.uptodate
 {% endif %}
 
+{% if grains['authorized_keys'] %}
 authorized_keys:
   file.append:
     - name: /root/.ssh/authorized_keys
-    - text: {{ salt["grains.get"]("authorized_keys") }}
+    - text:
+{% for key in grains['authorized_keys'] %}
+      - {{ key }}
+{% endfor %}
     - makedirs: True
+{% endif %}
