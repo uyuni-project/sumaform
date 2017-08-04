@@ -7,6 +7,7 @@ module "grafana" {
   vcpu = 1
   running = "${var.running}"
   mac = "${var.mac}"
+  ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
 mirror: ${var.base_configuration["mirror"]}

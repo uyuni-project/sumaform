@@ -23,6 +23,7 @@ module "mirror" {
     volume_id = "${libvirt_volume.data_disk.id}"
   }
 
+  ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
 role: mirror

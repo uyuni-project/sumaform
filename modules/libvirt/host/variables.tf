@@ -60,5 +60,6 @@ variable "grains" {
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
-  default = "/dev/null" # we cannot use "": terraform tries to open this file at host/main.tf:55
+  default = "/dev/null"
+  # HACK: "" cannot be used as a default because of https://github\.com/hashicorp/hil/issues/50
 }

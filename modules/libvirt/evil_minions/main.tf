@@ -8,6 +8,7 @@ module "evil_minions" {
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
 version: 3.1-released
