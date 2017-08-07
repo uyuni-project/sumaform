@@ -1,5 +1,14 @@
 {% if grains['os'] == 'SUSE' %}
 
+galaxy_key:
+  file.managed:
+    - name: /tmp/galaxy.key
+    - source: salt://default/galaxy.key
+  cmd.wait:
+    - name: rpm --import /tmp/galaxy.key
+    - watch:
+      - file: galaxy_key
+
 {% if grains['osrelease'] == '42.2' %}
 os_pool_repo:
   file.managed:
@@ -252,15 +261,6 @@ refresh_default_repos:
 {% endif %}
 
 {% if grains['os_family'] == 'RedHat' %}
-
-galaxy_key:
-  file.managed:
-    - name: /tmp/galaxy.key
-    - source: salt://default/galaxy.key
-  cmd.wait:
-    - name: rpm --import /tmp/galaxy.key
-    - watch:
-      - file: galaxy_key
 
 {% if grains['osmajorrelease'] == '7' %}
 tools_pool_repo:
