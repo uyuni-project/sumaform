@@ -19,7 +19,7 @@ cucumber_requisites:
     - require:
       - sls: minion.repos
 
-{% if grains['os'] == 'SUSE' and grains['osrelease'] == '12.2' %}
+{% if grains['os'] == 'SUSE' and '12' in grains['osrelease'] %}
 
 certificates:
   pkg.installed:
