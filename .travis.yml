@@ -1,0 +1,24 @@
+sudo: true
+language: go
+
+env:
+  global:
+    - TMPDIR=~/tmp
+
+before_install:
+  - sudo apt install -y alien
+  - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
+  - sudo alien -i terraform.rpm
+  - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
+  - sudo alien -i terraform-provider-libvirt.rpm
+
+install: /bin/true
+before_script: terraform --version
+script: sed -i 's/\.\.\./"not used"/g' *.example &&
+        mv main.tf.libvirt.example main.tf &&
+        terraform get &&
+        terraform validate &&
+        mv main.tf.libvirt-testsuite.example main.tf &&
+        terraform get &&
+        terraform validate
+deploy:
