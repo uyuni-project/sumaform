@@ -1,3 +1,5 @@
+{% if grains['os'] == 'SUSE' %}
+
 galaxy_key:
   file.managed:
     - name: /tmp/galaxy.key
@@ -6,8 +8,6 @@ galaxy_key:
     - name: rpm --import /tmp/galaxy.key
     - watch:
       - file: galaxy_key
-
-{% if grains['os'] == 'SUSE' %}
 
 {% if grains['osrelease'] == '42.2' %}
 os_pool_repo:
