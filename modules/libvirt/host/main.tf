@@ -53,6 +53,7 @@ timezone: ${var.base_configuration["timezone"]}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 authorized_keys: [${trimspace(file(var.base_configuration["ssh_key_path"]))},${trimspace(file(var.ssh_key_path))}]
+gpg_keys:  [${join(", ", formatlist("'%s'", var.gpg_keys))}]
 reset_ids: true
 ${var.grains}
 
