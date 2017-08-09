@@ -144,18 +144,7 @@ If you run into this error:
 
 `* dial tcp 192.168.122.193:22: getsockopt: network is unreachable`
 
-during the `terraform apply`, it means Terraform was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking configuration.
-
-In particular, if you are using libvirt brigding, make sure the `network` parameter in the `base` module is uncommented and set to the empty string:
-
-```hcl
-module "base" {
-  source = "./modules/libvirt/base"
-  ...
-  network_name = ""
-  bridge = "br0"
-}
-```
+during the `terraform apply`, it means Terraform was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking configuration. If you are using AWS, make sure your current IP is listed in the `ssh_allowed_ips` variable (or check it is whitelisted in AWS Console -> VPC -> Security Groups).
 
 ## Q: how can I workaround an "libvirt_domain.domain: diffs didn't match during apply" libvirt error?
 
