@@ -122,8 +122,8 @@ The list of all supported images is available in "modules/libvirt/base/main.tf".
 
 By default no gpg key is installed on your VM.
 You can add one or multiples by adding "gpg_keys" list to your module.
-The directory "salt" is the root directory, so you have to odmit that.
-Look at following example:
+The directory "salt" is the root directory, so you have to omit that.
+Take a look at following example:
 
 ```hcl
 module "minssh-sles12sp2" {
@@ -131,7 +131,7 @@ module "minssh-sles12sp2" {
   base_configuration = "${module.base.configuration}"
   name = "minssh-sles12sp2"
   image = "sles12sp2"
-  gpg_keys = ["default/galaxy.key"]
+  gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 ```
 
