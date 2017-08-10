@@ -4,7 +4,7 @@ filebeat:
   index: "${JOB_NAME:${HOSTNAME}}-${BUILD_ID:0}"
   fields: { build: "${BUILD_ID:0}", job: "${JOB_NAME}" }
   fields_under_root: true
-  path.data: /var/lib/filebeat
+
   prospectors:
     -
       paths:
