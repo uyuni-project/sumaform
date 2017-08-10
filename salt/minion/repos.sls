@@ -1,7 +1,7 @@
 include:
   - client.repos
 
-{% if grains['os'] == 'SUSE' and grains['osrelease'] == '12.2' and grains['for_testsuite_only'] %}
+{% if grains['os'] == 'SUSE' and '12' in grains['osrelease'] and grains['for_testsuite_only'] %}
 
 containers_pool_repo:
   file.managed:
