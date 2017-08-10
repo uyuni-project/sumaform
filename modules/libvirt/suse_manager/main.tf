@@ -34,7 +34,7 @@ mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 smt: ${var.smt}
-role: suse_manager_server
+role: ${var.role}
 for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
 unsafe_postgres: ${var.unsafe_postgres}

@@ -1,0 +1,6 @@
+[utilities]
+name=tmate
+type=rpm-md
+enabled=1
+gpgcheck=0
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/home:/M0ses:/tmate/SLE_12_SP1/

@@ -1,0 +1,6 @@
+[SES5]
+name=SES5
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/SES5/standard/
+priority=96

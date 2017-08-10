@@ -8,6 +8,11 @@ variable "name" {
   type = "string"
 }
 
+variable "role" {
+  description = "Role to be set in grains. One of: suse_manager_server, suse_manager_deepsea_server"
+  type = "string"
+}
+
 variable "version" {
   description = "One of: 2.1-released,  2.1-nightly, 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, head, test"
   type = "string"

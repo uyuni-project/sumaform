@@ -11,6 +11,13 @@ resource "libvirt_volume" "main_disk" {
   count = "${var.count}"
 }
 
+resource "libvirt_volume" "storage" {
+  name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-storage"
+  size = 5120000000
+  pool = "${var.base_configuration["pool"]}"
+  count = "${var.count}"
+}
+
 resource "libvirt_domain" "domain" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
   memory = "${var.memory}"
@@ -22,6 +29,9 @@ resource "libvirt_domain" "domain" {
   disk = ["${concat(
     list(
       map("volume_id", "${element(libvirt_volume.main_disk.*.id, count.index)}")
+    ),
+    list(
+      map("volume_id", "${element(libvirt_volume.storage.*.id, count.index)}")
     ),
     var.additional_disk
   )}"]

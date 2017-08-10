@@ -1,10 +1,3 @@
-resource "libvirt_volume" "storage" {
-  name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-storage"
-  size = 5120000000
-  pool = "${var.base_configuration["pool"]}"
-  count = "${var.count}"
-}
-
 module "deepsea-minion" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
@@ -17,11 +10,7 @@ module "deepsea-minion" {
   mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
-  additional_disk = ["${concat(
-    list(
-      map("volume_id", "${element(libvirt_volume.storage.*.id, count.index)}")
-    )
-  )}"]
+
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
