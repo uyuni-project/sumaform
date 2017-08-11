@@ -56,7 +56,7 @@ output:
   logstash:
     # see also logstash/input.conf
     hosts: ["{{ grains.get("log_server") }}"]
-    index: "%{[beat.name]}-%{+yyyy-MM-dd}"
+    index: "%{[beat.hostname]}"
 
 shipper:
 
