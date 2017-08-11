@@ -113,3 +113,8 @@ variable "ssh_key_path" {
   default = "/dev/null"
   # HACK: "" cannot be used as a default because of https://github\.com/hashicorp/hil/issues/50
 }
+
+variable "gpg_keys" {
+  description = "gpg keys that you want to add and install to your VMs, see libvirt/README.md"
+  default = []
+}
