@@ -127,3 +127,8 @@ variable "mirror_private_name" {
   description = "mirror's private DNS name"
   type = "string"
 }
+
+variable "gpg_keys" {
+  description = "gpg keys that you want to add and install to your VMs, see README in libvirt module"
+  default = []
+}
