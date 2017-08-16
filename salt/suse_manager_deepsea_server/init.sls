@@ -40,9 +40,15 @@ suse_tmate_setup:
     - name: /root/.tmate.conf
     - source: salt://suse_manager_deepsea_server/.tmate.conf
 
-deepsee_policy:
+deepsee:
+  service.disabled:
+    - name: apparmor
+  service.running:
+    - name: ntpd
   cmd.run:
-    - name: mkdir -p /srv/pillar/ceph/proposals/
+    - name: chown salt:salt /var/lib/ntp/kod
+  cmd.run:
+    - name: su salt -c "mkdir -p /srv/pillar/ceph/proposals/"
   file.managed:
     - name: /srv/pillar/ceph/proposals/policy.cfg
     - source: salt://suse_manager_deepsea_server/policy.cfg

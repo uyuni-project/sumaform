@@ -2,7 +2,9 @@ include:
   - minion
   - deepsea_minion.repos
 
-deepsea_requirements:
+deepsea:
+  service.disabled:
+    - name: apparmor
   pkg.latest:
     - pkgs:
       - gptfdisk
