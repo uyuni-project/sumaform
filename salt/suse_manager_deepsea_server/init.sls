@@ -6,6 +6,7 @@ deepsea_packages:
   pkg.latest:
     - pkgs:
       - deepsea
+      - gptfdisk
     - require:
       - sls: suse_manager_server
       - sls: suse_manager_deepsea_server.repos
@@ -38,6 +39,15 @@ suse_tmate_setup:
   file.managed:
     - name: /root/.tmate.conf
     - source: salt://suse_manager_deepsea_server/.tmate.conf
+
+deepsee_policy:
+  cmd.run:
+    - name: mkdir -p /srv/pillar/ceph/proposals/
+  file.managed:
+    - name: /srv/pillar/ceph/proposals/policy.cfg
+    - source: salt://suse_manager_deepsea_server/policy.cfg
+    - require:
+      - pkg: deepsea_package
 
 master_minion:
   pkg.installed:

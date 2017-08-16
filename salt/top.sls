@@ -22,6 +22,10 @@ base:
     - match: grain
     - minion
 
+  'role:deepsea_minion':
+    - match: grain
+    - deepsea_minion
+
   'role:minionswarm':
     - match: grain
     - minionswarm

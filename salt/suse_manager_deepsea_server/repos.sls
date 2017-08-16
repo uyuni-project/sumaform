@@ -1,5 +1,5 @@
 include:
-  - default
+  - suse_manager_server.repos
 
 ses5_repo:
   file.managed:
@@ -7,7 +7,7 @@ ses5_repo:
     - source: salt://suse_manager_deepsea_server/repos.d/ses5.repo
     - template: jinja
     - require:
-      - sls: default
+      - sls: suse_manager_server.repos
 
 tmate_repo:
   file.managed:
@@ -15,4 +15,4 @@ tmate_repo:
     - source: salt://suse_manager_deepsea_server/repos.d/tmate.repo
     - template: jinja
     - require:
-      - sls: default
+      - sls: suse_manager_server.repos

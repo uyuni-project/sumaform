@@ -8,6 +8,11 @@ variable "name" {
   type = "string"
 }
 
+variable "role" {
+  description = "Role to be set in grains. One of: minion, deepsea_minion"
+  type = "string"
+}
+
 variable "image" {
   description = "One of: sles11sp3, sles11sp4, sles12, sles12sp1, centos7"
   type = "string"

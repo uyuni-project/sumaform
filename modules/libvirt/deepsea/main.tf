@@ -17,7 +17,7 @@ module "deepsea-minion" {
 version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: minion
+role: ${var.role}
 for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
 use_unreleased_updates: ${var.use_unreleased_updates}
