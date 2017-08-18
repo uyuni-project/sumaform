@@ -14,6 +14,7 @@ module "deepsea-minion" {
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
+deepsea: True
 version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}

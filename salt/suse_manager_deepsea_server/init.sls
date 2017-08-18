@@ -40,18 +40,25 @@ suse_tmate_setup:
     - name: /root/.tmate.conf
     - source: salt://suse_manager_deepsea_server/.tmate.conf
 
-deepsee:
-  service.disabled:
-    - name: apparmor
+setup_ntpd:
   service.running:
     - name: ntpd
-  cmd.run:
-    - name: chown salt:salt /var/lib/ntp/kod
-  cmd.run:
-    - name: su salt -c "mkdir -p /srv/pillar/ceph/proposals/"
+
+create_proposal_folder:
+  file.directory:
+    - name: /srv/pillar/ceph/proposals/
+    - user: salt
+    - group: salt
+    - makedirs: True
+
+deepsea:
+  service.disabled:
+    - name: apparmor
   file.managed:
     - name: /srv/pillar/ceph/proposals/policy.cfg
     - source: salt://suse_manager_deepsea_server/policy.cfg
+    - require:
+      - file: create_proposal_folder
 
 master_minion:
   pkg.installed:

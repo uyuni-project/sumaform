@@ -26,6 +26,7 @@ module "suse_manager" {
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
+deepsea: True
 version: ${var.version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
