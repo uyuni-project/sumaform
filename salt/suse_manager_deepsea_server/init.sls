@@ -52,8 +52,6 @@ deepsee:
   file.managed:
     - name: /srv/pillar/ceph/proposals/policy.cfg
     - source: salt://suse_manager_deepsea_server/policy.cfg
-    - require:
-      - pkg: deepsea_package
 
 master_minion:
   pkg.installed:

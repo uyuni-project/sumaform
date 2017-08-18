@@ -10,4 +10,4 @@ name=SES5-media1
 type=rpm-md
 enabled=1
 baseurl=http://download.suse.de/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/SES5/images/repo/SUSE-Enterprise-Storage-5-POOL-x86_64-Media1/
-priority=97
+priority=99
