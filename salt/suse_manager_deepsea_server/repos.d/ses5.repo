@@ -11,3 +11,10 @@ type=rpm-md
 enabled=1
 baseurl=http://download.suse.de/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/SES5/images/repo/SUSE-Enterprise-Storage-5-POOL-x86_64-Media1/
 priority=99
+
+[python]
+enabled=1
+autorefresh=0
+baseurl=http://download.opensuse.org/repositories/devel:/languages:/python/SLE_12_SP2/
+type=rpm-md
+gpgcheck=0
