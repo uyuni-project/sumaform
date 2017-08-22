@@ -3,6 +3,12 @@
 include:
   - client.repos
 
+# this can fail on sles11sp4 and break other pkg install.
+# better alone. 
+openscap-extra-probes_client:
+  pkg.installed:
+    - name: openscap-extra-probes
+
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -11,7 +17,6 @@ cucumber_requisites:
       - spacewalk-check
       - spacewalk-oscap
       - rhncfg-actions
-      - openscap-extra-probes
       - openscap-utils
       - man
       - wget
