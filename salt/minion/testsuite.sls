@@ -14,7 +14,9 @@ cucumber_requisites:
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
+      {% if '11' in grains['osrelease'] %}
       - aaa_base-extras
+      {% endif %}
       {% endif %}
     - require:
       - sls: minion.repos
