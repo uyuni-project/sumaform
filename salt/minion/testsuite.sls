@@ -7,14 +7,15 @@ cucumber_requisites:
   pkg.installed:
     - pkgs:
       - salt-minion
-      - openscap-extra-probes
       - openscap-utils
       {% if grains['os'] == 'SUSE' %}
       - openscap-content
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
+      {% if '12' in grains['osrelease'] %}
       - aaa_base-extras
+      {% endif %}
       {% endif %}
     - require:
       - sls: minion.repos

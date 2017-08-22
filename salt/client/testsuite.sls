@@ -11,7 +11,6 @@ cucumber_requisites:
       - spacewalk-check
       - spacewalk-oscap
       - rhncfg-actions
-      - openscap-extra-probes
       - openscap-utils
       - man
       - wget
@@ -21,7 +20,9 @@ cucumber_requisites:
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
+      {% if '12' in grains['osrelease'] %}
       - aaa_base-extras
+      {% endif %}
       {% endif %}
     - require:
       - sls: client.repos
