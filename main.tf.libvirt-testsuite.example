@@ -35,7 +35,6 @@ module "head-cli-sles12sp2" {
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
-  gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 
 module "head-min-sles12sp2" {
@@ -48,7 +47,6 @@ module "head-min-sles12sp2" {
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
-  gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 
 module "head-minssh-sles12sp2" {
