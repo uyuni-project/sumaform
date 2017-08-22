@@ -80,6 +80,6 @@ variable "ssh_key_path" {
 }
 
 variable "gpg_keys" {
-  description = "gpg keys that you want to add and install to your VMs, see libvirt/README.md"
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see libvirt/README.md"
   default = []
 }

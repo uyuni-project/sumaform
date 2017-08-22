@@ -129,6 +129,6 @@ variable "mirror_private_name" {
 }
 
 variable "gpg_keys" {
-  description = "gpg keys that you want to add and install to your VMs, see README in libvirt module"
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see libvirt/README.md"
   default = []
 }
