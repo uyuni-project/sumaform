@@ -1,3 +1,18 @@
+{% if grains['gpg_keys'] %}
+{% for keypath in grains['gpg_keys'] %}
+{% set keyname =  salt['file.basename'](keypath)  %}
+gpg_key_copy_{{ keypath }}:
+  file.managed:
+    - name: /tmp/{{ keyname }}
+    - source: salt://{{ keypath }}
+install_{{ keypath }}:
+  cmd.wait:
+    - name: rpm --import /tmp/{{ salt['file.basename'](keypath) }}
+    - watch:
+      - file: /tmp/{{ keyname }}
+{% endfor %}
+{% endif %}
+
 {% if grains['os'] == 'SUSE' %}
 
 {% if grains['osrelease'] == '42.2' %}
@@ -256,7 +271,7 @@ refresh_default_repos:
 galaxy_key:
   file.managed:
     - name: /tmp/galaxy.key
-    - source: salt://default/galaxy.key
+    - source: salt://default/gpg_keys/galaxy.key
   cmd.wait:
     - name: rpm --import /tmp/galaxy.key
     - watch:
@@ -274,7 +289,7 @@ tools_pool_repo:
 suse_res7_key:
   file.managed:
     - name: /tmp/suse_res7.key
-    - source: salt://default/suse_res7.key
+    - source: salt://default/gpg_keys/suse_res7.key
   cmd.wait:
     - name: rpm --import /tmp/suse_res7.key
     - watch:

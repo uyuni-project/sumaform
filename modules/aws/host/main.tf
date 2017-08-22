@@ -60,6 +60,7 @@ timezone: ${var.timezone}
 authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
+gpg_keys:  [${join(", ", formatlist("'%s'", var.gpg_keys))}]
 reset_ids: true
 
 EOF

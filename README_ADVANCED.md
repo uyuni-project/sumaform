@@ -265,6 +265,21 @@ module "minsles12sp1" {
 }
 ```
 
+## Add custom repo GPG keys
+
+If you need extra GPG keys to be installed for package installation, you can add them via the `gpg_keys` list variable to a module.
+The list contains paths relative to the `salt/` directory, as in the following example:
+
+```hcl
+module "minssh-sles12sp2" {
+  source = "./modules/libvirt/host"
+  base_configuration = "${module.base.configuration}"
+  name = "minssh-sles12sp2"
+  image = "sles12sp2"
+  gpg_keys = ["default/gpg_keys/galaxy.key"]
+}
+```
+
 ## Prometheus/Grafana monitoring
 
 It is possible to install Prometheus exporters on a SUSE Manager Server instance via the `monitored` flag. Those can be consumed by Prometheus and Grafana server to analyze visually. A libvirt example follows:

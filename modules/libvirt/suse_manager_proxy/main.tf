@@ -23,6 +23,7 @@ module "suse_manager_proxy" {
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
+  gpg_keys = "${var.gpg_keys}"
   grains = <<EOF
 
 version: ${var.version}

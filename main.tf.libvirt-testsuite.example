@@ -55,6 +55,7 @@ module "head-minssh-sles12sp2" {
   name = "head-minssh-sles12sp2"
   image = "sles12sp2"
   ssh_key_path = "./salt/controller/id_rsa.pub"
+  gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 
 module "head-min-centos7" {
