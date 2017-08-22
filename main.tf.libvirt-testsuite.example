@@ -78,5 +78,4 @@ module "head-ctl" {
   minion_configuration = "${module.head-min-sles12sp2.configuration}"
   centos_configuration = "${module.head-min-centos7.configuration}"
   minionssh_configuration = "${module.head-minssh-sles12sp2.configuration}"
-  # branch = "master" # See modules/libvirt/controller/variables.tf for possible values
 }

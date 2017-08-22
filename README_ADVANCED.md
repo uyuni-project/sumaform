@@ -143,25 +143,25 @@ Please note that `iss_master` is set from `suma21pgm`'s module output variable `
 
 It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
-You can select [a branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/blob/master/docs/branches.md) via the `branch` variable in the `controller`. If nothing is specified, an automatic selection of the correct branch will be used, [according to this map](https://github.com/moio/sumaform/blob/1ba9238fd5891ef380401065410f5dce894e6766/modules/libvirt/controller/main.tf#L1-L9).
-
 To start the testsuite, use:
 
 ```
-ssh -t root@controller.tf.local run-testsuite
+ssh -t head-ctl.tf.local run-testsuite
 ```
 
 To run individual Cucumber features, use:
 ```
-ssh -t root@controller.tf.local cucumber spacewalk-testsuite-base/features/my_feature.feature
+ssh -t head-ctl.tf.local cucumber spacewalk-testsuite-base/features/my_feature.feature
 ```
 
 Get HTML results with:
 ```
-scp root@controller.tf.local://root/spacewalk-testsuite-base/output.html .
+scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
 ```
 
 You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
+
+You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/blob/master/docs/branches.md) via the `branch` variable in the `controller` module (by default an automatic selection is made).
 
 ## pgpool-II replicated database
 
