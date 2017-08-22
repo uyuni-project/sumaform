@@ -3,11 +3,6 @@
 include:
   - minion.repos
 
-# this can break other imp. pkg. alone is better
-openscap-extra-probes_minion:
-  pkg.installed:
-    - name: openscap-extra-probes
-
 cucumber_requisites:
   pkg.installed:
     - pkgs:

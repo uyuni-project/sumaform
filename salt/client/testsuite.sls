@@ -3,12 +3,6 @@
 include:
   - client.repos
 
-# this can fail on sles11sp4 and break other pkg install.
-# better alone. 
-openscap-extra-probes_client:
-  pkg.installed:
-    - name: openscap-extra-probes
-
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -26,7 +20,7 @@ cucumber_requisites:
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
-      {% if '122' in grains['osrelease'] %}
+      {% if '12' in grains['osrelease'] %}
       - aaa_base-extras
       {% endif %}
       {% endif %}
