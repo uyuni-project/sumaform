@@ -111,7 +111,7 @@ variable "traceback_email" {
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
   default = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github\.com/hashicorp/hil/issues/50
+  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
 variable "gpg_keys" {
