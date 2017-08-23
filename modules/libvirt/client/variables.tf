@@ -76,10 +76,10 @@ variable "mac" {
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
   default = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github\.com/hashicorp/hil/issues/50
+  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
 variable "gpg_keys" {
-  description = "gpg keys that you want to add and install to your VMs, see libvirt/README.md"
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see libvirt/README.md"
   default = []
 }
