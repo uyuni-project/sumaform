@@ -6,12 +6,12 @@ env:
     - TMPDIR=~/tmp
 
 before_install:
-  - sudo apt-get install -y alien
+  - sudo apt install -y alien
   - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
   - sudo alien -i terraform.rpm
   - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
   - sudo alien -i terraform-provider-libvirt.rpm
-  - sudo apt-get install salt-common salt-minion
+  - sudo apt install salt-common salt-minion
 
 install: /bin/true
 before_script: terraform --version
