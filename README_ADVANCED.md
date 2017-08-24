@@ -78,6 +78,19 @@ module "suma3pg" {
 }
 ```
 
+Additionally, a SLES 12 SP3 image is already available on sumaform but it's not the default selection for any deployment. You can explicitely set the image on your `main.tf` system definition:
+
+```hcl
+module "minsles12sp3" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "minsles12sp3"
+  image = "sles12sp3"
+  server_configuration = "${module.suma3pg.configuration}"
+}
+```
+
 ## Proxies
 
 A `proxy` module is similar to a `client` module but has a `version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
