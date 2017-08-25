@@ -2,6 +2,9 @@
 
 ![Sumicform, a green hedgehog made of bricks, sumaform's mascot](help/sumicform.png)
 
+* `master`
+[![Build Status Master branch](https://travis-ci.org/moio/sumaform.svg?branch=master)](https://travis-ci.org/moio/sumaform)
+
 `sumaform` is a way to quickly configure test SUSE Manager setups with clients and servers.
 
 It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being the successor of [suminator](https://github.com/SUSE/suminator/) implemented as [Terraform](https://www.terraform.io/) modules.
