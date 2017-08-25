@@ -4,12 +4,6 @@ include:
   - suse_manager_server
   - suse_manager_server.repos
 
-anaconda_package_file:
-  file.managed:
-    - name: /root/anaconda-18.37.11-1.fc18.x86_64.rpm
-    - source: http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/18/Everything/x86_64/os/Packages/a/anaconda-18.37.11-1.fc18.x86_64.rpm
-    - source_hash: sha1=faba3de399515f76422a2b0d693273c285b4baa7
-
 fedora_autoinstallation_initrd_file:
   file.managed:
     - name: /install/Fedora_12_i386/images/pxeboot/initrd.img
