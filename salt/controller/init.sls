@@ -60,7 +60,6 @@ cucumber_requisites:
       - ruby2.1-rubygem-rake
       - rubygem-twopence
       - ruby2.1-rubygem-simplecov
-      - rubygem-lavanda
       - ruby2.1-rubygem-poltergeist
       - ruby2.1-rubygem-rake
     - require:
