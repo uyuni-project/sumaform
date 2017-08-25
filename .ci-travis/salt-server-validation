@@ -1,0 +1,53 @@
+#! /bin/bash
+
+set -xe
+
+init_minion ()
+{
+  mkdir -p /srv/salt/states
+  cp -r salt/* /srv/salt/states
+  cp .ci-travis/minion /etc/salt/minion
+}
+
+validate_state ()
+{
+  salt-call state.show_highstate --local --retcode-passthrough
+}
+
+# Grains for server. 
+grains_server=$(cat <<EOF
+init: systemd
+hostname: suma-refhead-srv
+gpg_keys: []
+domain: travis
+use_avahi: 0
+timezone: Europe/Berlin
+additional_repos: {}
+additional_packages: []
+authorized_keys: [ssh-rsa 1233= root@travis.git]
+reset_ids: true
+version: head
+cc_username: UC7
+cc_password: passme
+database: postgres
+mirror: null
+iss_master: null
+iss_slave: null
+smt: null
+role: suse_manager_server
+for_development_only: 0
+for_testsuite_only: 1
+unsafe_postgres: 1
+use_unreleased_updates: 0
+monitored: 0
+log_server: null
+from_email: null
+traceback_email: null
+EOF
+)
+
+init_minion
+
+echo "$grains_server" > /etc/salt/grains
+service salt-minion restart
+validate_state
