@@ -116,4 +116,4 @@ module "base" {
 }
 ```
 
-The list of all supported images is available in "modules/libvirt/base/main.tf".
+The list of all supported images is available in "modules/libvirt/base/variables.tf".
