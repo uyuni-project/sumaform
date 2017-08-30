@@ -5,7 +5,7 @@ variable "cc_username" {
 
 variable "cc_password" {
   description = "SCC or NCC password"
-  default = // add password here
+  default = ...
 }
 
 provider "aws" {

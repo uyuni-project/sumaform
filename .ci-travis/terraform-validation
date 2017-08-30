@@ -1,26 +1,16 @@
 #! /bin/bash
 
-# this script run on travis ci, performing basic validation for terraform tf files.
-
-# validate terraform fle
-tf_validate ()
-{
-  terraform get 
-  terraform validate 
-}
-
-# put here the file that you want to test, validate
-TF_TO_TEST="main.tf.libvirt.example main.tf.libvirt-testsuite.example"
-
-# ******* MAIN **********
-
-# we have ... in pwd file
+# complete missing passwords in example files
 sed -i 's/\.\.\./"not used"/g' *.example
 
-# do the validation test
-for tf_file in $TF_TO_TEST; do
-  echo "validating $tf_file"
-  mv $tf_file main.tf 
-  tf_validate
-  echo 
+# HACK: disable AWS example file
+rm main.tf.aws.example
+
+# validate examples
+for tf_file in `ls *.example`; do
+  echo "Validating $tf_file..."
+  mv $tf_file main.tf
+  terraform get
+  terraform validate
+  echo
 done
