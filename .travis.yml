@@ -1,11 +1,9 @@
 sudo: true
 language: go
 
-env:
-  global:
-    - TMPDIR=$TRAVIS_BUILD_DIR/tmp
-
 before_install:
+  - export TMPDIR=$TRAVIS_BUILD_DIR/tmp
+  - mkdir -p $TMPDIR
   - sudo apt install -y alien
   - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
   - sudo alien -i terraform.rpm
@@ -14,6 +12,7 @@ before_install:
   - sudo apt install salt-common salt-minion
 
 install: /bin/true
+
 before_script: terraform --version
 
 script:
