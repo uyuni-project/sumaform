@@ -6,6 +6,7 @@ env:
     - TMPDIR=~/tmp
 
 before_install:
+  - mkdir -p $TMPDIR
   - sudo apt install -y alien
   - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
   - sudo alien -i terraform.rpm
