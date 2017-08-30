@@ -9,7 +9,6 @@ addons:
       - key_url: 'https://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest/SALTSTACK-GPG-KEY.pub'
     packages:
       - salt-common
-      - salt-minion
       - rpm2cpio
 
 install:
