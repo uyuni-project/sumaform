@@ -6,6 +6,8 @@
 
 It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being the successor of [suminator](https://github.com/SUSE/suminator/) implemented as [Terraform](https://www.terraform.io/) modules.
 
+[![Travis CI build status](https://travis-ci.org/moio/sumaform.svg?branch=master)](https://travis-ci.org/moio/sumaform)
+
 ## Installation
 
 openSUSE 42.2, 42.1, SUSE Linux Enterprise Server 12 SP1:
