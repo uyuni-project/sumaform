@@ -12,7 +12,7 @@ module "base" {
   // bridge = ""
   // name_prefix = ""
   // you need always sles12sp1 because controller is based on that.
-  images = ["centos7", "sles12sp1", "sles12sp2"]
+  images = ["centos7", "sles12sp1", "sles12sp2", "sles12sp3"]
 }
 
 module "head-srv" {

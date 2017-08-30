@@ -201,6 +201,28 @@ test_update_repo:
     - template: jinja
 {% endif %}
 
+{% elif grains['osrelease'] == '12.3' %}
+
+os_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-12-SP3-x86_64-Pool.repo
+    - source: salt://default/repos.d/SLE-12-SP3-x86_64-Pool.repo
+    - template: jinja
+
+os_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-12-SP3-x86_64-Update.repo
+    - source: salt://default/repos.d/SLE-12-SP3-x86_64-Update.repo
+    - template: jinja
+
+{% if grains.get('use_unreleased_updates', False) %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-12-SP3-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-12-SP3-x86_64-Test-Update.repo
+    - template: jinja
+{% endif %}
+
 {% endif %}
 
 tools_pool_repo:
