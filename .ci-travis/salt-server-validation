@@ -1,21 +1,7 @@
 #! /bin/bash
-
 set -xe
 
-init_minion ()
-{
-  mkdir -p /srv/salt/states
-  cp -r salt/* /srv/salt/states
-  cp .ci-travis/minion /etc/salt/minion
-}
-
-validate_state ()
-{
-  salt-call state.show_highstate --local --retcode-passthrough
-}
-
-# Grains for server. 
-grains_server=$(cat <<EOF
+cat >grains <<EOF
 init: systemd
 hostname: suma-refhead-srv
 gpg_keys: []
@@ -44,10 +30,10 @@ log_server: null
 from_email: null
 traceback_email: null
 EOF
-)
 
-init_minion
+cat >minion <<EOF
+root_dir: $PWD
+id: travis
+EOF
 
-echo "$grains_server" > /etc/salt/grains
-service salt-minion restart
-validate_state
+salt-call state.show_highstate --local --file-root=salt/ --config-dir=. --retcode-passthrough
