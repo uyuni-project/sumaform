@@ -55,6 +55,7 @@ iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 for_development_only: True
 for_testsuite_only: False
+auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
 timezone: ${var.timezone}
 authorized_keys: null

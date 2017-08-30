@@ -23,6 +23,7 @@ module "head-srv" {
   version = "head"
   for_development_only = false
   for_testsuite_only = true
+  auto_accept = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
