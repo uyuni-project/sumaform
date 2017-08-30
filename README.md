@@ -1,8 +1,6 @@
 # sumaform
 
-
 ![Sumicform, a green hedgehog made of bricks, sumaform's mascot](help/sumicform.png)
-
 
 `sumaform` is a way to quickly configure test SUSE Manager setups with clients and servers.
 
