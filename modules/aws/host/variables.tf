@@ -98,6 +98,11 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "auto_accept" {
+  description = "whether to automatically accept all incoming minion keys"
+  default = true
+}
+
 variable "monitored" {
   description = "whether this host should be monitored via Prometheus"
   default = false

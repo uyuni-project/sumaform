@@ -40,6 +40,7 @@ for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
 unsafe_postgres: ${var.unsafe_postgres}
 use_unreleased_updates: ${var.use_unreleased_updates}
+auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
 log_server: ${var.log_server}
 from_email: ${var.from_email}
