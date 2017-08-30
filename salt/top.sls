@@ -6,6 +6,10 @@ base:
     - match: grain
     - suse_manager_server
 
+  'role:suse_manager_deepsea_server':
+    - match: grain
+    - suse_manager_deepsea_server
+
   'role:client':
     - match: grain
     - client
@@ -17,6 +21,10 @@ base:
   'role:minion':
     - match: grain
     - minion
+
+  'role:deepsea_minion':
+    - match: grain
+    - deepsea_minion
 
   'role:minionswarm':
     - match: grain

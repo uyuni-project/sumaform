@@ -27,6 +27,7 @@ module "suse_manager" {
   gpg_keys = "${var.gpg_keys}"
   grains = <<EOF
 
+deepsea: True
 version: ${var.version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
@@ -35,7 +36,7 @@ mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 smt: ${var.smt}
-role: suse_manager_server
+role: ${var.role}
 for_development_only: ${var.for_development_only}
 for_testsuite_only: ${var.for_testsuite_only}
 unsafe_postgres: ${var.unsafe_postgres}
