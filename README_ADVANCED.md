@@ -63,7 +63,8 @@ module "minionsles12sp1" {
 This will create 10 minions connected to the `suma3pg` server.
 
 ## Change the base OS for supported SUSE Manager versions
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1` and `sles12sp2`.
+
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1`, `sles12sp2` and `sles12sp3`.
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 
@@ -75,19 +76,6 @@ module "suma3pg" {
   image = "sles12sp2"
   name = "suma3pg"
   version = "3.0-nightly"
-}
-```
-
-Additionally, a SLES 12 SP3 image is already available on sumaform but it's not the default selection for any deployment. You can explicitely set the image on your `main.tf` system definition:
-
-```hcl
-module "minsles12sp3" {
-  source = "./modules/libvirt/minion"
-  base_configuration = "${module.base.configuration}"
-
-  name = "minsles12sp3"
-  image = "sles12sp3"
-  server_configuration = "${module.suma3pg.configuration}"
 }
 ```
 
