@@ -1,20 +1,26 @@
-sudo: true
+dist: trusty
+sudo: false
 language: go
 
-before_install:
-  - export TMPDIR=$TRAVIS_BUILD_DIR/tmp
-  - mkdir -p $TMPDIR
-  - sudo apt install -y alien
-  - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
-  - sudo alien -i terraform.rpm
-  - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
-  - sudo alien -i terraform-provider-libvirt.rpm
-  - sudo apt install salt-common salt-minion
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb http://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest trusty main'
+      - key_url: 'https://repo.saltstack.com/apt/ubuntu/14.04/amd64/latest/SALTSTACK-GPG-KEY.pub'
+    packages:
+      - salt-common
+      - salt-minion
+      - rpm2cpio
 
-install: /bin/true
+install:
+  - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
+  - rpm2cpio ./terraform.rpm | cpio -idmv
+  - wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
+  - rpm2cpio ./terraform-provider-libvirt.rpm | cpio -idmv
+  - export PATH=$PATH:$PWD/usr/bin/
 
 before_script: terraform --version
 
 script:
   - bash .ci-travis/terraform-validation
-  - sudo bash .ci-travis/salt-server-validation 
+  - bash .ci-travis/salt-server-validation
