@@ -33,6 +33,56 @@ create_first_user:
     - require:
       - sls: suse_manager_server.rhn
 
+mgr_sync_configuration_file:
+  file.managed:
+    - name: /root/.mgr-sync
+    - replace: false
+    - require:
+      - http: create_first_user
+
+mgr_sync_automatic_authentication:
+  file.replace:
+    - name: /root/.mgr-sync
+    - pattern: mgrsync.user =.*\nmgrsync.password =.*\n
+    - repl: |
+        mgrsync.user = admin
+        mgrsync.password = admin
+    - append_if_not_found: true
+    - require:
+      - file: mgr_sync_configuration_file
+
+scc_data_refresh:
+{% if '2.1' in grains['version'] %}
+  cmd.run:
+    - name: mgr-sync enable-scc
+    - creates: /var/lib/spacewalk/scc/migrated
+    - require:
+      - file: mgr_sync_automatic_authentication
+{% else %}
+  cmd.run:
+    - name: mgr-sync refresh
+    - creates: /var/lib/spacewalk/scc/scc-data
+    - require:
+      - file: mgr_sync_automatic_authentication
+{% endif %}
+
+{% if grains.get('channels') %}
+add_channels:
+  cmd.run:
+    - name: mgr-sync add channels {{ ' '.join(grains['channels']) }}
+    - require:
+      - cmd: scc_data_refresh
+
+{% for channel in grains.get('channels',[]) %}
+reposync_{{ channel }}:
+  cmd.script:
+    - name: salt://suse_manager_server/wait_for_reposync.py
+    - args: "admin admin localhost {{ channel }}"
+    - require:
+      - cmd: add_channels
+{% endfor %}
+{% endif %}
+
 create_empty_channel:
   cmd.run:
     - name: spacecmd -u admin -p admin -- softwarechannel_create --name testchannel -l testchannel -a x86_64
