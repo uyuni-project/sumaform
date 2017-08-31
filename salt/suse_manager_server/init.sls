@@ -6,6 +6,7 @@ include:
   - suse_manager_server.tomcat
   - suse_manager_server.taskomatic
   - suse_manager_server.rhn
+  - suse_manager_server.initial_content
   - suse_manager_server.iss
   - suse_manager_server.testsuite
   - suse_manager_server.prometheus
