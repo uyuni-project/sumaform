@@ -68,6 +68,11 @@ variable "database" {
   default = "null"
 }
 
+variable "channels" {
+  description = "a list of SUSE channel labels to add"
+  default = []
+}
+
 variable "role"  {
   description = "Name of the host role, see main.tf.libvirt.example"
   type = "string"

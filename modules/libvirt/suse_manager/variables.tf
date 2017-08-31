@@ -18,6 +18,11 @@ variable "database" {
   default = "postgres"
 }
 
+variable "channels" {
+  description = "a list of SUSE channel labels to add"
+  default = []
+}
+
 variable "iss_master" {
   description = "ISS master server, leave the default for no ISS"
   default = "null"

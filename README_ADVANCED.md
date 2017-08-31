@@ -62,6 +62,30 @@ module "minionsles12sp1" {
 
 This will create 10 minions connected to the `suma3pg` server.
 
+## Adding channels to SUSE Manager Servers
+
+You can specifiy a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
+
+```
+# mgr-sync list channels --compact
+Available Channels:
+...
+[ ] sles12-sp2-pool-x86_64
+```
+
+Then add it to the `channels` variable in a SUSE Manager Server module:
+
+```hcl
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "3.1-nightly"
+  channels = ["sles12-sp2-pool-x86_64"]
+}
+```
+
 ## Change the base OS for supported SUSE Manager versions
 
 You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1`, `sles12sp2` and `sles12sp3`.
