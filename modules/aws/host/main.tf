@@ -65,6 +65,9 @@ additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}
 gpg_keys:  [${join(", ", formatlist("'%s'", var.gpg_keys))}]
 reset_ids: true
 
+susemanager:
+  activation_key: ${var.activation_key}
+
 EOF
 
     destination = "/etc/salt/grains"

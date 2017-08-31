@@ -23,6 +23,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "activation_key" {
+  description = "an Activation Key to be used when onboarding this minion"
+  default = "null"
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
