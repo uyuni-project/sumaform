@@ -33,8 +33,9 @@ browser_side_less_configuration:
 {% if salt["grains.get"]("mirror") %}
 
 non_empty_fstab:
-  file.touch:
+  file.managed:
     - name: /etc/fstab
+    - replace: false
 
 mirror_directory:
   mount.mounted:
