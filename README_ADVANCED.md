@@ -90,6 +90,7 @@ module "suma3pg" {
 
 You can specify an Activation Key string for minions to use at onboarding time to a SUSE Manager Server. An example follows:
 
+```hcl
 module "min" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
@@ -99,6 +100,7 @@ module "min" {
   server_configuration = "${module.suma3pg.configuration}"
   activation_key = "1-DEFAULT"
 }
+```
 
 ## Change the base OS for supported SUSE Manager versions
 
