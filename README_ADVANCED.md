@@ -86,6 +86,20 @@ module "suma3pg" {
 }
 ```
 
+## Activation Keys for minions
+
+You can specify an Activation Key string for minions to use at onboarding time to a SUSE Manager Server. An example follows:
+
+module "min" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "min"
+  image = "sles12sp2"
+  server_configuration = "${module.suma3pg.configuration}"
+  activation_key = "1-DEFAULT"
+}
+
 ## Change the base OS for supported SUSE Manager versions
 
 You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1`, `sles12sp2` and `sles12sp3`.

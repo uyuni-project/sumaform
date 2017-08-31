@@ -88,6 +88,11 @@ variable "cc_password" {
   default = "null"
 }
 
+variable "activation_key" {
+  description = "an Activation Key to be used when onboarding a minion"
+  default = "null"
+}
+
 variable "server" {
   description = "Main server for this host"
   default = "null"
