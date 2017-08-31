@@ -40,7 +40,7 @@ create_empty_channel:
     - require:
       - http: create_first_user
 
-create_activation_key:
+create_empty_activation_key:
   cmd.run:
     {% if '2.1' in grains['version'] %}
     - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel -e provisioning_entitled
@@ -51,19 +51,19 @@ create_activation_key:
     - require:
       - cmd: create_empty_channel
 
-create_bootstrap_script:
+create_empty_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date {{ '--traditional' if '2.1' not in grains['version'] and '3.0' not in grains['version'] else '' }}
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
-      - cmd: create_activation_key
+      - cmd: create_empty_activation_key
 
-create_bootstrap_script_md5:
+create_empty_bootstrap_script_md5:
   cmd.run:
     - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - require:
-      - cmd: create_bootstrap_script
+      - cmd: create_empty_bootstrap_script
 
 private_ssl_key:
   file.copy:
