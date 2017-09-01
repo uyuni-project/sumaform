@@ -1,0 +1,29 @@
+#! /bin/bash
+set -xe
+
+cat >grains <<EOF
+init: systemd
+hostname: suma-refhead-cli
+gpg_keys: []
+domain: travis
+use_avahi: 0
+timezone: Europe/Berlin
+additional_repos: {}
+additional_packages: []
+authorized_keys: [ssh-rsa 1233= root@travis.git]
+reset_ids: true
+version: head
+server: { hostname = "travis.tf.local" }
+role: client
+mirror: null
+for_development_only: 0
+for_testsuite_only: 1
+use_unreleased_updates: 0
+EOF
+
+cat >minion <<EOF
+root_dir: $PWD
+id: travis-minion-validation
+EOF
+
+salt-call state.show_highstate --local --file-root=salt/ --config-dir=. --retcode-passthrough
