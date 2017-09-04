@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 import sys
 import time
 import urllib2
@@ -8,7 +9,9 @@ if len(sys.argv) != 5:
     print("Usage: wait_for_reposync.py <USERNAME> <PASSWORD> <MASTER FQDN> <CHANNEL>")
     sys.exit(1)
 
-MANAGER_URL = "http://localhost/rpc/api"
+_, username, password, fqdn, channel = sys.argv
+
+MANAGER_URL = "http://{}/rpc/api".format(fqdn)
 
 # ensure Tomcat is up
 for _ in range(10):
@@ -20,9 +23,9 @@ for _ in range(10):
 
 client = xmlrpclib.Server(MANAGER_URL, verbose=0)
 
-session_key = client.auth.login(sys.argv[1], sys.argv[2])
+session_key = client.auth.login(username, password)
 
-channels = filter(lambda c: c["label"] == sys.argv[4], client.channel.listVendorChannels(session_key))
+channels = filter(lambda c: c["label"] == channel, client.channel.listVendorChannels(session_key))
 if not channels:
     print("Channel not found.")
     sys.exit(1)
@@ -31,7 +34,8 @@ id = channels[0]["id"]
 
 print("Waiting for reposync to finish...")
 
-while not client.channel.software.getDetails(session_key, id).get("yumrepo_last_sync"):
-    time.sleep(3)
+while not os.path.isfile("/var/cache/rhn/repodata/{}/repomd.xml".format(channel)):
+    print("...not finished yet...")
+    time.sleep(10)
 
 print("Done.")
