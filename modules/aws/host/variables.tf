@@ -93,6 +93,11 @@ variable "activation_key" {
   default = "null"
 }
 
+variable "unsafe_postgres" {
+  description = "whether to use PostgreSQL settings that improve performance by worsening durability"
+  default = true
+}
+
 variable "server" {
   description = "Main server for this host"
   default = "null"
