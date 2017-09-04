@@ -23,3 +23,6 @@ before_script: terraform --version
 script:
   - bash .ci-travis/terraform-validation
   - bash .ci-travis/salt-server-validation
+  - bash .ci-travis/salt-client-validation
+  - bash .ci-travis/salt-minion-validation
+  - bash .ci-travis/salt-ctl-validation
