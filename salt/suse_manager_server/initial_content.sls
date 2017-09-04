@@ -61,7 +61,6 @@ scc_data_refresh:
 {% else %}
   cmd.run:
     - name: mgr-sync refresh
-    - creates: /var/lib/spacewalk/scc/scc-data
     - require:
       - file: mgr_sync_automatic_authentication
 {% endif %}
