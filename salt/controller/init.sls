@@ -55,7 +55,7 @@ cucumber_requisites:
       - rubygem-websocket-driver
       - ruby2.1-rubygem-jwt
       - rubygem-mime-types
-      - ruby2.1-rubygem-builder
+      - rubygem-builder
       - rubygem-cliver
       - ruby2.1-rubygem-rake
       - rubygem-twopence
