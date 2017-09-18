@@ -202,7 +202,7 @@ scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
 
 You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
-You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/blob/master/docs/branches.md) via the `branch` variable in the `controller` module (by default an automatic selection is made).
+You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/#branches-used) via the `branch` variable in the `controller` module (by default an automatic selection is made).
 
 ## pgpool-II replicated database
 
