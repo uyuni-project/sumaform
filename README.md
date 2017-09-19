@@ -1,5 +1,7 @@
 # sumaform
 
+[![Join the chat at https://gitter.im/sumaform/Lobby](https://badges.gitter.im/sumaform/Lobby.svg)](https://gitter.im/sumaform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![Sumicform, a green hedgehog made of bricks, sumaform's mascot](help/sumicform.png)
 
 `sumaform` is a way to quickly configure test SUSE Manager setups with clients and servers.
