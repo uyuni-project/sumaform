@@ -200,6 +200,16 @@ Get HTML results with:
 scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
 ```
 
+To keep the testsuite running after ending the ssh session:
+```
+ssh -t head-ctl.tf.local tmux new run-testsuite
+```
+
+You can detach from the session at anytime using the key sequence `^B d`. To re-attach to the existing session:
+```
+ssh -t head-ctl.tf.local tmux attach
+```
+
 You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
 You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/#branches-used) via the `branch` variable in the `controller` module (by default an automatic selection is made).
