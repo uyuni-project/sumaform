@@ -20,9 +20,9 @@ module.suma3pg.module.suse_manager.libvirt_volume.main_disk
 $ terraform taint -module=suma3pg.suse_manager libvirt_volume.main_disk
 The resource libvirt_volume.main_disk in the module root.suma3pg.suse_manager has been marked as tainted!
 ```
-#### how to force the re-download of a fresh image resource?
+### Q: how to force the re-download of an image?
 
-*warning: any dependent volume and module should be tainted as well before applying.*
+A: use the taint command as per the following example:
 
 ```
 $ terraform state list
@@ -32,6 +32,8 @@ module.base.libvirt_volume.volumes[2]
 $ terraform taint -module=base libvirt_volume.volumes.2
 The resource libvirt_volume.volumes.2 in the module root.base has been marked as tainted!
 ```
+
+Please note that any dependent volume and module should be tainted as well before applying (eg. if you are tainting the `sles12sp2` image, make sure you either have no VMs based on that OS or that they are all tainted).
 
 
 ## Q: how can I work around a "resource already exists" error?
