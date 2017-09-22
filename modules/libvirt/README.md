@@ -14,7 +14,7 @@
  - complete the `cc_password` variable in the `base` module
  - make sure that:
    - either your target libvirt host has a storage pool named `default`
-   - or you [create one](https://docs.fedoraproject.org/en-US/Fedora/18/html/Virtualization_Administration_Guide/sec-directory-based-storage-pools.html)
+   - or you [create one](https://www.suse.com/documentation/sles-12/singlehtml/book_virt/book_virt.html#sec.libvirt.storage.vmm.addpool)
    - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
  - if you are not using bridged networking, make sure that:
    - either your target libvirt host has a NAT network which is named `default`
