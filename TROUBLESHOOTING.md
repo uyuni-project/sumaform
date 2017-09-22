@@ -20,9 +20,9 @@ module.suma3pg.module.suse_manager.libvirt_volume.main_disk
 $ terraform taint -module=suma3pg.suse_manager libvirt_volume.main_disk
 The resource libvirt_volume.main_disk in the module root.suma3pg.suse_manager has been marked as tainted!
 ```
-### Q: how to force the re-download of an image?
+## Q: how to force the re-download of an image?
 
-A: use the taint command as per the following example:
+A: see above, use the taint command as per the following example:
 
 ```
 $ terraform state list
