@@ -20,7 +20,7 @@ create_first_user:
     - name: https://localhost/rhn/newlogin/CreateFirstUser.do
     - match: Discover a new way of managing your servers
     - data: "submitted=true&\
-             orgName=Novell&\
+             orgName=SUSE&\
              login=admin&\
              desiredpassword=admin&\
              desiredpasswordConfirm=admin&\
