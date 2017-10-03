@@ -1,7 +1,7 @@
 MANAGER_USER="spacewalk"
 MANAGER_PASS="spacewalk"
 MANAGER_ADMIN_EMAIL="galaxy-noise@suse.de"
-CERT_O="Novell"
+CERT_O="SUSE"
 CERT_OU="SUSE"
 CERT_CITY="Nuernberg"
 CERT_STATE="Bayern"
