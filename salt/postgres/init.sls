@@ -82,7 +82,7 @@ postgresql_user:
 {% else %}
     - user: postgres
 {% endif %}
-    - name: echo "CREATE ROLE spacewalk PASSWORD 'spacewalk' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
+    - name: echo "CREATE ROLE spacewalk PASSWORD 'spac8ewalk' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
     - unless: psql -c "\du" | grep spacewalk
     - require:
       - cmd: postgresql_database_creation
