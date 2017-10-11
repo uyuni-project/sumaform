@@ -1,11 +1,11 @@
 variable "testsuite-branch" {
   default = {
-    "3.0-released" = "manager30"
-    "3.0-nightly" = "manager30"
-    "3.1-released" = "manager31"
-    "3.1-nightly" = "manager31"
-    "head" = "master"
-    "test" = "master"
+    "3.0-released" = "Manager-3.0"
+    "3.0-nightly" = "Manager-3.0"
+    "3.1-released" = "Manager-3.1"
+    "3.1-nightly" = "Manager-3.1"
+    "head" = "Manager"
+    "test" = "Manager"
   }
 }
 
@@ -22,6 +22,9 @@ module "controller" {
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
+
+git_username: ${var.git_username}
+git_password: ${var.git_password}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 proxy: ${var.proxy_configuration["hostname"]}
