@@ -125,7 +125,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/3.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/ ibs/Devel:/Galaxy:/Manager:/3.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
 
 # SUSE Manager Head devel
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.develHead\.x86_64\.rpm" -i "noarch/.*\.develHead\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2/ ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*\.develHead\.x86_64\.rpm" -i "noarch/.*\.develHead\.noarch\.rpm" -x ".*-kit-.*" -x ".*\.mirrorlist" -x ".*\.drpm" /ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3/ ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3/
 
 # SLE 11 (SP3 and SP4) Manager Tools Head devel
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*" -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/ ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
