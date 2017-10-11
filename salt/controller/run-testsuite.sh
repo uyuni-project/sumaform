@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd /root/spacewalk-testsuite-base
+cd /root/spacewalk/testsuite
 rake
