@@ -13,6 +13,14 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "proxy_configuration" {
+  description = "use ${module.<PROXY_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  type = "map"
+  default = {
+    hostname = "null"
+  }
+}
+
 variable "client_configuration" {
   description = "use ${module.<CLIENT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
