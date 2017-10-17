@@ -6,7 +6,7 @@ variable "images" {
     "3.0-nightly" = "sles12sp1"
     "3.1-released" = "sles12sp2"
     "3.1-nightly" = "sles12sp2"
-    "head" = "sles12sp2"
+    "head" = "sles12sp3"
     "test" = "sles12sp2"
   }
 }
