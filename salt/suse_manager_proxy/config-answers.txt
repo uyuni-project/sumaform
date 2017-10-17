@@ -1,6 +1,14 @@
 RHN_PARENT={{grains['server']}}
 HTTP_PROXY=''
+{% if '2.1' in grains['version'] %}
 VERSION=2.1
+{% elif '3.0-released' in grains['version'] or '3.0-nightly' in grains['version'] %}
+VERSION=3.0
+{% elif '3.1-released' in grains['version'] or '3.1-nightly' in grains['version'] %}
+VERSION=3.1
+{% else %}
+VERSION=3.2
+{% endif %}
 TRACEBACK_EMAIL=''
 USE_SSL=Y/n
 USE_EXISTING_CERTS=y/N
