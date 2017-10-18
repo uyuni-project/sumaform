@@ -1,5 +1,4 @@
-{% if grains['gpg_keys'] %}
-{% for keypath in grains['gpg_keys'] %}
+{% for keypath in grains.get('gpg_keys', []) %}
 {% set keyname =  salt['file.basename'](keypath)  %}
 gpg_key_copy_{{ keypath }}:
   file.managed:
@@ -11,7 +10,6 @@ install_{{ keypath }}:
     - watch:
       - file: /tmp/{{ keyname }}
 {% endfor %}
-{% endif %}
 
 {% if grains['os'] == 'SUSE' %}
 
