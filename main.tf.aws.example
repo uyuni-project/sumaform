@@ -50,7 +50,7 @@ module "aws_suma3pg" {
   volume_size = 100 // GiB
   key_name = // add SSH key name as a string here
   key_file = // add SSH private key path as a string here
-  monitoring = true
+  monitored = true
   private_subnet_id = "${module.aws_network.private_subnet_id}"
   private_security_group_id = "${module.aws_network.private_security_group_id}"
   name_prefix = "sumaform"
