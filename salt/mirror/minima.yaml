@@ -260,8 +260,14 @@
   archs: [x86_64]
 
 # Tools from Silvio Moioli's repo
+- url: http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1
+  path: /srv/mirror/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1
+  archs: [x86_64]
 - url: http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP2
   path: /srv/mirror/repositories/home:/SilvioMoioli:/tools/SLE_12_SP2
+  archs: [x86_64]
+- url: http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP3
+  path: /srv/mirror/repositories/home:/SilvioMoioli:/tools/SLE_12_SP3
   archs: [x86_64]
 
 # security:logging (filebeat)
