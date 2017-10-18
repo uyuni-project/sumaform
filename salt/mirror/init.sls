@@ -1,15 +1,21 @@
 include:
   - default
 
-lftp:
-  pkg.installed:
+minima:
+  archive.extracted:
+    - name: /usr/bin
+    - source: https://github.com/moio/minima/releases/download/v0.1.3/minima-linux-amd64.tar.gz
+    - source_hash: https://github.com/moio/minima/releases/download/v0.1.3/minima-linux-amd64.tar.gz.sha512
+    - archive_format: tar
+    - keep: True
+    - if_missing: /usr/bin/minima
     - require:
       - sls: default
 
-lftp_script:
+minima_configuration:
   file.managed:
-    - name: /root/mirror.lftp
-    - source: salt://mirror/mirror.lftp
+    - name: /root/minima.yaml
+    - source: salt://mirror/minima.yaml
 
 parted:
   pkg.installed
@@ -39,9 +45,9 @@ mirror_script:
     - hour: 20
     - minute: 0
     - require:
+      - archive: minima
+      - file: minima_configuration
       - file: mirror_script
-      - file: lftp_script
-      - pkg: lftp
 
 mirror_partition:
   cmd.run:
@@ -212,3 +218,12 @@ nfs_server:
     - target: mirror/SuSE/build.suse.de/SUSE
     - makedirs: True
     - force: True
+
+# HACK: direct serving of grafana archive
+grafana_archive:
+  file.managed:
+    - name: /srv/mirror/grafana-4.2.0.linux-x64.tar.gz
+    - source: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.2.0.linux-x64.tar.gz
+    - source_hash: sha512=8c100f5d61b8ebac2abb3894d3f37e926c6fd81eb3ab68fd966d2bc38d9ec2386fee15dd745f5efe7c0e52de06321f3e983fdab0185b3da3f28562b54c60994f
+    - require:
+      - file: mirror_directory
