@@ -36,50 +36,59 @@ You can use the following commands:
 
 ```
 wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/Terraform:/Images:/AmazonEC2/images/opensuse422.x86_64.raw.xz -O /tmp/opensuse422.x86_64.raw.xz
+NAME=sumaform-opensuse422-v1 # change in case of collisions
+PUBLIC_VPC_SUBNET_ID=subnet-e31edc85
+SECURITY_GROUP_ID=sg-4cfa8231
 ec2uploadimg \
   --file ec2utils.conf \
   --account servers \
   --backing-store ssd \
-  --description <DESCRIPTION> \
+  --description "sumaform opensuse422 image" \
   --grub2 \
   --machine x86_64 \
-  --name <NAME> \
+  --name $NAME \
   --sriov-support \
   --virt-type hvm \
   --root-volume-size 10 \
   --verbose \
   --regions us-east-1 \
-  --vpc-subnet-id <PUBLIC_VPC_SUBNET_ID> \
-  --security-group-ids <SECURITY_GROUP_ID> \
+  --vpc-subnet-id $PUBLIC_VPC_SUBNET_ID \
+  --security-group-ids $SECURITY_GROUP_ID \
   --wait-count 3 \
   /tmp/opensuse422.x86_64.raw.xz
 
 wget http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp1.x86_64.raw.xz -O /tmp/sles12sp1.x86_64.raw.xz
+NAME=sumaform-sles12sp1-v1 # change in case of collisions
+PUBLIC_VPC_SUBNET_ID=subnet-e31edc85
+SECURITY_GROUP_ID=sg-4cfa8231
 ec2uploadimg \
   --file ec2utils.conf \
   --account servers \
   --backing-store ssd \
-  --description <DESCRIPTION> \
+  --description "sumaform sles12sp1 image" \
   --grub2 \
   --machine x86_64 \
-  --name <NAME> \
+  --name $NAME \
   --sriov-support \
   --virt-type hvm \
   --root-volume-size 2 \
   --verbose \
   --regions us-east-1 \
-  --vpc-subnet-id <PUBLIC_VPC_SUBNET_ID> \
-  --security-group-ids <SECURITY_GROUP_ID> \
+  --vpc-subnet-id $PUBLIC_VPC_SUBNET_ID \
+  --security-group-ids $SECURITY_GROUP_ID \
   --wait-count 3 \
   /tmp/sles12sp1.x86_64.raw.xz
 ```
 
 wget http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp2.x86_64.raw.xz -O /tmp/sles12sp2.x86_64.raw.xz
+NAME=sumaform-sles12sp2-v1 # change in case of collisions
+PUBLIC_VPC_SUBNET_ID=subnet-e31edc85
+SECURITY_GROUP_ID=sg-4cfa8231
 ec2uploadimg \
   --file ec2utils.conf \
   --account servers \
   --backing-store ssd \
-  --description <DESCRIPTION> \
+  --description "sumaform sles12sp2 image" \
   --grub2 \
   --machine x86_64 \
   --name <NAME> \
@@ -88,8 +97,8 @@ ec2uploadimg \
   --root-volume-size 2 \
   --verbose \
   --regions us-east-1 \
-  --vpc-subnet-id <PUBLIC_VPC_SUBNET_ID> \
-  --security-group-ids <SECURITY_GROUP_ID> \
+  --vpc-subnet-id $PUBLIC_VPC_SUBNET_ID \
+  --security-group-ids $SECURITY_GROUP_ID \
   --wait-count 3 \
   /tmp/sles12sp2.x86_64.raw.xz
 ```
