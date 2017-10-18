@@ -6,7 +6,7 @@
   contains packages or to upload them from a libvirt mirror with the
   following commands:
 
-  scp <SSH KEY>.pem root@mirror.tf.local://root/key.pem
+  scp key.pem root@mirror.tf.local://root/key.pem
   ssh root@mirror.tf.local
   zypper in rsync
   rsync -av0 --delete -e 'ssh -i key.pem' /srv/mirror/ root@<PUBLIC DNS NAME>://srv/mirror/
