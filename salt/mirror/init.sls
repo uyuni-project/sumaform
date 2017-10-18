@@ -61,7 +61,7 @@ mirror_directory:
     - makedirs: True
   mount.mounted:
     - name: /srv/mirror
-    - device: /dev//{{grains['data_disk_device']}}1
+    - device: /dev/{{grains['data_disk_device']}}1
     - fstype: ext4
     - mkmnt: True
     - persist: True
