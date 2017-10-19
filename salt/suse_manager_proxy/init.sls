@@ -70,6 +70,8 @@ wget:
     - require:
       - sls: suse_manager_proxy.repos
 
+{% if grains['for_development_only'] %}
+
 base_bootstrap_script:
   file.managed:
     - name: /root/bootstrap.sh
@@ -197,3 +199,5 @@ ca-configuration-checksum:
     - creates: /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
     - require:
       - file: ca-configuration
+
+{% endif %}
