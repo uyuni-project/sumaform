@@ -77,6 +77,7 @@ reposync_{{ channel }}:
   cmd.script:
     - name: salt://suse_manager_server/wait_for_reposync.py
     - args: "admin admin localhost {{ channel }}"
+    - use_vt: True
     - require:
       - cmd: add_channels
 {% endfor %}
