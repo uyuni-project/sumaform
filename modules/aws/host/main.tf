@@ -18,12 +18,12 @@ resource "aws_instance" "instance" {
   # HACK: ephemeral block devices are defined in any case
   # they will only be used for instance types that provide them
   ephemeral_block_device {
-    device_name = "xvda"
+    device_name = "xvdb"
     virtual_name = "ephemeral0"
   }
 
   ephemeral_block_device {
-    device_name = "xvdb"
+    device_name = "xvdc"
     virtual_name = "ephemeral1"
   }
 
