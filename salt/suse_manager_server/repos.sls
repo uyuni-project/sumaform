@@ -157,7 +157,7 @@ suse_manager_pgpool_repo:
       - sls: default
 {% endif %}
 
-{% if grains['for_testsuite_only'] or grains.get('monitored', false) %}
+{% if grains['for_testsuite_only'] or grains.get('monitored') | default(false, true) %}
 tools_repo:
   file.managed:
     - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
@@ -167,7 +167,7 @@ tools_repo:
       - sls: default
 {% endif %}
 
-{% if grains.get('log_server', false) %}
+{% if grains.get('log_server') | default(false, true) %}
 filebeat_repo:
   file.managed:
     - name: /etc/zypp/repos.d/filebeat.repo
@@ -195,9 +195,9 @@ refresh_suse_manager_repos:
       {% if 'pgpool' in grains['database'] %}
       - file: suse_manager_pgpool_repo
       {% endif %}
-      {% if grains['for_testsuite_only'] or grains.get('monitored', false) %}
+      {% if grains['for_testsuite_only'] or grains.get('monitored') | default(false, true) %}
       - file: tools_repo
       {% endif %}
-      {% if grains.get('filebeat', false) %}
+      {% if grains.get('filebeat') | default(false, true) %}
       - file: filebeat_repo
       {% endif %}

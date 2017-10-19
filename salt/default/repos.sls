@@ -1,4 +1,4 @@
-{% for keypath in grains.get('gpg_keys', []) %}
+{% for keypath in grains.get('gpg_keys') | default([], true) %}
 {% set keyname =  salt['file.basename'](keypath)  %}
 gpg_key_copy_{{ keypath }}:
   file.managed:
@@ -55,7 +55,7 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-11-SP3-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates', False) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
@@ -77,7 +77,7 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-11-SP4-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates', False) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
@@ -97,13 +97,13 @@ tools_update_repo:
   file.touch:
     - name: /tmp/no_tools_update_repo_needed
 
-{% if 'released' in grains.get('version', 'released') %}
+{% if 'released' in grains.get('version') | default('released', true) %}
 
 tools_devel_repo:
   file.touch:
     - name: /tmp/no_tools_devel_repo_needed
 
-{% elif '3.0-nightly' in grains.get('version', '') %}
+{% elif '3.0-nightly' in grains.get('version') | default('', true) %}
 
 tools_devel_repo:
   file.managed:
@@ -111,7 +111,7 @@ tools_devel_repo:
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
 
-{% elif 'nightly' in grains.get('version', '') %}
+{% elif 'nightly' in grains.get('version') | default('', true) %}
 
 tools_devel_repo:
   file.managed:
@@ -119,7 +119,7 @@ tools_devel_repo:
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
 
-{% elif 'head' in grains.get('version', '') %}
+{% elif 'head' in grains.get('version') | default('', true) %}
 
 tools_devel_repo:
   file.managed:
@@ -147,7 +147,7 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-12-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates', False) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-x86_64-Test-Update.repo
@@ -169,7 +169,7 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-12-SP1-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates', False) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
@@ -191,7 +191,7 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-12-SP2-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates', False) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
@@ -213,7 +213,7 @@ os_update_repo:
     - source: salt://default/repos.d/SLE-12-SP3-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates', False) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP3-x86_64-Test-Update.repo
@@ -235,13 +235,13 @@ tools_update_repo:
     - source: salt://default/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - template: jinja
 
-{% if 'released' in grains.get('version', 'released') %}
+{% if 'released' in grains.get('version') | default('released', true) %}
 
 tools_devel_repo:
   file.touch:
     - name: /tmp/no_tools_devel_repo_needed
 
-{% elif '3.0-nightly' in grains.get('version', '') %}
+{% elif '3.0-nightly' in grains.get('version') | default('', true) %}
 
 tools_devel_repo:
   file.managed:
@@ -249,7 +249,7 @@ tools_devel_repo:
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
     - template: jinja
 
-{% elif 'nightly' in grains.get('version', '') %}
+{% elif 'nightly' in grains.get('version') | default('', true) %}
 
 tools_devel_repo:
   file.managed:
@@ -257,7 +257,7 @@ tools_devel_repo:
     - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-12-x86_64.repo
     - template: jinja
 
-{% elif 'head' in grains.get('version', '') or 'test' in grains.get('version', '') %}
+{% elif ('head' in grains.get('version') | default('', true)) or ('test' in grains.get('version') | default('', true)) %}
 tools_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
@@ -315,7 +315,7 @@ suse_res7_key:
     - watch:
       - file: suse_res7_key
 
-{% if 'head' in grains.get('version', '') %}
+{% if 'head' in grains.get('version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
@@ -323,7 +323,7 @@ tools_update_repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
-{% elif '3.0-nightly' in grains.get('version', '') %}
+{% elif '3.0-nightly' in grains.get('version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
@@ -331,7 +331,7 @@ tools_update_repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
-{% elif 'nightly' in grains.get('version', '') %}
+{% elif 'nightly' in grains.get('version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.1_RES-Manager-Tools-7-x86_64.repo

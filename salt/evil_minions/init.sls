@@ -25,7 +25,7 @@ evil_minions_service:
         Description=evil-minions
 
         [Service]
-        ExecStart=/usr/bin/evil-minions --count {{grains["evil_minion_count"]}} --processes {{grains['num_cpus']}} --dump-path /root/minion-dump.mp --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains.get('hostname', 'evil')}} {{grains['server']}}
+        ExecStart=/usr/bin/evil-minions --count {{grains["evil_minion_count"]}} --processes {{grains['num_cpus']}} --dump-path /root/minion-dump.mp --slowdown-factor {{grains['slowdown_factor']}} --id-prefix {{grains.get('hostname') | default('evil', true)}} {{grains['server']}}
         LimitNOFILE=512000
 
         [Install]

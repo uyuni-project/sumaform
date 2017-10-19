@@ -1,4 +1,4 @@
-{% if grains.get('log_server', false) %}
+{% if grains.get('log_server') | default(false, true) %}
 
 include:
   - default

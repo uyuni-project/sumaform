@@ -1,4 +1,4 @@
-{% if grains.get('monitored', false) %}
+{% if grains.get('monitored') | default(false, true) %}
 
 include:
   - suse_manager_server

@@ -72,7 +72,7 @@ add_channels:
     - require:
       - cmd: scc_data_refresh
 
-{% for channel in grains.get('channels',[]) %}
+{% for channel in grains.get('channels') | default([], true) %}
 reposync_{{ channel }}:
   cmd.script:
     - name: salt://suse_manager_server/wait_for_reposync.py
