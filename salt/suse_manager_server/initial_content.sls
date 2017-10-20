@@ -51,14 +51,15 @@ mgr_sync_automatic_authentication:
     - require:
       - file: mgr_sync_configuration_file
 
-scc_data_refresh:
 {% if '2.1' in grains['version'] %}
+scc_data_refresh:
   cmd.run:
     - name: mgr-sync enable-scc
     - creates: /var/lib/spacewalk/scc/migrated
     - require:
       - file: mgr_sync_automatic_authentication
-{% else %}
+{% elif grains.get('channels') %}
+scc_data_refresh:
   cmd.run:
     - name: mgr-sync refresh
     - unless: spacecmd -u admin -p admin --quiet api sync.content.listProducts | grep name
