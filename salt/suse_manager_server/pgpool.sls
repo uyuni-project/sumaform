@@ -123,8 +123,8 @@ config_pgpool_hba:
 
 generate_pgpool_md5_hash:
   cmd.run:
-    - name: pg_md5 -m -u spacewalk spacewalk
-    - unless: grep spacewalk < /etc/pgpool-II/pool_passwd
+    - name: pg_md5 -m -u {{ grains.get('database_user') | default('susemanager') }} {{ grains.get('database_password') | default('susemanager') }}
+    - unless: grep {{ grains.get('database_user') | default('susemanager') }} < /etc/pgpool-II/pool_passwd
     - require:
       - pkg: pgpool-II
 

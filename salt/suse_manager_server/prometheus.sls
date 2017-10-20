@@ -92,7 +92,7 @@ postgres_exporter_service:
         Description=postgres_exporter
 
         [Service]
-        Environment=DATA_SOURCE_NAME=postgresql://spacewalk:spacewalk@localhost:5432/susemanager?sslmode=disable
+        Environment=DATA_SOURCE_NAME=postgresql://{{ grains.get('database_user') | default('susemanager') }}:{{ grains.get('database_password') | default('susemanager') }}@localhost:5432/susemanager?sslmode=disable
         ExecStart=/usr/bin/postgres_exporter -extend.query-path /etc/postgres_exporter/postgres_exporter_queries.yaml
 
         [Install]

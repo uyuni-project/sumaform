@@ -82,7 +82,7 @@ postgresql_user:
 {% else %}
     - user: postgres
 {% endif %}
-    - name: echo "CREATE ROLE spacewalk PASSWORD 'spac8ewalk' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
-    - unless: psql -c "\du" | grep spacewalk
+    - name: echo "CREATE ROLE {{ grains.get('database_user') | default('susemanager') }} PASSWORD '{{ grains.get('database_password') | default('susemanager') }}' SUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;" | psql
+    - unless: psql -c "\du" | grep {{ grains.get('database_user') | default('susemanager') }}
     - require:
       - cmd: postgresql_database_creation

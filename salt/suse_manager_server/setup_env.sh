@@ -1,5 +1,5 @@
-MANAGER_USER="spacewalk"
-MANAGER_PASS="spacewalk"
+MANAGER_USER="{{ grains.get('database_user') | default('susemanager') }}"
+MANAGER_PASS="{{ grains.get('database_password') | default('susemanager') }}"
 MANAGER_ADMIN_EMAIL="galaxy-noise@suse.de"
 CERT_O="SUSE"
 CERT_OU="SUSE"
