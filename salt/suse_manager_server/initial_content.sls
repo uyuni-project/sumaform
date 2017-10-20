@@ -61,6 +61,7 @@ scc_data_refresh:
 {% else %}
   cmd.run:
     - name: mgr-sync refresh
+    - unless: spacecmd -u admin -p admin --quiet api sync.content.listProducts | grep name
     - require:
       - file: mgr_sync_automatic_authentication
 {% endif %}
