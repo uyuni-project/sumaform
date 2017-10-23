@@ -35,10 +35,6 @@ resource "aws_instance" "instance" {
 resource "null_resource" "host_salt_configuration" {
   count = "${var.count}"
 
-  triggers {
-    instance_id = "${element(aws_instance.instance.*.id, count.index)}"
-  }
-
   connection {
     host = "${element(aws_instance.instance.*.private_dns, count.index)}"
     private_key = "${file(var.key_file)}"
