@@ -24,6 +24,7 @@ module "controller" {
 
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
+proxy: ${var.proxy_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}

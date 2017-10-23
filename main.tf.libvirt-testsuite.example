@@ -27,6 +27,16 @@ module "head-srv" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
+module "head-proxy" {
+  source = "sumaform/modules/libvirt/suse_manager_proxy"
+  base_configuration = "${module.base.configuration}"
+  name = "head-proxy"
+  version = "head"
+  server_configuration = "${module.server.configuration}"
+  for_development_only = false
+  ssh_key_path = "./salt/controller/id_rsa.pub"
+}
+
 module "head-cli-sles12sp2" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
@@ -76,6 +86,7 @@ module "head-ctl" {
   base_configuration = "${module.base.configuration}"
   name = "head-ctl"
   server_configuration = "${module.head-srv.configuration}"
+  proxy_configuration = "${module.head-proxy.configuration}"
   client_configuration = "${module.head-cli-sles12sp2.configuration}"
   minion_configuration = "${module.head-min-sles12sp2.configuration}"
   centos_configuration = "${module.head-min-centos7.configuration}"
