@@ -44,6 +44,8 @@ timezone_setting:
   timezone.system:
     - name: {{ grains['timezone'] }}
     - utc: True
+    - require:
+      - file: timezone_symlink
 
 {% if grains.get('use_unreleased_updates') | default(False, true) %}
 update_sles_test:
