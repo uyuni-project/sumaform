@@ -24,11 +24,6 @@ minimal_package_update:
     - require:
       - sls: default.repos
 
-timezone_setting:
-  timezone.system:
-    - name: {{ grains['timezone'] }}
-    - utc: True
-
 timezone_package:
   pkg.installed:
 {% if grains['os_family'] == 'Suse' %}
@@ -44,6 +39,13 @@ timezone_symlink:
     - force: true
     - require:
       - pkg: timezone_package
+
+timezone_setting:
+  timezone.system:
+    - name: {{ grains['timezone'] }}
+    - utc: True
+    - require:
+      - file: timezone_symlink
 
 {% if grains.get('use_unreleased_updates') | default(False, true) %}
 update_sles_test:
