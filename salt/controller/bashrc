@@ -1,5 +1,5 @@
 export TESTHOST={{ grains.get('server') }}
-{% if grains.has_key('proxy') %}
+{% if grains.get('proxy') | default(false, true) %}
 export PROXY={{ grains.get('proxy') }}
 {% endif %}
 export CLIENT={{ grains.get('client') }}
