@@ -1,9 +1,11 @@
-export TESTHOST={{ grains.get("server") }}
-export PROXY={{ grains.get("proxy") }}
-export CLIENT={{ grains.get("client") }}
-export MINION={{ grains.get("minion") }}
-export SSHMINION={{ grains.get("ssh_minion") }}
-export CENTOSMINION={{ grains.get("centos_minion") }}
+export TESTHOST={{ grains.get('server') }}
+{% if grains.has_key('proxy') %}
+export PROXY={{ grains.get('proxy') }}
+{% endif %}
+export CLIENT={{ grains.get('client') }}
+export MINION={{ grains.get('minion') }}
+export SSHMINION={{ grains.get('ssh_minion') }}
+export CENTOSMINION={{ grains.get('centos_minion') }}
 
 # phantomjs needs certificate of suma server to run secure websockets
 if [ ! -f /etc/pki/trust/anchors/$TESTHOST.cert ]; then
