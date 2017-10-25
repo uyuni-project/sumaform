@@ -143,7 +143,7 @@ mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3/ ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3/
 
 # Testsuite tools repo
-mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/ruby:/test/SLE_12/ ibs/Devel:/Galaxy:/ruby:/test/SLE_12/
+mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/ruby/SLE_12/ ibs/Devel:/Galaxy:/ruby/SLE_12/
 mirror --continue --delete --loop --parallel=3 --verbose=3 -i "repodata/.*" -i "x86_64/.*"  -i "noarch/.*" -x ".*\.mirrorlist" /ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/ ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/
 
 open http://download.opensuse.org

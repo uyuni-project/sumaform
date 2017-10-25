@@ -1,10 +1,10 @@
 include:
   - default
 
-ruby_test_repo:
+ruby_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_ruby_test.repo
-    - source: salt://controller/repos.d/Devel_Galaxy_ruby_test.repo
+    - name: /etc/zypp/repos.d/Devel_Galaxy_ruby.repo
+    - source: salt://controller/repos.d/Devel_Galaxy_ruby.repo
     - template: jinja
     - require:
       - sls: default
@@ -21,5 +21,5 @@ refresh_controller_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: ruby_test_repo
+      - file: ruby_repo
       - file: sle_12_sp1_sdk_pool
