@@ -19,7 +19,7 @@ module "head-srv" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
   name = "head-srv"
-  image = "sles12sp2"
+  image = "sles12sp3"
   version = "head"
   for_development_only = false
   for_testsuite_only = true
@@ -37,34 +37,34 @@ module "head-proxy" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-cli-sles12sp2" {
+module "head-cli-sles12sp3" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
-  name = "head-cli-sles12sp2"
-  image = "sles12sp2"
+  name = "head-cli-sles12sp3"
+  image = "sles12sp3"
   server_configuration =  { hostname = "head-srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-min-sles12sp2" {
+module "head-min-sles12sp3" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
   version = "head"
-  name = "head-min-sles12sp2"
-  image = "sles12sp2"
+  name = "head-min-sles12sp3"
+  image = "sles12sp3"
   server_configuration = { hostname = "head-srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-minssh-sles12sp2" {
+module "head-minssh-sles12sp3" {
   source = "./modules/libvirt/host"
   base_configuration = "${module.base.configuration}"
-  name = "head-minssh-sles12sp2"
-  image = "sles12sp2"
+  name = "head-minssh-sles12sp3"
+  image = "sles12sp3"
   ssh_key_path = "./salt/controller/id_rsa.pub"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
@@ -87,8 +87,8 @@ module "head-ctl" {
   name = "head-ctl"
   server_configuration = "${module.head-srv.configuration}"
   proxy_configuration = "${module.head-proxy.configuration}"
-  client_configuration = "${module.head-cli-sles12sp2.configuration}"
-  minion_configuration = "${module.head-min-sles12sp2.configuration}"
+  client_configuration = "${module.head-cli-sles12sp3.configuration}"
+  minion_configuration = "${module.head-min-sles12sp3.configuration}"
   centos_configuration = "${module.head-min-centos7.configuration}"
-  minionssh_configuration = "${module.head-minssh-sles12sp2.configuration}"
+  minionssh_configuration = "${module.head-minssh-sles12sp3.configuration}"
 }
