@@ -52,6 +52,8 @@ prometheus_service:
     - require:
       - file: prometheus_service
       - file: prometheus_configuration
+    - watch:
+      - file: prometheus_configuration
 
 grafana:
   archive.extracted:
