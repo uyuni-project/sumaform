@@ -35,20 +35,11 @@ resource "aws_instance" "instance" {
   }
 }
 
-data "aws_ebs_snapshot" "data_disk_snapshot" {
-  most_recent = true
-
-  filter {
-    name   = "tag:Name"
-    values = ["${var.name_prefix}-mirror-data-volume-snapshot"]
-  }
-}
-
 resource "aws_ebs_volume" "data_disk" {
     availability_zone = "${var.availability_zone}"
     size = 500 # GiB
     type = "sc1"
-    snapshot_id = "${var.data_volume_snapshot_id == "auto" ? data.aws_ebs_snapshot.data_disk_snapshot.id : var.data_volume_snapshot_id}"
+    snapshot_id = "${var.data_volume_snapshot_id}"
     tags {
       Name = "${var.name_prefix}-mirror-data-volume"
     }
