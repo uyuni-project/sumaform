@@ -41,19 +41,21 @@ eos
 
 instances.each do |instance|
   tunnel_string += <<-eos
-    Host #{instance[:symbolic_name]}
-      HostName #{instance[:private_name]}
-      StrictHostKeyChecking no
-      User root
-      IdentityFile #{key_file}
-      ProxyCommand ssh root@mirror -W %h:%p
-      ServerAliveInterval 120
+
+  Host #{instance[:symbolic_name]}
+    HostName #{instance[:private_name]}
+    StrictHostKeyChecking no
+    User root
+    IdentityFile #{key_file}
+    ProxyCommand ssh root@mirror -W %h:%p
+    ServerAliveInterval 120
   eos
   if instance[:symbolic_name] =~ /suma/
-    tunnel_string += "  LocalForward 8043 127.0.0.1:443\n"
+    tunnel_string += "    LocalForward 8043 127.0.0.1:443\n"
   end
   if instance[:symbolic_name] =~ /grafana/
-    tunnel_string += "  LocalForward 8080 127.0.0.1:80\n"
+    tunnel_string += "    LocalForward 8080 127.0.0.1:8080\n"
+    tunnel_string += "    LocalForward 9090 127.0.0.1:9090\n"
   end
 end
 
