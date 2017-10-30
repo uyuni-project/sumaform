@@ -7,7 +7,7 @@ include:
   {% if grains['use_avahi'] %}
   - default.avahi
   {% endif %}
-  {% if grains['reset_ids'] %}
+  {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
 
