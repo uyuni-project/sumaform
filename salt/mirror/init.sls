@@ -1,16 +1,24 @@
 include:
   - default
 
+mozilla_certificates:
+  pkg.installed:
+    - name: ca-certificates-mozilla
+    - require:
+      - sls: default
+
 minima:
   archive.extracted:
     - name: /usr/bin
     - source: https://github.com/moio/minima/releases/download/v0.1.3/minima-linux-amd64.tar.gz
     - source_hash: https://github.com/moio/minima/releases/download/v0.1.3/minima-linux-amd64.tar.gz.sha512
     - archive_format: tar
+    - enforce_toplevel: false
     - keep: True
     - if_missing: /usr/bin/minima
     - require:
       - sls: default
+      - pkg: mozilla_certificates
 
 minima_configuration:
   file.managed:
@@ -19,12 +27,6 @@ minima_configuration:
 
 parted:
   pkg.installed
-
-mozilla_certificates:
-  pkg.installed:
-    - name: ca-certificates-mozilla
-    - require:
-      - sls: default
 
 scc_data_refresh_script:
   file.managed:
