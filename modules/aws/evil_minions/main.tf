@@ -1,3 +1,7 @@
+terraform {
+    required_version = ">= 0.10.7"
+}
+
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
   instance_type = "${var.instance_type}"
