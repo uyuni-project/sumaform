@@ -1,6 +1,11 @@
 include:
   - default
 
+system_update:
+  pkg.uptodate:
+    - require:
+      - sls: default
+
 mozilla_certificates:
   pkg.installed:
     - name: ca-certificates-mozilla
@@ -17,8 +22,8 @@ minima:
     - keep: True
     - if_missing: /usr/bin/minima
     - require:
-      - sls: default
       - pkg: mozilla_certificates
+      - pkg: system_update
 
 minima_configuration:
   file.managed:
