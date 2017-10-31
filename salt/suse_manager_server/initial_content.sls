@@ -105,7 +105,7 @@ create_empty_activation_key:
 
 create_empty_bootstrap_script:
   cmd.run:
-    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date {{ '--traditional' if '2.1' not in grains['version'] and '3.0' not in grains['version'] else '' }}
+    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date --hostname {{ grains['hostname'] }}.{{ grains['domain'] }} {{ '--traditional' if '2.1' not in grains['version'] and '3.0' not in grains['version'] else '' }}
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
       - cmd: create_empty_activation_key

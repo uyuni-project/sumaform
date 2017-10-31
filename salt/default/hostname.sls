@@ -1,7 +1,9 @@
 hosts_file:
   file.append:
     - name: /etc/hosts
-    - text: "127.0.1.1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}"
+    - text: |
+        127.0.1.1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}
+        ::1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}
 
 temporary_hostname:
   cmd.run:
