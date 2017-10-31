@@ -4,7 +4,7 @@ include:
   - suse_manager_server.rhn
 
 create_first_user:
-  http.query:
+  http.wait_for_successful_query:
     - method: POST
     {% if '2.1' in grains['version'] %}
     - name: https://localhost/rhn/newlogin/CreateFirstUserSubmit.do
