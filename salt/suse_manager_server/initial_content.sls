@@ -59,12 +59,20 @@ scc_data_refresh:
     - require:
       - file: mgr_sync_automatic_authentication
 {% elif grains.get('channels') %}
+wait_for_mgr_sync:
+  cmd.script:
+    - name: salt://suse_manager_server/wait_for_mgr_sync.py
+    - use_vt: True
+    - require:
+      - http: create_first_user
+
 scc_data_refresh:
   cmd.run:
     - name: mgr-sync refresh
+    - use_vt: True
     - unless: spacecmd -u admin -p admin --quiet api sync.content.listProducts | grep name
     - require:
-      - file: mgr_sync_automatic_authentication
+      - cmd: wait_for_mgr_sync
 {% endif %}
 
 {% if grains.get('channels') %}
