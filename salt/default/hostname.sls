@@ -1,7 +1,7 @@
 hosts_file_ipv4:
-  host.present:
-    - ip: 127.0.1.1
-    - names:
+  host.only:
+    - name: 127.0.1.1
+    - hostnames:
       - {{ grains['hostname'] }}.{{ grains['domain'] }}
       - {{ grains['hostname'] }}
 
