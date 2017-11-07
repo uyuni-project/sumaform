@@ -16,7 +16,7 @@ temporary_hostname:
 permanent_hostname:
   file.managed:
     - name: /etc/hostname
-    - contents: {{ grains['hostname'] }}
+    - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 permanent_hostname_backward_compatibility_link:
   file.symlink:
