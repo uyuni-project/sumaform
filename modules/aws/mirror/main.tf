@@ -26,7 +26,7 @@ resource "aws_instance" "instance" {
   availability_zone = "${var.availability_zone}"
   instance_type = "t2.small"
   key_name = "${var.key_name}"
-  monitoring = false
+  monitoring = "${var.monitoring}"
   subnet_id = "${var.public_subnet_id}"
   vpc_security_group_ids = ["${var.public_security_group_id}"]
 

@@ -33,6 +33,11 @@ variable "count"  {
   default = 1
 }
 
+variable "monitoring" {
+  description = "Wether to enable AWS's Detailed Monitoring"
+  default = false
+}
+
 variable "key_name" {
   description = "Name of the SSH key for the instance"
   type = "string"

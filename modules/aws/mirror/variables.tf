@@ -23,6 +23,11 @@ variable "key_file" {
   type = "string"
 }
 
+variable "monitoring" {
+  description = "Wether to enable AWS's Detailed Monitoring"
+  default = false
+}
+
 variable "public_subnet_id" {
   description = "ID of the public subnet, see modules/aws/network"
   type = "string"
