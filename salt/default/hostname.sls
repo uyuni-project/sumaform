@@ -8,15 +8,15 @@ hosts_file:
 temporary_hostname:
   cmd.run:
     {% if grains['init'] == 'systemd' %}
-    - name: hostnamectl set-hostname {{ grains['hostname'] }}
+    - name: hostnamectl set-hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
     {% else %}
-    - name: hostname {{ grains['hostname'] }}
+    - name: hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
     {% endif %}
 
 permanent_hostname:
   file.managed:
     - name: /etc/hostname
-    - contents: {{ grains['hostname'] }}
+    - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 permanent_hostname_backward_compatibility_link:
   file.symlink:
