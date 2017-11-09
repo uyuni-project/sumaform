@@ -222,8 +222,8 @@
   archs: [x86_64]
 
 # SUSE Manager Head devel
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2
-  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP2
+- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3
+  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3
   archs: [x86_64]
 
 # SLE 11 (SP3 and SP4) Manager Tools Head devel
