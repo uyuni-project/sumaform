@@ -28,11 +28,11 @@ module "head-srv" {
 }
 
 module "head-proxy" {
-  source = "sumaform/modules/libvirt/suse_manager_proxy"
+  source = "./modules/libvirt/suse_manager_proxy"
   base_configuration = "${module.base.configuration}"
   name = "head-proxy"
   version = "head"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = { hostname = "head-srv.tf.local" }
   for_development_only = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
