@@ -1,9 +1,15 @@
-hosts_file:
-  file.append:
-    - name: /etc/hosts
-    - text: |
-        127.0.1.1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}
-        ::1 {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['hostname'] }}
+hosts_file_ipv4:
+  host.only:
+    - name: 127.0.1.1
+    - hostnames:
+      - {{ grains['hostname'] }}.{{ grains['domain'] }}
+      - {{ grains['hostname'] }}
+
+hosts_file_ipv6:
+  host.present:
+    - ip: ::1
+    - names:
+      - {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 temporary_hostname:
   cmd.run:
