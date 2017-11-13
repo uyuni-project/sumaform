@@ -26,11 +26,11 @@
           "id": 1,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "hideEmpty": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "sort": null,
@@ -73,7 +73,7 @@
               "legendFormat": "user",
               "metric": "",
               "refId": "B",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "sum(irate(node_cpu{mode=\"system\"}[1m]))",
@@ -82,7 +82,7 @@
               "legendFormat": "system",
               "metric": "",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "sum(irate(node_cpu{mode!~\"user|system|idle\"}[1m]))",
@@ -91,7 +91,7 @@
               "legendFormat": "other",
               "metric": "",
               "refId": "C",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -116,7 +116,7 @@
               "format": "short",
               "label": "Cores",
               "logBase": 1,
-              "max": 8,
+              "max": null,
               "min": 0,
               "show": true
             },
@@ -124,7 +124,7 @@
               "format": "short",
               "label": "",
               "logBase": 1,
-              "max": 8,
+              "max": null,
               "min": 0,
               "show": true
             }
@@ -144,10 +144,10 @@
           "id": 8,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -177,7 +177,7 @@
               "intervalFactor": 2,
               "legendFormat": "running",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -201,7 +201,7 @@
               "format": "short",
               "label": "Processes",
               "logBase": 1,
-              "max": 30,
+              "max": "30",
               "min": 0,
               "show": true
             },
@@ -224,7 +224,7 @@
       "titleSize": "h6"
     },
     {
-      "collapse": true,
+      "collapse": false,
       "height": "250px",
       "panels": [
         {
@@ -239,10 +239,10 @@
           "id": 3,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -266,7 +266,7 @@
               "intervalFactor": 2,
               "legendFormat": "used",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -290,7 +290,7 @@
               "format": "bytes",
               "label": "",
               "logBase": 1,
-              "max": 8589934592,
+              "max": null,
               "min": 0,
               "show": true
             },
@@ -316,10 +316,10 @@
           "id": 9,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -343,7 +343,7 @@
               "intervalFactor": 2,
               "legendFormat": "swapped",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -367,7 +367,7 @@
               "format": "bytes",
               "label": "",
               "logBase": 1,
-              "max": 8589934592,
+              "max": "1073741824",
               "min": 0,
               "show": true
             },
@@ -406,10 +406,10 @@
           "id": 5,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -433,14 +433,14 @@
               "intervalFactor": 2,
               "legendFormat": "in",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "irate(node_network_transmit_bytes{device=\"eth0\"}[1m])*8",
               "intervalFactor": 2,
               "legendFormat": "out",
               "refId": "B",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -490,10 +490,10 @@
           "id": 10,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -517,7 +517,7 @@
               "intervalFactor": 2,
               "legendFormat": "errors",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -579,10 +579,10 @@
           "id": 7,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -607,7 +607,7 @@
               "intervalFactor": 2,
               "legendFormat": "%",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -657,10 +657,10 @@
           "id": 11,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -685,7 +685,7 @@
               "intervalFactor": 2,
               "legendFormat": "length",
               "refId": "A",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -732,7 +732,7 @@
       "titleSize": "h6"
     },
     {
-      "collapse": true,
+      "collapse": false,
       "height": "250px",
       "panels": [
         {
@@ -744,14 +744,13 @@
           "error": false,
           "fill": 1,
           "grid": {},
-          "id": 12,
+          "id": 14,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
-            "hideZero": false,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -771,18 +770,183 @@
           "steppedLine": false,
           "targets": [
             {
+              "expr": "java_lang_Threading_ThreadCount",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "threads",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Java Threads",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 15,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "java_lang_Memory_HeapMemoryUsage_used",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "used",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Java Heap Memory",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Java",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 12,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "hideZero": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
               "expr": "sum(pg_locks_count{datname=\"susemanager\", mode=~\".*exclusive.*\"})",
               "intervalFactor": 2,
               "legendFormat": "exclusive",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "sum(pg_locks_count{datname=\"susemanager\", mode!~\".*exclusive.*\"})",
               "intervalFactor": 2,
               "legendFormat": "shared",
               "refId": "B",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -832,10 +996,10 @@
           "id": 13,
           "legend": {
             "alignAsTable": false,
-            "avg": true,
-            "current": true,
+            "avg": false,
+            "current": false,
             "max": true,
-            "min": true,
+            "min": false,
             "rightSide": false,
             "show": true,
             "total": false,
@@ -859,28 +1023,28 @@
               "intervalFactor": 2,
               "legendFormat": "fetched",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "rate(pg_stat_database_tup_inserted{datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "inserted",
               "refId": "B",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "rate(pg_stat_database_tup_updated{datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "updated",
               "refId": "C",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "rate(pg_stat_database_tup_deleted{datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "deleted",
               "refId": "D",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -926,170 +1090,6 @@
       "titleSize": "h6"
     },
     {
-      "collapse": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": null,
-          "decimals": 0,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 14,
-          "legend": {
-            "alignAsTable": false,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": true,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "java_lang_Threading_ThreadCount",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "threads",
-              "refId": "A",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Java Threads",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": null,
-          "decimals": 0,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 15,
-          "legend": {
-            "alignAsTable": false,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": true,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "java_lang_Memory_HeapMemoryUsage_used",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "used",
-              "refId": "A",
-              "step": 4
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Java Heap Memory",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Java",
-      "titleSize": "h6"
-    },
-    {
       "collapse": false,
       "height": 250,
       "panels": [
@@ -1101,7 +1101,7 @@
           "id": 16,
           "legend": {
             "avg": false,
-            "current": true,
+            "current": false,
             "max": true,
             "min": false,
             "show": true,
@@ -1136,14 +1136,14 @@
               "legendFormat": "queued",
               "metric": "",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "mgr_serveractions_picked_up",
               "intervalFactor": 2,
               "legendFormat": "picked up",
               "refId": "B",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
@@ -1189,7 +1189,7 @@
           "id": 17,
           "legend": {
             "avg": false,
-            "current": true,
+            "current": false,
             "max": true,
             "min": false,
             "show": true,
@@ -1220,14 +1220,14 @@
               "legendFormat": "completed",
               "metric": "mgr_serveractions_completed",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "rate(mgr_serveractions_failed[30s])",
               "intervalFactor": 2,
               "legendFormat": "failed",
               "refId": "B",
-              "step": 4
+              "step": 20
             }
           ],
           "thresholds": [],
