@@ -27,10 +27,10 @@ module "head-srv" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-proxy" {
+module "head-pxy" {
   source = "./modules/libvirt/suse_manager_proxy"
   base_configuration = "${module.base.configuration}"
-  name = "head-proxy"
+  name = "head-pxy"
   version = "head"
   server_configuration = { hostname = "head-srv.tf.local" }
   for_development_only = false
@@ -42,7 +42,7 @@ module "head-cli-sles12sp3" {
   base_configuration = "${module.base.configuration}"
   name = "head-cli-sles12sp3"
   image = "sles12sp3"
-  server_configuration =  { hostname = "head-srv.tf.local" }
+  server_configuration = { hostname = "head-pxy.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
@@ -54,7 +54,7 @@ module "head-min-sles12sp3" {
   version = "head"
   name = "head-min-sles12sp3"
   image = "sles12sp3"
-  server_configuration = { hostname = "head-srv.tf.local" }
+  server_configuration = { hostname = "head-pxy.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
@@ -75,7 +75,7 @@ module "head-min-centos7" {
   version = "head"
   name = "head-min-centos7"
   image = "centos7"
-  server_configuration = { hostname = "head-srv.tf.local" }
+  server_configuration = { hostname = "head-pxy.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
@@ -86,7 +86,7 @@ module "head-ctl" {
   base_configuration = "${module.base.configuration}"
   name = "head-ctl"
   server_configuration = "${module.head-srv.configuration}"
-  proxy_configuration = "${module.head-proxy.configuration}"
+  proxy_configuration = "${module.head-pxy.configuration}"
   client_configuration = "${module.head-cli-sles12sp3.configuration}"
   minion_configuration = "${module.head-min-sles12sp3.configuration}"
   centos_configuration = "${module.head-min-centos7.configuration}"
