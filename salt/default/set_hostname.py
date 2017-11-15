@@ -26,7 +26,7 @@ except OSError as e:
 
 # set the hostname in the filesystem
 with open("/etc/hostname", "w") as f:
-    f.write(fqdn)
+    f.write(fqdn + "\n")
 try:
     os.remove("/etc/HOSTNAME")
 except OSError:
