@@ -1,3 +1,7 @@
+terraform {
+    required_version = ">= 0.10.7"
+}
+
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
   instance_type = "t2.medium"
@@ -69,5 +73,5 @@ EOF
 }
 
 output "private_names" {
-  value = ["${aws_instance.instance.*.private_dns}"]
+  value = "${aws_instance.instance.*.private_dns}"
 }

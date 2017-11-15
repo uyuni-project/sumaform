@@ -1,5 +1,5 @@
 terraform {
-    required_version = ">= 0.8.0"
+    required_version = ">= 0.10.7"
 }
 
 resource "aws_instance" "instance" {
@@ -91,5 +91,5 @@ EOF
 }
 
 output "private_names" {
-  value = ["${aws_instance.instance.*.private_dns}"]
+  value = "${aws_instance.instance.*.private_dns}"
 }

@@ -12,12 +12,12 @@ It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being t
 
 ## Installation
 
-openSUSE 42.2, 42.1, SUSE Linux Enterprise Server 12 SP1:
+openSUSE and SUSE Linux Enterprise Server:
 ```
 # Uncomment one of the following lines depending on your distro
 
-#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.2/home:SilvioMoioli:tools.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
+#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_42.3/systemsmanagement:sumaform.repo
+#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/systemsmanagement:sumaform.repo
 
 sudo zypper install terraform-provider-libvirt
 git clone https://github.com/moio/sumaform.git
@@ -26,9 +26,9 @@ git clone https://github.com/moio/sumaform.git
 Ubuntu and Debian:
 ```
 sudo apt install alien
-wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform.rpm
+wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP1/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
-wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
+wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/moio/sumaform.git
 ```
@@ -61,7 +61,7 @@ Refer to the [official guides](https://www.terraform.io/docs/index.html) for a g
 For a very quick start:
 ```
 vim main.tf     # change your VM setup
-terraform get   # populates modules
+terraform init  # populates modules
 terraform plan  # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```

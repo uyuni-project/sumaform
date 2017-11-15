@@ -1,18 +1,17 @@
-variable "cc_username" {
-  description = "SCC or NCC username"
-  default = "UC7"
-}
-
-variable "cc_password" {
-  description = "SCC or NCC password"
-  default = ...
-}
-
 provider "aws" {
   region = "us-east-1"
   access_key = // add access key as a string here
   secret_key = // add secret key as a string here
 }
+
+locals {
+  cc_username = "UC7" // SCC or NCC username
+  cc_password = ...   //SCC or NCC password
+  key_name = ...      // SSH key name
+  key_file = ...      // SSH key file
+  name_prefix = ...   // change to a prefix if you do not have an exclusive VPC
+}
+
 
 module "aws_network" {
   source = "./modules/aws/network"
@@ -22,7 +21,7 @@ module "aws_network" {
     // add comma-separated IP address strings here, those hosts will
     // be able to access mirror via SSH
   ]
-  name_prefix = "sumaform"
+  name_prefix = "${local.name_prefix}"
 }
 
 data "aws_ebs_snapshot" "data_disk_snapshot" {
@@ -30,41 +29,69 @@ data "aws_ebs_snapshot" "data_disk_snapshot" {
 
   filter {
     name   = "tag:Name"
-    values = ["sumaform-mirror-data-volume-snapshot"]
+    values = ["${local.name_prefix}-mirror-data-volume-snapshot"]
   }
 }
+
+data "aws_ami" "opensuse422" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["${local.name_prefix}-opensuse422*"]
+  }
+}
+
+data "aws_ami" "sles12sp1" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["${local.name_prefix}-sles12sp1*"]
+  }
+}
+
+data "aws_ami" "sles12sp2" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["${local.name_prefix}-sles12sp2*"]
+  }
+}
+
 
 module "aws_mirror" {
   source = "./modules/aws/mirror"
   region = "us-east-1"
   availability_zone = "us-east-1e"
-  ami = "ami-33ee1f25" // change if appropriate (non-SUSE employees or non-us-east-1 region)
-  key_name = // add SSH key name as a string here
-  key_file = // add SSH private key path as a string here
+  ami = "${data.aws_ami.opensuse422.image_id}"
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
   data_volume_snapshot_id = "${data.aws_ebs_snapshot.data_disk_snapshot.id}" // see top comment in modules/aws/mirror/main.tf
   public_subnet_id = "${module.aws_network.public_subnet_id}"
   public_security_group_id = "${module.aws_network.public_security_group_id}"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
-  name_prefix = "sumaform"
+  name_prefix = "${local.name_prefix}"
 }
 
-module "aws_suma3pg" {
+module "aws_suma31pg" {
   source = "./modules/aws/host"
-  name = "suma3pg"
+  name = "suma31pg"
   region = "us-east-1"
   availability_zone = "us-east-1e"
   ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)
   instance_type = "m4.2xlarge"
   volume_size = 100 // GiB
-  key_name = // add SSH key name as a string here
-  key_file = // add SSH private key path as a string here
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
   monitored = true
   private_subnet_id = "${module.aws_network.private_subnet_id}"
   private_security_group_id = "${module.aws_network.private_security_group_id}"
-  name_prefix = "sumaform"
+  name_prefix = "${local.name_prefix}"
 
-  version = "3.0-nightly"
+  version = "3.1-nightly"
   database = "postgres"
   role = "suse_manager_server"
   cc_username = "${var.cc_username}"
