@@ -61,7 +61,7 @@ Refer to the [official guides](https://www.terraform.io/docs/index.html) for a g
 For a very quick start:
 ```
 vim main.tf     # change your VM setup
-terraform get   # populates modules
+terraform init  # populates modules
 terraform plan  # show the provisioning plan
 terraform apply # bring up your systems, fasten your seatbelts!
 ```
