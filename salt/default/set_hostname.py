@@ -11,10 +11,10 @@ if len(sys.argv) != 3:
     sys.exit(1)
 
 _, hostname, domain = sys.argv
-fqdn = "{0}.{1}".format(hostname, domain)
+fqdn = hostname + "." + domain
 
 # set the hostname in the kernel
-subprocess.check_call(["sysctl", "kernel.hostname={0}".format(fqdn)])
+subprocess.check_call(["sysctl", "kernel.hostname=" + fqdn])
 
 # set the hostname in userland
 try:
@@ -52,7 +52,7 @@ def update_hosts_file(fqdn, hostname, repl):
         pattern = re.compile("\\n+(.*{0} {1}\\n+)+".format(re.escape(fqdn), re.escape(hostname)), flags=re.M)
         new_hosts, n = pattern.subn(repl, hosts)
         if n == 0:
-            new_hosts = "{0}{1}".format(hosts, repl)
+            new_hosts = hosts + repl
         f.seek(0)
         f.truncate()
         f.write(new_hosts)
