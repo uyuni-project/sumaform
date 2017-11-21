@@ -65,15 +65,20 @@ cucumber_requisites:
     - require:
       - sls: controller.repos
 
-cucumber_testsuite:
+spacewalk_git_repository:
   git.latest:
-    - name: https://github.com/SUSE/spacewalk-testsuite-base
-    - target: /root/spacewalk-testsuite-base
+    # FIXME: this is hardcoded to SUSE(for opensourcing remove
+    # this and create a variable repo-spacewalk
+    # in this way, people can use forked repos
+    - name: https://github.com/SUSE/spacewalk
+    - target: /root/spacewalk
     - branch: {{ grains.get("branch") }}
     - rev: {{ grains.get("branch") }}
     - force_reset: True
+    - depth: 1
     - require:
       - pkg: cucumber_requisites
+      - file: netrc_mode
 
 cucumber_run_script:
   file.managed:
@@ -99,3 +104,22 @@ extra_pkgs:
       - screen
     - require:
       - sls: controller.repos
+
+git_config:
+  file.append:
+    - name: ~/.netrc
+    - text:  
+      - machine github.com 
+      - login {{ grains.get("git_username") }}
+      - password {{ grains.get("git_password") }}
+      - protocol https
+
+netrc_mode:
+  file.managed:
+    - name: ~/.netrc
+    - user: root
+    - group: root
+    - mode: 600
+    - replace: False
+    - require:
+      - file: git_config
