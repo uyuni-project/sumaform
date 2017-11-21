@@ -66,16 +66,8 @@ cucumber_requisites:
       - sls: controller.repos
 
 spacewalk_git_repository:
-  git.latest:
-    # FIXME: this is hardcoded to SUSE(for opensourcing remove
-    # this and create a variable repo-spacewalk
-    # in this way, people can use forked repos
-    - name: https://github.com/SUSE/spacewalk
-    - target: /root/spacewalk
-    - branch: {{ grains.get("branch") }}
-    - rev: {{ grains.get("branch") }}
-    - force_reset: True
-    - depth: 1
+  cmd.run:
+    - name: git clone --depth 1 https://github.com/SUSE/spacewalk -b {{ grains.get("branch") }} /root/spacewalk
     - require:
       - pkg: cucumber_requisites
       - file: netrc_mode
