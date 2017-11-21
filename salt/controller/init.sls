@@ -67,9 +67,6 @@ cucumber_requisites:
 
 spacewalk_git_repository:
   git.latest:
-    # FIXME: this is hardcoded to SUSE(for opensourcing remove
-    # this and create a variable repo-spacewalk
-    # in this way, people can use forked repos
     - name: https://github.com/SUSE/spacewalk
     - target: /root/spacewalk
     - branch: {{ grains.get("branch") }}
