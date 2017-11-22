@@ -13,27 +13,34 @@ if len(sys.argv) != 3:
 _, hostname, domain = sys.argv
 fqdn = hostname + "." + domain
 
-# set the hostname in the kernel
-subprocess.check_call(["sysctl", "kernel.hostname=" + fqdn])
+# set the hostname in the kernel, this is needed for Red Hat systems
+# and does not hurt in others
+subprocess.check_call(["sysctl", "kernel.hostname=" + hostname])
 
-# set the hostname in userland
+# set the hostname in userland. There is no consensus among distros
+# but Debian prefers the short name, SUSE demands the short name,
+# Red Hat suggests the FQDN but works with the short name.
+# Bottom line: short name is used here
 try:
-    subprocess.check_call(["hostnamectl", "set-hostname", fqdn])
+    subprocess.check_call(["hostnamectl", "set-hostname", hostname])
 except OSError as e:
     if e.errno == errno.ENOENT:
         # fallback for non-systemd systems
-        subprocess.check_call(["hostname", fqdn])
+        subprocess.check_call(["hostname", hostname])
 
 # set the hostname in the filesystem
 with open("/etc/hostname", "w") as f:
-    f.write(fqdn + "\n")
+    f.write(hostname + "\n")
+
+# set a SUSE-specific filesystem entry
 try:
     os.remove("/etc/HOSTNAME")
 except OSError:
     pass
-os.symlink("/etc/hostname", "/etc/HOSTNAME")
+with open("/etc/HOSTNAME", "w") as f:
+    f.write(fqdn + "\n")
 
-# set the hostname as a DNS name in /etc/hosts
+# set the hostname and FQDN name in /etc/hosts
 def guess_address(fqdn, socket_type, invalid_prefix, default):
     try:
         infos = socket.getaddrinfo(fqdn, None, socket_type)
@@ -58,8 +65,8 @@ def update_hosts_file(fqdn, hostname, repl):
         f.write(new_hosts)
 
 update_hosts_file(fqdn, hostname, "")
-ipv4 = guess_address(fqdn, socket.AF_INET, "127.0.", "127.0.1.1")
-ipv6 = guess_address(fqdn, socket.AF_INET6, "::1", "# ipv6 address not found for names:")
+ipv4 = guess_address(hostname, socket.AF_INET, "127.0.", "127.0.1.1")
+ipv6 = guess_address(hostname, socket.AF_INET6, "::1", "# ipv6 address not found for names:")
 repl = "\n\n{0} {1} {2}\n{3} {4} {5}\n".format(ipv4, fqdn, hostname, ipv6, fqdn, hostname)
 update_hosts_file(fqdn, hostname, repl)
 
