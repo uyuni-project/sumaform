@@ -8,17 +8,17 @@ variable "name" {
   type = "string"
 }
 
-variable "git_username" { 
-  description = "username for GitHub" 
-  type = "string" 
-  default = "nogit" 
-} 
- 
-variable "git_password" { 
-  description = "password for GitHub" 
-  type = "string" 
-  default = "nogit" 
-} 
+variable "git_username" {
+  description = "username for GitHub"
+  type = "string"
+  default = "nogit"
+}
+
+variable "git_password" {
+  description = "password for GitHub"
+  type = "string"
+  default = "nogit"
+}
 
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
