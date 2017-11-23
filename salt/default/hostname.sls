@@ -23,13 +23,12 @@ permanent_hostname:
     - name: /etc/hostname
     - contents: {{ grains['hostname'] }}
 
-{% if grains['os_family'] == 'Suse' %}
-SUSE_specific_permanent_hostname:
+# /etc/HOSTNAME is supposed to always contain the FQDN
+legacy_permanent_hostname:
   file.managed:
     - name: /etc/HOSTNAME
     - follow_symlinks: False
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
-{% endif %}
 
 # set the hostname and FQDN name in /etc/hosts
 # this is not needed if a proper DNS server is in place, but when using avahi this
