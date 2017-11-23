@@ -83,6 +83,15 @@
   path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP3/x86_64/update
   archs: [x86_64]
 
+# SLES 15
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product/
+  path: /srv/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product/
+  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update/
+  path: /srv/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update
+  archs: [x86_64]
+
+
 # SUSE Manager 3.0
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product
   path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product
@@ -121,6 +130,14 @@
   archs: [x86_64]
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
   path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
+  archs: [x86_64]
+
+# SLES 15 Manager Tools
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
+  path: /srv/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/15/x86_64/product
+  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
+  path: /srv/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update
   archs: [x86_64]
 
 # RES 7 Manager Tools
@@ -169,6 +186,11 @@
 # SLES 12 SP3 Test
 - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
   path: /srv/mirror/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
+  archs: [x86_64]
+
+# SLES 15 Test
+- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
+  path: /srv/mirror/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
   archs: [x86_64]
 
 # SUSE Manager Head
@@ -234,6 +256,11 @@
 # SLE 12 (GA and all SPs) Manager Tools Head devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+  archs: [x86_64]
+
+# SLE 15 Manager Tools Head devel
+- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
+  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
   archs: [x86_64]
 
 # RES 7 Manager Tools Head devel
