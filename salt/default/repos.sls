@@ -267,6 +267,67 @@ tools_devel_repo:
 {% endif %}
 {% endif %}
 
+
+{% if '15' in grains['osrelease'] %}
+{% if grains['osrelease'] == '15' %}
+os_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-x86_64-Pool.repo
+    - source: salt://default/repos.d/SLE-15-x86_64-Pool.repo
+    - template: jinja
+
+os_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-x86_64-Update.repo
+    - source: salt://default/repos.d/SLE-15-x86_64-Update.repo
+    - template: jinja
+
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-x86_64-Test-Update.repo
+    - source: salt://default/repos.d/SLE-15-x86_64-Test-Update.repo
+    - template: jinja
+{% endif %}
+{% endif %}
+
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Pool.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Pool.repo
+    - template: jinja
+
+tools_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
+    - template: jinja
+
+{% if 'released' in grains.get('version') | default('released', true) %}
+
+tools_devel_repo:
+  file.touch:
+    - name: /tmp/no_tools_devel_repo_needed
+
+{% elif 'nightly' in grains.get('version') | default('', true) %}
+
+tools_devel_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-15-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.1_SLE-Manager-Tools-15-x86_64.repo
+    - template: jinja
+
+{% elif ('head' in grains.get('version') | default('', true)) or ('test' in grains.get('version') | default('', true)) %}
+tools_devel_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-15-x86_64.repo
+    - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-15-x86_64.repo
+    - template: jinja
+
+{% endif %}
+{% endif %}
+
+
 allow_vendor_changes:
   file.managed:
     - name: /etc/zypp/vendors.d/suse

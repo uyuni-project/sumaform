@@ -1,0 +1,5 @@
+[SLE-Module-Basesystem15-x86_64-Update]
+name=SLE-Module-Basesystem15-x86_64-Update
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update/
