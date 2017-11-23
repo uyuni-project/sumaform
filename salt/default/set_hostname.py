@@ -41,16 +41,26 @@ with open("/etc/HOSTNAME", "w") as f:
     f.write(fqdn + "\n")
 
 # set the hostname and FQDN name in /etc/hosts
-def guess_address(fqdn, socket_type, invalid_prefix, default):
+# this is not needed with a proper DNS server in place, meant as a workaround
+# for any case in which it is not. We try to use real IP addresses in order not
+# to break round-robin DNS resolution, use 127.0.1.1 as a last-effort.
+# IPV6: we do not accept link-local addresses as at the moment it is difficult
+# to determine their scope id (interface name) in a robust way
+def guess_address(fqdn, hostname, socket_type, invalid_prefixes, default):
+    infos = []
     try:
-        infos = socket.getaddrinfo(fqdn, None, socket_type)
-        addresses = [info[4][0] for info in infos]
-        valid_addresses = filter(lambda s: not s.startswith(invalid_prefix), addresses)
-        if valid_addresses:
-            return valid_addresses[0]
-        else:
-            return default
+        infos += socket.getaddrinfo(fqdn, None, socket_type)
     except socket.error:
+        pass
+    try:
+        infos += socket.getaddrinfo(hostname, None, socket_type)
+    except socket.error:
+        pass
+    addresses = [info[4][0] for info in infos]
+    valid_addresses = filter(lambda s: not re.match(invalid_prefixes, s, re.I), addresses)
+    if valid_addresses:
+        return valid_addresses[0]
+    else:
         return default
 
 def update_hosts_file(fqdn, hostname, repl):
@@ -65,8 +75,8 @@ def update_hosts_file(fqdn, hostname, repl):
         f.write(new_hosts)
 
 update_hosts_file(fqdn, hostname, "")
-ipv4 = guess_address(hostname, socket.AF_INET, "127.0.", "127.0.1.1")
-ipv6 = guess_address(hostname, socket.AF_INET6, "::1", "# ipv6 address not found for names:")
+ipv4 = guess_address(fqdn, hostname, socket.AF_INET, "127\\.0\\.", "127.0.1.1")
+ipv6 = guess_address(fqdn, hostname, socket.AF_INET6, "(::1$)|(fe[89ab][0-f]:)", "# ipv6 address not found for names:")
 repl = "\n\n{0} {1} {2}\n{3} {4} {5}\n".format(ipv4, fqdn, hostname, ipv6, fqdn, hostname)
 update_hosts_file(fqdn, hostname, repl)
 
