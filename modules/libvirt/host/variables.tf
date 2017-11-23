@@ -9,7 +9,7 @@ variable "name" {
 }
 
 variable "image" {
-  description = "One of: opensuse422, sles11sp3, sles11sp4, sles12, sles12sp1, centos7"
+  description = "One of: opensuse422, sles11sp3, sles11sp4, sles12, sles12sp1, sles15, centos7"
   type = "string"
 }
 
