@@ -43,6 +43,7 @@ def update_hosts_file(fqdn, hostname, repl):
 
 update_hosts_file(fqdn, hostname, "")
 ipv4 = guess_address(fqdn, hostname, socket.AF_INET, "127\\.0\\.", "127.0.1.1")
+# we explicitly exlcude link-local addresses as we currently can't get the interface names
 ipv6 = guess_address(fqdn, hostname, socket.AF_INET6, "(::1$)|(fe[89ab][0-f]:)", "# ipv6 address not found for names:")
 repl = "\n\n{0} {1} {2}\n{3} {4} {5}\n".format(ipv4, fqdn, hostname, ipv6, fqdn, hostname)
 update_hosts_file(fqdn, hostname, repl)
