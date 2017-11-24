@@ -43,27 +43,31 @@ cucumber_requisites:
       - git-core
       - wget
       - aaa_base-extras
-      - unzip
+      - zlib-devel
+      - libxslt-devel
       # packaged ruby gems
       - ruby2.1-rubygem-bundler
-      - rubygem-cucumber
       - twopence
-      - rubygem-rack-1_2
-      - rubygem-selenium-webdriver
-      - rubygem-net-ssh
-      - rubygem-websocket-1_0
-      - rubygem-websocket-driver
-      - ruby2.1-rubygem-jwt
-      - rubygem-mime-types
-      - ruby2.1-rubygem-builder
-      - rubygem-cliver
-      - ruby2.1-rubygem-rake
       - rubygem-twopence
-      - ruby2.1-rubygem-simplecov
-      - ruby2.1-rubygem-poltergeist
-      - ruby2.1-rubygem-rake
     - require:
       - sls: controller.repos
+
+gemfile_ctl:
+  file.managed:
+    - name: /var/tmp/Gemfile
+    - source: salt://controller/Gemfile
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755
+
+install_gems_via_bundle:
+  cmd.run:
+    - name: bundle.ruby2.1 install --gemfile /var/tmp/Gemfile
+    - require:
+      - pkg: cucumber_requisites
+      - file: gemfile_ctl
+
 
 spacewalk_git_repository:
   cmd.run:
@@ -100,8 +104,8 @@ extra_pkgs:
 git_config:
   file.append:
     - name: ~/.netrc
-    - text:  
-      - machine github.com 
+    - text:
+      - machine github.com
       - login {{ grains.get("git_username") }}
       - password {{ grains.get("git_password") }}
       - protocol https
