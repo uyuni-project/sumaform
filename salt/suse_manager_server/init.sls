@@ -142,7 +142,7 @@ substitute_email_sender_address:
 substitute_email_traceback_address:
   file.replace:
     - name: /etc/rhn/rhn.conf
-    - pattern: traceback_mail*
+    - pattern: traceback_mail.*
     - repl: traceback_mail = {{ grains['traceback_email'] }}
     - require:
         - cmd: suse_manager_setup
