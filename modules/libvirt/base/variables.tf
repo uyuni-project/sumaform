@@ -55,7 +55,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default = ["centos7",  "opensuse422",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2", "sles12sp3", "sles15"]
+  default = ["centos7",  "opensuse422",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2", "sles12sp3", "sles15beta4"]
   type = "list"
 }
 
@@ -70,7 +70,7 @@ variable "image_locations" {
     sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
     sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
     sles12sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
-    sles15 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15b3.x86_64.qcow2"
+    sles15beta4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15beta4.x86_64.qcow2"
   }
   type = "map"
 }
