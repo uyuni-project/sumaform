@@ -52,22 +52,12 @@ cucumber_requisites:
     - require:
       - sls: controller.repos
 
-gemfile_ctl:
-  file.managed:
-    - name: /var/tmp/Gemfile
-    - source: salt://controller/Gemfile
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 755
-
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby2.1 install --gemfile /var/tmp/Gemfile
+    - name: bundle.ruby2.1 install --gemfile /root/spacewalk/testsuite/Gemfile
     - require:
       - pkg: cucumber_requisites
-      - file: gemfile_ctl
-
+      - cmd: spacewalk_git_repository
 
 spacewalk_git_repository:
   cmd.run:
