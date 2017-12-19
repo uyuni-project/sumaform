@@ -43,27 +43,21 @@ cucumber_requisites:
       - git-core
       - wget
       - aaa_base-extras
-      - unzip
+      - zlib-devel
+      - libxslt-devel
       # packaged ruby gems
       - ruby2.1-rubygem-bundler
-      - rubygem-cucumber
       - twopence
-      - rubygem-rack-1_2
-      - rubygem-selenium-webdriver
-      - rubygem-net-ssh
-      - rubygem-websocket-1_0
-      - rubygem-websocket-driver
-      - ruby2.1-rubygem-jwt
-      - rubygem-mime-types
-      - ruby2.1-rubygem-builder
-      - rubygem-cliver
-      - ruby2.1-rubygem-rake
       - rubygem-twopence
-      - ruby2.1-rubygem-simplecov
-      - ruby2.1-rubygem-poltergeist
-      - ruby2.1-rubygem-rake
     - require:
       - sls: controller.repos
+
+install_gems_via_bundle:
+  cmd.run:
+    - name: bundle.ruby2.1 install --gemfile /root/spacewalk/testsuite/Gemfile
+    - require:
+      - pkg: cucumber_requisites
+      - cmd: spacewalk_git_repository
 
 spacewalk_git_repository:
   cmd.run:
@@ -100,8 +94,8 @@ extra_pkgs:
 git_config:
   file.append:
     - name: ~/.netrc
-    - text:  
-      - machine github.com 
+    - text:
+      - machine github.com
       - login {{ grains.get("git_username") }}
       - password {{ grains.get("git_password") }}
       - protocol https
