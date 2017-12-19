@@ -1,6 +1,4 @@
 export SERVER={{ grains.get('server') }}
-# transition:
-export TESTHOST=$SERVER
 {% if grains.get('proxy') | default(false, true) %}
 export PROXY={{ grains.get('proxy') }}
 {% endif %}
