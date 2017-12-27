@@ -13,7 +13,7 @@ module "controller" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "sles12sp1"
+  image = "sles12sp3"
   memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"
