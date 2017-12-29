@@ -60,11 +60,11 @@ grafana:
   archive.extracted:
     - name: /opt/grafana
     {% if grains.get('mirror') %}
-    - source: http://{{grains.get("mirror")}}/grafana-4.2.0.linux-x64.tar.gz
+    - source: http://{{grains.get("mirror")}}/grafana-5.2.2.linux-amd64.tar.gz
     {% else %}
-    - source: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.2.0.linux-x64.tar.gz
+    - source: https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.2.linux-amd64.tar.gz
     {% endif %}
-    - source_hash: sha256=e9927baaaf6cbcab64892dedd11ccf509e4edea54670db4250b9e7568466ec61
+    - source_hash: sha256=74ecb544787d37a2f743faa2f2304ca11e37438c32ce5b13e07a70ae47982bbb
     - archive_format: tar
     - options: --strip-components=1
     - enforce_toplevel: False
