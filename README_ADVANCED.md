@@ -182,7 +182,9 @@ Please note that `iss_master` is set from `suma21pgm`'s module output variable `
 
 ## Cucumber testsuite
 
-It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, proxy, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+
+The proxy and the CentOS minion are optional.
 
 To start the testsuite, use:
 
