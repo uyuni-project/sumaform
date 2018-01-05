@@ -7,7 +7,7 @@ export PROXY={{ grains.get('proxy') }}
 export CLIENT={{ grains.get('client') }}
 export MINION={{ grains.get('minion') }}
 export SSHMINION={{ grains.get('ssh_minion') }}
-{% if grains.get('proxy') | default(false, true) %}
+{% if grains.get('centos_minion') | default(false, true) %}
 export CENTOSMINION={{ grains.get('centos_minion') }}
 {% else %}
 # no centos minion defined
