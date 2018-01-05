@@ -50,6 +50,7 @@ module "head-min-sles12sp3" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
+# optional
 module "head-minssh-sles12sp3" {
   source = "./modules/libvirt/host"
   base_configuration = "${module.base.configuration}"
