@@ -20,6 +20,11 @@ variable "git_password" {
   default = "nogit"
 }
 
+variable "branch" {
+  description = "Leave default for automatic selection or specify an existing branch of spacewalk"
+  default = "default"
+}
+
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
@@ -38,11 +43,6 @@ variable "client_configuration" {
   type = "map"
 }
 
-variable "branch" {
-  description = "Leave default for automatic selection or specify an existing branch of spacewalk-testsuite-base"
-  default = "default"
-}
-
 variable "minion_configuration" {
   description = "use ${module.<MINION_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
@@ -51,6 +51,9 @@ variable "minion_configuration" {
 variable "minionssh_configuration" {
   description = "use ${module.<MINIONSSH_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
+  default = {
+    hostname = "null"
+  }
 }
 
 variable "centos_configuration" {
