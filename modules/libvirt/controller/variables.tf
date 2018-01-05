@@ -56,6 +56,9 @@ variable "minionssh_configuration" {
 variable "centos_configuration" {
   description = "use ${module.<CENTOS_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
+  default = {
+    hostname = "null"
+  }
 }
 
 variable "additional_repos" {
