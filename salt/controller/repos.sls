@@ -9,10 +9,10 @@ Devel_Galaxy_cucumber_testsuite_repo:
     - require:
       - sls: default
 
-sle_12_sp1_sdk_pool:
+sle_12_sp3_sdk_pool:
   file.managed:
-    - name: /etc/zypp/repos.d/SLE-12-SP1-SDK-x86_64-Pool.repo
-    - source: salt://controller/repos.d/SLE-12-SP1-SDK-x86_64-Pool.repo
+    - name: /etc/zypp/repos.d/SLE-12-SP3-SDK-x86_64-Pool.repo
+    - source: salt://controller/repos.d/SLE-12-SP3-SDK-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: default
@@ -22,4 +22,4 @@ refresh_controller_repos:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: Devel_Galaxy_cucumber_testsuite_repo
-      - file: sle_12_sp1_sdk_pool
+      - file: sle_12_sp3_sdk_pool
