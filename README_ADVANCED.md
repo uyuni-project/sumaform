@@ -216,6 +216,27 @@ You can configure a `mirror` host for the testsuite and that will be beneficial 
 
 You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/#branches-used) via the `branch` variable in the `controller` module (by default an automatic selection is made).
 
+## Working on multiple configuration sets (workspaces) locally
+
+Terraform supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://www.terraform.io/docs/state/workspaces.html). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.
+
+As a workaround, you can create a `local_workspaces` directory with a subdirectory per workspace, each containing main.tf and terraform.tfstate files, then use symlinks to the sumaform root:
+
+```
+~/sumaform$ find local_workspaces/
+local_workspaces/
+local_workspaces/aws-demo
+local_workspaces/aws-demo/main.tf
+local_workspaces/aws-demo/terraform.tfstate
+local_workspaces/libvirt-testsuite
+local_workspaces/libvirt-testsuite/main.tf
+local_workspaces/libvirt-testsuite/terraform.tfstate
+~/sumaform$ ls -l main.tf
+[...] main.tf -> local_workspaces/libvirt-testsuite/main.tf
+~/sumaform$ ls -l terraform.tfstate
+[...] -> local_workspaces/libvirt-testsuite/terraform.tfstate
+```
+
 ## pgpool-II replicated database
 
 Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below:

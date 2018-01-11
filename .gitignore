@@ -5,6 +5,8 @@
 /packer/packer_cache/
 /packer/output*
 
+/local_workspaces
+
 /terraform.tfstate*
 /.terraform/
 /main.tf
