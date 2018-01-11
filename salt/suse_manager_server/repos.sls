@@ -177,6 +177,14 @@ filebeat_repo:
       - sls: default
 {% endif %}
 
+remove_client_tools_pool:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
+
+remove_client_tools_update:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
+
 refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
