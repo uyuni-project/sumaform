@@ -177,24 +177,6 @@ filebeat_repo:
       - sls: default
 {% endif %}
 
-remove_client_tools_pool:
-  file.absent:
-{% if grains['osmajorrelease'] == '12' %}
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
-{% endif %}
-{% if grains['osmajorrelease'] == '15' %}
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Pool.repo
-{% endif %}
-
-remove_client_tools_update:
-  file.absent:
-{% if grains['osmajorrelease'] == '12' %}
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
-{% endif %}
-{% if grains['osmajorrelease'] == '15' %}
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
-{% endif %}
-
 refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
