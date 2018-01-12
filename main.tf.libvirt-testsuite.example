@@ -11,16 +11,15 @@ module "base" {
   // network_name = "default" // change to "" if you change bridge below
   // bridge = ""
   // name_prefix = ""
-  // you need always sles12sp1 because controller is based on that.
-  images = ["centos7", "sles12sp1", "sles12sp2", "sles12sp3"]
+  images = ["centos7", "sles12sp3"]
 }
 
 module "head-srv" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
+  version = "head"
   name = "head-srv"
   image = "sles12sp3"
-  version = "head"
   for_development_only = false
   for_testsuite_only = true
   auto_accept = false
@@ -30,6 +29,7 @@ module "head-srv" {
 module "head-cli-sles12sp3" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
+  version = "head"
   name = "head-cli-sles12sp3"
   image = "sles12sp3"
   server_configuration =  { hostname = "head-srv.tf.local" }
@@ -54,6 +54,7 @@ module "head-min-sles12sp3" {
 module "head-minssh-sles12sp3" {
   source = "./modules/libvirt/host"
   base_configuration = "${module.base.configuration}"
+  version = "head"
   name = "head-minssh-sles12sp3"
   image = "sles12sp3"
   ssh_key_path = "./salt/controller/id_rsa.pub"
@@ -80,8 +81,8 @@ module "head-ctl" {
   server_configuration = "${module.head-srv.configuration}"
   client_configuration = "${module.head-cli-sles12sp3.configuration}"
   minion_configuration = "${module.head-min-sles12sp3.configuration}"
-  centos_configuration = "${module.head-min-centos7.configuration}"
-  minionssh_configuration = "${module.head-minssh-sles12sp3.configuration}"
+  centos_configuration = "${module.head-min-centos7.configuration}"         // optional
+  minionssh_configuration = "${module.head-minssh-sles12sp3.configuration}" // optional
   branch = "default"
   git_username = "<YOUR_USERNAME>"
   git_password = "<YOUR_PASSWORD>"
