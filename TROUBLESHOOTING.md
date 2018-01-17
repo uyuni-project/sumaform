@@ -131,9 +131,30 @@ If the user running `qemu` is not the one you expected:
  - change the `user` and `group` variables in `/etc/libvirt/qemu.conf`, typically `root`/`root` will solve any problem
  - restart the libvirt daemon
 
-### AppArmor
+### Disable AppArmor for libvirt
 
-You can detect AppArmor issues by looking at `/var/log/syslog`:
+A possible error message you can get from `libvirt` (via `terraform` for instance) is:
+
+```
+* libvirt_domain.domain: Error creating libvirt domain: virError(Code=1, Domain=0, Message='internal error: child reported: Kernel does not provide mount namespace: Permission denied')
+```
+
+*You could crash into this if you upgraded your system to openSUSE-42.3, which involves an update of `libvirt` up to the version `3.3`*
+
+This is caused by `AppArmor` and to fix it you will need to disable it for the `libvirt` tool.
+
+You can also check `sudo aa-status | grep libvirt`: if this returns some records, it means that `AppArmor` is effectively active on `libvirt`.
+
+You can disable it running the following:
+```
+$ sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
+$ sudo /etc/init.d/apparmor restart
+$ sudo aa-status | grep libvirt
+```
+
+and the last command should return empty now.
+
+You can even detect AppArmor issues by looking at `/var/log/syslog`:
 
 ```
 Oct 14 08:10:03 dell kernel: [52456.461754] audit: type=1400 audit(1476425403.666:27):
@@ -143,7 +164,11 @@ pid=4193 comm="qemu-system-x86" requested_mask="wr" denied_mask="wr"
 fsuid=106 ouid=106
 ```
 
-Fixing AppArmor issues is difficult and beyond the scope of this guide. You can disable AppArmor completely in non-security-sensitive environments by adding `security_driver = "none"` to `/etc/libvirt/qemu.conf`.
+Fixing AppArmor issues is difficult and beyond the scope of this guide. You can disable AppArmor completely in non-security-sensitive environments by adding `security_driver = "none"` to `/etc/libvirt/qemu.conf`, but this change can also lead you to a different error though
+```
+Failed to connect socket to '/var/run/libvirt/libvirt-sock': No such file or directory'
+```
+so [disabling AppArmor for libvirt](https://github.com/moio/sumaform/blob/master/TROUBLESHOOTING.md#disable-apparmor-for-libvirt) is preferred.
 
 ## Q: how can I workaround an "expected object, got string" libvirt error during the plan?
 
