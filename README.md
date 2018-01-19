@@ -33,6 +33,8 @@ sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/moio/sumaform.git
 ```
 
+NOTE: be sure to have [SUSE's CA certificates](http://ca.suse.de/) installed on your system.
+
 You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
 
 ## Backend choice
