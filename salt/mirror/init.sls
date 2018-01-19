@@ -108,7 +108,7 @@ web_server:
 exports_file:
   file.append:
     - name: /etc/exports
-    - text: /srv/mirror *(ro,sync,no_root_squash)
+    - text: /srv/mirror *(ro,sync,no_root_squash,insecure)
     - require:
       - file: mirror_directory
 
