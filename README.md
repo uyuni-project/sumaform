@@ -42,6 +42,7 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 `sumaform` can deploy virtual machines to:
  - single libvirt hosts
  - Amazon Web Services
+ - OpenStack private clouds
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
@@ -55,7 +56,8 @@ In `sumaform` you define a set of virtual machines in a `main.tf` configuration 
 Refer to specific READMEs to get started:
  * [libvirt README](modules/libvirt/README.md)
  * [AWS README](modules/aws/README.md)
-
+ * [OpenStack README](modules/openstack/README.md)
+ 
 ## Typical use
 
 Refer to the [official guides](https://www.terraform.io/docs/index.html) for a general understanding of Terraform and full commands.
