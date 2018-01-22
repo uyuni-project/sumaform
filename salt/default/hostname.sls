@@ -39,4 +39,11 @@ hosts_file_hack:
   cmd.script:
     - name: salt://default/set_ip_in_etc_hosts.py
     - args: "{{ grains['hostname'] }} {{ grains['domain'] }}"
+    - template: jinja
+    - context:
+    {% if grains['osmajorrelease'] == 15 %}
+      pythonexec: python3
+    {% else %}
+      pythonexec: python
+    {% endif %}
 {% endif %}
