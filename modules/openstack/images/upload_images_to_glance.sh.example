@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# Remember to export your OpenStack credentials
+# Customize these and rename it to upload_images_to_glance.sh
+export OS_USERNAME=<OS_USERNAME>
+export OS_PASSWORD=<OS_PASSWORD>
+export OS_AUTH_URL=<OS_AUTH_URL>
+export OS_PROJECT_ID=<OS_PROJECT_ID>
+IMAGE_PREFIX="sumaform_"
+WORKDIR="/tmp"
+# Stop there!
+
+cd $WORKDIR
+wget -c http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2
+wget -c http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2
+
+for i in *.qcow2; do glance --insecure image-create --name $IMAGE_PREFIX${i%%.*} --disk-format=qcow2 --container-format=bare --file $i; done

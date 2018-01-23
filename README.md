@@ -9,15 +9,15 @@
 
 It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being the successor of [suminator](https://github.com/SUSE/suminator/) implemented as [Terraform](https://www.terraform.io/) modules.
 
-
 ## Installation
 
 openSUSE and SUSE Linux Enterprise Server:
 ```
 # Uncomment one of the following lines depending on your distro
 
-#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_42.3/systemsmanagement:sumaform.repo
-#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.2/home:SilvioMoioli:tools.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/home:SilvioMoioli:tools.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
 
 sudo zypper install terraform-provider-libvirt
 git clone https://github.com/moio/sumaform.git
@@ -26,9 +26,9 @@ git clone https://github.com/moio/sumaform.git
 Ubuntu and Debian:
 ```
 sudo apt install alien
-wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP1/x86_64/terraform.rpm
+wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP3/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
-wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
+wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP3/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/moio/sumaform.git
 ```
@@ -39,12 +39,15 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 
 `sumaform` can deploy virtual machines to:
  - single libvirt hosts
+ - OpenStack private clouds
  - Amazon Web Services
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
 
-The Amazon Web Services backend has been developed for scalability tests of SUSE Manager and it is only currently used in that context.
+The OpenStack backend is for OpenStack cloud usage.
+
+The Amazon Web Services backend has been developed for scalability tests and it is used in that context exclusively.
 
 ## Basic `main.tf` configuration
 
@@ -52,6 +55,7 @@ In `sumaform` you define a set of virtual machines in a `main.tf` configuration 
 
 Refer to specific READMEs to get started:
  * [libvirt README](modules/libvirt/README.md)
+ * [OpenStack README](modules/openstack/README.md)
  * [AWS README](modules/aws/README.md)
 
 ## Typical use
