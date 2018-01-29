@@ -154,6 +154,6 @@ variable "mirror_private_name" {
 }
 
 variable "gpg_keys" {
-  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see libvirt/README.md"
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
   default = []
 }
