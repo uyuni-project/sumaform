@@ -79,7 +79,7 @@ variable "channels" {
 }
 
 variable "role"  {
-  description = "Name of the host role, see main.tf.libvirt.example"
+  description = "Name of the host role, see the main.tf example file"
   type = "string"
 }
 

@@ -1,5 +1,5 @@
 variable "base_configuration" {
-  description = "use ${module.base.configuration}, see main.tf.libvirt.example"
+  description = "use ${module.base.configuration}, see the main.tf example file"
   type = "map"
 }
 
