@@ -34,6 +34,14 @@ variable "count"  {
   default = 1
 }
 
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  default = "/dev/null"
+  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+}
+
+// Provider-specific variables
+
 variable "memory" {
   description = "RAM memory in MiB"
   default = 1024
@@ -52,10 +60,4 @@ variable "running" {
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
-}
-
-variable "ssh_key_path" {
-  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }

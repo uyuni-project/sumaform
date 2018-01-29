@@ -33,11 +33,6 @@ variable "iss_slave" {
   default = "null"
 }
 
-variable "image" {
-  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3.0-released or 3.0-nightly"
-  default = "default"
-}
-
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
@@ -93,6 +88,29 @@ variable "additional_packages" {
   default = []
 }
 
+variable "traceback_email" {
+  description = "recipient email address that will receive errors during usage"
+  default = "null"
+}
+
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  default = "/dev/null"
+  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+}
+
+variable "gpg_keys" {
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
+  default = []
+}
+
+// Provider-specific variables
+
+variable "image" {
+  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3.0-released or 3.0-nightly"
+  default = "default"
+}
+
 variable "memory" {
   description = "RAM memory in MiB"
   default = 4096
@@ -111,20 +129,4 @@ variable "running" {
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
-}
-
-variable "traceback_email" {
-  description = "recipient email address that will receive errors during usage"
-  default = "null"
-}
-
-variable "ssh_key_path" {
-  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
-}
-
-variable "gpg_keys" {
-  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
-  default = []
 }

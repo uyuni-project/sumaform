@@ -8,11 +8,6 @@ variable "name" {
   type = "string"
 }
 
-variable "memory" {
-  description = "RAM memory in MiB"
-  default = 4096
-}
-
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}
@@ -21,6 +16,19 @@ variable "additional_repos" {
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
   default = []
+}
+
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  default = "/dev/null"
+  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+}
+
+// Provider-specific variables
+
+variable "memory" {
+  description = "RAM memory in MiB"
+  default = 4096
 }
 
 variable "vcpu" {
@@ -36,10 +44,4 @@ variable "running" {
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
-}
-
-variable "ssh_key_path" {
-  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
