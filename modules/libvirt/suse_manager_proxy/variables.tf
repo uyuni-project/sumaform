@@ -14,7 +14,7 @@ variable "version" {
 }
 
 variable "server_configuration" {
-  description = "use ${module.<SERVER_NAME>.configuration}, see see ADVANCED_MAIN_TF.md"
+  description = "use ${module.<SERVER_NAME>.configuration}, see README_ADVANCED.md"
   type = "map"
 }
 
