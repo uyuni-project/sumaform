@@ -55,7 +55,7 @@ variable "mac" {
 }
 
 variable "ssh_key_path" {
-  description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
+  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }

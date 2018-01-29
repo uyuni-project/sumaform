@@ -86,6 +86,33 @@ module "suma3pg" {
 }
 ```
 
+## Custom SSH keys
+
+If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
+
+```hcl
+module "base" {
+  [...]
+  ssh_key_path = "~/.ssh/id_mbologna_terraform.pub"
+  [...]
+}
+```
+
+The `ssh_key_path` option can also be specified on a per-host basis. In this case, the key specified is treated as an additional key, copied to the machine as well as the `ssh_key_path` specified in the `base` section.
+
+If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
+
+## SSH access without specifying a username
+
+You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
+
+```
+Host *.tf.local
+StrictHostKeyChecking no
+UserKnownHostsFile=/dev/null
+User root
+```
+
 ## Activation Keys for minions
 
 You can specify an Activation Key string for minions to use at onboarding time to a SUSE Manager Server. An example follows:
