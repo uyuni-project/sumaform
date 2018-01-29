@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/{{ pythonexec }}
 import errno
 import os
 import re
@@ -24,7 +24,7 @@ def guess_address(fqdn, hostname, socket_type, invalid_prefixes, default):
     except socket.error:
         pass
     addresses = [info[4][0] for info in infos]
-    valid_addresses = filter(lambda s: not re.match(invalid_prefixes, s, re.I), addresses)
+    valid_addresses = [item for item in addresses if not re.match(invalid_prefixes, item, re.I)]
     if valid_addresses:
         return valid_addresses[0]
     else:

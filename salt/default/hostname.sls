@@ -37,6 +37,13 @@ legacy_permanent_hostname:
 {% if grains['use_avahi'] %}
 hosts_file_hack:
   cmd.script:
-    - name: salt://default/set_ip_in_etc_hosts.py
+    - name: salt://default/set_ip_in_etc_hosts.py.jinja
     - args: "{{ grains['hostname'] }} {{ grains['domain'] }}"
+    - template: jinja
+    - context:
+    {% if grains.get('osmajorrelease', None)|int() == 15 %}
+      pythonexec: python3
+    {% else %}
+      pythonexec: python
+    {% endif %}
 {% endif %}
