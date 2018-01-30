@@ -1,13 +1,9 @@
 module "minion" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "${var.image}"
   count = "${var.count}"
-  memory = "${var.memory}"
-  vcpu = "${var.vcpu}"
-  running = "${var.running}"
-  mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   gpg_keys = "${var.gpg_keys}"
@@ -26,6 +22,13 @@ susemanager:
   activation_key: ${var.activation_key}
 
 EOF
+
+  // Provider-specific variables
+  image = "${var.image}"
+  memory = "${var.memory}"
+  vcpu = "${var.vcpu}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
 
 output "configuration" {

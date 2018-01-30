@@ -13,14 +13,10 @@ variable "images" {
 
 module "suse_manager" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "${var.image == "default" ? lookup(var.images, var.version) : var.image}"
   count = 1
-  memory = "${var.memory}"
-  vcpu = "${var.vcpu}"
-  running = "${var.running}"
-  mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
@@ -48,6 +44,13 @@ from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
 
 EOF
+
+  // Provider-specific variables
+  image = "${var.image == "default" ? lookup(var.images, var.version) : var.image}"
+  memory = "${var.memory}"
+  vcpu = "${var.vcpu}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
 
 output "configuration" {
