@@ -33,20 +33,6 @@ variable "server_configuration" {
   default = { hostname = "null" }
 }
 
-variable "openstack_tenant_name" {
-  description = "OpenStack's tenant name"
-  type = "string"
-}
-
-variable "openstack_auth_url" {
-  description = "OpenStack's authentication URL"
-  type = "string"
-}
-
-variable "flavor" {
-  description = "OpenStack image flavor: m1.medium, m1.small, etc."
-  type = "string"
-}
 
 variable "cc_username" {
   description = "Username for the Customer Center"
@@ -86,4 +72,34 @@ variable "additional_packages" {
 variable "domain" {
   description = "hostname's domain"
   default = "tf.local"
+}
+
+variable "openstack_tenant_name" {
+  description = "OpenStack's tenant name"
+  type = "string"
+}
+
+variable "openstack_tenant_id" {
+  description = "OpenStack's tenant id"
+  type = "string"
+}
+
+variable "openstack_auth_url" {
+  description = "OpenStack's authentication URL"
+  type = "string"
+}
+
+variable "openstack_password" {
+  description = "OpenStack's password"
+  type = "string"
+}
+
+variable "openstack_domain_name" {
+  description = "OpenStack's domain"
+  type = "string"
+}
+
+variable "openstack_user" {
+  description = "OpenStack's user"
+  type = "string"
 }
