@@ -27,37 +27,14 @@
 
 ## Accessing VMs
 
-All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and a `root` user with password `linux`.
-Upon provisioning your SSH public key (by default `~/.ssh/id_rsa.pub`) is copied into the remote machine. This means that you can access every machine without supplying any password.
+All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and user `root` with password `linux` accessible via your SSH public key (by default `~/.ssh/id_rsa.pub`).
 
-If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
-
-```hcl
-module "base" {
-  [...]
-  ssh_key_path = "~/.ssh/id_mbologna_terraform.pub"
-  [...]
-}
-```
-
-The `ssh_key_path` option can also be specified on a per-host basis. In this case, the key specified is treated as an additional key, copied to the machine as well as the `ssh_key_path` specified in the `base` section.
-
-If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
-
-Provided your host is on the same network segment of the virtual machines you can access them via:
-
+Thus if your host is on the same network segment of the virtual machines you can simply use:
 ```
 ssh root@moio-suma3pg.tf.local
 ```
 
-You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
-
-```
-Host *.tf.local
-StrictHostKeyChecking no
-UserKnownHostsFile=/dev/null
-User root
-```
+If you want to use a different SSH key, or mDNS does not work out of the box, or if you don't want to use mDNS, please check the README_ADVANCED.md and TROUBLESHOOTING.md files.
 
 Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected. SUSE Manager default user is `admin` with password `admin`.
 

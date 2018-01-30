@@ -1,12 +1,8 @@
 module "grafana" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "sles12sp2"
-  memory = 4096
-  vcpu = 1
-  running = "${var.running}"
-  mac = "${var.mac}"
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
@@ -16,6 +12,13 @@ version: 3.0-nightly
 role: grafana
 
 EOF
+
+  // Provider-specific variables
+  image = "sles12sp2"
+  memory = 4096
+  vcpu = 1
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
 
 output "configuration" {

@@ -11,17 +11,13 @@ variable "testsuite-branch" {
 
 module "controller" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "sles12sp3"
-  memory = "${var.memory}"
-  running = "${var.running}"
-  mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
-
 
 git_username: ${var.git_username}
 git_password: ${var.git_password}
@@ -34,5 +30,12 @@ centos_minion: ${var.centos_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
 role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["version"]) : var.branch}
+
 EOF
+
+  // Provider-specific variables
+  image = "sles12sp3"
+  memory = "${var.memory}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }

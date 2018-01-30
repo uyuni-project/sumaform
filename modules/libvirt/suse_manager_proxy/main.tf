@@ -12,14 +12,10 @@ variable "images" {
 
 module "suse_manager_proxy" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "${lookup(var.images, var.version)}"
   count = "${var.count}"
-  memory = "${var.memory}"
-  vcpu = "${var.vcpu}"
-  running = "${var.running}"
-  mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
@@ -34,6 +30,13 @@ for_development_only: ${var.for_development_only}
 use_unreleased_updates: ${var.use_unreleased_updates}
 
 EOF
+
+  // Provider-specific variables
+  image = "${lookup(var.images, var.version)}"
+  memory = "${var.memory}"
+  vcpu = "${var.vcpu}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
 
 output "configuration" {

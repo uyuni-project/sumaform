@@ -1,5 +1,5 @@
 variable "base_configuration" {
-  description = "use ${module.base.configuration}, see main.tf.libvirt.example"
+  description = "use ${module.base.configuration}, see the main.tf example file"
   type = "map"
 }
 
@@ -14,7 +14,7 @@ variable "version" {
 }
 
 variable "server_configuration" {
-  description = "use ${module.<SERVER_NAME>.configuration}, see see ADVANCED_MAIN_TF.md"
+  description = "use ${module.<SERVER_NAME>.configuration}, see README_ADVANCED.md"
   type = "map"
 }
 
@@ -43,6 +43,19 @@ variable "count"  {
   default = 1
 }
 
+variable "ssh_key_path" {
+  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  default = "/dev/null"
+  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+}
+
+variable "gpg_keys" {
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
+  default = []
+}
+
+// Provider-specific variables
+
 variable "memory" {
   description = "RAM memory in MiB"
   default = 1024
@@ -61,14 +74,4 @@ variable "running" {
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
-}
-
-variable "ssh_key_path" {
-  description = "path of additional pub ssh key you want to use to access VMs, see libvirt/README.md"
-  default = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
-}
-variable "gpg_keys" {
-  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see libvirt/README.md"
-  default = []
 }
