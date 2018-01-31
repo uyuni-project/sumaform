@@ -2,17 +2,14 @@ terraform {
     required_version = ">= 0.8.0"
 }
 
-resource "openstack_compute_flavor_v2" "sumaform-flavor" {
-  name  = "xxl-sumaform"
-  ram   = "8096"
-  vcpus = "2"
-  disk  = "200"
+resource "openstack_blockstorage_volume_v2" "volume" {
+  size = 50
+  image_id = "${openstack_images_image_v2.sles12sp3.id}"
 }
-
 
 resource "openstack_images_image_v2" "sles12sp3" {
   name   = "sles12sp3_sumaform"
-  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
+  image_source_url = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/openstack/images/opensuse422.x86_64-0.1.0-Build4.1.qcow2"
   container_format = "bare"
   disk_format = "qcow2"
 
@@ -20,10 +17,9 @@ resource "openstack_images_image_v2" "sles12sp3" {
 
 resource "openstack_compute_instance_v2" "instance" {
   name = "${var.name}"
-  image_name = "${var.image}"
-  flavor_name = "xxl-sumaform"
   security_groups = ["default"]
   region = ""
+  flavor_name = "m1.xlarge"
   count = "${var.count}"
 
   network {
@@ -35,6 +31,15 @@ resource "openstack_compute_instance_v2" "instance" {
     user = "root"
     password = "linux"
   }
+
+  block_device {
+    uuid                  = "${openstack_blockstorage_volume_v2.volume.id}"
+    source_type           = "volume"
+    boot_index            = 0
+    destination_type      = "volume"
+    delete_on_termination = true
+}
+
 
   provisioner "file" {
     source = "salt"
