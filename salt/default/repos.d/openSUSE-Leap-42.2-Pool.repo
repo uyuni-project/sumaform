@@ -1,7 +1,0 @@
-[openSUSE-Leap-42.2-Pool]
-name=openSUSE-Leap-42.2-Pool
-enabled=1
-autorefresh=1
-baseurl=http://download.opensuse.org/distribution/leap/42.2/repo/oss/
-type=yast2
-keeppackages=0
