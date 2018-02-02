@@ -9,20 +9,11 @@ resource "libvirt_volume" "data_disk" {
 
 module "mirror" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "mirror"
-  image = "opensuse422"
-  memory = 512
-  vcpu = 1
-  running = "${var.running}"
-  mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
-
-  additional_disk = [{
-    volume_id = "${libvirt_volume.data_disk.id}"
-  }]
-
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
@@ -32,4 +23,14 @@ cc_password: ${var.base_configuration["cc_password"]}
 data_disk_device: vdb
 
 EOF
+
+  // Provider-specific variables
+  image = "opensuse422"
+  memory = 512
+  vcpu = 1
+  running = "${var.running}"
+  mac = "${var.mac}"
+  additional_disk = [{
+    volume_id = "${libvirt_volume.data_disk.id}"
+  }]
 }

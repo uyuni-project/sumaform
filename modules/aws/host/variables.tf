@@ -79,7 +79,7 @@ variable "channels" {
 }
 
 variable "role"  {
-  description = "Name of the host role, see main.tf.libvirt.example"
+  description = "Name of the host role, see the main.tf example file"
   type = "string"
 }
 
@@ -154,6 +154,6 @@ variable "mirror_private_name" {
 }
 
 variable "gpg_keys" {
-  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see libvirt/README.md"
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
   default = []
 }

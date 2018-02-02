@@ -177,6 +177,30 @@ filebeat_repo:
       - sls: default
 {% endif %}
 
+{% if grains['osmajorrelease']|int() == 11 %}
+remove_client_tools_pool:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
+{% elif grains['osmajorrelease']|int() == 12 %}
+remove_client_tools_pool:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
+{% elif grains['osmajorrelease']|int() == 15 %}
+remove_client_tools_pool:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Pool.repo
+{% endif %}
+
+{% if grains['osmajorrelease']|int() == 12 %}
+remove_client_tools_update:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
+{% elif grains['osmajorrelease']|int() == 15 %}
+remove_client_tools_update:
+  file.absent:
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
+{% endif %}
+
 refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh

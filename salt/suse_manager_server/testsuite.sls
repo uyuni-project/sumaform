@@ -7,29 +7,29 @@ include:
 fedora_autoinstallation_initrd_file:
   file.managed:
     - name: /install/Fedora_12_i386/images/pxeboot/initrd.img
-    - source: http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/12/Fedora/i386/os/images/pxeboot/initrd.img
-    - source_hash: sha1=ce78f88281640fbb9ce93435cbc21e8de0d9862d
+    - contents:
+      - This is mocked contents for /pxeboot/initrd.img
     - makedirs: True
 
 fedora_autoinstallation_vmlinuz_file:
   file.managed:
     - name: /install/Fedora_12_i386/images/pxeboot/vmlinuz
-    - source: http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/12/Fedora/i386/os/images/pxeboot/vmlinuz
-    - source_hash: sha1=147c8c50d83639dd8523ada478621b456f1fb23e
+    - contents:
+      - This is mocked contents for /pxeboot/vmlinuz
     - makedirs: True
 
 sles_autoinstallation_initrd_file:
   file.managed:
     - name: /install/SLES11-SP1-x86_64/DVD1/boot/x86_64/loader/initrd
-    - source: http://schnell.nue.suse.com/SLE11/SLES-11-SP1-GM/x86_64/DVD1/boot/x86_64/loader/initrd
-    - source_hash: sha1=965da7bb9a6b21d4f0273ac288a3016a2671bb51
+    - contents:
+      - This is mocked contents for /boot/x86_64/loader/initrd
     - makedirs: True
 
 sles_autoinstallation_linux_file:
   file.managed:
     - name: /install/SLES11-SP1-x86_64/DVD1/boot/x86_64/loader/linux
-    - source: http://schnell.nue.suse.com/SLE11/SLES-11-SP1-GM/x86_64/DVD1/boot/x86_64/loader/linux
-    - source_hash: sha1=f18abd366f40c12971b54ac787eb9737012badab
+    - contents:
+      - This is mocked contents for /boot/x86_64/loader/linux
     - makedirs: True
 
 test_package_without_vendor_file:

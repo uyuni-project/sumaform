@@ -86,6 +86,33 @@ module "suma3pg" {
 }
 ```
 
+## Custom SSH keys
+
+If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
+
+```hcl
+module "base" {
+  [...]
+  ssh_key_path = "~/.ssh/id_mbologna_terraform.pub"
+  [...]
+}
+```
+
+The `ssh_key_path` option can also be specified on a per-host basis. In this case, the key specified is treated as an additional key, copied to the machine as well as the `ssh_key_path` specified in the `base` section.
+
+If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
+
+## SSH access without specifying a username
+
+You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
+
+```
+Host *.tf.local
+StrictHostKeyChecking no
+UserKnownHostsFile=/dev/null
+User root
+```
+
 ## Activation Keys for minions
 
 You can specify an Activation Key string for minions to use at onboarding time to a SUSE Manager Server. An example follows:
@@ -182,7 +209,9 @@ Please note that `iss_master` is set from `suma21pgm`'s module output variable `
 
 ## Cucumber testsuite
 
-It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, proxy, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+
+The proxy, the SSH minion, and the CentOS minion are optional. The server, traditional client and normal minion are not.
 
 To start the testsuite, use:
 
@@ -213,6 +242,27 @@ ssh -t head-ctl.tf.local screen -r
 You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
 You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/#branches-used) via the `branch` variable in the `controller` module (by default an automatic selection is made).
+
+## Working on multiple configuration sets (workspaces) locally
+
+Terraform supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://www.terraform.io/docs/state/workspaces.html). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.
+
+As a workaround, you can create a `local_workspaces` directory with a subdirectory per workspace, each containing main.tf and terraform.tfstate files, then use symlinks to the sumaform root:
+
+```
+~/sumaform$ find local_workspaces/
+local_workspaces/
+local_workspaces/aws-demo
+local_workspaces/aws-demo/main.tf
+local_workspaces/aws-demo/terraform.tfstate
+local_workspaces/libvirt-testsuite
+local_workspaces/libvirt-testsuite/main.tf
+local_workspaces/libvirt-testsuite/terraform.tfstate
+~/sumaform$ ls -l main.tf
+[...] main.tf -> local_workspaces/libvirt-testsuite/main.tf
+~/sumaform$ ls -l terraform.tfstate
+[...] -> local_workspaces/libvirt-testsuite/terraform.tfstate
+```
 
 ## pgpool-II replicated database
 

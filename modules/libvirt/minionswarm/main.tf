@@ -1,13 +1,9 @@
 module "minionswarm" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "sles12sp1"
   count = "${var.count}"
-  memory = "${var.memory}"
-  vcpu = "${var.vcpu}"
-  running = "${var.running}"
-  mac = "${var.mac}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
@@ -22,6 +18,13 @@ start_delay: ${var.start_delay}
 swap_file_size: ${var.swap_file_size}
 
 EOF
+
+  // Provider-specific variables
+  image = "sles12sp1"
+  memory = "${var.memory}"
+  vcpu = "${var.vcpu}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
 
 output "configuration" {

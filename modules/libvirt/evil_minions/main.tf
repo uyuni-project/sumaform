@@ -1,13 +1,9 @@
 module "evil_minions" {
   source = "../host"
+
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  image = "sles12sp2"
   count = "${var.count}"
-  memory = "${var.memory}"
-  vcpu = "${var.vcpu}"
-  running = "${var.running}"
-  mac = "${var.mac}"
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
@@ -20,6 +16,13 @@ slowdown_factor: ${var.slowdown_factor}
 dump: ${base64encode(file(var.dump_file))}
 
 EOF
+
+  // Provider-specific variables
+  image = "sles12sp2"
+  memory = "${var.memory}"
+  vcpu = "${var.vcpu}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
 
 output "configuration" {

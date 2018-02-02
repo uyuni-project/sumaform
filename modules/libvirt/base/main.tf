@@ -12,16 +12,18 @@ resource "libvirt_volume" "volumes" {
 output "configuration" {
   depends_on = ["libvirt_volume.volumes"]
   value = {
-    network_name = "${var.bridge == "" ? var.network_name : ""}"
     cc_username = "${var.cc_username}"
     cc_password = "${var.cc_password}"
     timezone = "${var.timezone}"
-    mirror = "${var.mirror == "" ? "null" : var.mirror}"
     ssh_key_path = "${var.ssh_key_path}"
-    pool = "${var.pool}"
-    bridge = "${var.bridge}"
+    mirror = "${var.mirror == "" ? "null" : var.mirror}"
     use_avahi = "${var.use_avahi}"
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
+
+    // Provider-specific variables
+    pool = "${var.pool}"
+    network_name = "${var.bridge == "" ? var.network_name : ""}"
+    bridge = "${var.bridge}"
   }
 }

@@ -1,18 +1,18 @@
 include:
   - default
 
-ruby_test_repo:
+Devel_Galaxy_cucumber_testsuite_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_ruby_test.repo
-    - source: salt://controller/repos.d/Devel_Galaxy_ruby_test.repo
+    - name: /etc/zypp/repos.d/Devel_Galaxy_cucumber_testsuite.repo
+    - source: salt://controller/repos.d/Devel_Galaxy_cucumber_testsuite.repo
     - template: jinja
     - require:
       - sls: default
 
-sle_12_sp1_sdk_pool:
+sle_12_sp3_sdk_pool:
   file.managed:
-    - name: /etc/zypp/repos.d/SLE-12-SP1-SDK-x86_64-Pool.repo
-    - source: salt://controller/repos.d/SLE-12-SP1-SDK-x86_64-Pool.repo
+    - name: /etc/zypp/repos.d/SLE-12-SP3-SDK-x86_64-Pool.repo
+    - source: salt://controller/repos.d/SLE-12-SP3-SDK-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: default
@@ -21,5 +21,5 @@ refresh_controller_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: ruby_test_repo
-      - file: sle_12_sp1_sdk_pool
+      - file: Devel_Galaxy_cucumber_testsuite_repo
+      - file: sle_12_sp3_sdk_pool

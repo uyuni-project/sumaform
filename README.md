@@ -16,7 +16,7 @@ openSUSE 42.2, 42.1, SUSE Linux Enterprise Server 12 SP1:
 #sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/openSUSE_Leap_42.1/home:SilvioMoioli:tools.repo
 #sudo zypper addrepo http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP1/home:SilvioMoioli:tools.repo
 
-sudo zypper install terraform-provider-libvirt
+sudo zypper install terraform-provider-libvirt git-core
 git clone https://github.com/moio/sumaform.git
 ```
 
@@ -29,6 +29,8 @@ wget http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/moio/sumaform.git
 ```
+
+NOTE: be sure to have [SUSE's CA certificates](http://ca.suse.de/) installed on your system.
 
 You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
 

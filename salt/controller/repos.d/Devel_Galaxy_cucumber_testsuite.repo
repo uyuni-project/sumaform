@@ -1,0 +1,5 @@
+[Devel_Galaxy_cucumber_testsuite]
+name=Packages needed for the Cucumber testsuite (SLE_12_SP1)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/cucumber-testsuite/SLE_12_SP1/
