@@ -1,0 +1,6 @@
+[openSUSE-Leap-42.3-Update]
+name=openSUSE-Leap-42.3-Update
+enabled=1
+autorefresh=1
+baseurl=http://download.opensuse.org/update/leap/42.3/oss/
+type=rpm-md

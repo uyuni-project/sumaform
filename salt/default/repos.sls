@@ -13,17 +13,17 @@ install_{{ keypath }}:
 
 {% if grains['os'] == 'SUSE' %}
 
-{% if grains['osrelease'] == '42.2' %}
+{% if grains['osrelease'] == '42.3' %}
 os_pool_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/openSUSE-Leap-42.2-Pool.repo
-    - source: salt://default/repos.d/openSUSE-Leap-42.2-Pool.repo
+    - name: /etc/zypp/repos.d/openSUSE-Leap-42.3-Pool.repo
+    - source: salt://default/repos.d/openSUSE-Leap-42.3-Pool.repo
     - template: jinja
 
 os_update_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/openSUSE-Leap-42.2-Update.repo
-    - source: salt://default/repos.d/openSUSE-Leap-42.2-Update.repo
+    - name: /etc/zypp/repos.d/openSUSE-Leap-42.3-Update.repo
+    - source: salt://default/repos.d/openSUSE-Leap-42.3-Update.repo
     - template: jinja
 
 tools_pool_repo:
