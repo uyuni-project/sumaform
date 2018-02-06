@@ -37,6 +37,9 @@ cucumber_requisites:
       - make
       - ruby
       - ruby-devel
+      - autoconf
+      - automake
+      - libtool
       - apache2-worker
       - phantomjs
       - cantarell-fonts
