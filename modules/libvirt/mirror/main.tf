@@ -25,7 +25,7 @@ data_disk_device: vdb
 EOF
 
   // Provider-specific variables
-  image = "opensuse422"
+  image = "opensuse423"
   memory = 512
   vcpu = 1
   running = "${var.running}"
