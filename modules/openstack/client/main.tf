@@ -21,6 +21,7 @@ use_unreleased_updates: ${var.use_unreleased_updates}
 EOF
 
   // Provider-specific variables
+  image = "${var.image}"
   flavor = "${var.flavor}"
   root_volume_size = "${var.root_volume_size}"
 }
