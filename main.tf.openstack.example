@@ -1,0 +1,26 @@
+variable "cc_username" {
+  description = "SCC or NCC username"
+  default = "UC7"
+}
+
+variable "cc_password" {
+  description = "SCC or NCC password"
+  default = ...
+}
+
+module "sumaheadpg" {
+  source = "./modules/openstack/host"
+  name = "sumaheadpg"
+  image = "sles12sp3_sumaform"
+  version = "head"
+  database = "postgres"
+  role = "suse_manager_server"
+  cc_username = "${var.cc_username}"
+  cc_password = "${var.cc_password}"
+  openstack_tenant_id = ... 
+  openstack_auth_url = ... 
+  openstack_tenant_name = ... 
+  openstack_user = ... 
+  openstack_password  = ...
+  openstack_domain_name = ... 
+}
