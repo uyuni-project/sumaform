@@ -71,6 +71,11 @@ variable "image" {
   type = "string"
 }
 
+variable "flavor" {
+  description = "OpenStack flavor"
+  default = "m1.tiny"
+}
+
 variable "root_volume_size" {
   description = "Size of the root volume in GiB"
   default = 10
