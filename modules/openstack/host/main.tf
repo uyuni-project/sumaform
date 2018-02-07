@@ -26,7 +26,7 @@ resource "openstack_compute_instance_v2" "instance" {
   count = "${var.count}"
 
   block_device {
-    uuid                  = "${openstack_blockstorage_volume_v2.root_volume.id}"
+    uuid                  = "${element(openstack_blockstorage_volume_v2.root_volume.*.id, count.index)}"
     source_type           = "volume"
     boot_index            = 0
     destination_type      = "volume"
