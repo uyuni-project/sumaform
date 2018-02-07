@@ -42,7 +42,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to Glance, leave default for all"
-  default = ["centos7",  "opensuse423",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2", "sles12sp3", "sles15beta4"]
+  default = ["opensuse423",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2", "sles12sp3", "sles15beta4"]
   type = "list"
 }
 
