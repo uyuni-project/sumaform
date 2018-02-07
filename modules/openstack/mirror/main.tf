@@ -16,7 +16,7 @@ data_disk_device: vdb
 EOF
 
   // Provider-specific variables
-  image = "opensuse422"
+  image = "opensuse423"
   flavor = "m1.small"
   extra_volume_size = 500
 }
