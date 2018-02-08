@@ -111,6 +111,6 @@ output "configuration" {
   value {
     id = "${null_resource.host_salt_configuration.0.id}"
     hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
-    addresses = "${openstack_networking_floatingip_v2.floating_ip.*.address}"
+    address = "${openstack_networking_floatingip_v2.floating_ip.0.address}"
   }
 }
