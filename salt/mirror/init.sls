@@ -55,6 +55,11 @@ mirror_script:
       - archive: minima
       - file: minima_configuration
       - file: mirror_script
+  service.running:
+    - name: cron
+    - enable: True
+    - watch:
+      - file: /root/mirror.sh
 
 mirror_partition:
   cmd.run:
