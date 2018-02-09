@@ -118,5 +118,5 @@ variable "flavor" {
 
 variable "root_volume_size" {
   description = "Size of the root volume in GiB"
-  default = 10
+  default = 40
 }
