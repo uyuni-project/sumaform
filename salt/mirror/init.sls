@@ -58,7 +58,7 @@ mirror_script:
 
 mirror_partition:
   cmd.run:
-    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev//{{grains['data_disk_device']}} mkpart primary 2048 100% && /sbin/mkfs.ext4 /dev//{{grains['data_disk_device']}}1
+    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mkpart primary 2048 100% && sleep 1 && /sbin/mkfs.ext4 /dev/{{grains['data_disk_device']}}1
     - unless: ls /dev//{{grains['data_disk_device']}}1
     - require:
       - pkg: parted

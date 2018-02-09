@@ -1,0 +1,58 @@
+provider "openstack" {
+  version = "~> 1.2"
+
+  user_name   = ...
+  password    = ...
+
+  // below are valid values to target the SUSE internal "ECP" Cloud
+  // for the SUSE Manager project, adapt as needed
+  auth_url    = "https://engcloud.prv.suse.net:5000/v3"
+  domain_name = "ldap_users"
+  tenant_id   = "609ad0b07a414b40bd4884768bf6ac89"
+}
+
+module "base" {
+  source = "./modules/openstack/base"
+
+  cc_username = "UC7"
+  cc_password = ...
+
+  // optional parameters with defaults below
+  // name_prefix = ""
+  // timezone = "Europe/Berlin"
+
+  // uncomment the following if you are targeting the SUSE internal "ECP" Cloud
+  // mirror = "susemanager-mirror.tf.local"
+  // images = []
+  // name_prefix = "susemanager-"
+}
+
+module "suma3pg" {
+  source = "./modules/openstack/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "3.0-nightly"
+}
+
+module "clisles11sp3" {
+  source = "./modules/openstack/client"
+  base_configuration = "${module.base.configuration}"
+
+  name = "clisles11sp3"
+  image = "sles11sp3"
+  server_configuration = "${module.suma3pg.configuration}"
+  count = 1
+  // see modules/openstack/client/variables.tf for possible values
+}
+
+module "minsles12sp1" {
+  source = "./modules/openstack/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "minsles12sp1"
+  image = "sles12sp1"
+  server_configuration = "${module.suma3pg.configuration}"
+  count = 1
+  // see modules/openstack/minion/variables.tf for possible values
+}
