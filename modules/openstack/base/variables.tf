@@ -49,8 +49,7 @@ variable "images" {
 variable "image_locations" {
   description = "list of locations to download images, override to add custom ones"
   default = {
-    # centos7 = "http://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v2.qcow2"
-    centos7 = "http://m226.mgr.suse.de/workspace/centos7.qcow"
+    centos7 = "http://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v2.qcow2"
     opensuse423 = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/openstack/images/opensuse423.x86_64.qcow2"
     sles11sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles11sp3.x86_64.qcow2"
     sles11sp4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles11sp4.x86_64.qcow2"
