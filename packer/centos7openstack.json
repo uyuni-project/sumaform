@@ -3,6 +3,7 @@
    "type": "shell",
    "scripts": [
       "scripts/base.sh",
+      "scripts/cloud.sh",
       "scripts/cleanup.sh"
     ],
     "override": {
@@ -41,7 +42,7 @@
       "net_device": "virtio-net",
       "disk_interface": "virtio",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_centos7.cfg<enter><wait>"
+        "<tab> sshd=1 text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_centos7.cfg<enter><wait>"
       ]
     }]
 }
