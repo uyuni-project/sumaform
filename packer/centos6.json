@@ -20,7 +20,7 @@
       "iso_url": "http://ftp.tu-chemnitz.de/pub/linux/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso",
       "ssh_wait_timeout": "30s",
       "shutdown_command": "shutdown -P now",
-      "disk_size": 104858,
+      "disk_size": 204800,
       "format": "qcow2",
       "qemuargs": [
         [ "-m", "1024M" ],
