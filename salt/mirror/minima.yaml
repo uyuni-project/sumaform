@@ -269,8 +269,8 @@
   archs: [x86_64]
 
 # SUSE Manager TEST devel
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP2
-  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP2
+- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
+  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
   archs: [x86_64]
 
 # Oracle server
