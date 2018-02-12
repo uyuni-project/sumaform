@@ -91,7 +91,6 @@
   path: /srv/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update
   archs: [x86_64]
 
-
 # SUSE Manager 3.0
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product
   path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Products/SUSE-Manager-Server/3.0/x86_64/product
@@ -266,6 +265,14 @@
 # RES 7 Manager Tools Head devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+  archs: [x86_64]
+
+# openSUSE Leap
+- url: http://download.opensuse.org/distribution/leap/42.3/repo/oss
+  path: /srv/mirror/distribution/leap/42.3/repo/oss
+  archs: [x86_64]
+- url: http://download.opensuse.org/update/leap/42.3/oss
+  path: /srv/mirror/update/leap/42.3/oss
   archs: [x86_64]
 
 # SUSE Manager TEST devel

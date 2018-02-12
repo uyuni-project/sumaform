@@ -2,6 +2,6 @@
 name=openSUSE-Leap-42.3-Pool
 enabled=1
 autorefresh=1
-baseurl=http://download.opensuse.org/distribution/leap/42.3/repo/oss/
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/distribution/leap/42.3/repo/oss/
 type=yast2
 keeppackages=0
