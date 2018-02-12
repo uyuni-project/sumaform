@@ -1,0 +1,6 @@
+[Devel_Galaxy_Manager_Head]
+name=Devel Project for SUSE Manager Head (Leap)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/openSUSE_Leap_42.3/
+priority=96
