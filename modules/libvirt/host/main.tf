@@ -19,7 +19,6 @@ resource "libvirt_domain" "domain" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
-  running = "${var.running}"
   count = "${var.count}"
 
   // base disk + additional disks if any
