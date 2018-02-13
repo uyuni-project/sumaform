@@ -37,6 +37,12 @@ resource "openstack_compute_instance_v2" "instance" {
     access_network = true
     name = "fixed"
   }
+
+  user_data = <<EOF
+#cloud-config
+ssh_pwauth: 1
+EOF
+
 }
 
 resource "openstack_blockstorage_volume_v2" "extra_volume" {
