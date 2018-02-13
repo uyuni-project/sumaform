@@ -38,7 +38,6 @@
       "ssh_port": 22,
       "ssh_wait_timeout": "90m",
       "vm_name": "centos7",
-      "net_device": "virtio-net",
       "disk_interface": "virtio",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_centos7.cfg<enter><wait>"
