@@ -5,7 +5,7 @@ terraform {
 resource "openstack_images_image_v2" "images" {
   name = "${var.name_prefix}${element(var.images, count.index)}"
   image_source_url = "${var.image_locations["${element(var.images, count.index)}"]}"
-  count = "${length(var.images)}"
+  count = "${var.use_shared_resources ? 0 : length(var.images)}"
   container_format = "bare"
   disk_format = "qcow2"
 }
@@ -13,6 +13,7 @@ resource "openstack_images_image_v2" "images" {
 resource "openstack_compute_secgroup_v2" "all_open_security_group" {
   name = "${var.name_prefix}all-open"
   description = "Sumaform security group with no restrictions"
+  count = "${var.use_shared_resources ? 0 : 1}"
 
   rule {
     from_port   = 1
@@ -46,6 +47,7 @@ output "configuration" {
     use_avahi = "${var.use_avahi}"
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
+    use_shared_resources = "${var.use_shared_resources}"
 
     // Provider-specific variables
     image_ids = "${join(",", openstack_images_image_v2.images.*.id)}"

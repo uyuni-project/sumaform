@@ -38,6 +38,11 @@ variable "name_prefix" {
   default = ""
 }
 
+variable "use_shared_resources" {
+  description = "use true to avoid deploying images, mirrors and other shared infrastructure resources"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "images" {
