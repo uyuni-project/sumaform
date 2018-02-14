@@ -1,12 +1,6 @@
-
 variable "base_configuration" {
   description = "use ${module.base.configuration}, see the main.tf example file"
   type = "map"
-}
-
-variable "running" {
-  description = "Whether this host should be turned on or off"
-  default = true
 }
 
 variable "additional_repos" {
@@ -26,6 +20,11 @@ variable "ssh_key_path" {
 }
 
 // Provider-specific variables
+
+variable "running" {
+  description = "Whether this host should be turned on or off"
+  default = true
+}
 
 variable "data_pool" {
   description = "libvirt storage pool name for this host's data disk"
