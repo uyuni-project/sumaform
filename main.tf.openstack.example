@@ -5,7 +5,7 @@ provider "openstack" {
   password    = ...
 
   // below are valid values to target the SUSE internal "ECP" Cloud
-  // for the SUSE Manager project, adapt as needed
+  // for the SUSE Manager project. Adapt as needed
   auth_url    = "https://engcloud.prv.suse.net:5000/v3"
   domain_name = "ldap_users"
   tenant_id   = "609ad0b07a414b40bd4884768bf6ac89"
@@ -22,9 +22,8 @@ module "base" {
   // timezone = "Europe/Berlin"
 
   // uncomment the following if you are targeting the SUSE internal "ECP" Cloud
-  // mirror = "susemanager-mirror.tf.local"
-  // images = []
-  // name_prefix = "susemanager-"
+  // mirror = "mirror.tf.local"
+  // use_shared_resources = true
 }
 
 module "suma3pg" {

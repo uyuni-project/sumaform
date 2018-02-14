@@ -3,7 +3,7 @@ terraform {
 }
 
 data "openstack_images_image_v2" "image" {
-  name = "${var.base_configuration["name_prefix"]}${var.image}"
+  name = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
   most_recent = true
 }
 
@@ -21,7 +21,7 @@ resource "openstack_blockstorage_volume_v2" "root_volume" {
 
 resource "openstack_compute_instance_v2" "instance" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
-  security_groups = ["${var.base_configuration["name_prefix"]}all-open"]
+  security_groups = ["${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}all-open"]
   flavor_name = "${var.flavor}"
   count = "${var.count}"
 

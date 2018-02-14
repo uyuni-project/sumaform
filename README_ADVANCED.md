@@ -86,6 +86,14 @@ module "suma3pg" {
 }
 ```
 
+## Shared resources, prefixing, sharing virtual hardware
+
+Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
+
+Additionally, it is possible to have only one user to upload images and other shared infrastructure such as mirrors, having all other users re-use them. In order to accomplish this:
+ * add a `use_shared_resources = true` variable to the `base` module of all users but one
+ * make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
+
 ## Custom SSH keys
 
 If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:

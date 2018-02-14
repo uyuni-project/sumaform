@@ -5,7 +5,7 @@ terraform {
 resource "libvirt_volume" "volumes" {
   name = "${var.name_prefix}${element(var.images, count.index)}"
   source = "${var.image_locations["${element(var.images, count.index)}"]}"
-  count = "${length(var.images)}"
+  count = "${var.use_shared_resources ? 0 : length(var.images)}"
   pool = "${var.pool}"
 }
 
@@ -20,6 +20,7 @@ output "configuration" {
     use_avahi = "${var.use_avahi}"
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
+    use_shared_resources = "${var.use_shared_resources}"
 
     // Provider-specific variables
     pool = "${var.pool}"
