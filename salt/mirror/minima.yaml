@@ -287,7 +287,7 @@
 
 # Testsuite Controller repo
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/cucumber-testsuite/SLE_12_SP3/
-  path: /srv/mirror/ibs/Devel:/Galaxy:/cucumber-testsuite:/SLE_12_SP3
+  path: /srv/mirror/ibs/Devel:/Galaxy:/cucumber-testsuite/SLE_12_SP3
   archs: [x86_64]
 
 # Testsuite dummy packages for testing repo
