@@ -35,6 +35,8 @@ cucumber_requisites:
     - pkgs:
       - gcc
       - make
+      - unzip
+      - wget
       - ruby
       - ruby-devel
       - autoconf
@@ -48,6 +50,7 @@ cucumber_requisites:
       - aaa_base-extras
       - zlib-devel
       - libxslt-devel
+      - mozilla-nss-tools
       # packaged ruby gems
       - ruby2.1-rubygem-bundler
       - twopence
@@ -60,6 +63,21 @@ phantomjs_2.0_cucumber_repo:
   pkg.installed:
   - name: phantomjs
   - version: 2.0.0
+
+chromium_fixed_version:
+  pkg.installed:
+  - name: chromium
+  - version: 64.0.3282.167
+
+chromedriver_fixed_version:
+  pkg.installed:
+  - name: chromedriver
+  - version: 64.0.3282.167
+
+create_syslink_for_chromedriver:
+  file.symlink:
+    - name: /usr/bin/chromedriver
+    - target: /usr/lib64/chromium/chromedriver
 
 install_gems_via_bundle:
   cmd.run:
@@ -119,3 +137,17 @@ netrc_mode:
     - replace: False
     - require:
       - file: git_config
+
+chrome_certs:
+  file.directory:
+    - user:  root
+    - name:  /root/.pki/nssdb
+    - group: users
+    - mode:  755
+    - makedirs: True
+
+google_cert_db:
+  cmd.run:
+   - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
+   - require:
+     - file: chrome_certs

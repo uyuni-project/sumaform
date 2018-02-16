@@ -5,8 +5,9 @@ export MINION={{ grains.get('minion') }}
 {% if grains.get('ssh_minion') | default(false, true) %}export SSHMINION={{ grains.get('ssh_minion') }} {% else %}# no SSH minion defined {% endif %}
 {% if grains.get('centos_minion') | default(false, true) %}export CENTOSMINION={{ grains.get('centos_minion') }} {% else %}# no CentOS minion defined {% endif %}
 
-# phantomjs needs certificate of suma server to run secure websockets
+# generate certs for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
   wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
   update-ca-certificates
+  certutil -d sql:/root/.pki/nssdb -A -t TC -n "susemanager" -i  /etc/pki/trust/anchors/$SERVER.cert
 fi
