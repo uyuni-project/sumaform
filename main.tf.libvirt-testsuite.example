@@ -14,11 +14,11 @@ module "base" {
   images = ["centos7", "sles12sp3"]
 }
 
-module "head-srv" {
+module "srv" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
-  version = "head"
-  name = "head-srv"
+  version = "3.1-nightly"
+  name = "srv"
   image = "sles12sp3"
   for_development_only = false
   for_testsuite_only = true
@@ -26,63 +26,63 @@ module "head-srv" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-cli-sles12sp3" {
+module "cli-sles12sp3" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
-  version = "head"
-  name = "head-cli-sles12sp3"
+  version = "3.1-nightly"
+  name = "cli-sles12sp3"
   image = "sles12sp3"
-  server_configuration =  { hostname = "head-srv.tf.local" }
+  server_configuration = { hostname = "srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-min-sles12sp3" {
+module "min-sles12sp3" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "head"
-  name = "head-min-sles12sp3"
+  version = "3.1-nightly"
+  name = "min-sles12sp3"
   image = "sles12sp3"
-  server_configuration = { hostname = "head-srv.tf.local" }
+  server_configuration = { hostname = "srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
 # optional
-module "head-minssh-sles12sp3" {
+module "minssh-sles12sp3" {
   source = "./modules/libvirt/host"
   base_configuration = "${module.base.configuration}"
-  version = "head"
-  name = "head-minssh-sles12sp3"
+  version = "3.1-nightly"
+  name = "minssh-sles12sp3"
   image = "sles12sp3"
   ssh_key_path = "./salt/controller/id_rsa.pub"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 
 # optional
-module "head-min-centos7" {
+module "min-centos7" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "head"
-  name = "head-min-centos7"
+  version = "3.1-nightly"
+  name = "min-centos7"
   image = "centos7"
-  server_configuration = { hostname = "head-srv.tf.local" }
+  server_configuration = { hostname = "srv.tf.local" }
   for_development_only = false
   for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
-module "head-ctl" {
+module "ctl" {
   source = "./modules/libvirt/controller"
   base_configuration = "${module.base.configuration}"
-  name = "head-ctl"
-  server_configuration = "${module.head-srv.configuration}"
-  client_configuration = "${module.head-cli-sles12sp3.configuration}"
-  minion_configuration = "${module.head-min-sles12sp3.configuration}"
-  centos_configuration = "${module.head-min-centos7.configuration}"         // optional
-  minionssh_configuration = "${module.head-minssh-sles12sp3.configuration}" // optional
+  name = "ctl"
+  server_configuration = "${module.srv.configuration}"
+  client_configuration = "${module.cli-sles12sp3.configuration}"
+  minion_configuration = "${module.min-sles12sp3.configuration}"
+  centos_configuration = "${module.min-centos7.configuration}"         // optional
+  minionssh_configuration = "${module.minssh-sles12sp3.configuration}" // optional
   branch = "default"
   git_username = "<YOUR_USERNAME>"
   git_password = "<YOUR_PASSWORD>"
