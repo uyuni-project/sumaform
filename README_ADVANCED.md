@@ -452,6 +452,33 @@ module "evil-minions" {
 }
 ```
 
+## Use Locust for http load testing
+
+You can deploy a locust host to test http performance of your SUSE Manager Server. An example would be:
+
+```hcl
+module "locust" {
+  source = "./modules/libvirt/locust"
+  base_configuration = "${module.base.configuration}"
+  server_configuration = "${module.suma31pg.configuration}"
+  // optionally, specify a custom locustfile:
+  // locust_file = "./my_locustfile.py"
+}
+```
+
+If `locust_file` is not specified, a minimal example is installed. To run the load test, execute `run-locust` on the Locust host.
+
+This host can also be monitored via Prometheus and Grafana by adding `locust_configuration` to a `grafana` module:
+
+```hcl
+module "grafana" {
+  source = "./modules/libvirt/grafana"
+  base_configuration = "${module.base.configuration}"
+  server_configuration = "${module.suma31pg.configuration}"
+  locust_configuration = "${module.locust.configuration}"
+}
+```
+
 ## Use SUSE Linux Enterprise unreleased (Test) packages
 
 It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_unreleased_updates` flag. Libvirt example:
