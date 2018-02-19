@@ -268,8 +268,8 @@
   archs: [x86_64]
 
 # openSUSE Leap
-- url: http://download.opensuse.org/distribution/leap/42.3/repo/oss
-  path: /srv/mirror/distribution/leap/42.3/repo/oss
+- url: http://download.opensuse.org/distribution/leap/42.3/repo/oss/suse
+  path: /srv/mirror/distribution/leap/42.3/repo/oss/suse
   archs: [x86_64]
 - url: http://download.opensuse.org/update/leap/42.3/oss
   path: /srv/mirror/update/leap/42.3/oss
