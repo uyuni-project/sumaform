@@ -8,8 +8,6 @@ module "locust" {
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: locust
-git_username: ${var.git_username}
-git_password: ${var.git_password}
 locust_file: ${base64encode(file(var.locust_file))}
 EOF
 

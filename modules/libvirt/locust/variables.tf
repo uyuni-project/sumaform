@@ -14,18 +14,6 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
-variable "git_username" {
-  description = "username for GitHub"
-  type = "string"
-  default = "nogit"
-}
-
-variable "git_password" {
-  description = "password for GitHub"
-  type = "string"
-  default = "nogit"
-}
-
 variable "locust_file" {
   description = "path to a locust_files"
   type = "string"
@@ -43,4 +31,3 @@ variable "vcpu" {
   description = "Number of virtual CPUs"
   default = 1
 }
-
