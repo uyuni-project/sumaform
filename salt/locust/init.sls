@@ -24,19 +24,31 @@ prometheus_client:
      - pkg: pip
      - pkg: locust_prerequisites
 
-install_locust_file_template:
+locustfile:
   file.decode:
-    - name: /root/locustfile.jinja.py
+    - name: /root/locustfile.py
     - encoding_type: base64
     - encoded_data: {{ grains['locust_file'] }}
 
-install_locust_file:
+locust_service:
   file.managed:
-    - name: /root/locustfile.py
-    - source: /root/locustfile.jinja.py
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 755
+    - name: /etc/systemd/system/locust.service
+    - contents: |
+        [Unit]
+        Description=locust
+
+        [Service]
+        ExecStart=/usr/bin/locust --host=https://{{ grains['server'] }} --locustfile=/root/locustfile.py --port 80
+
+        [Install]
+        WantedBy=multi-user.target
     - require:
-     - file: install_locust_file_template
+      - pip: locustio
+  service.running:
+    - name: locust
+    - enable: True
+    - require:
+      - file: locust_service
+      - file: locustfile
+    - watch:
+      - file: locustfile
