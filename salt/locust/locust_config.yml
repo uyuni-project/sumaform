@@ -1,3 +1,0 @@
-server: https://{{ grains.get('server') }}/
-username: admin
-password: admin

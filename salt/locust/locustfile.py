@@ -1,18 +1,10 @@
 #! /usr/bin/python
 
 from locust import HttpLocust, TaskSet, task
-import yaml
 
-with open("/root/locust_config.yml", 'r') as stream:
-    try:
-       LocustConf = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-
-server = LocustConf['server']
-username = LocustConf['username']
-password = LocustConf['password']
-
+server = 'https://{{ grains["server"] }}/'
+username = 'admin'
+password = 'admin'
 
 class UserBehavior(TaskSet):
     def on_start(self):

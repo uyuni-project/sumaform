@@ -24,18 +24,19 @@ locust_prerequisites:
       - python-pyzmq-devel
       - git-core
 
-locust_config_file:
+install_locust_file_template:
+  file.decode:
+    - name: /root/locustfile.jinja.py
+    - encoding_type: base64
+    - encoded_data: {{ grains['locust_file'] }}
+
+install_locust_file:
   file.managed:
-    - name: /root/locust_config.yml
-    - source: salt://locust/locust_config.yml
+    - name: /root/locustfile.py
+    - source: /root/locustfile.jinja.py
     - template: jinja
     - user: root
     - group: root
     - mode: 755
-    - force: True
-
-install_locust_file:
-  file.decode:
-    - name: /root/locustfile.py
-    - encoding_type: base64
-    - encoded_data: {{ grains['locust_file'] }}
+    - require:
+     - file: install_locust_file_template
