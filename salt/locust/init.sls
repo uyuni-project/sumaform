@@ -1,21 +1,22 @@
-python-pip:
-  pkg.installed
+pip:
+  pkg.installed:
+    - name: python-pip
 
 locustio:
   pip.installed:
     - name: locustio >= 0.8.0, <= 0.8.1
     - require:
-      - pkg: python-pip
-      - pkg: locust-prereq
+      - pkg: pip
+      - pkg: locust_prerequisites
 
-prometheus-clint:
+prometheus_client:
   pip.installed:
    - name: prometheus-client >= 0.1.0, <= 0.1.1
    - require:
-     - pkg: python-pip
-     - pkg: locust-prereq
+     - pkg: pip
+     - pkg: locust_prerequisites
 
-locust-prereq:
+locust_prerequisites:
   pkg.installed:
     - pkgs:
       - gcc
