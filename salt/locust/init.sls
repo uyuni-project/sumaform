@@ -4,14 +4,14 @@ pip:
 
 locustio:
   pip.installed:
-    - name: locustio >= 0.8.0, <= 0.8.1
+    - name: locustio == 0.8.1
     - require:
       - pkg: pip
       - pkg: locust_prerequisites
 
 prometheus_client:
   pip.installed:
-   - name: prometheus-client >= 0.1.0, <= 0.1.1
+   - name: prometheus-client == 0.1.1
    - require:
      - pkg: pip
      - pkg: locust_prerequisites
