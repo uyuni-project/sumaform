@@ -2,6 +2,14 @@ pip:
   pkg.installed:
     - name: python-pip
 
+locust_prerequisites:
+  pkg.installed:
+    - pkgs:
+      - gcc
+      - python-devel
+      - python-pyzmq-devel
+      - git-core
+
 locustio:
   pip.installed:
     - name: locustio == 0.8.1
@@ -15,14 +23,6 @@ prometheus_client:
    - require:
      - pkg: pip
      - pkg: locust_prerequisites
-
-locust_prerequisites:
-  pkg.installed:
-    - pkgs:
-      - gcc
-      - python-devel
-      - python-pyzmq-devel
-      - git-core
 
 install_locust_file_template:
   file.decode:
