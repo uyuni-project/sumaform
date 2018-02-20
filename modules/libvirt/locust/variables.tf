@@ -15,9 +15,9 @@ variable "ssh_key_path" {
 }
 
 variable "locust_file" {
-  description = "path to a locust_files"
+  description = "path to a locustfile.py"
   type = "string"
-  default = "salt/locust/simple_locust_example.py"
+  default = "salt/locust/locustfile.py"
 }
 
 // Provider-specific variables

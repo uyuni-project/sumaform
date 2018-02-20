@@ -35,6 +35,6 @@ locust_config_file:
 
 install_locust_file:
   file.decode:
-    - name: /root/user_custom_locustfile.py
+    - name: /root/locustfile.py
     - encoding_type: base64
     - encoded_data: {{ grains['locust_file'] }}
