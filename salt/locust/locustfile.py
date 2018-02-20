@@ -10,8 +10,8 @@ class UserBehavior(TaskSet):
     def on_start(self):
         """ on_start is called when a Locust start before any task is scheduled """
         # don't verify ssl certs
-        self.login()
         self.client.verify = False
+        self.login()
 
     def login(self):
         self.client.post("/", {"username": username, "password": password })
