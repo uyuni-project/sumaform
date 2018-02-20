@@ -21,9 +21,9 @@ module "base" {
   // name_prefix = ""
   // timezone = "Europe/Berlin"
 
-  // uncomment the following if you are targeting the SUSE internal "ECP" Cloud
-  // mirror = "mirror.tf.local"
-  // use_shared_resources = true
+  // comment-out the following two lines if you are not targeting the SUSE internal "ECP" Cloud
+  mirror = "mirror.tf.local"
+  use_shared_resources = true
 }
 
 module "suma3pg" {
