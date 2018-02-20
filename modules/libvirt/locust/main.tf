@@ -15,4 +15,6 @@ EOF
   image = "opensuse423"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
+  running = "${var.running}"
+  mac = "${var.mac}"
 }
