@@ -13,6 +13,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "locust_configuration" {
+  description = "use ${module.<LOCUST_NAME>.configuration}, see README_ADVANCED.md"
+  default = { "hostname" = "none" }
+}
+
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"

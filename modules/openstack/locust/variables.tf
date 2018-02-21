@@ -3,19 +3,9 @@ variable "base_configuration" {
   type = "map"
 }
 
-variable "name" {
-  description = "hostname, without the domain part"
-  default = "grafana"
-}
-
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
   type = "map"
-}
-
-variable "locust_configuration" {
-  description = "use ${module.<LOCUST_NAME>.configuration}, see README_ADVANCED.md"
-  default = { "hostname" = "none" }
 }
 
 variable "ssh_key_path" {
@@ -24,14 +14,20 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
-// Provider-specific variables
-
-variable "running" {
-  description = "Whether this host should be turned on or off"
-  default = true
+variable "locust_file" {
+  description = "path to a locustfile.py"
+  type = "string"
+  default = "salt/locust/locustfile.py"
 }
 
-variable "mac" {
-  description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default = ""
+// Provider-specific variables
+
+variable "flavor" {
+  description = "OpenStack flavor"
+  default = "m1.small"
+}
+
+variable "root_volume_size" {
+  description = "Size of the root volume in GiB"
+  default = 10
 }

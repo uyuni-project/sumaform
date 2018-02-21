@@ -3,19 +3,9 @@ variable "base_configuration" {
   type = "map"
 }
 
-variable "name" {
-  description = "hostname, without the domain part"
-  default = "grafana"
-}
-
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
   type = "map"
-}
-
-variable "locust_configuration" {
-  description = "use ${module.<LOCUST_NAME>.configuration}, see README_ADVANCED.md"
-  default = { "hostname" = "none" }
 }
 
 variable "ssh_key_path" {
@@ -24,10 +14,26 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "locust_file" {
+  description = "path to a locustfile.py"
+  type = "string"
+  default = "salt/locust/locustfile.py"
+}
+
 // Provider-specific variables
 
+variable "memory" {
+  description = "RAM memory in MiB"
+  default = 1024
+}
+
+variable "vcpu" {
+  description = "Number of virtual CPUs"
+  default = 1
+}
+
 variable "running" {
-  description = "Whether this host should be turned on or off"
+  description = "whether this host should be turned on or off"
   default = true
 }
 

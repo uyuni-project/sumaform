@@ -31,6 +31,9 @@ prometheus_configuration:
               - targets: ['{{grains["server"]}}:9100'] # node_exporter
               - targets: ['{{grains["server"]}}:9187'] # postgres_exporter
               - targets: ['{{grains["server"]}}:5556'] # jmx_exporter
+              {% if grains["locust"] %}
+              - targets: ['{{grains["locust"]}}:9500'] # locust_exporter
+              {% endif %}
 
 prometheus_service:
   file.managed:

@@ -41,3 +41,7 @@ base:
   'role:grafana':
     - match: grain
     - grafana
+  
+  'role:locust':
+    - match: grain
+    - locust
