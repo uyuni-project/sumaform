@@ -52,3 +52,39 @@ locust_service:
       - file: locustfile
     - watch:
       - file: locustfile
+
+locust_runner:
+  file.managed:
+    - name: /usr/bin/run-locust
+    - source: salt://locust/run-locust.py
+    - mode: 755
+
+locust_exporter:
+  file.managed:
+    - name: /usr/bin/locust-exporter
+    - source: salt://locust/locust-exporter.py
+    - mode: 755
+
+locust_exporter_service:
+  file.managed:
+    - name: /etc/systemd/system/locust_exporter.service
+    - contents: |
+        [Unit]
+        Description=locust_exporter
+
+        [Service]
+        ExecStart=/usr/bin/locust-exporter 65500 localhost:80
+
+        [Install]
+        WantedBy=multi-user.target
+    - require:
+      - service: locust_service
+      - file: locust_exporter
+  service.running:
+    - name: locust_exporter
+    - enable: True
+    - require:
+      - file: locust_exporter_service
+      - file: locust_exporter
+    - watch:
+      - file: locust_exporter
