@@ -102,17 +102,17 @@ grafana_service:
     - require:
       - file: grafana_service
 
-susemanager_dashboard_dump_file:
+suse_manager_dashboard:
   file.managed:
-    - name: /opt/grafana/conf/susemanager.json
-    - source: salt://grafana/dashboards/susemanager.json
+    - name: /opt/grafana/conf/suse_manager.json
+    - source: salt://grafana/dashboards/suse_manager.json
     - require:
       - archive: grafana
 
-performance_dashboard_dump_file:
+locust_dashboard:
   file.managed:
-    - name: /opt/grafana/conf/performance.json
-    - source: salt://grafana/dashboards/performance.json
+    - name: /opt/grafana/conf/locust.json
+    - source: salt://grafana/dashboards/locust.json
     - require:
       - archive: grafana
 
@@ -121,4 +121,5 @@ grafana_configuration:
     - name: salt://grafana/setup_grafana.py
     - require:
       - service: grafana
-      - file: grafana_dashboard_dump_file
+      - file: suse_manager_dashboard
+      - file: locust_dashboard
