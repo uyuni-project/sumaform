@@ -66,7 +66,6 @@ module "min-sles12sp3" {
 module "minssh-sles12sp3" {
   source = "./modules/openstack/host"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
   name = "minssh-sles12sp3"
   image = "sles12sp3"
   ssh_key_path = "./salt/controller/id_rsa.pub"
