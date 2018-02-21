@@ -18,7 +18,7 @@ class LocustCollector(object):
         response = requests.get(url).content.decode('Utf-8')
     except requests.exceptions.ConnectionError:
         print "Failed to connect to Locust:", url
-        exit(2)
+        return
 
     response = json.loads(response)
 
