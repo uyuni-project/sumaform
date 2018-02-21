@@ -14,7 +14,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def index(self):
-        self.client.get("rhn/YourRhn.do")
+        self.client.get("/rhn/YourRhn.do")
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
