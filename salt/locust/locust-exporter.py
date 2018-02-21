@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python
 
 from prometheus_client import start_http_server, Metric, REGISTRY
 import json
