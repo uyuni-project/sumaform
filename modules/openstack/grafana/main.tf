@@ -8,6 +8,7 @@ module "grafana" {
 
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
+locust: ${var.locust_configuration["hostname"]}
 version: 3.0-nightly
 role: grafana
 

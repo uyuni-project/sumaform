@@ -16,3 +16,10 @@ EOF
   flavor = "${var.flavor}"
   root_volume_size = "${var.root_volume_size}"
 }
+
+output "configuration" {
+  value {
+    id = "${module.locust.configuration["id"]}"
+    hostname = "${module.locust.configuration["hostname"]}"
+  }
+}
