@@ -53,7 +53,13 @@ if "Prometheus on localhost" not in map(lambda d: d["name"], datasources):
 dashboards = do("GET", connection, headers, "/api/search")
 
 if "SUSE Manager Server" not in map(lambda d: d["title"], dashboards):
-    with open('/opt/grafana/conf/dashboard.json', 'r') as content_file:
+    with open('/opt/grafana/conf/susemanager.json', 'r') as content_file:
+        dashboard = json.loads(content_file.read())
+        dashboard["id"] = None
+        do("POST", connection, headers, "/api/dashboards/db", { "dashboard" : dashboard })
+
+if "Performance" not in map(lambda d: d["title"], dashboards):
+    with open('/opt/grafana/conf/performance.json', 'r') as content_file:
         dashboard = json.loads(content_file.read())
         dashboard["id"] = None
         do("POST", connection, headers, "/api/dashboards/db", { "dashboard" : dashboard })

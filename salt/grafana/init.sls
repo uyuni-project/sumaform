@@ -102,10 +102,17 @@ grafana_service:
     - require:
       - file: grafana_service
 
-grafana_dashboard_dump_file:
+susemanager_dashboard_dump_file:
   file.managed:
-    - name: /opt/grafana/conf/dashboard.json
-    - source: salt://grafana/dashboard.json
+    - name: /opt/grafana/conf/susemanager.json
+    - source: salt://grafana/dashboards/susemanager.json
+    - require:
+      - archive: grafana
+
+performance_dashboard_dump_file:
+  file.managed:
+    - name: /opt/grafana/conf/performance.json
+    - source: salt://grafana/dashboards/performance.json
     - require:
       - archive: grafana
 
