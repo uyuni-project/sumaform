@@ -13,6 +13,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "locust" {
+  description = "address of an optional Locust host to scrape, see README_ADVANCED.md"
+  default = "none"
+}
+
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"

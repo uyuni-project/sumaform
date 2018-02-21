@@ -73,7 +73,7 @@ locust_exporter_service:
         Description=locust_exporter
 
         [Service]
-        ExecStart=/usr/bin/locust-exporter 65500 localhost:80
+        ExecStart=/usr/bin/locust-exporter 9500 localhost:80
 
         [Install]
         WantedBy=multi-user.target
