@@ -4,19 +4,17 @@ import requests
 import argparse
 
 
-# set user and hrate needed for locust webui
-
 parser = argparse.ArgumentParser()
-parser.add_argument('-c', action='store', dest='userLocust', default=200, type=int,
-                    help='user that locust will simulate')
-parser.add_argument('-r', action='store', dest='hrate', default=100, type=int,
-                    help='hatch rate locust')
+parser.add_argument('-c', '--clients' action='store', dest='clients', default=200, type=int,
+                    help='Number of concurrent clients')
+parser.add_argument('-r', '--hatch-rate', action='store', dest='hatch_rate', default=100, type=int,
+                    help='The rate per second in which clients are spawned')
 inputUser = parser.parse_args()
-print('locust users: ', inputUser.userLocust)
-print('locust hatch rate: ', inputUser.hrate)
+print('locust users: ', inputUser.clients)
+print('locust hatch rate: ', inputUser.hatch_rate)
 LocustPayload = {
-    'locust_count': inputUser.userLocust,
-    'hatch_rate': inputUser.hrate
+    'locust_count': inputUser.clients,
+    'hatch_rate': inputUser.hatch_rate
 }
 
 # start locust webui (needed for locust_export statistics)
