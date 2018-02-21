@@ -13,9 +13,9 @@ variable "server_configuration" {
   type = "map"
 }
 
-variable "locust" {
-  description = "address of an optional Locust host to scrape, see README_ADVANCED.md"
-  default = "none"
+variable "locust_configuration" {
+  description = "use ${module.<LOCUST_NAME>.configuration}, see README_ADVANCED.md"
+  default = { "hostname" = "none" }
 }
 
 variable "ssh_key_path" {
