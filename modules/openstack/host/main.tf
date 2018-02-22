@@ -58,18 +58,24 @@ resource "openstack_compute_volume_attach_v2" "attached" {
 
 resource "openstack_networking_floatingip_v2" "floating_ip" {
   pool = "floating"
-  count = "${var.count}"
+  count = "${length(var.floating_ips) > 0 ? 0 : var.count}"
 }
 
-resource "openstack_compute_floatingip_associate_v2" "floating_ip_association" {
+resource "openstack_compute_floatingip_associate_v2" "module_floating_ip_association" {
   floating_ip = "${element(openstack_networking_floatingip_v2.floating_ip.*.address, count.index)}"
   instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"
-  count = "${var.count}"
+  count = "${length(var.floating_ips) > 0 ? 0 : var.count}"
+}
+
+resource "openstack_compute_floatingip_associate_v2" "external_floating_ip_association" {
+  floating_ip = "${element(var.floating_ips, count.index)}"
+  instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"
+  count = "${length(var.floating_ips) > 0 ? var.count : 0}"
 }
 
 resource "null_resource" "host_salt_configuration" {
   count = "${var.count}"
-  depends_on = ["openstack_compute_floatingip_associate_v2.floating_ip_association"]
+  depends_on = ["openstack_compute_floatingip_associate_v2.module_floating_ip_association", "openstack_compute_floatingip_associate_v2.external_floating_ip_association"]
 
   triggers {
     instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"

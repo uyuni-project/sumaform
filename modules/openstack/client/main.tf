@@ -24,6 +24,7 @@ EOF
   image = "${var.image}"
   flavor = "${var.flavor}"
   root_volume_size = "${var.root_volume_size}"
+  floating_ips = "${var.floating_ips}"
 }
 
 output "configuration" {

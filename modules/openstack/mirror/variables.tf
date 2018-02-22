@@ -20,3 +20,8 @@ variable "ssh_key_path" {
 }
 
 // Provider-specific variables
+
+variable "floating_ips" {
+  description = "List of floating IP IDs to associate"
+  default = []
+}

@@ -18,5 +18,6 @@ EOF
   // Provider-specific variables
   image = "opensuse423"
   flavor = "m1.small"
+  floating_ips = "${var.floating_ips}"
   extra_volume_size = 500
 }

@@ -56,6 +56,11 @@ variable "root_volume_size" {
   default = 10
 }
 
+variable "floating_ips" {
+  description = "List of floating IP IDs to associate"
+  default = []
+}
+
 variable "extra_volume_size" {
   description = "Size of the extra volume, if any, in GiB. Leave default for no extra volume"
   default = 0
