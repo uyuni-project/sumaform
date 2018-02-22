@@ -8,7 +8,7 @@
   "hideControls": false,
   "id": 2,
   "links": [],
-  "refresh": false,
+  "refresh": "5s",
   "rows": [
     {
       "collapse": false,
@@ -25,7 +25,7 @@
             "current": false,
             "max": false,
             "min": false,
-            "show": true,
+            "show": false,
             "total": false,
             "values": false
           },
@@ -38,22 +38,23 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 12,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
               "expr": "locust_user_count",
               "intervalFactor": 2,
+              "legendFormat": "users",
               "metric": "locust_user_count",
               "refId": "A",
-              "step": 240
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Users",
+          "title": "Simulated Users",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -72,79 +73,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Prometheus on localhost",
-          "fill": 1,
-          "id": 5,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "locust_requests_current_rps",
-              "hide": false,
-              "intervalFactor": 2,
-              "metric": "locust_requests_current_rps",
-              "refId": "A",
-              "step": 240
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Http Request Per second (rps)",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -174,15 +103,15 @@
           "bars": false,
           "datasource": "Prometheus on localhost",
           "fill": 1,
-          "id": 1,
+          "id": 5,
           "legend": {
             "avg": false,
             "current": false,
             "max": false,
-            "min": true,
-            "show": true,
+            "min": false,
+            "show": false,
             "total": false,
-            "values": true
+            "values": false
           },
           "lines": true,
           "linewidth": 1,
@@ -198,17 +127,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "locust_requests_num_failures",
+              "expr": "sum(locust_requests_current_rps)",
+              "hide": false,
               "intervalFactor": 2,
-              "metric": "locust_requests_num_failures",
+              "legendFormat": "rps",
+              "metric": "locust_requests_current_rps",
               "refId": "A",
-              "step": 120
+              "step": 2
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Http  Failures",
+          "title": "Requests Per Second",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -227,7 +158,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": "0",
               "show": true
             },
             {
@@ -283,9 +214,10 @@
             {
               "expr": "locust_requests_avg_response_time",
               "intervalFactor": 2,
+              "legendFormat": "{{path}}",
               "metric": "locust_requests_avg_response_time",
               "refId": "A",
-              "step": 120
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -306,7 +238,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ms",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -334,29 +266,85 @@
     {
       "collapse": false,
       "height": 250,
-      "panels": [],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": 250,
-      "panels": [],
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Prometheus on localhost",
+          "fill": 1,
+          "id": 1,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": true,
+            "show": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "/.*/",
+              "color": "#BF1B00"
+            }
+          ],
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(locust_requests_num_failures[5m])",
+              "intervalFactor": 2,
+              "legendFormat": "{{path}}",
+              "metric": "locust_requests_num_failures",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "HTTP  Failures per second",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
@@ -372,8 +360,8 @@
     "list": []
   },
   "time": {
-    "from": "2018-02-07T06:11:57.671Z",
-    "to": "2018-02-08T11:31:24.263Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -401,6 +389,6 @@
     ]
   },
   "timezone": "browser",
-  "title": "Performance",
-  "version": 9
+  "title": "Locust",
+  "version": 2
 }
