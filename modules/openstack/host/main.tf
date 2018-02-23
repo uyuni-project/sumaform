@@ -82,7 +82,7 @@ resource "null_resource" "host_salt_configuration" {
   }
 
   connection {
-    host = "${element(openstack_networking_floatingip_v2.floating_ip.*.address, count.index)}"
+    host = "${element(concat(openstack_networking_floatingip_v2.floating_ip.*.address, var.floating_ips), count.index)}"
     user = "root"
     password = "linux"
   }
