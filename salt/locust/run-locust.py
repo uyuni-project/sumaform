@@ -14,15 +14,15 @@ parser.add_argument('-r', '--hatch-rate', action='store', dest='hatch_rate',
 parser.add_argument('-t', '--swarm-time', action='store', dest='swarm_time',
                     default=120, type=int,
                     help='The duration of the swarm in seconds')
-inputUser = parser.parse_args()
+args = parser.parse_args()
 
 LocustPayload = {
-    'locust_count': inputUser.clients,
-    'hatch_rate': inputUser.hatch_rate
+    'locust_count': args.clients,
+    'hatch_rate': args.hatch_rate
 }
 
 res = requests.post('http://localhost/swarm', data=LocustPayload)
 print(res.json()["message"])
-time.sleep(inputUser.swarm_time)
+time.sleep(args.swarm_time)
 res = requests.get('http://localhost/stop')
 print(res.json()["message"])
