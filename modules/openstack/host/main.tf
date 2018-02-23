@@ -58,13 +58,17 @@ resource "openstack_compute_volume_attach_v2" "attached" {
 
 resource "openstack_networking_floatingip_v2" "floating_ip" {
   pool = "floating"
+  # HACK: it should be possible to use 0 in case var.floating_ips has a value
+  # this is not possible though, because 1) ?: is not short-circuiting
+  # 2) ?: can't return a list 3) element() does not operate on empty lists
+  # and 4) expressions like list.*.attribute will fail if list is empty
   count = "${var.count}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "module_floating_ip_association" {
   floating_ip = "${element(openstack_networking_floatingip_v2.floating_ip.*.address, count.index)}"
   instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"
-  count = "${var.count}"
+  count = "${length(var.floating_ips) == 0 ? var.count : 0}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "external_floating_ip_association" {
@@ -75,14 +79,18 @@ resource "openstack_compute_floatingip_associate_v2" "external_floating_ip_assoc
 
 resource "null_resource" "host_salt_configuration" {
   count = "${var.count}"
-  depends_on = ["openstack_compute_floatingip_associate_v2.module_floating_ip_association"]
+  depends_on = [
+    "openstack_networking_floatingip_v2.floating_ip",
+    "openstack_compute_floatingip_associate_v2.module_floating_ip_association",
+    "openstack_compute_floatingip_associate_v2.external_floating_ip_association",
+  ]
 
   triggers {
     instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"
   }
 
   connection {
-    host = "${element(openstack_networking_floatingip_v2.floating_ip.*.address, count.index)}"
+    host = "${element(concat(var.floating_ips, openstack_networking_floatingip_v2.floating_ip.*.address), count.index)}"
     user = "root"
     password = "linux"
   }
