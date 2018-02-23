@@ -17,7 +17,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Prometheus on localhost",
+          "datasource": null,
           "fill": 1,
           "id": 4,
           "legend": {
@@ -101,7 +101,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Prometheus on localhost",
+          "datasource": null,
           "fill": 1,
           "id": 5,
           "legend": {
@@ -270,7 +270,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Prometheus on localhost",
+          "datasource": null,
           "fill": 1,
           "id": 1,
           "legend": {
