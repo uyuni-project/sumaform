@@ -23,10 +23,9 @@ prometheus_configuration:
     - name: /etc/prometheus/prometheus.yml
     - makedirs: True
     - contents: |
-        global:
-          scrape_interval: 5s
         scrape_configs:
           - job_name: 'suse_manager_server'
+            scrape_interval: 5s
             static_configs:
               - targets: ['{{grains["server"]}}:9100'] # node_exporter
               - targets: ['{{grains["server"]}}:9187'] # postgres_exporter
