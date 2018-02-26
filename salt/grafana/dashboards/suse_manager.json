@@ -67,7 +67,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(irate(node_cpu{mode=\"user\"}[1m]))",
+              "expr": "sum(irate(node_cpu{job=\"sumaform\",mode=\"user\"}[1m]))",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "user",
@@ -76,7 +76,7 @@
               "step": 20
             },
             {
-              "expr": "sum(irate(node_cpu{mode=\"system\"}[1m]))",
+              "expr": "sum(irate(node_cpu{job=\"sumaform\",mode=\"system\"}[1m]))",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "system",
@@ -85,7 +85,7 @@
               "step": 20
             },
             {
-              "expr": "sum(irate(node_cpu{mode!~\"user|system|idle\"}[1m]))",
+              "expr": "sum(irate(node_cpu{job=\"sumaform\",mode!~\"user|system|idle\"}[1m]))",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "other",
@@ -172,7 +172,7 @@
           "steppedLine": true,
           "targets": [
             {
-              "expr": "node_procs_running",
+              "expr": "node_procs_running{job=\"sumaform\"}",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "running",
@@ -262,7 +262,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_memory_MemTotal - node_memory_MemAvailable",
+              "expr": "node_memory_MemTotal{job=\"sumaform\"} - node_memory_MemAvailable{job=\"sumaform\"}",
               "intervalFactor": 2,
               "legendFormat": "used",
               "refId": "A",
@@ -339,7 +339,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_memory_SwapTotal - node_memory_SwapFree",
+              "expr": "node_memory_SwapTotal{job=\"sumaform\"} - node_memory_SwapFree{job=\"sumaform\"}",
               "intervalFactor": 2,
               "legendFormat": "swapped",
               "refId": "A",
@@ -429,14 +429,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_network_receive_bytes{device=\"eth0\"}[1m])*8",
+              "expr": "irate(node_network_receive_bytes{job=\"sumaform\", device=\"eth0\"}[1m])*8",
               "intervalFactor": 2,
               "legendFormat": "in",
               "refId": "A",
               "step": 20
             },
             {
-              "expr": "irate(node_network_transmit_bytes{device=\"eth0\"}[1m])*8",
+              "expr": "irate(node_network_transmit_bytes{job=\"sumaform\", device=\"eth0\"}[1m])*8",
               "intervalFactor": 2,
               "legendFormat": "out",
               "refId": "B",
@@ -513,7 +513,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_network_transmit_fifo{device=\"eth0\"}",
+              "expr": "node_network_transmit_fifo{job=\"sumaform\",device=\"eth0\"}",
               "intervalFactor": 2,
               "legendFormat": "errors",
               "refId": "A",
@@ -602,7 +602,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_disk_io_time_ms{device=~\"sda|vda|xvda\"}[30s])/1000",
+              "expr": "irate(node_disk_io_time_ms{job=\"sumaform\", device=~\"sda|vda|xvda\"}[30s])/1000",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "%",
@@ -680,7 +680,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(node_disk_io_time_weighted{device=~\"sda|vda|xvda\"}[30s])/1000",
+              "expr": "rate(node_disk_io_time_weighted{job=\"sumaform\",device=~\"sda|vda|xvda\"}[30s])/1000",
               "hide": false,
               "intervalFactor": 2,
               "legendFormat": "length",
@@ -770,7 +770,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "java_lang_Threading_ThreadCount",
+              "expr": "java_lang_Threading_ThreadCount{job=\"sumaform\"}",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "threads",
@@ -846,7 +846,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "java_lang_Memory_HeapMemoryUsage_used",
+              "expr": "java_lang_Memory_HeapMemoryUsage_used{job=\"sumaform\"}",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "used",
@@ -935,14 +935,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(pg_locks_count{datname=\"susemanager\", mode=~\".*exclusive.*\"})",
+              "expr": "sum(pg_locks_count{job=\"sumaform\",datname=\"susemanager\", mode=~\".*exclusive.*\"})",
               "intervalFactor": 2,
               "legendFormat": "exclusive",
               "refId": "A",
               "step": 20
             },
             {
-              "expr": "sum(pg_locks_count{datname=\"susemanager\", mode!~\".*exclusive.*\"})",
+              "expr": "sum(pg_locks_count{job=\"sumaform\",datname=\"susemanager\", mode!~\".*exclusive.*\"})",
               "intervalFactor": 2,
               "legendFormat": "shared",
               "refId": "B",
@@ -1019,28 +1019,28 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(pg_stat_database_tup_fetched{datname=\"susemanager\"}[30s])",
+              "expr": "rate(pg_stat_database_tup_fetched{job=\"sumaform\", datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "fetched",
               "refId": "A",
               "step": 20
             },
             {
-              "expr": "rate(pg_stat_database_tup_inserted{datname=\"susemanager\"}[30s])",
+              "expr": "rate(pg_stat_database_tup_inserted{job=\"sumaform\", datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "inserted",
               "refId": "B",
               "step": 20
             },
             {
-              "expr": "rate(pg_stat_database_tup_updated{datname=\"susemanager\"}[30s])",
+              "expr": "rate(pg_stat_database_tup_updated{job=\"sumaform\",datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "updated",
               "refId": "C",
               "step": 20
             },
             {
-              "expr": "rate(pg_stat_database_tup_deleted{datname=\"susemanager\"}[30s])",
+              "expr": "rate(pg_stat_database_tup_deleted{job=\"sumaform\",datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "deleted",
               "refId": "D",
@@ -1131,7 +1131,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "mgr_serveractions_queued",
+              "expr": "mgr_serveractions_queued{job=\"sumaform\"}",
               "intervalFactor": 2,
               "legendFormat": "queued",
               "metric": "",
@@ -1139,7 +1139,7 @@
               "step": 20
             },
             {
-              "expr": "mgr_serveractions_picked_up",
+              "expr": "mgr_serveractions_picked_up{job=\"sumaform\"}",
               "intervalFactor": 2,
               "legendFormat": "picked up",
               "refId": "B",
@@ -1215,7 +1215,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(mgr_serveractions_completed[100s])",
+              "expr": "rate(mgr_serveractions_completed{job=\"sumaform\"}[100s])",
               "intervalFactor": 2,
               "legendFormat": "completed",
               "metric": "mgr_serveractions_completed",
@@ -1223,7 +1223,7 @@
               "step": 20
             },
             {
-              "expr": "rate(mgr_serveractions_failed[30s])",
+              "expr": "rate(mgr_serveractions_failed{job=\"sumaform\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "failed",
               "refId": "B",
