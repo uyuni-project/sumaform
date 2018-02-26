@@ -1,6 +1,15 @@
+include:
+  - default
+
 pip:
   pkg.installed:
     - name: python-pip
+
+mozilla_certificates:
+  pkg.installed:
+    - name: ca-certificates-mozilla
+    - require:
+      - sls: default
 
 locust_prerequisites:
   pkg.installed:
@@ -16,6 +25,7 @@ locustio:
     - require:
       - pkg: pip
       - pkg: locust_prerequisites
+      - pkg: mozilla_certificates
 
 prometheus_client:
   pip.installed:
@@ -23,6 +33,7 @@ prometheus_client:
    - require:
      - pkg: pip
      - pkg: locust_prerequisites
+     - pkg: mozilla_certificates
 
 locustfile:
   file.decode:
