@@ -22,6 +22,7 @@ locust_prerequisites:
 locustio:
   pip.installed:
     - name: locustio == 0.8.1
+    - trusted_host: pypi.python.org
     - require:
       - pkg: pip
       - pkg: locust_prerequisites
@@ -30,6 +31,7 @@ locustio:
 prometheus_client:
   pip.installed:
    - name: prometheus-client == 0.1.1
+   - trusted_host: pypi.python.org
    - require:
      - pkg: pip
      - pkg: locust_prerequisites
