@@ -24,7 +24,7 @@ prometheus_configuration:
     - makedirs: True
     - contents: |
         scrape_configs:
-          - job_name: 'suse_manager_server'
+          - job_name: 'sumaform'
             scrape_interval: 5s
             static_configs:
               - targets: ['{{grains["server"]}}:9100'] # node_exporter
