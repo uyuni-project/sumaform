@@ -42,7 +42,6 @@ cucumber_requisites:
       - automake
       - libtool
       - apache2-worker
-      - phantomjs
       - cantarell-fonts
       - git-core
       - wget
@@ -55,6 +54,13 @@ cucumber_requisites:
       - rubygem-twopence
     - require:
       - sls: controller.repos
+
+# we don't want to have opensuse phantomjs 2.1.1 or more up2dated
+# since this cause a lot of failures.
+phantomjs_2.0_cucumber_repo:
+  pkg.installed:
+  - name: phantomjs
+  - version: 2.0.0-1.1 
 
 install_gems_via_bundle:
   cmd.run:
