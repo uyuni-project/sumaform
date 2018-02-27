@@ -21,7 +21,7 @@ centos_minion: 100-travis.tf.local
 ssh_minion: ssh-travis.tf.local
 role: controller
 mirror: null
-for_testsuite_only: 1
+testsuite: true
 EOF
 
 cat >minion <<EOF

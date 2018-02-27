@@ -43,6 +43,11 @@ variable "use_shared_resources" {
   default = false
 }
 
+variable "testsuite" {
+  description = "true to enable specific setup for the integration testsuite"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "pool" {

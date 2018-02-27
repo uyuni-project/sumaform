@@ -23,11 +23,6 @@ variable "for_development_only" {
   default = true
 }
 
-variable "for_testsuite_only" {
-  description = "whether this host should be pre-configured with settings necessary for running the Cucumber testsuite"
-  default = false
-}
-
 variable "use_unreleased_updates" {
   description = "This adds and updates sle packages from the test repo"
   default = false

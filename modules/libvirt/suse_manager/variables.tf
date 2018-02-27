@@ -33,11 +33,6 @@ variable "for_development_only" {
   default = true
 }
 
-variable "for_testsuite_only" {
-  description = "whether this host should be pre-configured with settings necessary for running the Cucumber testsuite"
-  default = false
-}
-
 variable "unsafe_postgres" {
   description = "whether to use PostgreSQL settings that improve performance by worsening durability"
   default = true

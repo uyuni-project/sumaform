@@ -21,6 +21,7 @@ output "configuration" {
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
     use_shared_resources = "${var.use_shared_resources}"
+    testsuite = "${var.testsuite}"
 
     // Provider-specific variables
     pool = "${var.pool}"

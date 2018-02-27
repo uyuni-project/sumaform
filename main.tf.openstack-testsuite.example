@@ -16,6 +16,7 @@ module "base" {
 
   cc_username = "UC7"
   cc_password = ...
+  testsuite = true
 
   // optional parameters with defaults below
   // name_prefix = ""
@@ -48,7 +49,6 @@ module "srv" {
   name = "srv"
   image = "sles12sp3"
   for_development_only = false
-  for_testsuite_only = true
   auto_accept = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
@@ -61,7 +61,6 @@ module "cli-sles12sp3" {
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
   for_development_only = false
-  for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
@@ -73,7 +72,6 @@ module "min-sles12sp3" {
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
   for_development_only = false
-  for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
@@ -96,6 +94,5 @@ module "min-centos7" {
   image = "centos7"
   server_configuration = { hostname = "srv.tf.local" }
   for_development_only = false
-  for_testsuite_only = true
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
