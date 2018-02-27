@@ -17,11 +17,5 @@ MANAGER_DB_HOST="localhost"
 MANAGER_DB_PORT="5432"
 MANAGER_DB_PROTOCOL="TCP"
 MANAGER_ENABLE_TFTP="Y"
-{% if '2.1' in grains['version'] %}
-NCC_USER="{{ grains.get("cc_username") }}"
-NCC_PASS="{{ grains.get("cc_password") }}"
-NCC_EMAIL="galaxy-noise@suse.de"
-{% else %}
 SCC_USER="{{ grains.get("cc_username") }}"
 SCC_PASS="{{ grains.get("cc_password") }}"
-{% endif %}

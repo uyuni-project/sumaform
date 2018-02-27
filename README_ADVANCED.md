@@ -7,12 +7,10 @@ Some modules have a ``version`` variable that determines the software version. S
  * in `minion`, `client`, etc. `version` determines the SUSE Manager Tools version.
 
 Legal values for released software are:
- * `2.1-released` (latest released Maintenance Update for SUSE Manager 2.1 and Tools)
  * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
  * `3.1-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.1 and Tools)
 
 Legal values for work-in-progress software are:
- * `2.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:2.1)
  * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
  * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
@@ -194,26 +192,26 @@ Note that proxy chains (proxies of proxies) also work as expected. You can find 
 Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
 
 ```hcl
-module "suma21pgm" {
+module "master" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma21pgm"
-  version = "2.1-released"
-  iss_slave = "suma21pgs.tf.local"
+  name = "master"
+  version = "3.1-released"
+  iss_slave = "suma3pgs.tf.local"
 }
 
-module "suma21pgs" {
+module "slave" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma21pgs"
-  version = "2.1-released"
-  iss_master = "${module.suma21pgm.configuration["hostname"]}"
+  name = "slave"
+  version = "3.1-released"
+  iss_master = "${module.master.configuration["hostname"]}"
 }
 ```
 
-Please note that `iss_master` is set from `suma21pgm`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
+Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
 
 ## Cucumber testsuite
 

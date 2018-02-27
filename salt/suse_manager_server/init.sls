@@ -13,15 +13,6 @@ include:
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
 
-{% if '2.1' in grains['version'] %}
-# remove SLES product release package, it's replaced by SUSE Manager's
-sles_release_fix:
-  pkg.removed:
-    - name: sles-release
-    - require:
-      - sls: suse_manager_server.repos
-{% endif %}
-
 {% if '3.0-released' in grains['version'] %}
 postgresql-fixed-version-workaround:
   pkg.installed:
@@ -36,47 +27,16 @@ suse_manager_packages:
   pkg.latest:
     {% if 'head' in grains['version'] or 'test' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_Head
-    - name: patterns-suma_server
     {% elif '3.0-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-3.0-x86_64-Pool
-    - name: patterns-suma_server
     {% elif '3.0-nightly' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_3.0
-    - name: patterns-suma_server
     {% elif '3.1-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-3.1-x86_64-Pool
-    - name: patterns-suma_server
     {% elif '3.1-nightly' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_3.1
-    - name: patterns-suma_server
-    {% else %}
-    - pkgs:
-      - cyrus-sasl-digestmd5
-      - perl-TimeDate
-      - sm-network-discovery-client
-      - smdba
-      - spacecmd
-      - spacewalk-reports
-      - suse-manager-server-release
-      - susemanager
-      - susemanager-client-config_en-pdf
-      - susemanager-install_en-pdf
-      - susemanager-manuals_en
-      - susemanager-proxy-quick_en-pdf
-      - susemanager-reference_en-pdf
-      - susemanager-tftpsync
-      - susemanager-user_en-pdf
-      - timezone
-      {% if grains['database'] == 'oracle' %}
-      - bc
-      - oracle-server
-      - spacewalk-oracle
-      - susemanager-branding-non-oss
-      {% else %}
-      - spacewalk-postgresql
-      - susemanager-branding-oss
-      {% endif %}
     {% endif %}
+    - name: patterns-suma_server
     - require:
       - sls: suse_manager_server.repos
       - sls: suse_manager_server.firewall

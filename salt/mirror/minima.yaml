@@ -27,22 +27,6 @@
   path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update
   archs: [x86_64]
 
-# SUSE Manager 2.1
-- url: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL
-  path: /srv/mirror/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL
-  archs: [x86_64]
-- url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update
-  path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update
-  archs: [x86_64]
-
-# SUSE Manager 2.1 Proxy
-- url: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL
-  path: /srv/mirror/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL
-  archs: [x86_64]
-- url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER-PROXY/2.1/x86_64/update
-  path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER-PROXY/2.1/x86_64/update
-  archs: [x86_64]
-
 # SLES 12 GA
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12/x86_64/product
   path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Products/SLE-SERVER/12/x86_64/product
@@ -194,11 +178,6 @@
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
   archs: [x86_64]
 
-# SUSE Manager 2.1 devel
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/2.1/SLE_11_SP3
-  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/2.1/SLE_11_SP3
-  archs: [x86_64]
-
 # SUSE Manager 3.0 devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
@@ -275,11 +254,6 @@
 # SUSE Manager TEST devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
-  archs: [x86_64]
-
-# Oracle server
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3
-  path: /srv/mirror/ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3
   archs: [x86_64]
 
 # Testsuite Controller repo

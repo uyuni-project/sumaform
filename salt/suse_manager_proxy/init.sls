@@ -2,15 +2,6 @@ include:
   - suse_manager_proxy.repos
   - suse_manager_proxy.development
 
-{% if '2.1' in grains['version'] %}
-# remove SLES product release package, it's replaced by proxy's
-sles_release_fix:
-  pkg.removed:
-    - name: sles-release
-    - require:
-      - sls: suse_manager_proxy.repos
-{% endif %}
-
 proxy-packages:
   pkg.latest:
     {% if 'head' in grains['version'] %}
@@ -28,40 +19,6 @@ proxy-packages:
     {% elif '3.1-nightly' in grains['version'] %}
     - fromrepo: Devel_Galaxy_Manager_3.1
     - name: patterns-suma_proxy
-    {% else %}
-    - pkgs:
-      # proxy
-      - suse-manager-proxy-release
-      - suse-manager-proxy-release-cd
-      - susemanager-proxy
-      - spacewalk-client-setup
-      - spacewalk-proxy-broker
-      - spacewalk-proxy-common
-      - spacewalk-proxy-installer
-      - spacewalk-proxy-management
-      - spacewalk-proxy-package-manager
-      - spacewalk-proxy-redirect
-      - spacewalk-ssl-cert-check
-      - susemanager-tftpsync-recv
-      - release-notes-susemanager-proxy
-      - supportutils-plugin-susemanager-proxy
-      - supportutils-plugin-susemanager-client
-      # normal client tools
-      - spacewalk-client-tools
-      - spacewalk-check
-      - spacewalk-client-setup
-      - spacewalksd
-      - rhnlib
-      - suseRegisterInfo
-      - zypp-plugin-spacewalk
-      - osad
-      - rhncfg
-      - rhncfg-actions
-      - rhncfg-client
-      - rhncfg-management
-      - rhn-custom-info
-      - rhnmd
-      - rhnpush
     {% endif %}
     - require:
       - sls: suse_manager_proxy.repos

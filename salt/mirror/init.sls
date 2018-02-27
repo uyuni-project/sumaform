@@ -201,30 +201,6 @@ nfs_server:
     - makedirs: True
     - force: True
 
-/srv/mirror/repo/$RCE/SUSE-Manager-Server-2.1-Pool/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/repo/$RCE/SUSE-Manager-Server-2.1-Updates/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/repo/$RCE/SUSE-Manager-Proxy-2.1-Pool/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/repo/$RCE/SUSE-Manager-Proxy-2.1-Updates/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER-PROXY/2.1/x86_64/update/
-    - makedirs: True
-    - force: True
-
 /srv/mirror/SUSE:
   file.symlink:
     - target: mirror/SuSE/build.suse.de/SUSE

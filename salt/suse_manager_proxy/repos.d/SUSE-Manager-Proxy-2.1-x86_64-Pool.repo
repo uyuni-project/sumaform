@@ -1,6 +1,0 @@
-[SUSE-Manager-Proxy-2.1-x86_64-Pool]
-name=SUSE-Manager-Proxy-x86_64-2.1-Pool
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains["mirror"] | default("euklid.nue.suse.com", true) }}/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL/
-priority=97

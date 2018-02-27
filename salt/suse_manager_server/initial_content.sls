@@ -6,17 +6,6 @@ include:
 create_first_user:
   http.wait_for_successful_query:
     - method: POST
-    {% if '2.1' in grains['version'] %}
-    - name: https://localhost/rhn/newlogin/CreateFirstUserSubmit.do
-    - match: For details on SUSE Manager, please visit our website
-    - data: "login=admin&\
-             desiredpassword=admin&\
-             desiredpasswordConfirm=admin&\
-             firstNames=Administrator&\
-             lastName=McAdmin&\
-             email=galaxy-noise%40suse.de&\
-             account_type=create_sat"
-    {% else %}
     - name: https://localhost/rhn/newlogin/CreateFirstUser.do
     - match: Discover a new way of managing your servers
     - data: "submitted=true&\
@@ -27,7 +16,6 @@ create_first_user:
              email=galaxy-noise%40suse.de&\
              firstNames=Administrator&\
              lastName=McAdmin"
-    {% endif %}
     - verify_ssl: False
     - unless: spacecmd -u admin -p admin user_list | grep -x admin
     - require:
@@ -51,14 +39,7 @@ mgr_sync_automatic_authentication:
     - require:
       - file: mgr_sync_configuration_file
 
-{% if '2.1' in grains['version'] %}
-scc_data_refresh:
-  cmd.run:
-    - name: mgr-sync enable-scc
-    - creates: /var/lib/spacewalk/scc/migrated
-    - require:
-      - file: mgr_sync_automatic_authentication
-{% elif grains.get('channels') %}
+{% if grains.get('channels') %}
 wait_for_mgr_sync:
   cmd.script:
     - name: salt://suse_manager_server/wait_for_mgr_sync.py
@@ -102,18 +83,14 @@ create_empty_channel:
 
 create_empty_activation_key:
   cmd.run:
-    {% if '2.1' in grains['version'] %}
-    - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel -e provisioning_entitled
-    {% else %}
     - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel
-    {% endif %}
     - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-DEFAULT
     - require:
       - cmd: create_empty_channel
 
 create_empty_bootstrap_script:
   cmd.run:
-    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date --hostname {{ grains['hostname'] }}.{{ grains['domain'] }} {{ '--traditional' if '2.1' not in grains['version'] and '3.0' not in grains['version'] else '' }}
+    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date --hostname {{ grains['hostname'] }}.{{ grains['domain'] }} {{ '--traditional' if '3.0' not in grains['version'] else '' }}
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
     - require:
       - cmd: create_empty_activation_key

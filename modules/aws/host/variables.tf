@@ -64,12 +64,12 @@ variable "name_prefix" {
 }
 
 variable "version" {
-  description = "Main product version (eg. 2.1-released, 3.0-nightly, head)"
+  description = "Main product version (eg. 3.1-released, 3.0-nightly, head)"
   default = "null"
 }
 
 variable "database" {
-  description = "RDBMS name (eg. postgres, oracle, pgpool)"
+  description = "RDBMS name (eg. postgres, pgpool)"
   default = "null"
 }
 
