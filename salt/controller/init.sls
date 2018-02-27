@@ -38,6 +38,7 @@ cucumber_requisites:
       - ruby
       - ruby-devel
       - autoconf
+      - ca-certificates-mozilla
       - automake
       - libtool
       - apache2-worker

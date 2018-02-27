@@ -75,14 +75,6 @@
   path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SERVER/12-SP3/x86_64/update
   archs: [x86_64]
 
-# SLE 12 SP3 SDK
-- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-SDK/12-SP3/x86_64/product
-  path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Products/SLE-SDK/12-SP3/x86_64/product
-  archs: [x86_64]
-- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SDK/12-SP3/x86_64/update
-  path: /srv/mirror/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-SDK/12-SP3/x86_64/update
-  archs: [x86_64]
-
 # SLES 15
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
   path: /srv/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
