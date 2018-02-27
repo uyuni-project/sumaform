@@ -3,11 +3,26 @@
 include:
   - suse_manager_server
 
+prometheus_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
+    - source: salt://suse_manager_server/repos.d/home_SilvioMoioli_tools.repo
+    - template: jinja
+    - require:
+      - sls: suse_manager_server
+
+refresh_prometheus_repo:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - require:
+      - file: prometheus_repo
+
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter
     - require:
       - sls: suse_manager_server
+      - cmd: refresh_prometheus_repo
 
 node_exporter_service:
   file.managed:
@@ -34,6 +49,7 @@ postgres_exporter:
     - name: golang-github-wrouesnel-postgres_exporter
     - require:
       - sls: suse_manager_server
+      - cmd: refresh_prometheus_repo
 
 postgres_exporter_configuration:
   file.managed:
@@ -113,6 +129,7 @@ jmx_exporter:
     - name: jmx_exporter
     - require:
       - sls: suse_manager_server
+      - cmd: refresh_prometheus_repo
 
 jmx_exporter_configuration:
   file.managed:
