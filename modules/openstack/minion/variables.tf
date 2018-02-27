@@ -67,7 +67,7 @@ variable "gpg_keys" {
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: sles11sp3, sles11sp4, sles12, sles12sp1, sles15beta4, centos7"
+  description = "One of: sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles15beta4, centos7"
   type = "string"
 }
 

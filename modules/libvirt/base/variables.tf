@@ -62,7 +62,7 @@ variable "bridge" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default = ["centos7",  "opensuse423",  "sles11sp3",  "sles11sp4",  "sles12",   "sles12sp1",  "sles12sp2", "sles12sp3", "sles15beta4"]
+  default = ["centos7", "opensuse423",  "sles15beta4",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3"]
   type = "list"
 }
 
@@ -71,13 +71,12 @@ variable "image_locations" {
   default = {
     centos7 = "http://w3.nue.suse.com/~smoioli/sumaform-images/centos7_v3.qcow2"
     opensuse423 = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
-    sles11sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp3.x86_64.qcow2"
+    sles15beta4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15beta4.x86_64.qcow2"
     sles11sp4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
     sles12 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
     sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
     sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
     sles12sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
-    sles15beta4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15beta4.x86_64.qcow2"
   }
   type = "map"
 }
