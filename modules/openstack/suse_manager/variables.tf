@@ -13,11 +13,6 @@ variable "version" {
   type = "string"
 }
 
-variable "database" {
-  description = "One of: postgres, pgpool"
-  default = "postgres"
-}
-
 variable "channels" {
   description = "a list of SUSE channel labels to add"
   default = []

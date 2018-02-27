@@ -54,7 +54,6 @@ domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.in
 use_avahi: False
 mirror: ${var.mirror_private_name}
 version: ${var.version}
-database: ${var.database}
 channels: [${join(",", var.channels)}]
 role: ${var.role}
 cc_username: ${var.cc_username}

@@ -30,10 +30,6 @@ base:
     - match: grain
     - mirror
 
-  'role:postgres':
-    - match: grain
-    - postgres
-
   'role:controller':
     - match: grain
     - controller

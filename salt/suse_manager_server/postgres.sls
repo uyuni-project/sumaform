@@ -1,5 +1,3 @@
-{% if grains['database'] == 'postgres' %}
-
 include:
   - suse_manager_server
 
@@ -32,5 +30,3 @@ postgresql:
     - require:
       - file: postgresql_main_configuration
       - file: postgresql_hba_configuration
-
-{% endif %}

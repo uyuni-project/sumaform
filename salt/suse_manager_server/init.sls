@@ -2,7 +2,6 @@ include:
   - suse_manager_server.repos
   - suse_manager_server.firewall
   - suse_manager_server.postgres
-  - suse_manager_server.pgpool
   - suse_manager_server.tomcat
   - suse_manager_server.taskomatic
   - suse_manager_server.rhn
@@ -71,9 +70,6 @@ suse_manager_setup:
     - require:
       - pkg: suse_manager_packages
       - file: environment_setup_script
-      {% if grains['database'] == 'pgpool' %}
-      - sls: suse_manager_server.pgpool
-      {% endif %}
 
 ca_cert_checksum:
   cmd.run:

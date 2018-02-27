@@ -15,7 +15,6 @@ reset_ids: true
 version: head
 cc_username: UC7
 cc_password: passme
-database: postgres
 mirror: null
 iss_master: null
 iss_slave: null

@@ -270,33 +270,6 @@ local_workspaces/libvirt-testsuite/terraform.tfstate
 [...] -> local_workspaces/libvirt-testsuite/terraform.tfstate
 ```
 
-## pgpool-II replicated database
-
-Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below:
-
-```hcl
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  name = "suma3pg"
-  version = "3.0-nightly"
-  database = "pgpool"
-}
-
-module "pg1" {
-  source = "./modules/libvirt/postgres"
-  base_configuration = "${module.base.configuration}"
-  name = "pg1"
-}
-
-module "pg2" {
-  source = "./modules/libvirt/postgres"
-  base_configuration = "${module.base.configuration}"
-  name = "pg2"
-}
-```
-
 ## Plain hosts
 
 You can have totally unconfigured hosts in your configuration by using the `host` module, for example if you need to test bootstrapping.

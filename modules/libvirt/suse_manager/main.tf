@@ -24,7 +24,6 @@ module "suse_manager" {
 version: ${var.version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
-database: ${var.database}
 channels: [${join(",", var.channels)}]
 mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}

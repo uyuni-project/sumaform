@@ -9,9 +9,6 @@ CERT_COUNTRY="DE"
 CERT_EMAIL="galaxy-noise@suse.de"
 CERT_PASS="spacewalk"
 USE_EXISTING_CERTS="N"
-{% if grains['database'] == 'pgpool' %}
-LOCAL_DB=0
-{% endif %}
 MANAGER_DB_NAME="susemanager"
 MANAGER_DB_HOST="localhost"
 MANAGER_DB_PORT="5432"

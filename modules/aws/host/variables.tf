@@ -68,11 +68,6 @@ variable "version" {
   default = "null"
 }
 
-variable "database" {
-  description = "RDBMS name (eg. postgres, pgpool)"
-  default = "null"
-}
-
 variable "channels" {
   description = "a list of SUSE channel labels to add"
   default = []

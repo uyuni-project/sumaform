@@ -92,7 +92,6 @@ module "aws_suma31pg" {
   name_prefix = "${local.name_prefix}"
 
   version = "3.1-nightly"
-  database = "postgres"
   role = "suse_manager_server"
   cc_username = "${var.cc_username}"
   cc_password = "${var.cc_password}"
