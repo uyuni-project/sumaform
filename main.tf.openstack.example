@@ -26,32 +26,33 @@ module "base" {
   use_shared_resources = true
 }
 
-module "suma3pg" {
+module "server" {
   source = "./modules/openstack/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma3pg"
-  version = "3.0-nightly"
+  name = "server"
+  version = "3.1-nightly"
+  // see modules/openstack/suse_manager/variables.tf for possible values
 }
 
-module "clisles11sp3" {
+module "client" {
   source = "./modules/openstack/client"
   base_configuration = "${module.base.configuration}"
 
-  name = "clisles11sp3"
-  image = "sles11sp3"
-  server_configuration = "${module.suma3pg.configuration}"
+  name = "client"
+  image = "sles12sp3"
+  server_configuration = "${module.server.configuration}"
   count = 1
   // see modules/openstack/client/variables.tf for possible values
 }
 
-module "minsles12sp1" {
+module "minion" {
   source = "./modules/openstack/minion"
   base_configuration = "${module.base.configuration}"
 
-  name = "minsles12sp1"
-  image = "sles12sp1"
-  server_configuration = "${module.suma3pg.configuration}"
+  name = "minion"
+  image = "sles12sp3"
+  server_configuration = "${module.server.configuration}"
   count = 1
   // see modules/openstack/minion/variables.tf for possible values
 }
