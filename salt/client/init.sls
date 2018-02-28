@@ -1,11 +1,10 @@
 include:
-  - client.repos
   - client.testsuite
 
 wget:
   pkg.installed:
     - require:
-      - sls: client.repos
+      - sls: default
 
 {% if grains['for_development_only'] %}
 

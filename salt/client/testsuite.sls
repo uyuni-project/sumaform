@@ -1,9 +1,9 @@
-{% if grains['for_testsuite_only'] %}
+{% if grains.get('testsuite') | default(false, true) %}
 
 include:
-  - client.repos
+  - client
 
-cucumber_requisites:
+client_cucumber_requisites:
   pkg.installed:
     - pkgs:
       - subscription-tools
@@ -15,7 +15,26 @@ cucumber_requisites:
       - man
       - wget
       - adaptec-firmware
-      {% if grains['os'] == 'SUSE' %}
+    - require:
+      - sls: default
+
+{% if grains['os'] == 'SUSE' %}
+
+testsuite_build_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
+    - source: salt://client/repos.d/Devel_Galaxy_BuildRepo.repo
+    - template: jinja
+
+refresh_client_repos:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - require:
+      - file: testsuite_build_repo
+
+suse_client_cucumber_requisites:
+  pkg.installed:
+    - pkgs:
       - openscap-content
       - andromeda-dummy
       - milkyway-dummy
@@ -23,8 +42,9 @@ cucumber_requisites:
       {% if '12' in grains['osrelease'] %}
       - aaa_base-extras
       {% endif %}
-      {% endif %}
     - require:
-      - sls: client.repos
+      - cmd: refresh_client_repos
+
+{% endif %}
 
 {% endif %}
