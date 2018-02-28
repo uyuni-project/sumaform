@@ -34,7 +34,7 @@ branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_conf
 EOF
 
   // Provider-specific variables
-  image = "sles12sp3"
+  image = "opensuse423"
   memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"

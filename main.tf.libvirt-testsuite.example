@@ -11,7 +11,6 @@ module "base" {
   // network_name = "default" // change to "" if you change bridge below
   // bridge = ""
   // name_prefix = ""
-  images = ["centos7", "sles12sp3"]
 }
 
 module "ctl" {

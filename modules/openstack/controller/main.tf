@@ -34,7 +34,7 @@ branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_conf
 EOF
 
   // Provider-specific variables
-  image = "sles12sp3"
+  image = "opensuse423"
   flavor = "m1.small"
   root_volume_size = "${var.root_volume_size}"
   floating_ips = "${var.floating_ips}"

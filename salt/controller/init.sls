@@ -38,10 +38,10 @@ cucumber_requisites:
       - ruby
       - ruby-devel
       - autoconf
+      - ca-certificates-mozilla
       - automake
       - libtool
       - apache2-worker
-      - phantomjs
       - cantarell-fonts
       - git-core
       - wget
@@ -54,6 +54,12 @@ cucumber_requisites:
       - rubygem-twopence
     - require:
       - sls: controller.repos
+
+# HACK: currently we need this exact version
+phantomjs_2.0_cucumber_repo:
+  pkg.installed:
+  - name: phantomjs
+  - version: 2.0.0
 
 install_gems_via_bundle:
   cmd.run:
