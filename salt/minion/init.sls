@@ -1,12 +1,11 @@
 include:
   - minion.testsuite
-  - minion.repos
 
 minion_package:
   pkg.installed:
     - name: salt-minion
     - require:
-      - sls: minion.repos
+      - sls: default
 
 minion_id:
   file.managed:
