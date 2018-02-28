@@ -15,12 +15,12 @@ mozilla_certificates:
 minima:
   archive.extracted:
     - name: /usr/bin
-    - source: https://github.com/moio/minima/releases/download/v0.1.5/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/moio/minima/releases/download/v0.1.5/minima-linux-amd64.tar.gz.sha512
+    - source: https://github.com/moio/minima/releases/download/v0.2/minima-linux-amd64.tar.gz
+    - source_hash: https://github.com/moio/minima/releases/download/v0.2/minima-linux-amd64.tar.gz.sha512
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
-    - if_missing: /usr/bin/minima
+    - overwrite: True
     - require:
       - pkg: mozilla_certificates
       - pkg: system_update
