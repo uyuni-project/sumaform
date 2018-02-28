@@ -59,7 +59,7 @@ cucumber_requisites:
 phantomjs_2.0_cucumber_repo:
   pkg.installed:
   - name: phantomjs
-  - version: 2.0.0-1.1
+  - version: 2.0.0
 
 install_gems_via_bundle:
   cmd.run:
