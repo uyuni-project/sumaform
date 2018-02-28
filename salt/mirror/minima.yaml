@@ -278,8 +278,8 @@
   archs: [x86_64]
 
 # Testsuite Controller repo
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/cucumber-testsuite/SLE_12_SP3/
-  path: /srv/mirror/ibs/Devel:/Galaxy:/cucumber-testsuite/SLE_12_SP3
+- url: http://download.suse.de/ibs/Devel:/Galaxy:/cucumber-testsuite/openSUSE_Leap_42.3/
+  path: /srv/mirror/ibs/Devel:/Galaxy:/cucumber-testsuite/openSUSE_Leap_42.3
   archs: [x86_64]
 
 # Testsuite dummy packages for testing repo
