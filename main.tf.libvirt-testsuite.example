@@ -24,6 +24,7 @@ module "ctl" {
   centos_configuration = "${module.min-centos7.configuration}"         // optional
   minionssh_configuration = "${module.minssh-sles12sp3.configuration}" // optional
   branch = "default"
+  // credentials available in https://gitlab.suse.de/galaxy/sumaform-test-runner/blob/master/31/main-full.tf
   git_username = ...
   git_password = ...
 }
