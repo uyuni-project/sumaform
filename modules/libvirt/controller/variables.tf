@@ -11,13 +11,11 @@ variable "name" {
 variable "git_username" {
   description = "username for GitHub"
   type = "string"
-  default = "nogit"
 }
 
 variable "git_password" {
   description = "password for GitHub"
   type = "string"
-  default = "nogit"
 }
 
 variable "branch" {
