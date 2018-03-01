@@ -58,8 +58,8 @@ suse_manager_proxy_update_repo:
 {% if 'head' in grains['version'] %}
 suse_manager_proxy_pool_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
-    - source: salt://suse_manager_proxy/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Pool.repo
+    - source: salt://suse_manager_proxy/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Pool.repo
     - template: jinja
     - require:
       - sls: default
