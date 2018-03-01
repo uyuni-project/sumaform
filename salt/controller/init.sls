@@ -71,6 +71,7 @@ install_gems_via_bundle:
 spacewalk_git_repository:
   cmd.run:
     - name: git clone --depth 1 https://github.com/SUSE/spacewalk -b {{ grains.get("branch") }} /root/spacewalk
+    - creates: /root/spacewalk
     - require:
       - pkg: cucumber_requisites
       - file: netrc_mode
