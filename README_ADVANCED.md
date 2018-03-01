@@ -66,7 +66,8 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
 
  * `client` module:
    * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
-
+ * `minion` module:
+   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
 
 ## Adding channels to SUSE Manager Servers
 

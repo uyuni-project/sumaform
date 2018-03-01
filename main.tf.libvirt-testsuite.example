@@ -58,7 +58,7 @@ module "min-sles12sp3" {
   name = "min-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
-  for_development_only = false
+  auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
@@ -80,6 +80,6 @@ module "min-centos7" {
   name = "min-centos7"
   image = "centos7"
   server_configuration = { hostname = "srv.tf.local" }
-  for_development_only = false
+  auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
