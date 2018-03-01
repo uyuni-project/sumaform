@@ -47,7 +47,7 @@ module "cli-sles12sp3" {
   name = "cli-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
-  for_development_only = false
+  auto_register = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 

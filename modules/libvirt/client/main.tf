@@ -14,7 +14,7 @@ version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: client
-for_development_only: ${var.for_development_only}
+auto_register: ${var.auto_register}
 testsuite: ${var.base_configuration["testsuite"]}
 use_unreleased_updates: ${var.use_unreleased_updates}
 

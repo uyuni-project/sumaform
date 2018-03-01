@@ -18,8 +18,8 @@ variable "server_configuration" {
   type = "map"
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+variable "auto_register" {
+  description = "whether this client should be automatically registered to SUSE Manager upon deployment"
   default = true
 }
 

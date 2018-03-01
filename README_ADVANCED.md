@@ -60,6 +60,14 @@ module "minionsles12sp1" {
 
 This will create 10 minions connected to the `suma3pg` server.
 
+## Turning convenience features off
+
+By default, sumaform deploys hosts with a range of tweaked settings for convenience reasons. If in your use case this is not wanted, you can turn those off via the following variables.
+
+ * `client` module:
+   * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
+
+
 ## Adding channels to SUSE Manager Servers
 
 You can specifiy a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
