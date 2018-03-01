@@ -3,14 +3,12 @@
 # complete missing passwords in example files
 sed -i 's/\.\.\./"not used"/g' *.example
 
-# HACK: disable AWS example file
-rm main.tf.aws.example
-
 # validate examples
-for tf_file in `ls *.example`; do
+# HACK: OpenStack only at the moment, the libvirt backend is broken in Travis
+for tf_file in `ls *openstack*.example`; do
   echo "Validating $tf_file..."
   mv $tf_file main.tf
-  terraform get
+  terraform init
   terraform validate
   echo
 done

@@ -13,12 +13,12 @@ additional_packages: []
 authorized_keys: [ssh-rsa 1233= root@travis.git]
 reset_ids: true
 version: head
-server: { hostname = "travis.tf.local" }
-proxy: { hostname = "null" }
-client: { hostname = "cli-travis.tf.local" }
-minion: { hostname = "min-travis.tf.local" }
-centos_minion: { hostname = "100-travis.tf.local" }
-ssh_minion: { hostname = "ssh-travis.tf.local" }
+server: travis.tf.local
+proxy: null
+client: cli-travis.tf.local
+minion: min-travis.tf.local
+centos_minion: 100-travis.tf.local
+ssh_minion: ssh-travis.tf.local
 role: controller
 mirror: null
 for_testsuite_only: 1

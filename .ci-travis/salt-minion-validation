@@ -13,7 +13,7 @@ additional_packages: []
 authorized_keys: [ssh-rsa 1233= root@travis.git]
 reset_ids: true
 version: head
-server: { hostname = "travis.tf.local" }
+server: travis.tf.local
 role: client
 mirror: null
 for_development_only: 0
