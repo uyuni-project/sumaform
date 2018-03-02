@@ -10,14 +10,14 @@ create_first_user:
     - match: Discover a new way of managing your servers
     - data: "submitted=true&\
              orgName=SUSE&\
-             login=admin&\
-             desiredpassword=admin&\
-             desiredpasswordConfirm=admin&\
+             login={{ grains.get('server_username') | default('admin', true) }}&\
+             desiredpassword={{ grains.get('server_password') | default('admin', true) }}&\
+             desiredpasswordConfirm={{ grains.get('server_password') | default('admin', true) }}&\
              email=galaxy-noise%40suse.de&\
              firstNames=Administrator&\
-             lastName=McAdmin"
+             lastName=Administrator"
     - verify_ssl: False
-    - unless: spacecmd -u admin -p admin user_list | grep -x admin
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} user_list | grep -x {{ grains.get('server_username') | default('admin', true) }}
     - require:
       - sls: suse_manager_server.rhn
 
@@ -33,8 +33,8 @@ mgr_sync_automatic_authentication:
     - name: /root/.mgr-sync
     - pattern: mgrsync.user =.*\nmgrsync.password =.*\n
     - repl: |
-        mgrsync.user = admin
-        mgrsync.password = admin
+        mgrsync.user = {{ grains.get('server_username') | default('admin', true) }}
+        mgrsync.password = {{ grains.get('server_password') | default('admin', true) }}
     - append_if_not_found: true
     - require:
       - file: mgr_sync_configuration_file
@@ -51,7 +51,7 @@ scc_data_refresh:
   cmd.run:
     - name: mgr-sync refresh
     - use_vt: True
-    - unless: spacecmd -u admin -p admin --quiet api sync.content.listProducts | grep name
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} --quiet api sync.content.listProducts | grep name
     - require:
       - cmd: wait_for_mgr_sync
 {% endif %}
@@ -67,7 +67,7 @@ add_channels:
 reposync_{{ channel }}:
   cmd.script:
     - name: salt://suse_manager_server/wait_for_reposync.py
-    - args: "admin admin localhost {{ channel }}"
+    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} localhost {{ channel }}"
     - use_vt: True
     - require:
       - cmd: add_channels
@@ -76,15 +76,15 @@ reposync_{{ channel }}:
 
 create_empty_channel:
   cmd.run:
-    - name: spacecmd -u admin -p admin -- softwarechannel_create --name testchannel -l testchannel -a x86_64
-    - unless: spacecmd -u admin -p admin softwarechannel_list | grep -x testchannel
+    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_list | grep -x testchannel
     - require:
       - http: create_first_user
 
 create_empty_activation_key:
   cmd.run:
-    - name: spacecmd -u admin -p admin -- activationkey_create -n DEFAULT -b testchannel
-    - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-DEFAULT
+    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- activationkey_create -n DEFAULT -b testchannel
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} activationkey_list | grep -x 1-DEFAULT
     - require:
       - cmd: create_empty_channel
 

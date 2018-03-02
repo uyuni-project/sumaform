@@ -28,6 +28,16 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "server_username" {
+  description = "username of the SUSE Manager administrator, admin by default"
+  default = "admin"
+}
+
+variable "server_password" {
+  description = "password of the SUSE Manager administrator, admin by default"
+  default = "admin"
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

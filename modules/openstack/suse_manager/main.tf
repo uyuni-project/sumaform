@@ -30,6 +30,8 @@ iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 smt: ${var.smt}
 role: suse_manager_server
+server_username: ${var.server_username}
+server_password: ${var.server_password}
 for_development_only: ${var.for_development_only}
 testsuite: ${var.base_configuration["testsuite"]}
 unsafe_postgres: ${var.unsafe_postgres}
@@ -54,5 +56,7 @@ output "configuration" {
     id = "${module.suse_manager.configuration["id"]}"
     hostname = "${module.suse_manager.configuration["hostname"]}"
     version = "${var.version}"
+    username = "${var.server_username}"
+    password = "${var.server_password}"
   }
 }
