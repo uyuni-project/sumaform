@@ -25,6 +25,8 @@ mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: suse_manager_proxy
 auto_register: ${var.auto_register}
+server_username: ${var.server_configuration["username"]}
+server_password: ${var.server_configuration["password"]}
 for_development_only: ${var.for_development_only}
 use_unreleased_updates: ${var.use_unreleased_updates}
 
@@ -39,5 +41,11 @@ EOF
 }
 
 output "configuration" {
-  value = "${module.suse_manager_proxy.configuration}"
+  value {
+    id = "${module.suse_manager_proxy.configuration["id"]}"
+    hostname = "${module.suse_manager_proxy.configuration["hostname"]}"
+    version = "${var.version}"
+    username = "${var.server_configuration["username"]}"
+    password = "${var.server_configuration["password"]}"
+  }
 }
