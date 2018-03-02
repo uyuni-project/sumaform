@@ -1,0 +1,4 @@
+[whitespace]
+bears = SpaceConsistencyBear
+files = **/*.(tf|md|py|sls|yaml|rb|txt|json)
+use_spaces = True
