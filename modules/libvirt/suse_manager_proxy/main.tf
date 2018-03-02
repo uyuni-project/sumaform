@@ -24,6 +24,7 @@ version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: suse_manager_proxy
+auto_register: ${var.auto_register}
 for_development_only: ${var.for_development_only}
 use_unreleased_updates: ${var.use_unreleased_updates}
 

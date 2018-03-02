@@ -18,6 +18,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "auto_register" {
+  description = "whether this proxy should be automatically registered upon deployment"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
