@@ -9,6 +9,8 @@ mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: locust
 locust_file: ${base64encode(file(var.locust_file))}
+server_username: ${var.server_configuration["username"]}
+server_password: ${var.server_configuration["password"]}
 EOF
 
   // Provider-specific variables
