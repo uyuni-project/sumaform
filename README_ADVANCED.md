@@ -70,6 +70,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
  * `proxy` module:
    * `auto_register`: automatically registers the proxy to the SUSE Manager Server. Set to `false` for manual registration
+   * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
  * `suse_manager_server` module:
    * `username` and `password` define credentials for the first created user (the SUSE Manager Admin)
 

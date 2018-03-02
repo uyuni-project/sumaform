@@ -23,6 +23,11 @@ variable "auto_register" {
   default = true
 }
 
+variable "download_private_ssl_key" {
+  description = "copy SSL certificates from the server upon deployment"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
