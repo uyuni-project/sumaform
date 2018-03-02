@@ -26,6 +26,7 @@ server: ${var.server_configuration["hostname"]}
 role: suse_manager_proxy
 auto_register: ${var.auto_register}
 download_private_ssl_key: ${var.download_private_ssl_key}
+auto_configure: ${var.auto_configure}
 server_username: ${var.server_configuration["username"]}
 server_password: ${var.server_configuration["password"]}
 for_development_only: ${var.for_development_only}

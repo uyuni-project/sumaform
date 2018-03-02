@@ -122,3 +122,25 @@ ssl-building-ca-configuration:
       - file: ssl-build-directory
 
 {% endif %}
+
+{% if grains.get('auto_configure') | default(true, true) %}
+
+/root/config-answers.txt:
+  file.managed:
+    - source: salt://suse_manager_proxy/config-answers.txt
+    - template: jinja
+
+configure-proxy:
+  cmd.run:
+    - name: configure-proxy.sh --non-interactive --rhn-user={{ grains.get('server_username') | default('admin', true) }} --rhn-password={{ grains.get('server_password') | default('admin', true) }} --answer-file=/root/config-answers.txt ; true
+    - env:
+      - SSL_PASSWORD: spacewalk
+    - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT
+    - requires:
+      - pkg: proxy-packages
+      - file: /root/config-answers.txt
+      - file: ssl-building-trusted-cert
+      - file: ssl-building-private-ssl-key
+      - file: ssl-building-ca-configuration
+
+{% endif %}
