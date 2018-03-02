@@ -154,7 +154,7 @@ If the user running `qemu` is not the one you expected:
 AppArmor can be used both to isolate the host from its guests, and guests from one another. Both of those protections must be properly configured in order for sumaform to operate correctly. Unfortunately, this configuration can be difficult and is well beyond the scope of this guide. Following are instructions to disable AppArmor completely in non-security-sensitive environments.
 
  * host-guest protection: add `security_driver = "none"` to `/etc/libvirt/qemu.conf
- * guest-guest protection: 
+ * guest-guest protection:
 ```sh
 sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
 sudo /etc/init.d/apparmor restart
