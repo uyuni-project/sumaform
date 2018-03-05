@@ -33,6 +33,11 @@ variable "auto_configure" {
   default = true
 }
 
+variable "generate_bootstrap_script" {
+  description = "whether to generate a bootstrap script in /pub upon deployment"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

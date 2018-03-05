@@ -144,3 +144,28 @@ configure-proxy:
       - file: ssl-building-ca-configuration
 
 {% endif %}
+
+{% if grains.get('generate_bootstrap_script') | default(true, true) %}
+
+create_bootstrap_script:
+  cmd.run:
+    - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date --hostname {{ grains['hostname'] }}.{{ grains['domain'] }} {{ '--traditional' if '3.0' not in grains['version'] else '' }}
+    - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
+    - require:
+      - cmd: configure-proxy
+
+create_bootstrap_script_md5:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
+    - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
+    - require:
+      - cmd: create_bootstrap_script
+
+ca_cert_checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - require:
+      - cmd: configure-proxy
+
+{% endif %}
