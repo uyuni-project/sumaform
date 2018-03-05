@@ -1,6 +1,5 @@
 include:
   - suse_manager_proxy.repos
-  - suse_manager_proxy.development
 
 proxy-packages:
   pkg.latest:
@@ -167,5 +166,39 @@ ca_cert_checksum:
     - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
     - require:
       - cmd: configure-proxy
+
+{% endif %}
+
+{% if grains.get('publish_private_ssl_key') | default(true, true) %}
+
+private-ssl-key:
+  file.copy:
+    - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
+    - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
+    - mode: 644
+    - require:
+      - file: ssl-building-private-ssl-key
+
+private-ssl-key-checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
+    - creates: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
+    - require:
+      - file: private-ssl-key
+
+ca-configuration:
+  file.copy:
+    - name: /srv/www/htdocs/pub/rhn-ca-openssl.cnf
+    - source: /root/ssl-build/rhn-ca-openssl.cnf
+    - mode: 644
+    - require:
+      - file: ssl-building-ca-configuration
+
+ca-configuration-checksum:
+  cmd.run:
+    - name: sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
+    - creates: /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
+    - require:
+      - file: ca-configuration
 
 {% endif %}

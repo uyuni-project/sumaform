@@ -38,8 +38,8 @@ variable "generate_bootstrap_script" {
   default = true
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+variable "publish_private_ssl_key" {
+  description = "whether to copy the private SSL key in /pub upon deployment"
   default = true
 }
 
