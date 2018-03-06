@@ -32,6 +32,7 @@ smt: ${var.smt}
 role: suse_manager_server
 server_username: ${var.server_username}
 server_password: ${var.server_password}
+disable_firewall: ${var.disable_firewall}
 for_development_only: ${var.for_development_only}
 testsuite: ${var.base_configuration["testsuite"]}
 unsafe_postgres: ${var.unsafe_postgres}

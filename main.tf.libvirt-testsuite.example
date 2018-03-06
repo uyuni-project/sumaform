@@ -37,6 +37,7 @@ module "srv" {
   image = "sles12sp3"
   for_development_only = false
   auto_accept = false
+  disable_firewall = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 

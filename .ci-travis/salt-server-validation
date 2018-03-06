@@ -21,6 +21,7 @@ iss_slave: null
 smt: null
 role: suse_manager_server
 for_development_only: 0
+disable_firewall: 0
 testsuite: true
 unsafe_postgres: 1
 use_unreleased_updates: 0

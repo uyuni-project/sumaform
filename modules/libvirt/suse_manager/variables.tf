@@ -38,6 +38,11 @@ variable "server_password" {
   default = "admin"
 }
 
+variable "disable_firewall" {
+  description = "whether to disable the built-in firewall, opening up all ports"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

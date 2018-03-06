@@ -76,6 +76,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `copy_certificates`
  * `suse_manager_server` module:
    * `username` and `password` define credentials for the first created user (the SUSE Manager Admin)
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
 
 ## Adding channels to SUSE Manager Servers
 
