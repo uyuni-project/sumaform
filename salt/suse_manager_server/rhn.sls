@@ -1,7 +1,7 @@
-{% if grains['for_development_only'] %}
-
 include:
   - suse_manager_server
+
+{% if grains.get('skip_changelog_import') | default(true, true) %}
 
 package_import_skip_changelog_reposync:
   file.append:
@@ -10,7 +10,7 @@ package_import_skip_changelog_reposync:
     - require:
       - sls: suse_manager_server
 
-{% if 'released' not in grains['version'] %}
+{% endif %}
 
 browser_side_less_configuration:
   file.append:

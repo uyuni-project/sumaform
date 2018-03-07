@@ -80,6 +80,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
    * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
    * `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+   * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
 
 ## Adding channels to SUSE Manager Servers
 

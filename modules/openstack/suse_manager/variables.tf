@@ -58,6 +58,11 @@ variable "java_debugging" {
   default = true
 }
 
+variable "skip_changelog_import" {
+  description = "import RPMs without changelog data, this speeds up spacewalk-repo-sync"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
