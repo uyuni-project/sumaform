@@ -8,7 +8,7 @@ postgresql_main_configuration:
       {% if grains.get('allow_postgres_connections') | default(true, true) %}
       - listen_addresses = '*'
       {% endif %}
-      {% if grains.get('unsafe_postgres') %}
+      {% if grains.get('unsafe_postgres') | default(true, true) %}
       - fsync = off
       - full_page_writes = off
       {% endif %}

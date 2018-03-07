@@ -23,8 +23,8 @@ role: suse_manager_server
 for_development_only: 0
 disable_firewall: 0
 allow_postgres_connections: 0
-testsuite: true
 unsafe_postgres: 1
+testsuite: true
 use_unreleased_updates: 0
 monitored: 0
 log_server: null

@@ -48,13 +48,13 @@ variable "allow_postgres_connections" {
   default = true
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+variable "unsafe_postgres" {
+  description = "whether to use PostgreSQL settings that improve performance by worsening durability"
   default = true
 }
 
-variable "unsafe_postgres" {
-  description = "whether to use PostgreSQL settings that improve performance by worsening durability"
+variable "for_development_only" {
+  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
 }
 
