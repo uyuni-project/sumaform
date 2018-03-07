@@ -12,6 +12,8 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
+{% if grains.get('browser_side_less') | default(true, true) %}
+
 browser_side_less_configuration:
   file.append:
     - name: /etc/rhn/rhn.conf
@@ -59,7 +61,5 @@ rhn_conf_mirror:
     - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}
     - require:
       - sls: suse_manager_server
-
-{% endif %}
 
 {% endif %}

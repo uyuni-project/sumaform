@@ -54,6 +54,7 @@ module "srv" {
   allow_postgres_connections = false
   java_debugging = false
   skip_changelog_import = false
+  browser_side_less = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 

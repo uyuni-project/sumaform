@@ -26,6 +26,7 @@ allow_postgres_connections: 0
 unsafe_postgres: 1
 java_debugging: 0
 skip_changelog_import: 0
+browser_side_less: 0
 testsuite: true
 use_unreleased_updates: 0
 monitored: 0

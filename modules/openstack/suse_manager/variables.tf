@@ -63,6 +63,11 @@ variable "skip_changelog_import" {
   default = true
 }
 
+variable "browser_side_less" {
+  description = "enable compilation of LESS files in the browser, useful for development"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

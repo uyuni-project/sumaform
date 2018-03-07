@@ -37,6 +37,7 @@ allow_postgres_connections: ${var.allow_postgres_connections}
 unsafe_postgres: ${var.unsafe_postgres}
 java_debugging: ${var.java_debugging}
 skip_changelog_import: ${var.skip_changelog_import}
+browser_side_less: ${var.browser_side_less}
 for_development_only: ${var.for_development_only}
 testsuite: ${var.base_configuration["testsuite"]}
 use_unreleased_updates: ${var.use_unreleased_updates}
