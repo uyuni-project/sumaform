@@ -77,6 +77,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
  * `suse_manager_server` module:
    * `username` and `password` define credentials for the first created user (the SUSE Manager Admin)
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+   * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
 
 ## Adding channels to SUSE Manager Servers
 

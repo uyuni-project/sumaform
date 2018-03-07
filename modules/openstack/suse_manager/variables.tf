@@ -43,6 +43,11 @@ variable "disable_firewall" {
   default = true
 }
 
+variable "allow_postgres_connections" {
+  description = "configure Postgres to accept connections from external hosts"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

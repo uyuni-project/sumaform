@@ -38,6 +38,7 @@ module "srv" {
   for_development_only = false
   auto_accept = false
   disable_firewall = false
+  allow_postgres_connections = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 

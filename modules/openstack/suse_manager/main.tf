@@ -33,6 +33,7 @@ role: suse_manager_server
 server_username: ${var.server_username}
 server_password: ${var.server_password}
 disable_firewall: ${var.disable_firewall}
+allow_postgres_connections: ${var.allow_postgres_connections}
 for_development_only: ${var.for_development_only}
 testsuite: ${var.base_configuration["testsuite"]}
 unsafe_postgres: ${var.unsafe_postgres}

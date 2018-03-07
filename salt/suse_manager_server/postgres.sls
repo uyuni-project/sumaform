@@ -5,7 +5,7 @@ postgresql_main_configuration:
   file.append:
     - name: /var/lib/pgsql/data/postgresql.conf
     - text:
-      {% if grains.get('for_development_only') %}
+      {% if grains.get('allow_postgres_connections') | default(true, true) %}
       - listen_addresses = '*'
       {% endif %}
       {% if grains.get('unsafe_postgres') %}
