@@ -74,8 +74,9 @@ tomcat_config_loaded:
       - sls: suse_manager_server
 {% endif %}
 
-tomcat:
+tomcat_service:
   service.running:
+    - name: tomcat
     - watch:
       - file: tomcat_config
     - require:
