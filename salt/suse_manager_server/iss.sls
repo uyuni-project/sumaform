@@ -1,5 +1,3 @@
-{% if grains['for_development_only'] %}
-
 include:
   - suse_manager_server.initial_content
 
@@ -28,7 +26,5 @@ master_ssl_cert:
     - source_hash: http://{{grains['iss_master']}}/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
     - require:
       - sls: suse_manager_server.initial_content
-
-{% endif %}
 
 {% endif %}

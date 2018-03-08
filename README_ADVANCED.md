@@ -242,6 +242,8 @@ module "slave" {
 
 Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
 
+Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
+
 ## Cucumber testsuite
 
 It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, proxy, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
