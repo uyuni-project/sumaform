@@ -83,6 +83,11 @@ variable "create_sample_channel" {
   default = true
 }
 
+variable "create_sample_activation_key" {
+  description = "whether to create a sample activation key"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

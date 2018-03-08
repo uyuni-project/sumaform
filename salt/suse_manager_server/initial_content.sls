@@ -89,12 +89,14 @@ create_empty_channel:
       - http: create_first_user
 {% endif %}
 
+{% if grains.get('create_sample_activation_key') | default(true, true) %}
 create_empty_activation_key:
   cmd.run:
-    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- activationkey_create -n DEFAULT -b testchannel
+    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- activationkey_create -n DEFAULT {% if grains.get('create_sample_channel') | default(true, true) %} -b testchannel {% endif %}
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} activationkey_list | grep -x 1-DEFAULT
     - require:
       - cmd: create_empty_channel
+{% endif %}
 
 create_empty_bootstrap_script:
   cmd.run:
