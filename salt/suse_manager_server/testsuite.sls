@@ -97,19 +97,19 @@ salt-ssh:
 
 enable_salt_content_staging_window:
   file.replace:
-    - name: /usr/share/rhn/config-defaults/rhn_java.conf
-    - pattern: 'salt_content_staging_window = (.*)'
-    - repl: 'salt_content_staging_window = 0.033'
+    - name: /etc/rhn/rhn.conf
+    - pattern: 'java.salt_content_staging_window = (.*)'
+    - repl: 'java.salt_content_staging_window = 0.033'
     - require:
-      - pkg: suse_manager_packages
+      - cmd: suse_manager_setup
 
 enable_salt_content_staging_advance:
   file.replace:
-    - name: /usr/share/rhn/config-defaults/rhn_java.conf
-    - pattern: 'salt_content_staging_advance = (.*)'
-    - repl: 'salt_content_staging_advance = 0.05'
+    - name: /etc/rhn/rhn.conf
+    - pattern: 'java.salt_content_staging_advance = (.*)'
+    - repl: 'java.salt_content_staging_advance = 0.05'
     - require:
-      - pkg: suse_manager_packages
+      - cmd: suse_manager_setup
 
 tomcat:
   service.running:
