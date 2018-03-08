@@ -114,6 +114,7 @@ create_empty_bootstrap_script_md5:
       - cmd: create_empty_bootstrap_script
 {% endif %}
 
+{% if grains.get('publish_private_ssl_key') | default(true, true) %}
 private_ssl_key:
   file.copy:
     - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
@@ -143,5 +144,4 @@ ca_configuration_checksum:
     - creates: /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
     - require:
       - file: ca_configuration
-
 {% endif %}
