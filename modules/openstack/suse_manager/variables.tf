@@ -98,11 +98,6 @@ variable "publish_private_ssl_key" {
   default = true
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
-  default = true
-}
-
 variable "use_unreleased_updates" {
   description = "This adds and updates sle packages from the test repo"
   default = false

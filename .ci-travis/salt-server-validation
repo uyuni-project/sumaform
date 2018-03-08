@@ -20,7 +20,6 @@ iss_master: null
 iss_slave: null
 smt: null
 role: suse_manager_server
-for_development_only: 0
 disable_firewall: 0
 allow_postgres_connections: 0
 unsafe_postgres: 1
