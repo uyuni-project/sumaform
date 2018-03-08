@@ -83,6 +83,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
    * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
    * `browser_side_less`: enable compilation of LESS files in the browser, useful for development. Set to `false` to disable
+   * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
 
 ## Adding channels to SUSE Manager Servers
 

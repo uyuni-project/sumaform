@@ -43,6 +43,7 @@ module "srv" {
   skip_changelog_import = false
   browser_side_less = false
   create_first_user = false
+  mgr_sync_autologin = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 

@@ -23,6 +23,8 @@ create_first_user:
 
 {% endif %}
 
+{% if grains.get('mgr_sync_autologin') | default(true, true) %}
+
 mgr_sync_configuration_file:
   file.managed:
     - name: /root/.mgr-sync
@@ -40,6 +42,8 @@ mgr_sync_automatic_authentication:
     - append_if_not_found: true
     - require:
       - file: mgr_sync_configuration_file
+
+{% endif %}
 
 {% if grains.get('channels') %}
 wait_for_mgr_sync:

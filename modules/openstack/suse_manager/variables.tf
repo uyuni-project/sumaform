@@ -73,6 +73,11 @@ variable "create_first_user" {
   default = true
 }
 
+variable "mgr_sync_autologin" {
+  description = "whether to set mgr-sync credentials in the .mgr-sync file"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
