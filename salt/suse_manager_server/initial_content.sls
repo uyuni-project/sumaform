@@ -1,7 +1,7 @@
-{% if grains['for_development_only'] %}
-
 include:
   - suse_manager_server.rhn
+
+{% if grains.get('create_first_user') | default(true, true) %}
 
 create_first_user:
   http.wait_for_successful_query:
@@ -20,6 +20,8 @@ create_first_user:
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} user_list | grep -x {{ grains.get('server_username') | default('admin', true) }}
     - require:
       - sls: suse_manager_server.rhn
+
+{% endif %}
 
 mgr_sync_configuration_file:
   file.managed:

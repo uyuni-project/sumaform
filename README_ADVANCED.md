@@ -75,7 +75,8 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `copy_certificates`
  * `suse_manager_server` module:
-   * `username` and `password` define credentials for the first created user (the SUSE Manager Admin)
+   * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
+     * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
    * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
