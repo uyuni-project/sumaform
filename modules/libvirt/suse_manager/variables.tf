@@ -88,6 +88,11 @@ variable "create_sample_activation_key" {
   default = true
 }
 
+variable "create_sample_bootstrap_script" {
+  description = "whether to create a sample bootstrap script for traditional clients"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true

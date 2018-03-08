@@ -98,6 +98,7 @@ create_empty_activation_key:
       - cmd: create_empty_channel
 {% endif %}
 
+{% if grains.get('create_sample_bootstrap_script') | default(true, true) %}
 create_empty_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date --hostname {{ grains['hostname'] }}.{{ grains['domain'] }} {{ '--traditional' if '3.0' not in grains['version'] else '' }}
@@ -111,6 +112,7 @@ create_empty_bootstrap_script_md5:
     - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
     - require:
       - cmd: create_empty_bootstrap_script
+{% endif %}
 
 private_ssl_key:
   file.copy:

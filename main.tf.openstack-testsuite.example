@@ -59,6 +59,7 @@ module "srv" {
   mgr_sync_autologin = false
   create_sample_channel = false
   create_sample_activation_key = false
+  create_sample_bootstrap_script = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 

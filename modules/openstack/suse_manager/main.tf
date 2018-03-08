@@ -42,6 +42,7 @@ create_first_user: ${var.create_first_user}
 mgr_sync_autologin: ${var.mgr_sync_autologin}
 create_sample_channel: ${var.create_sample_channel}
 create_sample_activation_key: ${var.create_sample_activation_key}
+create_sample_bootstrap_script: ${var.create_sample_bootstrap_script}
 for_development_only: ${var.for_development_only}
 testsuite: ${var.base_configuration["testsuite"]}
 use_unreleased_updates: ${var.use_unreleased_updates}

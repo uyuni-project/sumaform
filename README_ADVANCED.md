@@ -86,6 +86,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
    * `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
    * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
+   * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
 
 ## Adding channels to SUSE Manager Servers
 
