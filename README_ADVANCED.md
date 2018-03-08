@@ -415,6 +415,8 @@ module "grafana" {
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
 
+Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `suse_manager_server` module (it is by default).
+
 ## Log forwarding
 
 SUSE Manager Server modules support forwarding logs to log servers via the `log_server` variable. A libvirt example follows:
