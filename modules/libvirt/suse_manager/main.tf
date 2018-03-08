@@ -40,6 +40,7 @@ skip_changelog_import: ${var.skip_changelog_import}
 browser_side_less: ${var.browser_side_less}
 create_first_user: ${var.create_first_user}
 mgr_sync_autologin: ${var.mgr_sync_autologin}
+create_sample_channel: ${var.create_sample_channel}
 for_development_only: ${var.for_development_only}
 testsuite: ${var.base_configuration["testsuite"]}
 use_unreleased_updates: ${var.use_unreleased_updates}

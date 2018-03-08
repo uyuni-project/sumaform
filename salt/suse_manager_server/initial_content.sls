@@ -80,12 +80,14 @@ reposync_{{ channel }}:
 {% endfor %}
 {% endif %}
 
+{% if grains.get('create_sample_channel') | default(true, true) %}
 create_empty_channel:
   cmd.run:
     - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_list | grep -x testchannel
     - require:
       - http: create_first_user
+{% endif %}
 
 create_empty_activation_key:
   cmd.run:

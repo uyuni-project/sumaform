@@ -78,6 +78,11 @@ variable "mgr_sync_autologin" {
   default = true
 }
 
+variable "create_sample_channel" {
+  description = "whether to create an empty test channel"
+  default = true
+}
+
 variable "for_development_only" {
   description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
   default = true
