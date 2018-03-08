@@ -18,7 +18,7 @@ minion_service:
     - enable: True
     - require:
       - pkg: salt-minion
-{% if grains.get('auto_connect_to_master') | default(true, true) %}
+{% if grains.get('auto_connect_to_master') %}
     - listen:
       - file: /etc/salt/minion.d/master.conf
       - file: /etc/salt/minion_id

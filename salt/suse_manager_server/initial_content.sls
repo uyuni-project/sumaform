@@ -1,7 +1,7 @@
 include:
   - suse_manager_server.rhn
 
-{% if grains.get('create_first_user') | default(true, true) %}
+{% if grains.get('create_first_user') %}
 
 create_first_user:
   http.wait_for_successful_query:
@@ -23,7 +23,7 @@ create_first_user:
 
 {% endif %}
 
-{% if grains.get('mgr_sync_autologin') | default(true, true) %}
+{% if grains.get('mgr_sync_autologin') %}
 
 mgr_sync_configuration_file:
   file.managed:
@@ -80,7 +80,7 @@ reposync_{{ channel }}:
 {% endfor %}
 {% endif %}
 
-{% if grains.get('create_sample_channel') | default(true, true) %}
+{% if grains.get('create_sample_channel') %}
 create_empty_channel:
   cmd.run:
     - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64
@@ -89,16 +89,16 @@ create_empty_channel:
       - http: create_first_user
 {% endif %}
 
-{% if grains.get('create_sample_activation_key') | default(true, true) %}
+{% if grains.get('create_sample_activation_key') %}
 create_empty_activation_key:
   cmd.run:
-    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- activationkey_create -n DEFAULT {% if grains.get('create_sample_channel') | default(true, true) %} -b testchannel {% endif %}
+    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- activationkey_create -n DEFAULT {% if grains.get('create_sample_channel') %} -b testchannel {% endif %}
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} activationkey_list | grep -x 1-DEFAULT
     - require:
       - cmd: create_empty_channel
 {% endif %}
 
-{% if grains.get('create_sample_bootstrap_script') | default(true, true) %}
+{% if grains.get('create_sample_bootstrap_script') %}
 create_empty_bootstrap_script:
   cmd.run:
     - name: rhn-bootstrap --activation-keys=1-DEFAULT --no-up2date --hostname {{ grains['hostname'] }}.{{ grains['domain'] }} {{ '--traditional' if '3.0' not in grains['version'] else '' }}
@@ -114,7 +114,7 @@ create_empty_bootstrap_script_md5:
       - cmd: create_empty_bootstrap_script
 {% endif %}
 
-{% if grains.get('publish_private_ssl_key') | default(true, true) %}
+{% if grains.get('publish_private_ssl_key') %}
 private_ssl_key:
   file.copy:
     - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY

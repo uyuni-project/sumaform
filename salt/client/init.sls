@@ -6,7 +6,7 @@ wget:
     - require:
       - sls: default
 
-{% if grains.get('auto_register') | default(true, true) %}
+{% if grains.get('auto_register') %}
 
 base_bootstrap_script:
   file.managed:

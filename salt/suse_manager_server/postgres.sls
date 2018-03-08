@@ -5,10 +5,10 @@ postgresql_main_configuration:
   file.append:
     - name: /var/lib/pgsql/data/postgresql.conf
     - text:
-      {% if grains.get('allow_postgres_connections') | default(true, true) %}
+      {% if grains.get('allow_postgres_connections') %}
       - listen_addresses = '*'
       {% endif %}
-      {% if grains.get('unsafe_postgres') | default(true, true) %}
+      {% if grains.get('unsafe_postgres') %}
       - fsync = off
       - full_page_writes = off
       {% endif %}

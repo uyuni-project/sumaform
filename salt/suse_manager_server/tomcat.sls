@@ -1,4 +1,4 @@
-{% if grains.get('java_debugging') | default(true, true) %}
+{% if grains.get('java_debugging') %}
 
 include:
   - suse_manager_server

@@ -1,7 +1,7 @@
 include:
   - suse_manager_server
 
-{% if grains.get('skip_changelog_import') | default(true, true) %}
+{% if grains.get('skip_changelog_import') %}
 
 package_import_skip_changelog_reposync:
   file.append:
@@ -12,7 +12,7 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
-{% if grains.get('browser_side_less') | default(true, true) %}
+{% if grains.get('browser_side_less') %}
 
 browser_side_less_configuration:
   file.append:

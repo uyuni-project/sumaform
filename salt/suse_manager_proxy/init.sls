@@ -50,7 +50,7 @@ squid-configuration-unknown-nameservers:
 {% endif %}
 
 
-{% if grains.get('auto_register') | default(true, true) %}
+{% if grains.get('auto_register') %}
 
 base_bootstrap_script:
   file.managed:
@@ -80,7 +80,7 @@ bootstrap_script:
 {% endif %}
 
 
-{% if grains.get('download_private_ssl_key') | default(true, true) %}
+{% if grains.get('download_private_ssl_key') %}
 
 internal-trusted-cert:
   file.managed:
@@ -122,7 +122,7 @@ ssl-building-ca-configuration:
 
 {% endif %}
 
-{% if grains.get('auto_configure') | default(true, true) %}
+{% if grains.get('auto_configure') %}
 
 /root/config-answers.txt:
   file.managed:
@@ -144,7 +144,7 @@ configure-proxy:
 
 {% endif %}
 
-{% if grains.get('generate_bootstrap_script') | default(true, true) %}
+{% if grains.get('generate_bootstrap_script') %}
 
 create_bootstrap_script:
   cmd.run:
@@ -169,7 +169,7 @@ ca_cert_checksum:
 
 {% endif %}
 
-{% if grains.get('publish_private_ssl_key') | default(true, true) %}
+{% if grains.get('publish_private_ssl_key') %}
 
 private-ssl-key:
   file.copy:

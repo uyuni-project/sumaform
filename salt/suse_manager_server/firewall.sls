@@ -7,7 +7,7 @@ firewall:
     - require:
       - sls: default
 
-{% if grains.get('disable_firewall') | default(true, true) %}
+{% if grains.get('disable_firewall') %}
 
 disable_firewall:
   service.dead:
