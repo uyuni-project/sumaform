@@ -35,7 +35,6 @@ cucumber_requisites:
     - pkgs:
       - gcc
       - make
-      - unzip
       - wget
       - ruby
       - ruby-devel
