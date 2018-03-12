@@ -14,7 +14,6 @@ client_cucumber_requisites:
       - openscap-utils
       - man
       - wget
-      - adaptec-firmware
     - require:
       - sls: default
 
