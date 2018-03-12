@@ -14,7 +14,6 @@ cucumber_requisites:
       - openscap-utils
       - man
       - wget
-      - adaptec-firmware
       {% if grains['os'] == 'SUSE' %}
       - openscap-content
       - andromeda-dummy
