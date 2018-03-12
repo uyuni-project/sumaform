@@ -7,12 +7,10 @@ Some modules have a ``version`` variable that determines the software version. S
  * in `minion`, `client`, etc. `version` determines the SUSE Manager Tools version.
 
 Legal values for released software are:
- * `2.1-released` (latest released Maintenance Update for SUSE Manager 2.1 and Tools)
  * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
  * `3.1-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.1 and Tools)
 
 Legal values for work-in-progress software are:
- * `2.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:2.1)
  * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
  * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
@@ -61,6 +59,35 @@ module "minionsles12sp1" {
 ```
 
 This will create 10 minions connected to the `suma3pg` server.
+
+## Turning convenience features off
+
+By default, sumaform deploys hosts with a range of tweaked settings for convenience reasons. If in your use case this is not wanted, you can turn those off via the following variables.
+
+ * `client` module:
+   * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
+ * `minion` module:
+   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
+ * `proxy` module:
+   * `auto_register`: automatically registers the proxy to the SUSE Manager Server. Set to `false` for manual registration
+   * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
+   * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register` and `copy_certificates`
+   * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
+   * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `copy_certificates`
+ * `suse_manager_server` module:
+   * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
+     * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+   * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
+   * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
+   * `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+   * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
+   * `browser_side_less`: enable compilation of LESS files in the browser, useful for development. Set to `false` to disable
+   * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
+   * `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
+   * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
+   * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
+   * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
 
 ## Adding channels to SUSE Manager Servers
 
@@ -194,26 +221,28 @@ Note that proxy chains (proxies of proxies) also work as expected. You can find 
 Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
 
 ```hcl
-module "suma21pgm" {
+module "master" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma21pgm"
-  version = "2.1-released"
-  iss_slave = "suma21pgs.tf.local"
+  name = "master"
+  version = "3.1-released"
+  iss_slave = "suma3pgs.tf.local"
 }
 
-module "suma21pgs" {
+module "slave" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma21pgs"
-  version = "2.1-released"
-  iss_master = "${module.suma21pgm.configuration["hostname"]}"
+  name = "slave"
+  version = "3.1-released"
+  iss_master = "${module.master.configuration["hostname"]}"
 }
 ```
 
-Please note that `iss_master` is set from `suma21pgm`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
+Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
+
+Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 ## Cucumber testsuite
 
@@ -270,33 +299,6 @@ local_workspaces/libvirt-testsuite/terraform.tfstate
 [...] main.tf -> local_workspaces/libvirt-testsuite/main.tf
 ~/sumaform$ ls -l terraform.tfstate
 [...] -> local_workspaces/libvirt-testsuite/terraform.tfstate
-```
-
-## pgpool-II replicated database
-
-Experimental support for a pgpool-II setup is included. You must configure two Postgres instances with fixed names `pg1.tf.local` and `pg2.tf.local` as per the definition below:
-
-```hcl
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  name = "suma3pg"
-  version = "3.0-nightly"
-  database = "pgpool"
-}
-
-module "pg1" {
-  source = "./modules/libvirt/postgres"
-  base_configuration = "${module.base.configuration}"
-  name = "pg1"
-}
-
-module "pg2" {
-  source = "./modules/libvirt/postgres"
-  base_configuration = "${module.base.configuration}"
-  name = "pg2"
-}
 ```
 
 ## Plain hosts
@@ -412,6 +414,8 @@ module "grafana" {
 ```
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
+
+Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `suse_manager_server` module (it is by default).
 
 ## Log forwarding
 

@@ -1,7 +1,5 @@
 variable "images" {
   default = {
-    "2.1-released" = "sles11sp3"
-    "2.1-nightly" = "sles11sp3"
     "3.0-released" = "sles12sp1"
     "3.0-nightly" = "sles12sp1"
     "3.1-released" = "sles12sp2"
@@ -26,16 +24,27 @@ module "suse_manager" {
 version: ${var.version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
-database: ${var.database}
 channels: [${join(",", var.channels)}]
 mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 smt: ${var.smt}
 role: suse_manager_server
-for_development_only: ${var.for_development_only}
-for_testsuite_only: ${var.for_testsuite_only}
+server_username: ${var.server_username}
+server_password: ${var.server_password}
+disable_firewall: ${var.disable_firewall}
+allow_postgres_connections: ${var.allow_postgres_connections}
 unsafe_postgres: ${var.unsafe_postgres}
+java_debugging: ${var.java_debugging}
+skip_changelog_import: ${var.skip_changelog_import}
+browser_side_less: ${var.browser_side_less}
+create_first_user: ${var.create_first_user}
+mgr_sync_autologin: ${var.mgr_sync_autologin}
+create_sample_channel: ${var.create_sample_channel}
+create_sample_activation_key: ${var.create_sample_activation_key}
+create_sample_bootstrap_script: ${var.create_sample_bootstrap_script}
+publish_private_ssl_key: ${var.publish_private_ssl_key}
+testsuite: ${var.base_configuration["testsuite"]}
 use_unreleased_updates: ${var.use_unreleased_updates}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
@@ -57,5 +66,7 @@ output "configuration" {
     id = "${module.suse_manager.configuration["id"]}"
     hostname = "${module.suse_manager.configuration["hostname"]}"
     version = "${var.version}"
+    username = "${var.server_username}"
+    password = "${var.server_password}"
   }
 }

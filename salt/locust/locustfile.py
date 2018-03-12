@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 from locust import HttpLocust, TaskSet, task
 
 class UserBehavior(TaskSet):
@@ -10,7 +11,7 @@ class UserBehavior(TaskSet):
         self.login()
 
     def login(self):
-        self.client.post("/", {"username": "admin", "password": "admin" })
+        self.client.post("/", {"username": os.environ["SERVER_USERNAME"], "password": os.environ["SERVER_PASSWORD"]})
 
     @task(1)
     def index(self):

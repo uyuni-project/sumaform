@@ -1,11 +1,3 @@
-# SLES 11 SP3
-- url: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP3-POOL
-  path: /srv/mirror/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP3-POOL
-  archs: [x86_64]
-- url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP3/x86_64/update
-  path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP3/x86_64/update
-  archs: [x86_64]
-
 # SLES 11 SP4
 - url: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL
   path: /srv/mirror/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL
@@ -22,25 +14,9 @@
   path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SDK/11-SP4/x86_64/update
   archs: [x86_64]
 
-# SLE 11 (SP3 and SP4) Manager Tools
+# SLE 11 SP4 Manager Tools
 - url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update
   path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update
-  archs: [x86_64]
-
-# SUSE Manager 2.1
-- url: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL
-  path: /srv/mirror/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER/2.1-POOL
-  archs: [x86_64]
-- url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update
-  path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER/2.1/x86_64/update
-  archs: [x86_64]
-
-# SUSE Manager 2.1 Proxy
-- url: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL
-  path: /srv/mirror/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SUSE-MANAGER-PROXY/2.1-POOL
-  archs: [x86_64]
-- url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER-PROXY/2.1/x86_64/update
-  path: /srv/mirror/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SUSE-MANAGER-PROXY/2.1/x86_64/update
   archs: [x86_64]
 
 # SLES 12 GA
@@ -149,11 +125,6 @@
 #  path: /srv/mirror/repo/$RCE/RES7/x86_64
 #  archs: [x86_64]
 
-# SLES 11 SP3 Test
-- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP3:/x86_64/update
-  path: /srv/mirror/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP3:/x86_64/update
-  archs: [x86_64]
-
 # SLES 11 SP4 Test
 - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
   path: /srv/mirror/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
@@ -194,11 +165,6 @@
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
   archs: [x86_64]
 
-# SUSE Manager 2.1 devel
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/2.1/SLE_11_SP3
-  path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/2.1/SLE_11_SP3
-  archs: [x86_64]
-
 # SUSE Manager 3.0 devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
@@ -209,7 +175,7 @@
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2
   archs: [x86_64]
 
-# SLE 11 (SP3 and SP4) Manager Tools 3.0 devel
+# SLE 11 SP4 Manager Tools 3.0 devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse
   archs: [x86_64]
@@ -224,7 +190,7 @@
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/3.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
   archs: [x86_64]
 
-# SLE 11 (SP3 and SP4) Manager Tools 3.1 devel
+# SLE 11 SP4 Manager Tools 3.1 devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
   archs: [x86_64]
@@ -244,7 +210,7 @@
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3
   archs: [x86_64]
 
-# SLE 11 (SP3 and SP4) Manager Tools Head devel
+# SLE 11 SP4 Manager Tools Head devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
   archs: [x86_64]
@@ -275,11 +241,6 @@
 # SUSE Manager TEST devel
 - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
   path: /srv/mirror/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
-  archs: [x86_64]
-
-# Oracle server
-- url: http://download.suse.de/ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3
-  path: /srv/mirror/ibs/Devel:/Galaxy:/Oracle:/SLE11/SLE_11_SP3
   archs: [x86_64]
 
 # Testsuite Controller repo

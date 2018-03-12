@@ -16,8 +16,8 @@ version: head
 server: travis.tf.local
 role: client
 mirror: null
-for_development_only: 0
-for_testsuite_only: 1
+auto_connect_to_master: false
+testsuite: true
 use_unreleased_updates: 0
 EOF
 

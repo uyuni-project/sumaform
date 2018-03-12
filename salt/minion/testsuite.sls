@@ -1,33 +1,63 @@
-{% if grains['for_testsuite_only'] %}
+{% if grains.get('testsuite') | default(false, true) %}
 
 include:
-  - minion.repos
+  - minion
 
-cucumber_requisites:
+minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
       - salt-minion
       - openscap-utils
-      {% if grains['os'] == 'SUSE' %}
+    - require:
+      - sls: default
+
+{% if grains['os'] == 'SUSE' %}
+
+testsuite_build_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
+    - source: salt://client/repos.d/Devel_Galaxy_BuildRepo.repo
+    - template: jinja
+
+{% if '12' in grains['osrelease'] %}
+containers_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
+    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
+    - template: jinja
+
+containers_updates_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
+    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
+    - template: jinja
+{% endif %}
+
+refresh_minion_repos:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - require:
+      - file: testsuite_build_repo
+      {% if '12' in grains['osrelease'] %}
+      - file: containers_pool_repo
+      - file: containers_updates_repo
+      {% endif %}
+
+suse_minion_cucumber_requisites:
+  pkg.installed:
+    - pkgs:
       - openscap-content
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
       {% if '12' in grains['osrelease'] %}
       - aaa_base-extras
-      {% endif %}
+      - ca-certificates
       {% endif %}
     - require:
-      - sls: minion.repos
+      - cmd: refresh_minion_repos
 
-{% if grains['os'] == 'SUSE' and '12' in grains['osrelease'] %}
-
-certificates:
-  pkg.installed:
-    - name: ca-certificates
-    - require:
-      - sls: minion.repos
-
+{% if '12' in grains['osrelease'] %}
 registry_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/registry.mgr.suse.de.pem
@@ -47,7 +77,8 @@ update_ca_truststore:
       - file: registry_certificate
       - file: suse_certificate
     - require:
-      - pkg: certificates
+      - pkg: suse_minion_cucumber_requisites
+{% endif %}
 
 {% endif %}
 

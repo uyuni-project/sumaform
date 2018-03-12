@@ -1,5 +1,0 @@
-[SLE-11-SP3-x86_64-Pool]
-name=SLE-11-SP3-x86_64-Pool
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP3-POOL/

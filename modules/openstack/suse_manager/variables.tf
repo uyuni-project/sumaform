@@ -9,13 +9,8 @@ variable "name" {
 }
 
 variable "version" {
-  description = "One of: 2.1-released,  2.1-nightly, 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, head, test"
+  description = "One of: 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, head, test"
   type = "string"
-}
-
-variable "database" {
-  description = "oracle or postgres for 2.1, postgres or pgpool for 3 and head"
-  default = "postgres"
 }
 
 variable "channels" {
@@ -33,18 +28,73 @@ variable "iss_slave" {
   default = "null"
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+variable "server_username" {
+  description = "username of the SUSE Manager administrator, admin by default"
+  default = "admin"
+}
+
+variable "server_password" {
+  description = "password of the SUSE Manager administrator, admin by default"
+  default = "admin"
+}
+
+variable "disable_firewall" {
+  description = "whether to disable the built-in firewall, opening up all ports"
   default = true
 }
 
-variable "for_testsuite_only" {
-  description = "whether this host should be pre-configured with settings necessary for running the Cucumber testsuite"
-  default = false
+variable "allow_postgres_connections" {
+  description = "configure Postgres to accept connections from external hosts"
+  default = true
 }
 
 variable "unsafe_postgres" {
   description = "whether to use PostgreSQL settings that improve performance by worsening durability"
+  default = true
+}
+
+variable "java_debugging" {
+  description = "enable Java debugging and profiling support in Tomcat and Taskomatic"
+  default = true
+}
+
+variable "skip_changelog_import" {
+  description = "import RPMs without changelog data, this speeds up spacewalk-repo-sync"
+  default = true
+}
+
+variable "browser_side_less" {
+  description = "enable compilation of LESS files in the browser, useful for development"
+  default = true
+}
+
+variable "create_first_user" {
+  description = "whether to automatically create the first user"
+  default = true
+}
+
+variable "mgr_sync_autologin" {
+  description = "whether to set mgr-sync credentials in the .mgr-sync file"
+  default = true
+}
+
+variable "create_sample_channel" {
+  description = "whether to create an empty test channel"
+  default = true
+}
+
+variable "create_sample_activation_key" {
+  description = "whether to create a sample activation key"
+  default = true
+}
+
+variable "create_sample_bootstrap_script" {
+  description = "whether to create a sample bootstrap script for traditional clients"
+  default = true
+}
+
+variable "publish_private_ssl_key" {
+  description = "whether to copy the private SSL key in /pub upon deployment"
   default = true
 }
 

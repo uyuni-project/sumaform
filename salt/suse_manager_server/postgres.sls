@@ -1,5 +1,3 @@
-{% if grains['database'] == 'postgres' %}
-
 include:
   - suse_manager_server
 
@@ -7,7 +5,7 @@ postgresql_main_configuration:
   file.append:
     - name: /var/lib/pgsql/data/postgresql.conf
     - text:
-      {% if grains.get('for_development_only') %}
+      {% if grains.get('allow_postgres_connections') %}
       - listen_addresses = '*'
       {% endif %}
       {% if grains.get('unsafe_postgres') %}
@@ -32,5 +30,3 @@ postgresql:
     - require:
       - file: postgresql_main_configuration
       - file: postgresql_hba_configuration
-
-{% endif %}

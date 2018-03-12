@@ -18,14 +18,9 @@ variable "server_configuration" {
   type = "map"
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+variable "auto_register" {
+  description = "whether this client should be automatically registered to SUSE Manager upon deployment"
   default = true
-}
-
-variable "for_testsuite_only" {
-  description = "whether this host should be pre-configured with settings necessary for running the Cucumber testsuite"
-  default = false
 }
 
 variable "use_unreleased_updates" {
@@ -62,7 +57,7 @@ variable "gpg_keys" {
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: sles11sp3, sles11sp4, sles12, sles12sp1, sles15beta4"
+  description = "One of: sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles15beta4, centos7"
   type = "string"
 }
 

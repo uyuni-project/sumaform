@@ -1,5 +1,3 @@
-{% if grains['for_development_only'] %}
-
 include:
   - suse_manager_server.initial_content
 
@@ -8,7 +6,7 @@ include:
 register_slave:
   cmd.script:
     - name: salt://suse_manager_server/register_slave.py
-    - args: "admin admin {{ grains['iss_slave'] }}"
+    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains['iss_slave'] }}"
     - require:
       - sls: suse_manager_server.initial_content
 
@@ -17,7 +15,7 @@ register_slave:
 register_master:
   cmd.script:
     - name: salt://suse_manager_server/register_master.py
-    - args: "admin admin {{ grains['iss_master'] }}"
+    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains['iss_master'] }}"
     - require:
       - sls: suse_manager_server.initial_content
 
@@ -28,7 +26,5 @@ master_ssl_cert:
     - source_hash: http://{{grains['iss_master']}}/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
     - require:
       - sls: suse_manager_server.initial_content
-
-{% endif %}
 
 {% endif %}

@@ -54,7 +54,6 @@ domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.in
 use_avahi: False
 mirror: ${var.mirror_private_name}
 version: ${var.version}
-database: ${var.database}
 channels: [${join(",", var.channels)}]
 role: ${var.role}
 cc_username: ${var.cc_username}
@@ -62,8 +61,6 @@ cc_password: ${var.cc_password}
 server: ${var.server}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
-for_development_only: True
-for_testsuite_only: False
 unsafe_postgres: ${var.unsafe_postgres}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}

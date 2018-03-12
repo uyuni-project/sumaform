@@ -1,7 +1,7 @@
-{% if grains['for_development_only'] %}
-
 include:
   - suse_manager_server
+
+{% if grains.get('skip_changelog_import') %}
 
 package_import_skip_changelog_reposync:
   file.append:
@@ -10,7 +10,9 @@ package_import_skip_changelog_reposync:
     - require:
       - sls: suse_manager_server
 
-{% if 'released' not in grains['version'] %}
+{% endif %}
+
+{% if grains.get('browser_side_less') %}
 
 browser_side_less_configuration:
   file.append:
@@ -22,9 +24,6 @@ browser_side_less_configuration:
     - pkgs:
       - susemanager-frontend-libs-devel
       - spacewalk-branding-devel
-    {% if '2.1' in grains['version'] %}
-    - fromrepo: Devel_Galaxy_Manager_2.1
-    {% endif %}
     - require:
       - sls: suse_manager_server
 
@@ -62,7 +61,5 @@ rhn_conf_mirror:
     - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}
     - require:
       - sls: suse_manager_server
-
-{% endif %}
 
 {% endif %}

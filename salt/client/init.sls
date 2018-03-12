@@ -1,13 +1,12 @@
 include:
-  - client.repos
   - client.testsuite
 
 wget:
   pkg.installed:
     - require:
-      - sls: client.repos
+      - sls: default
 
-{% if grains['for_development_only'] %}
+{% if grains.get('auto_register') %}
 
 base_bootstrap_script:
   file.managed:

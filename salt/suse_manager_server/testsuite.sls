@@ -1,8 +1,21 @@
-{% if grains['for_testsuite_only'] %}
+{% if grains.get('testsuite') | default(false, true) %}
 
 include:
   - suse_manager_server
-  - suse_manager_server.repos
+
+lftp_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
+    - source: salt://suse_manager_server/repos.d/home_SilvioMoioli_tools.repo
+    - template: jinja
+    - require:
+      - sls: suse_manager_server
+
+refresh_lftp_repo:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - require:
+      - file: lftp_repo
 
 fedora_autoinstallation_initrd_file:
   file.managed:
@@ -51,7 +64,7 @@ test_vcenter_file:
 lftp:
   pkg.installed:
     - require:
-      - sls: suse_manager_server.repos
+      - cmd: refresh_lftp_repo
 
 test_repo:
   cmd.run:

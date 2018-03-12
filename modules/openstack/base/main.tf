@@ -48,6 +48,7 @@ output "configuration" {
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
     use_shared_resources = "${var.use_shared_resources}"
+    testsuite = "${var.testsuite}"
 
     // Provider-specific variables
     image_ids = "${join(",", openstack_images_image_v2.images.*.id)}"

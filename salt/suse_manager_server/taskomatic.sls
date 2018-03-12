@@ -1,4 +1,4 @@
-{% if grains['for_development_only'] %}
+{% if grains.get('java_debugging') %}
 
 include:
   - suse_manager_server

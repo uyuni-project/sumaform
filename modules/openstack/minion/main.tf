@@ -14,8 +14,8 @@ version: ${var.version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minion
-for_development_only: ${var.for_development_only}
-for_testsuite_only: ${var.for_testsuite_only}
+auto_connect_to_master: ${var.auto_connect_to_master}
+testsuite: ${var.base_configuration["testsuite"]}
 use_unreleased_updates: ${var.use_unreleased_updates}
 
 susemanager:

@@ -16,6 +16,7 @@ module "base" {
 
   cc_username = "UC7"
   cc_password = ...
+  testsuite = true
 
   // optional parameters with defaults below
   // name_prefix = ""
@@ -47,9 +48,17 @@ module "srv" {
   version = "3.1-nightly"
   name = "srv"
   image = "sles12sp3"
-  for_development_only = false
-  for_testsuite_only = true
   auto_accept = false
+  disable_firewall = false
+  allow_postgres_connections = false
+  skip_changelog_import = false
+  browser_side_less = false
+  create_first_user = false
+  mgr_sync_autologin = false
+  create_sample_channel = false
+  create_sample_activation_key = false
+  create_sample_bootstrap_script = false
+  publish_private_ssl_key = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
@@ -60,8 +69,7 @@ module "cli-sles12sp3" {
   name = "cli-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
-  for_development_only = false
-  for_testsuite_only = true
+  auto_register = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
@@ -72,8 +80,7 @@ module "min-sles12sp3" {
   name = "min-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
-  for_development_only = false
-  for_testsuite_only = true
+  auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
@@ -95,7 +102,6 @@ module "min-centos7" {
   name = "min-centos7"
   image = "centos7"
   server_configuration = { hostname = "srv.tf.local" }
-  for_development_only = false
-  for_testsuite_only = true
+  auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }

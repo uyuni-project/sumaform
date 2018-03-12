@@ -1,4 +1,4 @@
-{% if '2.1' not in grains['version'] and grains.get('auto_accept') %}
+{% if grains.get('auto_accept') %}
 
 include:
   - suse_manager_server

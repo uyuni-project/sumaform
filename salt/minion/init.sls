@@ -1,12 +1,11 @@
 include:
   - minion.testsuite
-  - minion.repos
 
 minion_package:
   pkg.installed:
     - name: salt-minion
     - require:
-      - sls: minion.repos
+      - sls: default
 
 minion_id:
   file.managed:
@@ -19,13 +18,11 @@ minion_service:
     - enable: True
     - require:
       - pkg: salt-minion
-{% if grains['for_development_only'] %}
+{% if grains.get('auto_connect_to_master') %}
     - listen:
       - file: /etc/salt/minion.d/master.conf
       - file: /etc/salt/minion_id
-{% endif %}
 
-{% if grains['for_development_only'] %}
 master_configuration:
   file.managed:
     - name: /etc/salt/minion.d/master.conf

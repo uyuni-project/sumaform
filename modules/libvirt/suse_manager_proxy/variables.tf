@@ -9,7 +9,7 @@ variable "name" {
 }
 
 variable "version" {
-  description = "One of: 2.1-released,  2.1-nightly, 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, head"
+  description = "One of: 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, head"
   type = "string"
 }
 
@@ -18,8 +18,28 @@ variable "server_configuration" {
   type = "map"
 }
 
-variable "for_development_only" {
-  description = "whether this host should be pre-configured with settings useful for development, but not necessarily safe in production"
+variable "auto_register" {
+  description = "whether this proxy should be automatically registered upon deployment"
+  default = true
+}
+
+variable "download_private_ssl_key" {
+  description = "copy SSL certificates from the server upon deployment"
+  default = true
+}
+
+variable "auto_configure" {
+  description = "whether to automatically run configure-proxy.sh upon deployment"
+  default = true
+}
+
+variable "generate_bootstrap_script" {
+  description = "whether to generate a bootstrap script in /pub upon deployment"
+  default = true
+}
+
+variable "publish_private_ssl_key" {
+  description = "whether to copy the private SSL key in /pub upon deployment"
   default = true
 }
 

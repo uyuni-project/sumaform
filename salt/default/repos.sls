@@ -40,30 +40,7 @@ tools_devel_repo:
 {% endif %}
 
 
-{% if '11' in grains['osrelease'] %}
-{% if grains['osrelease'] == '11.3' %}
-
-os_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Pool.repo
-    - source: salt://default/repos.d/SLE-11-SP3-x86_64-Pool.repo
-    - template: jinja
-
-os_update_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Update.repo
-    - source: salt://default/repos.d/SLE-11-SP3-x86_64-Update.repo
-    - template: jinja
-
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
-    - source: salt://default/repos.d/SLE-11-SP3-x86_64-Test-Update.repo
-    - template: jinja
-{% endif %}
-
-{% elif grains['osrelease'] == '11.4' %}
+{% if grains['osrelease'] == '11.4' %}
 
 os_pool_repo:
   file.managed:
@@ -83,8 +60,6 @@ test_update_repo:
     - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
     - source: salt://default/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
     - template: jinja
-{% endif %}
-
 {% endif %}
 
 tools_pool_repo:
@@ -130,7 +105,6 @@ tools_devel_repo:
 {% endif %}
 
 {% endif %}
-
 
 
 {% if '12' in grains['osrelease'] %}
