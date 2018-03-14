@@ -308,7 +308,7 @@ allow_vendor_changes:
     - makedirs: True
     - contents: |
         [main]
-        vendors = SUSE,obs://build.suse.de/Devel:Galaxy,openSUSE Build Service
+        vendors = SUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org
 
 refresh_default_repos:
   cmd.run:
