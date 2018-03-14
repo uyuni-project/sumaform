@@ -36,7 +36,7 @@ use_unreleased_updates: ${var.use_unreleased_updates}
 EOF
 
   // Provider-specific variables
-  image = "${lookup(var.images, var.version)}"
+  image = "${var.image == "default" ? lookup(var.images, var.version) : var.image}"
   memory = "${var.memory}"
   vcpu = "${var.vcpu}"
   running = "${var.running}"

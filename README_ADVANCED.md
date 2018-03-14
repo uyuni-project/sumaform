@@ -166,7 +166,7 @@ module "min" {
 
 ## Change the base OS for supported SUSE Manager versions
 
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1`, `sles12sp2` and `sles12sp3`.
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Currently this only applies to versions `3.0` and up that can switch between `sles12sp1`, `sles12sp2` and `sles12sp3`. `head` can also use `opensuse423`
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 

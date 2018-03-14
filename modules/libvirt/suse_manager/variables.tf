@@ -157,7 +157,7 @@ variable "gpg_keys" {
 // Provider-specific variables
 
 variable "image" {
-  description = "Leave default for automatic selection or specify sles12sp2 only if version is 3.0-released or 3.0-nightly"
+  description = "Leave default for automatic selection or specify an OS supported by the specified product version"
   default = "default"
 }
 
