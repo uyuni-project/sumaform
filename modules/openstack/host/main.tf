@@ -93,6 +93,7 @@ resource "null_resource" "host_salt_configuration" {
     host = "${element(concat(var.floating_ips, openstack_networking_floatingip_v2.floating_ip.*.address), count.index)}"
     user = "root"
     password = "linux"
+    timeout = "30m"
   }
 
   provisioner "file" {
