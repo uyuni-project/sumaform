@@ -246,7 +246,7 @@ Also note that this requires `create_first_user` and `publish_private_ssl_key` s
 
 ## Cucumber testsuite
 
-It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the main.tf.libvirt-testsuite.example file. This will create a test server, proxy, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the `main.tf.libvirt-testsuite.example` file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
 The proxy, the SSH minion, and the CentOS minion are optional. The server, traditional client and normal minion are not.
 
@@ -256,10 +256,15 @@ To start the testsuite, use:
 ssh -t head-ctl.tf.local run-testsuite
 ```
 
-To run individual Cucumber features, use:
+To run sets of Cucumber features, edit `run_sets/testsuite.yml` and then run `run-testsuite`. Keep in mind that:
+ - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
+ - featurs not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
+
+Once all `core_` features have been executed once other non-core Cucumber features can be run via:
 ```
-ssh -t head-ctl.tf.local cucumber spacewalk-testsuite-base/features/my_feature.feature
+ssh -t head-ctl.tf.local cucumber spacewalk/testsuite/features/my_feature.feature
 ```
+
 
 Get HTML results with:
 ```
