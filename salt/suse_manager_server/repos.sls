@@ -38,6 +38,23 @@ suse_manager_update_repo:
 {% endif %}
 
 {% if 'head' in grains['version'] %}
+{% if grains['osfullname'] == 'Leap' %}
+suse_manager_pool_repo:
+  file.touch:
+    - name: /tmp/no_pool_channel_needed
+
+suse_manager_update_repo:
+  file.touch:
+    - name: /tmp/no_update_channel_needed
+
+suse_manager_devel_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_Leap.repo
+    - source: salt://suse_manager_server/repos.d/Devel_Galaxy_Manager_Head_Leap.repo
+    - template: jinja
+    - require:
+      - sls: default
+{% else %}
 suse_manager_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
@@ -57,6 +74,7 @@ suse_manager_devel_repo:
     - template: jinja
     - require:
       - sls: default
+{% endif %}
 {% endif %}
 
 {% if '3.0-nightly' in grains['version'] %}
