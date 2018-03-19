@@ -27,8 +27,10 @@ os_update_repo:
     - template: jinja
 
 tools_pool_repo:
-  file.touch:
-    - name: /tmp/no_tools_pool_repo_needed
+  file.managed:
+    - name: /etc/zypp/repos.d/systemsmanagement-saltstack_products-next.repo
+    - source: salt://default/repos.d/systemsmanagement-saltstack_products-next.repo
+    - template: jinja
 
 tools_update_repo:
   file.touch:
@@ -303,12 +305,21 @@ tools_devel_repo:
 
 
 allow_vendor_changes:
+  {% if grains['osfullname'] == 'Leap' %}
+  file.managed:
+    - name: /etc/zypp/vendors.d/opensuse
+    - makedirs: True
+    - contents: |
+        [main]
+        vendors = openSUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org
+  {% else %}
   file.managed:
     - name: /etc/zypp/vendors.d/suse
     - makedirs: True
     - contents: |
         [main]
         vendors = SUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org
+  {% endif %}
 
 refresh_default_repos:
   cmd.run:
