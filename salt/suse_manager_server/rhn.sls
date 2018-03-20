@@ -63,3 +63,8 @@ rhn_conf_mirror:
       - sls: suse_manager_server
 
 {% endif %}
+
+# catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
+rhn_conf_present:
+  file.touch:
+    - name: /etc/rhn/rhn.conf

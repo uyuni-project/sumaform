@@ -1,7 +1,7 @@
 {% if grains.get('java_debugging') %}
 
 include:
-  - suse_manager_server
+  - suse_manager_server.rhn
 
 taskomatic_config:
   file.append:
@@ -14,13 +14,14 @@ taskomatic_config:
         wrapper.java.additional.11=-Dcom.sun.management.jmxremote.authenticate=false
         wrapper.java.additional.12=-Djava.rmi.server.hostname={{ salt['network.interfaces']()['eth0']['inet'][0]['address'] }}
     - require:
-      - sls: suse_manager_server
+      - sls: suse_manager_server.rhn
+
+{% endif %}
 
 taskomatic:
   service.running:
     - watch:
-      - file: taskomatic_config
-    - require:
-      - file: taskomatic_config
-
-{% endif %}
+      {% if grains.get('java_debugging') %}
+      - file: /usr/share/rhn/config-defaults/rhn_taskomatic_daemon.conf
+      {% endif %}
+      - file: /etc/rhn/rhn.conf
