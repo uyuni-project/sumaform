@@ -25,3 +25,6 @@ taskomatic:
       - file: /usr/share/rhn/config-defaults/rhn_taskomatic_daemon.conf
       {% endif %}
       - file: /etc/rhn/rhn.conf
+      # HACK: temporary workaround for bsc#1085921
+      - file: java_policy_local_link
+      - file: java_policy_US_link

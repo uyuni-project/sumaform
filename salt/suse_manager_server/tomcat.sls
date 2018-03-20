@@ -34,3 +34,6 @@ tomcat_service:
       - file: /etc/tomcat/tomcat.conf
       {% endif %}
       - file: /etc/rhn/rhn.conf
+      # HACK: temporary workaround for bsc#1085921
+      - file: java_policy_local_link
+      - file: java_policy_US_link
