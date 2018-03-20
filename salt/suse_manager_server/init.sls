@@ -107,12 +107,12 @@ substitute_email_traceback_address:
 # HACK: temporary workaround for bsc#1085921
 java_policy_local_link:
   file.symlink:
-    - name: /etc/alternatives/jce_1.8.0_ibm_local_policy
-    - target: /usr/lib64/jvm/java-1.8.0-ibm-1.8.0/jre/lib/security/policy/limited/local_policy.jar
-    - force: True
+    - name: /usr/lib64/jvm/java-1.8.0-ibm-1.8.0/jre/lib/security/local_policy.jar
+    - target: /etc/alternatives/jce_1.8.0_ibm_us_export_policy
+    - unless: test -f /usr/lib64/jvm/java-1.8.0-ibm-1.8.0/jre/lib/security/local_policy.jar
 
 java_policy_US_link:
   file.symlink:
-    - name: /etc/alternatives/jce_1.8.0_ibm_us_export_policy
-    - target: /usr/lib64/jvm/java-1.8.0-ibm-1.8.0/jre/lib/security/policy/limited/US_export_policy.jar
-    - force: True
+    - name: /usr/lib64/jvm/java-1.8.0-ibm-1.8.0/jre/lib/security/US_export_policy.jar
+    - target: /etc/alternatives/jce_1.8.0_ibm_us_export_policy
+    - unless: test -f /usr/lib64/jvm/java-1.8.0-ibm-1.8.0/jre/lib/security/US_export_policy.jar
