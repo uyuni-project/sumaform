@@ -3,6 +3,7 @@ include:
 {% if grains.get('evil_minions_dump') %}
   - evil_minions.repos
 {% endif %}
+  - minion.apparmor
 
 minion_package:
   pkg.installed:

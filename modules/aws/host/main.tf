@@ -64,6 +64,7 @@ iss_slave: ${var.iss_slave}
 unsafe_postgres: ${var.unsafe_postgres}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
+apparmor: ${var.apparmor}
 timezone: ${var.timezone}
 authorized_keys: null
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
