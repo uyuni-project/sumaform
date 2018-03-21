@@ -134,6 +134,11 @@ variable "monitored" {
   default = false
 }
 
+variable "apparmor" {
+  description = "whether AppArmor access control should be installed"
+  default = false
+}
+
 variable "log_server" {
   description = "hostname:port address to a Logstash or Elasticsearch server to push logs to, see README_ADVANCED.md"
   default = "null"

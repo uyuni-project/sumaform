@@ -1,0 +1,59 @@
+# Last Modified: Wed Mar 28 17:05:26 2018
+#include <tunables/global>
+
+/usr/sbin/rhn-search flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/bash>
+
+
+  capability sys_ptrace,
+
+
+
+  /bin/bash ix,
+  /bin/ps rix,
+  /dev/tty rw,
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
+  /etc/rhn/rhn.conf r,
+  /proc/ r,
+  /proc/*/stat r,
+  /proc/*/status r,
+  /proc/filesystems r,
+  /proc/meminfo r,
+  /proc/sys/crypto/fips_enabled r,
+  /proc/sys/kernel/pid_max r,
+  /proc/uptime r,
+  /run/rhn-search.pid r,
+  /usr/bin/cat rix,
+  /usr/bin/dirname rix,
+  /usr/bin/expr rix,
+  /usr/bin/find rix,
+  /usr/bin/gawk rix,
+  /usr/bin/grep rix,
+  /usr/bin/rm rix,
+  /usr/bin/sed rix,
+  /usr/bin/sleep rix,
+  /usr/bin/tail rix,
+  /usr/sbin/ r,
+  /usr/sbin/rhn-search r,
+  /usr/sbin/tanukiwrapper cx,
+  /usr/share/rhn/config-defaults/rhn_search.conf r,
+  /var/lib/rhn/search/indexes/ r,
+  /var/lib/rhn/search/indexes/hwdevice/ r,
+  /var/lib/rhn/search/indexes/server/ r,
+  /var/lib/rhn/search/indexes/serverCustomInfo/ r,
+  /var/lib/rhn/search/indexes/snapshotTag/ r,
+  /var/lib/rhn/search/indexes/xccdfIdent/ r,
+
+
+  profile /usr/sbin/tanukiwrapper flags=(complain) {
+    #include <abstractions/base>
+
+    network inet stream,
+
+    /usr/sbin/tanukiwrapper mr,
+    /usr/share/rhn/config-defaults/rhn_search_daemon.conf r,
+
+  }
+}

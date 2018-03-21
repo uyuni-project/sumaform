@@ -12,6 +12,7 @@ include:
   - suse_manager_server.prometheus
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
+  - suse_manager_server.apparmor
 
 suse_manager_packages:
   pkg.latest:
@@ -44,6 +45,7 @@ suse_manager_setup:
     - require:
       - pkg: suse_manager_packages
       - file: environment_setup_script
+      - sls: suse_manager_server.apparmor
 
 ca_cert_checksum:
   cmd.run:

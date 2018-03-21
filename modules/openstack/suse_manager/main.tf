@@ -50,6 +50,7 @@ publish_private_ssl_key: ${var.publish_private_ssl_key}
 testsuite: ${var.base_configuration["testsuite"]}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
+apparmor: ${var.apparmor}
 log_server: ${var.log_server}
 from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}

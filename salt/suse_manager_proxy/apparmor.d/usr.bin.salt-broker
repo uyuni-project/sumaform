@@ -1,0 +1,30 @@
+# Last Modified: Wed Mar 28 14:06:29 2018
+#include <tunables/global>
+
+/usr/bin/salt-broker {
+  #include <abstractions/base>
+  #include <abstractions/python>
+
+
+  capability dac_override,
+
+  network inet stream,
+
+
+  /etc/host.conf r,
+  /etc/hosts r,
+  /etc/nsswitch.conf r,
+  /etc/passwd r,
+  /etc/protocols r,
+  /etc/resolv.conf r,
+  /etc/rhn/rhn.conf r,
+  /etc/salt/broker r,
+  /etc/ssl/openssl.cnf r,
+  /sys/devices/system/cpu/ r,
+  /usr/bin/python2.7 ix,
+  /usr/bin/salt-broker r,
+  /usr/share/rhn/config-defaults/rhn.conf r,
+  /usr/share/rhn/config-defaults/rhn_proxy.conf r,
+  /var/log/salt/broker w,
+
+}

@@ -19,6 +19,7 @@ role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
 testsuite: ${var.base_configuration["testsuite"]}
 evil_minions_dump: ${var.evil_minions_dump}
+apparmor: ${var.apparmor}
 
 susemanager:
   activation_key: ${var.activation_key}

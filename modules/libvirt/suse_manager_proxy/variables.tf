@@ -53,6 +53,11 @@ variable "use_unreleased_updates" {
   default = false
 }
 
+variable "apparmor" {
+  description = "whether AppArmor access control should be installed"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}

@@ -1,5 +1,6 @@
 include:
   - suse_manager_proxy.repos
+  - suse_manager_proxy.apparmor
 
 proxy-packages:
   pkg.latest:
