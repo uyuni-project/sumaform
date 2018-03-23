@@ -53,10 +53,22 @@
 
 # SLES 15
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
-  path: /srv/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
+  path: /srv/mirror/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
   archs: [x86_64]
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update
-  path: /srv/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update
+  path: /srv/mirror/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update
+  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Product-SLES/15/x86_64/product
+  path: /srv/mirror/SUSE/Products/SLE-Product-SLES/15/x86_64/product
+  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Product-SLES/15/x86_64/update
+  path: /srv/mirror/SUSE/Products/SLE-Product-SLES/15/x86_64/update
+  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Module-Server-Applications/15/x86_64/product
+  path: /srv/mirror/SUSE/Products/SLE-Module-Server-Applications/15/x86_64/product
+  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Module-Server-Applications/15/x86_64/update
+  path: /srv/mirror/SUSE/Products/SLE-Module-Server-Applications/15/x86_64/update
   archs: [x86_64]
 
 # SUSE Manager 3.0
@@ -101,11 +113,11 @@
 
 # SLES 15 Manager Tools
 - url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/15/x86_64/product
-  path: /srv/mirror/SuSE/build.suse.de/SUSE/Products/SLE-Manager-Tools/15/x86_64/product
+  path: /srv/mirror/SUSE/Products/SLE-Manager-Tools/15/x86_64/product
   archs: [x86_64]
-#- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update
-#  path: /srv/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update
-#  archs: [x86_64]
+- url: http://euklid.nue.suse.com/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update
+  path: /srv/mirror/SuSE/build.suse.de/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update
+  archs: [x86_64]
 
 # RES 7 Manager Tools
 - url: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update
