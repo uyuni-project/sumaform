@@ -18,6 +18,7 @@ module "suse_manager_proxy" {
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
   gpg_keys = "${var.gpg_keys}"
+  use_unreleased_updates = "${var.use_unreleased_updates}"
   grains = <<EOF
 
 version: ${var.version}
@@ -31,7 +32,6 @@ server_username: ${var.server_configuration["username"]}
 server_password: ${var.server_configuration["password"]}
 generate_bootstrap_script: ${var.generate_bootstrap_script}
 publish_private_ssl_key: ${var.publish_private_ssl_key}
-use_unreleased_updates: ${var.use_unreleased_updates}
 
 EOF
 

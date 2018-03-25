@@ -8,6 +8,7 @@ module "minion" {
   additional_packages = "${var.additional_packages}"
   gpg_keys = "${var.gpg_keys}"
   ssh_key_path = "${var.ssh_key_path}"
+  use_unreleased_updates = "${var.use_unreleased_updates}"
   grains = <<EOF
 
 version: ${var.version}
@@ -16,7 +17,6 @@ server: ${var.server_configuration["hostname"]}
 role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
 testsuite: ${var.base_configuration["testsuite"]}
-use_unreleased_updates: ${var.use_unreleased_updates}
 
 susemanager:
   activation_key: ${var.activation_key}

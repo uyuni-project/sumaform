@@ -19,6 +19,7 @@ module "suse_manager" {
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
   gpg_keys = "${var.gpg_keys}"
+  use_unreleased_updates = "${var.use_unreleased_updates}"
   grains = <<EOF
 
 version: ${var.version}
@@ -45,7 +46,6 @@ create_sample_activation_key: ${var.create_sample_activation_key}
 create_sample_bootstrap_script: ${var.create_sample_bootstrap_script}
 publish_private_ssl_key: ${var.publish_private_ssl_key}
 testsuite: ${var.base_configuration["testsuite"]}
-use_unreleased_updates: ${var.use_unreleased_updates}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
 log_server: ${var.log_server}
