@@ -29,7 +29,7 @@ variable "auto_connect_to_master" {
 }
 
 variable "use_unreleased_updates" {
-  description = "This adds and updates sle packages from the test repo"
+  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
   default = false
 }
 
