@@ -17,7 +17,6 @@ server: ${var.server_configuration["hostname"]}
 role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
 testsuite: ${var.base_configuration["testsuite"]}
-use_unreleased_updates: ${var.use_unreleased_updates}
 
 susemanager:
   activation_key: ${var.activation_key}
