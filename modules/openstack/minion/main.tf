@@ -4,6 +4,7 @@ module "minion" {
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
   count = "${var.count}"
+  use_unreleased_updates = "${var.use_unreleased_updates}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   gpg_keys = "${var.gpg_keys}"

@@ -8,6 +8,11 @@ variable "name" {
   type = "string"
 }
 
+variable "use_unreleased_updates" {
+  description = "This adds and updates sle packages from the test repo"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}

@@ -15,6 +15,7 @@ module "suse_manager" {
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
   count = 1
+  use_unreleased_updates = "${var.use_unreleased_updates}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
