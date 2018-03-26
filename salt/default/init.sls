@@ -47,7 +47,7 @@ timezone_setting:
     - require:
       - file: timezone_symlink
 
-{% if grains.get('use_unreleased_updates') | default(False, true) or grains.get('use_updates') | default(False, true) %}
+{% if grains.get('use_unreleased_updates') | default(False, true) or grains.get('use_released_updates') | default(False, true) %}
 update_packages:
   pkg.uptodate:
     - require:
