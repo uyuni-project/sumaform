@@ -107,6 +107,7 @@ hostname: ${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "
 domain: ${var.base_configuration["domain"]}
 use_avahi: ${var.base_configuration["use_avahi"]}
 timezone: ${var.base_configuration["timezone"]}
+use_released_updates: ${var.use_released_updates}
 use_unreleased_updates: ${var.use_unreleased_updates}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]

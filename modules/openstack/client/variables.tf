@@ -23,6 +23,11 @@ variable "auto_register" {
   default = true
 }
 
+variable "use_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default = false
+}
+
 variable "use_unreleased_updates" {
   description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
   default = false

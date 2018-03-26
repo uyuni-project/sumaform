@@ -47,9 +47,11 @@ timezone_setting:
     - require:
       - file: timezone_symlink
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
-update_sles_test:
-  pkg.uptodate
+{% if grains.get('use_unreleased_updates') | default(False, true) or grains.get('use_updates') | default(False, true) %}
+update_packages:
+  pkg.uptodate:
+    - require:
+      - sls: default.repos
 {% endif %}
 
 {% if grains['authorized_keys'] %}
