@@ -18,6 +18,12 @@ variable "channels" {
   default = []
 }
 
+variable "cloned_channels" {
+  description = "a json formatted string representing a list of dictionaries containing SUSE channels information to clone"
+  default = "null"
+  type = "string"
+}
+
 variable "iss_master" {
   description = "ISS master server, leave the default for no ISS"
   default = "null"

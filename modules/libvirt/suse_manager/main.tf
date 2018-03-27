@@ -27,6 +27,7 @@ version: ${var.version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 channels: [${join(",", var.channels)}]
+cloned_channels: ${var.cloned_channels}
 mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
