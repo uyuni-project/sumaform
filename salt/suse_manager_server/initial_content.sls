@@ -145,3 +145,25 @@ ca_configuration_checksum:
     - require:
       - file: ca_configuration
 {% endif %}
+
+{% if grains.get('cloned_channels') %}
+spacewalk_utils:
+  pkg.latest:
+    - name: spacewalk-utils
+
+{% for cloned_channel_set in grains.get('cloned_channels') %}
+create_cloned_channels_{{ cloned_channel_set['prefix'] }}:
+  cmd.run:
+    - name: |
+        spacewalk-clone-by-date \
+          -u admin -p admin \
+          {%- for channel in cloned_channel_set['channels'] %}
+          --channels={{ channel }} {{ cloned_channel_set['prefix'] }}-{{ channel }} \
+          {%- endfor %}
+          --to_date={{ cloned_channel_set['date'] }} \
+          --assumeyes
+    - unless: spacecmd -u admin -p admin softwarechannel_list | grep -x {{ cloned_channel_set['prefix'] }}-{{ cloned_channel_set['channels'] | first }}
+    - require:
+      - pkg: spacewalk_utils
+{% endfor %}
+{% endif %}

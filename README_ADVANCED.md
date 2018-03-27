@@ -113,6 +113,26 @@ module "suma3pg" {
 }
 ```
 
+## Cloning channels in SUSE Manager Servers upon deployment
+
+Once you specified the SUSE official channels to be added at deploy time, you can also specifiy a set of these channels to be cloned at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to clone a channel, first you must specify the "channels to be added" with the `channels` variable (see previous item), and then add the channels you want to clone to the `cloned_channels` variable in a SUSE Manager Server module:
+
+```hcl
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "3.1-nightly"
+  channels = ["sles12-sp2-pool-x86_64","sles12-sp2-updates-x86_64"]
+  cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64,sles12-sp2-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
+}
+```
+
+This is done internally by executing the "spacewalk-clone-by-date" command, thus for each channel set, you have to specify the original channel parent, the channels to be cloned, the prefix for the new channels, and the date.
+
+In addition to this, given that a cloned channel must have a cloned channel parent, you should always include the "parent channel" into the "channels to be cloned" list.
+
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
