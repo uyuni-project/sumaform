@@ -115,7 +115,13 @@ module "suma3pg" {
 
 ## Cloning channels in SUSE Manager Servers upon deployment
 
-Once you specified the SUSE official channels to be added at deploy time, you can also specifiy a set of these channels to be cloned at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to clone a channel, first you must specify the "channels to be added" with the `channels` variable (see previous item), and then add the channels you want to clone to the `cloned_channels` variable in a SUSE Manager Server module:
+Channels specified via the `channels` variable above can be automatically cloned by date at deploy time. This operation is typically time-intensive, thus it is disabled by default. In order to clone channels specified via the `channels` variable, you need to specify the cloning details in a `cloned_channels` variable according to the following syntax:
+
+```yaml
+[{ channels: [<PARENT_CHANNEL_NAME>, <CHILD_CHANNEL_1_NAME>, ...], prefix: <CLONE_PREFIX>, date: <YYYY-MM-DD> } ...]
+```
+
+A libvirt example follows:
 
 ```hcl
 module "suma3pg" {
@@ -124,14 +130,12 @@ module "suma3pg" {
 
   name = "suma3pg"
   version = "3.1-nightly"
-  channels = ["sles12-sp2-pool-x86_64","sles12-sp2-updates-x86_64"]
-  cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64,sles12-sp2-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
+  channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
+  cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
 }
 ```
 
-This is done internally by executing the "spacewalk-clone-by-date" command, thus for each channel set, you have to specify the original channel parent, the channels to be cloned, the prefix for the new channels, and the date.
-
-In addition to this, given that a cloned channel must have a cloned channel parent, you should always include the "parent channel" into the "channels to be cloned" list.
+At deploy time the `spacewalk-clone-by-date` will be used for each channel set. Note that it is required that the parent channel is always specified in the cloned channel list.
 
 ## Shared resources, prefixing, sharing virtual hardware
 
