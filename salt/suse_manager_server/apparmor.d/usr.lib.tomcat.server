@@ -1020,11 +1020,11 @@
     /var/cache/tomcat/Catalina/localhost/rhn.xml r,
     /var/cache/tomcat/temp/org%002ehibernate%002ecache%002einternal%002e%0053tandard%0051uery%0043ache.data w,
     /var/log/rhn/rhn_web_api.log w,
-    /var/log/tomcat/catalina.2018-03-27.log w,
-    /var/log/tomcat/host-manager.2018-03-27.log w,
-    /var/log/tomcat/localhost.2018-03-27.log w,
-    /var/log/tomcat/localhost_access_log.2018-03-27.txt w,
-    /var/log/tomcat/manager.2018-03-27.log w,
+    /var/log/tomcat/catalina.*.log w,
+    /var/log/tomcat/host-manager.*.log w,
+    /var/log/tomcat/localhost.*.log w,
+    /var/log/tomcat/localhost_access_log.*.txt w,
+    /var/log/tomcat/manager.*.log w,
 
   }
 }
