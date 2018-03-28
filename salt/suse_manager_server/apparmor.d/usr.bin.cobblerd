@@ -652,6 +652,6 @@
   /var/lib/cobbler/triggers/sync/post/ r,
   /var/lib/cobbler/web.ss rw,
   /var/log/cobbler/cobbler.log w,
-  /var/log/cobbler/tasks/2018-03-28_131036_sync.log w,
+  /var/log/cobbler/tasks/*_sync.log w,
 
 }
