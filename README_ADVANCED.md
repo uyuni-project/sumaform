@@ -137,6 +137,25 @@ module "suma3pg" {
 
 At deploy time the `spacewalk-clone-by-date` will be used for each channel set. Note that it is required that the parent channel is always specified in the cloned channel list.
 
+## Generating a dump file on minion upon deployment
+
+You can specify whether a minion should automatically generate a salt dump file upon deployment. This dump file will contain all the commands and responses sent by the salt-master that are executed on the minion. The dump file can be used later by an evil-minions host to simulate minions responses (see "Evil Minions load generator"). In order to generate a salt dump file you need to specify the "evil_minions_dump" variable, which accepts "true" and "false" value.
+
+A libvirt example follows:
+
+```hcl
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  version = "3.1-nightly"
+  evil_minions_dump = true
+}
+```
+
+The evil_minions_dump default value is "false", in case you don't specify this variable.
+
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
