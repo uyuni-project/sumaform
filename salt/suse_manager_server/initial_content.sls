@@ -156,13 +156,14 @@ create_cloned_channels_{{ cloned_channel_set['prefix'] }}:
   cmd.run:
     - name: |
         spacewalk-clone-by-date \
-          -u admin -p admin \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
           {%- for channel in cloned_channel_set['channels'] %}
           --channels={{ channel }} {{ cloned_channel_set['prefix'] }}-{{ channel }} \
           {%- endfor %}
           --to_date={{ cloned_channel_set['date'] }} \
           --assumeyes
-    - unless: spacecmd -u admin -p admin softwarechannel_list | grep -x {{ cloned_channel_set['prefix'] }}-{{ cloned_channel_set['channels'] | first }}
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_list | grep -x {{ cloned_channel_set['prefix'] }}-{{ cloned_channel_set['channels'] | first }}
     - require:
       - pkg: spacewalk_utils
 {% endfor %}
