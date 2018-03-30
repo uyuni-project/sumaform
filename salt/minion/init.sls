@@ -11,20 +11,19 @@ minion_package:
       - sls: default
 
 {% if grains.get('evil_minions_dump') %}
-install_evil_minions:
+evil_minions_package:
   pkg.installed:
     - name: evil-minions
     - require:
       - cmd: refresh_tools_repo
 
-patch_systemd_salt_minion_file:
+evil_minions_systemd_service:
   file.replace:
     - name: /usr/lib/systemd/system/salt-minion.service
     - pattern: ExecStart(.*)
     - repl: ExecStart=/usr/bin/dumping-salt-minion
-    - append_if_not_found: true
     - require:
-      - pkg: install_evil_minions
+      - pkg: evil_minions_package
       - pkg: salt-minion
 
 reload_systemd_modules:
@@ -32,7 +31,6 @@ reload_systemd_modules:
     - name: service.systemctl_reload
     - onchanges:
       - file: /usr/lib/systemd/system/salt-minion.service
-
 {% endif %}
 
 minion_id:
@@ -46,15 +44,18 @@ minion_service:
     - enable: True
     - require:
       - pkg: salt-minion
-{% if grains.get('evil_minions_dump') or grains.get('auto_connect_to_master') %}
+  {% if grains.get('evil_minions_dump') or grains.get('auto_connect_to_master') %}
     - listen:
   {% if grains.get('evil_minions_dump') %}
-      - file: patch_systemd_salt_minion_file
+      - file: evil_minions_systemd_service
   {% endif %}
   {% if grains.get('auto_connect_to_master') %}
       - file: /etc/salt/minion.d/master.conf
       - file: /etc/salt/minion_id
+  {% endif %}
+  {% endif %}
 
+{% if grains.get('auto_connect_to_master') %}
 master_configuration:
   file.managed:
     - name: /etc/salt/minion.d/master.conf
@@ -62,5 +63,4 @@ master_configuration:
         master: {{grains['server']}}
     - require:
       - pkg: salt-minion
-  {% endif %}   
 {% endif %}
