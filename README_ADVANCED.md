@@ -137,25 +137,6 @@ module "suma3pg" {
 
 At deploy time the `spacewalk-clone-by-date` will be used for each channel set. Note that it is required that the parent channel is always specified in the cloned channel list.
 
-## Generating a dump file on minion upon deployment
-
-You can specify whether a minion should automatically generate a salt dump file upon deployment. This dump file will contain all the commands and responses sent by the salt-master that are executed on the minion. The dump file can be used later by an evil-minions host to simulate minions responses (see "Evil Minions load generator"). In order to generate a salt dump file you need to specify the "evil_minions_dump" variable, which accepts "true" and "false" value.
-
-A libvirt example follows:
-
-```hcl
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  name = "suma3pg"
-  version = "3.1-nightly"
-  evil_minions_dump = true
-}
-```
-
-The evil_minions_dump default value is "false", in case you don't specify this variable.
-
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
@@ -491,7 +472,7 @@ Elasticsearch listens on port 9200 and provides full text search on logs.
 
 ## Evil Minions load generator
 
-You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. A libvirt example would be:
+You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. If you already have an `evil-minions` dump file, you can specify it via the `dump_file` variable of the `evil_minions` module (path is relative to the `sumaform` main directory). A libvirt example would be:
 
 ```hcl
 module "evil-minions" {
@@ -500,9 +481,25 @@ module "evil-minions" {
 
   name = "evil-minions"
   server_configuration = "${module.suma31pg.configuration}"
-  // see modules/libvirt/evil_minions/variables.tf for possible values
+  dump_file = "./minion-dump.mp"
 }
 ```
+
+Creating a dump file is also supported by the main `minion` module via the `evil_minions_dump` flag. By default the dump file is created in `/tmp/minion-dump.mp` on the minion. A libvirt example follows:
+
+```hcl
+module "minion" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+
+  name = "minion"
+  image = "sles12sp3"
+  server_configuration = "${module.server.configuration}"
+  evil_minions_dump = true
+}
+```
+
+Once the dump file is created, copy it over to the host running `terraform` to deploy `evil_minions` hosts.
 
 ## Use Locust for http load testing
 
