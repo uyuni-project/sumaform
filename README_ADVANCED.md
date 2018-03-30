@@ -400,8 +400,7 @@ module "minsles12sp1" {
   }
 
   additional_packages = [
-    "terraform",
-    "htop"
+    "terraform"
   ]
 }
 ```
