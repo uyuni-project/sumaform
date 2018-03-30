@@ -396,7 +396,6 @@ module "minsles12sp1" {
   server_configuration = "${module.suma3pg.configuration}"
 
   additional_repos {
-    tools = "http://download.opensuse.org/repositories/home:/SilvioMoioli:/tools/SLE_12_SP2/"
     virtualization_containers = "http://download.opensuse.org/repositories/Virtualization:/containers/SLE_12_SP2/"
   }
 
