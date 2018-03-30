@@ -3,8 +3,8 @@ include:
 
 tools_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
-    - source: salt://evil_minions/repos.d/home_SilvioMoioli_tools.repo
+    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
+    - source: salt://default/repos.d/systemsmanagement-sumaform-tools.repo
     - template: jinja
     - require:
       - sls: default
