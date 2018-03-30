@@ -166,5 +166,24 @@ create_cloned_channels_{{ cloned_channel_set['prefix'] }}:
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_list | grep -x {{ cloned_channel_set['prefix'] }}-{{ cloned_channel_set['channels'] | first }}
     - require:
       - pkg: spacewalk_utils
+
+create_{{ cloned_channel_set['prefix'] }}_activation_key:
+  cmd.run:
+    - name: |
+        spacecmd \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
+          -- activationkey_create -n {{ cloned_channel_set['prefix'] }} -d {{ cloned_channel_set['prefix'] }} \
+          -b {{ cloned_channel_set['prefix'] }}-{{ cloned_channel_set['channels'] | first }} &&
+        spacecmd \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
+          -- activationkey_addchildchannels 1-{{ cloned_channel_set['prefix'] }} \
+          {%- for channel in cloned_channel_set['channels'][1:] %}
+          {{ cloned_channel_set['prefix'] }}-{{ channel }} \
+          {%- endfor %}
+    - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-{{ cloned_channel_set['prefix'] }}
+    - require:
+      - cmd: create_cloned_channels_{{ cloned_channel_set['prefix'] }}
 {% endfor %}
 {% endif %}

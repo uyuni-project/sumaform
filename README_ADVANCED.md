@@ -137,6 +137,8 @@ module "suma3pg" {
 
 At deploy time the `spacewalk-clone-by-date` will be used for each channel set. Note that it is required that the parent channel is always specified in the cloned channel list.
 
+Activation keys are also automatically created for each clone with the name `1-<CLONE_PREFIX>`.
+
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
