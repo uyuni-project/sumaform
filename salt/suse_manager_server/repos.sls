@@ -119,11 +119,7 @@ filebeat_repo:
       - sls: default
 {% endif %}
 
-{% if grains['osmajorrelease']|int() == 11 %}
-remove_client_tools_pool:
-  file.absent:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
-{% elif grains['osmajorrelease']|int() == 12 %}
+{% if grains['osmajorrelease']|int() == 12 %}
 remove_client_tools_pool:
   file.absent:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
