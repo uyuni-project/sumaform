@@ -1,5 +1,0 @@
-[home_SilvioMoioli_tools]
-name=home_SilvioMoioli_tools
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/home:/SilvioMoioli:/tools/SLE_12_SP2/

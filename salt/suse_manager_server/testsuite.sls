@@ -3,20 +3,6 @@
 include:
   - suse_manager_server
 
-lftp_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/home_SilvioMoioli_tools.repo
-    - source: salt://suse_manager_server/repos.d/home_SilvioMoioli_tools.repo
-    - template: jinja
-    - require:
-      - sls: suse_manager_server
-
-refresh_lftp_repo:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: lftp_repo
-
 fedora_autoinstallation_initrd_file:
   file.managed:
     - name: /install/Fedora_12_i386/images/pxeboot/initrd.img
@@ -61,16 +47,25 @@ test_vcenter_file:
     - name: /var/tmp/vCenter.json
     - source: salt://suse_manager_server/testsuite/vCenter.json
 
-lftp:
-  pkg.installed:
-    - require:
-      - cmd: refresh_lftp_repo
+minima:
+  archive.extracted:
+    - name: /usr/bin
+    - source: https://github.com/moio/minima/releases/download/v0.4/minima-linux-amd64.tar.gz
+    - source_hash: https://github.com/moio/minima/releases/download/v0.4/minima-linux-amd64.tar.gz.sha512
+    - archive_format: tar
+    - enforce_toplevel: false
+    - keep: True
+    - overwrite: True
 
 test_repo:
   cmd.run:
-    - name: lftp -c "open http://download.suse.de; mirror -x repocache ibs/Devel:/Galaxy:/TestsuiteRepo/SLE_12_SP1 /srv/www/htdocs/pub/TestRepo"
+    - name: minima sync
+    - env:
+      - MINIMA_CONFIG: |
+          - url: http://download.suse.de/ibs/Devel:/Galaxy:/TestsuiteRepo/SLE_12_SP1
+            path: /srv/www/htdocs/pub/TestRepo
     - require:
-      - pkg: lftp
+      - archive: minima
 
 another_test_repo:
   file.symlink:
