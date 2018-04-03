@@ -64,7 +64,7 @@ variable "name_prefix" {
 }
 
 variable "version" {
-  description = "Main product version (eg. 3.1-released, 3.0-nightly, head)"
+  description = "Main product version (eg. 3.2-released, 3.1-nightly, head)"
   default = "null"
 }
 
