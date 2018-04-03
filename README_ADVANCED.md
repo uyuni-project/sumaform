@@ -8,7 +8,8 @@ Some modules have a ``version`` variable that determines the software version. S
 
 Legal values for released software are:
  * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
- * `3.1-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.1 and Tools)
+ * `3.1-released` (latest released Maintenance Update for SUSE Manager 3.1 and Tools)
+ * `3.2-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.2 and Tools)
 
 Legal values for work-in-progress software are:
  * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
