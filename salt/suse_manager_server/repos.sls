@@ -46,6 +46,8 @@ suse_manager_pool_repo:
     - require:
       - sls: default
 
+# HACK: the update repository for 3.2 does not exist yet
+#       don't forget to add it after GA
 suse_manager_update_repo:
   file.touch:
     - name: /tmp/no_update_channel_needed

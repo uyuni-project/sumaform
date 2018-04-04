@@ -1,0 +1,6 @@
+[Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-12-x86_64]
+name=Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-12-x86_64
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-12:/Update:/Products:/ManagerToolsBeta:/Update/standard
+priority=98
