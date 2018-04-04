@@ -470,22 +470,11 @@ The logstash input plugin for filebeat usually listens on port 5045. With the ri
 Elasticsearch listens on port 9200 and provides full text search on logs.
 
 
-## Evil Minions load generator
+## [evil-minions](https://github.com/moio/evil-minions) load generator
 
-You can deploy an [evil-minions](https://github.com/moio/evil-minions) host in order to test load performance in your SUSE Manager server. If you already have an `evil-minions` dump file, you can specify it via the `dump_file` variable of the `evil_minions` module (path is relative to the `sumaform` main directory). A libvirt example would be:
+`evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.
 
-```hcl
-module "evil-minions" {
-  source = "./modules/libvirt/evil_minions"
-  base_configuration = "${module.base.configuration}"
-
-  name = "evil-minions"
-  server_configuration = "${module.suma31pg.configuration}"
-  dump_file = "./minion-dump.mp"
-}
-```
-
-Creating a dump file is also supported by the main `minion` module via the `evil_minions_dump` flag. By default the dump file is created in `/tmp/minion-dump.mp` on the minion. A libvirt example follows:
+In order to "record" the behavior of a Salt minion and save it in a dump file, you can use the `evil_minions_dump` flag in the `minion` module. A libvirt example follows:
 
 ```hcl
 module "minion" {
@@ -499,7 +488,26 @@ module "minion" {
 }
 ```
 
-Once the dump file is created, copy it over to the host running `terraform` to deploy `evil_minions` hosts.
+Once the dump file is created, you can copy it over to the host running `terraform`:
+
+```sh
+scp minion.tf.local://tmp/minion-dump.mp .
+```
+
+
+With the dump file created, it is possible to create an `evil_mininons` host to "play it back". A libvirt example would be:
+
+```hcl
+module "evil-minions" {
+  source = "./modules/libvirt/evil_minions"
+  base_configuration = "${module.base.configuration}"
+
+  name = "evil-minions"
+  server_configuration = "${module.suma31pg.configuration}"
+  dump_file = "./minion-dump.mp"
+  evil_minion_count = 50
+}
+```
 
 ## Use Locust for http load testing
 
