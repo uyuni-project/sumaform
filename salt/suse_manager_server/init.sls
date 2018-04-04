@@ -12,16 +12,6 @@ include:
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
 
-{% if '3.0-released' in grains['version'] %}
-postgresql-fixed-version-workaround:
-  pkg.installed:
-    - pkgs:
-      - postgresql-init: 9.4
-      - postgresql94
-      - postgresql94-server
-      - postgresql94-contrib
-{% endif %}
-
 suse_manager_packages:
   pkg.latest:
     {% if 'head' in grains['version'] or 'test' in grains['version'] %}
@@ -39,29 +29,12 @@ suse_manager_packages:
     - require:
       - sls: suse_manager_server.repos
       - sls: suse_manager_server.firewall
-      {% if '3.0-released' in grains['version'] %}
-      - pkg: postgresql-fixed-version-workaround
-      {% endif %}
 
 environment_setup_script:
   file.managed:
     - name: /root/setup_env.sh
     - source: salt://suse_manager_server/setup_env.sh
     - template: jinja
-    {% if '3.0-released' in grains['version'] %}
-    - require:
-      - pkg: uninstall-postgres-96
-    {% endif %}
-
-{% if '3.0-released' in grains['version'] %}
-uninstall-postgres-96:
-  pkg.removed:
-    - pkgs:
-      - postgresql96
-      - postgresql-init: 9.6
-      - postgresql96-contrib
-      - postgresql96-server
-{% endif %}
 
 suse_manager_setup:
   cmd.run:
