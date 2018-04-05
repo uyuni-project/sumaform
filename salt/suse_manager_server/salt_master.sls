@@ -6,8 +6,7 @@ include:
 custom_salt_master_configuration:
   file.managed:
     - name: /etc/salt/master.d/custom.conf
-    - contents: |
-        auto_accept: True
+    - source: salt://suse_manager_server/master-custom.conf
     - require:
         - sls: suse_manager_server
 
