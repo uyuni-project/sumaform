@@ -18,6 +18,7 @@ spacewalk_search_config:
 
 spacewalk-service:
   service.running:
+    - name: spacewalk.target
     - watch:
       - file: spacewalk_search_config
     - require:
