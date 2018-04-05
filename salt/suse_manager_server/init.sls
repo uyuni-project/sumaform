@@ -45,7 +45,9 @@ suse_manager_setup:
     - require:
       - pkg: suse_manager_packages
       - file: environment_setup_script
+      {% if grains.get('apparmor') %}
       - sls: suse_manager_server.apparmor
+      {% endif %}
 
 ca_cert_checksum:
   cmd.run:
