@@ -67,7 +67,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "salt-call --local --file-root=/root/salt/ --output=quiet state.sls default",
-      "salt-call --local --file-root=/root/salt/ --force-color state.highstate"
+      "salt-call --local --file-root=/root/salt/ --retcode-passthrough --force-color state.highstate"
     ]
   }
 }
