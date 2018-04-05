@@ -15,3 +15,10 @@ salt_master:
     - enable: True
     - watch:
       - file: custom_salt_master_configuration
+
+salt_api:
+  service.running:
+    - name: salt-api
+    - enable: True
+    - watch:
+      - file: custom_salt_master_configuration
