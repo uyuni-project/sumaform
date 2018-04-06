@@ -26,9 +26,9 @@ git clone https://github.com/moio/sumaform.git
 Ubuntu and Debian:
 ```
 sudo apt install alien
-wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP1/x86_64/terraform.rpm
+wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
-wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP1/x86_64/terraform-provider-libvirt.rpm
+wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/moio/sumaform.git
 ```
