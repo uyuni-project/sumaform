@@ -142,6 +142,7 @@ jmx_exporter_configuration:
         whitelistObjectNames:
           - java.lang:type=Threading,*
           - java.lang:type=Memory,*
+          - Catalina:type=ThreadPool,name=*
         rules:
         - pattern: ".*"
 
