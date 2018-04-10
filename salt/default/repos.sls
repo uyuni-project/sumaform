@@ -402,7 +402,11 @@ tools_update_repo:
 
 refresh_additional_repos:
   cmd.run:
+{% if grains['os_family'] == 'RedHat' %}
+    - name: echo "(repository refresh not needed with yum)"
+{% else %}
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
+{% endif %}
     - require:
       {% for label, url in grains['additional_repos'].items() %}
       - pkgrepo: {{ label }}_repo
