@@ -65,7 +65,7 @@
   /srv/susemanager/salt/salt_ssh/ r,
   /sys/block/ r,
   /sys/bus/xen/drivers/ r,
-  /sys/devices/pci0000:00/0000:00:05.0/virtio2/block/vda/queue/rotational r,
+  /sys/devices/**/queue/rotational r,
   /sys/devices/system/cpu/ r,
   /sys/devices/virtual/block/loop0/queue/rotational r,
   /sys/devices/virtual/block/loop1/queue/rotational r,
