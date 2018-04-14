@@ -33,6 +33,15 @@ prometheus_configuration:
               {% if grains["locust"] %}
               - targets: ['{{grains["locust"]}}:9500'] # locust_exporter
               {% endif %}
+          - job_name: 'tomcat'
+            scrape_interval: 5s
+            metrics_path: /rhn/metrics
+            static_configs:
+              - targets: ['{{grains["server"]}}:80']
+          - job_name: 'taskomatic'
+            scrape_interval: 5s
+            static_configs:
+              - targets: ['{{grains["server"]}}:9800']
 
 prometheus_service:
   file.managed:

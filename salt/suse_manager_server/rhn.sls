@@ -64,6 +64,17 @@ rhn_conf_mirror:
 
 {% endif %}
 
+{% if grains.get('monitored') | default(false, true) %}
+
+rhn_conf_prometheus:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: prometheus_monitoring_enabled = true
+    - require:
+      - sls: suse_manager_server
+
+{% endif %}
+
 # catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
 rhn_conf_present:
   file.touch:
