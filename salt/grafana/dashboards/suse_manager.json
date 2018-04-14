@@ -73,7 +73,7 @@
               "legendFormat": "user",
               "metric": "",
               "refId": "B",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "sum(irate(node_cpu{job=\"sumaform\",mode=\"system\"}[1m]))",
@@ -82,7 +82,7 @@
               "legendFormat": "system",
               "metric": "",
               "refId": "A",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "sum(irate(node_cpu{job=\"sumaform\",mode!~\"user|system|idle\"}[1m]))",
@@ -91,7 +91,7 @@
               "legendFormat": "other",
               "metric": "",
               "refId": "C",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -177,7 +177,7 @@
               "intervalFactor": 2,
               "legendFormat": "running",
               "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -266,7 +266,7 @@
               "intervalFactor": 2,
               "legendFormat": "used",
               "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -343,7 +343,7 @@
               "intervalFactor": 2,
               "legendFormat": "swapped",
               "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -433,14 +433,14 @@
               "intervalFactor": 2,
               "legendFormat": "in",
               "refId": "A",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "irate(node_network_transmit_bytes{job=\"sumaform\", device=\"eth0\"}[1m])*8",
               "intervalFactor": 2,
               "legendFormat": "out",
               "refId": "B",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -517,7 +517,7 @@
               "intervalFactor": 2,
               "legendFormat": "errors",
               "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -607,7 +607,7 @@
               "intervalFactor": 2,
               "legendFormat": "%",
               "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -685,7 +685,7 @@
               "intervalFactor": 2,
               "legendFormat": "length",
               "refId": "A",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -744,170 +744,6 @@
           "error": false,
           "fill": 1,
           "grid": {},
-          "id": 14,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "java_lang_Threading_ThreadCount{job=\"sumaform\"}",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "threads",
-              "refId": "A",
-              "step": 20
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Java Threads",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": null,
-          "decimals": 0,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
-          "id": 15,
-          "legend": {
-            "alignAsTable": false,
-            "avg": false,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "java_lang_Memory_HeapMemoryUsage_used{job=\"sumaform\"}",
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "used",
-              "refId": "A",
-              "step": 20
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Java Heap Memory",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Java",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": null,
-          "decimals": 0,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {},
           "id": 12,
           "legend": {
             "alignAsTable": false,
@@ -939,14 +775,14 @@
               "intervalFactor": 2,
               "legendFormat": "exclusive",
               "refId": "A",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "sum(pg_locks_count{job=\"sumaform\",datname=\"susemanager\", mode!~\".*exclusive.*\"})",
               "intervalFactor": 2,
               "legendFormat": "shared",
               "refId": "B",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1023,28 +859,28 @@
               "intervalFactor": 2,
               "legendFormat": "fetched",
               "refId": "A",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "rate(pg_stat_database_tup_inserted{job=\"sumaform\", datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "inserted",
               "refId": "B",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "rate(pg_stat_database_tup_updated{job=\"sumaform\",datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "updated",
               "refId": "C",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "rate(pg_stat_database_tup_deleted{job=\"sumaform\",datname=\"susemanager\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "deleted",
               "refId": "D",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1087,6 +923,685 @@
       "repeatRowId": null,
       "showTitle": true,
       "title": "PostgreSQL",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 14,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "java_lang_Threading_ThreadCount{job=\"sumaform\"}",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "threads",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Tomcat JVM Threads",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 15,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "java_lang_Memory_HeapMemoryUsage_used{job=\"sumaform\"}",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "used",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Tomcat JVM Heap Memory",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Java",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": null,
+          "fill": 1,
+          "id": 18,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "busy threads",
+              "color": "#EF843C"
+            },
+            {
+              "alias": "free threads",
+              "color": "#9AC48A"
+            }
+          ],
+          "span": 6,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "message_queue_thread_pool_threads_active{job=\"tomcat\"}",
+              "intervalFactor": 2,
+              "legendFormat": "busy threads",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "message_queue_thread_pool_threads{job=\"tomcat\"} - message_queue_thread_pool_threads_active{job=\"tomcat\"}",
+              "intervalFactor": 2,
+              "legendFormat": "free threads",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "MessageQueue Utilization",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 19,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "queued tasks",
+              "color": "#F2C96D"
+            }
+          ],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "message_queue_thread_pool_task_count{job=\"tomcat\"} - message_queue_thread_pool_completed_task_count{job=\"tomcat\"}",
+              "intervalFactor": 2,
+              "legendFormat": "queued tasks",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "MessageQueue Saturation",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Tomcat",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": null,
+          "fill": 1,
+          "id": 25,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "busy threads",
+              "color": "#EF843C"
+            },
+            {
+              "alias": "free threads",
+              "color": "#9AC48A"
+            }
+          ],
+          "span": 6,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "Catalina_ThreadPool_currentThreadsBusy{name=\"\\\"ajp-apr-0:0:0:0:0:0:0:1-8009\\\"\"}",
+              "intervalFactor": 2,
+              "legendFormat": "busy threads",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "Catalina_ThreadPool_currentThreadCount{name=\"\\\"ajp-apr-0:0:0:0:0:0:0:1-8009\\\"\"} - Catalina_ThreadPool_currentThreadsBusy{name=\"\\\"ajp-apr-0:0:0:0:0:0:0:1-8009\\\"\"}",
+              "intervalFactor": 2,
+              "legendFormat": "free threads",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Tomcat Utilization",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 26,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(message_queue_thread_pool_completed_task_count{job=\"tomcat\"}[1m])",
+              "intervalFactor": 2,
+              "legendFormat": "tasks per second",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "MessageQueue Service Rate",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Tomcat II",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": null,
+          "fill": 1,
+          "id": 21,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "busy threads",
+              "color": "#EF843C"
+            },
+            {
+              "alias": "free threads",
+              "color": "#9AC48A"
+            }
+          ],
+          "span": 6,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "taskomatic_scheduler_threads_active",
+              "intervalFactor": 2,
+              "legendFormat": "busy threads",
+              "refId": "B",
+              "step": 2
+            },
+            {
+              "expr": "taskomatic_scheduler_threads - taskomatic_scheduler_threads_active",
+              "intervalFactor": 2,
+              "legendFormat": "free threads",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Taskomatic Utilization",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "fill": 1,
+          "id": 23,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": true,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(taskomatic_scheduler_completed_task_count[1m])",
+              "intervalFactor": 2,
+              "legendFormat": "tasks per second",
+              "refId": "A",
+              "step": 2
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Taskomatic Service Rate",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Taskomatic",
       "titleSize": "h6"
     },
     {
@@ -1136,14 +1651,14 @@
               "legendFormat": "queued",
               "metric": "",
               "refId": "A",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "mgr_serveractions_picked_up{job=\"sumaform\"}",
               "intervalFactor": 2,
               "legendFormat": "picked up",
               "refId": "B",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1220,14 +1735,14 @@
               "legendFormat": "completed",
               "metric": "mgr_serveractions_completed",
               "refId": "A",
-              "step": 20
+              "step": 2
             },
             {
               "expr": "rate(mgr_serveractions_failed{job=\"sumaform\"}[30s])",
               "intervalFactor": 2,
               "legendFormat": "failed",
               "refId": "B",
-              "step": 20
+              "step": 2
             }
           ],
           "thresholds": [],
@@ -1281,7 +1796,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1306,5 +1821,5 @@
   },
   "timezone": "browser",
   "title": "SUSE Manager Server",
-  "version": 1
+  "version": 8
 }
