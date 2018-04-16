@@ -6,10 +6,10 @@ include:
   - suse_manager_server.taskomatic
   - suse_manager_server.spacewalk-search
   - suse_manager_server.rhn
+  - suse_manager_server.prometheus
   - suse_manager_server.initial_content
   - suse_manager_server.iss
   - suse_manager_server.testsuite
-  - suse_manager_server.prometheus
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
   - suse_manager_server.apparmor
