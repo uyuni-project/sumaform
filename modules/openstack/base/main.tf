@@ -8,6 +8,9 @@ resource "openstack_images_image_v2" "images" {
   count = "${var.use_shared_resources ? 0 : length(var.images)}"
   container_format = "bare"
   disk_format = "qcow2"
+  properties {
+    hw_rng_model = "virtio"
+  }
 }
 
 resource "openstack_compute_secgroup_v2" "all_open_security_group" {
