@@ -131,9 +131,9 @@ jmx_exporter:
       - sls: suse_manager_server
       - cmd: refresh_prometheus_repo
 
-jmx_exporter_configuration:
+tomcat_jmx_exporter_configuration:
   file.managed:
-    - name: /etc/jmx_exporter/jmx_exporter.yml
+    - name: /etc/jmx_exporter/tomcat_jmx_exporter.yml
     - makedirs: True
     - contents: |
         hostPort: localhost:3333
@@ -146,25 +146,58 @@ jmx_exporter_configuration:
         rules:
         - pattern: ".*"
 
-jmx_exporter_service:
+tomcat_jmx_exporter_service:
   file.managed:
-    - name: /etc/systemd/system/jmx-exporter.service
+    - name: /etc/systemd/system/tomcat-jmx-exporter.service
     - contents: |
         [Unit]
         Description=jmx_exporter
 
         [Service]
-        ExecStart=/usr/bin/java -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port=5555 -jar /usr/share/java/jmx_prometheus_httpserver.jar 5556 /etc/jmx_exporter/jmx_exporter.yml
+        ExecStart=/usr/bin/java -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port=5555 -jar /usr/share/java/jmx_prometheus_httpserver.jar 5556 /etc/jmx_exporter/tomcat_jmx_exporter.yml
 
         [Install]
         WantedBy=multi-user.target
     - require:
       - pkg: jmx_exporter
   service.running:
-    - name: jmx-exporter
+    - name: tomcat-jmx-exporter
     - enable: True
     - require:
-      - file: jmx_exporter_service
-      - file: jmx_exporter_configuration
+      - file: tomcat_jmx_exporter_service
+      - file: tomcat_jmx_exporter_configuration
 
+taskomatic_jmx_exporter_configuration:
+  file.managed:
+    - name: /etc/jmx_exporter/taskomatic_jmx_exporter.yml
+    - makedirs: True
+    - contents: |
+        hostPort: localhost:3334
+        username:
+        password:
+        whitelistObjectNames:
+          - quartz:type=QuartzScheduler,*
+        rules:
+        - pattern: ".*"
+
+taskomatic_jmx_exporter_service:
+  file.managed:
+    - name: /etc/systemd/system/taskomatic-jmx-exporter.service
+    - contents: |
+        [Unit]
+        Description=jmx_exporter
+
+        [Service]
+        ExecStart=/usr/bin/java -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port=5557 -jar /usr/share/java/jmx_prometheus_httpserver.jar 5558 /etc/jmx_exporter/taskomatic_jmx_exporter.yml
+
+        [Install]
+        WantedBy=multi-user.target
+    - require:
+      - pkg: jmx_exporter
+  service.running:
+    - name: taskomatic-jmx-exporter
+    - enable: True
+    - require:
+      - file: taskomatic_jmx_exporter_service
+      - file: taskomatic_jmx_exporter_configuration
 {% endif %}
