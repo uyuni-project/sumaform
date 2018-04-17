@@ -187,6 +187,11 @@ variable "vcpu" {
   default = 2
 }
 
+variable "pts" {
+  description = "Whether this SUMA server instance is meant for running the PTS"
+  default = false
+}
+
 variable "running" {
   description = "Whether this host should be turned on or off"
   default = true
