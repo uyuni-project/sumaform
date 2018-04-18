@@ -8,6 +8,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "name" {
+  description = "hostname, without the domain part"
+  default = "locust"
+}
+
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"

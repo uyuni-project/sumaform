@@ -1,7 +1,7 @@
 module "locust" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
-  name = "locust"
+  name = "${var.name}"
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
