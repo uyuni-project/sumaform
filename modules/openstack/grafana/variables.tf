@@ -8,6 +8,11 @@ variable "name" {
   default = "grafana"
 }
 
+variable "count"  {
+  description = "number of hosts like this one"
+  default = 1
+}
+
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
   type = "map"
