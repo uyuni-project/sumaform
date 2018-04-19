@@ -44,6 +44,23 @@ suse_client_cucumber_requisites:
     - require:
       - cmd: refresh_client_repos
 
+{% elif grains['os_family'] == 'RedHat' %}
+
+testsuite_build_repo:
+  file.managed:
+    - name: /etc/yum.repos.d/Devel_Galaxy_BuildRepo.repo
+    - source: salt://client/repos.d/Devel_Galaxy_BuildRepo.repo
+    - template: jinja
+
+res_client_cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - andromeda-dummy
+      - milkyway-dummy
+      - virgo-dummy
+    - require:
+      - file: testsuite_build_repo
+
 {% endif %}
 
 {% endif %}
