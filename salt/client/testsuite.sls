@@ -6,7 +6,6 @@ include:
 client_cucumber_requisites:
   pkg.installed:
     - pkgs:
-      - subscription-tools
       - spacewalk-client-setup
       - spacewalk-check
       - spacewalk-oscap
