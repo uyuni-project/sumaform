@@ -271,9 +271,9 @@ Please note that `iss_master` is set from `master`'s module output variable `hos
 Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 ## Performance testsuite
-It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server and evil-minons instances.
+It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server, an evil-minions instance and (by default) a grafana host to monitor them.
 
-An example would be:
+A libvirt example follows:
 
 ```hcl
 module "pts" {
@@ -282,27 +282,25 @@ module "pts" {
 }
 ```
 
-To run the complete testsuite, use:
+To run the complete testsuite, run `run-pts` from the server, eg.:
 
 ```
-ssh <SUSE_MANAGER_MODULE_NAME>.tf.local run-pts --evil-minions-hostname <EVIL_MINIONS_HOSTNAME> --locust-hostname <LOCUST_FULL_HOSTNAME>
+ssh server.tf.local run-pts
 ```
-
-If you have not defined a hostname for the evil-minions instance through the "evil_minions_name" variable, you can omit the <EVIL_MINIONS_HOSTNAME> parameter. Otherwise, you need to pass the value of "evil_minions_name" variable her.
-
-In the case of the <LOCUST_FULL_HOSTNAME> parameter, it is necessary to pass the full hostname of the locust instance, which is "<locust_name variable value>.tf.local". If you have not defined the "locust_name" variable, you can omit this parameter.
 
 It is possible to run only the locust HTTP load test, as follows:
 
 ```
-ssh <SUSE_MANAGER_MODULE_NAME>.tf.local run-pts --locust-only
+ssh server.tf.local run-pts --locust-only
 ```
 
 You can also run only the system patching test, as follows:
 
 ```
-ssh <SUSE_MANAGER_MODULE_NAME>.tf.local run-pts --patching-only
+ssh server.tf.local run-pts --patching-only
 ```
+
+It is also possible to specify non-default hostnames and MAC addresses, see `pts/variables.tf`.
 
 ## Cucumber testsuite
 
