@@ -9,9 +9,8 @@ evil_minions = "{{ grains.get("pts_evil_minions") }}"
 locust = "{{ grains.get("pts_locust") }}"
 system_count = {{ grains.get("pts_system_count") }}
 system_prefix = "{{ grains.get("pts_system_prefix") }}"
-run_all = True
-patching_only = False
-locust_only = False
+run_patching = True
+run_locust = True
 
 manager_url = "http://localhost/rpc/api"
 client = xmlrpclib.Server(manager_url, verbose=0)
@@ -23,17 +22,14 @@ def parse_arguments():
     except getopt.GetoptError:
         sys.exit(1)
 
-    global patching_only
-    global locust_only
-    global run_all
+    global run_patching
+    global run_locust
 
     for opt, arg in options:
         if opt in ('--patching-only'):
-            patching_only = True
-            run_all = False
+            run_locust = False
         elif opt in ('--locust-only'):
-            locust_only = True
-            run_all = False
+            run_patching = False
 
 def retry_for_minutes(fun, minutes):
     """Runs fun for up to minutes minutes, every 10 seconds, until it returns True"""
@@ -84,7 +80,7 @@ def run_locust_http_load(clients_count):
 
 parse_arguments()
 
-if (run_all or patching_only):
+if run_patching:
     #wait for onboarding minions
     wait_for_patchable_systems(system_count, system_count, system_prefix)
     #Patch all evil minions
@@ -92,7 +88,7 @@ if (run_all or patching_only):
     #wait por patched minions
     wait_for_patchable_systems(system_count, 0, system_prefix)
 
-if (run_all or locust_only):
+if run_locust:
     #run locust for 200
     run_locust_http_load(200)
     #run locust for 300
