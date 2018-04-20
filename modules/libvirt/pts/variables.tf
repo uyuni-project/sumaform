@@ -32,7 +32,7 @@ variable "grafana_name" {
   default = "grafana"
 }
 
-variable "suse_manager_mac" {
+variable "server_mac" {
   description = "a MAC address for the suse manager server in the form AA:BB:CC:11:22:22"
   default = ""
 }

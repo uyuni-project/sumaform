@@ -10,7 +10,7 @@ module "server" {
   pts_locust = "${var.base_configuration["name_prefix"]}${var.locust_name}.${var.base_configuration["domain"]}"
   pts_system_count = 200
   pts_system_prefix = "${var.evil_minions_name}"
-  mac = "${var.suse_manager_mac}"
+  mac = "${var.server_mac}"
   vcpu = 8
   memory = 16384
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64", "sle-manager-tools12-pool-x86_64-sp3", "sle-manager-tools12-updates-x86_64-sp3"]
