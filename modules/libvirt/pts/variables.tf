@@ -32,6 +32,8 @@ variable "grafana_name" {
   default = "grafana"
 }
 
+// Provider-specific variables
+
 variable "server_mac" {
   description = "a MAC address for the suse manager server in the form AA:BB:CC:11:22:22"
   default = ""
