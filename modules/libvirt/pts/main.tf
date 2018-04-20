@@ -6,6 +6,10 @@ module "server" {
   monitored = "${var.monitored}"
   use_unreleased_updates = true
   pts = true
+  pts_evil_minions = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}.${var.base_configuration["domain"]}"
+  pts_locust = "${var.base_configuration["name_prefix"]}${var.locust_name}.${var.base_configuration["domain"]}"
+  pts_system_count = 200
+  pts_system_prefix = "${var.evil_minions_name}"
   mac = "${var.suse_manager_mac}"
   vcpu = 8
   memory = 16384

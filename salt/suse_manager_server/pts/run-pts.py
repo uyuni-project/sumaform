@@ -5,8 +5,10 @@ import xmlrpclib
 import getopt
 import requests
 
-evil_minion_hostname = "evil-minions"
-locust_hostname = "locust.tf.local"
+evil_minions = "{{ grains.get("pts_evil_minions") }}"
+locust = "{{ grains.get("pts_locust") }}"
+system_count = {{ grains.get("pts_system_count") }}
+system_prefix = "{{ grains.get("pts_system_prefix") }}"
 run_all = True
 patching_only = False
 locust_only = False
@@ -17,22 +19,16 @@ key = client.auth.login('admin', 'admin')
 
 def parse_arguments():
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], '', ['evil-minions-hostname=','locust-hostname=','patching-only','locust-only'])
+        options, remainder = getopt.getopt(sys.argv[1:], '', ['patching-only','locust-only'])
     except getopt.GetoptError:
         sys.exit(1)
 
-    global evil_minion_hostname
-    global locust_url
     global patching_only
     global locust_only
     global run_all
 
     for opt, arg in options:
-        if opt in ('--evil-minions-hostname'):
-            evil_minion_hostname = arg
-        elif opt in ('--locust-hostname'):
-            locust_url = 'http://' + arg + '.tf.local'
-        elif opt in ('--patching-only'):
+        if opt in ('--patching-only'):
             patching_only = True
             run_all = False
         elif opt in ('--locust-only'):
@@ -49,23 +45,23 @@ def retry_for_minutes(fun, minutes):
         print("Timeout reached, aborting")
         sys.exit(1)
 
-def check_system_count(expected_count):
+def check_system_count(expected_count, system_prefix):
     all_systems = client.system.listSystems(key)
-    systems = [s for s in all_systems if s["name"].startswith(evil_minion_hostname)]
+    systems = [s for s in all_systems if s["name"].startswith(system_prefix)]
     actual_count = len(systems)
     print("Found %d/%d systems" % (actual_count, expected_count))
     return actual_count == expected_count
 
-def check_patched_system_count(expected_count):
+def check_patched_system_count(expected_count, system_prefix):
     all_patchable_systems = client.system.listOutOfDateSystems(key)
-    patchable_systems = [s for s in all_patchable_systems if s["name"].startswith(evil_minion_hostname)]
+    patchable_systems = [s for s in all_patchable_systems if s["name"].startswith(system_prefix)]
     actual_count = len(patchable_systems)
     print("Found %d/%d patchable systems" % (actual_count, expected_count))
     return actual_count == expected_count
 
-def wait_for_patchable_systems(expected_systems_count, expected_patched_systems_count):
-    retry_for_minutes(lambda: check_system_count(expected_systems_count), 15)
-    retry_for_minutes(lambda: check_patched_system_count(expected_patched_systems_count), 20)
+def wait_for_patchable_systems(expected_systems_count, expected_patched_systems_count, system_prefix):
+    retry_for_minutes(lambda: check_system_count(expected_systems_count, system_prefix), 15)
+    retry_for_minutes(lambda: check_patched_system_count(expected_patched_systems_count, system_prefix), 20)
 
 def patch_all_systems():
     systems = client.system.listSystems(key)
@@ -80,21 +76,21 @@ def run_locust_http_load(clients_count):
         'locust_count': clients_count,
         'hatch_rate': 100
     }
-    res = requests.post('http://'+locust_hostname+'/swarm', data=LocustPayload)
+    res = requests.post('http://'+locust+'/swarm', data=LocustPayload)
     print(res.json()["message"])
     time.sleep(120)
-    res = requests.get('http://'+locust_hostname+'/stop')
+    res = requests.get('http://'+locust+'/stop')
     print(res.json()["message"])
 
 parse_arguments()
 
 if (run_all or patching_only):
     #wait for onboarding minions
-    wait_for_patchable_systems(200,200)
+    wait_for_patchable_systems(system_count, system_count, system_prefix)
     #Patch all evil minions
     patch_all_systems()
     #wait por patched minions
-    wait_for_patchable_systems(200,0)
+    wait_for_patchable_systems(system_count, 0, system_prefix)
 
 if (run_all or locust_only):
     #run locust for 200
