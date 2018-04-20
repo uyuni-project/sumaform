@@ -35,7 +35,7 @@ variable "grafana_name" {
 // Provider-specific variables
 
 variable "server_mac" {
-  description = "a MAC address for the suse manager server in the form AA:BB:CC:11:22:22"
+  description = "a MAC address for the server in the form AA:BB:CC:11:22:22"
   default = ""
 }
 
@@ -45,11 +45,11 @@ variable "evil_minions_mac" {
 }
 
 variable "locust_mac" {
-  description = "a MAC address for the locust server in the form AA:BB:CC:11:22:22"
+  description = "a MAC address for the Locust instance in the form AA:BB:CC:11:22:22"
   default = ""
 }
 
 variable "grafana_mac" {
-  description = "a MAC address for the grafana server in the form AA:BB:CC:11:22:22"
+  description = "a MAC address for the Grafana instance in the form AA:BB:CC:11:22:22"
   default = ""
 }
