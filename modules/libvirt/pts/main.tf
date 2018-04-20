@@ -3,7 +3,7 @@ module "server" {
   name = "${var.suse_manager_name}"
   base_configuration = "${var.base_configuration}"
   version = "3.1-nightly"
-  monitored = "${var.monitored}"
+  monitored = true
   use_unreleased_updates = true
   pts = true
   pts_evil_minions = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}.${var.base_configuration["domain"]}"
@@ -44,5 +44,5 @@ module "grafana" {
   server_configuration = "${module.server.configuration}"
   locust_configuration = "${module.locust.configuration}"
   mac = "${var.grafana_mac}"
-  count = "${var.monitored}"
+  count = "${var.grafana}"
 }

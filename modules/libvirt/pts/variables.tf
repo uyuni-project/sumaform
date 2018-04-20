@@ -3,9 +3,9 @@ variable "base_configuration" {
   type = "map"
 }
 
-variable "monitored" {
-  description = "whether the suse manager server should be monitored via Prometheus and Grafana"
-  default = false
+variable "grafana" {
+  description = "whether to deploy a Grafana host monitoring the server"
+  default = true
 }
 
 variable "suse_manager_name" {
