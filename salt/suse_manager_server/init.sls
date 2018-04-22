@@ -10,6 +10,7 @@ include:
   - suse_manager_server.initial_content
   - suse_manager_server.iss
   - suse_manager_server.testsuite
+  - suse_manager_server.pts
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
   - suse_manager_server.apparmor
