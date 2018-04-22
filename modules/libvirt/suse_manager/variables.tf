@@ -170,23 +170,6 @@ variable "gpg_keys" {
   default = []
 }
 
-// Provider-specific variables
-
-variable "image" {
-  description = "Leave default for automatic selection or specify an OS supported by the specified product version"
-  default = "default"
-}
-
-variable "memory" {
-  description = "RAM memory in MiB"
-  default = 4096
-}
-
-variable "vcpu" {
-  description = "Number of virtual CPUs"
-  default = 2
-}
-
 variable "pts" {
   description = "Whether this instance is part of a Performance Testsuite"
   default = false
@@ -210,6 +193,23 @@ variable "pts_system_count" {
 variable "pts_system_prefix" {
   description = "Prefix of minion names, if pts is enabled"
   default = "evil-minions"
+}
+
+// Provider-specific variables
+
+variable "image" {
+  description = "Leave default for automatic selection or specify an OS supported by the specified product version"
+  default = "default"
+}
+
+variable "memory" {
+  description = "RAM memory in MiB"
+  default = 4096
+}
+
+variable "vcpu" {
+  description = "Number of virtual CPUs"
+  default = 2
 }
 
 variable "running" {

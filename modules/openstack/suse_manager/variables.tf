@@ -170,6 +170,31 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "pts" {
+  description = "Whether this instance is part of a Performance Testsuite"
+  default = false
+}
+
+variable "pts_evil_minions" {
+  description = "Hostname of the evil-minions instance, if pts is enabled"
+  default = "evil-minions.tf.local"
+}
+
+variable "pts_locust" {
+  description = "Hostname of the locust instance, if pts is enabled"
+  default = "locust.tf.local"
+}
+
+variable "pts_system_count" {
+  description = "Number of minions, if pts is enabled"
+  default = 200
+}
+
+variable "pts_system_prefix" {
+  description = "Prefix of minion names, if pts is enabled"
+  default = "evil-minions"
+}
+
 // Provider-specific variables
 
 variable "image" {
