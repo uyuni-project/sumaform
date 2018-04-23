@@ -38,6 +38,7 @@ module "locust" {
   name = "${var.locust_name}"
   base_configuration = "${var.base_configuration}"
   server_configuration = "${module.server.configuration}"
+  locust_file = "modules/libvirt/pts/locustfile.py"
 
   // Provider-specific variables
   memory = 2048
