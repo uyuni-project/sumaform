@@ -51,7 +51,7 @@ locust_service:
         [Service]
         Environment=SERVER_USERNAME={{ grains.get('server_username') | default('admin', true) }}
         Environment=SERVER_PASSWORD={{ grains.get('server_password') | default('admin', true) }}
-        ExecStart=/usr/bin/locust --host=https://{{ grains['server'] }} --locustfile=/root/locustfile.py --port 80
+        ExecStart=/usr/bin/locust --host=https://{{ grains['server'] }} --locustfile=/root/locustfile.py --logfile=/var/log/locust.log --port 80
 
         [Install]
         WantedBy=multi-user.target
