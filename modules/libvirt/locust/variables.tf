@@ -29,7 +29,7 @@ variable "locust_file" {
 
 variable "memory" {
   description = "RAM memory in MiB"
-  default = 2048
+  default = 1024
 }
 
 variable "vcpu" {

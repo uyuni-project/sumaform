@@ -40,6 +40,7 @@ module "locust" {
   server_configuration = "${module.server.configuration}"
 
   // Provider-specific variables
+  memory = 2048
   mac = "${var.locust_mac}"
 }
 
