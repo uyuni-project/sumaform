@@ -33,6 +33,20 @@ containers_updates_repo:
     - template: jinja
 {% endif %}
 
+{% if '15' in grains['osrelease'] %}
+containers_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
+    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
+    - template: jinja
+
+containers_updates_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
+    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
+    - template: jinja
+{% endif %}
+
 refresh_minion_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -50,14 +64,14 @@ suse_minion_cucumber_requisites:
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
-      {% if '12' in grains['osrelease'] %}
+      {% if '12' in grains['osrelease'] or '15' in grains['osrelease']%}
       - aaa_base-extras
       - ca-certificates
       {% endif %}
     - require:
       - cmd: refresh_minion_repos
 
-{% if '12' in grains['osrelease'] %}
+{% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
 registry_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/registry.mgr.suse.de.pem
