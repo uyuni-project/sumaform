@@ -52,7 +52,7 @@ refresh_minion_repos:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: testsuite_build_repo
-      {% if '12' in grains['osrelease'] %}
+      {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
       - file: containers_pool_repo
       - file: containers_updates_repo
       {% endif %}
