@@ -215,4 +215,18 @@ In this specific example, use `3.0-released` instead of `3-stable`. In other cas
 
 ## Q: how do I re-apply the Salt state that was used to provision the machine?
 
-Run `/root/salt/highstate.sh`.
+Run `sh /root/salt/highstate.sh`.
+
+## Q: how can I change to another workspaces?
+
+If you want to work with more than one `main.tf` file, for example to use both a libvirt and an OpenStack configuration, you can follow [instructions in the README_ADVANCED.md file](README_ADVANCED.md#working-on-multiple-configuration-sets-workspaces-locally) to set up multiple workspaces.
+
+To change to another workspace just remove and create the corresponding links again, and then execute `terraform init`.
+
+## Q: Why do I get "is not a valid parameter" when I change between workspaces?
+
+When we change between workspaces,it may happen that `terraform init` throws "is not a valid parameter" errors, as if we actually didn't change to another workspace. To resolve this just remove the terraform cache:
+
+```
+rm -r .terraform/
+```
