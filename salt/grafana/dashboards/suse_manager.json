@@ -1260,8 +1260,8 @@
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
-      "showTitle": false,
-      "title": "Tomcat",
+      "showTitle": true,
+      "title": "Tomcat I",
       "titleSize": "h6"
     },
     {
@@ -1430,7 +1430,7 @@
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
-      "showTitle": false,
+      "showTitle": true,
       "title": "Tomcat II",
       "titleSize": "h6"
     },
@@ -1600,7 +1600,7 @@
       "repeat": null,
       "repeatIteration": null,
       "repeatRowId": null,
-      "showTitle": false,
+      "showTitle": true,
       "title": "Taskomatic",
       "titleSize": "h6"
     },
