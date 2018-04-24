@@ -5,8 +5,7 @@ import xmlrpclib
 import getopt
 import requests
 
-evil_minions = "{{ grains.get("pts_evil_minions") }}"
-locust = "{{ grains.get("pts_locust") }}"
+locust = "{{ grains.get("pts_locust") }}.{{ grains.get("domain") }}"
 system_count = {{ grains.get("pts_system_count") }}
 system_prefix = "{{ grains.get("pts_system_prefix") }}"
 run_patching = True

@@ -6,8 +6,8 @@ module "server" {
   monitored = true
   use_unreleased_updates = true
   pts = true
-  pts_evil_minions = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}.${var.base_configuration["domain"]}"
-  pts_locust = "${var.base_configuration["name_prefix"]}${var.locust_name}.${var.base_configuration["domain"]}"
+  pts_evil_minions = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}"
+  pts_locust = "${var.base_configuration["name_prefix"]}${var.locust_name}"
   pts_system_count = 200
   pts_system_prefix = "${var.evil_minions_name}"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64", "sle-manager-tools12-pool-x86_64-sp3", "sle-manager-tools12-updates-x86_64-sp3"]
@@ -38,6 +38,7 @@ module "locust" {
   name = "${var.locust_name}"
   base_configuration = "${var.base_configuration}"
   server_configuration = "${module.server.configuration}"
+  locust_file = "modules/libvirt/pts/locustfile.py"
 
   // Provider-specific variables
   memory = 2048
