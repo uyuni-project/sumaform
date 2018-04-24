@@ -50,6 +50,11 @@ publish_private_ssl_key: ${var.publish_private_ssl_key}
 testsuite: ${var.base_configuration["testsuite"]}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
+pts: ${var.pts}
+pts_evil_minions: ${var.pts_evil_minions}
+pts_locust: ${var.pts_locust}
+pts_system_count: ${var.pts_system_count}
+pts_system_prefix: ${var.pts_system_prefix}
 apparmor: ${var.apparmor}
 log_server: ${var.log_server}
 from_email: ${var.from_email}
