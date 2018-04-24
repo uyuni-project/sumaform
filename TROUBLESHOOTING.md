@@ -215,4 +215,4 @@ In this specific example, use `3.0-released` instead of `3-stable`. In other cas
 
 ## Q: how do I re-apply the Salt state that was used to provision the machine?
 
-Run `salt-call --local --file-root=/root/salt state.highstate`.
+Run `/root/salt/highstate.sh`.

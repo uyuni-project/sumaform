@@ -70,8 +70,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "salt-call --local --file-root=/root/salt/ --log-level=quiet --output=quiet state.sls default.minimal",
-      "salt-call --local --file-root=/root/salt/ --log-level=info --retcode-passthrough --force-color state.highstate"
+      "sh /root/salt/first_deployment_highstate.sh"
     ]
   }
 }
