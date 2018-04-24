@@ -117,17 +117,9 @@ suse_manager_dashboard:
     - require:
       - archive: grafana
 
-locust_dashboard:
-  file.managed:
-    - name: /opt/grafana/conf/locust.json
-    - source: salt://grafana/dashboards/locust.json
-    - require:
-      - archive: grafana
-
 grafana_configuration:
   cmd.script:
     - name: salt://grafana/setup_grafana.py
     - require:
       - service: grafana
       - file: suse_manager_dashboard
-      - file: locust_dashboard
