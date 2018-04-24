@@ -27,5 +27,5 @@ class UserBehavior(TaskSet):
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
     # These are the minimum and maximum time respectively, in milliseconds, that a simulated user will wait between executing each task.
-    min_wait = 5000
-    max_wait = 9000
+    min_wait = 0
+    max_wait = 1000
