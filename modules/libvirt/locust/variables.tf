@@ -25,16 +25,16 @@ variable "locust_file" {
   default = "salt/locust/locustfile.py"
 }
 
+variable "slave_count" {
+  description = "number of Locust slaves, set to 0 to disable master-slave mode"
+  default = 0
+}
+
 // Provider-specific variables
 
 variable "memory" {
   description = "RAM memory in MiB"
   default = 1024
-}
-
-variable "vcpu" {
-  description = "Number of virtual CPUs"
-  default = 1
 }
 
 variable "running" {

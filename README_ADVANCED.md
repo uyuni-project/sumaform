@@ -603,6 +603,18 @@ module "grafana" {
 }
 ```
 
+In case you need to simulate a big amount of users, Locust's master-slave mode can be enabled by specifying a number of slaves:
+
+```hcl
+module "locust" {
+  source = "./modules/libvirt/locust"
+  base_configuration = "${module.base.configuration}"
+  server_configuration = "${module.suma31pg.configuration}"
+  locust_file = "./my_heavy_locustfile.py"
+  slave_count = 5
+}
+```
+
 ## Use SUSE Linux Enterprise updates (released and unreleased)
 
 It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages instead of outdated ones, including updates currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_released_updates` (respectively `use_unreleased_updates`) flag. Libvirt example:
