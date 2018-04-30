@@ -38,7 +38,7 @@ module "locust" {
   base_configuration = "${var.base_configuration}"
   server_configuration = "${module.server.configuration}"
   locust_file = "modules/openstack/pts/locustfile.py"
-  slave_count = 3
+  slave_count = 5
 
   // Provider-specific variables
   floating_ips = "${var.locust_floating_ips}"

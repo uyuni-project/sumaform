@@ -39,7 +39,7 @@ module "locust" {
   base_configuration = "${var.base_configuration}"
   server_configuration = "${module.server.configuration}"
   locust_file = "modules/libvirt/pts/locustfile.py"
-  slave_count = 3
+  slave_count = 5
 
   // Provider-specific variables
   memory = 2048
