@@ -37,11 +37,6 @@ variable "memory" {
   default = 1024
 }
 
-variable "vcpu" {
-  description = "Number of virtual CPUs"
-  default = 1
-}
-
 variable "running" {
   description = "whether this host should be turned on or off"
   default = true
