@@ -96,9 +96,5 @@ if "patching" in enabled_phases:
     retry_for_minutes(lambda: check_patched_system_count(0, system_prefix), 20)
 
 if "locust" in enabled_phases:
-    #run locust for 200
-    run_locust_http_load(200)
-    #run locust for 300
-    run_locust_http_load(300)
-    #run locust for 400
-    run_locust_http_load(400)
+    for users in range(50, 450, 25):
+        run_locust_http_load(users)
