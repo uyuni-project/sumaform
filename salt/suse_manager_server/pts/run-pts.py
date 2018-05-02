@@ -70,7 +70,7 @@ def run_locust_http_load(clients_count):
     }
     res = requests.post('http://'+locust+'/swarm', data=LocustPayload)
     print(res.json()["message"])
-    time.sleep(120)
+    time.sleep(60)
     res = requests.get('http://'+locust+'/stop')
     print(res.json()["message"])
 
