@@ -42,7 +42,7 @@ module "locust" {
   slave_count = 5
 
   // Provider-specific variables
-  memory = 2048
+  memory = 1024
   mac = "${var.locust_mac}"
 }
 
