@@ -66,7 +66,7 @@ def patch_all_systems():
 def run_locust_http_load(clients_count):
     LocustPayload = {
         'locust_count': clients_count,
-        'hatch_rate': 100
+        'hatch_rate': 1000
     }
     res = requests.post('http://'+locust+'/swarm', data=LocustPayload)
     print(res.json()["message"])
