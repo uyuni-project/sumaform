@@ -4,12 +4,12 @@ import time
 import xmlrpclib
 import getopt
 import requests
+import subprocess
 
 locust = "{{ grains.get("pts_locust") }}.{{ grains.get("domain") }}"
 system_count = {{ grains.get("pts_system_count") }}
 system_prefix = "{{ grains.get("pts_system_prefix") }}"
-run_patching = True
-run_locust = True
+enabled_phases = ["patching", "locust"]
 
 manager_url = "http://localhost/rpc/api"
 client = xmlrpclib.Server(manager_url, verbose=0)
@@ -17,18 +17,19 @@ key = client.auth.login('admin', 'admin')
 
 def parse_arguments():
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], '', ['patching-only','locust-only'])
+        options, remainder = getopt.getopt(sys.argv[1:], '', ['fio-only', 'patching-only','locust-only'])
     except getopt.GetoptError:
         sys.exit(1)
 
-    global run_patching
-    global run_locust
+    global enabled_phases
 
     for opt, arg in options:
-        if opt in ('--patching-only'):
-            run_locust = False
+        if opt in ('--fio-only'):
+            enabled_phases = ["fio"]
+        elif opt in ('--patching-only'):
+            enabled_phases = ["patching"]
         elif opt in ('--locust-only'):
-            run_patching = False
+            enabled_phases = ["locust"]
 
 def retry_for_minutes(fun, minutes):
     """Runs fun for up to minutes minutes, every 10 seconds, until it returns True"""
@@ -79,7 +80,13 @@ def run_locust_http_load(clients_count):
 
 parse_arguments()
 
-if run_patching:
+if "fio" in enabled_phases:
+    print("Test I/O performance: random reads")
+    subprocess.call(["fio", "--name", "randread", "--fsync=1", "--direct=1", "--rw=randread", "--blocksize=4k", "--numjobs=8", "--size=512M", "--time_based", "--runtime=60", "--group_reporting"])
+    print("Test I/O performance: random writes")
+    subprocess.call(["fio", "--name", "randwrite", "--fsync=1", "--direct=1", "--rw=randwrite", "--blocksize=4k", "--numjobs=8", "--size=512M", "--time_based", "--runtime=60", "--group_reporting"])
+
+if "patching" in enabled_phases:
     #wait for onboarding minions
     wait_for_patchable_systems(system_count, system_count, system_prefix)
     #Patch all evil minions
@@ -87,7 +94,7 @@ if run_patching:
     #wait por patched minions
     wait_for_patchable_systems(system_count, 0, system_prefix)
 
-if run_locust:
+if "locust" in enabled_phases:
     #run locust for 200
     run_locust_http_load(200)
     #run locust for 300
