@@ -38,26 +38,22 @@ def retry_for_minutes(fun, minutes):
             return
         time.sleep(10)
     if not fun():
-        print("Timeout reached, aborting")
+        print("Timeout of %d minutes elapsed, aborting" % minutes)
         sys.exit(1)
 
 def check_system_count(expected_count, system_prefix):
     all_systems = client.system.listSystems(key)
     systems = [s for s in all_systems if s["name"].startswith(system_prefix)]
     actual_count = len(systems)
-    print("Found %d/%d systems" % (actual_count, expected_count))
+    print("%d systems are registered" % actual_count)
     return actual_count == expected_count
 
 def check_patched_system_count(expected_count, system_prefix):
     all_patchable_systems = client.system.listOutOfDateSystems(key)
     patchable_systems = [s for s in all_patchable_systems if s["name"].startswith(system_prefix)]
     actual_count = len(patchable_systems)
-    print("Found %d/%d patchable systems" % (actual_count, expected_count))
+    print("%d systems are patchable" % actual_count)
     return actual_count == expected_count
-
-def wait_for_patchable_systems(expected_systems_count, expected_patched_systems_count, system_prefix):
-    retry_for_minutes(lambda: check_system_count(expected_systems_count, system_prefix), 15)
-    retry_for_minutes(lambda: check_patched_system_count(expected_patched_systems_count, system_prefix), 20)
 
 def patch_all_systems():
     systems = client.system.listSystems(key)
@@ -87,12 +83,17 @@ if "fio" in enabled_phases:
     subprocess.call(["fio", "--name", "randwrite", "--fsync=1", "--direct=1", "--rw=randwrite", "--blocksize=4k", "--numjobs=8", "--size=512M", "--time_based", "--runtime=60", "--group_reporting"])
 
 if "patching" in enabled_phases:
-    #wait for onboarding minions
-    wait_for_patchable_systems(system_count, system_count, system_prefix)
-    #Patch all evil minions
+    print("Waiting for %d systems to be onboarded in SUSE Manager (timeout: 15 minutes)..." % system_count)
+    retry_for_minutes(lambda: check_system_count(system_count, system_prefix), 15)
+
+    print("Waiting for %d systems to be patchable in SUSE Manager (timeout: 20 minutes)..." % system_count)
+    retry_for_minutes(lambda: check_patched_system_count(system_count, system_prefix), 20)
+
+    print("Sending command to patch %d systems" % system_count)
     patch_all_systems()
-    #wait por patched minions
-    wait_for_patchable_systems(system_count, 0, system_prefix)
+
+    print("Waiting for %d systems to be not patchable anymore (timeout: 20 minutes)..." % system_count)
+    retry_for_minutes(lambda: check_patched_system_count(0, system_prefix), 20)
 
 if "locust" in enabled_phases:
     #run locust for 200
