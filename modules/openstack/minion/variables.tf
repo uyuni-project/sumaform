@@ -83,12 +83,7 @@ variable "image" {
 
 variable "flavor" {
   description = "OpenStack flavor"
-  default = "m1.tiny"
-}
-
-variable "root_volume_size" {
-  description = "Size of the root volume in GiB"
-  default = 10
+  default = "m1.small"
 }
 
 variable "floating_ips" {

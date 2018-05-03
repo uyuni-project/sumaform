@@ -20,7 +20,6 @@ EOF
   // Provider-specific variables
   image = "sles12sp2"
   flavor = "${var.flavor}"
-  root_volume_size = "${var.root_volume_size}"
   floating_ips = "${var.floating_ips}"
 }
 

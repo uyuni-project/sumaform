@@ -37,6 +37,5 @@ EOF
   // Provider-specific variables
   image = "opensuse423"
   flavor = "m1.small"
-  root_volume_size = "${var.root_volume_size}"
   floating_ips = "${var.floating_ips}"
 }

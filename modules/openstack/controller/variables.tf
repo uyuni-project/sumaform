@@ -80,11 +80,6 @@ variable "ssh_key_path" {
 
 // Provider-specific variables
 
-variable "root_volume_size" {
-  description = "Size of the root volume in GiB"
-  default = 10
-}
-
 variable "floating_ips" {
   description = "List of floating IP IDs to associate"
   default = []

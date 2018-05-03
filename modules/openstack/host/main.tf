@@ -13,23 +13,18 @@ data "openstack_images_image_v2" "image" {
 //   name_prefix + name (if count = 1)
 //   name_prefix + name + "-" + index (if count > 1)
 
-resource "openstack_blockstorage_volume_v2" "root_volume" {
-  size = "${var.root_volume_size}"
-  image_id = "${data.openstack_images_image_v2.image.id}"
-  count = "${var.count}"
-}
-
 resource "openstack_compute_instance_v2" "instance" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
   security_groups = ["${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}all-open"]
   flavor_name = "${var.flavor}"
+  image_id = "${data.openstack_images_image_v2.image.id}"
   count = "${var.count}"
 
   block_device {
-    uuid                  = "${element(openstack_blockstorage_volume_v2.root_volume.*.id, count.index)}"
-    source_type           = "volume"
-    boot_index            = 0
-    destination_type      = "volume"
+    uuid = "${data.openstack_images_image_v2.image.id}"
+    source_type = "image"
+    destination_type = "local"
+    boot_index = 0
     delete_on_termination = true
   }
 

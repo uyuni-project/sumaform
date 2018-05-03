@@ -15,7 +15,6 @@ module "server" {
 
   // Provider-specific variables
   flavor = "m1.xlarge"
-  root_volume_size = 30
   floating_ips = "${var.server_floating_ips}"
 }
 

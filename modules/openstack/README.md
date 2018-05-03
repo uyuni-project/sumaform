@@ -36,4 +36,4 @@ Web access is on standard ports, so `firefox <IP_HOST>` will work as expected. S
 
 ## Customize virtual hardware
 
-Most modules expose a `flavor` variable you can use to change the virtual hardware to another flavor as defined in the Cloud instance, and many also expose a `root_volume_size` to add storage space if needed. In the current implementation, all volumes are created in Cinder.
+Most modules expose a `flavor` variable you can use to change the virtual hardware to another flavor as defined in the Cloud instance, and many also expose a `extra_volume_size` to add storage space if needed. In the current implementation, all root volumes are created locally, and extra volumes are in Cinder.
