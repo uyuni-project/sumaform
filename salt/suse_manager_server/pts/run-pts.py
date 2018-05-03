@@ -9,7 +9,7 @@ import subprocess
 locust = "{{ grains.get("pts_locust") }}.{{ grains.get("domain") }}"
 system_count = {{ grains.get("pts_system_count") }}
 system_prefix = "{{ grains.get("pts_system_prefix") }}"
-enabled_phases = ["patching", "locust"]
+enabled_phases = ["onboarding", "patching", "locust"]
 
 manager_url = "http://localhost/rpc/api"
 client = xmlrpclib.Server(manager_url, verbose=0)
@@ -17,13 +17,15 @@ key = client.auth.login('admin', 'admin')
 
 def parse_arguments():
     try:
-        options, remainder = getopt.getopt(sys.argv[1:], '', ['fio-only', 'patching-only','locust-only'])
+        options, remainder = getopt.getopt(sys.argv[1:], '', ['onboarding-only', 'fio-only', 'patching-only','locust-only'])
     except getopt.GetoptError:
         sys.exit(1)
 
     global enabled_phases
 
     for opt, arg in options:
+        if opt in ('--onboarding-only'):
+            enabled_phases = ["onboarding"]
         if opt in ('--fio-only'):
             enabled_phases = ["fio"]
         elif opt in ('--patching-only'):
@@ -76,6 +78,13 @@ def run_locust_http_load(clients_count):
 
 parse_arguments()
 
+if "onboarding" in enabled_phases:
+    print("Waiting for %d systems to be onboarded in SUSE Manager (timeout: 15 minutes)..." % system_count)
+    retry_for_minutes(lambda: check_system_count(system_count, system_prefix), 15)
+
+    print("Waiting for %d systems to be patchable in SUSE Manager (timeout: 20 minutes)..." % system_count)
+    retry_for_minutes(lambda: check_patched_system_count(system_count, system_prefix), 20)
+
 if "fio" in enabled_phases:
     print("Test I/O performance: random reads")
     subprocess.call(["fio", "--name", "randread", "--fsync=1", "--direct=1", "--rw=randread", "--blocksize=4k", "--numjobs=8", "--size=512M", "--time_based", "--runtime=60", "--group_reporting"])
@@ -83,12 +92,6 @@ if "fio" in enabled_phases:
     subprocess.call(["fio", "--name", "randwrite", "--fsync=1", "--direct=1", "--rw=randwrite", "--blocksize=4k", "--numjobs=8", "--size=512M", "--time_based", "--runtime=60", "--group_reporting"])
 
 if "patching" in enabled_phases:
-    print("Waiting for %d systems to be onboarded in SUSE Manager (timeout: 15 minutes)..." % system_count)
-    retry_for_minutes(lambda: check_system_count(system_count, system_prefix), 15)
-
-    print("Waiting for %d systems to be patchable in SUSE Manager (timeout: 20 minutes)..." % system_count)
-    retry_for_minutes(lambda: check_patched_system_count(system_count, system_prefix), 20)
-
     print("Sending command to patch %d systems" % system_count)
     patch_all_systems()
 
