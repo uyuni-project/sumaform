@@ -78,8 +78,8 @@ tools_update_repo:
 
 tools_devel_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-11-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-11-x86_64.repo
+    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-Beta-x86_64.repo
+    - source: salt://default/repos.d/SLE-Manager-Tools-SLE-11-Beta-x86_64.repo
     - template: jinja
 
 {% elif 'released' in grains.get('version') | default('released', true) %}
