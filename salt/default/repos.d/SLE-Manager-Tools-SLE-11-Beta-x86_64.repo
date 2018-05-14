@@ -2,5 +2,5 @@
 name=SLE-Manager-Tools-SLE-11-Beta-x86_64
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("beta.suse.com", true) }}/private/SUSE-Manager-beta/Beta3/SLE11SP4/x86_64
+baseurl=http://{{ grains.get("mirror") | default("beta.suse.com", true) }}/private/SUSE-Manager-beta/RC1/SLE11SP4/x86_64
 priority=98
