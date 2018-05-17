@@ -145,39 +145,6 @@ nfs_server:
     - watch:
       - file: exports_file
 
-# symlinks to mimic SMT's folder structure, which is used by the from-dir
-# setting in SUSE Manager
-
-/srv/mirror/repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/x86_64/update/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64:
-  file.symlink:
-    - target: ../../../mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/repo/$RCE/RES7/x86_64:
-  file.symlink:
-    - target: ../../../x86_64/
-    - makedirs: True
-    - force: True
-
-/srv/mirror/SUSE:
-  file.symlink:
-    - target: mirror/SuSE/build.suse.de/SUSE
-    - makedirs: True
-    - force: True
-
 # HACK: direct serving of grafana archive
 grafana_archive:
   file.managed:
