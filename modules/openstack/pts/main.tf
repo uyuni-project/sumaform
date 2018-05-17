@@ -3,6 +3,7 @@ module "server" {
   name = "${var.suse_manager_name}"
   base_configuration = "${var.base_configuration}"
   version = "3.1-nightly"
+  image = "sles12sp3"
   monitored = true
   use_unreleased_updates = true
   pts = true
