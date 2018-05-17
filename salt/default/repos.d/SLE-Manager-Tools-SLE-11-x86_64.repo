@@ -2,4 +2,8 @@
 name=SLE-Manager-Tools-SLE-11-x86_64
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
+{% if grains.get('mirror') %}
+baseurl=http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/
+{% else %}
+baseurl=http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
+{% endif %}

@@ -2,4 +2,8 @@
 name=SLE-Manager-Tools-RES-7-x86_64
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com", true) }}/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+{% if grains.get('mirror') %}
+baseurl=http://{{ grains.get("mirror") }}/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/
+{% else %}
+baseurl=http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+{% endif %}
