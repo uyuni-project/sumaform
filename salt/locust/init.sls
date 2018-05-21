@@ -1,10 +1,6 @@
 include:
   - default
 
-pip:
-  pkg.installed:
-    - name: python-pip
-
 mozilla_certificates:
   pkg.installed:
     - name: ca-certificates-mozilla
@@ -18,20 +14,22 @@ locust_prerequisites:
       - python-devel
       - python-pyzmq-devel
       - git-core
+      - python-pip
+  pip.installed:
+      - name: setuptools == 39.2.0
+      - require:
+        - pkg: locust_prerequisites
 
 locustio:
   pip.installed:
     - name: locustio == 0.8.1
     - require:
-      - pkg: pip
-      - pkg: locust_prerequisites
-      - pkg: mozilla_certificates
+      - pip: locust_prerequisites
 
 prometheus_client:
   pip.installed:
    - name: prometheus-client == 0.1.1
    - require:
-     - pkg: pip
      - pkg: locust_prerequisites
      - pkg: mozilla_certificates
 
