@@ -32,6 +32,11 @@ variable "grafana_name" {
   default = "grafana"
 }
 
+variable "evil_minions_dumper" {
+  description = "if true, it will create a single minion to collect a dump file instead of an evil-minions host"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "server_mac" {

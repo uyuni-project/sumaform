@@ -303,6 +303,16 @@ ssh server.tf.local run-pts --patching-only
 
 It is also possible to specify non-default hostnames and MAC addresses, see `pts/variables.tf`.
 
+### Updating the evil-minions dump file
+
+The performance testsuite relies on the `evil-minions` load generator in order to simulate a large number of Salt minions. `evil-minions` requires a file captured from a real minion, called a dump, to perform the load generation. This file is bundled in sumaform and should rarely be changed - in case it has to be please follow these instructions:
+
+ - add `dumping_minion = false` to your `pts` module in `main.tf`. This disables the deployment of the evil-minions host and enables the deployment of a single minion for dump recording
+ - run `terraform apply`
+ - wait for the minion to be onboarded
+ - connect to the server and execute `run-pts --patching-only`
+ - save the dump file, eg. `scp evil-minions-dumper.tf.local://tmp/minion-dump.mp .`
+
 ## Cucumber testsuite
 
 It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the `main.tf.libvirt-testsuite.example` file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.

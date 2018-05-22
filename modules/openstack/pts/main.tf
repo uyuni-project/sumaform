@@ -19,6 +19,18 @@ module "server" {
   floating_ips = "${var.server_floating_ips}"
 }
 
+module "dumper" {
+  source = "../minion"
+  base_configuration = "${var.base_configuration}"
+
+  name = "${var.evil_minions_name}-dumper"
+  image = "sles12sp3"
+  server_configuration = "${module.server.configuration}"
+  activation_key = "1-cloned-2017-q3"
+  evil_minions_dump = true
+  count = "${var.evil_minions_dumper}"
+}
+
 module "evil-minions" {
   source = "../evil_minions"
   base_configuration = "${var.base_configuration}"
@@ -26,6 +38,7 @@ module "evil-minions" {
   name = "${var.evil_minions_name}"
   server_configuration = "${module.server.configuration}"
   dump_file = "modules/libvirt/pts/minion-dump.mp"
+  count = "${1 - var.evil_minions_dumper}"
 
   // Provider-specific variables
   flavor = "m1.medium"
