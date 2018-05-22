@@ -10,25 +10,21 @@ variable "grafana" {
 
 variable "suse_manager_name" {
   description = "hostname, without the domain part"
-  type = "string"
   default = "server"
 }
 
 variable "evil_minions_name" {
   description = "hostname for the evil-minions instance, without the domain part"
-  type = "string"
   default = "evil-minions"
 }
 
 variable "locust_name" {
   description = "hostname for the locust instance, without the domain part"
-  type = "string"
   default = "locust"
 }
 
 variable "grafana_name" {
   description = "hostname for the grafana instance, without the domain part"
-  type = "string"
   default = "grafana"
 }
 
