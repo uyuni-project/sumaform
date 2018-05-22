@@ -5,7 +5,6 @@ module "server" {
   version = "3.1-nightly"
   image = "sles12sp3"
   monitored = true
-  use_unreleased_updates = true
   pts = true
   pts_evil_minions = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}"
   pts_locust = "${var.base_configuration["name_prefix"]}${var.locust_name}"
