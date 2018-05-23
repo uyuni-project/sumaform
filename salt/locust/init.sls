@@ -7,7 +7,7 @@ mozilla_certificates:
     - require:
       - sls: default
 
-locust_prerequisites:
+pip_prerequisites:
   pkg.installed:
     - pkgs:
       - gcc
@@ -15,26 +15,31 @@ locust_prerequisites:
       - python-pyzmq-devel
       - git-core
       - python-pip
+
+setuptools:
   pip.installed:
       - name: setuptools == 39.2.0
       - require:
-        - pkg: locust_prerequisites
+        - pkg: pip_prerequisites
+
+greenlet:
   pip.installed:
       - name: greenlet
       - require:
-        - pkg: locust_prerequisites
+        - pkg: pip_prerequisites
 
 locustio:
   pip.installed:
     - name: locustio == 0.8.1
     - require:
-      - pip: locust_prerequisites
+      - pip: setuptools
+      - pip: greenlet
 
 prometheus_client:
   pip.installed:
    - name: prometheus-client == 0.1.1
    - require:
-     - pkg: locust_prerequisites
+     - pkg: pip_prerequisites
      - pkg: mozilla_certificates
 
 locustfile:
