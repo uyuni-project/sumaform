@@ -17,7 +17,6 @@ mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
-testsuite: ${var.base_configuration["testsuite"]}
 evil_minions_dump: ${var.evil_minions_dump}
 apparmor: ${var.apparmor}
 

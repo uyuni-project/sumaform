@@ -48,7 +48,6 @@ create_sample_channel: ${var.create_sample_channel}
 create_sample_activation_key: ${var.create_sample_activation_key}
 create_sample_bootstrap_script: ${var.create_sample_bootstrap_script}
 publish_private_ssl_key: ${var.publish_private_ssl_key}
-testsuite: ${var.base_configuration["testsuite"]}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
 pts: ${var.pts}
