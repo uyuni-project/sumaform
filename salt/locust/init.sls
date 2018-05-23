@@ -19,6 +19,10 @@ locust_prerequisites:
       - name: setuptools == 39.2.0
       - require:
         - pkg: locust_prerequisites
+  pip.installed:
+      - name: greenlet
+      - require:
+        - pkg: locust_prerequisites
 
 locustio:
   pip.installed:
