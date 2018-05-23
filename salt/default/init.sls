@@ -5,6 +5,7 @@ include:
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
+  - default.testsuite
 
 timezone_package:
   pkg.installed:

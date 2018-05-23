@@ -13,12 +13,6 @@ minion_cucumber_requisites:
 
 {% if grains['os'] == 'SUSE' %}
 
-testsuite_build_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://client/repos.d/Devel_Galaxy_BuildRepo.repo
-    - template: jinja
-
 {% if '12' in grains['osrelease'] %}
 containers_pool_repo:
   file.managed:
@@ -51,7 +45,6 @@ refresh_minion_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
-      - file: testsuite_build_repo
       {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
       - file: containers_pool_repo
       - file: containers_updates_repo
@@ -61,9 +54,6 @@ suse_minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
       - openscap-content
-      - andromeda-dummy
-      - milkyway-dummy
-      - virgo-dummy
       {% if '12' in grains['osrelease'] or '15' in grains['osrelease']%}
       - aaa_base-extras
       - ca-certificates
@@ -100,23 +90,6 @@ update_ca_truststore:
       - pkg: suse_minion_cucumber_requisites
 
 {% endif %}
-
-{% elif grains['os_family'] == 'RedHat' %}
-
-testsuite_build_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://client/repos.d/Devel_Galaxy_BuildRepo.repo
-    - template: jinja
-
-res_client_cucumber_requisites:
-  pkg.installed:
-    - pkgs:
-      - andromeda-dummy
-      - milkyway-dummy
-      - virgo-dummy
-    - require:
-      - file: testsuite_build_repo
 
 {% endif %}
 

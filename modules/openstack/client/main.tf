@@ -17,7 +17,6 @@ mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: client
 auto_register: ${var.auto_register}
-testsuite: ${var.base_configuration["testsuite"]}
 
 EOF
 
