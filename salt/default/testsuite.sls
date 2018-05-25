@@ -8,6 +8,12 @@ testsuite_build_repo:
     - source: salt://default/repos.d/Devel_Galaxy_BuildRepo.repo
     - template: jinja
 
+refresh_cucumber_repos:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - require:
+      - file: testsuite_build_repo
+
 default_cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -15,8 +21,7 @@ default_cucumber_requisites:
       - milkyway-dummy
       - virgo-dummy
     - require:
-      - file: testsuite_build_repo
-      - cmd: refresh_default_repos
+      - cmd: refresh_cucumber_repos
 
 {% elif grains['os_family'] == 'RedHat' %}
 
