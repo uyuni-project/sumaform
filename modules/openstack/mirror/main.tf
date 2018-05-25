@@ -11,7 +11,7 @@ module "mirror" {
 role: mirror
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
-data_disk_device: vda
+data_disk_device: vdb
 
 EOF
 
