@@ -82,7 +82,7 @@ variable "ssh_key_path" {
 
 variable "memory" {
   description = "RAM memory in MiB"
-  default = 1024
+  default = 2048
 }
 
 variable "running" {
