@@ -1,0 +1,47 @@
+{
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/base-es.sh",
+      "scripts/cleanup.sh"
+    ],
+    "override": {
+      "sles-es7": {
+        "execute_command": "sh '{{.Path}}'"
+      }
+    }
+  }],
+  "builders": [{
+      "name": "sles-es7",
+      "type": "qemu",
+      "iso_url": "http://schnell.nue.suse.com/RHEL/SLES-ES/SLES-ES-7.4-x86_64-DVD.iso",
+      "iso_checksum": "0d728f273de09974da92ccd42cb7d60201a3d5e637966fe4b90863065bee84db",
+      "iso_checksum_type": "sha256",
+      "ssh_wait_timeout": "30s",
+      "shutdown_command": "shutdown -P now",
+      "disk_size": 204800,
+      "iso_checksum_type": "none",
+      "format": "qcow2",
+      "qemuargs": [
+        [ "-m", "1024M" ],
+        ["-machine", "type=pc,accel=kvm"],
+        ["-device", "virtio-net-pci,netdev=user.0"]
+      ],
+      "headless": true,
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "http_port_min": 10082,
+      "http_port_max": 10089,
+      "ssh_host_port_min": 2222,
+      "ssh_host_port_max": 2229,
+      "ssh_username": "root",
+      "ssh_password": "linux",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "90m",
+      "vm_name": "sles-es7",
+      "disk_interface": "virtio",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_sles-es7.cfg<enter><wait>"
+      ]
+    }]
+}
