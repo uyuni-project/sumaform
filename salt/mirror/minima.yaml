@@ -191,7 +191,7 @@ http:
     archs: [x86_64]
 
   # security:logging (filebeat)
-  - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP2
+  - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP3
     archs: [x86_64]
 
   # systemsmanagement:saltstack:products:next (salt for openSUSE 42.3)
