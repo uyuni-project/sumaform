@@ -3,6 +3,7 @@
     "type": "shell",
     "scripts": [
       "scripts/base-es.sh",
+      "scripts/cloud.sh",
       "scripts/cleanup.sh"
     ],
     "override": {
