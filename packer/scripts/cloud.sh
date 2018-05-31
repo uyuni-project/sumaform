@@ -22,3 +22,10 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 # remove uuid
 sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-e*
 sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-e*
+
+## enable cloud-init services
+
+systemctl enable cloud-init 
+systemclt enable cloud-config 
+systemctl enable cloud-final
+systemctl enable cloud-init-local
