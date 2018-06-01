@@ -7,13 +7,13 @@
       "scripts/cleanup.sh"
     ],
     "override": {
-      "sles-es7": {
+      "sles-es7openstack": {
         "execute_command": "sh '{{.Path}}'"
       }
     }
   }],
   "builders": [{
-      "name": "sles-es7",
+      "name": "sles-es7openstack",
       "type": "qemu",
       "iso_url": "http://schnell.nue.suse.com/RHEL/SLES-ES/SLES-ES-7.4-x86_64-DVD.iso",
       "iso_checksum": "0d728f273de09974da92ccd42cb7d60201a3d5e637966fe4b90863065bee84db",
@@ -38,7 +38,7 @@
       "ssh_password": "linux",
       "ssh_port": 22,
       "ssh_wait_timeout": "90m",
-      "vm_name": "sles-es7",
+      "vm_name": "sles-es7openstack",
       "disk_interface": "virtio",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_sles-es7.cfg<enter><wait>"
