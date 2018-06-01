@@ -55,19 +55,3 @@ variable "images" {
   default = ["centos7", "opensuse423",  "sles15",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles-es7"]
   type = "list"
 }
-
-variable "image_locations" {
-  description = "list of locations to download images, override to add custom ones"
-  default = {
-    centos7 = "http://schnell.nue.suse.com/sumaform-images/openstack/centos7.qcow2"
-    opensuse423 = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/openstack/images/opensuse423.x86_64.qcow2"
-    sles15 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15.x86_64.qcow2"
-    sles11sp4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles11sp4.x86_64.qcow2"
-    sles12 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12.x86_64.qcow2"
-    sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp1.x86_64.qcow2"
-    sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp2.x86_64.qcow2"
-    sles12sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp3.x86_64.qcow2"
-    sles-es7 = "http://schnell.nue.suse.com/sumaform-images/openstack/sles-es7.qcow2"
-  }
-  type = "map"
-}
