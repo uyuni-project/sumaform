@@ -142,14 +142,14 @@ output "configuration" {
     testsuite = "${var.testsuite}"
 
     // Provider-specific variables
-    centos7_image_id = "${openstack_images_image_v2.centos7_image.*.id}"
-    opensuse423_image_id = "${openstack_images_image_v2.opensuse423_image.*.id}"
-    sles15_image_id = "${openstack_images_image_v2.sles15_image.*.id}"
-    sles11sp4_image_id = "${openstack_images_image_v2.sles11sp4_image.*.id}"
-    sles12_image_id = "${openstack_images_image_v2.sles12_image.*.id}"
-    sles12sp1_image_id = "${openstack_images_image_v2.sles12sp1_image.*.id}"
-    sles12sp2_image_id = "${openstack_images_image_v2.sles12sp2_image.*.id}"
-    sles12sp3_image_id = "${openstack_images_image_v2.sles12sp3_image.*.id}"
-    sles-es7_image_id = "${openstack_images_image_v2.sles-es7_image.*.id}"
+    centos7_image_id = "${join(",", openstack_images_image_v2.centos7_image.*.id)}"
+    opensuse423_image_id = "${join(",", openstack_images_image_v2.opensuse423_image.*.id)}"
+    sles15_image_id = "${join(",", openstack_images_image_v2.sles15_image.*.id)}"
+    sles11sp4_image_id = "${join(",", openstack_images_image_v2.sles11sp4_image.*.id)}"
+    sles12_image_id = "${join(",", openstack_images_image_v2.sles12_image.*.id)}"
+    sles12sp1_image_id = "${join(",", openstack_images_image_v2.sles12sp1_image.*.id)}"
+    sles12sp2_image_id = "${join(",", openstack_images_image_v2.sles12sp2_image.*.id)}"
+    sles12sp3_image_id = "${join(",", openstack_images_image_v2.sles12sp3_image.*.id)}"
+    sles-es7_image_id = "${join(",", openstack_images_image_v2.sles-es7_image.*.id)}"
   }
 }
