@@ -67,7 +67,7 @@ variable "bridge" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default = ["centos7", "opensuse423",  "sles15",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3"]
+  default = ["centos7", "opensuse423",  "sles15",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles-es7"]
   type = "list"
 }
 
@@ -82,6 +82,7 @@ variable "image_locations" {
     sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
     sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
     sles12sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
+    sles-es7  = "https://w3.nue.suse.com/~smoioli/sumaform-images/sles-es7.qcow2"
   }
   type = "map"
 }

@@ -1,5 +1,4 @@
-rpm --import http://nu.novell.com/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/repodata/repomd.xml.key
-
+rpm --import 'http://nu.novell.com/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/repodata/repomd.xml.key'
 yum -y update
 yum -y install wget curl openssh-server
 
