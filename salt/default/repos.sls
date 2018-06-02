@@ -88,14 +88,6 @@ tools_additional_repo:
   file.touch:
     - name: /tmp/no_tools_additional_repo_needed
 
-{% elif '3.0-nightly' in grains.get('version') | default('', true) %}
-
-tools_additional_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-11-x86_64.repo
-    - template: jinja
-
 {% elif 'nightly' in grains.get('version') | default('', true) %}
 
 tools_additional_repo:
@@ -232,14 +224,6 @@ tools_additional_repo:
 tools_additional_repo:
   file.touch:
     - name: /tmp/no_tools_additional_repo_needed
-
-{% elif '3.0-nightly' in grains.get('version') | default('', true) %}
-
-tools_additional_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_SLE-Manager-Tools-12-x86_64.repo
-    - template: jinja
 
 {% elif 'nightly' in grains.get('version') | default('', true) %}
 
@@ -389,15 +373,6 @@ tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
     - source: salt://default/repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
-
-{% elif '3.0-nightly' in grains.get('version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
-    - source: salt://default/repos.d/Devel_Galaxy_Manager_3.0_RES-Manager-Tools-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
