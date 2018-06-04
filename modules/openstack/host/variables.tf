@@ -42,7 +42,7 @@ variable "gpg_keys" {
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: opensuse423, sles11sp3, sles11sp4, sles12, sles12sp1, sles15beta4"
+  description = "One of: opensuse423, sles11sp3, sles11sp4, sles12, sles12sp1, sles15"
   type = "string"
 }
 

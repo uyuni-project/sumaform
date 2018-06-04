@@ -47,7 +47,7 @@ variable "use_shared_resources" {
 
 variable "images" {
   description = "list of images to be uploaded to Glance, leave default for all"
-  default = ["centos7", "opensuse423",  "sles12sp3",  "sles12sp2",  "sles12sp1",   "sles12",  "sles11sp4", "sles11sp3", "sles15beta4"]
+  default = ["centos7", "opensuse423",  "sles12sp3",  "sles12sp2",  "sles12sp1",   "sles12",  "sles11sp4", "sles11sp3", "sles15"]
   type = "list"
 }
 
@@ -62,7 +62,7 @@ variable "image_locations" {
     sles12sp1 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp1.x86_64.qcow2"
     sles12sp2 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp2.x86_64.qcow2"
     sles12sp3 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp3.x86_64.qcow2"
-    sles15beta4 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15beta4.x86_64.qcow2"
+    sles15 = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15.x86_64.qcow2"
   }
   type = "map"
 }
