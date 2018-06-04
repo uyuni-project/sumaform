@@ -16,6 +16,8 @@ proxy-packages:
     - fromrepo: Devel_Galaxy_Manager_3.1
     {% elif '3.2-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-Proxy-3.2-x86_64-Pool
+    {% elif '3.2-nightly' in grains['version'] %}
+    - fromrepo: Devel_Galaxy_Manager_3.2
     {% endif %}
     - name: patterns-suma_proxy
     - require:

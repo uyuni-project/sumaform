@@ -29,7 +29,9 @@ suse_manager_packages:
     - fromrepo: Devel_Galaxy_Manager_3.1
     {% elif '3.2-released' in grains['version'] %}
     - fromrepo: SUSE-Manager-3.2-x86_64-Pool
-    {% endif %}
+    {% elif '3.2-nightly' in grains['version'] %}
+    - fromrepo: Devel_Galaxy_Manager_3.2
+     {% endif %}
     - name: patterns-suma_server
     - require:
       - sls: suse_manager_server.repos

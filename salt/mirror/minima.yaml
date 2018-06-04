@@ -102,39 +102,31 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2
     archs: [x86_64]
 
-  # SLE 11 SP4 Manager Tools 3.0 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-x86_64-i586-Media1/suse
-    archs: [x86_64]
-
-  # SLE 12 (GA and all SPs) Manager Tools 3.0 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # RES 7 Manager Tools 3.0 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
-    archs: [x86_64]
-
-  # SLE 11 SP4 Manager Tools 3.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
-    archs: [x86_64]
-
-  # SLE 12 (GA and all SPs) Manager Tools 3.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # RES 7 Manager Tools 3.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
-    archs: [x86_64]
-
   # SLE 11 SP4 Manager Tools 3.2 devel
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/Beta3/SLE11SP4/x86_64
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
     archs: [x86_64]
 
   # SLE 12 (GA and all SPs) Manager Tools 3.2 devel
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/Beta3/SLE12/x86_64/update
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+    archs: [x86_64]
+
+  # SLE 15 Manager Tools 3.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
     archs: [x86_64]
 
   # RES 7 Manager Tools 3.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+    archs: [x86_64]
+
+  # SLE 11 SP4 Manager Tools 3.2 beta
+  - url: http://beta.suse.com/private/SUSE-Manager-beta/Beta3/SLE11SP4/x86_64
+    archs: [x86_64]
+
+  # SLE 12 (GA and all SPs) Manager Tools 3.2 beta
+  - url: http://beta.suse.com/private/SUSE-Manager-beta/Beta3/SLE12/x86_64/update
+    archs: [x86_64]
+
+  # RES 7 Manager Tools 3.2 beta
   - url: http://beta.suse.com/private/SUSE-Manager-beta/Beta3/RES7/x86_64
     archs: [x86_64]
 

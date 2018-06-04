@@ -95,6 +95,16 @@ suse_manager_devel_repo:
       - sls: default
 {% endif %}
 
+{% if '3.2-nightly' in grains['version'] %}
+suse_manager_devel_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2.repo
+    - source: salt://suse_manager_server/repos.d/Devel_Galaxy_Manager_3.2.repo
+    - template: jinja
+    - require:
+      - sls: default
+{% endif %}
+
 {% if 'test' in grains['version'] %}
 suse_manager_pool_repo:
   file.managed:
