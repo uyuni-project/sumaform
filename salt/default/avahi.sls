@@ -23,3 +23,10 @@ avahi_resolution_configuration:
     - repl: "\\1mdns\\2\\3"
     - require:
       - pkg: avahi
+
+mdns_allow_file:
+  file.append:
+    - name: /etc/mdns.allow
+    - text:
+      - .local
+      - .tf.local
