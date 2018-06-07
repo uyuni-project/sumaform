@@ -3,8 +3,8 @@ name=Devel Project for SUSE Manager Head
 type=rpm-md
 enabled=1
 {% if grains['osfullname'] == 'Leap' %}
-baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/openSUSE_Leap_42.3/
+baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/openSUSE_Leap_42.3/
 {% else %}
-baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3/
+baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3/
 {% endif %}
 priority=96

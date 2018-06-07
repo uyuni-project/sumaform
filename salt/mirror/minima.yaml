@@ -43,11 +43,11 @@ scc:
 
 http:
   # SUSE Manager 3.2
-  - url: http://download.suse.de/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager 3.2 Proxy
-  - url: http://download.suse.de/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
     archs: [x86_64]
 
   # RES 7
@@ -55,71 +55,71 @@ http:
   #  #  archs: [x86_64]
 
   # SLES 11 SP4 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
+  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
     archs: [x86_64]
 
   # SLES 12 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update
+  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update
     archs: [x86_64]
 
   # SLES 12 SP1 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update
+  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update
     archs: [x86_64]
 
   # SLES 12 SP2 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update
+  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update
     archs: [x86_64]
 
   # SLES 12 SP3 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
+  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
     archs: [x86_64]
 
   # SLES 15 Test
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
+  #- url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
   #  #  archs: [x86_64]
 
   # SUSE Manager Head (SLE12-SP3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager Head Proxy (SLE12-SP3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager Head (openSUSE Leap 42.3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Server-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Server-3.2-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager Head Proxy (openSUSE Leap 42.3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager 3.0 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
     archs: [x86_64]
 
   # SUSE Manager 3.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2
     archs: [x86_64]
 
   # SUSE Manager 3.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 3.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
     archs: [x86_64]
 
   # SLE 12 (GA and all SPs) Manager Tools 3.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SLE 15 Manager Tools 3.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
     archs: [x86_64]
 
   # RES 7 Manager Tools 3.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 3.2 beta
@@ -135,23 +135,23 @@ http:
     archs: [x86_64]
 
   # SUSE Manager Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
     archs: [x86_64]
 
   # SLE 12 (GA and all SPs) Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SLE 15 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
     archs: [x86_64]
 
   # RES 7 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
   # openSUSE Leap
@@ -161,15 +161,15 @@ http:
     archs: [x86_64]
 
   # SUSE Manager TEST devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
     archs: [x86_64]
 
   # Testsuite Controller repo
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/cucumber-testsuite/openSUSE_Leap_42.3/
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/cucumber-testsuite/openSUSE_Leap_42.3/
     archs: [x86_64]
 
   # Testsuite dummy packages for testing repo
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1
     archs: [x86_64]
 
   # Software for sumaformed Virtual Machines
