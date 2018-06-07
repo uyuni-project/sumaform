@@ -17,11 +17,27 @@ scc:
     - SLES12-SP2-Updates
     - SLES12-SP3-Pool
     - SLES12-SP3-Updates
+    # SLE 15 Products
+    - SLE-Product-SLES_SAP15-Pool
+    - SLE-Product-SLES_SAP15-Updates
+    - SLE-Product-SLED15-Pool
+    - SLE-Product-SLED15-Updates
+    - SLE-Product-SLES15-Pool
+    - SLE-Product-SLES15-Updates
+    - SLE-Product-WE15-Pool
+    - SLE-Product-WE15-Updates
+    # SLE 15 Basic Modules
     - SLE-Module-Basesystem15-Pool
     - SLE-Module-Basesystem15-Updates
+    - SLE-Module-Server-Applications15-Pool
+    - SLE-Module-Server-Applications15-Updates
+    - SLE-Module-Desktop-Applications15-Pool
+    - SLE-Module-Desktop-Applications15-Updates
     # SLE Container Module
     - SLE-Module-Containers12-Pool
     - SLE-Module-Containers12-Updates
+    - SLE-Module-Containers15-Pool
+    - SLE-Module-Containers15-Updates
     # SUSE Manager Server
     - SUSE-Manager-Server-3.0-Pool
     - SUSE-Manager-Server-3.0-Updates
