@@ -46,11 +46,15 @@ scc:
     - SUSE-Manager-Server-3.0-Updates
     - SUSE-Manager-Server-3.1-Pool
     - SUSE-Manager-Server-3.1-Updates
+    - SUSE-Manager-Server-3.2-Pool
+    - SUSE-Manager-Server-3.2-Updates
     # SUSE Manager Proxy
     - SUSE-Manager-Proxy-3.0-Pool
     - SUSE-Manager-Proxy-3.0-Updates
     - SUSE-Manager-Proxy-3.1-Pool
     - SUSE-Manager-Proxy-3.1-Updates
+    - SUSE-Manager-Proxy-3.2-Pool
+    - SUSE-Manager-Proxy-3.2-Updates
     # SUSE Manager Tools
     - SLES11-SP4-SUSE-Manager-Tools
     - SLE-Manager-Tools12-Pool
