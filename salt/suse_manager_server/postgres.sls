@@ -12,6 +12,9 @@ postgresql_main_configuration:
       - fsync = off
       - full_page_writes = off
       {% endif %}
+      {% if grains['log_min_duration_statement'] != "nolog" %}
+      - log_min_duration_statement = {{ grains.get("log_min_duration_statement") }}
+      {% endif %}
     - require:
       - sls: suse_manager_server
 

@@ -60,7 +60,7 @@ apparmor: ${var.apparmor}
 log_server: ${var.log_server}
 from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
-
+log_min_duration_statement: ${var.log_min_duration_statement}
 EOF
 
   // Provider-specific variables
