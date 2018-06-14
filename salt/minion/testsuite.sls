@@ -44,10 +44,10 @@ containers_updates_repo:
 refresh_minion_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
       {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
-      - file: containers_pool_repo
-      - file: containers_updates_repo
+      - require:
+        - file: containers_pool_repo
+        - file: containers_updates_repo
       {% endif %}
 
 suse_minion_cucumber_requisites:
