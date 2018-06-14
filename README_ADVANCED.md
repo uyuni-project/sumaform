@@ -673,3 +673,24 @@ module "sumamail3" {
   traceback_email = "michele.bologna@chameleon-mail.com"
 }
 ```
+
+## Tracing postgresql query performance
+
+By default disabled.
+Find out which sql query take the most of time by setting  the var `log_min_duration_statement = SEC`
+This will Causes the duration of each completed statement to be logged if the statement ran for at least the specified number of milliseconds.
+Setting this to zero prints all statement durations.
+
+```hcl
+
+module "sumaheadpg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma31pg"
+  version = "3.1-released"
+  log_min_duration_statement = 100000
+}
+```
+
+
