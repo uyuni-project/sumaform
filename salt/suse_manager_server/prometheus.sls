@@ -10,24 +10,11 @@ node_exporter:
       - sls: repos
 
 node_exporter_service:
-  file.managed:
-    - name: /etc/systemd/system/node-exporter.service
-    - contents: |
-        [Unit]
-        Description=node_exporter
-
-        [Service]
-        ExecStart=/usr/bin/node_exporter
-
-        [Install]
-        WantedBy=multi-user.target
-    - require:
-      - pkg: node_exporter
   service.running:
-    - name: node-exporter
+    - name: prometheus-node_exporter
     - enable: True
     - require:
-      - file: node_exporter_service
+      - pkg: node_exporter
 
 postgres_exporter:
   pkg.installed:
@@ -86,19 +73,10 @@ postgres_exporter_configuration:
 
 postgres_exporter_service:
   file.managed:
-    - name: /etc/systemd/system/postgres-exporter.service
-    - contents: |
-        [Unit]
-        Description=postgres_exporter
-
-        [Service]
-        Environment=DATA_SOURCE_NAME=postgresql://spacewalk:spacewalk@localhost:5432/susemanager?sslmode=disable
-        ExecStart=/usr/bin/postgres_exporter -extend.query-path /etc/postgres_exporter/postgres_exporter_queries.yaml
-
-        [Install]
-        WantedBy=multi-user.target
+    - name: /etc/sysconfig/postgres-exporter
+    - source: salt://suse_manager_server/postgres-exporter
     - require:
-      - pkg: node_exporter
+      - pkg: postgres_exporter
       - file: postgres_exporter_configuration
   service.running:
     - name: postgres-exporter
@@ -110,44 +88,17 @@ postgres_exporter_service:
 
 jmx_exporter:
   pkg.installed:
-    - name: jmx_exporter
+    - pkgs:
+      - jmx_exporter
+      - jmx_exporter-tomcat
     - require:
       - sls: repos
 
-jmx_exporter_configuration:
-  file.managed:
-    - name: /etc/jmx_exporter/jmx_exporter.yml
-    - makedirs: True
-    - contents: |
-        hostPort: localhost:3333
-        username:
-        password:
-        whitelistObjectNames:
-          - java.lang:type=Threading,*
-          - java.lang:type=Memory,*
-          - Catalina:type=ThreadPool,name=*
-        rules:
-        - pattern: ".*"
-
 jmx_exporter_service:
-  file.managed:
-    - name: /etc/systemd/system/jmx-exporter.service
-    - contents: |
-        [Unit]
-        Description=jmx_exporter
-
-        [Service]
-        ExecStart=/usr/bin/java -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port=5555 -jar /usr/share/java/jmx_prometheus_httpserver.jar 5556 /etc/jmx_exporter/jmx_exporter.yml
-
-        [Install]
-        WantedBy=multi-user.target
-    - require:
-      - pkg: jmx_exporter
   service.running:
-    - name: jmx-exporter
+    - name: jmx-exporter@tomcat
     - enable: True
     - require:
-      - file: jmx_exporter_service
-      - file: jmx_exporter_configuration
+      - pkg: jmx_exporter
 
 {% endif %}
