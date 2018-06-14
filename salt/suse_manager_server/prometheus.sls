@@ -101,4 +101,33 @@ jmx_exporter_service:
     - require:
       - pkg: jmx_exporter
 
+jmx_exporter_taskomatic_config:
+  file.managed:
+    - name: /etc/jmx_exporter/taskomatic/environment
+    - makedirs: True
+    - contents: |
+        PORT="5557"
+        EXP_PARAMS=""
+  file.managed:
+    - name: /etc/jmx_exporter/taskomatic/jmx_exporter.yml
+    - makedirs: True
+    - contents: |
+        hostPort: localhost:3334
+        username:
+        password:
+        whitelistObjectNames:
+          - java.lang:type=Threading,*
+          - java.lang:type=Memory,*
+          - Catalina:type=ThreadPool,name=*
+        rules:
+        - pattern: ".*"
+
+jmx_exporter_taskomatic_service:
+  service.running:
+    - name: jmx-exporter@taskomatic
+    - enable: True
+    - require:
+      - pkg: jmx_exporter
+      - file: jmx_exporter_taskomatic_config
+
 {% endif %}
