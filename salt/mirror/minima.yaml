@@ -146,15 +146,15 @@ http:
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 3.2 beta
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC/SLE11SP4/x86_64/update
+  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC3/SLE11SP4/x86_64/update
     archs: [x86_64]
 
   # SLE 12 (GA and all SPs) Manager Tools 3.2 beta
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC/SLE12/x86_64/update
+  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC3/SLE12/x86_64/update
     archs: [x86_64]
 
   # RES 7 Manager Tools 3.2 beta
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC/RES7/x86_64
+  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC3/RES7/x86_64
     archs: [x86_64]
 
   # SUSE Manager Head devel

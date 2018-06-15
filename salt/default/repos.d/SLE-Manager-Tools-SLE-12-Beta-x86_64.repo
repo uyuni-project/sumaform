@@ -2,5 +2,5 @@
 name=SLE-Manager-Tools-SLE-12-Beta-x86_64
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("beta.suse.com", true) }}/private/SUSE-Manager-beta/GMC/SLE12/x86_64/update
+baseurl=http://{{ grains.get("mirror") | default("beta.suse.com", true) }}/private/SUSE-Manager-beta/GMC3/SLE12/x86_64/update
 priority=98
