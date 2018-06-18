@@ -4,7 +4,7 @@ yum -y install wget curl openssh-server
 
 # Install root certificates
 yum -y install ca-certificates
-# install epel7 for l nss-mdns
+# install multicast DNS plugin for nss from epel
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum -y install nss-mdns
 # Make ssh faster by not waiting on DNS
