@@ -1,13 +1,11 @@
-# sumaform
-
-[![Travis CI build status](https://travis-ci.org/moio/sumaform.svg?branch=master)](https://travis-ci.org/moio/sumaform)
-[![Join the chat at https://gitter.im/sumaform/Lobby](https://badges.gitter.im/sumaform/Lobby.svg)](https://gitter.im/sumaform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-![Sumicform, a green hedgehog made of bricks, sumaform's mascot](help/sumicform.png)
+![sumaform logo](help/sumaform-logo-color.svg)
 
 `sumaform` is a way to quickly configure test SUSE Manager setups with clients and servers.
 
 It got its [portmanteau](https://en.wikipedia.org/wiki/Portmanteau) name being the successor of [suminator](https://github.com/SUSE/suminator/) implemented as [Terraform](https://www.terraform.io/) modules.
+
+[![Travis CI build status](https://travis-ci.org/moio/sumaform.svg?branch=master)](https://travis-ci.org/moio/sumaform)
+[![Join the chat at https://gitter.im/sumaform/Lobby](https://badges.gitter.im/sumaform/Lobby.svg)](https://gitter.im/sumaform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
 ## Installation
