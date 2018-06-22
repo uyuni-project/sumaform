@@ -165,6 +165,16 @@ remove_client_tools_update:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
 {% endif %}
 
+{% if grains.get('monitored') | default(false, true) %}
+prometheus_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
+    - source: salt://repos/repos.d/systemsmanagement-sumaform-tools.repo
+    - template: jinja
+    - require:
+      - sls: default
+{% endif %}
+
 refresh_suse_manager_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
@@ -179,4 +189,7 @@ refresh_suse_manager_repos:
       {% endif %}
       {% if grains.get('filebeat') | default(false, true) %}
       - file: filebeat_repo
+      {% endif %}
+      {% if grains.get('monitored') | default(false, true) %}
+      - file: prometheus_repo
       {% endif %}
