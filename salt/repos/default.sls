@@ -25,11 +25,6 @@ os_update_repo:
     - name: /etc/zypp/repos.d/openSUSE-Leap-42.3-Update.repo
     - source: salt://repos/repos.d/openSUSE-Leap-42.3-Update.repo
     - template: jinja
-
-tools_pool_repo:
-  file.touch:
-    - name: /tmp/no_tools_pool_repo_needed
-
 {% endif %} {# grains['osrelease'] == '42.3' #}
 
 
@@ -180,6 +175,7 @@ test_update_repo:
 
 {% endif %}
 
+{% if 'suse_manager' not in grains.get('role') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
@@ -209,6 +205,7 @@ tools_additional_repo:
     - template: jinja
 
 {% elif ('head' in grains.get('version') | default('', true)) or ('test' in grains.get('version') | default('', true)) %}
+
 tools_additional_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
@@ -216,6 +213,8 @@ tools_additional_repo:
     - template: jinja
 
 {% endif %}
+
+{% endif %} {# 'suse_manager' not in grains.get('role') #}
 {% endif %} {# '12' in grains['osrelease'] #}
 
 
@@ -239,6 +238,8 @@ test_update_repo:
     - source: salt://repos/repos.d/SLE-15-x86_64-Test-Update.repo
     - template: jinja
 {% endif %}
+
+{% if 'suse_manager' not in grains.get('role') %}
 
 tools_pool_repo:
   file.managed:
@@ -268,6 +269,7 @@ tools_additional_repo:
     - template: jinja
 
 {% endif %}
+{% endif %} {# 'suse_manager' not in grains.get('role') #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
 

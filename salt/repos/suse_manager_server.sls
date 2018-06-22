@@ -105,26 +105,6 @@ filebeat_repo:
     - template: jinja
 {% endif %}
 
-{% if grains['osmajorrelease']|int() == 12 %}
-remove_client_tools_pool:
-  file.absent:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
-{% elif grains['osmajorrelease']|int() == 15 %}
-remove_client_tools_pool:
-  file.absent:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Pool.repo
-{% endif %}
-
-{% if grains['osmajorrelease']|int() == 12 %}
-remove_client_tools_update:
-  file.absent:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
-{% elif grains['osmajorrelease']|int() == 15 %}
-remove_client_tools_update:
-  file.absent:
-    - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
-{% endif %}
-
 {% if grains.get('monitored') | default(false, true) %}
 prometheus_repo:
   file.managed:
