@@ -12,11 +12,4 @@ suse_manager_update_repo:
     - source: salt://repos/repos.d/SUSE-Manager-3.0-x86_64-Update.repo
     - template: jinja
 
-refresh_suse_manager_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: suse_manager_pool_repo
-      - file: suse_manager_update_repo
-
 {% endif %}

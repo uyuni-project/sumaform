@@ -1,8 +1,6 @@
 include:
-  - minion.testsuite
-{% if grains.get('evil_minions_dump') %}
   - repos
-{% endif %}
+  - minion.testsuite
   - minion.apparmor
 
 minion_package:
@@ -16,7 +14,7 @@ evil_minions_package:
   pkg.installed:
     - name: evil-minions
     - require:
-      - cmd: refresh_tools_repo
+      - sls: repos
 
 evil_minions_systemd_service:
   file.replace:

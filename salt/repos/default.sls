@@ -317,15 +317,6 @@ allow_vendor_changes:
         vendors = SUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org
   {% endif %}
 
-refresh_default_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: os_pool_repo
-      - file: os_update_repo
-      - file: tools_pool_repo
-      - file: tools_update_repo
-      - file: tools_additional_repo
 {% endif %}
 
 {% if grains['os_family'] == 'RedHat' %}
@@ -397,18 +388,6 @@ tools_update_repo:
     - priority: 94
     - gpgcheck: 0
 {% endfor %}
-
-refresh_additional_repos:
-  cmd.run:
-{% if grains['os_family'] == 'RedHat' %}
-    - name: echo "(repository refresh not needed with yum)"
-{% else %}
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-{% endif %}
-    - require:
-      {% for label, url in grains['additional_repos'].items() %}
-      - pkgrepo: {{ label }}_repo
-      {% endfor %}
 {% endif %}
 
 default_repos:

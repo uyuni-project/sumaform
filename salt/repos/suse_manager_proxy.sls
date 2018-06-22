@@ -84,14 +84,4 @@ suse_manager_devel_repo:
     - template: jinja
 {% endif %}
 
-refresh_suse_manager_proxy_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: suse_manager_proxy_pool_repo
-      - file: suse_manager_proxy_update_repo
-      {% if ('nightly' in grains['version'] or 'head' in grains['version']) %}
-      - file: suse_manager_devel_repo
-      {% endif %}
-
 {% endif %}

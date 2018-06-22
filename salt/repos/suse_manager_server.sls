@@ -144,23 +144,4 @@ prometheus_repo:
     - template: jinja
 {% endif %}
 
-refresh_suse_manager_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: suse_manager_pool_repo
-      - file: suse_manager_update_repo
-      {% if ('nightly' in grains['version'] or 'head' in grains['version'] or 'test' in grains['version']) %}
-      - file: suse_manager_devel_repo
-      {% endif %}
-      {% if 'test' in grains['version'] %}
-      - file: suse_manager_test_repo
-      {% endif %}
-      {% if grains.get('filebeat') | default(false, true) %}
-      - file: filebeat_repo
-      {% endif %}
-      {% if grains.get('monitored') | default(false, true) %}
-      - file: prometheus_repo
-      {% endif %}
-
 {% endif %}

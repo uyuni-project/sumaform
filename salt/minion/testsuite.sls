@@ -1,6 +1,7 @@
 {% if grains.get('testsuite') | default(false, true) %}
 
 include:
+  - repos
   - minion
 
 minion_cucumber_requisites:
@@ -22,7 +23,7 @@ suse_minion_cucumber_requisites:
       - ca-certificates
       {% endif %}
     - require:
-      - cmd: refresh_minion_repos
+      - sls: repos
 
 {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
 registry_certificate:

@@ -21,7 +21,7 @@ salt_master:
   pkg.installed:
     - name: salt-master
     - require:
-      - cmd: refresh_suse_manager_repos
+      - sls: repos
 
 patch:
   pkg.installed:

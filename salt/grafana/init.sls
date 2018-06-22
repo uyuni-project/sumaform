@@ -5,7 +5,7 @@ prometheus:
   pkg.installed:
     - name: golang-github-prometheus-prometheus
     - require:
-      - cmd: refresh_grafana_repos
+      - sls: repos
 
 prometheus_configuration:
   file.managed:

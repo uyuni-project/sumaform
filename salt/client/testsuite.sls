@@ -1,6 +1,7 @@
 {% if grains.get('testsuite') | default(false, true) %}
 
 include:
+  - repos
   - client
 
 client_cucumber_requisites:
@@ -18,10 +19,6 @@ client_cucumber_requisites:
 
 {% if grains['os'] == 'SUSE' %}
 
-refresh_client_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-
 suse_client_cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -30,7 +27,7 @@ suse_client_cucumber_requisites:
       - aaa_base-extras
       {% endif %}
     - require:
-      - cmd: refresh_client_repos
+      - sls: repos
 
 {% endif %}
 

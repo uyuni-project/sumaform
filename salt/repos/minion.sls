@@ -1,7 +1,4 @@
-{% if grains.get('role') == 'minion' %}
-{% if grains.get('testsuite') | default(false, true) %}
-
-{% if grains['os'] == 'SUSE' %}
+{% if grains.get('role') == 'minion' and grains.get('testsuite') | default(false, true) and grains['os'] == 'SUSE' %}
 
 {% if '12' in grains['osrelease'] %}
 containers_pool_repo:
@@ -31,18 +28,4 @@ containers_updates_repo:
     - template: jinja
 {% endif %}
 
-refresh_minion_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
-    - require:
-      - file: containers_pool_repo
-      - file: containers_updates_repo
-    {% endif %}
-
-{% endif %}
-
-{% endif %}
-
-{% endif %}
 {% endif %}

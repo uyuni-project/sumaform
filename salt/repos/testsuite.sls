@@ -9,12 +9,6 @@ testsuite_build_repo:
     - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
     - template: jinja
 
-refresh_cucumber_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: testsuite_build_repo
-
 {% elif grains['os_family'] == 'RedHat' %}
 
 testsuite_build_repo:

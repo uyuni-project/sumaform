@@ -13,7 +13,7 @@ default_cucumber_requisites:
       - milkyway-dummy
       - virgo-dummy
     - require:
-      - cmd: refresh_cucumber_repos
+      - sls: repos
 
 {% elif grains['os_family'] == 'RedHat' %}
 
