@@ -1,5 +1,5 @@
 include:
-  - repos.suse_manager_proxy
+  - repos
   - suse_manager_proxy.apparmor
 
 proxy-packages:
@@ -21,12 +21,12 @@ proxy-packages:
     {% endif %}
     - name: patterns-suma_proxy
     - require:
-      - sls: repos.suse_manager_proxy
+      - sls: repos
 
 wget:
   pkg.installed:
     - require:
-      - sls: repos.suse_manager_proxy
+      - sls: repos
 
 {% if grains['use_avahi'] %}
 

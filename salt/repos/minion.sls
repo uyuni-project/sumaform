@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'minion' %}
 {% if grains.get('testsuite') | default(false, true) %}
 
 {% if grains['os'] == 'SUSE' %}
@@ -43,4 +44,5 @@ refresh_minion_repos:
 
 {% endif %}
 
+{% endif %}
 {% endif %}

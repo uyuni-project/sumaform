@@ -1,13 +1,13 @@
 {% if grains.get('monitored') | default(false, true) %}
 
 include:
-  - repos.suse_manager_server
+  - repos
 
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter
     - require:
-      - sls: repos.suse_manager_server
+      - sls: repos
 
 node_exporter_service:
   file.managed:
@@ -33,7 +33,7 @@ postgres_exporter:
   pkg.installed:
     - name: golang-github-wrouesnel-postgres_exporter
     - require:
-      - sls: repos.suse_manager_server
+      - sls: repos
 
 postgres_exporter_configuration:
   file.managed:
@@ -112,7 +112,7 @@ jmx_exporter:
   pkg.installed:
     - name: jmx_exporter
     - require:
-      - sls: repos.suse_manager_server
+      - sls: repos
 
 jmx_exporter_configuration:
   file.managed:

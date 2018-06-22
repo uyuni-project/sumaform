@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'suse_manager_proxy' %}
 
 {% if '3.0' in grains['version'] %}
 suse_manager_proxy_pool_repo:
@@ -92,3 +93,5 @@ refresh_suse_manager_proxy_repos:
       {% if ('nightly' in grains['version'] or 'head' in grains['version']) %}
       - file: suse_manager_devel_repo
       {% endif %}
+
+{% endif %}

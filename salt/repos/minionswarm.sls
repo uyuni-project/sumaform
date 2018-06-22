@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'minionswarm' %}
 
 suse_manager_pool_repo:
   file.managed:
@@ -17,3 +18,5 @@ refresh_suse_manager_repos:
     - require:
       - file: suse_manager_pool_repo
       - file: suse_manager_update_repo
+
+{% endif %}

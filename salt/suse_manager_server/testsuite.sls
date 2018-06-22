@@ -101,7 +101,7 @@ aaa_base-extras:
 salt-ssh:
   pkg.installed:
     - require:
-      - sls: repos.suse_manager_server
+      - sls: repos
 
 enable_salt_content_staging_window:
   file.replace:

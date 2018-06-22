@@ -2,7 +2,7 @@
 {% if grains.get('role') in ['client', 'minion', None] %}
 
 include:
-  - repos.testsuite
+  - repos
 
 {% if grains['os'] == 'SUSE' %}
 

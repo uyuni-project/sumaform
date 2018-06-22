@@ -1,5 +1,5 @@
 include:
-  - repos.evil_minions
+  - repos
 
 {% if grains.has_key('swap_file_size') %}
 file_swap:

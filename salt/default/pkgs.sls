@@ -6,5 +6,5 @@ install_additional_packages:
       - {{ package }}
 {% endfor %}
     - require:
-      - sls: repos.default
+      - sls: repos
 {% endif %}

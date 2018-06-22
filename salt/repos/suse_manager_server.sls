@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'suse_manager_server' %}
 
 {% if '3.0' in grains['version'] %}
 suse_manager_pool_repo:
@@ -161,3 +162,5 @@ refresh_suse_manager_repos:
       {% if grains.get('monitored') | default(false, true) %}
       - file: prometheus_repo
       {% endif %}
+
+{% endif %}

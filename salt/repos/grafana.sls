@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'grafana' %}
 
 tools_repo:
   file.managed:
@@ -10,3 +11,5 @@ refresh_grafana_repos:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: tools_repo
+
+{% endif %}

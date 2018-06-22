@@ -1,5 +1,5 @@
 include:
-  - repos.grafana
+  - repos
 
 prometheus:
   pkg.installed:

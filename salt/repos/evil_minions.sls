@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'evil_minions' %}
 
 tools_repo:
   file.managed:
@@ -10,3 +11,5 @@ refresh_tools_repo:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: tools_repo
+
+{% endif %}

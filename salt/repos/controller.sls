@@ -1,3 +1,4 @@
+{% if grains.get('role') == 'controller' %}
 
 Devel_Galaxy_cucumber_testsuite_repo:
   file.managed:
@@ -10,3 +11,5 @@ refresh_controller_repos:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
     - require:
       - file: Devel_Galaxy_cucumber_testsuite_repo
+
+{% endif %}
