@@ -29,3 +29,7 @@ containers_updates_repo:
 {% endif %}
 
 {% endif %}
+
+# HACK: work around #10852
+default_nop:
+  test.nop: []

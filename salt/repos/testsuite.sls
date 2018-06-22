@@ -20,3 +20,7 @@ testsuite_build_repo:
 {% endif %}
 {% endif %}
 {% endif %}
+
+# HACK: work around #10852
+{{ sls }}_nop:
+  test.nop: []

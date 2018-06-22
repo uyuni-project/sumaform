@@ -7,3 +7,7 @@ Devel_Galaxy_cucumber_testsuite_repo:
     - template: jinja
 
 {% endif %}
+
+# HACK: work around #10852
+{{ sls }}_nop:
+  test.nop: []

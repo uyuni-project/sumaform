@@ -390,5 +390,6 @@ tools_update_repo:
 {% endfor %}
 {% endif %}
 
-default_repos:
+# HACK: work around #10852
+{{ sls }}_nop:
   test.nop: []
