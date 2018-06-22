@@ -30,13 +30,6 @@ tools_pool_repo:
   file.touch:
     - name: /tmp/no_tools_pool_repo_needed
 
-tools_update_repo:
-  file.touch:
-    - name: /tmp/no_tools_update_repo_needed
-
-tools_additional_repo:
-  file.touch:
-    - name: /tmp/no_tools_additional_repo_needed
 {% endif %} {# grains['osrelease'] == '42.3' #}
 
 
@@ -68,10 +61,6 @@ tools_pool_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
     - template: jinja
 
-tools_update_repo:
-  file.touch:
-    - name: /tmp/no_tools_update_repo_needed
-
 {% if '3.2-released' in grains.get('version') | default('', true) %}
 
 tools_additional_repo:
@@ -79,12 +68,6 @@ tools_additional_repo:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-11-Beta-x86_64.repo
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-11-Beta-x86_64.repo
     - template: jinja
-
-{% elif 'released' in grains.get('version') | default('released', true) %}
-
-tools_additional_repo:
-  file.touch:
-    - name: /tmp/no_tools_additional_repo_needed
 
 {% elif 'nightly' in grains.get('version') | default('', true) %}
 
@@ -217,12 +200,6 @@ tools_additional_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-12-Beta-x86_64.repo
     - template: jinja
 
-{% elif 'released' in grains.get('version') | default('released', true) %}
-
-tools_additional_repo:
-  file.touch:
-    - name: /tmp/no_tools_additional_repo_needed
-
 {% elif 'nightly' in grains.get('version') | default('', true) %}
 
 tools_additional_repo:
@@ -275,13 +252,7 @@ tools_update_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
     - template: jinja
 
-{% if 'released' in grains.get('version') | default('released', true) %}
-
-tools_additional_repo:
-  file.touch:
-    - name: /tmp/no_tools_additional_repo_needed
-
-{% elif 'nightly' in grains.get('version') | default('', true) %}
+{% if 'nightly' in grains.get('version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:

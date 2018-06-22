@@ -35,11 +35,8 @@ suse_manager_proxy_pool_repo:
     - source: salt://repos/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Pool.repo
     - template: jinja
 
-# HACK: the update repository for 3.2 does not exist yet
+# NOTE: the update repository for 3.2 does not exist yet
 #       don't forget to add it after GA
-suse_manager_proxy_update_repo:
-  file.touch:
-    - name: /tmp/no_update_channel_needed
 {% endif %}
 
 {% if 'head' in grains['version'] %}
@@ -48,10 +45,6 @@ suse_manager_proxy_pool_repo:
     - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-Head-x86_64-Pool.repo
     - source: salt://repos/repos.d/SUSE-Manager-Proxy-Head-x86_64-Pool.repo
     - template: jinja
-
-suse_manager_proxy_update_repo:
-  file.touch:
-    - name: /tmp/no_update_channel_needed
 
 suse_manager_devel_repo:
   file.managed:
