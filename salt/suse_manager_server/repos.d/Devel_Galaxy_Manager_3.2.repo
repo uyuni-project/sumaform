@@ -1,6 +1,0 @@
-[Devel_Galaxy_Manager_3.2]
-name=Devel Project for SUSE Manager 3.2 (SLE_12_SP3)
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3/
-priority=96

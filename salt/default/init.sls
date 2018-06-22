@@ -1,6 +1,6 @@
 include:
   - default.minimal
-  - default.repos
+  - repos.default
   - default.pkgs
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
@@ -34,7 +34,7 @@ timezone_setting:
 update_packages:
   pkg.uptodate:
     - require:
-      - sls: default.repos
+      - sls: repos.default
 {% endif %}
 
 {% if grains['authorized_keys'] %}

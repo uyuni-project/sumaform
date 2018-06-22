@@ -17,13 +17,13 @@ minion_cucumber_requisites:
 containers_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
     - template: jinja
 
 containers_updates_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
     - template: jinja
 {% endif %}
 
@@ -31,13 +31,13 @@ containers_updates_repo:
 containers_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
     - template: jinja
 
 containers_updates_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
     - template: jinja
 {% endif %}
 

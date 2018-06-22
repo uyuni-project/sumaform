@@ -1,5 +1,5 @@
 include:
-  - evil_minions.repos
+  - repos.evil_minions
 
 disable_salt_minion:
   service.disabled:

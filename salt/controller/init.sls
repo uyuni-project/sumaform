@@ -1,5 +1,5 @@
 include:
-  - controller.repos
+  - repos.controller
 
 ssh_private_key:
   file.managed:
@@ -55,7 +55,7 @@ cucumber_requisites:
       - twopence
       - rubygem-twopence
     - require:
-      - sls: controller.repos
+      - sls: repos.controller
 
 # HACK: currently we need this exact version
 phantomjs_2.0_cucumber_repo:
@@ -116,7 +116,7 @@ extra_pkgs:
     - pkgs:
       - screen
     - require:
-      - sls: controller.repos
+      - sls: repos.controller
 
 git_config:
   file.append:

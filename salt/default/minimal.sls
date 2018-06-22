@@ -1,5 +1,5 @@
 include:
-  - default.repos
+  - repos.default
   {% if grains['hostname'] and grains['domain'] %}
   - default.hostname
   {% endif %}

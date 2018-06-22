@@ -6,7 +6,7 @@ include:
 prometheus_repo:
   file.managed:
     - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
-    - source: salt://default/repos.d/systemsmanagement-sumaform-tools.repo
+    - source: salt://repos/repos.d/systemsmanagement-sumaform-tools.repo
     - template: jinja
     - require:
       - sls: suse_manager_server

@@ -1,5 +1,5 @@
 include:
-  - suse_manager_server.repos
+  - repos.suse_manager_server
   - suse_manager_server.firewall
   - suse_manager_server.postgres
   - suse_manager_server.tomcat
@@ -34,7 +34,7 @@ suse_manager_packages:
      {% endif %}
     - name: patterns-suma_server
     - require:
-      - sls: suse_manager_server.repos
+      - sls: repos.suse_manager_server
       - sls: suse_manager_server.firewall
 
 environment_setup_script:

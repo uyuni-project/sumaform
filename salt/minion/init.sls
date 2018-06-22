@@ -1,7 +1,7 @@
 include:
   - minion.testsuite
 {% if grains.get('evil_minions_dump') %}
-  - evil_minions.repos
+  - repos.evil_minions
 {% endif %}
   - minion.apparmor
 

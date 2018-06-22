@@ -5,7 +5,7 @@
 testsuite_build_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://default/repos.d/Devel_Galaxy_BuildRepo.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
     - template: jinja
 
 refresh_cucumber_repos:
@@ -28,7 +28,7 @@ default_cucumber_requisites:
 testsuite_build_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://default/repos.d/Devel_Galaxy_BuildRepo.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
     - template: jinja
 
 default_cucumber_requisites:
