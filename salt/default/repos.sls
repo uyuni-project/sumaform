@@ -27,10 +27,8 @@ os_update_repo:
     - template: jinja
 
 tools_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/systemsmanagement-saltstack_products-next.repo
-    - source: salt://default/repos.d/systemsmanagement-saltstack_products-next.repo
-    - template: jinja
+  file.touch:
+    - name: /tmp/no_tools_pool_repo_needed
 
 tools_update_repo:
   file.touch:
