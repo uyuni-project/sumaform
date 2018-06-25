@@ -1,21 +1,14 @@
 {% if grains.get('log_server') | default(false, true) %}
 
 include:
-  - default
+  - repos
   - suse_manager_server
-
-refresh_filebeat_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: filebeat_repo
 
 filebeat:
   pkg.installed:
     - name: filebeat
     - require:
       - sls: suse_manager_server
-      - cmd: refresh_filebeat_repos
 
 filebeat_configuration:
   file.managed:

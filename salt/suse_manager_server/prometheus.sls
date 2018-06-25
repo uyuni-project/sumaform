@@ -1,28 +1,13 @@
 {% if grains.get('monitored') | default(false, true) %}
 
 include:
-  - suse_manager_server
-
-prometheus_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
-    - source: salt://default/repos.d/systemsmanagement-sumaform-tools.repo
-    - template: jinja
-    - require:
-      - sls: suse_manager_server
-
-refresh_prometheus_repo:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    - require:
-      - file: prometheus_repo
+  - repos
 
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter
     - require:
-      - sls: suse_manager_server
-      - cmd: refresh_prometheus_repo
+      - sls: repos
 
 node_exporter_service:
   file.managed:
@@ -48,8 +33,7 @@ postgres_exporter:
   pkg.installed:
     - name: golang-github-wrouesnel-postgres_exporter
     - require:
-      - sls: suse_manager_server
-      - cmd: refresh_prometheus_repo
+      - sls: repos
 
 postgres_exporter_configuration:
   file.managed:
@@ -128,8 +112,7 @@ jmx_exporter:
   pkg.installed:
     - name: jmx_exporter
     - require:
-      - sls: suse_manager_server
-      - cmd: refresh_prometheus_repo
+      - sls: repos
 
 jmx_exporter_configuration:
   file.managed:

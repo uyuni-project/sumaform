@@ -1,5 +1,5 @@
 include:
-  - evil_minions.repos
+  - repos
 
 disable_salt_minion:
   service.disabled:
@@ -9,7 +9,7 @@ install_evil_minions:
   pkg.installed:
     - name: evil-minions
     - require:
-      - cmd: refresh_tools_repo
+      - sls: repos
 
 install_dump_file:
   file.decode:

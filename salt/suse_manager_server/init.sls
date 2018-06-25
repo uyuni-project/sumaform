@@ -1,5 +1,5 @@
 include:
-  - suse_manager_server.repos
+  - repos
   - suse_manager_server.firewall
   - suse_manager_server.postgres
   - suse_manager_server.tomcat
@@ -17,24 +17,9 @@ include:
 
 suse_manager_packages:
   pkg.latest:
-    {% if 'head' in grains['version'] or 'test' in grains['version'] %}
-    - fromrepo: Devel_Galaxy_Manager_Head
-    {% elif '3.0-released' in grains['version'] %}
-    - fromrepo: SUSE-Manager-3.0-x86_64-Pool
-    {% elif '3.0-nightly' in grains['version'] %}
-    - fromrepo: Devel_Galaxy_Manager_3.0
-    {% elif '3.1-released' in grains['version'] %}
-    - fromrepo: SUSE-Manager-3.1-x86_64-Pool
-    {% elif '3.1-nightly' in grains['version'] %}
-    - fromrepo: Devel_Galaxy_Manager_3.1
-    {% elif '3.2-released' in grains['version'] %}
-    - fromrepo: SUSE-Manager-3.2-x86_64-Pool
-    {% elif '3.2-nightly' in grains['version'] %}
-    - fromrepo: Devel_Galaxy_Manager_3.2
-     {% endif %}
     - name: patterns-suma_server
     - require:
-      - sls: suse_manager_server.repos
+      - sls: repos
       - sls: suse_manager_server.firewall
 
 environment_setup_script:

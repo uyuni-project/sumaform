@@ -1,6 +1,7 @@
 {% if grains.get('testsuite') | default(false, true) %}
 
 include:
+  - repos
   - minion
 
 minion_cucumber_requisites:
@@ -13,43 +14,6 @@ minion_cucumber_requisites:
 
 {% if grains['os'] == 'SUSE' %}
 
-{% if '12' in grains['osrelease'] %}
-containers_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
-    - template: jinja
-
-containers_updates_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
-    - template: jinja
-{% endif %}
-
-{% if '15' in grains['osrelease'] %}
-containers_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
-    - template: jinja
-
-containers_updates_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
-    - source: salt://minion/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
-    - template: jinja
-{% endif %}
-
-refresh_minion_repos:
-  cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
-    {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
-    - require:
-      - file: containers_pool_repo
-      - file: containers_updates_repo
-    {% endif %}
-
 suse_minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -59,7 +23,7 @@ suse_minion_cucumber_requisites:
       - ca-certificates
       {% endif %}
     - require:
-      - cmd: refresh_minion_repos
+      - sls: repos
 
 {% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
 registry_certificate:
