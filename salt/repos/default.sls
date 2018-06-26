@@ -175,7 +175,7 @@ test_update_repo:
 
 {% endif %}
 
-{% if grains.get('role') != 'suse_manager' %}
+{% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
@@ -214,7 +214,7 @@ tools_additional_repo:
 
 {% endif %}
 
-{% endif %} {# grains.get('role') != 'suse_manager' #}
+{% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
 {% endif %} {# '12' in grains['osrelease'] #}
 
 
@@ -239,7 +239,7 @@ test_update_repo:
     - template: jinja
 {% endif %}
 
-{% if grains.get('role') != 'suse_manager' %}
+{% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
 
 tools_pool_repo:
   file.managed:
@@ -269,7 +269,7 @@ tools_additional_repo:
     - template: jinja
 
 {% endif %}
-{% endif %} {# grains.get('role') != 'suse_manager' #}
+{% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
 
