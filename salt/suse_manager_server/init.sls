@@ -22,6 +22,12 @@ suse_manager_packages:
       - sls: repos
       - sls: suse_manager_server.firewall
 
+java_ibm:
+  pkg.installed:
+    - name: java-1_8_0-ibm
+    - require:
+      - sls: repos
+
 environment_setup_script:
   file.managed:
     - name: /root/setup_env.sh
