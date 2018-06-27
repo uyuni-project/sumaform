@@ -28,6 +28,12 @@ environment_setup_script:
     - source: salt://suse_manager_server/setup_env.sh
     - template: jinja
 
+java_ibm:
+  pkg.installed:
+    - name: java-1_8_0-ibm
+    - require:
+      - sls: repos
+
 suse_manager_setup:
   cmd.run:
     - name: /usr/lib/susemanager/bin/migration.sh -l /var/log/susemanager_setup.log -s
