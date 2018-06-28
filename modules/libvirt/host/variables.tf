@@ -80,3 +80,8 @@ variable "additional_disk" {
   description = "disk block definition(s) to be added to this host"
   default = []
 }
+
+variable "interfaces" {
+  description = "interface block definition(s) for this host"
+  default = []
+}

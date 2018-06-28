@@ -14,6 +14,7 @@ include:
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
   - suse_manager_server.apparmor
+  - suse_manager_server.retail
 
 suse_manager_packages:
   pkg.latest:

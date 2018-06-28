@@ -1,0 +1,7 @@
+[Devel_SLEPOS_SUSE-Manager-Retail_3.2]
+name=SUSE Manager for Retail 3.2 (SLE_12_SP3)
+type=rpm-md
+baseurl=http://download.suse.de/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/3.2/SLE_12_SP3/
+gpgcheck=1
+gpgkey=http://download.suse.de/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/3.2/SLE_12_SP3/repodata/repomd.xml.key
+enabled=1

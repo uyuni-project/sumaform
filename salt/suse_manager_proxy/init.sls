@@ -1,6 +1,7 @@
 include:
   - repos
   - suse_manager_proxy.apparmor
+  - suse_manager_proxy.retail
 
 proxy-packages:
   pkg.latest:

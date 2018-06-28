@@ -1,0 +1,11 @@
+65.160.10.in-addr.arpa.  IN SOA  ebi3-proxy.tf.local. admin.tf.local. ( 
+         2018071201  ; serial
+         1D          ; refresh
+         2H          ; retry
+         1W          ; expiry
+         2D )        ; minimum
+  
+         IN NS       ebi3-proxy.tf.local.
+ 
+32       IN PTR      ebi3-proxy.tf.local.
+38       IN PTR      ebi3-server.tf.local.

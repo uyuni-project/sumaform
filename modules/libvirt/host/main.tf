@@ -31,12 +31,16 @@ resource "libvirt_domain" "domain" {
     var.additional_disk
   )}"]
 
-  network_interface {
-    wait_for_lease = true
-    network_name = "${var.base_configuration["network_name"]}"
-    bridge = "${var.base_configuration["bridge"]}"
-    mac = "${var.mac}"
-  }
+  network_interface = ["${coalescelist(
+    var.interfaces,
+    list(map(
+      "wait_for_lease", true,
+      "network_id", var.base_configuration["retail"] ? var.base_configuration["retail_network_id"] : "",
+      "network_name", var.base_configuration["retail"] ? "" : var.base_configuration["network_name"],
+      "bridge", var.base_configuration["retail"] ? "" : var.base_configuration["bridge"],
+      "mac", var.mac
+    ))
+  )}"]
 
   connection {
     user = "root"
@@ -56,6 +60,7 @@ domain: ${var.base_configuration["domain"]}
 use_avahi: ${var.base_configuration["use_avahi"]}
 timezone: ${var.base_configuration["timezone"]}
 testsuite: ${var.base_configuration["testsuite"]}
+retail: ${var.base_configuration["retail"]}
 use_released_updates: ${var.use_released_updates}
 use_unreleased_updates: ${var.use_unreleased_updates}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}

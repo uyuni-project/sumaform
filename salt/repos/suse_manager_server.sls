@@ -116,6 +116,14 @@ prometheus_repo:
     - template: jinja
 {% endif %}
 
+{% if grains.get('retail') | default(false, true) %}
+retail_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel-SLEPOS-SUSE-Manager-Retail-3.2.repo
+    - source: salt://repos/repos.d/Devel-SLEPOS-SUSE-Manager-Retail-3.2.repo
+    - template: jinja
+{% endif %}
+
 {% endif %}
 
 # HACK: work around #10852

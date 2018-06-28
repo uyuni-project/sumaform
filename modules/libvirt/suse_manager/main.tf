@@ -69,6 +69,14 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  interfaces = [
+    {
+      wait_for_lease = true
+      network_name = "${var.base_configuration["network_name"]}"
+      bridge = "${var.base_configuration["bridge"]}"
+      mac = "${var.mac}"
+    }
+  ]
 }
 
 output "configuration" {
