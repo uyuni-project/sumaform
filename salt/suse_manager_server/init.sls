@@ -28,11 +28,15 @@ environment_setup_script:
     - source: salt://suse_manager_server/setup_env.sh
     - template: jinja
 
+# HACK: work around bsc#1099454
+
 java_ibm:
   pkg.installed:
     - name: java-1_8_0-ibm
     - require:
       - sls: repos
+
+# end of HACK
 
 suse_manager_setup:
   cmd.run:
