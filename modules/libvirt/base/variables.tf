@@ -48,6 +48,11 @@ variable "testsuite" {
   default = false
 }
 
+variable "retail" {
+  description = "whether this is a SUSE Manager for Retail deployment or not"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "pool" {

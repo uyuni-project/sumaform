@@ -32,8 +32,9 @@ resource "libvirt_domain" "domain" {
 
   network_interface {
     wait_for_lease = true
-    network_name = "${var.base_configuration["network_name"]}"
-    bridge = "${var.base_configuration["bridge"]}"
+    network_id = "${var.base_configuration["retail"] ? var.base_configuration["network_id"] : ""}"
+    network_name = "${var.base_configuration["retail"] ? "" : var.base_configuration["network_name"]}"
+    bridge = "${var.base_configuration["retail"] ? "" : var.base_configuration["bridge"]}"
     mac = "${var.mac}"
   }
 

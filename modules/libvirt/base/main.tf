@@ -65,6 +65,14 @@ resource "libvirt_volume" "sles-es7_volume" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_network" "private_network" {
+  count = "${var.retail ? 1: 0}"
+  name = "branch_network"
+  mode = "nat"
+  domain = "branch.net"
+  addresses = ["192.168.5.0/24", "fd05::/120"]
+}
+
 output "configuration" {
   depends_on = [
     "libvirt_volume.centos7_module",
@@ -88,6 +96,8 @@ output "configuration" {
     name_prefix = "${var.name_prefix}"
     use_shared_resources = "${var.use_shared_resources}"
     testsuite = "${var.testsuite}"
+    retail = "${var.retail}"
+    network_id = "${var.retail ? libvirt_network.private_network.id : ""}"
 
     // Provider-specific variables
     pool = "${var.pool}"
