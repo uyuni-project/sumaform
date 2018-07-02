@@ -21,6 +21,7 @@ module "base" {
   // optional parameters with defaults below
   // name_prefix = ""
   // timezone = "Europe/Berlin"
+  // additional_network = false // needed for testing Retail
 
   // comment-out the following two lines if you are not targeting the SUSE internal "ECP" Cloud 
   mirror = "mirror.tf.local"

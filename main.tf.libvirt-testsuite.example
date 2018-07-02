@@ -4,14 +4,17 @@ provider "libvirt" {
 
 module "base" {
   source = "./modules/libvirt/base"
+
   cc_username = "UC7"
   cc_password = ...
   testsuite = true
+
   // optional parameters with defaults below
   // pool = "default"
   // network_name = "default" // change to "" if you change bridge below
   // bridge = ""
   // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
+  // additional_network = false // needed for testing Retail
 }
 
 module "ctl" {
