@@ -148,6 +148,23 @@ Additionally, it is possible to have only one user to upload images and other sh
  * add a `use_shared_resources = true` variable to the `base` module of all users but one
  * make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
 
+
+## Additional network and SUSE Manager for Retail
+
+You may get an additional, isolated, network, with neither DHCP nor DNS by specifying:
+
+```hcl
+module "base" {
+  [...]
+  additional_network = true
+  [...]
+}
+```
+
+This will create a network named `private`, with your prefix in front of the name (eg. `hmu-private`). Every VM will get a second network interface `eth1` connected to that network.
+
+You may use that additional network to test SUSE Manager for Retail with the test suite or manually.
+
 ## Custom SSH keys
 
 If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:

@@ -48,6 +48,11 @@ variable "testsuite" {
   default = false
 }
 
+variable "additional_network" {
+  description = "whether to use an additional network or not"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "pool" {

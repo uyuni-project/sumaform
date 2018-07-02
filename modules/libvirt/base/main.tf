@@ -65,6 +65,14 @@ resource "libvirt_volume" "sles-es7_volume" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_network" "additional_network" {
+  count = "${var.additional_network ? 1 : 0}"
+  name = "${var.name_prefix}private"
+  mode = "none"
+  addresses = [ "192.168.5.0/24" ]
+  dhcp { enabled = "false" }
+}
+
 output "configuration" {
   depends_on = [
     "libvirt_volume.centos7_module",
@@ -88,6 +96,8 @@ output "configuration" {
     name_prefix = "${var.name_prefix}"
     use_shared_resources = "${var.use_shared_resources}"
     testsuite = "${var.testsuite}"
+    additional_network = "${var.additional_network}"
+    additional_network_id = "${join(",", libvirt_network.additional_network.*.id)}"
 
     // Provider-specific variables
     pool = "${var.pool}"
