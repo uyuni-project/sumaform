@@ -4,6 +4,7 @@ export CLIENT={{ grains.get('client') }}
 export MINION={{ grains.get('minion') }}
 {% if grains.get('ssh_minion') | default(false, true) %}export SSHMINION={{ grains.get('ssh_minion') }} {% else %}# no SSH minion defined {% endif %}
 {% if grains.get('centos_minion') | default(false, true) %}export CENTOSMINION={{ grains.get('centos_minion') }} {% else %}# no CentOS minion defined {% endif %}
+{% if grains.get('mirror') | default(false, true) %}export NOTWITHFROMDIR=1 {% else %}# SCC connection used {% endif %}
 
 # generate certs for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
