@@ -29,14 +29,11 @@ environment_setup_script:
     - template: jinja
 
 # HACK: work around bsc#1099454
-
 java_ibm:
   pkg.installed:
     - name: java-1_8_0-ibm
     - require:
       - sls: repos
-
-# end of HACK
 
 suse_manager_setup:
   cmd.run:
