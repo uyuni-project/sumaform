@@ -12,7 +12,7 @@ module "client" {
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
-version: ${var.version}
+product_version: ${var.product_version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: client
