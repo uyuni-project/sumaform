@@ -12,7 +12,7 @@ additional_repos: {}
 additional_packages: []
 authorized_keys: [ssh-rsa 1233= root@travis.git]
 reset_ids: true
-version: head
+product_version: head
 server: travis.tf.local
 role: client
 mirror: null
