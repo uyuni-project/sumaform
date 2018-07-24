@@ -1,10 +1,10 @@
 # Advanced `main.tf` configurations
 
-## Changing product versions
+## Changing product version
 
-Some modules have a ``version`` variable that determines the software version. Specifically:
- * in `suse_manager`, `suse_manager_proxy` etc. `version` determines the SUSE Manager product version,
- * in `minion`, `client`, etc. `version` determines the SUSE Manager Tools version.
+Some modules have a ``product_version`` variable that determines the software product version. Specifically:
+ * in `suse_manager`, `suse_manager_proxy` etc. `product_version` determines the SUSE Manager product version,
+ * in `minion`, `client`, etc. `product_version` determines the SUSE Manager Tools version.
 
 Legal values for released software are:
  * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
@@ -31,7 +31,7 @@ module "minsles12sp1" {
   name = "minsles12sp1"
   image = "sles12sp1"
   server_configuration = "${module.proxy.configuration}"
-  version = "nightly"
+  product_version = "nightly"
 }
 
 module "suma31pg" {
@@ -39,7 +39,7 @@ module "suma31pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  version = "3.1-released"
+  product_version = "3.1-released"
 }
 ```
 
@@ -109,7 +109,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   channels = ["sles12-sp2-pool-x86_64"]
 }
 ```
@@ -130,7 +130,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
   cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
 }
@@ -191,11 +191,11 @@ module "min" {
 }
 ```
 
-## Change the base OS for supported SUSE Manager versions
+## Change the base OS for supported SUSE Manager product_versions
 
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Please note that not all SUSE Manager versions support all OSs, refer to official documentation to select a compatible OS. In particular, `opensuse423` can presently only be used for the `head` version.
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Please note that not all SUSE Manager product_versions support all OSs, refer to official documentation to select a compatible OS. In particular, `opensuse423` can presently only be used for the `head` product_version.
 
-The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
+The following example creates a SUSE Manager server using "nightly" packages from product_version 3 based on SLES 12 SP2:
 
 ```hcl
 module "suma3pg" {
@@ -204,13 +204,13 @@ module "suma3pg" {
 
   image = "sles12sp2"
   name = "suma3pg"
-  version = "3.0-nightly"
+  product_version = "3.0-nightly"
 }
 ```
 
 ## Proxies
 
-A `proxy` module is similar to a `client` module but has a `version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
+A `proxy` module is similar to a `client` module but has a `product_version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
 
 ```hcl
 module "suma3pg" {
@@ -218,7 +218,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  version = "3.0-nightly"
+  product_version = "3.0-nightly"
 }
 
 module "proxy" {
@@ -226,7 +226,7 @@ module "proxy" {
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
-  version = "3.0-nightly"
+  product_version = "3.0-nightly"
   server_configuration = "${module.suma3pg.configuration}"
 }
 
@@ -253,7 +253,7 @@ module "master" {
   base_configuration = "${module.base.configuration}"
 
   name = "master"
-  version = "3.1-released"
+  product_version = "3.1-released"
   iss_slave = "suma3pgs.tf.local"
 }
 
@@ -262,7 +262,7 @@ module "slave" {
   base_configuration = "${module.base.configuration}"
 
   name = "slave"
-  version = "3.1-released"
+  product_version = "3.1-released"
   iss_master = "${module.master.configuration["hostname"]}"
 }
 ```
@@ -408,7 +408,7 @@ module "minionswarm" {
 }
 ```
 
-This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
+This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt product_version are supported.
 
 ## SMT
 
@@ -420,7 +420,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  version = "3.0-nightly"
+  product_version = "3.0-nightly"
   smt = "http://smt.suse.de"
 }
 ```
@@ -474,7 +474,7 @@ module "suma31pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  version = "head"
+  product_version = "head"
   monitored = true
 }
 
@@ -501,7 +501,7 @@ A libvirt example follows:
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  version = "head"
+  product_version = "head"
   apparmor = true
 ```
 
@@ -534,7 +534,7 @@ module "suma31pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  version = "3.1-released"
+  product_version = "3.1-released"
   log_server = "logstash.mgr.suse.de:5045"
 }
 ```
@@ -636,7 +636,7 @@ module "sumaheadpg" {
   base_configuration = "${module.base.configuration}"
 
   name = "sumaheadpg"
-  version = "head"
+  product_version = "head"
   use_unreleased_updates = true
 }
 ```
@@ -653,7 +653,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  version = "head"
+  product_version = "head"
 
   from_email = "root@mbologna.openvpn.suse.de"
 }
@@ -668,7 +668,7 @@ module "sumamail3" {
   base_configuration = "${module.base.configuration}"
 
   name = "sumamail3"
-  version = "head"
+  product_version = "head"
 
   traceback_email = "michele.bologna@chameleon-mail.com"
 }
