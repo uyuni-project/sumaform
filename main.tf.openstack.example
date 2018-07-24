@@ -1,5 +1,5 @@
 provider "openstack" {
-  version = "~> 1.2"
+  product_version = "~> 1.2"
 
   user_name   = ...
   password    = ...
@@ -31,7 +31,7 @@ module "server" {
   base_configuration = "${module.base.configuration}"
 
   name = "server"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   // see modules/openstack/suse_manager/variables.tf for possible values
 }
 
