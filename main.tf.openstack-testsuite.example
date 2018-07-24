@@ -1,5 +1,5 @@
 provider "openstack" {
-  version = "~> 1.2"
+  product_version = "~> 1.2"
 
   user_name   = ...
   password    = ...
@@ -45,7 +45,7 @@ module "ctl" {
 module "srv" {
   source = "./modules/openstack/suse_manager"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "srv"
   image = "sles12sp3"
   auto_accept = false
@@ -65,7 +65,7 @@ module "srv" {
 module "cli-sles12sp3" {
   source = "./modules/openstack/client"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "cli-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
@@ -76,7 +76,7 @@ module "cli-sles12sp3" {
 module "min-sles12sp3" {
   source = "./modules/openstack/minion"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "min-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" }
@@ -98,7 +98,7 @@ module "minssh-sles12sp3" {
 module "min-centos7" {
   source = "./modules/openstack/minion"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "min-centos7"
   image = "centos7"
   server_configuration = { hostname = "srv.tf.local" }

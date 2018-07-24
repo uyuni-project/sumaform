@@ -32,7 +32,7 @@ module "ctl" {
 module "srv" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "srv"
   image = "sles12sp3"
   auto_accept = false
@@ -52,7 +52,7 @@ module "srv" {
 module "cli-sles12sp3" {
   source = "./modules/libvirt/client"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "cli-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
@@ -63,7 +63,7 @@ module "cli-sles12sp3" {
 module "min-sles12sp3" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "min-sles12sp3"
   image = "sles12sp3"
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
@@ -85,7 +85,7 @@ module "minssh-sles12sp3" {
 module "min-centos7" {
   source = "./modules/libvirt/minion"
   base_configuration = "${module.base.configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   name = "min-centos7"
   image = "centos7"
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
