@@ -38,6 +38,7 @@ monitored: 0
 log_server: null
 from_email: null
 traceback_email: null
+log_min_duration_statement: nolog
 EOF
 
 cat >minion <<EOF

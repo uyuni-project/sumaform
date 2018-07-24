@@ -170,6 +170,12 @@ variable "gpg_keys" {
   default = []
 }
 
+
+variable "log_min_duration_statement" {
+  description = "By default disabled. log each completed statement if the statement ran for at least the specified number of milliseconds. Setting this to zero prints all statement durations."
+  default = "nolog"
+}
+
 variable "pts" {
   description = "Whether this instance is part of a Performance Testsuite"
   default = false
