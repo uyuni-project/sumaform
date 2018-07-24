@@ -1,6 +1,6 @@
 {% if grains.get('role') == 'suse_manager_proxy' %}
 
-{% if '3.0' in grains['version'] %}
+{% if '3.0' in grains['product_version'] %}
 suse_manager_proxy_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.0-x86_64-Pool.repo
@@ -14,7 +14,7 @@ suse_manager_proxy_update_repo:
     - template: jinja
 {% endif %}
 
-{% if '3.1' in grains['version'] %}
+{% if '3.1' in grains['product_version'] %}
 suse_manager_proxy_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.1-x86_64-Pool.repo
@@ -28,7 +28,7 @@ suse_manager_proxy_update_repo:
     - template: jinja
 {% endif %}
 
-{% if '3.2' in grains['version'] %}
+{% if '3.2' in grains['product_version'] %}
 suse_manager_proxy_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Pool.repo
@@ -42,7 +42,7 @@ suse_manager_proxy_update_repo:
     - template: jinja
 {% endif %}
 
-{% if 'head' in grains['version'] %}
+{% if 'head' in grains['product_version'] %}
 suse_manager_proxy_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-Head-x86_64-Pool.repo
@@ -56,7 +56,7 @@ suse_manager_devel_repo:
     - template: jinja
 {% endif %}
 
-{% if '3.0-nightly' in grains['version'] %}
+{% if '3.0-nightly' in grains['product_version'] %}
 suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.0.repo
@@ -64,7 +64,7 @@ suse_manager_devel_repo:
     - template: jinja
 {% endif %}
 
-{% if '3.1-nightly' in grains['version'] %}
+{% if '3.1-nightly' in grains['product_version'] %}
 suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.1.repo
@@ -72,7 +72,7 @@ suse_manager_devel_repo:
     - template: jinja
 {% endif %}
 
-{% if '3.2-nightly' in grains['version'] %}
+{% if '3.2-nightly' in grains['product_version'] %}
 suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2.repo

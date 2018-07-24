@@ -56,7 +56,7 @@ tools_pool_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-11-x86_64.repo
     - template: jinja
 
-{% if '3.2-released' in grains.get('version') | default('', true) %}
+{% if '3.2-released' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:
@@ -64,7 +64,7 @@ tools_additional_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-11-Beta-x86_64.repo
     - template: jinja
 
-{% elif 'nightly' in grains.get('version') | default('', true) %}
+{% elif 'nightly' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:
@@ -72,7 +72,7 @@ tools_additional_repo:
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
 
-{% elif 'head' in grains.get('version') | default('', true) %}
+{% elif 'head' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:
@@ -188,7 +188,7 @@ tools_update_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - template: jinja
 
-{% if '3.2-released' in grains.get('version') | default('', true) %}
+{% if '3.2-released' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:
@@ -196,7 +196,7 @@ tools_additional_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-12-Beta-x86_64.repo
     - template: jinja
 
-{% elif 'nightly' in grains.get('version') | default('', true) %}
+{% elif 'nightly' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:
@@ -204,7 +204,7 @@ tools_additional_repo:
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-12-x86_64.repo
     - template: jinja
 
-{% elif ('head' in grains.get('version') | default('', true)) or ('test' in grains.get('version') | default('', true)) %}
+{% elif ('head' in grains.get('product_version') | default('', true)) or ('test' in grains.get('product_version') | default('', true)) %}
 
 tools_additional_repo:
   file.managed:
@@ -253,7 +253,7 @@ tools_update_repo:
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
     - template: jinja
 
-{% if 'nightly' in grains.get('version') | default('', true) %}
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   file.managed:
@@ -261,7 +261,7 @@ tools_additional_repo:
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-15-x86_64.repo
     - template: jinja
 
-{% elif ('head' in grains.get('version') | default('', true)) or ('test' in grains.get('version') | default('', true)) %}
+{% elif ('head' in grains.get('product_version') | default('', true)) or ('test' in grains.get('product_version') | default('', true)) %}
 tools_additional_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-15-x86_64.repo
@@ -321,7 +321,7 @@ suse_res7_key:
     - watch:
       - file: suse_res7_key
 
-{% if '3.2-released' in grains.get('version') | default('', true) %}
+{% if '3.2-released' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-Beta-x86_64.repo
@@ -330,7 +330,7 @@ tools_update_repo:
     - require:
       - cmd: galaxy_key
 
-{% elif 'head' in grains.get('version') | default('', true) %}
+{% elif 'head' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_Head_RES-Manager-Tools-7-x86_64.repo
@@ -339,7 +339,7 @@ tools_update_repo:
     - require:
       - cmd: galaxy_key
 
-{% elif 'nightly' in grains.get('version') | default('', true) %}
+{% elif 'nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.2_RES-Manager-Tools-7-x86_64.repo
