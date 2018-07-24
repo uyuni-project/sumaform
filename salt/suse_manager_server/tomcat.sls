@@ -5,7 +5,7 @@ include:
 
 tomcat_config:
   file.replace:
-    {% if '3.0' in grains['version'] %}
+    {% if '3.0' in grains['product_version'] %}
     - name: /etc/tomcat/tomcat.conf
     {% else %}
     - name: /etc/sysconfig/tomcat

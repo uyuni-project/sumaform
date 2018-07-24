@@ -12,7 +12,7 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
-{% if grains.get('browser_side_less') and 'released' not in grains['version'] %}
+{% if grains.get('browser_side_less') and 'released' not in grains['product_version'] %}
 
 browser_side_less_configuration:
   file.append:
