@@ -47,7 +47,7 @@ hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)
 domain: ${var.region}.compute.internal
 use_avahi: False
 mirror: ${var.mirror_private_name}
-version: 3.1-released
+product_version: 3.1-released
 role: evil_minions
 server: ${var.server}
 evil_minion_count: ${var.evil_minion_count}

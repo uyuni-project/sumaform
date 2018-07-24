@@ -53,7 +53,7 @@ hostname: ${replace("${element(aws_instance.instance.*.private_dns, count.index)
 domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}
 use_avahi: False
 mirror: ${var.mirror_private_name}
-version: ${var.version}
+product_version: ${var.product_version}
 channels: [${join(",", var.channels)}]
 role: ${var.role}
 cc_username: ${var.cc_username}

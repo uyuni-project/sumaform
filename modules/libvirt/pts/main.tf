@@ -2,7 +2,7 @@ module "server" {
   source = "../suse_manager"
   name = "${var.suse_manager_name}"
   base_configuration = "${var.base_configuration}"
-  version = "3.1-nightly"
+  product_version = "3.1-nightly"
   image = "sles12sp3"
   monitored = true
   pts = true

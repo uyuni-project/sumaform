@@ -7,7 +7,7 @@ module "evil_minions" {
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
-version: 3.1-released
+product_version: 3.1-released
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: evil_minions
