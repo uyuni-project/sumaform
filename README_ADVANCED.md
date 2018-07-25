@@ -191,11 +191,11 @@ module "min" {
 }
 ```
 
-## Change the base OS for supported SUSE Manager product_versions
+## Change the base OS for supported SUSE Manager versions
 
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Please note that not all SUSE Manager product_versions support all OSs, refer to official documentation to select a compatible OS. In particular, `opensuse423` can presently only be used for the `head` product_version.
+You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Please note that not all SUSE Manager versions support all OSs, refer to official documentation to select a compatible OS. In particular, `opensuse423` can presently only be used for the `head` version.
 
-The following example creates a SUSE Manager server using "nightly" packages from product_version 3 based on SLES 12 SP2:
+The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
 
 ```hcl
 module "suma3pg" {
@@ -408,7 +408,7 @@ module "minionswarm" {
 }
 ```
 
-This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt product_version are supported.
+This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
 
 ## SMT
 
