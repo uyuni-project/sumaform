@@ -1,5 +1,5 @@
 terraform {
-    required_version = ">= 0.10.7"
+    required_version = "~> 0.11.7"
 }
 
 // Names are calculated as follows:
