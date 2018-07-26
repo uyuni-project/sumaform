@@ -2,7 +2,7 @@
 
 ## Changing product versions
 
-Some modules have a ``product_version`` variable that determines the software product version. Specifically:
+Some modules have a `product_version` variable that determines the software product version. Specifically:
  * in `suse_manager`, `suse_manager_proxy` etc. `product_version` determines the SUSE Manager product version,
  * in `minion`, `client`, etc. `product_version` determines the SUSE Manager Tools version.
 
