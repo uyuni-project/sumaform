@@ -116,6 +116,13 @@ enable_salt_content_staging_advance:
     - name: /etc/rhn/rhn.conf
     - pattern: 'java.salt_content_staging_advance = (.*)'
     - repl: 'java.salt_content_staging_advance = 0.05'
+
+enable_kiwi_os_image_building:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: 'java.kiwi_os_image_building_enabled = (.*)'
+    - repl: 'java.kiwi_os_image_building_enabled = true'
+    - append_if_not_found: True
     - require:
       - cmd: suse_manager_setup
 
