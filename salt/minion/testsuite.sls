@@ -53,6 +53,12 @@ update_ca_truststore:
     - require:
       - pkg: suse_minion_cucumber_requisites
 
+kiwi-desc-saltboot-installed:
+  pkg.installed:
+    - name: kiwi-desc-saltboot
+    - require:
+      - sls: repos
+
 {% endif %}
 
 {% endif %}

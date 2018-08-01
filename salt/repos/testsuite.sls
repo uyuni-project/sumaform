@@ -9,18 +9,6 @@ testsuite_build_repo:
     - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
     - template: jinja
 
-{% if grains['role'] == 'minion' %}
-# Workaround: until `kiwi-desc-saltboot` is part of Manager:tools , we need
-# to manually add this repo that contains `kiwi-desc-saltboot`. Can be removed
-# when https://github.com/SUSE/spacewalk/issues/5202 is closed
-
-slepos_devel_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_SLEPOS_SUSE-Manager-Retail_Head.repo
-    - source: salt://repos/repos.d/Devel_SLEPOS_SUSE-Manager-Retail_Head.repo
-
-{% endif %}
-
 {% elif grains['os_family'] == 'RedHat' %}
 
 testsuite_build_repo:
