@@ -177,6 +177,10 @@ http:
   - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
+  # SLEPOS SUSE Manager for Retail devel
+  - url: http://download.suse.de/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/Head/SLE_12_SP3/
+    archs: [x86_64]
+
   # openSUSE Leap
   - url: http://download.opensuse.org/distribution/leap/42.3/repo/oss/suse
     archs: [x86_64]
