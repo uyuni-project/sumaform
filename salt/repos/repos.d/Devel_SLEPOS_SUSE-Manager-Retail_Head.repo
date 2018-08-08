@@ -1,7 +1,7 @@
 [Devel_SLEPOS_SUSE-Manager-Retail_Head]
 name=corresponds to git master (SLE_12_SP3)
 type=rpm-md
-baseurl=http://download.suse.de/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/Head/SLE_12_SP3/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/Head/SLE_12_SP3/
 gpgcheck=1
-gpgkey=http://download.suse.de/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/Head/SLE_12_SP3/repodata/repomd.xml.key
+gpgkey=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/SLEPOS:/SUSE-Manager-Retail:/Head/SLE_12_SP3/repodata/repomd.xml.key
 enabled=1
