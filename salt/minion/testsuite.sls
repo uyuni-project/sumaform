@@ -53,11 +53,15 @@ update_ca_truststore:
     - require:
       - pkg: suse_minion_cucumber_requisites
 
+{% if '3.2' in grains['version'] or 'head' in grains['version'] %}
+
 kiwi-desc-saltboot-installed:
   pkg.installed:
     - name: kiwi-desc-saltboot
     - require:
       - sls: repos
+
+{% endif %}
 
 {% endif %}
 
