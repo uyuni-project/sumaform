@@ -102,19 +102,19 @@ http:
   #  #  archs: [x86_64]
 
   # SUSE Manager Head (SLE12-SP3)
-  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-4.0-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager Head Proxy (SLE12-SP3)
-  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager Head (openSUSE Leap 42.3)
-  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Server-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Server-4.0-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager Head Proxy (openSUSE Leap 42.3)
-  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
+  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
     archs: [x86_64]
 
   # SUSE Manager 3.0 devel
