@@ -2,5 +2,5 @@
 name=SUSE-Manager-Proxy-Head-x86_64-Pool (openSUSE Leap 42.3)
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1/
+baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images-openSUSE_Leap_42.3/repo/openSUSE42.3-SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1/
 priority=97
