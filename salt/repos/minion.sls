@@ -17,7 +17,7 @@ containers_updates_repo:
 # to manually add this repo that contains `kiwi-desc-saltboot`. Can be removed
 # when https://github.com/SUSE/spacewalk/issues/5202 is closed
 
-{% if '3.2' in grains['version'] or 'head' in grains['version'] %}
+{% if '3.2' in grains['product_version'] or 'head' in grains['product_version'] %}
 
 slepos_devel_repo:
   file.managed:
