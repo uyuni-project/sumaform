@@ -35,8 +35,11 @@ suse_manager_proxy_pool_repo:
     - source: salt://repos/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Pool.repo
     - template: jinja
 
-# NOTE: the update repository for 3.2 does not exist yet
-#       don't forget to add it after GA
+suse_manager_proxy_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Update.repo
+    - source: salt://repos/repos.d/SUSE-Manager-Proxy-3.2-x86_64-Update.repo
+    - template: jinja
 {% endif %}
 
 {% if 'head' in grains['version'] %}
