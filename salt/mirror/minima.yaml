@@ -65,14 +65,6 @@ scc:
   archs: [x86_64]
 
 http:
-  # SUSE Manager 3.2
-  - url: http://dist.nue.suse.com/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Server-3.2-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # SUSE Manager 3.2 Proxy
-  - url: http://dist.nue.suse.com/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1
-    archs: [x86_64]
-
   # RES 7
   #- url: https://nu.novell.com/repo/$RCE/RES7/x86_64
   #  #  archs: [x86_64]
