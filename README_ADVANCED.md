@@ -315,7 +315,7 @@ The performance testsuite relies on the `evil-minions` load generator in order t
 
 ## Cucumber testsuite
 
-It is possible to run [the Cucumber testsuite for SUSE Manager](https://github.com/SUSE/spacewalk-testsuite-base/) by using the `main.tf.libvirt-testsuite.example` file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `main.tf.libvirt-testsuite.example` file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
 The proxy, the SSH minion, and the CentOS minion are optional. The server, traditional client and normal minion are not.
 
