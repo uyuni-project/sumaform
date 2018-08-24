@@ -1,0 +1,6 @@
+[SUSE-Manager-3.2-x86_64-Update]
+name=SUSE-Manager-3.2-x86_64-Update
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com/mirror/SuSE/build.suse.de", true) }}/SUSE/Updates/SUSE-Manager-Server/3.2/x86_64/update/
+priority=97
