@@ -21,6 +21,7 @@ resource "libvirt_domain" "domain" {
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   count = "${var.count}"
+  qemu_agent = true
 
   // base disk + additional disks if any
   disk = ["${concat(
