@@ -1,9 +1,5 @@
 # Troubleshooting
 
-## Q: I get the error "* Unknown root level key: terraform" or "Error downloading modules: ... parse error: syntax error"
-
-A: please update your terraform version to >= 0.8.0
-
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
 
 Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See [Accessing VMs](modules/libvirt/README.md#accessing-vms) for details.
@@ -161,14 +157,6 @@ sudo /etc/init.d/apparmor restart
 sudo aa-status | grep libvirt # output should be empty
 ```
 
-## Q: how can I workaround an "expected object, got string" libvirt error during the plan?
-
-If you run into this error:
-
-`* libvirt_domain.domain: disk.0: expected object, got string`
-
-during the `terraform plan`, make sure you have an up-to-date `terraform-provider-libvirt` plugin.
-
 ## Q: how can I workaround a "dial tcp" error?
 
 If you run into this error:
@@ -206,12 +194,6 @@ Error applying plan:
 ```
 
 A simple solution is to create a symbolic link pointing to the `salt` directory on top level of the sumaform files tree. Create this symlink in your current directory.
-
-## Q: Why do I get a "lookup: lookup failed to find '3-stable'" error?
-
-The error means that there is no such version as "3-stable" for the desired resource. Specifically, all SUSE Manager 3.0 versions have been renamed to get a `3.0-` prefix instead of the old `3-` one to avoid confusion with 3.1, moreover `stable` has been replaced by `released` to take into account beta versions.
-
-In this specific example, use `3.0-released` instead of `3-stable`. In other cases, please check the `variables.tf` file of the module you want to use.
 
 ## Q: how do I re-apply the Salt state that was used to provision the machine?
 
