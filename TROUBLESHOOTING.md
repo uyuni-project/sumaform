@@ -1,5 +1,19 @@
 # Troubleshooting
 
+## Q: I get the error "Error: module "server": missing required argument "product_version""
+
+You recently upgraded `terraform` to v0.11 and your `main.tf` file still has pre-v0.11 syntax. You have to replace occurrences of `version` to `product_version`, eg:
+
+```hcl
+module "server" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "server"
+  product_version = "3.1-nightly"
+}
+```
+
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
 
 Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See [Accessing VMs](modules/libvirt/README.md#accessing-vms) for details.
