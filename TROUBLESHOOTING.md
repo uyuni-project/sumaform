@@ -14,38 +14,6 @@ module "server" {
 }
 ```
 
-## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
-
-Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See [Accessing VMs](modules/libvirt/README.md#accessing-vms) for details.
-
-## Q: how to force the re-creation of a resource?
-
-A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the module and resource use `terraform state list`:
-
-```
-$ terraform state list
-...
-module.suma3pg.module.suse_manager.libvirt_volume.main_disk
-
-$ terraform taint -module=suma3pg.suse_manager libvirt_volume.main_disk
-The resource libvirt_volume.main_disk in the module root.suma3pg.suse_manager has been marked as tainted!
-```
-## Q: how to force the re-download of an image?
-
-A: see above, use the taint command as per the following example:
-
-```
-$ terraform state list
-...
-module.base.libvirt_volume.volumes[2]
-
-$ terraform taint -module=base libvirt_volume.volumes.2
-The resource libvirt_volume.volumes.2 in the module root.base has been marked as tainted!
-```
-
-Please note that any dependent volume and module should be tainted as well before applying (eg. if you are tainting the `sles12sp2` image, make sure you either have no VMs based on that OS or that they are all tainted).
-
-
 ## Q: how can I work around a "resource already exists" error?
 
 Typical error message follows:
@@ -179,6 +147,41 @@ If you run into this error:
 
 during the `terraform apply`, it means Terraform was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking configuration. If you are using AWS, make sure your current IP is listed in the `ssh_allowed_ips` variable (or check it is whitelisted in AWS Console -> VPC -> Security Groups).
 
+## Q: how do I re-apply the Salt state that was used to provision the machine?
+
+Run `sh /root/salt/highstate.sh`.
+
+## Q: how to force the re-creation of a resource?
+
+A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the module and resource use `terraform state list`:
+
+```
+$ terraform state list
+...
+module.suma3pg.module.suse_manager.libvirt_volume.main_disk
+
+$ terraform taint -module=suma3pg.suse_manager libvirt_volume.main_disk
+The resource libvirt_volume.main_disk in the module root.suma3pg.suse_manager has been marked as tainted!
+```
+## Q: how to force the re-download of an image?
+
+A: see above, use the taint command as per the following example:
+
+```
+$ terraform state list
+...
+module.base.libvirt_volume.volumes[2]
+
+$ terraform taint -module=base libvirt_volume.volumes.2
+The resource libvirt_volume.volumes.2 in the module root.base has been marked as tainted!
+```
+
+Please note that any dependent volume and module should be tainted as well before applying (eg. if you are tainting the `sles12sp2` image, make sure you either have no VMs based on that OS or that they are all tainted).
+
+## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
+
+Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See [Accessing VMs](modules/libvirt/README.md#accessing-vms) for details.
+
 ## Q: how can I workaround an "libvirt_domain.domain: diffs didn't match during apply" libvirt error?
 
 If you have just switched from non-bridged to bridged networking or vice versa you might get the following error:
@@ -209,11 +212,7 @@ Error applying plan:
 
 A simple solution is to create a symbolic link pointing to the `salt` directory on top level of the sumaform files tree. Create this symlink in your current directory.
 
-## Q: how do I re-apply the Salt state that was used to provision the machine?
-
-Run `sh /root/salt/highstate.sh`.
-
-## Q: how can I change to another workspaces?
+## Q: how can I change to another workspace?
 
 If you want to work with more than one `main.tf` file, for example to use both a libvirt and an OpenStack configuration, you can follow [instructions in the README_ADVANCED.md file](README_ADVANCED.md#working-on-multiple-configuration-sets-workspaces-locally) to set up multiple workspaces.
 
