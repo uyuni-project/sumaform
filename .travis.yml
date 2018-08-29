@@ -16,9 +16,9 @@ addons:
 install:
   - pip3 install coala coala-bears
   - wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/x86_64/terraform.rpm
-  - rpm2cpio ./terraform.rpm | cpio -idmv
+  - rpm2cpio ./terraform.rpm | cpio --extract --make-directories --verbose "./usr/bin/terraform"
   - wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/x86_64/terraform-provider-libvirt.rpm
-  - rpm2cpio ./terraform-provider-libvirt.rpm | cpio -idmv
+  - rpm2cpio ./terraform-provider-libvirt.rpm | cpio --extract --make-directories --verbose "./usr/bin/terraform-provider-libvirt"
   - export PATH=$PATH:$PWD/usr/bin/
 
 before_script: terraform --version
