@@ -14,6 +14,26 @@ module "server" {
 }
 ```
 
+## Q: I get intermittent "Can't retrieve volume /var/lib/libvirt/images/..." errors, Terraform generates plans that do not make sense, planning multiple times yields different results
+
+Please try disabling parallelization of Terraform via the `-parallelism` option:
+
+```
+terraform plan -parallelism=1
+terraform apply -parallelism=1
+```
+
+If the problem does not manifest any more, then you are running a version of libvirt that does not yet contain a fix for `virHashSearch` - your libvirt logs should also contains lines like the following:
+
+```
+virHashSearch:727 : Hash operation not allowed during iteration
+```
+
+This is a known libvirt bug which is only solved from version 4.3.0 on. Presently openSUSE Leap, SLES and Ubuntu LTS distros are all affected, bug reports have been posted and patches are in the process to be included in respective packages.
+
+Reported against SUSE distros as: https://bugzilla.suse.com/show_bug.cgi?id=1106420
+Reported against Ubuntu as: https://bugs.launchpad.net/ubuntu/+source/libvirt/+bug/1789659
+
 ## Q: how can I work around a "resource already exists" error?
 
 Typical error message follows:
