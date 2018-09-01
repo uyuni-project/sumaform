@@ -1,12 +1,13 @@
+# Environment variables used by test suite
 export SERVER={{ grains.get('server') }}
 {% if grains.get('proxy') | default(false, true) %}export PROXY={{ grains.get('proxy') }} {% else %}# no proxy defined {% endif %}
 export CLIENT={{ grains.get('client') }}
 export MINION={{ grains.get('minion') }}
 {% if grains.get('ssh_minion') | default(false, true) %}export SSHMINION={{ grains.get('ssh_minion') }} {% else %}# no SSH minion defined {% endif %}
 {% if grains.get('centos_minion') | default(false, true) %}export CENTOSMINION={{ grains.get('centos_minion') }} {% else %}# no CentOS minion defined {% endif %}
-{% if grains.get('mirror') | default(false, true) %}export NOTWITHFROMDIR=1 {% else %}# SCC connection used {% endif %}
+{% if grains.get('mirror') | default(false, true) %}export MIRROR=yes {% else %}# no mirror used {% endif %}
 
-# generate certs for Google Chrome
+# Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
   wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
   update-ca-certificates
