@@ -116,7 +116,9 @@ prometheus_repo:
     - template: jinja
 {% endif %}
 
-{% if grains.get('retail') | default(false, true) %}
+# NOTE: this is a temporary hack
+# it will go away once Retail team's work is merged into SUSE Manager
+{% if grains.get('retail_repo') | default(false, true) %}
 retail_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel-SLEPOS-SUSE-Manager-Retail-3.2.repo

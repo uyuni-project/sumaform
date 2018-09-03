@@ -6,7 +6,7 @@ include:
   {% if grains['use_avahi'] %}
   - default.avahi
   {% endif %}
-  {% if grains['retail'] %}
+  {% if grains['private_network'] %}
   - default.private_network
   {% endif %}
 

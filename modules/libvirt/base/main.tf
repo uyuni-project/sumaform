@@ -66,7 +66,7 @@ resource "libvirt_volume" "sles-es7_volume" {
 }
 
 resource "libvirt_network" "private_network" {
-  count = "${var.retail ? 1 : 0}"
+  count = "${var.additional_network ? 1 : 0}"
   name = "${var.name_prefix}private"
   mode = "none"
   addresses = [ "192.168.5.0/24" ]
@@ -96,8 +96,8 @@ output "configuration" {
     name_prefix = "${var.name_prefix}"
     use_shared_resources = "${var.use_shared_resources}"
     testsuite = "${var.testsuite}"
-    retail = "${var.retail}"
-    retail_network_id = "${join(",", libvirt_network.private_network.*.id)}"
+    additional_network = "${var.additional_network}"
+    additional_network_id = "${join(",", libvirt_network.private_network.*.id)}"
 
     // Provider-specific variables
     pool = "${var.pool}"

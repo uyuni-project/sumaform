@@ -14,11 +14,17 @@ include:
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
   - suse_manager_server.apparmor
-  - suse_manager_server.retail
 
 suse_manager_packages:
   pkg.latest:
-    - name: patterns-suma_server
+    - pkgs:
+      - patterns-suma_server
+      # NOTE: this is a temporary hack
+      # it will go away once Retail team's work is merged into SUSE Manager
+      {% if grains.get('retail_repo') | default(false, true) %}
+      - branch-network-formula
+      - image-sync-formula
+      {% endif %}
     - require:
       - sls: repos
       - sls: suse_manager_server.firewall

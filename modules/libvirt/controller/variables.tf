@@ -78,6 +78,11 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "retail" {
+  description = "whether to test SUSE Manager for Retail or not"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "memory" {

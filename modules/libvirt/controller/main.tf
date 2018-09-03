@@ -23,6 +23,7 @@ module "controller" {
 
 git_username: ${var.git_username}
 git_password: ${var.git_password}
+retail: ${var.retail}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 proxy: ${var.proxy_configuration["hostname"]}

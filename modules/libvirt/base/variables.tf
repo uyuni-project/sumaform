@@ -48,8 +48,8 @@ variable "testsuite" {
   default = false
 }
 
-variable "retail" {
-  description = "whether this is a SUSE Manager for Retail deployment or not"
+variable "additional_network" {
+  description = "whether to use an additional network or not"
   default = false
 }
 
