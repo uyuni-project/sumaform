@@ -352,11 +352,22 @@ ssh -t head-ctl.tf.local screen -r
 
 You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
 
-You can also select [a specific branch of the Cucumber testsuite git repo](https://github.com/SUSE/spacewalk-testsuite-base/#branches-used) via the `branch` variable in the `controller` module (by default an automatic selection is made). A specific fork of the Spacewalk or the Uyuni repository can also be selected via the `git_repo` variable in the `controller` module (by default the Uyuni repository for the `Manager` branch and the Spacewalk repository for all others). As an example:
+You can also select an alternative fork or branch where for the Cucumber testsuite code:
+ - the `git_repo` variable in the `controller` overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
+ - the `branch` variable in the `controller` overrides the branch (by default an automatic selection is made).
+
+As an example:
 
 ```
+module "controller" {
+  source = "./modules/libvirt/controller"
+  base_configuration = "${module.base.configuration}"
+  name = "controller"
+  ...
   git_repo = "https://url.to.git/repo/to/clone"
   branch = "cool-feature"
+  ...
+}
 ```
 
 ## Working on multiple configuration sets (workspaces) locally
