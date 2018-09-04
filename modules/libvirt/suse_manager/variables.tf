@@ -195,6 +195,13 @@ variable "pts_system_prefix" {
   default = "evil-minions"
 }
 
+# NOTE: this is a temporary hack
+# it will go away once Retail team's work is merged into SUSE Manager
+variable "retail_repo" {
+  description = "Whether to add Retail repository and packages or not"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "image" {

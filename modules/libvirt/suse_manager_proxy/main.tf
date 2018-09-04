@@ -45,6 +45,20 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  interfaces = "${slice(
+    list(
+      map("wait_for_lease", true,
+          "network_name", var.base_configuration["network_name"],
+          "bridge", var.base_configuration["bridge"],
+          "mac", var.mac
+         ),
+      map("wait_for_lease", false,
+          "network_id", var.base_configuration["retail_network_id"]
+         )
+    ),
+    0,
+    var.base_configuration["retail"] ? 2 : 1
+  )}"
 }
 
 output "configuration" {

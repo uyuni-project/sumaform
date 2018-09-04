@@ -1,0 +1,16 @@
+tf.local.       IN SOA      ebi3-proxy admin.tf.local. ( 
+                2018071203  ; serial
+                1D          ; refresh
+                2H          ; retry
+                1W          ; expiry
+                2D )        ; minimum
+  
+                IN NS       ebi3-proxy
+ 
+ebi3-proxy      IN A        10.160.65.32
+ebi3-server     IN A        10.160.65.38
+
+ebi3-proxy      IN A        192.168.5.254
+ebi3-minion     IN A        192.168.5.2
+ebi3-sshminion  IN A        192.168.5.3
+ebi3-client     IN A        192.168.5.4

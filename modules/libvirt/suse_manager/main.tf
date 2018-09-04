@@ -60,6 +60,7 @@ apparmor: ${var.apparmor}
 log_server: ${var.log_server}
 from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
+retail_repo: ${var.retail_repo}
 
 EOF
 
@@ -69,6 +70,14 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  interfaces = [
+    {
+      wait_for_lease = true
+      network_name = "${var.base_configuration["network_name"]}"
+      bridge = "${var.base_configuration["bridge"]}"
+      mac = "${var.mac}"
+    }
+  ]
 }
 
 output "configuration" {

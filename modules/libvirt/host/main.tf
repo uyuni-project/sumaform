@@ -31,12 +31,16 @@ resource "libvirt_domain" "domain" {
     var.additional_disk
   )}"]
 
-  network_interface {
-    wait_for_lease = true
-    network_name = "${var.base_configuration["network_name"]}"
-    bridge = "${var.base_configuration["bridge"]}"
-    mac = "${var.mac}"
-  }
+  network_interface = ["${coalescelist(
+    var.interfaces,
+    list(map(
+      "wait_for_lease", true,
+      "network_id", var.base_configuration["additional_network"] ? var.base_configuration["additional_network_id"] : "",
+      "network_name", var.base_configuration["additional_network"] ? "" : var.base_configuration["network_name"],
+      "bridge", var.base_configuration["additional_network"] ? "" : var.base_configuration["bridge"],
+      "mac", var.mac
+    ))
+  )}"]
 
   connection {
     user = "root"

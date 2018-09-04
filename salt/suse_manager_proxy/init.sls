@@ -4,7 +4,9 @@ include:
 
 proxy-packages:
   pkg.latest:
-    - name: patterns-suma_proxy
+    - pkgs:
+      - patterns-suma_proxy
+      - SuSEfirewall2
     - require:
       - sls: repos
 
