@@ -87,10 +87,14 @@ install_gems_via_bundle:
 
 spacewalk_git_repository:
   cmd.run:
+{%- if grains.get("git_repo") == "default" %}
 {%- if grains.get("branch") == "Manager" %}
     - name: git clone --depth 1 https://github.com/uyuni-project/uyuni.git -b master /root/spacewalk
 {%- else %}
     - name: git clone --depth 1 https://github.com/SUSE/spacewalk -b {{ grains.get("branch") }} /root/spacewalk
+{%- endif %}
+{%- else %}
+    - name: git clone --depth 1 {{ grains.get("git_repo") }} -b {{ grains.get("branch") }} /root/spacewalk
 {%- endif %}
     - creates: /root/spacewalk
     - require:
@@ -126,10 +130,12 @@ git_config:
   file.append:
     - name: ~/.netrc
     - text:
+{%- if grains.get("git_username") and grains.get("git_password") %}
       - machine github.com
       - login {{ grains.get("git_username") }}
       - password {{ grains.get("git_password") }}
       - protocol https
+{%- endif %}
 
 netrc_mode:
   file.managed:
