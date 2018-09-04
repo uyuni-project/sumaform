@@ -18,6 +18,12 @@ variable "git_password" {
   type = "string"
 }
 
+variable "git_repo" {
+  description = "Git repo clone URL"
+  type = "string"
+  default = "default"
+}
+
 variable "branch" {
   description = "Leave default for automatic selection or specify an existing branch of spacewalk"
   default = "default"
