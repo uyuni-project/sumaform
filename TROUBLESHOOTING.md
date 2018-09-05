@@ -23,7 +23,7 @@ terraform plan -parallelism=1
 terraform apply -parallelism=1
 ```
 
-If the problem does not manifest any more, then you are running a version of libvirt that does not yet contain a fix for `virHashSearch` - your libvirt logs should also contains lines like the following:
+If the problem does not manifest any more, then you are running a version of libvirt that does not yet contain a fix for `virHashSearch` - your libvirt logs should also contain lines like the following:
 
 ```
 virHashSearch:727 : Hash operation not allowed during iteration
