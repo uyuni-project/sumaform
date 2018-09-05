@@ -17,7 +17,11 @@ include:
 
 suse_manager_packages:
   pkg.latest:
+    {% if grains['osfullname'] == 'Leap' %}
+    - name: patterns-uyuni_server
+    {% else %}
     - name: patterns-suma_server
+    {% endif %}
     - require:
       - sls: repos
       - sls: suse_manager_server.firewall

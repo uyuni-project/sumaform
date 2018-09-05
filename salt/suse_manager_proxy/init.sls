@@ -5,7 +5,11 @@ include:
 proxy-packages:
   pkg.latest:
     - pkgs:
+      {% if grains['osfullname'] == 'Leap' %}
+      - patterns-uyuni_proxy
+      {% else %}
       - patterns-suma_proxy
+      {% endif %}
       - SuSEfirewall2
     - require:
       - sls: repos
