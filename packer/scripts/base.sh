@@ -1,3 +1,5 @@
+exit 0
+
 # Install basic packages
 yum -y update
 yum -y install wget curl openssh-server
