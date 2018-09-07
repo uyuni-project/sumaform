@@ -23,8 +23,7 @@
       "format": "qcow2",
       "qemuargs": [
         [ "-m", "1024M" ],
-        ["-machine", "type=pc,accel=kvm"],
-        ["-device", "virtio-net-pci,netdev=user.0"]
+        ["-machine", "type=pc,accel=kvm"]
       ],
       "headless": true,
       "accelerator": "kvm",
@@ -39,6 +38,7 @@
       "ssh_wait_timeout": "90m",
       "vm_name": "centos7",
       "disk_interface": "virtio",
+      "net_device": "virtio-net-pci",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_centos7.cfg<enter><wait>"
       ]
