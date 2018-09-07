@@ -40,7 +40,7 @@
       "disk_interface": "virtio",
       "net_device": "virtio-net-pci",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_centos7.cfg<enter><wait>"
+        "<tab> text inst.sshd ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_centos7.cfg<enter><wait>"
       ]
     }]
 }
