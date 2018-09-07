@@ -179,10 +179,6 @@ http:
   - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3
     archs: [x86_64]
 
-  # Testsuite Controller repo
-  - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/cucumber-testsuite/openSUSE_Leap_42.3/
-    archs: [x86_64]
-
   # Testsuite dummy packages for testing repo
   - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1
     archs: [x86_64]

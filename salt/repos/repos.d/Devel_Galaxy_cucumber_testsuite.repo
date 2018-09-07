@@ -1,5 +1,0 @@
-[Devel_Galaxy_cucumber_testsuite]
-name=Packages needed for the Cucumber testsuite
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/cucumber-testsuite/openSUSE_Leap_42.3/

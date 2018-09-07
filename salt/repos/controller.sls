@@ -2,8 +2,8 @@
 
 Devel_Galaxy_cucumber_testsuite_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_cucumber_testsuite.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_cucumber_testsuite.repo
+    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
+    - source: salt://repos/repos.d/systemsmanagement-sumaform-tools.repo
     - template: jinja
 
 {% endif %}
