@@ -22,11 +22,10 @@
       "disk_size": 204800,
       "format": "qcow2",
       "qemuargs": [
-        [ "-m", "1024M" ],
-        ["-machine", "type=pc,accel=kvm"],
-        ["-device", "virtio-net-pci,netdev=user.0"]
+        [ "-m", "1024M" ]
       ],
       "headless": true,
+      "machine_type": "pc",
       "accelerator": "kvm",
       "http_directory": "http",
       "http_port_min": 10082,
@@ -39,6 +38,7 @@
       "ssh_wait_timeout": "90m",
       "vm_name": "sles-es7",
       "disk_interface": "virtio",
+      "net_device": "virtio-net-pci",
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_sles-es7.cfg<enter><wait>"
       ]

@@ -22,10 +22,10 @@
       "disk_size": 204800,
       "format": "qcow2",
       "qemuargs": [
-        [ "-m", "1024M" ],
-        ["-machine", "type=pc,accel=kvm"]
+        [ "-m", "1024M" ]
       ],
       "headless": true,
+      "machine_type": "pc",
       "accelerator": "kvm",
       "http_directory": "http",
       "http_port_min": 10082,
