@@ -84,6 +84,11 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "git_profiles_repo" {
+  description = "URL of git repository with alternate Docker and Kiwi profiles, see README_ADVANCED.md"
+  default = "default"
+}
+
 // Provider-specific variables
 
 variable "floating_ips" {
