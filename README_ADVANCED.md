@@ -387,6 +387,15 @@ module "controller" {
 }
 ```
 
+You can also use Docker and Kiwi profiles other than the ones embedded in the test suite:
+
+```
+module "controller" {
+  git_profiles_repo = "https://github.com#mybranch:myprofiles"
+}
+
+```
+
 ## Working on multiple configuration sets (workspaces) locally
 
 Terraform supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://www.terraform.io/docs/state/workspaces.html). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.
