@@ -75,15 +75,15 @@ resource "libvirt_network" "additional_network" {
 
 output "configuration" {
   depends_on = [
-    "libvirt_volume.centos7_module",
-    "libvirt_volume.opensuse423_module",
-    "libvirt_volume.sles15_module",
-    "libvirt_volume.sles11sp4_module",
-    "libvirt_volume.sles12_module",
-    "libvirt_volume.sles12sp1_module",
-    "libvirt_volume.sles12sp2_module",
-    "libvirt_volume.sles12sp3_module",
-    "libvirt_volume.sles-es7_module"
+    "libvirt_volume.centos7_volume",
+    "libvirt_volume.opensuse423_volume",
+    "libvirt_volume.sles15_volume",
+    "libvirt_volume.sles11sp4_volume",
+    "libvirt_volume.sles12_volume",
+    "libvirt_volume.sles12sp1_volume",
+    "libvirt_volume.sles12sp2_volume",
+    "libvirt_volume.sles12sp3_volume",
+    "libvirt_volume.sles-es7_volume"
   ]
   value = {
     cc_username = "${var.cc_username}"
