@@ -4,7 +4,7 @@ terraform {
 
 resource "libvirt_volume" "centos7_volume" {
   name = "${var.name_prefix}centos7"
-  source = "http://schnell.nue.suse.com/sumaform-images/centos7.qcow2"
+  source = "http://schnell.nue.suse.com/sumaform-images/centos7_v2.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "centos7") ? 1 : 0)}"
   pool = "${var.pool}"
 }
