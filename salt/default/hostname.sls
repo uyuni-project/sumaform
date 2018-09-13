@@ -41,7 +41,7 @@ hosts_file_hack:
     - args: "{{ grains['hostname'] }} {{ grains['domain'] }}"
     - template: jinja
     - context:
-    {% if grains.get('osmajorrelease', None)|int() == 15 %}
+    {% if grains.get('osmajorrelease', None) == 15 %}
       pythonexec: python3
     {% else %}
       pythonexec: python
