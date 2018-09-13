@@ -303,7 +303,7 @@ galaxy_key:
     - watch:
       - file: galaxy_key
 
-{% if grains['osmajorrelease'] == '7' %}
+{% if grains['osmajorrelease'] == 7 %}
 tools_pool_repo:
   file.managed:
     - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
@@ -348,7 +348,7 @@ tools_update_repo:
     - require:
       - cmd: galaxy_key
 {% endif %}
-{% endif %} {# grains['osmajorrelease'] == '7' #}
+{% endif %} {# grains['osmajorrelease'] == 7 #}
 
 {% endif %} {# grains['os_family'] == 'RedHat' #}
 
