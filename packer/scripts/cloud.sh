@@ -23,9 +23,10 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-e*
 sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-e*
 
-## enable cloud-init services
+## Enable cloud-init services
+yum -y install cloud-init
 
-systemctl enable cloud-init 
-systemclt enable cloud-config 
+systemctl enable cloud-init
+systemctl enable cloud-config
 systemctl enable cloud-final
 systemctl enable cloud-init-local
