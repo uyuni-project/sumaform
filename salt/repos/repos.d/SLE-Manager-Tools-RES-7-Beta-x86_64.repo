@@ -1,6 +1,0 @@
-[SLE-Manager-Tools-RES-7-Beta-x86_64]
-name=SLE-Manager-Tools-RES-7-Beta-x86_64
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("beta.suse.com", true) }}/private/SUSE-Manager-beta/GMC3/RES7/x86_64
-priority=98
