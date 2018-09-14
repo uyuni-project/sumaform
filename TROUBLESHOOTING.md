@@ -19,7 +19,6 @@ module "server" {
 Please try disabling parallelization of Terraform via the `-parallelism` option:
 
 ```
-terraform plan -parallelism=1
 terraform apply -parallelism=1
 ```
 

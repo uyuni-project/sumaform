@@ -16,7 +16,6 @@
  - otherwise, if other sumaform users deploy to the same Cloud instance, consider uncommenting at least the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
  - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
  - run `terraform init` to make sure Terraform has detected all modules
- - run `terraform plan` to see what Terraform is about to do
  - run `terraform apply` to actually have the VMs set up!
 
 ## Accessing VMs

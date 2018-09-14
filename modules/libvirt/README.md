@@ -21,8 +21,7 @@
    - or you [create one](https://wiki.libvirt.org/page/TaskNATSetupVirtManager)
    - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
  - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
- - run `terraform get` to make sure Terraform has detected all modules
- - run `terraform plan` to see what Terraform is about to do
+ - run `terraform init` to make sure Terraform has detected all modules
  - run `terraform apply` to actually have the VMs set up!
 
 ## Accessing VMs
