@@ -321,29 +321,11 @@ suse_res7_key:
     - watch:
       - file: suse_res7_key
 
-{% if '3.1-released' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-Beta-x86_64.repo
-    - source: salt://repos/repos.d/SLE-Manager-Tools-RES-7-Beta-x86_64.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
-
-{% elif '3.1-nightly' in grains.get('product_version') | default('', true) %}
+{% if '3.1-nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.1_RES-Manager-Tools-7-x86_64.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.1_RES-Manager-Tools-7-x86_64.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
-
-{% elif '3.2-released' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-Beta-x86_64.repo
-    - source: salt://repos/repos.d/SLE-Manager-Tools-RES-7-Beta-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
