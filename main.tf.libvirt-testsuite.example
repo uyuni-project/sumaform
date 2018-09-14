@@ -31,6 +31,7 @@ module "ctl" {
   git_username = ...
   git_password = ...
   git_repo = "default"
+  // git_profiles_repo = ... // uncomment to use alternative Docker and Kiwi profiles
 }
 
 module "srv" {
