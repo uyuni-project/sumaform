@@ -2,4 +2,4 @@
 name=Devel_Galaxy_Manager_3.2_RES-Manager-Tools-7-x86_64
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/

@@ -26,7 +26,7 @@ resource "openstack_images_image_v2" "opensuse423_image" {
 
 resource "openstack_images_image_v2" "sles15_image" {
   name = "${var.name_prefix}sles15"
-  image_source_url = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15.x86_64.qcow2"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
@@ -37,7 +37,7 @@ resource "openstack_images_image_v2" "sles15_image" {
 
 resource "openstack_images_image_v2" "sles11sp4_image" {
   name = "${var.name_prefix}sles11sp4"
-  image_source_url = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles11sp4.x86_64.qcow2"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles11sp4.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles11sp4") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
@@ -48,7 +48,7 @@ resource "openstack_images_image_v2" "sles11sp4_image" {
 
 resource "openstack_images_image_v2" "sles12_image" {
   name = "${var.name_prefix}sles12"
-  image_source_url = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12.x86_64.qcow2"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
@@ -59,7 +59,7 @@ resource "openstack_images_image_v2" "sles12_image" {
 
 resource "openstack_images_image_v2" "sles12sp1_image" {
   name = "${var.name_prefix}sles12sp1"
-  image_source_url = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp1.x86_64.qcow2"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp1.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp1") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
@@ -70,7 +70,7 @@ resource "openstack_images_image_v2" "sles12sp1_image" {
 
 resource "openstack_images_image_v2" "sles12sp2_image" {
   name = "${var.name_prefix}sles12sp2"
-  image_source_url = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp2.x86_64.qcow2"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp2.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp2") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
@@ -81,7 +81,7 @@ resource "openstack_images_image_v2" "sles12sp2_image" {
 
 resource "openstack_images_image_v2" "sles12sp3_image" {
   name = "${var.name_prefix}sles12sp3"
-  image_source_url = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp3.x86_64.qcow2"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp3.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp3") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"

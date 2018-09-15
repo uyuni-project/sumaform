@@ -2,4 +2,4 @@
 name=Repo with new RPMs used for Testsuite (SLE_12_SP1)
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP1/

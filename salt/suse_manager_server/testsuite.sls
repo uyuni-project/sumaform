@@ -62,7 +62,7 @@ test_repo:
     - name: minima sync
     - env:
       - MINIMA_CONFIG: |
-          - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/TestsuiteRepo/SLE_12_SP1
+          - url: http://download.suse.de/ibs/Devel:/Galaxy:/TestsuiteRepo/SLE_12_SP1
             path: /srv/www/htdocs/pub/TestRepo
     - require:
       - archive: minima

@@ -18,42 +18,42 @@ resource "libvirt_volume" "opensuse423_volume" {
 
 resource "libvirt_volume" "sles15_volume" {
   name = "${var.name_prefix}sles15"
-  source = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles11sp4_volume" {
   name = "${var.name_prefix}sles11sp4"
-  source = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles11sp4") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12_volume" {
   name = "${var.name_prefix}sles12"
-  source = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp1_volume" {
   name = "${var.name_prefix}sles12sp1"
-  source = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp1") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp2_volume" {
   name = "${var.name_prefix}sles12sp2"
-  source = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp2") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp3_volume" {
   name = "${var.name_prefix}sles12sp3"
-  source = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp3") ? 1 : 0)}"
   pool = "${var.pool}"
 }

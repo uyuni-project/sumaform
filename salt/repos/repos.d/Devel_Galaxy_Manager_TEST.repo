@@ -2,5 +2,5 @@
 name=Devel Project for SUSE Manager TEST (SLE_12_SP3)
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_12_SP3/
 priority=95
