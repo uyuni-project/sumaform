@@ -4,4 +4,4 @@ type=rpm-md
 enabled=1
 # HACK: correct URL will be the following after Gold Master. Currently there is no update repo, so just use pool again
 #baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com/mirror/SuSE/build.suse.de", true) }}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
-baseurl=http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE:/SLE-15:/GA:/TEST/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15:/GA:/TEST/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/

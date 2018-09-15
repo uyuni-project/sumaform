@@ -81,7 +81,7 @@ ec2uploadimg \
   --wait-count 3 \
   /tmp/opensuse422.x86_64.raw.xz
 
-wget http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp1.x86_64.raw.xz -O /tmp/sles12sp1.x86_64.raw.xz
+wget http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp1.x86_64.raw.xz -O /tmp/sles12sp1.x86_64.raw.xz
 ec2uploadimg \
   --file ec2utils.conf \
   --account servers \
@@ -101,7 +101,7 @@ ec2uploadimg \
   /tmp/sles12sp1.x86_64.raw.xz
 ```
 
-wget http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp2.x86_64.raw.xz -O /tmp/sles12sp2.x86_64.raw.xz
+wget http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/AmazonEC2/images/sles12sp2.x86_64.raw.xz -O /tmp/sles12sp2.x86_64.raw.xz
 ec2uploadimg \
   --file ec2utils.conf \
   --account servers \
