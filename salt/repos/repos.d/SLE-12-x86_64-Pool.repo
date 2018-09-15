@@ -2,4 +2,4 @@
 name=SLE-12-x86_64-Pool
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("euklid.nue.suse.com/mirror/SuSE/build.suse.de", true) }}/SUSE/Products/SLE-SERVER/12/x86_64/product/
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12/x86_64/product/
