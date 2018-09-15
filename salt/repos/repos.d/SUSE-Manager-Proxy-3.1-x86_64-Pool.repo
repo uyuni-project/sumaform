@@ -2,5 +2,5 @@
 name=SUSE-Manager-Proxy-3.1-x86_64-Pool
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains["mirror"] | default("euklid.nue.suse.com/mirror/SuSE/build.suse.de", true) }}/SUSE/Products/SUSE-Manager-Proxy/3.1/x86_64/product/
+baseurl=http://{{ grains["mirror"] | default("download.suse.de/ibs", true) }}/SUSE/Products/SUSE-Manager-Proxy/3.1/x86_64/product/
 priority=97

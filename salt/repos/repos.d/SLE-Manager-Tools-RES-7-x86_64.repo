@@ -5,5 +5,5 @@ enabled=1
 {% if grains.get('mirror') %}
 baseurl=http://{{ grains.get("mirror") }}/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/
 {% else %}
-baseurl=http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+baseurl=http://download.suse.de/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
 {% endif %}
