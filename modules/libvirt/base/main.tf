@@ -83,7 +83,8 @@ output "configuration" {
     "libvirt_volume.sles12sp1_volume",
     "libvirt_volume.sles12sp2_volume",
     "libvirt_volume.sles12sp3_volume",
-    "libvirt_volume.sles-es7_volume"
+    "libvirt_volume.sles-es7_volume",
+    "libvirt_network.additional_network"
   ]
   value = {
     cc_username = "${var.cc_username}"
