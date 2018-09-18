@@ -137,18 +137,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
-  # SLE 11 SP4 Manager Tools 3.2 beta
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC3/SLE11SP4/x86_64/update
-    archs: [x86_64]
-
-  # SLE 12 (GA and all SPs) Manager Tools 3.2 beta
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC3/SLE12/x86_64/update
-    archs: [x86_64]
-
-  # RES 7 Manager Tools 3.2 beta
-  - url: http://beta.suse.com/private/SUSE-Manager-beta/GMC3/RES7/x86_64
-    archs: [x86_64]
-
   # SUSE Manager Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_12_SP3
     archs: [x86_64]
@@ -212,4 +200,3 @@ http:
   # Uyuni Proxy
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_42.3/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
     archs: [x86_64]
-
