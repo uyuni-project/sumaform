@@ -7,15 +7,16 @@ Some modules have a `product_version` variable that determines the software prod
  * in `minion`, `client`, etc. `product_version` determines the SUSE Manager Tools version.
 
 Legal values for released software are:
- * `3.0-released` (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
- * `3.1-released` (latest released Maintenance Update for SUSE Manager 3.1 and Tools)
- * `3.2-released` (latest released alpha/beta/gold master candidate for SUSE Manager 3.2 and Tools)
+ * `3.0-released`   (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
+ * `3.1-released`   (latest released Maintenance Update for SUSE Manager 3.1 and Tools)
+ * `3.2-released`   (latest released alpha/beta/gold master candidate for SUSE Manager 3.2 and Tools)
+ * `uyuni-released` (latest released version for Uyuni Server and Proxy, from systemsmanagement:Uyuni:Stable, for Tools use `head`)
 
 Legal values for work-in-progress software are:
  * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
  * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head if OS is SLE12 or systemsmanagement:Uyuni:Master otherwise)
  * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.

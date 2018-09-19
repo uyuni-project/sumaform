@@ -7,6 +7,7 @@ variable "testsuite-branch" {
     "3.2-released" = "Manager"
     "head" = "Manager"
     "test" = "Manager"
+    "uyuni-released" = "Manager"
   }
 }
 

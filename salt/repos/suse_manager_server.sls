@@ -42,6 +42,14 @@ suse_manager_update_repo:
     - template: jinja
 {% endif %}
 
+{% if 'uyuni-released' in grains['product_version'] %}
+suse_manager_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Uyuni-Stable-x86_64-Pool.repo
+    - source: salt://repos/repos.d/Uyuni-Stable-x86_64-Pool.repo
+    - template: jinja
+{% endif %}
+
 {% if 'head' in grains['product_version'] %}
 suse_manager_pool_repo:
   file.managed:
