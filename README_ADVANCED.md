@@ -14,6 +14,7 @@ Legal values for released software are:
 Legal values for work-in-progress software are:
  * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
  * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
+ * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head)
  * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST)
 
