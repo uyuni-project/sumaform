@@ -45,6 +45,16 @@ module "suma31pg" {
 }
 ```
 
+The repository used for the `test` product can be forced to any open build service project using the
+`product_test_repository` variable. The following example will use the packages from `home:foobar:Galaxy_test`
+
+```hcl
+module 'srv' {
+  product_version = "test"
+  product_test_repository = "https://download.opensuse.org/repositories/home:/foobar:/Galaxy_test/Leap_15/"
+}
+```
+
 ## Multiple VMs of the same type
 
 Some modules, for example clients and minions, support a `count` variable that allows you to create several instances at once. For example:
