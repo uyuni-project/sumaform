@@ -94,20 +94,22 @@ jmx_exporter:
     - require:
       - sls: repos
 
-jmx_exporter_service:
+jmx_exporter_tomcat_service:
   service.running:
     - name: jmx-exporter@tomcat
     - enable: True
     - require:
       - pkg: jmx_exporter
 
-jmx_exporter_taskomatic_config:
+jmx_exporter_taskomatic_systemd_config:
   file.managed:
     - name: /etc/jmx_exporter/taskomatic/environment
     - makedirs: True
     - contents: |
         PORT="5557"
         EXP_PARAMS=""
+
+jmx_exporter_taskomatic_yaml_config:
   file.managed:
     - name: /etc/jmx_exporter/taskomatic/jmx_exporter.yml
     - makedirs: True
@@ -128,6 +130,7 @@ jmx_exporter_taskomatic_service:
     - enable: True
     - require:
       - pkg: jmx_exporter
-      - file: jmx_exporter_taskomatic_config
+      - file: jmx_exporter_taskomatic_systemd_config
+      - file: jmx_exporter_taskomatic_yaml_config
 
 {% endif %}
