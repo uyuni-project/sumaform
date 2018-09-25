@@ -69,7 +69,7 @@ resource "libvirt_volume" "sles-es7_volume" {
 resource "libvirt_volume" "ubuntu-1804_volume" {
   name = "${var.name_prefix}ubuntu-1804"
   source = "https://cloud-images.ubuntu.com/releases/18.04/release/ubuntu-18.04-server-cloudimg-amd64.img"
-  count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles-es7") ? 1 : 0)}"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "ubuntu-1804") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
