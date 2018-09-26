@@ -274,6 +274,13 @@ allow_vendor_changes:
         vendors = SUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org
   {% endif %}
 
+{% if grains.get('product_version') == 'test' %}
+allow_all_vendor_changes:
+  file.append:
+    - name: /etc/zypp/zypp.conf
+    - text: solver.allowVendorChange = true
+{% endif %}
+
 {% endif %}
 
 {% if grains['os_family'] == 'RedHat' %}
