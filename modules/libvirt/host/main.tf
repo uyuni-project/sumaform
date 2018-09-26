@@ -15,7 +15,6 @@ resource "libvirt_volume" "main_disk" {
   count = "${var.count}"
 }
 
-
 data "template_file" "user_data" {
   template = "${file("${path.module}/cloud_init.cfg")}"
 }
@@ -62,6 +61,29 @@ resource "libvirt_domain" "domain" {
     user = "root"
     password = "linux"
   }
+    # IMPORTANT
+  # Ubuntu can hang if an isa-serial is not present at boot time.
+  # If you find your CPU 100% and never is available this is why
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+
+  console {
+      type        = "pty"
+      target_type = "virtio"
+      target_port = "1"
+  }
+
+  graphics {
+    type = "spice"
+    listen_type = "address"
+    autoport = true
+  }
+
+
+
 
   provisioner "file" {
     source = "salt"
