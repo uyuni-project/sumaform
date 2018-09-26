@@ -17,7 +17,7 @@ Legal values for work-in-progress software are:
  * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head if OS is SLE12 or systemsmanagement:Uyuni:Master otherwise)
- * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST)
+ * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST or a user-defined repo, see below)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 
@@ -45,8 +45,8 @@ module "suma31pg" {
 }
 ```
 
-The repository used for the `test` product can be forced to any open build service project using the
-`product_test_repository` variable. The following example will use the packages from `home:foobar:Galaxy_test`
+The repository used for the `test` product can be set to any open build service project using the
+`product_test_repository` variable. The following example will use the packages from `home:foobar:Galaxy_test`:
 
 ```hcl
 module 'srv' {
