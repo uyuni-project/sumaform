@@ -8,7 +8,11 @@ minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
       - salt-minion
+{%- if grains['os_family'] == 'Debian' %}
+      - libopenscap8
+    {% else %}
       - openscap-utils
+{% endif %}
     - require:
       - sls: default
 
