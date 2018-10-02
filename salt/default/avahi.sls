@@ -3,7 +3,11 @@ include:
 
 avahi:
   pkg.installed:
+    {%- if grains['os_family'] == 'Debian' %}
+    - name: avahi-daemon
+    {% else %}
     - name: avahi
+    {% endif %}
   file.replace:
     - name: /etc/avahi/avahi-daemon.conf
     - pattern: "#domain-name=local"
