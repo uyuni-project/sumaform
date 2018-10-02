@@ -18,7 +18,7 @@ resource "libvirt_volume" "opensuse423_volume" {
 
 resource "libvirt_volume" "sles15_volume" {
   name = "${var.name_prefix}sles15"
-  source = "download.suse.de/install/SLE-15-JeOS-GM/SLES15-JeOS.x86_64-15.0-OpenStack-Cloud-GM.qcow2"
+  source = "http://download.suse.de/install/SLE-15-JeOS-GM/SLES15-JeOS.x86_64-15.0-OpenStack-Cloud-GM.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15") ? 1 : 0)}"
   pool = "${var.pool}"
 }
@@ -47,7 +47,7 @@ resource "libvirt_volume" "sles12sp1_volume" {
 // JEOS sles12sp2 was internally released only.
 resource "libvirt_volume" "sles12sp2_volume" {
   name = "${var.name_prefix}sles12sp2"
-  source = "download.suse.de/install/SLE-12-SP2-JeOS-internal/SLES12-SP2-JeOS-for-OpenStack-Cloud.x86_64-1.2.0-Build13.354.qcow2"
+  source = "http://download.suse.de/install/SLE-12-SP2-JeOS-internal/SLES12-SP2-JeOS-for-OpenStack-Cloud.x86_64-1.2.0-Build13.354.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp2") ? 1 : 0)}"
   pool = "${var.pool}"
 }
