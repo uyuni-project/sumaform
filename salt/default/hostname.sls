@@ -43,6 +43,8 @@ hosts_file_hack:
     - context:
     {% if grains.get('osmajorrelease', None)|int() == 15 %}
       pythonexec: python3
+    {%- if grains['os_family'] == 'Debian' %}
+      pythonexec: python3
     {% else %}
       pythonexec: python
     {% endif %}
