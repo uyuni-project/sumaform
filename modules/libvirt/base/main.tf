@@ -53,7 +53,7 @@ resource "libvirt_volume" "sles12sp2_volume" {
 
 resource "libvirt_volume" "sles12sp3_volume" {
   name = "${var.name_prefix}sles12sp3"
-  source = "http://download.suse.de/install/SLE-12-SP3-JeOS-GM/SLES12-SP3-JeOS-for-kvm-and-xen.x86_64-GM.qcow2"
+  source = "http://download.suse.de/install/SLE-12-SP3-JeOS-GM/SLES12-SP3-JeOS-for-OpenStack-Cloud.x86_64-GM.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp3") ? 1 : 0)}"
   pool = "${var.pool}"
 }
