@@ -11,7 +11,7 @@ resource "libvirt_volume" "centos7_volume" {
 
 resource "libvirt_volume" "opensuse423_volume" {
   name = "${var.name_prefix}opensuse423"
-  source = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
+  source = "http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse423") ? 1 : 0)}"
   pool = "${var.pool}"
 }
