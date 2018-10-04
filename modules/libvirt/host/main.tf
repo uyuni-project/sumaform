@@ -48,7 +48,9 @@ resource "libvirt_domain" "domain" {
 
   connection {
     user = "root"
+    host = "${libvirt_domain.domain.network_interface.0.addresses.0}"
     password = "linux"
+    type = "ssh"
   }
 
   provisioner "file" {
