@@ -29,6 +29,11 @@ timezone_setting:
     - require:
       - file: timezone_symlink
 
+# serial_console:
+#   service.running:
+#     - name: serial-getty@ttyS0
+#     - enable: True
+
 {% if grains.get('use_unreleased_updates') | default(False, true) or grains.get('use_released_updates') | default(False, true) %}
 update_packages:
   pkg.uptodate:
