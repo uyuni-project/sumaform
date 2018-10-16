@@ -27,6 +27,7 @@ module "ctl" {
   minion_configuration = "${module.min-sles12sp3.configuration}"
   centos_configuration = "${module.min-centos7.configuration}"         // optional
   minionssh_configuration = "${module.minssh-sles12sp3.configuration}" // optional
+  pxeboot_configuration = "${module.pxeboot-sles12sp3.configuration}"  // optional
   branch = "default"
   // credentials available in https://gitlab.suse.de/galaxy/sumaform-test-runner/blob/master/31/main-full.tf
   git_username = ...
@@ -97,4 +98,13 @@ module "min-centos7" {
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
+}
+
+# optional
+module "pxeboot-sles12sp3"
+{
+  source = "sumaform/modules/libvirt/pxe_boot"
+  base_configuration = "${module.base.configuration}"
+  name = "pxeboot-sles12sp3"
+  image = "sles12sp3"
 }

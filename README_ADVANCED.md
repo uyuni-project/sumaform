@@ -460,6 +460,43 @@ module "vanilla" {
 }
 ```
 
+## Unprovisioned hosts
+
+Plain hosts still have some provisioning, for example SSH keys. If you want completely
+unprovisioned hosts (no initialization with Salt), use the `unprovisioned` module.
+
+A libvirt example follows:
+
+```hcl
+module "unprovisioned" {
+  source = "./modules/libvirt/unprovisioned"
+  base_configuration = "${module.base.configuration}"
+
+  name = "unprovisioned"
+  image = "sles12sp3"
+}
+```
+
+### PXE boot hosts
+
+PXE boot hosts are special unprovisioned hosts that are capable
+of booting on their networking card. Additionally, they have a hardware
+type of "Genuine Intel" to make provisioning via Retail easier.
+
+A libvirt example follows:
+
+```hcl
+module "pxeboot"
+{
+  source = "sumaform/modules/libvirt/pxe_boot"
+  base_configuration = "${module.base.configuration}"
+
+  name = "pxeboot"
+  image = "sles12sp3"
+}
+```
+
+
 ## `minionswarm` hosts
 
 It is possible to create large numbers of simulated minions using Salt's [minionswarm test script](https://docs.saltstack.com/en/latest/topics/releases/0.9.9.html#minionswarm).
