@@ -34,6 +34,7 @@ client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
+pxeboot_mac: ${var.pxeboot_configuration["macaddr"]}
 role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["product_version"]) : var.branch}
 git_profiles_repo: ${var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#master:testsuite/features/profiles" : var.git_profiles_repo}
