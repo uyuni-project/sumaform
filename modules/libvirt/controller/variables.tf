@@ -68,6 +68,14 @@ variable "centos_configuration" {
   }
 }
 
+variable "pxeboot_configuration" {
+  description = "use ${module.<PXEBOOT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  type = "map"
+  default = {
+    hostname = "null"
+  }
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}
