@@ -16,7 +16,7 @@ resource "libvirt_volume" "main_disk" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/cloud_init.cfg")}"
+  template = "${file("${path.module}/cloud_init_ubuntu.cfg")}"
 }
 
 resource "libvirt_cloudinit_disk" "minimalconf" {
