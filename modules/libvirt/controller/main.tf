@@ -20,6 +20,8 @@ module "controller" {
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   ssh_key_path = "${var.ssh_key_path}"
+  connect_to_base_network = true
+  connect_to_additional_network = false
   grains = <<EOF
 
 git_username: ${var.git_username}

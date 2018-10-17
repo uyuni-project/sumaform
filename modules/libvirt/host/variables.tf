@@ -49,6 +49,16 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "connect_to_base_network" {
+  description = "true if you want a card connected to the main network, see README_ADVANCED.md"
+  default = true
+}
+
+variable "connect_to_additional_network" {
+  description = "true if you want a card connected to the additional network (if any), see README_ADVANCED.md"
+  default = false
+}
+
 // Provider-specific variables
 
 variable "image" {

@@ -10,6 +10,8 @@ module "minion" {
   additional_packages = "${var.additional_packages}"
   gpg_keys = "${var.gpg_keys}"
   ssh_key_path = "${var.ssh_key_path}"
+  connect_to_base_network = true
+  connect_to_additional_network = true
   grains = <<EOF
 
 product_version: ${var.product_version}
