@@ -42,8 +42,8 @@ resource "libvirt_domain" "domain" {
           "network_id", var.base_configuration["additional_network_id"]
          )
     ),
-    0,
-    var.base_configuration["additional_network"] ? 2 : 1
+    var.connect_to_base_network ? 0 : 1,
+    (var.base_configuration["additional_network"] && var.connect_to_additional_network) ? 2 : 1
   )}"]
 
   connection {
@@ -71,6 +71,8 @@ additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_rep
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 authorized_keys: [${trimspace(file(var.base_configuration["ssh_key_path"]))},${trimspace(file(var.ssh_key_path))}]
 gpg_keys:  [${join(", ", formatlist("'%s'", var.gpg_keys))}]
+connect_to_base_network: ${var.connect_to_base_network}
+connect_to_additional_network: ${var.connect_to_additional_network}
 reset_ids: true
 ${var.grains}
 
