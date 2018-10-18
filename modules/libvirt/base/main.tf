@@ -60,7 +60,7 @@ resource "libvirt_volume" "sles12sp3_volume" {
 
 resource "libvirt_volume" "sles-es7_volume" {
   name = "${var.name_prefix}sles-es7"
-  source = "http://schnell.nue.suse.com/sumaform-images/sles-es7_v3.qcow2"
+  source = "http://w3.nue.suse.com/~smoioli/sumaform-images/sles-es7_v3.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles-es7") ? 1 : 0)}"
   pool = "${var.pool}"
 }

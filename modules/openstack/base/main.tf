@@ -4,7 +4,7 @@ terraform {
 
 resource "openstack_images_image_v2" "centos7_image" {
   name = "${var.name_prefix}centos7"
-  image_source_url = "http://schnell.nue.suse.com/sumaform-images/openstack/centos7_v2.qcow2"
+  image_source_url = "http://w3.nue.suse.com/~smoioli/sumaform-images/openstack/centos7_v2.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "centos7") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
@@ -92,7 +92,7 @@ resource "openstack_images_image_v2" "sles12sp3_image" {
 
 resource "openstack_images_image_v2" "sles-es7_image" {
   name = "${var.name_prefix}sles-es7"
-  image_source_url = "http://schnell.nue.suse.com/sumaform-images/openstack/sles-es7_v3.qcow2"
+  image_source_url = "http://w3.nue.suse.com/~smoioli/sumaform-images/openstack/sles-es7_v3.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles-es7") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
