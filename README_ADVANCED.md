@@ -177,21 +177,16 @@ This will create a network named `private`, with your prefix in front of the nam
 
 You may use that additional network to test SUSE Manager for Retail with the test suite or manually.
 
-For each VM, you can decide whether it connects to base network and/or to additional network by specifying:
+For each VM, you can decide whether it connects to the base network and/or to the additional network by specifying:
 ```hcl
-  [...]
-  connect_to_base_network = false       // true or false
-  connect_to_additional_network = true  // true or false
-  [...]
+connect_to_base_network = false
+connect_to_additional_network = true
 ```
 
-When there are two connections, the first network interface `eth0` gets connected to normal network,
-and the second interface `eth1` gets connected to the additional network.
+When there are two connections, the first network interface `eth0` gets connected to base network, and the second interface `eth1` gets connected to the additional network.
 When there is only one connection, the card is always `eth0`, no matter to which network it is connected.
 
-Some machines have preset defaults: the SUSE Manager server and the test suite controller connect
-only to the base network, and the SUSE Manager proxy and all clients connect to both networks.
-
+Some modules have preset defaults: SUSE Manager/Uyuni Servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni Proxies and clients or minions connect to both networks.
 
 ## Custom SSH keys
 
