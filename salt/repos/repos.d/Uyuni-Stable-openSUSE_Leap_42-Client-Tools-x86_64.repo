@@ -1,0 +1,6 @@
+[Uyuni-Stable-openSUSE_Leap_42-Client_Tools-x86_64]
+name=Uyuni-Stable-openSUSE_Leap_42-Client_Tools-x86_64
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_42-Uyuni-Client-Tools/openSUSE_Leap_42/
+priority=98

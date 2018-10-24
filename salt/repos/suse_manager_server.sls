@@ -84,7 +84,7 @@ suse_manager_pool_repo:
     - template: jinja
 {% endif %}
 
-{% if 'head' in grains['product_version'] %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
 suse_manager_pool_repo:
   file.managed:
     {% if grains['osfullname'] == 'Leap' %}
