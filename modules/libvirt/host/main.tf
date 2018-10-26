@@ -16,16 +16,13 @@ resource "libvirt_volume" "main_disk" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/cloud_init_ubuntu.cfg")}"
+  template = "${file("${path.module}/cloud_init.cfg")}"
 }
 
-resource "libvirt_cloudinit_disk" "minimalconf" {
-          name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-minimalconf.iso"
-          user_data          = "${data.template_file.user_data.rendered}"
-          // this is the hcl way of comparing substrings..
-          count = "${replace(var.image, "ubuntu1804", "") != var.image ? 1 : 0}"
+resource "libvirt_cloudinit_disk" "cloudinit_disk" {
+  name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-cloudinit.iso"
+  user_data = "${data.template_file.user_data.rendered}"
 }
-
 
 resource "libvirt_domain" "domain" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
@@ -35,7 +32,8 @@ resource "libvirt_domain" "domain" {
   count = "${var.count}"
   qemu_agent = true
 
-  cloudinit = "${libvirt_cloudinit_disk.minimalconf.id}"
+  cloudinit = "${libvirt_cloudinit_disk.cloudinit_disk.id}"
+
   // base disk + additional disks if any
   disk = ["${concat(
     list(
@@ -63,9 +61,7 @@ resource "libvirt_domain" "domain" {
     user = "root"
     password = "linux"
   }
-    # IMPORTANT
-  # Ubuntu can hang if an isa-serial is not present at boot time.
-  # If you find your CPU 100% and never is available this is why
+
   console {
     type        = "pty"
     target_port = "0"
@@ -83,9 +79,6 @@ resource "libvirt_domain" "domain" {
     listen_type = "address"
     autoport = true
   }
-
-
-
 
   provisioner "file" {
     source = "salt"
