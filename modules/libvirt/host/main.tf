@@ -15,6 +15,15 @@ resource "libvirt_volume" "main_disk" {
   count = "${var.count}"
 }
 
+data "template_file" "user_data" {
+  template = "${file("${path.module}/cloud_init.cfg")}"
+}
+
+resource "libvirt_cloudinit_disk" "cloudinit_disk" {
+  name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-cloudinit.iso"
+  user_data = "${data.template_file.user_data.rendered}"
+}
+
 resource "libvirt_domain" "domain" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
   memory = "${var.memory}"
@@ -22,6 +31,8 @@ resource "libvirt_domain" "domain" {
   running = "${var.running}"
   count = "${var.count}"
   qemu_agent = true
+
+  cloudinit = "${libvirt_cloudinit_disk.cloudinit_disk.id}"
 
   // base disk + additional disks if any
   disk = ["${concat(
@@ -49,6 +60,24 @@ resource "libvirt_domain" "domain" {
   connection {
     user = "root"
     password = "linux"
+  }
+
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+
+  console {
+      type        = "pty"
+      target_type = "virtio"
+      target_port = "1"
+  }
+
+  graphics {
+    type = "spice"
+    listen_type = "address"
+    autoport = true
   }
 
   provisioner "file" {

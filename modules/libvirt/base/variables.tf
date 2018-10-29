@@ -72,6 +72,6 @@ variable "bridge" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default = ["centos7", "opensuse423",  "sles15",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles-es7"]
+  default = ["centos7", "opensuse423", "sles15", "sles11sp4", "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles-es7", "ubuntu1804"]
   type = "list"
 }

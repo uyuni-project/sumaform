@@ -65,6 +65,13 @@ resource "libvirt_volume" "sles-es7_volume" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_volume" "ubuntu1804_volume" {
+  name = "${var.name_prefix}ubuntu1804"
+  source = "http://cloud-images.ubuntu.com/minimal/releases/bionic/release/ubuntu-18.04-minimal-cloudimg-amd64.img"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "ubuntu1804") ? 1 : 0)}"
+  pool = "${var.pool}"
+}
+
 resource "libvirt_network" "additional_network" {
   count = "${var.additional_network ? 1 : 0}"
   name = "${var.name_prefix}private"
@@ -84,6 +91,7 @@ output "configuration" {
     "libvirt_volume.sles12sp2_volume",
     "libvirt_volume.sles12sp3_volume",
     "libvirt_volume.sles-es7_volume",
+    "libvirt_volume.ubuntu1804_volume",
     "libvirt_network.additional_network"
   ]
   value = {

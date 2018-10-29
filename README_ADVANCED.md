@@ -55,6 +55,27 @@ module 'srv' {
 }
 ```
 
+## Changing OSs
+
+You can specifiy a base OS in most modules specifying an `image` variable.
+
+For some modules like `minion`, `image` is mandatory and Terraform will refuse to apply plans if it is missing. Please refer to `modules/<backend>/base/main.tf` for the exact list of supported OSs.
+
+For other modules like `suse_manager` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
+
+The following example creates a SUSE Manager server using "nightly" packages from version 3.2 based on SLES 12 SP3:
+
+```hcl
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  image = "sles12sp3"
+  name = "suma3pg"
+  product_version = "3.2-nightly"
+}
+```
+
 ## Multiple VMs of the same type
 
 Some modules, for example clients and minions, support a `count` variable that allows you to create several instances at once. For example:
@@ -228,23 +249,6 @@ module "min" {
   image = "sles12sp2"
   server_configuration = "${module.suma3pg.configuration}"
   activation_key = "1-DEFAULT"
-}
-```
-
-## Change the base OS for supported SUSE Manager versions
-
-You can specifiy a base OS for `suse_manager` modules by specifying an `image` variable. There is a default selection if nothing is specified. Please note that not all SUSE Manager versions support all OSs, refer to official documentation to select a compatible OS. In particular, `opensuse423` can presently only be used for the `head` version.
-
-The following example creates a SUSE Manager server using "nightly" packages from version 3 based on SLES 12 SP2:
-
-```hcl
-module "suma3pg" {
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  image = "sles12sp2"
-  name = "suma3pg"
-  product_version = "3.0-nightly"
 }
 ```
 
