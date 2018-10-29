@@ -57,12 +57,6 @@ cucumber_requisites:
     - require:
       - sls: repos
 
-# HACK: currently we need this exact version
-phantomjs_2.0_cucumber_repo:
-  pkg.installed:
-  - name: phantomjs
-  - version: 2.0.0
-
 chromium_fixed_version:
   pkg.installed:
   - name: chromium
