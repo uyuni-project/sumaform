@@ -22,6 +22,7 @@ data "template_file" "user_data" {
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-cloudinit.iso"
   user_data = "${data.template_file.user_data.rendered}"
+  count = "${var.count}"
 }
 
 resource "libvirt_domain" "domain" {
@@ -32,7 +33,7 @@ resource "libvirt_domain" "domain" {
   count = "${var.count}"
   qemu_agent = true
 
-  cloudinit = "${libvirt_cloudinit_disk.cloudinit_disk.id}"
+  cloudinit = "${element(libvirt_cloudinit_disk.cloudinit_disk.*.id, count.index)}"
 
   // base disk + additional disks if any
   disk = ["${concat(
