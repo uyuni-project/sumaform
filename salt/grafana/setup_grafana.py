@@ -53,7 +53,7 @@ if "Prometheus on localhost" not in map(lambda d: d["name"], datasources):
 dashboards = do("GET", connection, headers, "/api/search")
 suse_manager_dashboards = filter(lambda d: d["title"] == "SUSE Manager Server", dashboards)
 
-with open('/opt/grafana/conf/suse_manager.json', 'r') as content_file:
+with open('/etc/grafana/suse_manager.json', 'r') as content_file:
     dashboard = json.loads(content_file.read())
     dashboard["id"] = suse_manager_dashboards[0]["id"] if suse_manager_dashboards else None
     do("POST", connection, headers, "/api/dashboards/db", { "dashboard" : dashboard, "overwrite" : True })
