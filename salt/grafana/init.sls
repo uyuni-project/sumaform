@@ -62,11 +62,21 @@ grafana:
     - require:
       - sls: repos
 
-grafana_configuration:
+grafana_port_configuration:
   file.replace:
     - name: /etc/grafana/grafana.ini
     - pattern: ;http_port = 3000
     - repl: http_port = 80
+    - require:
+      - pkg: grafana
+
+grafana_provisioning_directory:
+  file.recurse:
+    - name: /etc/grafana/provisioning
+    - source: salt://grafana/provisioning
+    - clean: True
+    - user: grafana
+    - group: grafana
     - require:
       - pkg: grafana
 
@@ -84,19 +94,10 @@ grafana_service:
     - enable: True
     - require:
       - pkg: grafana
-      - file: grafana_configuration
+      - file: grafana_port_configuration
+      - file: grafana_provisioning_directory
       - file: grafana_service_configuration
-
-suse_manager_dashboard:
-  file.managed:
-    - name: /etc/grafana/suse_manager.json
-    - source: salt://grafana/dashboards/suse_manager.json
-    - require:
-      - pkg: grafana
-
-grafana_setup:
-  cmd.script:
-    - name: salt://grafana/setup_grafana.py
-    - require:
-      - service: grafana_service
-      - file: suse_manager_dashboard
+    - watch:
+      - file: grafana_port_configuration
+      - file: grafana_provisioning_directory
+      - file: grafana_service_configuration
