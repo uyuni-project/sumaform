@@ -48,6 +48,7 @@ if "Prometheus on localhost" not in map(lambda d: d["name"], datasources):
       "access" : "proxy",
       "basicAuth" : False,
       "isDefault": True,
+      "jsonData": {"timeInterval": "5s"},
     })
 
 dashboards = do("GET", connection, headers, "/api/search")
