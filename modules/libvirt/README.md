@@ -45,7 +45,7 @@ domain = "mgr.suse.de"
 
 ## mirror
 
-If you are using `sumaform` outside of the SUSE network you can choose to add a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
+If you are using `sumaform` outside of the SUSE Nuremberg network you should use a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
 
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
