@@ -90,17 +90,6 @@ resource "openstack_images_image_v2" "sles12sp3_image" {
   }
 }
 
-resource "openstack_images_image_v2" "sles-es7_image" {
-  name = "${var.name_prefix}sles-es7"
-  image_source_url = "http://w3.nue.suse.com/~smoioli/sumaform-images/openstack/sles-es7_v3.qcow2"
-  count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles-es7") ? 1 : 0)}"
-  container_format = "bare"
-  disk_format = "qcow2"
-  properties {
-    hw_rng_model = "virtio"
-  }
-}
-
 resource "openstack_compute_secgroup_v2" "all_open_security_group" {
   name = "${var.name_prefix}all-open"
   description = "Sumaform security group with no restrictions"
@@ -150,6 +139,5 @@ output "configuration" {
     sles12sp1_image_id = "${join(",", openstack_images_image_v2.sles12sp1_image.*.id)}"
     sles12sp2_image_id = "${join(",", openstack_images_image_v2.sles12sp2_image.*.id)}"
     sles12sp3_image_id = "${join(",", openstack_images_image_v2.sles12sp3_image.*.id)}"
-    sles-es7_image_id = "${join(",", openstack_images_image_v2.sles-es7_image.*.id)}"
   }
 }
