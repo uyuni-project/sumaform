@@ -22,6 +22,7 @@ data "template_file" "user_data" {
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-cloudinit.iso"
   user_data = "${data.template_file.user_data.rendered}"
+  pool = "${var.base_configuration["pool"]}"
   count = "${var.count}"
 }
 
