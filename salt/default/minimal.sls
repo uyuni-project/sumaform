@@ -10,7 +10,6 @@ include:
 minimal_package_update:
   pkg.latest:
     - pkgs:
-      - salt
       - salt-minion
 {% if grains['os_family'] == 'Suse' %}
       - zypper
