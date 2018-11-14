@@ -110,3 +110,14 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "salt_proxy" {
+  description = "True for proxy to be converted to salt minion"
+  default = false
+}
+
+variable "auto_connect_to_master" {
+  description = "whether this minion should automatically connect to the Salt Master upon deployment, requires salt_proxy to be true"
+  default = true
+}
+
