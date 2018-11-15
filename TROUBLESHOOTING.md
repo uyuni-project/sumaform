@@ -1,9 +1,5 @@
 # Troubleshooting
 
-## Q: I get the error "libvirt_cloudinit_disk.cloudinit_disk: Provider doesn't support resource: libvirt_cloudinit_disk"
-
-Please update `terraform-provider-libvirt`.
-
 ## Q: I get the error "Error: module "server": missing required argument "product_version""
 
 You recently upgraded `terraform` to v0.11 and your `main.tf` file still has pre-v0.11 syntax. You have to replace occurrences of `version` to `product_version`, eg:

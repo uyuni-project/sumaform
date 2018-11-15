@@ -15,18 +15,6 @@ resource "libvirt_volume" "main_disk" {
   count = "${var.count}"
 }
 
-data "template_file" "user_data" {
-  template = "${file("${path.module}/cloud_init.cfg")}"
-}
-
-// commented out for exploratory reasons
-// resource "libvirt_cloudinit_disk" "cloudinit_disk" {
-//   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}-cloudinit.iso"
-//   user_data = "${data.template_file.user_data.rendered}"
-//   pool = "${var.base_configuration["pool"]}"
-//   count = "${var.count}"
-// }
-
 resource "libvirt_domain" "domain" {
   name = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-${count.index  + 1}" : ""}"
   memory = "${var.memory}"
@@ -34,9 +22,6 @@ resource "libvirt_domain" "domain" {
   running = "${var.running}"
   count = "${var.count}"
   qemu_agent = true
-
-  // commented out for exploratory reasons
-  // cloudinit = "${element(libvirt_cloudinit_disk.cloudinit_disk.*.id, count.index)}"
 
   // base disk + additional disks if any
   disk = ["${concat(
