@@ -4,7 +4,7 @@ terraform {
 
 resource "openstack_images_image_v2" "centos7_image" {
   name = "${var.name_prefix}centos7"
-  image_source_url = "http://w3.nue.suse.com/~smoioli/sumaform-images/openstack/centos7_v2.qcow2"
+  image_source_url = "https://github.com/moio/sumaform-images/releases/download/4.3.0/centos7openstack.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "centos7") ? 1 : 0)}"
   container_format = "bare"
   disk_format = "qcow2"
