@@ -1,7 +1,7 @@
 include:
   - repos
   - suse_manager_proxy.apparmor
-{% if grains['salt_proxy'] %}
+{% if grains['proxy_as_minion'] %}
   - minion
 {% endif %}
 

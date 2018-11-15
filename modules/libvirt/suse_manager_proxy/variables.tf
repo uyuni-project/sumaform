@@ -111,13 +111,13 @@ variable "mac" {
   default = ""
 }
 
-variable "salt_proxy" {
+variable "proxy_as_minion" {
   description = "True for proxy to be converted to salt minion"
   default = false
 }
 
 variable "auto_connect_to_master" {
-  description = "whether this minion should automatically connect to the Salt Master upon deployment, requires salt_proxy to be true"
+  description = "whether this minion should automatically connect to the Salt Master upon deployment, requires proxy_as_minion to be true"
   default = true
 }
 

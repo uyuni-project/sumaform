@@ -39,7 +39,7 @@ server_password: ${var.server_configuration["password"]}
 generate_bootstrap_script: ${var.generate_bootstrap_script}
 publish_private_ssl_key: ${var.publish_private_ssl_key}
 apparmor: ${var.apparmor}
-salt_proxy: ${var.salt_proxy}
+proxy_as_minion: ${var.proxy_as_minion}
 auto_connect_to_master: ${var.auto_connect_to_master}
 
 EOF
