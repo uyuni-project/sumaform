@@ -25,6 +25,36 @@ sumaform requires a specific Terraform version and provides several special-purp
 
 [Submit Requests](https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.request_and_review_ystem.html) can be created with a free account, project maintainership is given to meritable community members.
 
+#### Terraform and terraform-provider libvirt upgrade instructions
+
+Terraform:
+```bash
+osc checkout systemsmanagement:sumaform
+osc up systemsmanagement:sumaform
+cd systemsmanagement:sumaform/terraform
+vim _service # change versions
+osc service disabledrun
+osc build openSUSE_Leap_15.0 # check building is fine
+osc add <new files>
+osc rm <old files>
+osc vc # describe changes
+osc commit
+```
+
+terraform-provider-libvirt:
+```bash
+osc checkout systemsmanagement:sumaform
+osc up systemsmanagement:sumaform
+cd systemsmanagement:sumaform/terraform-provider-libvirt
+vim _service # change versions
+osc service disabledrun
+osc build openSUSE_Leap_15.0 # check building is fine
+osc add <new files>
+osc rm <old files>
+osc vc # describe changes
+osc commit
+```
+
 ### Salt states and Terraform modules
 
 Those are tracked in this project. [Pull Requests](https://help.github.com/articles/about-pull-requests/) can be created with a free account, write access is given to meritable community members.
