@@ -104,7 +104,8 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
  * `proxy` module:
    * `auto_register`: automatically registers the proxy to the SUSE Manager Server. Set to `false` for manual registration
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `proxy_as_minion` to be `true` to have any effect.
+   * `minion`: convert SUSE Manager Proxy to Proxy minion. Default is `true`, set to `false` for traditional proxy
+   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true` to have any effect
    * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
    * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register` and `download_private_ssl_key`
    * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
@@ -290,7 +291,7 @@ Note that proxy chains (proxies of proxies) also work as expected. You can find 
 
 ## Proxy as a minion
 
-System prepared by `proxy` module is by default registered as traditional managed client. In some usecases (e.g. retail) this is not enough and system must be converted to salt minion based proxy. You can do this by enabling `proxy_as_minion` flag:
+System prepared by `proxy` module is by default registered as a salt minion. In some usecases this may not be desirable. You can switch off salt minion registration by setting `minion` flag to `false`:
 
 ```hcl
 module "proxy" {
@@ -301,7 +302,7 @@ module "proxy" {
   product_version = "3.0-nightly"
   server_configuration = "${module.suma3pg.configuration}"
 
-  proxy_as_minion = true
+  minion = false
 }
 ```
 
