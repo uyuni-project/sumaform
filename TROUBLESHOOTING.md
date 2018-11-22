@@ -244,3 +244,19 @@ When we change between workspaces,it may happen that `terraform init` throws "is
 ```
 rm -r .terraform/
 ```
+
+## Q: How can I work around a "Error accessing remote resource - 403 Forbidden" error?
+
+Typical error message follows:
+
+```
+Error: Error applying plan:
+
+1 error(s) occurred:
+
+* module.base.libvirt_volume.centos7_volume: 1 error(s) occurred:
+
+* libvirt_volume.centos7_volume: Error accessing remote resource: https://github.com/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2 - 403 Forbidden
+```
+
+You can work around the problem by updating the `terraform-provider-libvirt` package, followed by executing `terraform init`.
