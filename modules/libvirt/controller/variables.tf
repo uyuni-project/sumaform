@@ -72,7 +72,7 @@ variable "pxeboot_configuration" {
   description = "use ${module.<PXEBOOT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
-    hostname = "null"
+    macaddr = "null"
   }
 }
 
