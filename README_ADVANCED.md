@@ -462,9 +462,9 @@ module "vanilla" {
 
 ## PXE boot hosts
 
-PXE boot hosts are unprovisioned hosts that are capable of booting on their networking card. Additionally, they have a hardware type of "Genuine Intel" to make provisioning via Retail easier.
+PXE boot hosts are unprovisioned hosts that are capable of booting from their networking card. Additionally, they have a hardware type of "Genuine Intel" to make provisioning via SUSE Manager for Retail easier.
 
-"unprovisioned" means that they are completly unprepared: no SSH keys, no initialization with Salt.
+"unprovisioned" means that they are completly unprepared: no SSH keys, no initialization at all.
 
 A libvirt example follows:
 
@@ -478,7 +478,6 @@ module "pxeboot"
   image = "sles12sp3"
 }
 ```
-
 
 ## `minionswarm` hosts
 
