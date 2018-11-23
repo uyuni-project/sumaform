@@ -82,7 +82,7 @@ install_gems_via_bundle:
 spacewalk_git_repository:
   cmd.run:
 {%- if grains.get("git_repo") == "default" %}
-{%- if grains.get("branch") == "Manager" %}
+{%- if grains.get("branch") == "master" %}
     - name: git clone --depth 1 https://github.com/uyuni-project/uyuni.git -b master /root/spacewalk
 {%- else %}
     - name: git clone --depth 1 https://github.com/SUSE/spacewalk -b {{ grains.get("branch") }} /root/spacewalk
