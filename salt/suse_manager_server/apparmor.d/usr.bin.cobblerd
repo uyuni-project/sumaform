@@ -645,7 +645,7 @@
   /var/lib/cobbler/config/profiles.d/ r,
   /var/lib/cobbler/config/repos.d/ r,
   /var/lib/cobbler/config/systems.d/ r,
-  /var/lib/cobbler/config/systems.d/ebi2-clisles12sp3.tf.local:1.json r,
+  /var/lib/cobbler/config/systems.d/*.json r,
   /var/lib/cobbler/distro_signatures.json r,
   /var/lib/cobbler/lock rwk,
   /var/lib/cobbler/triggers/change/ r,
