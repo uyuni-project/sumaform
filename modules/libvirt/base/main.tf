@@ -58,6 +58,13 @@ resource "libvirt_volume" "sles12sp3_volume" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_volume" "sles12sp4_volume" {
+  name = "${var.name_prefix}sles12sp4"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp4") ? 1 : 0)}"
+  pool = "${var.pool}"
+}
+
 resource "libvirt_volume" "ubuntu1804_volume" {
   name = "${var.name_prefix}ubuntu1804"
   source = "https://github.com/moio/sumaform-images/releases/download/4.3.0/ubuntu1804.qcow2"
@@ -83,6 +90,7 @@ output "configuration" {
     "libvirt_volume.sles12sp1_volume",
     "libvirt_volume.sles12sp2_volume",
     "libvirt_volume.sles12sp3_volume",
+    "libvirt_volume.sles12sp4_volume",
     "libvirt_volume.ubuntu1804_volume",
     "libvirt_network.additional_network"
   ]

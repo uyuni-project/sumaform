@@ -17,6 +17,8 @@ scc:
     - SLES12-SP2-Updates
     - SLES12-SP3-Pool
     - SLES12-SP3-Updates
+    - SLES12-SP4-Pool
+    - SLES12-SP4-Updates
     # SLE 15 Products
     - SLE-Product-SLES_SAP15-Pool
     - SLE-Product-SLES_SAP15-Updates
@@ -89,15 +91,19 @@ http:
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
     archs: [x86_64]
 
+  # SLES 12 SP4 Test
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP4:/x86_64/update
+    archs: [x86_64]
+
   # SLES 15 Test
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
   #  #  archs: [x86_64]
 
-  # SUSE Manager Head (SLE12-SP3)
+  # SUSE Manager Head (SLE12-SP4)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-4.0-POOL-x86_64-Media1
     archs: [x86_64]
 
-  # SUSE Manager Head Proxy (SLE12-SP3)
+  # SUSE Manager Head Proxy (SLE12-SP4)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
     archs: [x86_64]
 
@@ -182,11 +188,13 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP3
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP4
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_42.3
     archs: [x86_64]
 
   # security:logging (filebeat)
-  - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP3
+  - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP4
     archs: [x86_64]
 
   # Uyuni Master

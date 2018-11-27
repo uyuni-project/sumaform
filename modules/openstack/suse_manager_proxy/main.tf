@@ -2,11 +2,11 @@ variable "images" {
   default = {
     "3.0-released" = "sles12sp1"
     "3.0-nightly" = "sles12sp1"
-    "3.1-released" = "sles12sp3"
-    "3.1-nightly" = "sles12sp3"
-    "3.2-released" = "sles12sp3"
-    "3.2-nightly" = "sles12sp3"
-    "head" = "sles12sp3"
+    "3.1-released" = "sles12sp4"
+    "3.1-nightly" = "sles12sp4"
+    "3.2-released" = "sles12sp4"
+    "3.2-nightly" = "sles12sp4"
+    "head" = "sles12sp4"
     "uyuni-released" = "opensuse423"
   }
 }

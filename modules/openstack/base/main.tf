@@ -90,6 +90,17 @@ resource "openstack_images_image_v2" "sles12sp3_image" {
   }
 }
 
+resource "openstack_images_image_v2" "sles12sp4_image" {
+  name = "${var.name_prefix}sles12sp4"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles12sp4.x86_64.qcow2"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp4") ? 1 : 0)}"
+  container_format = "bare"
+  disk_format = "qcow2"
+  properties {
+    hw_rng_model = "virtio"
+  }
+}
+
 resource "openstack_compute_secgroup_v2" "all_open_security_group" {
   name = "${var.name_prefix}all-open"
   description = "Sumaform security group with no restrictions"
