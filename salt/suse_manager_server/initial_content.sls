@@ -248,5 +248,6 @@ create_{{ custom_channel_set['name'] }}_activation_key:
     - require:
       - cmd: create_custom_channels_{{ custom_channel_set['name'] }}
 {% endfor %}
+{% endfor %}
 {% endif %}
 {% endif %}

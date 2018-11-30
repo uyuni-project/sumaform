@@ -173,6 +173,32 @@ At deploy time the `spacewalk-clone-by-date` will be used for each channel set. 
 
 Activation keys are also automatically created for each clone with the name `1-<CLONE_PREFIX>`.
 
+## Cloning custom repo and channels in SUSE Manager Servers upon deployment
+
+Using the `custom_channels` variable you can specify a url to be made a custom channel that contains the custom repo that will be cloned at deploy time. The details for the `custom_channel` need to be in this format:
+
+```yaml
+
+custom_channels = [ {name: "client_tools555", url: 'http555', parent: 'sle12sp3'}, {name: "client_tools666", url: 'http666', parent: 'sle12sp3'} ]
+
+```
+The variable `custom_channel` depends on the `channel` variable being there. So the `parent: 'sle12sp3'` means that the `channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]` needs to be there.
+
+Example config:
+
+```hcl
+module "suma3pg" {
+  source = "./modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+
+  name = "suma3pg"
+  product_version = "3.1-nightly"
+  channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
+  custom_channels = { name="utils", url="http://hostname/SUSE_Updates_SLE-Manager-Tools_12_x86_64/", parent="sle12sp3" }
+}
+
+```
+
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
