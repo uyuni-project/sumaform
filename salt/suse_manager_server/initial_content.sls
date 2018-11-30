@@ -187,3 +187,66 @@ create_{{ cloned_channel_set['prefix'] }}_activation_key:
       - cmd: create_cloned_channels_{{ cloned_channel_set['prefix'] }}
 {% endfor %}
 {% endif %}
+
+# Example TODO remove
+custom_channels = [ {name: "client_tools555", url: 'http555', parent: 'sle12sp3'} ,
+{'name': "client_tools666", 'url': 'http666', 'parent': 'sle12sp3' },
+{'name': "client_tools777", 'url': 'http777', 'parent': 'sle12sp3' },
+{'name': "client_tools888", 'url': 'http888', 'parent': 'sle11sp4' }
+]
+# no point without parent channels
+{% if grains.get('channels') %}
+
+{% if grains.get('custom_channels') %}
+spacecmd:
+  pkg.latest:
+    - name: spacecmd
+
+# For every custom channel in the grain run the commands to create a channel:
+{% for custom_channel_set in grains.get('custom_channels') %}
+{%- for channel in custom_channel_set %}
+create_custom_channels_{{ custom_channel_set['name'] }}:
+  cmd.run:
+    - name: |
+        spacecmd \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
+          softwarechannel_create -n {{ channel['name'] }} -l {{ channel['name'] }} -p channel['parent'] -a x86_64
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_list | grep -x {{ channel['name'] | first }}
+    - require:
+      - pkg: spacecmd
+
+# For every custom channel in the grain run the commands to create the repo:
+
+create_custom_repos_{{ channel['name'] }}
+  cmd.run:
+    - name: |
+        spacecmd \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
+          -q softwarechannel_addrepo {{ channel['name'] }} {{ channel['url'] }}
+    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_listrepos | grep -x {{ channel['name'] | first }}
+    - require:
+      - pkg: spacecmd
+
+create_{{ custom_channel_set['name'] }}_activation_key:
+  cmd.run:
+    - name: |
+        spacecmd \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
+          -- activationkey_create -n {{ channel['name'] }} -d {{ channel['name'] }} }} \
+          -b {{ channel['parent'] }} | first }} &&
+        spacecmd \
+          -u {{ grains.get('server_username') | default('admin', true) }} \
+          -p {{ grains.get('server_password') | default('admin', true) }} \
+          -- activationkey_addchildchannels 1-{{ channel['name'] }} \
+          {%- for channel in custom_channel_set['name'] %}
+          {{ channel['name'] }}
+          {%- endfor %}
+    - unless: spacecmd -u admin -p admin activationkey_list | grep -x 1-{{ channel['name'] }}
+    - require:
+      - cmd: create_custom_channels_{{ custom_channel_set['name'] }}
+{% endfor %}
+{% endif %}
+{% endif %}

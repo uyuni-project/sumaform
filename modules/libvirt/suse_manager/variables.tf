@@ -30,6 +30,11 @@ variable "cloned_channels" {
   type = "string"
 }
 
+variable "custom_channels" {
+  description = "example TODO"
+  type = "list"
+}
+
 variable "iss_master" {
   description = "ISS master server, leave the default for no ISS"
   default = "null"
