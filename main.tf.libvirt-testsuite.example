@@ -103,7 +103,7 @@ module "min-centos7" {
 # optional
 module "pxeboot-sles12sp3"
 {
-  source = "sumaform/modules/libvirt/pxe_boot"
+  source = "./modules/libvirt/pxe_boot"
   base_configuration = "${module.base.configuration}"
   name = "pxeboot-sles12sp3"
   image = "sles12sp3"
