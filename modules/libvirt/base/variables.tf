@@ -34,7 +34,7 @@ variable "domain" {
 }
 
 variable "name_prefix" {
-  description = "a prefix for all names of objects to avoid collisions. Eg. moio-"
+  description = "a prefix for all names of objects to avoid collisions. E.g. moio-"
   default = ""
 }
 
@@ -49,8 +49,8 @@ variable "testsuite" {
 }
 
 variable "additional_network" {
-  description = "whether to use an additional network or not"
-  default = false
+  description = "additional network in CIDR notation, leave empty if none"
+  default = ""
 }
 
 // Provider-specific variables

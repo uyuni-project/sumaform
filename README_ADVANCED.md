@@ -184,12 +184,12 @@ Additionally, it is possible to have only one user to upload images and other sh
 
 ## Additional network and SUSE Manager for Retail
 
-You may get an additional, isolated, network, with neither DHCP nor DNS by specifying:
+You may get an additional, isolated, network, with neither DHCP nor DNS by specifying for example:
 
 ```hcl
 module "base" {
   [...]
-  additional_network = true
+  additional_network = "192.168.5.0/24"
   [...]
 }
 ```
@@ -208,6 +208,7 @@ When there are two connections, the first network interface `eth0` gets connecte
 When there is only one connection, the card is always `eth0`, no matter to which network it is connected.
 
 Some modules have preset defaults: SUSE Manager/Uyuni Servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni Proxies and clients or minions connect to both networks.
+
 
 ## Custom SSH keys
 
