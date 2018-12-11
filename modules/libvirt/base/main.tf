@@ -73,10 +73,10 @@ resource "libvirt_volume" "ubuntu1804_volume" {
 }
 
 resource "libvirt_network" "additional_network" {
-  count = "${var.additional_network ? 1 : 0}"
+  count = "${var.additional_network == "" ? 0 : 1}"
   name = "${var.name_prefix}private"
   mode = "none"
-  addresses = [ "192.168.5.0/24" ]
+  addresses = [ "${var.additional_network}" ]
   dhcp { enabled = "false" }
 }
 
