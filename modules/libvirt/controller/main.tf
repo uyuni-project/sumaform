@@ -33,6 +33,7 @@ proxy: ${var.proxy_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}
+ubuntu_minion:  ${var.ubuntu_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
 pxeboot_mac: ${var.pxeboot_configuration["macaddr"]}
 role: controller

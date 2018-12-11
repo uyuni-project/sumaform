@@ -361,9 +361,15 @@ tools_update_repo:
 {{ label }}_repo:
   pkgrepo.managed:
     - humanname: {{ label }}
+  {%- if grains['os_family'] == 'Debian' %}
+    - name: deb {{ url }} /
+    - file: /etc/apt/sources.list.d/sumaform_additional_repos.list
+    - key_url: {{ url }}/Release.key
+  {%- else %}
     - baseurl: {{ url }}
     - priority: 94
     - gpgcheck: 0
+  {%- endif %}
 {% endfor %}
 {% endif %}
 

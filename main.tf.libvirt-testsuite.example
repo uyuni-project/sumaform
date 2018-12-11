@@ -26,6 +26,7 @@ module "ctl" {
   client_configuration = "${module.cli-sles12sp3.configuration}"
   minion_configuration = "${module.min-sles12sp3.configuration}"
   centos_configuration = "${module.min-centos7.configuration}"         // optional
+  ubuntu_configuration = "${module.min-ubuntu.configuration}"          // optional
   minionssh_configuration = "${module.minssh-sles12sp3.configuration}" // optional
   pxeboot_configuration = "${module.pxeboot-sles12sp3.configuration}"  // optional
   branch = "default"
@@ -96,6 +97,19 @@ module "min-centos7" {
   name = "min-centos7"
   image = "centos7"
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
+  auto_connect_to_master = false
+  ssh_key_path = "./salt/controller/id_rsa.pub"
+}
+
+# optional
+module "min-ubuntu" {
+  source = "./modules/libvirt/minion"
+  base_configuration = "${module.base.configuration}"
+  product_version = "3.1-nightly"
+  name = "min-ubuntu"
+  image = "ubuntu1804"
+  memory = 1024
+  server_configuration =  { hostname =  "srv.tf.local" }
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
