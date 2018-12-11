@@ -31,6 +31,7 @@ proxy: ${var.proxy_configuration["hostname"]}
 client: ${var.client_configuration["hostname"]}
 minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}
+ubuntu_minion: ${var.ubuntu_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
 role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["product_version"]) : var.branch}

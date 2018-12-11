@@ -68,6 +68,14 @@ variable "centos_configuration" {
   }
 }
 
+variable "ubuntu_configuration" {
+  description = "use ${module.<UBUNTU_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  type = "map"
+  default = {
+    hostname = "null"
+  }
+}
+
 variable "pxeboot_configuration" {
   description = "use ${module.<PXEBOOT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
   type = "map"
