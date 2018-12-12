@@ -21,10 +21,17 @@ tomcat_config:
 
 {% endif %}
 
+# HACK: temporary workaround for bsc#1119213
+java-1_8_0-ibm:
+  pkg.installed:
+    - version: 1.8.0_sr5.20-30.36.1
+
 tomcat_service:
   service.running:
+    # HACK: Temporary workaround for bsc#1119213
     - name: tomcat
     - watch:
+      - pkg: java-1_8_0-ibm
       {% if grains.get('java_debugging') %}
       - file: tomcat_config
       {% endif %}
