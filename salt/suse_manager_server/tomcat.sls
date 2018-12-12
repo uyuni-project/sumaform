@@ -22,16 +22,20 @@ tomcat_config:
 {% endif %}
 
 # HACK: temporary workaround for bsc#1119213
+{% if grains['os'] == 'SUSE' and (grains['osrelease'] == '12.3' or grains['osrelease'] == '12.4') %}
 java-1_8_0-ibm:
   pkg.installed:
     - version: 1.8.0_sr5.20-30.36.1
+{% endif %}
 
 tomcat_service:
   service.running:
-    # HACK: Temporary workaround for bsc#1119213
     - name: tomcat
     - watch:
+      # HACK: Temporary workaround for bsc#1119213
+      {% if grains['os'] == 'SUSE' and (grains['osrelease'] == '12.3' or grains['osrelease'] == '12.4') %}
       - pkg: java-1_8_0-ibm
+      {% endif %}
       {% if grains.get('java_debugging') %}
       - file: tomcat_config
       {% endif %}
