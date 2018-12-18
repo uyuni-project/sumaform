@@ -1,6 +1,9 @@
 include:
   - repos
   - suse_manager_proxy.apparmor
+{% if grains['minion'] %}
+  - minion
+{% endif %}
 
 proxy-packages:
   pkg.latest:

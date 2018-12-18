@@ -18,8 +18,18 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "minion" {
+  description = "whether this Proxy should be onboarded as a minion"
+  default = true
+}
+
+variable "auto_connect_to_master" {
+  description = "whether this minion should automatically connect to the Salt Master upon deployment, requires minion to be true"
+  default = true
+}
+
 variable "auto_register" {
-  description = "whether this proxy should be automatically registered upon deployment"
+  description = "whether this proxy should be automatically registered upon deployment (as a traditional client)"
   default = true
 }
 
