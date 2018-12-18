@@ -103,9 +103,9 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
  * `minion` module:
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
  * `proxy` module:
-   * `auto_register`: automatically registers the proxy to the SUSE Manager Server. Set to `false` for manual registration
-   * `minion`: convert SUSE Manager Proxy to Proxy minion. Default is `true`, set to `false` for traditional proxy
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true` to have any effect
+   * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
+   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
+   * `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Set to `false` for manual registration
    * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
    * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register` and `download_private_ssl_key`
    * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
@@ -289,9 +289,7 @@ module "clisles12sp1" {
 
 Note that proxy chains (proxies of proxies) also work as expected. You can find a list of customizable variables for the `suse_manager_proxy` module in `modules/libvirt/suse_manager_proxy/variables.tf`.
 
-## Proxy as a minion
-
-System prepared by `proxy` module is by default registered as a salt minion. In some usecases this may not be desirable. You can switch off salt minion registration by setting `minion` flag to `false`:
+Note that systems prepared by this module are by default registered as a Salt minions. If this is not desired you can switch off Salt minion registration by setting the `minion` flag to `false`:
 
 ```hcl
 module "proxy" {
