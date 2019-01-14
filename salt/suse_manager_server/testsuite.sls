@@ -74,6 +74,21 @@ another_test_repo:
     - require:
       - cmd: test_repo
 
+test_repo_ubuntu_dir:
+  file.directory:
+    - name: /srv/www/htdocs/pub/TestRepoDeb
+    - user: root
+    - group: root
+    - dir_mode: 755
+
+test_repo_debian:
+  cmd.script:
+    - name: salt://suse_manager_server/download_ubuntu_repo.sh
+    - creates: /srv/www/htdocs/pub/TestRepoDeb/Release
+    - require:
+      - file: test_repo_ubuntu_dir
+      - pkg: wget
+
 # modify cobbler to be executed from remote-machines..
 
 cobbler_configuration:
@@ -102,6 +117,8 @@ salt-ssh:
   pkg.installed:
     - require:
       - sls: repos
+wget:
+  pkg.installed
 
 enable_salt_content_staging_window:
   file.replace:
