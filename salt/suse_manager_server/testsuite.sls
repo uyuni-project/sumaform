@@ -85,7 +85,7 @@ test_repo_debian:
   cmd.script:
     - name: salt://suse_manager_server/download_ubuntu_repo.sh
     - creates: /srv/www/htdocs/pub/TestRepoDeb/Release
-    - require: 
+    - require:
       - file: test_repo_ubuntu_dir
       - pkg: wget
 
