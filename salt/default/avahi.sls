@@ -20,8 +20,8 @@ avahi_change_domain:
 avahi_restrict_interfaces:
   file.replace:
     - name: /etc/avahi/avahi-daemon.conf
-    - pattern: "#allow-interfaces=eth0"
-    - repl: "allow-interfaces=eth0"
+    - pattern: "#deny-interfaces=eth1"
+    - repl: "deny-interfaces=eth1,ens4"
     - require:
       - pkg: avahi
 
