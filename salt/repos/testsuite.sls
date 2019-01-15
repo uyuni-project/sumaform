@@ -17,6 +17,14 @@ testsuite_build_repo:
     - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
     - template: jinja
 
+{% elif grains['os_family'] == 'Debian' %}
+
+testsuite_build_repo:
+  file.managed:
+    - name: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
+    - source: salt://repos/repos.d/Devel_Uyuni_BuildRepo.list
+    - template: jinja
+
 {% endif %}
 {% endif %}
 {% endif %}
