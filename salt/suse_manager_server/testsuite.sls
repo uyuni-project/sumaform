@@ -74,19 +74,20 @@ another_test_repo:
     - require:
       - cmd: test_repo
 
-test_repo_ubuntu_dir:
-  file.directory:
-    - name: /srv/www/htdocs/pub/TestRepoDeb
-    - user: root
-    - group: root
-    - dir_mode: 755
-
 test_repo_debian:
   cmd.script:
     - name: salt://suse_manager_server/download_ubuntu_repo.sh
+    - args: "TestRepoDeb download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test/xUbuntu_18.04/"
     - creates: /srv/www/htdocs/pub/TestRepoDeb/Release
     - require:
-      - file: test_repo_ubuntu_dir
+      - pkg: wget
+
+test_repo_debian_updates:
+  cmd.script:
+    - name: salt://suse_manager_server/download_ubuntu_repo.sh
+    - args: "TestRepoDebUpdates download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test-Updates/xUbuntu_18.04/"
+    - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
+    - require:
       - pkg: wget
 
 # modify cobbler to be executed from remote-machines..
