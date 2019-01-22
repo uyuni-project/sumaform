@@ -15,7 +15,7 @@ avahi_change_domain:
     - pattern: "#domain-name=local"
     - repl: "domain-name={{ grains['domain'] }}"
     - require:
-      - avahi_pkg
+      - pkg: avahi_pkg
 
 avahi_restrict_interfaces:
   file.replace:
@@ -23,7 +23,7 @@ avahi_restrict_interfaces:
     - pattern: "#deny-interfaces=eth1"
     - repl: "deny-interfaces=eth1,ens4"
     - require:
-      - avahi_pkg
+      - pkg: avahi_pkg
 
 mdns_declare_domains:
   file.append:
@@ -42,7 +42,7 @@ avahi_service:
   service.running:
     - name: avahi-daemon
     - require:
-      - mdns_declare_domains
-      - nsswitch_enable_mdns
+      - file: mdns_declare_domains
+      - file: nsswitch_enable_mdns
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
