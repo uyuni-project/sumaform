@@ -37,23 +37,6 @@ minion_id:
     - name: /etc/salt/minion_id
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
-minion_service:
-  service.running:
-    - name: salt-minion
-    - enable: True
-    - require:
-      - pkg: salt-minion
-  {% if grains.get('evil_minions_dump') or grains.get('auto_connect_to_master') %}
-    - listen:
-  {% if grains.get('evil_minions_dump') %}
-      - file: evil_minions_systemd_service
-  {% endif %}
-  {% if grains.get('auto_connect_to_master') %}
-      - file: /etc/salt/minion.d/master.conf
-      - file: /etc/salt/minion_id
-  {% endif %}
-  {% endif %}
-
 {% if grains.get('auto_connect_to_master') %}
 master_configuration:
   file.managed:
@@ -63,3 +46,17 @@ master_configuration:
     - require:
       - pkg: salt-minion
 {% endif %}
+
+minion_service:
+  service.running:
+    - name: salt-minion
+    - enable: True
+    - require:
+      - pkg: salt-minion
+  {% if grains.get('evil_minions_dump') %}
+      - file: evil_minions_systemd_service
+  {% endif %}
+  {% if grains.get('auto_connect_to_master') %}
+      - file: /etc/salt/minion.d/master.conf
+      - file: /etc/salt/minion_id
+  {% endif %}
