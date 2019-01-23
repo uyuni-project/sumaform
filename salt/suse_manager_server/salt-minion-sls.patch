@@ -1,0 +1,11 @@
+diff --git a/susemanager-utils/susemanager-sls/salt/services/salt-minion.sls b/susemanager-utils/susemanager-sls/salt/services/salt-minion.sls
+index 4fd1004963..7b075134e6 100644
+--- a/susemanager-utils/susemanager-sls/salt/services/salt-minion.sls
++++ b/susemanager-utils/susemanager-sls/salt/services/salt-minion.sls
+@@ -16,6 +16,4 @@ mgr_salt_minion:
+     - name: salt-minion
+     - enable: True
+     - order: last
+-    - watch:
+-      - file: mgr_mine_config
+ {% endif %}
