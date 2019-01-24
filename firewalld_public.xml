@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zone>
+  <short>Public</short>
+  <service name="http"/>
+  <service name="https"/>
+  <service name="ssh"/>
+  <service name="xmpp-client"/>
+  <service name="xmpp-server"/>
+  <service name="tftp"/>
+  <port port="1521" protocol="tcp"/>
+  <port port="5432" protocol="tcp"/>
+  <port port="4505" protocol="tcp"/>
+  <port port="4506" protocol="tcp"/>
+</zone>

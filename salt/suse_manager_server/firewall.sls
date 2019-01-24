@@ -3,7 +3,11 @@ include:
 
 firewall:
   pkg.installed:
+{% if grains.get('osmajorrelease', None)|int() == 15 %}
+    - name: firewalld
+{% else %}
     - name: SuSEfirewall2
+{% endif %}
     - require:
       - sls: default
 
@@ -11,12 +15,21 @@ firewall:
 
 disable_firewall:
   service.dead:
+{% if grains.get('osmajorrelease', None)|int() == 15 %}
+    - name: firewalld
+{% else %}
     - name: SuSEfirewall2
+{% endif %}
     - enable: False
 
 {% else %}
 
 firewall_configuration:
+{% if grains.get('osmajorrelease', None)|int() == 15 %}
+  file.managed:
+    - name: /etc/firewalld/zones/public.xml
+    - source: salt://suse_manager_server/firewalld_public.xml
+{% else %}
   file.replace:
     - name: /etc/sysconfig/SuSEfirewall2
     - pattern: |
@@ -26,5 +39,6 @@ firewall_configuration:
     - append_if_not_found: True
     - require:
       - pkg: firewall
+{% endif %}
 
 {% endif %}
