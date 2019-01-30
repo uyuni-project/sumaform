@@ -8,7 +8,7 @@ variable "images" {
     "3.2-nightly" = "sles12sp4"
     "head" = "sles15sp1"
     "test" = "sles15sp1"
-    "uyuni-released" = "opensuse423"
+    "uyuni-released" = "opensuse150"
   }
 }
 
