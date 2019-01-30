@@ -1,6 +1,6 @@
 [systemsmanagement_Uyuni_Stable]
 name=Uyuni builds from Stable Project
 type=rpm-md
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_42.3/
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.0/
 enabled=1
 priority=96
