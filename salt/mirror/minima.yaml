@@ -196,13 +196,13 @@ http:
     archs: [x86_64]
 
   # Uyuni Master
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_42.3/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.0/
     archs: [x86_64]
 
   # Uyuni Server
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_42.3/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.0/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
     archs: [x86_64]
 
   # Uyuni Proxy
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_42.3/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.0/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
     archs: [x86_64]
