@@ -62,7 +62,7 @@ variable "connect_to_additional_network" {
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: opensuse423, sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles15, centos7"
+  description = "One of: opensuse423, opensuse150, sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles15, centos7"
   type = "string"
 }
 
