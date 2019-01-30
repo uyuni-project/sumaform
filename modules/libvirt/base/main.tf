@@ -16,6 +16,13 @@ resource "libvirt_volume" "opensuse423_volume" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_volume" "opensuse150_volume" {
+  name = "${var.name_prefix}opensuse150"
+  source = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse150") ? 1 : 0)}"
+  pool = "${var.pool}"
+}
+
 resource "libvirt_volume" "sles15_volume" {
   name = "${var.name_prefix}sles15"
   source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
@@ -91,6 +98,7 @@ output "configuration" {
   depends_on = [
     "libvirt_volume.centos7_volume",
     "libvirt_volume.opensuse423_volume",
+    "libvirt_volume.opensuse150_volume",
     "libvirt_volume.sles15_volume",
     "libvirt_volume.sles15sp1_volume",
     "libvirt_volume.sles11sp4_volume",
