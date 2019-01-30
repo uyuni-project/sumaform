@@ -24,6 +24,17 @@ resource "openstack_images_image_v2" "opensuse423_image" {
   }
 }
 
+resource "openstack_images_image_v2" "opensuse150_image" {
+  name = "${var.name_prefix}opensuse423"
+  image_source_url = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/openstack/images/opensuse150.x86_64.qcow2"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse150") ? 1 : 0)}"
+  container_format = "bare"
+  disk_format = "qcow2"
+  properties {
+    hw_rng_model = "virtio"
+  }
+}
+
 resource "openstack_images_image_v2" "sles15_image" {
   name = "${var.name_prefix}sles15"
   image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15.x86_64.qcow2"
@@ -155,6 +166,7 @@ output "configuration" {
     // Provider-specific variables
     centos7_image_id = "${join(",", openstack_images_image_v2.centos7_image.*.id)}"
     opensuse423_image_id = "${join(",", openstack_images_image_v2.opensuse423_image.*.id)}"
+    opensuse150_image_id = "${join(",", openstack_images_image_v2.opensuse150_image.*.id)}"
     sles15_image_id = "${join(",", openstack_images_image_v2.sles15_image.*.id)}"
     sles11sp4_image_id = "${join(",", openstack_images_image_v2.sles11sp4_image.*.id)}"
     sles12_image_id = "${join(",", openstack_images_image_v2.sles12_image.*.id)}"
