@@ -225,26 +225,6 @@ tools_additional_repo:
 
 
 {% if '15' in grains['osrelease'] %}
-os_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-15-x86_64-Pool.repo
-    - source: salt://repos/repos.d/SLE-15-x86_64-Pool.repo
-    - template: jinja
-
-os_update_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-15-x86_64-Update.repo
-    - source: salt://repos/repos.d/SLE-15-x86_64-Update.repo
-    - template: jinja
-
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-15-x86_64-Test-Update.repo
-    - source: salt://repos/repos.d/SLE-15-x86_64-Test-Update.repo
-    - template: jinja
-{% endif %}
-
 {% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
 
 tools_pool_repo:
@@ -277,6 +257,43 @@ tools_additional_repo:
 {% endif %}
 {% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
 {% endif %} {# '15' in grains['osrelease'] #}
+
+{% if '15' == grains['osrelease'] %}
+os_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-x86_64-Pool.repo
+    - source: salt://repos/repos.d/SLE-15-x86_64-Pool.repo
+    - template: jinja
+
+os_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-x86_64-Update.repo
+    - source: salt://repos/repos.d/SLE-15-x86_64-Update.repo
+    - template: jinja
+
+{% if grains.get('use_unreleased_updates') | default(False, true) %}
+test_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-x86_64-Test-Update.repo
+    - source: salt://repos/repos.d/SLE-15-x86_64-Test-Update.repo
+    - template: jinja
+{% endif %}
+{% endif %} {# '15' == grains['osrelease'] #}
+
+{% if '15.1' == grains['osrelease'] %}
+os_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-SP1-x86_64-Pool.repo
+    - source: salt://repos/repos.d/SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+
+os_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-15-SP1-x86_64-Update.repo
+    - source: salt://repos/repos.d/SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
+{% endif %} {# '15.1' == grains['osrelease'] #}
+
 
 
 allow_vendor_changes:

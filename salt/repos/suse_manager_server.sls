@@ -126,6 +126,38 @@ suse_manager_test_repo:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_TEST.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_TEST.repo
     - template: jinja
+
+{% if grains['osfullname'] != 'Leap' %}
+module_server_applications_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Server_Applications_Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Server-Applications-SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+
+module_server_applications_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Server_Applications_Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Server-Applications-SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
+
+module_web_scripting_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Web_Scripting_Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Web-Scripting-SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+
+module_web_scripting_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Web_Scripting_Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Web-Scripting-SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
+
+module_python2_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Python2_Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Python2-SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+{% endif %}
 {% endif %}
 
 {% if grains.get('log_server') | default(false, true) %}
