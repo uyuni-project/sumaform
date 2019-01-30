@@ -20,37 +20,21 @@ scc:
     - SLES12-SP4-Pool
     - SLES12-SP4-Updates
     # SLE 15 Products
-    - SLE-Product-SLES_SAP15-Pool
-    - SLE-Product-SLES_SAP15-Updates
-    - SLE-Product-SLED15-Pool
-    - SLE-Product-SLED15-Updates
     - SLE-Product-SLES15-Pool
     - SLE-Product-SLES15-Updates
-    - SLE-Product-WE15-Pool
-    - SLE-Product-WE15-Updates
     # SLE 15 Basic Modules
     - SLE-Module-Basesystem15-Pool
     - SLE-Module-Basesystem15-Updates
     - SLE-Module-Server-Applications15-Pool
     - SLE-Module-Server-Applications15-Updates
-    - SLE-Module-Desktop-Applications15-Pool
-    - SLE-Module-Desktop-Applications15-Updates
     # SLE 15-SP1 Products
-    - SLE-Product-SLES_SAP15-SP1-Pool
-    - SLE-Product-SLES_SAP15-SP1-Updates
-    - SLE-Product-SLED15-SP1-Pool
-    - SLE-Product-SLED15-SP1-Updates
     - SLE-Product-SLES15-SP1-Pool
     - SLE-Product-SLES15-SP1-Updates
-    - SLE-Product-WE15-SP1-Pool
-    - SLE-Product-WE15-SP1-Updates
     # SLE 15-SP1 Basic Modules
     - SLE-Module-Basesystem15-SP1-Pool
     - SLE-Module-Basesystem15-SP1-Updates
     - SLE-Module-Server-Applications15-SP1-Pool
     - SLE-Module-Server-Applications15-SP1-Updates
-    - SLE-Module-Desktop-Applications15-SP1-Pool
-    - SLE-Module-Desktop-Applications15-SP1-Updates
     - SLE-Module-Web-Scripting15-SP1-Pool
     - SLE-Module-Web-Scripting15-SP1-Updates
     - SLE-Module-Python2-15-SP1-Pool
@@ -91,7 +75,7 @@ scc:
 http:
   # RES 7
   #- url: https://nu.novell.com/repo/$RCE/RES7/x86_64
-  #  #  archs: [x86_64]
+  # #  archs: [x86_64]
 
   # SLES 11 SP4 Test
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
