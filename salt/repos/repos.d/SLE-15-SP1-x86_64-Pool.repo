@@ -1,0 +1,5 @@
+[SLE-Module-Basesystem15-SP1-x86_64-Pool]
+name=SLE-Module-Basesystem15-SP1-x86_64-Pool
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product/
