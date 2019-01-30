@@ -190,6 +190,8 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_42.3
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
+    archs: [x86_64]
 
   # security:logging (filebeat)
   - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP4
