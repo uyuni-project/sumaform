@@ -28,10 +28,6 @@ variable "auto_connect_to_master" {
   default = true
 }
 
-variable "evil_minions_dump" {
-  description = "whether this minion should create a dump file to be used for evil-minions"
-  default = false
-}
 
 variable "use_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"

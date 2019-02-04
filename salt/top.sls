@@ -22,10 +22,6 @@ base:
     - match: grain
     - minionswarm
 
-  'role:evil_minions':
-    - match: grain
-    - evil_minions
-
   'role:mirror':
     - match: grain
     - mirror

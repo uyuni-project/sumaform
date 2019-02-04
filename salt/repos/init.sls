@@ -1,7 +1,6 @@
 include:
   - repos.controller
   - repos.default
-  - repos.evil_minions
   - repos.grafana
   - repos.minion
   - repos.minionswarm
@@ -17,7 +16,6 @@ refresh_repos:
     - require:
       - sls: repos.controller
       - sls: repos.default
-      - sls: repos.evil_minions
       - sls: repos.minion
       - sls: repos.minionswarm
       - sls: repos.suse_manager_proxy
