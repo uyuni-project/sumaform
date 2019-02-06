@@ -30,7 +30,7 @@ variable "auto_connect_to_master" {
 
 variable "auto_register" {
   description = "whether this proxy should be automatically registered upon deployment (as a traditional client)"
-  default = true
+  default = false
 }
 
 variable "download_private_ssl_key" {
