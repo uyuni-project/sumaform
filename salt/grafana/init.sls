@@ -62,6 +62,19 @@ grafana:
     - require:
       - sls: repos
 
+grafana_anonymous_login_configuration:
+  file.blockreplace:
+    - name: /etc/grafana/grafana.ini
+    - marker_start: '#################################### Anonymous Auth ##########################'
+    - marker_end: '#################################### Github Auth ##########################'
+    - content: |
+        [auth.anonymous]
+        enabled = true
+        org_name = Main Org.
+        org_role = Admin
+    - require:
+      - pkg: grafana
+
 grafana_port_configuration:
   file.replace:
     - name: /etc/grafana/grafana.ini
