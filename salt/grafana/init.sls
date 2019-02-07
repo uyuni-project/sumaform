@@ -114,3 +114,9 @@ grafana_service:
       - file: grafana_port_configuration
       - file: grafana_provisioning_directory
       - file: grafana_service_configuration
+
+grafana_setup:
+  cmd.script:
+    - name: salt://grafana/setup_grafana.py
+    - require:
+      - service: grafana_service
