@@ -22,6 +22,9 @@ apparmor: ${var.apparmor}
 susemanager:
   activation_key: ${var.activation_key}
 
+evil_minion_count: ${var.evil_minion_count}
+evil_minion_slowdown_factor: ${var.evil_minion_slowdown_factor}
+
 EOF
 
   // Provider-specific variables
