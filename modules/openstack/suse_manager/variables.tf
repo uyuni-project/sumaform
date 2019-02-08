@@ -181,9 +181,9 @@ variable "pts" {
   default = false
 }
 
-variable "pts_evil_minions" {
-  description = "Hostname of the evil-minions instance, if pts is enabled"
-  default = "evil-minions.tf.local"
+variable "pts_minion" {
+  description = "Hostname of the minion instance in the PTS environment, if pts is enabled"
+  default = "minion.tf.local"
 }
 
 variable "pts_locust" {
@@ -198,7 +198,7 @@ variable "pts_system_count" {
 
 variable "pts_system_prefix" {
   description = "Prefix of minion names, if pts is enabled"
-  default = "evil-minions"
+  default = "minion"
 }
 
 // Provider-specific variables

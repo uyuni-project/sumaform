@@ -54,7 +54,7 @@ publish_private_ssl_key: ${var.publish_private_ssl_key}
 auto_accept: ${var.auto_accept}
 monitored: ${var.monitored}
 pts: ${var.pts}
-pts_evil_minions: ${var.pts_evil_minions}
+pts_minion: ${var.pts_minion}
 pts_locust: ${var.pts_locust}
 pts_system_count: ${var.pts_system_count}
 pts_system_prefix: ${var.pts_system_prefix}
