@@ -14,6 +14,8 @@ type=rpm-md
 {% set path = 'SLE_12_SP3' %}
 {% elif grains['osrelease'] == '12.4' %}
 {% set path = 'SLE_12_SP4' %}
+{% elif grains['osrelease'] == '15.1' %}
+{% set path = 'SLE_15_SP1' %}
 {% elif grains['osrelease'] == '42.3' %}
 {% set path = 'openSUSE_Leap_42.3' %}
 {% endif %}

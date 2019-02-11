@@ -23,6 +23,13 @@ resource "libvirt_volume" "sles15_volume" {
   pool = "${var.pool}"
 }
 
+resource "libvirt_volume" "sles15sp1_volume" {
+  name = "${var.name_prefix}sles15sp1"
+  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15sp1.x86_64.qcow2"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15sp1") ? 1 : 0)}"
+  pool = "${var.pool}"
+}
+
 resource "libvirt_volume" "sles11sp4_volume" {
   name = "${var.name_prefix}sles11sp4"
   source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
@@ -85,6 +92,7 @@ output "configuration" {
     "libvirt_volume.centos7_volume",
     "libvirt_volume.opensuse423_volume",
     "libvirt_volume.sles15_volume",
+    "libvirt_volume.sles15sp1_volume",
     "libvirt_volume.sles11sp4_volume",
     "libvirt_volume.sles12_volume",
     "libvirt_volume.sles12sp1_volume",

@@ -13,7 +13,11 @@ proxy-packages:
       {% else %}
       - patterns-suma_proxy
       {% endif %}
+{% if grains.get('osmajorrelease', None)|int() == 15 %}
+      - firewalld
+{% else %}
       - SuSEfirewall2
+{% endif %}
     - require:
       - sls: repos
 
