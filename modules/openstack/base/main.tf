@@ -35,6 +35,17 @@ resource "openstack_images_image_v2" "sles15_image" {
   }
 }
 
+resource "openstack_images_image_v2" "sles15sp1_image" {
+  name = "${var.name_prefix}sles15sp1"
+  image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles15sp1.x86_64.qcow2"
+  count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15sp1") ? 1 : 0)}"
+  container_format = "bare"
+  disk_format = "qcow2"
+  properties {
+    hw_rng_model = "virtio"
+  }
+}
+
 resource "openstack_images_image_v2" "sles11sp4_image" {
   name = "${var.name_prefix}sles11sp4"
   image_source_url = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images:/OpenStack/images/sles11sp4.x86_64.qcow2"
