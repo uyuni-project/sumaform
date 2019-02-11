@@ -28,9 +28,14 @@ variable "auto_connect_to_master" {
   default = true
 }
 
-variable "evil_minions_dump" {
-  description = "whether this minion should create a dump file to be used for evil-minions"
-  default = false
+variable "evil_minion_count"  {
+  description = "change to a number to use the evil-minions load generator, see README_ADVANCED.md"
+  default = 0
+}
+
+variable "evil_minion_slowdown_factor"  {
+  description = "slowdown factor for evil-minions, see README_ADVANCED.md"
+  default = 0.0
 }
 
 variable "use_released_updates" {

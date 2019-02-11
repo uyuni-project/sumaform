@@ -334,7 +334,7 @@ Please note that `iss_master` is set from `master`'s module output variable `hos
 Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 ## Performance testsuite
-It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server, an evil-minions instance and (by default) a grafana host to monitor them.
+It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server, an minion instance with evil-minions running on it and (by default) a grafana host to monitor them.
 
 A libvirt example follows:
 
@@ -364,16 +364,6 @@ ssh server.tf.local run-pts --patching-only
 ```
 
 It is also possible to specify non-default hostnames and MAC addresses, see `pts/variables.tf`.
-
-### Updating the evil-minions dump file
-
-The performance testsuite relies on the `evil-minions` load generator in order to simulate a large number of Salt minions. `evil-minions` requires a file captured from a real minion, called a dump, to perform the load generation. This file is bundled in sumaform and should rarely be changed - in case it has to be please follow these instructions:
-
- - add `dumping_minion = false` to your `pts` module in `main.tf`. This disables the deployment of the evil-minions host and enables the deployment of a single minion for dump recording
- - run `terraform apply`
- - wait for the minion to be onboarded
- - connect to the server and execute `run-pts --patching-only`
- - save the dump file, eg. `scp evil-minions-dumper.tf.local://tmp/minion-dump.mp .`
 
 ## Cucumber testsuite
 
@@ -658,7 +648,18 @@ Elasticsearch listens on port 9200 and provides full text search on logs.
 
 `evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.
 
-In order to "record" the behavior of a Salt minion and save it in a dump file, you can use the `evil_minions_dump` flag in the `minion` module. A libvirt example follows:
+In order to create an `evil-minions` load generator, you have to define a regular `minion` module, and use the `evil_minion_count` variable on it. This will create an instance of a `minion`, and on top of it will set up the `evil-minions` load generator, which will create `evil_minion_count` replicas of the actual `minion`.
+
+It is also possible to set up a delay on the response time of the replicas. By default, the replicas will respond as fast as possible, which might not be appropriate depending on the objectives of your simulation. To reproduce delays observed by the original minion, use the `evil_minion_slowdown_factor` variable, as follows:
+
+ - `0.0`, the default value, makes evil minions respond as fast as possible
+ - `1.0` makes `evil-minion` introduce delays to match the response times of the original minion
+ - `2.0` makes `evil-minion` react twice as slow as the original minion
+ - `0.5` makes `evil-minion` react twice as fast as the original minion
+
+For more information, visit the `evil-minions` project page at https://github.com/moio/evil-minions/ .
+
+A libvirt example follows:
 
 ```hcl
 module "minion" {
@@ -668,28 +669,8 @@ module "minion" {
   name = "minion"
   image = "sles12sp3"
   server_configuration = "${module.server.configuration}"
-  evil_minions_dump = true
-}
-```
-
-Once the dump file is created, you can copy it over to the host running `terraform`:
-
-```sh
-scp minion.tf.local://tmp/minion-dump.mp .
-```
-
-
-With the dump file created, it is possible to create an `evil_mininons` host to "play it back". A libvirt example would be:
-
-```hcl
-module "evil-minions" {
-  source = "./modules/libvirt/evil_minions"
-  base_configuration = "${module.base.configuration}"
-
-  name = "evil-minions"
-  server_configuration = "${module.suma31pg.configuration}"
-  dump_file = "./minion-dump.mp"
-  evil_minion_count = 50
+  evil_minion_count = 10
+  evil_minion_slowdown_factor = 1
 }
 ```
 

@@ -2,14 +2,14 @@ module "server" {
   source = "../suse_manager"
   name = "${var.suse_manager_name}"
   base_configuration = "${var.base_configuration}"
-  product_version = "3.1-nightly"
+  product_version = "3.2-nightly"
   image = "sles12sp3"
   monitored = true
   pts = true
-  pts_evil_minions = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}"
+  pts_minion = "${var.base_configuration["name_prefix"]}${var.minion_name}"
   pts_locust = "${var.base_configuration["name_prefix"]}${var.locust_name}"
-  pts_system_count = 200
-  pts_system_prefix = "${var.base_configuration["name_prefix"]}${var.evil_minions_name}"
+  pts_system_count = "${var.pts_system_count} + 1"
+  pts_system_prefix = "${var.base_configuration["name_prefix"]}${var.minion_name}"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64", "sle-manager-tools12-pool-x86_64-sp3", "sle-manager-tools12-updates-x86_64-sp3"]
   cloned_channels = "[{channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64, sle-manager-tools12-pool-x86_64-sp3, sle-manager-tools12-updates-x86_64-sp3], prefix: cloned-2017-q3, date: 2017-09-30}, {channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64, sle-manager-tools12-pool-x86_64-sp3, sle-manager-tools12-updates-x86_64-sp3], prefix: cloned-2017-q4, date: 2017-12-31}]"
 
@@ -19,31 +19,20 @@ module "server" {
   mac = "${var.server_mac}"
 }
 
-module "dumper" {
+module "minion" {
   source = "../minion"
   base_configuration = "${var.base_configuration}"
 
-  name = "${var.evil_minions_name}-dumper"
+  name = "${var.minion_name}"
   image = "sles12sp3"
   server_configuration = "${module.server.configuration}"
   activation_key = "1-cloned-2017-q3"
-  evil_minions_dump = true
-  count = "${var.evil_minions_dumper}"
-}
-
-module "evil-minions" {
-  source = "../evil_minions"
-  base_configuration = "${var.base_configuration}"
-
-  name = "${var.evil_minions_name}"
-  server_configuration = "${module.server.configuration}"
-  dump_file = "modules/libvirt/pts/minion-dump.mp"
-  count = "${1 - var.evil_minions_dumper}"
+  evil_minion_count = "${var.pts_system_count}"
 
   // Provider-specific variables
   vcpu = 2
   memory = 4096
-  mac = "${var.evil_minions_mac}"
+  mac = "${var.minion_mac}"
 }
 
 module "locust" {

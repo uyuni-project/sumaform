@@ -13,9 +13,9 @@ variable "suse_manager_name" {
   default = "server"
 }
 
-variable "evil_minions_name" {
-  description = "hostname for the evil-minions instance, without the domain part"
-  default = "evil-minions"
+variable "minion_name" {
+  description = "hostname for the minion instance, without the domain part"
+  default = "minion"
 }
 
 variable "locust_name" {
@@ -28,9 +28,9 @@ variable "grafana_name" {
   default = "grafana"
 }
 
-variable "evil_minions_dumper" {
-  description = "if true, it will create a single minion to collect a dump file instead of an evil-minions host"
-  default = false
+variable "pts_system_count" {
+  description = "Number of minions"
+  default = "200"
 }
 
 // Provider-specific variables
@@ -40,8 +40,8 @@ variable "server_floating_ips" {
   default = []
 }
 
-variable "evil_minions_floating_ips" {
-  description = "List of floating IP IDs to associate to the evil-minions instance"
+variable "minion_floating_ips" {
+  description = "List of floating IP IDs to associate to the minion instance"
   default = []
 }
 

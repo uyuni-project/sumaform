@@ -29,6 +29,15 @@ containers_updates_repo:
     - template: jinja
 {% endif %}
 
+
+{% endif %}
+
+{% if grains.get('evil_minion_count') and grains['os'] == 'SUSE' %}
+tools_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
+    - source: salt://repos/repos.d/systemsmanagement-sumaform-tools.repo
+    - template: jinja
 {% endif %}
 
 # HACK: work around #10852

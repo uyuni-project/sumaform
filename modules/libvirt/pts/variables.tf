@@ -13,9 +13,9 @@ variable "suse_manager_name" {
   default = "server"
 }
 
-variable "evil_minions_name" {
-  description = "hostname for the evil-minions instance, without the domain part"
-  default = "evil-minions"
+variable "minion_name" {
+  description = "hostname for the minion instance, without the domain part"
+  default = "minion"
 }
 
 variable "locust_name" {
@@ -23,14 +23,14 @@ variable "locust_name" {
   default = "locust"
 }
 
+variable "pts_system_count" {
+  description = "Number of minions"
+  default = "16"
+}
+
 variable "grafana_name" {
   description = "hostname for the grafana instance, without the domain part"
   default = "grafana"
-}
-
-variable "evil_minions_dumper" {
-  description = "if true, it will create a single minion to collect a dump file instead of an evil-minions host"
-  default = false
 }
 
 // Provider-specific variables
@@ -40,8 +40,8 @@ variable "server_mac" {
   default = ""
 }
 
-variable "evil_minions_mac" {
-  description = "a MAC address for the evil-minions instance in the form AA:BB:CC:11:22:22"
+variable "minion_mac" {
+  description = "a MAC address for the minion instance in the form AA:BB:CC:11:22:22"
   default = ""
 }
 

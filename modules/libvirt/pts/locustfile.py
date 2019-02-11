@@ -8,12 +8,12 @@ class UserBehavior(TaskSet):
         """ on_start is called when a Locust start before any task is scheduled """
         # don't verify ssl certs
         self.client.verify = False
-        validation_token = self.get_validation_token("cloned-2017-q4-sles12-sp3-updates-x86_64")
-        self.small_package_path = self.get_download_path("cloned-2017-q4-sles12-sp3-updates-x86_64", "at-3.1.14-8.3.1.x86_64.rpm", validation_token)
-        self.big_package_path = self.get_download_path("cloned-2017-q4-sles12-sp3-updates-x86_64", "kernel-default-4.4.103-6.33.1.x86_64.rpm", validation_token)
+        validation_token = self.get_validation_token("cloned-2017-q3-sles12-sp3-updates-x86_64")
+        self.small_package_path = self.get_download_path("cloned-2017-q3-sles12-sp3-updates-x86_64", "at-3.1.14-8.3.1.x86_64.rpm", validation_token)
+        self.big_package_path = self.get_download_path("cloned-2017-q3-sles12-sp3-updates-x86_64", "kernel-default-4.4.82-6.3.1.x86_64.rpm", validation_token)
 
     def get_validation_token(self, channel_name):
-        response = self.client.get("/pub/pillar_pts_evil_minions.yml")
+        response = self.client.get("/pub/pillar_pts_minion.yml")
         json_pillar = yaml.load(response.content)
         return json_pillar['channels'][channel_name]['token']
 
