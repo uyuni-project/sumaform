@@ -25,7 +25,7 @@ variable "locust_name" {
 
 variable "pts_system_count" {
   description = "Number of minions"
-  default = "16"
+  default = "200"
 }
 
 variable "grafana_name" {
