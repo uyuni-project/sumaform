@@ -12,21 +12,19 @@ install_{{ keypath }}:
 {% endfor %}
 
 {% if grains['os'] == 'SUSE' %}
-
-{% if grains['osrelease'] == '42.3' %}
+{% if grains['osfullname'] == 'Leap' %}
 os_pool_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/openSUSE-Leap-42.3-Pool.repo
-    - source: salt://repos/repos.d/openSUSE-Leap-42.3-Pool.repo
+    - name: /etc/zypp/repos.d/openSUSE-Leap-{{ grains['osrelease'] }}-Pool.repo
+    - source: salt://repos/repos.d/openSUSE-Leap-Pool.repo
     - template: jinja
 
 os_update_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/openSUSE-Leap-42.3-Update.repo
-    - source: salt://repos/repos.d/openSUSE-Leap-42.3-Update.repo
+    - name: /etc/zypp/repos.d/openSUSE-Leap-{{ grains['osrelease'] }}-Update.repo
+    - source: salt://repos/repos.d/openSUSE-Leap-Update.repo
     - template: jinja
-{% endif %} {# grains['osrelease'] == '42.3' #}
-
+{% elif grains['osfullname'] == 'SLES' %}
 
 {% if grains['osrelease'] == '11.4' %}
 
@@ -294,7 +292,7 @@ os_update_repo:
     - template: jinja
 {% endif %} {# '15.1' == grains['osrelease'] #}
 
-
+{% endif %} {# grains['osfullname'] == 'SLES' #}
 
 allow_vendor_changes:
   {% if grains['osfullname'] == 'Leap' %}

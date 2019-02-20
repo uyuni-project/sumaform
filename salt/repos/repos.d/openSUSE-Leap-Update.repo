@@ -1,0 +1,5 @@
+[openSUSE-Leap-{{ grains['osrelease'] }}-Update]
+name=openSUSE-Leap-{{ grains['osrelease'] }}-Update
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/oss/
+type=rpm-md
