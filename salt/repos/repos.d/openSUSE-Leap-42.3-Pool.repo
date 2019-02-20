@@ -1,6 +1,0 @@
-[openSUSE-Leap-42.3-Pool]
-name=openSUSE-Leap-42.3-Pool
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/distribution/leap/42.3/repo/oss/suse/
-type=rpm-md
-keeppackages=0
