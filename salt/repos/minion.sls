@@ -24,14 +24,6 @@ containers_updates_repo:
 
 {% endif %}
 
-{% if grains.get('evil_minion_count') and grains['os'] == 'SUSE' %}
-tools_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/repodata/repomd.xml.key
-{% endif %}
-
 # HACK: work around #10852
 default_nop:
   test.nop: []
