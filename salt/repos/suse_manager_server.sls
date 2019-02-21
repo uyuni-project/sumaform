@@ -202,22 +202,6 @@ filebeat_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/security:/logging/SLE_12_SP4/
 {% endif %}
 
-{% if grains.get('monitored') | default(false, true) %}
-prometheus_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/repodata/repomd.xml.key
-{% endif %}
-
-{% endif %}
-
-{% if grains.get('pts') and grains['os'] == 'SUSE' %}
-tools_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/repodata/repomd.xml.key
 {% endif %}
 
 # HACK: work around #10852
