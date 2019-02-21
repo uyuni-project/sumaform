@@ -1,6 +1,0 @@
-[SUSE-Manager-Proxy-3.2-x86_64-Update]
-name=SUSE-Manager-Proxy-3.2-x86_64-Update
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains["mirror"] | default("download.suse.de/ibs", true) }}/SUSE/Updates/SUSE-Manager-Proxy/3.2/x86_64/update/
-priority=97

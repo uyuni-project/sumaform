@@ -193,6 +193,10 @@ module_web_scripting_update_repo:
 module_python2_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Python2/15-SP1/x86_64/product/
+
+module_python2_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Python2/15-SP1/x86_64/update/
 {% endif %}
 {% endif %}
 

@@ -1,5 +1,0 @@
-[SLE-Module-Server-Applications-SLE-15-SP1-x86_64-Update]
-name=SLE-Module-Server-Applications-SLE-15-SP1-x86_64-Update
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP1/x86_64/update/

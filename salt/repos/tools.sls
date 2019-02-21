@@ -5,6 +5,11 @@
       grains.get('pts')
 ) %}
 
+{% if grains['osfullname'] == 'Leap' %}
+{% set path = 'openSUSE_Leap_' + grains['osrelease'] %}
+{% endif %}
+
+{% if grains['osfullname'] != 'Leap' %}
 {% if grains['osrelease'] == '11.4' %}
 {% set path = 'SLE_11_SP4' %}
 {% elif grains['osrelease'] == '12' %}
@@ -19,8 +24,7 @@
 {% set path = 'SLE_12_SP4' %}
 {% elif grains['osrelease'] == '15.1' %}
 {% set path = 'SLE_15_SP1' %}
-{% elif grains['osrelease'] == '42.3' %}
-{% set path = 'openSUSE_Leap_42.3' %}
+{% endif %}
 {% endif %}
 
 tools_repo:
