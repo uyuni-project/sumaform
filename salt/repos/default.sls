@@ -44,11 +44,19 @@ tools_pool_repo_master:
 
 os_pool_repo:
   pkgrepo.managed:
+    {% if grains.get('mirror') %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64/
+    {% else %}
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL/
+    {% endif %}
 
 os_update_repo:
   pkgrepo.managed:
+    {% if grains.get('mirror') %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/
+    {% else %}
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/x86_64/update/
+    {% endif %}
 
 {% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
@@ -60,7 +68,11 @@ test_update_repo:
 
 tools_pool_repo:
   pkgrepo.managed:
+    {% if grains.get('mirror') %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/
+    {% else %}
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
+    {% endif %}
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 
@@ -327,7 +339,11 @@ uyuni_key:
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
+    {% if grains.get('mirror') %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/
+    {% else %}
+    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+    {% endif %}
     - require:
       - cmd: galaxy_key
 

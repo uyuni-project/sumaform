@@ -166,7 +166,11 @@ suse_manager_devel_repo:
 
 suse_manager_test_repo:
   pkgrepo.managed:
+    {% if grains.get("product_test_repository") %}
     - baseurl: {{ grains.get("product_test_repository") }}
+    {% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/
+    {% endif %}
     - priority: 95
 
 {% if grains['osfullname'] != 'Leap' %}
