@@ -154,4 +154,8 @@ tomcat:
       - file: enable_salt_content_staging_window
       - file: enable_salt_content_staging_advance
 
+dump_salt_event_log:
+  cmd.run:
+    - name: nohup salt-run state.event pretty=True > /var/log/rhn/salt-event.log &
+
 {% endif %}
