@@ -1,5 +1,0 @@
-[Devel_Galaxy_Manager_4.0_RES-Manager-Tools-7-x86_64]
-name=Devel_Galaxy_Manager_4.0_RES-Manager-Tools-7-x86_64
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/

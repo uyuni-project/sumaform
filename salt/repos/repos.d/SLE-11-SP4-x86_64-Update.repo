@@ -1,9 +1,0 @@
-[SLE-11-SP4-x86_64-Update]
-name=SLE-11-SP4-x86_64-Update
-type=rpm-md
-enabled=1
-{% if grains.get('mirror') %}
-baseurl=http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/
-{% else %}
-baseurl=http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/x86_64/update/
-{% endif %}

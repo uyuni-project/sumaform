@@ -1,5 +1,0 @@
-[security_logging]
-name=security_logging
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/security:/logging/SLE_12_SP4/
