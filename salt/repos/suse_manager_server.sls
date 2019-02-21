@@ -85,16 +85,19 @@ suse_manager_pool_repo:
 {% endif %}
 
 {% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+{% if grains['osfullname'] == 'Leap' %}
 suse_manager_pool_repo:
   file.managed:
-    {% if grains['osfullname'] == 'Leap' %}
     - name: /etc/zypp/repos.d/Uyuni-Master-x86_64-Pool.repo
     - source: salt://repos/repos.d/Uyuni-Master-x86_64-Pool.repo
-    {% else %}
+    - template: jinja
+{% else %}
+suse_manager_pool_repo:
+  file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
     - source: salt://repos/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
-    {% endif %}
     - template: jinja
+{% endif %}
 
 {% if grains['osfullname'] != 'Leap' %}
 suse_manager_devel_releasenotes_repo:
@@ -104,16 +107,19 @@ suse_manager_devel_releasenotes_repo:
     - template: jinja
 {% endif %}
 
+{% if grains['osfullname'] == 'Leap' %}
 suse_manager_devel_repo:
   file.managed:
-    {% if grains['osfullname'] == 'Leap' %}
     - name: /etc/zypp/repos.d/systemsmanagement-Uyuni-Master-x86_64.repo
     - source: salt://repos/repos.d/systemsmanagement-Uyuni-Master-x86_64.repo
-    {% else %}
+    - template: jinja
+{% else %}
+suse_manager_devel_repo:
+  file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head.repo
-    {% endif %}
     - template: jinja
+{% endif %}
 
 {% if grains['osfullname'] != 'Leap' %}
 module_server_applications_pool_repo:
@@ -177,27 +183,33 @@ suse_manager_devel_releasenotes_repo:
 {% endif %}
 
 {% if 'test' in grains['product_version'] %}
+{% if grains['osfullname'] == 'Leap' %}
 suse_manager_pool_repo:
   file.managed:
-    {% if grains['osfullname'] == 'Leap' %}
     - name: /etc/zypp/repos.d/Uyuni-Master-x86_64-Pool.repo
     - source: salt://repos/repos.d/Uyuni-Master-x86_64-Pool.repo
-    {% else %}
+    - template: jinja
+{% else %}
+suse_manager_pool_repo:
+  file.managed:
     - name: /etc/zypp/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
     - source: salt://repos/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
-    {% endif %}
     - template: jinja
+{% endif %}
 
+{% if grains['osfullname'] == 'Leap' %}
 suse_manager_devel_repo:
   file.managed:
-    {% if grains['osfullname'] == 'Leap' %}
     - name: /etc/zypp/repos.d/Uyuni-Master-x86_64-Pool.repo
     - source: salt://repos/repos.d/Uyuni-Master-x86_64-Pool.repo
-    {% else %}
+    - template: jinja
+{% else %}
+suse_manager_devel_repo:
+  file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head.repo
-    {% endif %}
     - template: jinja
+{% endif %}
 
 suse_manager_test_repo:
   file.managed:
