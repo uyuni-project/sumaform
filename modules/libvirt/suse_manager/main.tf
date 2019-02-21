@@ -73,6 +73,7 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  additional_disk = "${var.additional_disk}"
 }
 
 output "configuration" {
