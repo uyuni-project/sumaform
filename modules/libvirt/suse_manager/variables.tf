@@ -227,3 +227,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "additional_disk" {
+  description = "disk block definition(s) to be added to this host"
+  default = []
+}
