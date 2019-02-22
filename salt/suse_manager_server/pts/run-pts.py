@@ -65,7 +65,7 @@ def set_up():
 
     # patch the original minion to the q4 clone
     print("Patching original minion with erratas from q4 clone channel")
-    patch_minions([original_system_id])
+    patch_minions([original_system_id], original_system_name)
 
 def retry_for_minutes(fun, minutes):
     """Runs fun for up to minutes minutes, every 10 seconds, until it returns True"""
@@ -159,4 +159,3 @@ if "locust" in enabled_phases:
 if "patching" in enabled_phases:
     set_up()
     patch_all_systems()
-
