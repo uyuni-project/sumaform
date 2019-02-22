@@ -20,3 +20,7 @@ EOF
   flavor = "m1.medium"
   floating_ips = "${var.floating_ips}"
 }
+
+output "configuration" {
+  value = "${module.grafana.configuration}"
+}

@@ -22,3 +22,7 @@ EOF
   running = "${var.running}"
   mac = "${var.mac}"
 }
+
+output "configuration" {
+  value = "${module.grafana.configuration}"
+}
