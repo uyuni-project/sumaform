@@ -154,4 +154,12 @@ tomcat:
       - file: enable_salt_content_staging_window
       - file: enable_salt_content_staging_advance
 
+dump_salt_event_log:
+    cmd.run:
+        - name: |-
+            exec 0>&- # close stdin
+            exec 1>&- # close stdout
+            exec 2>&- # close stderr
+            nohup salt-run state.event pretty=True > /var/log/rhn/salt-event.log &
+
 {% endif %}
