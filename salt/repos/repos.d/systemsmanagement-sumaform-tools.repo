@@ -19,7 +19,7 @@ type=rpm-md
 {% endif %}
 
 {% if grains['osfullname'] == 'Leap' %}
-  {% set path = openSUSE_Leap_{{ grains['osrelease'] }} %}
+  {% set path = 'openSUSE_Leap_' + grains['osrelease'] %}
 {% endif %}
 
 baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
