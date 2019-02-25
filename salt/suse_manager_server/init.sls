@@ -17,6 +17,7 @@ include:
 
 suse_manager_packages:
   pkg.latest:
+    - refresh: True
     {% if grains['osfullname'] == 'Leap' %}
     - name: patterns-uyuni_server
     {% else %}
