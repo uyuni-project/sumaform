@@ -16,10 +16,10 @@ type=rpm-md
 {% set path = 'SLE_12_SP4' %}
 {% elif grains['osrelease'] == '15.1' %}
 {% set path = 'SLE_15_SP1' %}
-{% elif grains['osrelease'] == '42.3' %}
-{% set path = 'openSUSE_Leap_42.3' %}
-{% elif grains['osrelease'] == '15.0' %}
-{% set path = 'openSUSE_Leap_15.0' %}
+{% endif %}
+
+{% if grains['osfullname'] == 'Leap' %}
+  {% set path = openSUSE_Leap_{{ grains['osrelease'] }} %}
 {% endif %}
 
 baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
