@@ -18,6 +18,7 @@ minion_cucumber_requisites:
       {% else %}
       - openscap-utils
       {% endif %}
+      - wget
     - require:
       - sls: default
 
