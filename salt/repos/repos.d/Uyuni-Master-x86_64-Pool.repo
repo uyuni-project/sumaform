@@ -6,4 +6,3 @@ baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) 
 priority=97
 gpgcheck=1
 gpgkey=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.0/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/repodata/repomd.xml.key
-enabled=1
