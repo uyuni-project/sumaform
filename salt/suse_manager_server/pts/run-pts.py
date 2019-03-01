@@ -34,7 +34,7 @@ def parse_arguments():
         elif opt in ('--patching-only'):
             enabled_phases = ["onboarding", "patching"]
         elif opt in ('--locust-only'):
-            enabled_phases = ["onboarding", "locust"]
+            enabled_phases = ["locust"]
 
 def set_up():
     # system prefixes
