@@ -41,7 +41,7 @@ prometheus_service:
         Description=prometheus
 
         [Service]
-        ExecStart=/usr/bin/prometheus -config.file=/etc/prometheus/prometheus.yml
+        ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus.yml
 
         [Install]
         WantedBy=multi-user.target
