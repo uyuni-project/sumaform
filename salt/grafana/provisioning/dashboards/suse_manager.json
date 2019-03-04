@@ -514,14 +514,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_network_receive_bytes{job=\"sumaform\", device=\"eth0\"}[1m])*8",
+          "expr": "irate(node_network_receive_bytes{job=\"sumaform\", device=\"eth0\"}[1m])",
+          "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "in",
           "refId": "A",
           "step": 2
         },
         {
-          "expr": "irate(node_network_transmit_bytes{job=\"sumaform\", device=\"eth0\"}[1m])*8",
+          "expr": "irate(node_network_transmit_bytes{job=\"sumaform\", device=\"eth0\"}[1m])",
+          "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "out",
           "refId": "B",
