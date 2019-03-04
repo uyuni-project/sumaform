@@ -614,10 +614,19 @@
       "targets": [
         {
           "expr": "node_network_transmit_fifo{job=\"sumaform\",device=\"eth0\"}",
+          "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "errors",
+          "legendFormat": "transmit errors",
           "refId": "A",
           "step": 2
+        },
+        {
+          "expr": "node_network_receive_fifo{job=\"sumaform\",device=\"eth0\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "receive errors",
+          "refId": "B"
         }
       ],
       "thresholds": [],
