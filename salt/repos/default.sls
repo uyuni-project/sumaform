@@ -388,6 +388,12 @@ tools_update_repo:
 {% endfor %}
 {% endif %}
 
+{% if grains['os_family'] == 'Debian' %}
+remove_no_install_recommends:
+  file.absent:
+    - name: /etc/apt/apt.conf.d/00InstallRecommends
+{% endif %}
+
 # HACK: work around #10852
 {{ sls }}_nop:
   test.nop: []
