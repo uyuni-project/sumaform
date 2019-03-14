@@ -38,12 +38,12 @@ variable "evil_minion_slowdown_factor"  {
   default = 0.0
 }
 
-variable "use_released_updates" {
+variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default = false
 }
 
-variable "use_unreleased_updates" {
+variable "use_os_unreleased_updates" {
   description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
   default = false
 }

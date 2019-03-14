@@ -40,7 +40,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-11-SP4-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-11-SP4-x86_64-Test-Update.repo
@@ -89,7 +89,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-12-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-x86_64-Test-Update.repo
@@ -111,7 +111,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-12-SP1-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP1-x86_64-Test-Update.repo
@@ -133,7 +133,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-12-SP2-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP2-x86_64-Test-Update.repo
@@ -155,7 +155,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-12-SP3-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP3-x86_64-Test-Update.repo
@@ -177,7 +177,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-12-SP4-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-12-SP4-x86_64-Test-Update.repo
@@ -269,7 +269,7 @@ os_update_repo:
     - source: salt://repos/repos.d/SLE-15-x86_64-Update.repo
     - template: jinja
 
-{% if grains.get('use_unreleased_updates') | default(False, true) %}
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-15-x86_64-Test-Update.repo

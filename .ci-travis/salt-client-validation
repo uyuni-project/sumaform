@@ -18,7 +18,7 @@ role: client
 mirror: null
 auto_register: false
 testsuite: true
-use_unreleased_updates: 0
+use_os_unreleased_updates: 0
 EOF
 
 cat >minion <<EOF

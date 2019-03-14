@@ -33,7 +33,7 @@ create_sample_activation_key: 0
 create_sample_bootstrap_script: 0
 publish_private_ssl_key: 0
 testsuite: true
-use_unreleased_updates: 0
+use_os_unreleased_updates: 0
 monitored: 0
 log_server: null
 from_email: null
