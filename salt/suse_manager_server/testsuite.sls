@@ -115,6 +115,7 @@ testsuite_packages:
       - aaa_base-extras
       - salt-ssh
       - wget
+      - OpenIPMI
     - require:
       - sls: repos
 
