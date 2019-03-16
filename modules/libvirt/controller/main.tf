@@ -44,6 +44,7 @@ EOF
 
   // Provider-specific variables
   image = "opensuse423"
+  vcpu = "${var.vcpu}"
   memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"
