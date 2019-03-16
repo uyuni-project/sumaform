@@ -108,18 +108,15 @@ cobbler_configuration:
     - require:
       - sls: suse_manager_server
 
-expect:
-  pkg.installed
-
-aaa_base-extras:
-  pkg.installed
-
-salt-ssh:
+testsuite_packages:
   pkg.installed:
+    - pkgs:
+      - expect
+      - aaa_base-extras
+      - salt-ssh
+      - wget
     - require:
       - sls: repos
-wget:
-  pkg.installed
 
 enable_salt_content_staging_window:
   file.replace:
