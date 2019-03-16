@@ -80,7 +80,7 @@ test_repo_debian:
     - args: "TestRepoDeb download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test/xUbuntu_18.04/"
     - creates: /srv/www/htdocs/pub/TestRepoDeb/Release
     - require:
-      - pkg: wget
+      - pkg: testsuite_packages
 
 test_repo_debian_updates:
   cmd.script:
@@ -88,7 +88,7 @@ test_repo_debian_updates:
     - args: "TestRepoDebUpdates download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test-Updates/xUbuntu_18.04/"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
-      - pkg: wget
+      - pkg: testsuite_packages
 
 # modify cobbler to be executed from remote-machines..
 
