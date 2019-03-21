@@ -130,3 +130,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "cpu_model" {
+  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
+  default = ""
+}

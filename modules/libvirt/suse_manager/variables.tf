@@ -237,3 +237,8 @@ variable "additional_disk" {
   description = "disk block definition(s) to be added to this host"
   default = []
 }
+
+variable "cpu_model" {
+  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
+  default = ""
+}
