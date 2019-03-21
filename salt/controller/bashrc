@@ -9,6 +9,10 @@ export MINION="{{ grains.get('minion') }}"
 {% if grains.get('pxeboot_mac') | default(false, true) %}export PXEBOOTMAC="{{ grains.get('pxeboot_mac') }}" {% else %}# no JeOS minion defined {% endif %}
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
+{% if grains.get('kvm_host') | default(false, true) %}
+export VIRTHOST_KVM_URL="{{ grains.get('kvm_host') }}"
+export VIRTHOST_KVM_PASSWORD="linux"
+{% else %}# no KVM host defined {% endif %}
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
 
 # Generate certificates for Google Chrome

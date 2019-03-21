@@ -36,6 +36,7 @@ minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}
 ubuntu_minion:  ${var.ubuntu_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
+kvm_host: ${var.kvmhost_configuration["hostname"]}
 pxeboot_mac: ${var.pxeboot_configuration["macaddr"]}
 role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["product_version"]) : var.branch}

@@ -84,6 +84,14 @@ variable "pxeboot_configuration" {
   }
 }
 
+variable "kvmhost_configuration" {
+  description = "use ${module.<VIRTHOST_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  type = "map"
+  default = {
+    hostname = "null"
+  }
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}
