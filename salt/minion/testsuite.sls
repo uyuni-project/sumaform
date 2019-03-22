@@ -22,12 +22,10 @@ minion_cucumber_requisites:
     - require:
       - sls: default
 
-{% if grains['os_family'] == 'Debian' %}
-  {% if grains['os'] == 'Ubuntu' %}
-  update_notifier_not_present:
-    pkg.removed:
-      - update-notifier-common
-  {% endif %}
+{% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
+update_notifier_not_present:
+  pkg.removed:
+    - update-notifier-common
 {% endif %}
 
 {% if grains['os'] == 'SUSE' %}
