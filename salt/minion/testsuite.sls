@@ -25,7 +25,8 @@ minion_cucumber_requisites:
 {% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
 update_notifier_not_present:
   pkg.removed:
-    - update-notifier-common
+    - pkgs:
+      - update-notifier-common
 {% endif %}
 
 {% if grains['os'] == 'SUSE' %}
