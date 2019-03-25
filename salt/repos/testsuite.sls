@@ -26,10 +26,22 @@ testsuite_build_repo:
     - template: jinja
 
 {% if grains['os'] == 'Ubuntu' %}
-disable_apt_timer:
+
+disable_apt_daily_service:
+  service.dead:
+    - name: apt-daily.service
+    - enable: False
+
+disable_apt_daily_timer:
   service.dead:
     - name: apt-daily.timer
     - enable: False
+
+disable_apt_daily_upgrade_timer:
+  service.dead:
+    - name: apt-daily-upgrade.timer
+    - enable: False
+
 {% endif %}
 {% endif %}
 {% endif %}
