@@ -25,6 +25,12 @@ testsuite_build_repo:
     - source: salt://repos/repos.d/Devel_Uyuni_BuildRepo.list
     - template: jinja
 
+{% if grains['os'] == 'Ubuntu' %}
+disable_apt_timer:
+  service.dead:
+    - name: apt-daily.timer
+    - enable: False
+{% endif %}
 {% endif %}
 {% endif %}
 {% endif %}
