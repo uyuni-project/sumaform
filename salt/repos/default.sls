@@ -371,6 +371,32 @@ tools_update_repo:
 
 {% endif %} {# grains['os_family'] == 'RedHat' #}
 
+{% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
+disable_apt_daily_timer:
+  service.dead:
+    - name: apt-daily.timer
+    - enable: False
+
+disable_apt_daily_upgrade_timer:
+  service.dead:
+    - name: apt-daily-upgrade.timer
+    - enable: False
+
+disable_apt_daily_service:
+  service.dead:
+    - name: apt-daily.service
+    - enable: False
+
+disable_apt_daily_upgrade_service:
+  service.dead:
+    - name: apt-daily-upgrade.service
+    - enable: False
+
+disable_apt_daily_wait:
+  cmd.run:
+    - name: systemd-run --property="After=apt-daily.service apt-daily-upgrade.service" --wait /bin/true
+{% endif %}
+
 {% if grains['additional_repos'] %}
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}_repo:
