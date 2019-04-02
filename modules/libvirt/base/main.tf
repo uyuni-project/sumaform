@@ -92,6 +92,7 @@ resource "libvirt_network" "additional_network" {
   mode = "none"
   addresses = [ "${var.additional_network}" ]
   dhcp { enabled = "false" }
+  autostart = "true"
 }
 
 output "configuration" {
