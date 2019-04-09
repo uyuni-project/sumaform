@@ -70,6 +70,15 @@ postgres_exporter_configuration:
             - failed:
                 usage: "COUNTER"
                 description: "Count of failed Actions"
+        salt_events:
+          query: |
+              SELECT COUNT(*)
+                FROM suseSaltEvent
+                AS salt_events_count;
+          metrics:
+            - salt_events_count:
+                usage: "GAUGE"
+                description: "Count of suse salt events"
 
 postgres_exporter_service:
   file.managed:
