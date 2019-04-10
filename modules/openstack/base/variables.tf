@@ -52,6 +52,6 @@ variable "testsuite" {
 
 variable "images" {
   description = "list of images to be uploaded to Glance, leave default for all"
-  default = ["centos7", "opensuse423", "opensuse150", "sles15",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3"]
+  default = ["centos7", "opensuse423", "opensuse150", "sles15",  "sles11sp4",  "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles12sp4"]
   type = "list"
 }
