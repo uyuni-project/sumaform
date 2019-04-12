@@ -102,7 +102,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
  * `minion` module:
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
- * `proxy` module:
+ * `suse_manager_proxy` module:
    * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
    * `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
@@ -333,7 +333,9 @@ Please note that `iss_master` is set from `master`'s module output variable `hos
 
 Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
+
 ## Performance testsuite
+
 It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server, an minion instance with evil-minions running on it and (by default) a grafana host to monitor them.
 
 A libvirt example follows:
@@ -734,7 +736,7 @@ With the default configuration, whenever SUSE Manager server hosts are configure
 
 This setting can be overridden with a custom 'from' address by supplying the parameter: `from_email`. A libvirt example would be:
 
-```
+```hcl
 module "suma3pg" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
@@ -749,7 +751,7 @@ module "suma3pg" {
 Internal Server Errors and relative stacktraces are sent via e-mail by default to `galaxy-noise@suse.de`.
 By suppling the parameter `traceback_email` you can override that address to have them in your inbox:
 
-```
+```hcl
 module "sumamail3" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
@@ -760,3 +762,23 @@ module "sumamail3" {
   traceback_email = "michele.bologna@chameleon-mail.com"
 }
 ```
+
+
+# Swap file configuration
+
+You can add a swap file to most hosts, to prevent out-of-memory conditions.
+
+Please note that some systems already come with some swap file or swap partition of their own: Ubuntu and CentOS minions, and
+SUSE Manager server.
+
+A libvirt example is:
+
+```hcl
+module "minion" {
+   ...
+   swap_file_size = 2048 // in MiB
+   ...
+}
+```
+
+To disable the swap file, set its size to 0.

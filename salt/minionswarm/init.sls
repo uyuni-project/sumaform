@@ -1,22 +1,6 @@
 include:
   - repos
 
-{% if grains.has_key('swap_file_size') %}
-file_swap:
-  cmd.run:
-    - name: |
-        fallocate --length {{grains["swap_file_size"]}}MiB /swapfile
-        chmod 0600 /swapfile
-        mkswap /swapfile
-        swapon -a
-    - creates: /swapfile
-  mount.swap:
-    - name: /swapfile
-    - persist: true
-    - require:
-      - cmd: file_swap
-{% endif %}
-
 salt_master:
   pkg.installed:
     - name: salt-master

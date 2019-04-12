@@ -48,6 +48,11 @@ variable "count"  {
   default = 1
 }
 
+variable "swap_file_size" {
+  description = "Swap file size in MiB, or 0 for none"
+  default = 0
+}
+
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"

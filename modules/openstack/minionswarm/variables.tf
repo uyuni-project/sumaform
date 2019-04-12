@@ -39,7 +39,7 @@ variable "count"  {
 }
 
 variable "swap_file_size" {
-  description = "Swap file size in MiB"
+  description = "Swap file size in MiB, or 0 for none"
   default = 8192
 }
 
