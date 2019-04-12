@@ -105,6 +105,16 @@ http:
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
   #  #  archs: [x86_64]
 
+  # SLE 15 SP1 moving target (valid until GM)
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Basesystem-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Python2-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Server-Applications-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Web-Scripting-POOL-x86_64-Media1/
+    archs: [x86_64]
+
   # SUSE Manager Head (SLE15-SP1)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.0-POOL-x86_64-Media1
     archs: [x86_64]
