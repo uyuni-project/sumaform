@@ -3,7 +3,7 @@
 {% if '3.2' in grains['product_version'] %}
 suse_manager_proxy_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-12-SP3:/Update:/Products:/Manager32/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains["mirror"] | default("download.suse.de/ibs", true) }}/SUSE/Products/SUSE-Manager-Proxy/3.2/x86_64/product/
     - priority: 97
 
 suse_manager_proxy_update_repo:
