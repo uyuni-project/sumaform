@@ -19,6 +19,7 @@ module "controller" {
   name = "${var.name}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
+  swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
   connect_to_base_network = true
   connect_to_additional_network = false
