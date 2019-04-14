@@ -73,13 +73,21 @@ postgres_exporter_configuration:
 
 postgres_exporter_service:
   file.managed:
+{% if 'head' in grains['product_version'] %}
+    - name: /etc/sysconfig/prometheus-postgres_exporter
+{% else %}
     - name: /etc/sysconfig/postgres-exporter
+{% endif %}
     - source: salt://suse_manager_server/postgres-exporter
     - require:
       - pkg: postgres_exporter
       - file: postgres_exporter_configuration
   service.running:
+{% if 'head' in grains['product_version'] %}
+    - name: prometheus-postgres_exporter
+{% else %}
     - name: postgres-exporter
+{% endif %}
     - enable: True
     - require:
       - file: postgres_exporter_service
