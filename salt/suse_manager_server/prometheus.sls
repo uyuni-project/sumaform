@@ -87,6 +87,7 @@ postgres_exporter_service:
     - name: prometheus-postgres_exporter
 {% else %}
     - name: postgres-exporter
+    - version: '<0.4.7'
 {% endif %}
     - enable: True
     - require:
