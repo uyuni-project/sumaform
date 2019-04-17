@@ -31,6 +31,10 @@ browser_side_less_configuration:
 
 {% if salt["grains.get"]("mirror") %}
 
+nfs_client:
+  pkg.installed:
+    - name: nfs-client
+
 non_empty_fstab:
   file.managed:
     - name: /etc/fstab
@@ -44,6 +48,7 @@ mirror_directory:
     - mkmnt: True
     - require:
       - file: /etc/fstab
+      - pkg: nfs_client
 
 rhn_conf_from_dir:
   file.append:
