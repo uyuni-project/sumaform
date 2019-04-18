@@ -72,18 +72,12 @@ create_syslink_for_chromedriver:
     - name: /usr/bin/chromedriver
     - target: /usr/lib64/chromium/chromedriver
 
-# WORKAROUND - remove when we have a working IPv6 infrastructure
-disable_ipv6:
-  cmd.run:
-    - name: sysctl -w net.ipv6.conf.all.disable_ipv6=1
-
 install_gems_via_bundle:
   cmd.run:
     - name: bundle.ruby2.1 install --gemfile /root/spacewalk/testsuite/Gemfile
     - require:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
-      - cmd: disable_ipv6     # WORKAROUND - remove when we have a working IPv6 infrastructure
 
 spacewalk_git_repository:
   cmd.run:
