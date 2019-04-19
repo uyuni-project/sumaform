@@ -146,11 +146,46 @@ enable_kiwi_os_image_building:
     - require:
       - cmd: suse_manager_setup
 
-tomcat:
+longer_presence_ping_timeout:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: 'java.salt_presence_ping_timeout = (.*)'
+    - repl: 'java.salt_presence_ping_timeout = 40'
+    - append_if_not_found: True
+    - require:
+      - cmd: suse_manager_setup
+
+longer_presence_ping_gather_job_timeout:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: 'java.salt_presence_ping_gather_job_timeout = (.*)'
+    - repl: 'java.salt_presence_ping_gather_job_timeout = 10'
+    - append_if_not_found: True
+    - require:
+      - cmd: suse_manager_setup
+
+longer_salt_timeout:
+  file.managed:
+    - name: /etc/salt/master.d/testsuite.conf
+    - content: 'timeout: 60'
+    - require:
+      - cmd: suse_manager_setup
+
+tomcat_testsuite_restart:
   service.running:
+    - name: tomcat
     - watch:
       - file: enable_salt_content_staging_window
       - file: enable_salt_content_staging_advance
+      - file: longer_presence_ping_timeout
+      - file: longer_presence_ping_gather_job_timeout
+
+salt_master_testsuite_restart:
+  service.running:
+    - name: salt-master
+    - enable: True
+    - watch:
+      - file: longer_salt_timeout
 
 dump_salt_event_log:
     cmd.run:
