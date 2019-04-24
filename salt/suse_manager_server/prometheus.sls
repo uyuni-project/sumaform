@@ -19,6 +19,9 @@ node_exporter_service:
 postgres_exporter:
   pkg.installed:
     - name: golang-github-wrouesnel-postgres_exporter
+{% if 'head' not in grains['product_version'] %}
+    - version: '<0.4.7'
+{% endif %}
     - require:
       - sls: repos
 
@@ -87,7 +90,6 @@ postgres_exporter_service:
     - name: prometheus-postgres_exporter
 {% else %}
     - name: postgres-exporter
-    - version: '<0.4.7'
 {% endif %}
     - enable: True
     - require:
