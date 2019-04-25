@@ -73,7 +73,7 @@ add_channels:
 reposync_{{ channel }}:
   cmd.script:
     - name: salt://suse_manager_server/wait_for_reposync.py
-    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} localhost {{ channel }}"
+    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains.get('fqdn') | default('localhost', true) }} {{ channel }}"
     - use_vt: True
     - require:
       - cmd: add_channels
