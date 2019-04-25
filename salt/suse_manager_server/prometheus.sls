@@ -112,7 +112,11 @@ jmx_exporter:
 
 jmx_exporter_tomcat_service:
   service.running:
+{% if 'head' in grains['product_version'] %}
+    - name: prometheus-jmx_exporter@tomcat
+{% else %}
     - name: jmx-exporter@tomcat
+{% endif %}
     - enable: True
     - require:
       - pkg: jmx_exporter
