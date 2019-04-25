@@ -7,6 +7,7 @@ include:
   - repos.suse_manager_proxy
   - repos.suse_manager_server
   - repos.testsuite
+  - repos.virthost
 
 {% if grains['os'] == 'SUSE' %}
 

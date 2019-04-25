@@ -54,3 +54,8 @@ variable "grafana_mac" {
   description = "a MAC address for the Grafana instance in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "cpu_model" {
+  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
+  default = ""
+}

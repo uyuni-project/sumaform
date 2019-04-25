@@ -8,3 +8,5 @@
 /.terraform/
 /main.tf
 .terraform.tfstate.lock.info
+
+/salt/virthost/*.qcow2

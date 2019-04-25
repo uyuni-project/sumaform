@@ -8,44 +8,9 @@ variable "name" {
   type = "string"
 }
 
-variable "product_version" {
-  description = "A valid SUSE Manager version (eg. 3.0-nightly, head) see README_ADVANCED.md"
-  default = "released"
-}
-
-variable "server_configuration" {
-  description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
-  type = "map"
-}
-
 variable "activation_key" {
   description = "an Activation Key to be used when onboarding this minion"
   default = "null"
-}
-
-variable "auto_connect_to_master" {
-  description = "whether this minion should automatically connect to the Salt Master upon deployment"
-  default = true
-}
-
-variable "evil_minion_count"  {
-  description = "change to a number to use the evil-minions load generator, see README_ADVANCED.md"
-  default = 0
-}
-
-variable "evil_minion_slowdown_factor"  {
-  description = "slowdown factor for evil-minions, see README_ADVANCED.md"
-  default = 0.0
-}
-
-variable "use_os_released_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise repos"
-  default = false
-}
-
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default = false
 }
 
 variable "apparmor" {
@@ -63,16 +28,6 @@ variable "additional_packages" {
   default = []
 }
 
-variable "count"  {
-  description = "number of hosts like this one"
-  default = 1
-}
-
-variable "swap_file_size" {
-  description = "Swap file size in MiB, or 0 for none"
-  default = 0
-}
-
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"
@@ -84,21 +39,26 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "hvm_disk_image" {
+  description = "URL to the disk image to use for KVM guests"
+  default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
+}
+
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles12sp4, sles15, centos7"
+  description = "One of: sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles15, centos7"
   type = "string"
 }
 
 variable "memory" {
   description = "RAM memory in MiB"
-  default = 512
+  default = 2048
 }
 
 variable "vcpu" {
   description = "Number of virtual CPUs"
-  default = 1
+  default = 3
 }
 
 variable "running" {
@@ -108,10 +68,5 @@ variable "running" {
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default = ""
-}
-
-variable "cpu_model" {
-  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default = ""
 }

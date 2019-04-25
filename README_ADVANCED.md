@@ -730,6 +730,29 @@ module "sumaheadpg" {
 }
 ```
 
+## Virtual hosts
+
+Virtualization host are salt minion hosts that server virtual machines, using KVM hypervisor.
+Note that Xen does not support nested virtualization.
+
+A libvirt example follows:
+
+```hcl
+module "virthost" {
+  source = "./modules/libvirt/virthost"
+  base_configuration = "${module.base.configuration}"
+  ...
+  name = "min-kvm"
+  image = "sles15sp1"
+  ...
+  vcpu = 3
+  memory = 2048
+}
+```
+
+The created virtual host will get it's host CPU model. This means that in order for virtual hosts to host virtual machines, nested virtualization has to be enabled on the physical machine.
+
+
 ## E-mail configuration
 
 With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.

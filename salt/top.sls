@@ -37,3 +37,7 @@ base:
   'role:locust':
     - match: grain
     - locust
+
+  'role:virthost':
+    - match: grain
+    - virthost
