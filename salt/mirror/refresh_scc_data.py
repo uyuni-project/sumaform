@@ -56,3 +56,7 @@ print("organizations_subscriptions.json refreshed")
 orders = get_paginated(connection, headers, "/connect/organizations/orders")
 save_json(orders, "organizations_orders.json")
 print("organizations_orders.json refreshed")
+
+product_tree = get_paginated(connection, headers, "/suma/product_tree.json")
+save_json(product_tree, "product_tree.json")
+print("product_tree.json refreshed")
