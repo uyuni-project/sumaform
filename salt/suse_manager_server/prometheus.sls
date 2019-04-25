@@ -146,7 +146,11 @@ jmx_exporter_taskomatic_yaml_config:
 
 jmx_exporter_taskomatic_service:
   service.running:
+{% if 'head' in grains['product_version'] %}
+    - name: prometheus-jmx_exporter@taskomatic
+{% else %}
     - name: jmx-exporter@taskomatic
+{% endif %}
     - enable: True
     - require:
       - pkg: jmx_exporter
