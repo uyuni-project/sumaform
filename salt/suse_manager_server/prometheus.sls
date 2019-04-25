@@ -100,8 +100,13 @@ postgres_exporter_service:
 jmx_exporter:
   pkg.installed:
     - pkgs:
+{% if 'head' in grains['product_version'] %}
+      - prometheus-jmx_exporter
+      - prometheus-jmx_exporter-tomcat
+{% else %}
       - jmx_exporter
       - jmx_exporter-tomcat
+{% endif %}
     - require:
       - sls: repos
 
