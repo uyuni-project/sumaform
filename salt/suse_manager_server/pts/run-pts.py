@@ -6,17 +6,24 @@ import getopt
 import requests
 import subprocess
 import datetime
+import salt.client
+import salt.key
 
 locust = "{{ grains.get("pts_locust") }}.{{ grains.get("domain") }}"
 system_count = {{ grains.get("pts_system_count") }}
 system_prefix = "{{ grains.get("pts_system_prefix") }}"
 last_clone_prefix = "{{ (grains.get("cloned_channels")|last)['prefix'] }}"
 
+original_system_name = system_prefix + ".{{ grains.get("domain") }}"
+
 enabled_phases = ["onboarding", "patching", "locust"]
 
 manager_url = "http://localhost/rpc/api"
 client = xmlrpclib.Server(manager_url, verbose=0)
 key = client.auth.login('admin', 'admin')
+
+salt_client = salt.client.LocalClient()
+salt_key_manager = salt.key.Key(salt_client.opts)
 
 def parse_arguments():
     try:
@@ -37,8 +44,7 @@ def parse_arguments():
             enabled_phases = ["locust"]
 
 def set_up():
-    # system prefixes
-    original_system_name = system_prefix + ".tf.local"
+    # evil-minion system prefix
     evil_minion_system_prefix = system_prefix + "-"
     # get server ids
     systems = client.system.listSystems(key)
@@ -126,6 +132,15 @@ def patch_all_systems():
     system_ids = [system["id"] for system in systems]
     patch_minions(system_ids, system_prefix)
 
+def onboard_minions_by_key(minion_key, expected_system_count, system_prefix):
+    salt_key_manager.accept(minion_key)
+
+    print("Waiting for {} systems to be onboarded in SUSE Manager (timeout: 15 minutes)...".format(expected_system_count))
+    retry_for_minutes(lambda: check_onboarded_system_count(expected_system_count, system_prefix), 15)
+
+    print("Waiting for {} systems to be patchable in SUSE Manager (timeout: 20 minutes)...".format(expected_system_count))
+    retry_for_minutes(lambda: check_patched_system_count(expected_system_count, system_prefix), 20)
+
 def run_locust_http_load(clients_count):
     LocustPayload = {
         'locust_count': clients_count,
@@ -146,11 +161,13 @@ if "fio" in enabled_phases:
     subprocess.call(["fio", "--name", "randwrite", "--fsync=1", "--direct=1", "--rw=randwrite", "--blocksize=4k", "--numjobs=8", "--size=512M", "--time_based", "--runtime=60", "--group_reporting"])
 
 if "onboarding" in enabled_phases:
-    print("Waiting for {} systems to be onboarded in SUSE Manager (timeout: 15 minutes)...".format(system_count))
-    retry_for_minutes(lambda: check_onboarded_system_count(system_count, system_prefix), 15)
+    # onboard original minion
+    print("Onboarding original minion...")
+    onboard_minions_by_key(original_system_name, 1, original_system_name)
 
-    print("Waiting for {} systems to be patchable in SUSE Manager (timeout: 20 minutes)...".format(system_count))
-    retry_for_minutes(lambda: check_patched_system_count(system_count, system_prefix), 20)
+    # onboard evil-minions
+    print("Onboarding evil-minions...")
+    onboard_minions_by_key("*", system_count, system_prefix)
 
 if "locust" in enabled_phases:
     for users in range(50, 450, 25):

@@ -4,6 +4,7 @@ module "server" {
   base_configuration = "${var.base_configuration}"
   product_version = "3.2-nightly"
   image = "sles12sp3"
+  auto_accept = false
   monitored = true
   pts = true
   pts_minion = "${var.base_configuration["name_prefix"]}${var.minion_name}"
