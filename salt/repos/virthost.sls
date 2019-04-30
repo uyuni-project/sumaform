@@ -1,4 +1,4 @@
-{% if grains.get('role') == 'virthost' %}
+{% if grains.get('virtual_host') | default(false, true) %}
 
 {% if grains['osfullname'] != 'Leap' and '15' in grains['osrelease']  %}
 module_server_applications_pool_repo:

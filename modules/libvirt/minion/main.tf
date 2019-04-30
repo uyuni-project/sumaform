@@ -28,6 +28,8 @@ susemanager:
 evil_minion_count: ${var.evil_minion_count}
 evil_minion_slowdown_factor: ${var.evil_minion_slowdown_factor}
 
+${var.additional_grains}
+
 EOF
 
   // Provider-specific variables
@@ -36,6 +38,7 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+  cpu_model = "${var.cpu_model}"
 }
 
 output "configuration" {

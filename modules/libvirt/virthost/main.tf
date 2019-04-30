@@ -1,19 +1,23 @@
 module "virthost" {
-  source = "../host"
+  source = "../minion"
 
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
+  product_version = "${var.product_version}"
+  server_configuration = "${var.server_configuration}"
+  activation_key = "${var.activation_key}"
+  auto_connect_to_master = "${var.auto_connect_to_master}"
+  use_os_released_updates = "${var.use_os_released_updates}"
+  use_os_unreleased_updates = "${var.use_os_unreleased_updates}"
+  apparmor = "${var.apparmor}"
   additional_repos = "${var.additional_repos}"
   additional_packages = "${var.additional_packages}"
   gpg_keys = "${var.gpg_keys}"
   ssh_key_path = "${var.ssh_key_path}"
-  connect_to_base_network = true
-  connect_to_additional_network = true
-  grains = <<EOF
+  additional_grains = <<EOF
 
-mirror: ${var.base_configuration["mirror"]}
 hvm_disk_image: "${var.hvm_disk_image}"
-role: virthost
+virtual_host: true
 EOF
 
   // Provider-specific variables

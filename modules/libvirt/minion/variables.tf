@@ -84,6 +84,11 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "additional_grains" {
+  description = "custom grain string to be added to this minion's configuration"
+  default = ""
+}
+
 // Provider-specific variables
 
 variable "image" {
