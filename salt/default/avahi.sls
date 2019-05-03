@@ -25,6 +25,22 @@ avahi_restrict_interfaces:
     - require:
       - pkg: avahi_pkg
 
+# work around https://github.com/lathiat/avahi/issues/117 triggered by reflector
+avahi-avoid-name-conflicts:
+  file.replace:
+    - name: /etc/avahi/avahi-daemon.conf
+    - pattern: "use-ipv6=yes"
+    - repl: "use-ipv6=no"
+    - require:
+      - pkg: avahi_pkg
+
+# work around (continued)
+restart-avahi:
+  cmd.run:
+    - name: systemctl restart avahi
+    - require:
+      - file: avahi-avoid-name-conflicts
+
 mdns_declare_domains:
   file.append:
     - name: /etc/mdns.allow
