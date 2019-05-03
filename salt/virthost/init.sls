@@ -142,5 +142,6 @@ disk-image-template.qcow2:
   file.managed:
     - name: /var/testsuite-data/disk-image-template.qcow2
     - source: {{ grains['hvm_disk_image'] }}
+    - skip_verify: True
     - mode: 655
     - makedirs: True
