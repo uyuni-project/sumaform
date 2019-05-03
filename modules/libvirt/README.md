@@ -93,3 +93,47 @@ module "base" {
 ```
 
 The list of all supported images is available in "modules/libvirt/base/variables.tf".
+
+## Virtual hosts
+
+Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM hypervisor.
+As this mechanism relies on nested virtualization, Xen is not supported.
+
+An example follows:
+
+```hcl
+module "virthost" {
+  source = "./modules/libvirt/virthost"
+  base_configuration = "${module.base.configuration}"
+  server_configuration = "${module.srv.configuration}"
+  ...
+  name = "min-kvm"
+  image = "sles15sp1"
+  ...
+  vcpu = 3
+  memory = 2048
+}
+```
+
+The created virtual host will get the same CPU model its host has.
+This means that in order for virtual hosts to host virtual machines, nested virtualization has to be enabled on the physical machine.
+For this, the `kvm_intel` or `kvm_amd` kernel modules need to have `nested` parameter set to `1`.
+To check if nested virtualization is enabled on the physical machine, the following command needs to return either `1` or `Y`:
+
+```
+# For intel CPU:
+cat /sys/module/kvm_intel/parameters/nested
+
+# For AMD CPU:
+cat /sys/module/kvm_amd/parameters/nested
+```
+
+The generated virtual host will be setup with:
+
+* a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
+* a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
+* and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
+
+The template disk image is the `opensuse423` image used by sumaform and is downloaded when applying the highstate on the virtual host.
+In order to use another or a cached image, use the `hvm_disk_image` variable.
+For example, to use a local image copy it in `salt/virthost/` folder and set `hvm_disk_image = "salt://virthost/imagename.qcow2"`

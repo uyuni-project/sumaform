@@ -29,7 +29,7 @@ module "ctl" {
   ubuntu_configuration = "${module.min-ubuntu.configuration}"          // optional
   minionssh_configuration = "${module.minssh-sles12sp3.configuration}" // optional
   pxeboot_configuration = "${module.pxeboot-sles12sp3.configuration}"  // optional
-  kvmhost_configuration = "${module.min-kvm.configuration}"  // optional
+  kvmhost_configuration = "${module.min-kvm.configuration}"            // optional
   branch = "default"
   // credentials available in https://gitlab.suse.de/galaxy/sumaform-test-runner/blob/master/head/main-full.tf
   git_username = ...
@@ -132,4 +132,6 @@ module "min-kvm"
   name = "min-kvm"
   image = "sles15sp1"
   ssh_key_path = "./salt/controller/id_rsa.pub"
+  server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
+  auto_connect_to_master = false
 }

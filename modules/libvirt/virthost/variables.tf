@@ -8,9 +8,34 @@ variable "name" {
   type = "string"
 }
 
+variable "product_version" {
+  description = "A valid SUSE Manager version (eg. 3.0-nightly, head) see README_ADVANCED.md"
+  default = "released"
+}
+
+variable "server_configuration" {
+  description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
+  type = "map"
+}
+
 variable "activation_key" {
   description = "an Activation Key to be used when onboarding this minion"
   default = "null"
+}
+
+variable "auto_connect_to_master" {
+  description = "whether this minion should automatically connect to the Salt Master upon deployment"
+  default = true
+}
+
+variable "use_os_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default = false
+}
+
+variable "use_os_unreleased_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
+  default = false
 }
 
 variable "apparmor" {
@@ -47,7 +72,7 @@ variable "hvm_disk_image" {
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles15, centos7"
+  description = "One of: sles12sp3, sles15, opensuse423 or opensuse150"
   type = "string"
 }
 
