@@ -117,6 +117,11 @@ variable "git_profiles_repo" {
   default = "default"
 }
 
+variable "http_proxy" {
+  description = "Define hostname and port used by SUSE Manager http proxy"
+  default = ""
+}
+
 // Provider-specific variables
 
 variable "memory" {

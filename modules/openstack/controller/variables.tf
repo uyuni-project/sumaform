@@ -24,6 +24,11 @@ variable "git_repo" {
   default = "default"
 }
 
+variable "http_proxy" {
+  description = "Define hostname and port used by SUSE Manager http proxy"
+  default = ""
+}
+
 variable "branch" {
   description = "Leave default for automatic selection or specify an existing branch of spacewalk"
   default = "default"
