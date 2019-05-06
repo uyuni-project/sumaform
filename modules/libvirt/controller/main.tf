@@ -41,6 +41,7 @@ pxeboot_mac: ${var.pxeboot_configuration["macaddr"]}
 role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["product_version"]) : var.branch}
 git_profiles_repo: ${var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#master:testsuite/features/profiles" : var.git_profiles_repo}
+http_proxy: ${var.http_proxy}
 
 EOF
 
