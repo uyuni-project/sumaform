@@ -53,6 +53,11 @@ variable "apparmor" {
   default = false
 }
 
+variable "avahi_reflector" {
+  description = "if using avahi, let the daemon be a reflector"
+  default = false
+}
+
 variable "additional_repos" {
   description = "extra repositories used for installation {label = url}"
   default = {}

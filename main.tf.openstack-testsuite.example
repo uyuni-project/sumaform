@@ -19,9 +19,9 @@ module "base" {
   testsuite = true
 
   // optional parameters with defaults below
-  // name_prefix = ""
+  // use_avahi = true
+  // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
   // timezone = "Europe/Berlin"
-  // additional_network = ""
 
   // comment out the following two lines if you are not targeting the SUSE internal "ECP" Cloud
   mirror = "mirror.tf.local"
@@ -71,7 +71,7 @@ module "cli-sles12sp3" {
   product_version = "3.1-nightly"
   name = "cli-sles12sp3"
   image = "sles12sp3"
-  server_configuration = { hostname = "srv.tf.local" }
+  server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_register = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
@@ -82,9 +82,10 @@ module "min-sles12sp3" {
   product_version = "3.1-nightly"
   name = "min-sles12sp3"
   image = "sles12sp3"
-  server_configuration = { hostname = "srv.tf.local" }
+  server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
+  // avahi_reflector = true // uncomment if you kept Avahi enabled, and use Docker containers on the minion
 }
 
 # optional
@@ -104,7 +105,7 @@ module "min-centos7" {
   product_version = "3.1-nightly"
   name = "min-centos7"
   image = "centos7"
-  server_configuration = { hostname = "srv.tf.local" }
+  server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
