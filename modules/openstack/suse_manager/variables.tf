@@ -215,7 +215,7 @@ variable "image" {
 
 variable "flavor" {
   description = "OpenStack flavor"
-  default = "m1.medium"
+  default = "m1.large"
 }
 
 variable "floating_ips" {
