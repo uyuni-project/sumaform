@@ -65,6 +65,7 @@ module "srv" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
+# optional
 module "cli-sles12sp3" {
   source = "./modules/openstack/client"
   base_configuration = "${module.base.configuration}"
@@ -76,6 +77,7 @@ module "cli-sles12sp3" {
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
+# optional
 module "min-sles12sp3" {
   source = "./modules/openstack/minion"
   base_configuration = "${module.base.configuration}"
