@@ -18,10 +18,11 @@ module "base" {
   cc_password = ...
 
   // optional parameters with defaults below
-  // name_prefix = ""
+  // use_avahi = true
+  // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
   // timezone = "Europe/Berlin"
 
-  // comment-out the following two lines if you are not targeting the SUSE internal "ECP" Cloud
+  // comment out the following two lines if you are not targeting the SUSE internal "ECP" Cloud
   mirror = "mirror.tf.local"
   use_shared_resources = true
 }

@@ -26,24 +26,31 @@
 
 ## Accessing VMs
 
-All machines come with avahi's mDNS configured by default on the `.tf.local` domain, and user `root` with password `linux` accessible via your SSH public key (by default `~/.ssh/id_rsa.pub`).
+All machines come with user `root` with password `linux`. They are also accessible via your SSH public key (by default `~/.ssh/id_rsa.pub`) if you have one.
 
-Thus if your host is on the same network segment of the virtual machines you can simply use:
+By default, the machines use Avahi (mDNS), and are configured on the `.tf.local` domain. Thus if your host is on the same network segment of the virtual machines you can simply use:
+
 ```
-ssh root@moio-suma3pg.tf.local
+ssh root@suma32pg.tf.local
 ```
 
-If you want to use a different SSH key, or mDNS does not work out of the box, or if you don't want to use mDNS, please check the README_ADVANCED.md and TROUBLESHOOTING.md files.
+If you use Avahi and are on another network segment, you can only connect using an IP address, because mDNS packets do not cross network boundaries unless using reflectors.
+
+If you want to use a different SSH key, please check the README_ADVANCED.md file, in section "Custom SSH keys".
+If you don't want to use mDNS, or want to forward Avahi between networks, please check that same file, in section "Disabling Avahi and Avahi reflectors".
+If mDNS does not work out of the box, please check TROUBLESHOOTING.md file, under question "How can I work around name resolution problems with `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?".
 
 Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected. SUSE Manager default user is `admin` with password `admin`.
 
-Avahi can be disabled if it is not needed (bridged networking mode, all VMs with static MAC addresses and names known in advance). In that case use the following variables in the `base` module:
-```hcl
-use_avahi = false
-domain = "mgr.suse.de"
-```
+Finally, the images come with serial console support, so you can use
 
-## mirror
+```
+virsh console suma32pg
+```
+especially in the case the network is not working and you need to debug it, or if the images have difficulties booting.
+
+
+## Mirror
 
 If you are using `sumaform` outside of the SUSE Nuremberg network you should use a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
 

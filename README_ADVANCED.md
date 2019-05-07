@@ -55,7 +55,8 @@ module 'srv' {
 }
 ```
 
-## Changing OSs
+
+## Changing Operating Systems
 
 You can specifiy a base OS in most modules specifying an `image` variable.
 
@@ -76,6 +77,7 @@ module "suma3pg" {
 }
 ```
 
+
 ## Multiple VMs of the same type
 
 Some modules, for example clients and minions, support a `count` variable that allows you to create several instances at once. For example:
@@ -93,6 +95,7 @@ module "minionsles12sp1" {
 ```
 
 This will create 10 minions connected to the `suma3pg` server.
+
 
 ## Turning convenience features off
 
@@ -125,6 +128,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
 
+
 ## Adding channels to SUSE Manager Servers
 
 You can specifiy a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
@@ -148,6 +152,7 @@ module "suma3pg" {
   channels = ["sles12-sp2-pool-x86_64"]
 }
 ```
+
 
 ## Cloning channels in SUSE Manager Servers upon deployment
 
@@ -175,6 +180,7 @@ At deploy time the `spacewalk-clone-by-date` will be used for each channel set. 
 
 Activation keys are also automatically created for each clone with the name `1-<CLONE_PREFIX>`.
 
+
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
@@ -184,23 +190,60 @@ Additionally, it is possible to have only one user to upload images and other sh
  * make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
 
 
+## Disabling Avahi and Avahi reflectors
+
+SUSE Manager requires both direct and reverse domain names resolution. This can be provided by either DNS (client-server, unicast mode) or Avahi (peer-to-peer, multicast mode).
+
+Note that Avahi is not available in environments that disable multicast UDP, notably AWS, so the following is only relevant for the libvirt and OpenStack backends. Backends which support multicast UDP have Avahi enabled by default.
+
+Avahi can be disabled if it is not needed. A typical example is a libvirt environment in bridged networking mode where all VMs have static MAC addresses and DNS names known in advance. Avahi can be disabled via something like:
+
+```hcl
+module "base" {
+  ...
+  use_avahi = false
+  domain = "mgr.suse.de"
+  ...
+}
+
+module "suma3pg" {
+  ...
+  mac = "42:54:00:00:00:66"
+  ...
+}
+```
+
+If Avahi is enabled and you are running Docker on a minion, you will need an Avahi reflector on the minion to provide Avahi resolution inside of the containers. A typical example is the Cucumber testsuite which uses such a setup. An Avahi reflector can be enabled via:
+
+```hcl
+module "minion" {
+  ...
+  avahi_reflector = true
+  ...
+}
+```
+
+Beware this may trigger [a known Avahi bug](https://github.com/lathiat/avahi/issues/117). This bug causes wrong names to be assigned to hosts (with unexpected `-2`, `-3`, etc. suffixes) in many circumstances, in particular when more than one reflector is in use on the same network.
+
+
 ## Additional network and SUSE Manager for Retail
 
 You may get an additional, isolated, network, with neither DHCP nor DNS by specifying for example:
 
 ```hcl
 module "base" {
-  [...]
+  ...
   additional_network = "192.168.5.0/24"
-  [...]
+  ...
 }
 ```
 
-This will create a network named `private`, with your prefix in front of the name (e.g. `hmu-private`).
+This will create a network named `private`, with your prefix in front of the name (e.g. `prefix-private`).
 
 You may use that additional network to test SUSE Manager for Retail with the test suite or manually.
 
 For each VM, you can decide whether it connects to the base network and/or to the additional network by specifying:
+
 ```hcl
 connect_to_base_network = false
 connect_to_additional_network = true
@@ -218,15 +261,16 @@ If you want to use another key for all VMs, specify the path of the public key w
 
 ```hcl
 module "base" {
-  [...]
+  ...
   ssh_key_path = "~/.ssh/id_mbologna_terraform.pub"
-  [...]
+  ...
 }
 ```
 
 The `ssh_key_path` option can also be specified on a per-host basis. In this case, the key specified is treated as an additional key, copied to the machine as well as the `ssh_key_path` specified in the `base` section.
 
 If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
+
 
 ## SSH access without specifying a username
 
@@ -238,6 +282,7 @@ StrictHostKeyChecking no
 UserKnownHostsFile=/dev/null
 User root
 ```
+
 
 ## Activation Keys for minions
 
@@ -254,6 +299,7 @@ module "min" {
   activation_key = "1-DEFAULT"
 }
 ```
+
 
 ## Proxies
 
@@ -304,6 +350,7 @@ module "proxy" {
   minion = false
 }
 ```
+
 
 ## Inter-Server Sync (ISS)
 
@@ -367,6 +414,7 @@ ssh server.tf.local run-pts --patching-only
 
 It is also possible to specify non-default hostnames and MAC addresses, see `pts/variables.tf`.
 
+
 ## Cucumber testsuite
 
 It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `main.tf.libvirt-testsuite.example` file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
@@ -412,7 +460,7 @@ You can also select an alternative fork or branch where for the Cucumber testsui
 
 As an example:
 
-```
+```hcl
 module "controller" {
   source = "./modules/libvirt/controller"
   base_configuration = "${module.base.configuration}"
@@ -426,12 +474,13 @@ module "controller" {
 
 You can also use Docker and Kiwi profiles other than the ones embedded in the test suite:
 
-```
+```hcl
 module "controller" {
   git_profiles_repo = "https://github.com#mybranch:myprofiles"
 }
 
 ```
+
 
 ## Working on multiple configuration sets (workspaces) locally
 
@@ -449,10 +498,11 @@ local_workspaces/libvirt-testsuite
 local_workspaces/libvirt-testsuite/main.tf
 local_workspaces/libvirt-testsuite/terraform.tfstate
 ~/sumaform$ ls -l main.tf
-[...] main.tf -> local_workspaces/libvirt-testsuite/main.tf
+... main.tf -> local_workspaces/libvirt-testsuite/main.tf
 ~/sumaform$ ls -l terraform.tfstate
-[...] -> local_workspaces/libvirt-testsuite/terraform.tfstate
+... -> local_workspaces/libvirt-testsuite/terraform.tfstate
 ```
+
 
 ## Plain hosts
 
@@ -469,6 +519,7 @@ module "vanilla" {
   image = "sles12sp1"
 }
 ```
+
 
 ## PXE boot hosts
 
@@ -489,6 +540,7 @@ module "pxeboot"
 }
 ```
 
+
 ## `minionswarm` hosts
 
 It is possible to create large numbers of simulated minions using Salt's [minionswarm test script](https://docs.saltstack.com/en/latest/topics/releases/0.9.9.html#minionswarm).
@@ -508,6 +560,7 @@ module "minionswarm" {
 
 This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
 
+
 ## SMT
 
 You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
@@ -522,6 +575,7 @@ module "suma3pg" {
   smt = "http://smt.suse.de"
 }
 ```
+
 
 ## Add custom repos and packages
 
@@ -546,6 +600,7 @@ module "minsles12sp1" {
 }
 ```
 
+
 ## Add custom repo GPG keys
 
 If you need extra GPG keys to be installed for package installation, you can add them via the `gpg_keys` list variable to a module.
@@ -560,6 +615,7 @@ module "minssh-sles12sp2" {
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 ```
+
 
 ## Prometheus/Grafana monitoring
 
@@ -676,6 +732,7 @@ module "minion" {
 }
 ```
 
+
 ## Use Locust for http load testing
 
 You can deploy a locust host to test http performance of your SUSE Manager Server. An example would be:
@@ -715,6 +772,7 @@ module "locust" {
 }
 ```
 
+
 ## Use Operating System updates (released and unreleased)
 
 It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones, including updates currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` (respectively `use_os_unreleased_updates`) flag. Libvirt example:
@@ -729,6 +787,7 @@ module "sumaheadpg" {
   use_os_unreleased_updates = true
 }
 ```
+
 
 ## E-mail configuration
 

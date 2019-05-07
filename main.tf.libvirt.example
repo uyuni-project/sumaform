@@ -10,10 +10,11 @@ module "base" {
 
   // optional parameters with defaults below
   // pool = "default"
-  // network_name = "default"
+  // network_name = "default" // change to "" if you change bridge below
   // bridge = ""
+  // use_avahi = true
   // additional_network = ""
-  // name_prefix = ""
+  // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
   // timezone = "Europe/Berlin"
 }
 

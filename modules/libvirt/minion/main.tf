@@ -21,6 +21,7 @@ server: ${var.server_configuration["hostname"]}
 role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
 apparmor: ${var.apparmor}
+avahi_reflector: ${var.avahi_reflector}
 
 susemanager:
   activation_key: ${var.activation_key}
