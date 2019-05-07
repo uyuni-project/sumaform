@@ -17,6 +17,7 @@ module "virthost" {
   additional_grains = <<EOF
 
 hvm_disk_image: "${var.hvm_disk_image}"
+hvm_disk_image_hash: "${var.hvm_disk_image_hash}"
 virtual_host: true
 EOF
 
