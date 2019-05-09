@@ -15,6 +15,7 @@ virthost_packages:
         - libvirt-client
         - qemu-tools
         - guestfs-tools
+        - tar # HACK: workaround missing supermin tar dependency. See boo#1134334
     - require:
       - sls: repos
 
@@ -142,6 +143,10 @@ disk-image-template.qcow2:
   file.managed:
     - name: /var/testsuite-data/disk-image-template.qcow2
     - source: {{ grains['hvm_disk_image'] }}
+    {% if grains['hvm_disk_image_hash'] %}
+    - source_hash: {{ grains['hvm_disk_image_hash'] }}
+    {% else %}
     - skip_verify: True
+    {% endif %}
     - mode: 655
     - makedirs: True

@@ -69,10 +69,15 @@ variable "hvm_disk_image" {
   default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
 }
 
+variable "hvm_disk_image_hash" {
+  description = "Hash of the the disk image, either a URL or the hash itself. See salt's file.managed source_hash documentations"
+  default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2.sha256"
+}
+
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: sles12sp3, sles15, opensuse423 or opensuse150"
+  description = "One of: sles15, sles15sp1 or opensuse150"
   type = "string"
 }
 
