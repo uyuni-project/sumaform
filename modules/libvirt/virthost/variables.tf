@@ -100,3 +100,8 @@ variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
 }
+
+variable "ipv6" {
+  description = "enable/disable IPv6"
+  default = true
+}

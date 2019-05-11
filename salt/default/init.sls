@@ -61,3 +61,22 @@ authorized_keys:
 {% endfor %}
     - makedirs: True
 {% endif %}
+
+{% if not grains.get('ipv6', 1) %}
+
+disable_ipv6_accept_ra:
+  sysctl.present:
+    - name: net.ipv6.conf.default.accept_ra
+    - value: 0
+
+disable_ipv6_all:
+  sysctl.present:
+    - name: net.ipv6.conf.all.disable_ipv6
+    - value: 1
+
+disable_ipv6_default:
+  sysctl.present:
+    - name: net.ipv6.conf.default.disable_ipv6
+    - value: 1
+
+{% endif %}
