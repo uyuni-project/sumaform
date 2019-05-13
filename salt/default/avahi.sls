@@ -1,6 +1,7 @@
 include:
   - default.hostname
 
+{% if grains['use_avahi'] %}
 avahi_pkg:
   pkg.installed:
     {%- if grains['os_family'] == 'Debian' %}
@@ -38,7 +39,7 @@ nsswitch_enable_mdns:
     - pattern: "(hosts: .*?)mdns([46]?)_minimal(.*)"
     - repl: "\\1mdns\\2\\3"
 
-avahi_service:
+avahi_enable_service:
   service.running:
     - name: avahi-daemon
     - require:
@@ -46,3 +47,18 @@ avahi_service:
       - file: nsswitch_enable_mdns
     - watch:
       - file: /etc/avahi/avahi-daemon.conf
+
+{% else %}
+
+nsswitch_disable_mdns:
+  file.replace:
+    - name: /etc/nsswitch.conf
+    - pattern: "(hosts: .*?)mdns([46]?)_minimal \\[NOTFOUND=return\\](.*)"
+    - repl: "\\1\\3"
+
+avahi_disable_service:
+  service.dead:
+    - name: avahi-daemon
+    - enable: false
+
+{% endif %}
