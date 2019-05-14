@@ -203,6 +203,8 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP4
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP1
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_42.3
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
