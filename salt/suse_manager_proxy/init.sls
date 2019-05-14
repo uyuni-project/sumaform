@@ -201,3 +201,15 @@ ca-configuration-checksum:
       - file: ca-configuration
 
 {% endif %}
+
+reduce_tcp_keepalive_idle_on_proxy:
+  file.managed:
+    - name: /etc/salt/minion.d/keepalive.conf
+    - makedirs: True
+    - contents: |
+        tcp_keepalive: True
+        tcp_keepalive_idle: 20
+        tcp_keepalive_cnt: -1
+        tcp_keepalive_intvl: -1
+    - require:
+      - pkg: proxy-packages
