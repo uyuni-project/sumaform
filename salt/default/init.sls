@@ -69,14 +69,33 @@ disable_ipv6_accept_ra:
     - name: net.ipv6.conf.default.accept_ra
     - value: 0
 
+{# disable/enable is just a trick make accept_ra work #}
 disable_ipv6_all:
   sysctl.present:
     - name: net.ipv6.conf.all.disable_ipv6
     - value: 1
 
-disable_ipv6_default:
+enable_ipv6_all:
   sysctl.present:
-    - name: net.ipv6.conf.default.disable_ipv6
+    - name: net.ipv6.conf.all.disable_ipv6
+    - value: 0
+
+{% else % }
+
+enable_ipv6_accept_ra:
+  sysctl.present:
+    - name: net.ipv6.conf.default.accept_ra
     - value: 1
+
+{# disable/enable is just a trick make accept_ra work #}
+disable_ipv6_all:
+  sysctl.present:
+    - name: net.ipv6.conf.all.disable_ipv6
+    - value: 1
+
+enable_ipv6_all:
+  sysctl.present:
+    - name: net.ipv6.conf.all.disable_ipv6
+    - value: 0
 
 {% endif %}
