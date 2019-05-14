@@ -80,7 +80,7 @@ enable_ipv6_all:
     - name: net.ipv6.conf.all.disable_ipv6
     - value: 0
 
-{% else % }
+{% else %}
 
 enable_ipv6_accept_ra:
   sysctl.present:
