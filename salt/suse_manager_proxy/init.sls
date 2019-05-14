@@ -202,7 +202,7 @@ ca-configuration-checksum:
 
 {% endif %}
 
-reduce_tcp_keepalive_idle_on_proxy:
+TEMPORARY_WORKAROUND_reduce_tcp_keepalive_idle_on_proxy:
   file.managed:
     - name: /etc/salt/minion.d/keepalive.conf
     - makedirs: True
