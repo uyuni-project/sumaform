@@ -13,6 +13,11 @@ variable "count"  {
   default = 1
 }
 
+variable "product_version" {
+  description = "A valid SUSE Manager version (eg. 3.0-nightly, head) see README_ADVANCED.md"
+  default = "released"
+}
+
 variable "server_configuration" {
   description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
   type = "map"
@@ -30,6 +35,17 @@ variable "ssh_key_path" {
 }
 
 // Provider-specific variables
+
+variable "image" {
+  description = "One of: sles12sp2, sles12sp3, sles12sp4"
+  type = "string"
+  default = "sles12sp4"
+}
+
+variable "flavor" {
+  description = "OpenStack flavor"
+  default = "m1.medium"
+}
 
 variable "floating_ips" {
   description = "List of floating IP IDs to associate"

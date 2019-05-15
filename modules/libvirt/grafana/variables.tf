@@ -18,6 +18,11 @@ variable "server_configuration" {
   type = "map"
 }
 
+variable "product_version" {
+  description = "A valid SUSE Manager version (eg. 3.0-nightly, head) see README_ADVANCED.md"
+  default = "released"
+}
+
 variable "locust_configuration" {
   description = "use ${module.<LOCUST_NAME>.configuration}, see README_ADVANCED.md"
   default = { "hostname" = "none" }
@@ -30,6 +35,22 @@ variable "ssh_key_path" {
 }
 
 // Provider-specific variables
+
+variable "image" {
+  description = "One of: sles12sp2, sles12sp3, sles12sp4"
+  type = "string"
+  default = "sles12sp4"
+}
+
+variable "memory" {
+  description = "RAM memory in MiB"
+  default = 4096
+}
+
+variable "vcpu" {
+  description = "number of virtual CPUs"
+  default = 1
+}
 
 variable "running" {
   description = "Whether this host should be turned on or off"

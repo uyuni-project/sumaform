@@ -10,15 +10,15 @@ module "grafana" {
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 locust: ${var.locust_configuration["hostname"]}
-product_version: 3.0-nightly
+product_version: "${var.product_version}"
 role: grafana
 
 EOF
 
   // Provider-specific variables
-  image = "sles12sp2"
-  memory = 4096
-  vcpu = 1
+  image = "${var.image}"
+  memory = "${var.memory}"
+  vcpu = ${var.vcpu}
   running = "${var.running}"
   mac = "${var.mac}"
 }
