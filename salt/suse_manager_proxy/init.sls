@@ -202,14 +202,19 @@ ca-configuration-checksum:
 
 {% endif %}
 
-TEMPORARY_WORKAROUND_reduce_tcp_keepalive_idle_on_proxy:
+
+# HACK: This avoids already established connections to hang
+# when SuSEfirewall2 is started by the retail formula
+preload_conntrack_modules_and_enable_them_at_boottime:
   file.managed:
-    - name: /etc/salt/minion.d/keepalive.conf
-    - makedirs: True
-    - contents: |
-        tcp_keepalive: True
-        tcp_keepalive_idle: 20
-        tcp_keepalive_cnt: -1
-        tcp_keepalive_intvl: -1
+    - name: /etc/modules-load.d/nf_conntrack.conf
+    - content: |
+        nf_conntrack_ipv4
+        nf_conntrack_ipv6
+        nf_conntrack
+    - require:
+      - pkg: proxy-packages
+  cmd.run:
+    - name: modprobe nf_conntrack_ipv4 && modprobe nf_conntrack_ipv6
     - require:
       - pkg: proxy-packages
