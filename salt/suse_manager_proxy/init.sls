@@ -201,3 +201,20 @@ ca-configuration-checksum:
       - file: ca-configuration
 
 {% endif %}
+
+
+# HACK: This avoids already established connections to hang
+# when SuSEfirewall2 is started by the retail formula
+preload_conntrack_modules_and_enable_them_at_boottime:
+  file.managed:
+    - name: /etc/modules-load.d/nf_conntrack.conf
+    - content: |
+        nf_conntrack_ipv4
+        nf_conntrack_ipv6
+        nf_conntrack
+    - require:
+      - pkg: proxy-packages
+  cmd.run:
+    - name: modprobe nf_conntrack_ipv4 && modprobe nf_conntrack_ipv6
+    - require:
+      - pkg: proxy-packages
