@@ -205,6 +205,7 @@ ca-configuration-checksum:
 
 # HACK: This avoids already established connections to hang
 # when SuSEfirewall2 is started by the retail formula
+# https://bugzilla.suse.com/show_bug.cgi?id=1135303
 preload_conntrack_modules_and_enable_them_at_boottime:
   file.managed:
     - name: /etc/modules-load.d/nf_conntrack.conf
