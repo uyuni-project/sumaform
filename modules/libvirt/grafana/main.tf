@@ -12,13 +12,15 @@ server: ${var.server_configuration["hostname"]}
 locust: ${var.locust_configuration["hostname"]}
 product_version: "${var.product_version}"
 role: grafana
+monitor_systems: ${var.monitor_systems}
+monitor_alert_email: ${var.alert_email}
 
 EOF
 
   // Provider-specific variables
   image = "${var.image}"
   memory = "${var.memory}"
-  vcpu = ${var.vcpu}
+  vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
 }

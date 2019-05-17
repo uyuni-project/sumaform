@@ -1,0 +1,14 @@
+[tools]
+name=Monitoring
+type=rpm-md
+
+{% if grains.get('osmajorrelease', None)|int() == 12 %}
+{% set path = 'SLE_12' %}
+{% elif grains.get('osmajorrelease', None)|int() == 15 %}
+{% set path = 'SLE_15' %}
+{% endif %}
+
+baseurl=http://download.suse.de/ibs/home:/jcavalheiro:/monitoring/{{path}}/
+gpgcheck=1
+gpgkey=http://download.suse.de/ibs/home:/jcavalheiro:/monitoring/{{path}}/repodata/repomd.xml.key
+enabled=1

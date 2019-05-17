@@ -1,0 +1,25 @@
+groups:
+
+# Instance down
+- name: instancedown
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 10s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Instance DOWN"
+      description: "{{ '{{' }} $labels.instance }} has been down for more than 1 minute"
+
+# Load alerts
+# - name: loadhigh
+#   rules:
+#   - alert: LoadAverageHigh
+#     expr: node_load1 > 0.5
+#     for: 1m
+#     labels:
+#       severity: warning
+#     annotations:
+#       summary: "HIGH load"
+#       description: "{{ '{{' }} $labels.instance }} has a load of over 50% for more than 1 minute"

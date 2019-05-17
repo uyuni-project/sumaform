@@ -1,0 +1,71 @@
+global:
+  # The smarthost and SMTP sender used for mail notifications.
+  smtp_smarthost: 'relay.suse.de:25'
+  smtp_from: 'monitoring-susecon@suse.de'
+  smtp_require_tls: false
+
+# The directory from which notification templates are read.
+templates:
+- '/etc/prometheus/*.txt'
+
+# The root route on which each incoming alert enters.
+route:
+  # The labels by which incoming alerts are grouped together. For example,
+  # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
+  # be batched into a single group.
+  group_by: ['job','alertname']
+
+  # When a new group of alerts is created by an incoming alert, wait at
+  # least 'group_wait' to send the initial notification.
+  # This way ensures that you get multiple alerts for the same group that start
+  # firing shortly after another are batched together on the first
+  # notification.
+  group_wait: 5s
+
+  # When the first notification was sent, wait 'group_interval' to send a batch
+  # of new alerts that started firing for that group.
+  group_interval: 10s
+
+  # If an alert has successfully been sent, wait 'repeat_interval' to
+  # resend them.
+  repeat_interval: 1m
+
+  # A default receiver
+  receiver: warning
+
+  # All the above attributes are inherited by all child routes and can
+  # overwritten on each.
+
+  routes:
+  # All alerts with the severity=critical label match this sub-route.
+  - receiver: 'warning'
+    match:
+      severity: warning
+  # All alerts with the severity=critical label match this sub-route.
+  - receiver: 'critical'
+    match:
+      severity: critical
+
+# Inhibition rules allow to mute a set of alerts given that another alert is
+# firing.
+# We use this to mute any warning-level notifications if the same alert is
+# already critical.
+inhibit_rules:
+- source_match:
+    severity: 'critical'
+  target_match:
+    severity: 'warning'
+  equal: ['instance','alertname']
+
+receivers:
+- name: 'critical'
+  email_configs:
+  - to: '{{grains["monitor_alert_email"]}}'
+    html:
+    text: '{{ "{{" }} template "email.simple" . }}'
+
+- name: 'warning'
+  email_configs:
+  - to: '{{grains["monitor_alert_email"]}}'
+    html:
+    text: '{{ "{{" }} template "email.simple" . }}'

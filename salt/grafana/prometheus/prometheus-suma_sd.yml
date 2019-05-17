@@ -1,0 +1,12 @@
+# SUSE Manager host
+host: {{grains["server"]}}
+user: admin
+pass: admin
+
+# Polling interval to contact the SUSE Manager server
+# If 0, polling is disabled. Will execute once and exit.
+pollinginterval: 10
+
+# Where to write the generated scrape configuration files
+# outputdir: /etc/prometheus/scrape-config/
+outputdir: /etc/prometheus/suma-scrape-config

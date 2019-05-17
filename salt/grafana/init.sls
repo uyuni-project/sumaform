@@ -8,53 +8,57 @@ prometheus:
       - sls: repos
 
 prometheus_configuration:
-  file.managed:
-    - name: /etc/prometheus/prometheus.yml
-    - makedirs: True
-    - contents: |
-        scrape_configs:
-          - job_name: 'sumaform'
-            scrape_interval: 5s
-            static_configs:
-              - targets: ['{{grains["server"]}}:9100'] # node_exporter
-              - targets: ['{{grains["server"]}}:9187'] # postgres_exporter
-              - targets: ['{{grains["server"]}}:5556'] # jmx_exporter
-              - targets: ['{{grains["server"]}}:5557'] # jmx_exporter taskomatic
-              {% if grains["locust"] %}
-              - targets: ['{{grains["locust"]}}:9500'] # locust_exporter
-              {% endif %}
-          - job_name: 'tomcat'
-            scrape_interval: 5s
-            metrics_path: /rhn/metrics
-            static_configs:
-              - targets: ['{{grains["server"]}}:80']
-          - job_name: 'taskomatic'
-            scrape_interval: 5s
-            static_configs:
-              - targets: ['{{grains["server"]}}:9800']
+  file.recurse:
+    - name: /etc/prometheus/
+    - source: salt://grafana/prometheus
+    - template: jinja
+    - include_empty: True
 
 prometheus_service:
-  file.managed:
-    - name: /etc/systemd/system/prometheus.service
-    - contents: |
-        [Unit]
-        Description=prometheus
-
-        [Service]
-        ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus.yml
-
-        [Install]
-        WantedBy=multi-user.target
-    - require:
-      - pkg: prometheus
   service.running:
     - name: prometheus
     - enable: True
+    - reload: True
     - require:
-      - file: prometheus_service
+      - pkg: prometheus-suma_sd
+      {% if grains['monitor_alert_email'] %}
+      - pkg: prometheus-alertmanager
+      {% endif %}
       - file: prometheus_configuration
     - watch:
       - file: prometheus_configuration
+
+prometheus-node_exporter:
+  pkg.installed:
+    - names:
+      - golang-github-prometheus-node_exporter
+  service.running:
+    - enable: True
+
+prometheus-suma_sd:
+  pkg.installed:
+    - names:
+      - golang-github-cavalheiro-prometheus-suma_sd
+  service.running:
+    - enable: True
+    - reload: True
+    - require:
+      - file: prometheus_configuration
+    - watch:
+      - file: prometheus_configuration
+
+{% if grains['monitor_alert_email'] %}
+prometheus-alertmanager:
+  pkg.installed:
+    - names:
+      - golang-github-prometheus-alertmanager
+    - enable: True
+    - reload: True
+    - require:
+      - file: prometheus_configuration
+    - watch:
+      - file: prometheus_configuration
+{% endif %}
 
 grafana:
   pkg.installed:
@@ -65,7 +69,7 @@ grafana:
 grafana_anonymous_login_configuration:
   file.blockreplace:
     - name: /etc/grafana/grafana.ini
-    - marker_start: '#################################### Anonymous Auth ##########################'
+    - marker_start: '#################################### Anonymous Auth ######################'
     - marker_end: '#################################### Github Auth ##########################'
     - content: |
         [auth.anonymous]
@@ -87,6 +91,9 @@ grafana_provisioning_directory:
   file.recurse:
     - name: /etc/grafana/provisioning
     - source: salt://grafana/provisioning
+  {% if not grains["monitor_systems"] %}
+    - exclude_pat: E@(client-systems.json)|(dashboard-provider.yml)
+  {% endif %}
     - clean: True
     - user: grafana
     - group: grafana
@@ -105,6 +112,7 @@ grafana_service:
   service.running:
     - name: grafana-server
     - enable: True
+    - restart: True
     - require:
       - pkg: grafana
       - file: grafana_port_configuration

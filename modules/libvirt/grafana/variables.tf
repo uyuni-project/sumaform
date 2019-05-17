@@ -34,6 +34,16 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "monitor_systems" {
+  description = "set to true to monitor systems"
+  default = false
+}
+
+variable "alert_email" {
+  description = "email to send alerts to. Leave empty to disable the alerter"
+  default = ""
+}
+
 // Provider-specific variables
 
 variable "image" {

@@ -1,0 +1,12 @@
+{% raw %}
+{{ define "email.simple" }}
+Alert Manager raised the following {{ toUpper .CommonLabels.severity }} alarm
+
+Reason: {{ .CommonAnnotations.summary }}
+Severity: {{ toUpper .CommonLabels.severity }}
+
+Instances:
+{{ range .Alerts }} - {{ .Annotations.description }}
+{{ end }}
+{{ end }}
+{% endraw %}

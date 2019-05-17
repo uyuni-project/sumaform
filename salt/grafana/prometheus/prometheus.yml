@@ -1,0 +1,55 @@
+# Sample config for Prometheus.
+global:
+  scrape_interval: 5s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 5s
+
+{% if grains["monitor_alert_email"] %}
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - {{grains["fqdn"]}}:9093
+rule_files:
+  - /etc/prometheus/alert-rules.yml
+{% endif %}
+
+# Scrape configurations
+scrape_configs:
+  # ---------------------------
+  # Monitoring self-monitoring
+  # ---------------------------
+  - job_name: 'monitoring-server'
+    static_configs:
+      - targets:
+        - '{{grains["fqdn"]}}:9100' # Local node exporter
+
+  # --------------------
+  # SUSE Manager server
+  # --------------------
+  - job_name: 'suma-server'
+    file_sd_configs:
+     - files: ['/etc/prometheus/suma-scrape-config/suma-server.yml']
+
+  - job_name: 'tomcat'
+    scrape_interval: 5s
+    metrics_path: /rhn/metrics
+    static_configs:
+      - targets: ['{{grains["server"]}}:80']
+
+  {% if grains["locust"] %}
+  - job_name: 'locust'
+    scrape_interval: 5s
+    metrics_path: /rhn/metrics
+    static_configs:
+      - targets: ['{{grains["locust"]}}:9500'] # locust_exporter
+  {% endif %}
+
+  {% if grains["monitor_systems"] %}
+  # --------------------
+  # Client Systems
+  # --------------------
+  - job_name: 'suma-systems'
+    file_sd_configs:
+     - files: ['/etc/prometheus/suma-scrape-config/suma-systems.yml']
+  {% endif %}
