@@ -1,4 +1,5 @@
 include:
+  - default.locale
   - default.minimal
   - default.pkgs
   {% if grains.get('reset_ids') | default(false, true) %}
