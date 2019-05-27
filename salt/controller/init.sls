@@ -51,7 +51,7 @@ cucumber_requisites:
       - libxslt-devel
       - mozilla-nss-tools
       # packaged ruby gems
-      - ruby2.1-rubygem-bundler
+      - ruby2.5-rubygem-bundler
       - twopence
       - rubygem-twopence
     - require:
@@ -74,7 +74,8 @@ create_syslink_for_chromedriver:
 
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby2.1 install --gemfile /root/spacewalk/testsuite/Gemfile
+    - name: bundle.ruby2.5 install --gemfile Gemfile
+    - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
