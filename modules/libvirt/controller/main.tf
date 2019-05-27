@@ -46,7 +46,7 @@ server_http_proxy: ${var.server_http_proxy}
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse150"
   vcpu = "${var.vcpu}"
   memory = "${var.memory}"
   running = "${var.running}"
