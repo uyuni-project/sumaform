@@ -1,0 +1,13 @@
+[Unit]
+Description=Testsuite HTTP Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/spacewalk/testsuite
+ExecStart=/usr/bin/python -m SimpleHTTPServer 8080
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

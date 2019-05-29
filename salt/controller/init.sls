@@ -155,3 +155,18 @@ google_cert_db:
    - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
    - require:
      - file: chrome_certs
+
+http_testsuite_service_file:
+  file.managed:
+    - name: /etc/systemd/system/http_testsuite.service
+    - source: salt://controller/http_testsuite.service
+    - user: root
+    - groop: root
+    - mode: 600
+
+http_testsuite_service:
+  service.running:
+    - name: http_testsuite
+    - enable: true
+    - require:
+      - file: http_testsuite_service_file
