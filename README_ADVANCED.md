@@ -436,6 +436,9 @@ Once all `core_` features have been executed once other non-core Cucumber featur
 ssh -t head-ctl.tf.local cucumber spacewalk/testsuite/features/my_feature.feature
 ```
 
+Read HTML results at:
+
+ `head-ctl.tf.local:8080/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `8080`.
 
 Get HTML results with:
 ```
