@@ -72,6 +72,18 @@ Note you are encouraged to specify an additional libvirt storage pool name (`dat
 
 Omitting the `data_pool` variable results in the default "default" storage pool being used.
 
+The `mirror` can also synchronize Ubuntu official repositories.
+To enable mirroring Ubuntu versions add the corresponding version numbers to the `ubuntu_distros` variable as follows:
+
+```hcl
+module "mirror" {
+  source = "./modules/libvirt/mirror"
+  base_configuration = "${module.base.configuration}"
+
+  ubuntu_distros = ['16.04', '18.04']
+}
+```
+
 Note that `mirror` must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
 
 ## Customize virtual hardware

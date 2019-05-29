@@ -24,6 +24,11 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "ubuntu_distros" {
+  description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
+  default = []
+}
+
 // Provider-specific variables
 
 variable "running" {

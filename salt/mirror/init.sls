@@ -40,6 +40,17 @@ scc_data_refresh_script:
     - source: salt://mirror/refresh_scc_data.py
     - mode: 755
 
+apt-mirror:
+  pkg.installed:
+    - require:
+      - sls: default
+  file.managed:
+    - name: /etc/apt-mirror.list
+    - source: salt://mirror/apt-mirror.list
+    - template: jinja
+    - require:
+      - pkg: apt-mirror
+
 mirror_script:
   file.managed:
     - name: /root/mirror.sh
