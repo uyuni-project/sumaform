@@ -438,7 +438,7 @@ ssh -t head-ctl.tf.local cucumber spacewalk/testsuite/features/my_feature.featur
 
 Read HTML results at:
 
- `head-ctl.tf.local:8080/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `8080`.
+ `head-ctl.tf.local:8000/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `8000`.
 
 Get HTML results with:
 ```
