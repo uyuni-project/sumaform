@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/root/spacewalk/testsuite
-ExecStart=/usr/bin/python3 -m http.server
+ExecStart=/usr/bin/python3 -m http.server 80
 Restart=on-abort
 
 [Install]
