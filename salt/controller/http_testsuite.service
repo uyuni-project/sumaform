@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/root/spacewalk/testsuite
-ExecStart=/usr/bin/python -m SimpleHTTPServer 8080
+ExecStart=/usr/bin/python3 -m http.server
 Restart=on-abort
 
 [Install]
