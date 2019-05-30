@@ -155,6 +155,7 @@ google_cert_db:
    - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
    - require:
      - file: chrome_certs
+   - creates: /root/.pki/nssdb
 
 http_testsuite_service_file:
   file.managed:
