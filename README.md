@@ -18,7 +18,7 @@ openSUSE and SUSE Linux Enterprise Server:
 #sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/systemsmanagement:sumaform.repo
 
 sudo zypper install terraform-provider-libvirt git-core
-git clone https://github.com/moio/sumaform.git
+git clone https://github.com/uyuni-project/sumaform.git
 ```
 
 Ubuntu and Debian:
@@ -28,7 +28,7 @@ wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_
 sudo alien -i terraform.rpm
 wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP3/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
-git clone https://github.com/moio/sumaform.git
+git clone https://github.com/uyuni-project/sumaform.git
 ```
 
 NOTE: be sure to have [SUSE's CA certificates](http://ca.suse.de/) installed on your system.
