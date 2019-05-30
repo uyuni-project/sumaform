@@ -165,12 +165,6 @@ http_testsuite_service_file:
     - groop: root
     - mode: 600
 
-reload_systemd_modules_for_http_testsuite:
-  module.run:
-    - name: service.systemctl_reload
-    - onchanges:
-      - file: http_testsuite_service_file
-
 http_testsuite_service:
   service.running:
     - name: http_testsuite
