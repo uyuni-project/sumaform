@@ -106,6 +106,7 @@ variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
   default = 4096
 }
+
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default = "/dev/null"
@@ -127,7 +128,7 @@ variable "git_profiles_repo" {
 }
 
 variable "server_http_proxy" {
-  description = "Define hostname and port used by SUSE Manager http proxy"
+  description = "Hostname and port used by SUSE Manager http proxy"
   default = ""
 }
 

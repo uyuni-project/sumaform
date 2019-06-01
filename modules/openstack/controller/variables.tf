@@ -25,7 +25,7 @@ variable "git_repo" {
 }
 
 variable "server_http_proxy" {
-  description = "Define hostname and port used by SUSE Manager http proxy"
+  description = "Hostname and port used by SUSE Manager http proxy"
   default = ""
 }
 
