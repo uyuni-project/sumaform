@@ -14,6 +14,7 @@ module "virthost" {
   additional_packages = "${var.additional_packages}"
   gpg_keys = "${var.gpg_keys}"
   ssh_key_path = "${var.ssh_key_path}"
+  ipv6 = "${var.ipv6}"
   additional_grains = <<EOF
 
 hvm_disk_image: "${var.hvm_disk_image}"
