@@ -181,6 +181,15 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "ipv6" {
+  description = "IPv6 tuning: enable it, accept the RAs"
+  type = "map"
+  default = {
+    enable = true
+    accept_ra = true
+  }
+}
+
 variable "pts" {
   description = "Whether this instance is part of a Performance Testsuite"
   default = false

@@ -111,6 +111,7 @@ swap_file_size: ${var.swap_file_size}
 authorized_keys: [${trimspace(file(var.base_configuration["ssh_key_path"]))},${trimspace(file(var.ssh_key_path))}]
 gpg_keys: [${join(", ", formatlist("'%s'", var.gpg_keys))}]
 reset_ids: true
+ipv6: ${${join(", ", formatlist("'%s': '%s'", keys(var.ipv6), values(var.ipv6)))}}
 ${var.grains}
 
 EOF

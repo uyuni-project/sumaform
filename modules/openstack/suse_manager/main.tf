@@ -25,6 +25,7 @@ module "suse_manager" {
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
   gpg_keys = "${var.gpg_keys}"
+  ipv6 = "${var.ipv6}"
   grains = <<EOF
 
 product_version: ${var.product_version}
