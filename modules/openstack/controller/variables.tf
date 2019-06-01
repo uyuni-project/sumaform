@@ -102,6 +102,15 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "ipv6" {
+  description = "IPv6 tuning: enable it, accept the RAs"
+  type = "map"
+  default = {
+    enable = true
+    accept_ra = true
+  }
+}
+
 variable "git_profiles_repo" {
   description = "URL of git repository with alternate Docker and Kiwi profiles, see README_ADVANCED.md"
   default = "default"

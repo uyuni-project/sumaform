@@ -64,6 +64,15 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "ipv6" {
+  description = "IPv6 tuning: enable it, accept the RAs"
+  type = "map"
+  default = {
+    enable = true
+    accept_ra = true
+  }
+}
+
 variable "hvm_disk_image" {
   description = "URL to the disk image to use for KVM guests"
   default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
@@ -99,9 +108,4 @@ variable "running" {
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
   default = ""
-}
-
-variable "ipv6" {
-  description = "enable/disable IPv6"
-  default = true
 }

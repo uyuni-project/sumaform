@@ -64,6 +64,15 @@ variable "gpg_keys" {
   default = []
 }
 
+variable "ipv6" {
+  description = "IPv6 tuning: enable it, accept the RAs"
+  type = "map"
+  default = {
+    enable = true
+    accept_ra = true
+  }
+}
+
 // Provider-specific variables
 
 variable "image" {
@@ -94,9 +103,4 @@ variable "mac" {
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default = ""
-}
-
-variable "ipv6" {
-  description = "enable/disable IPv6"
-  default = true
 }

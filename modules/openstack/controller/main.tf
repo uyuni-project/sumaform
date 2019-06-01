@@ -21,6 +21,7 @@ module "controller" {
   additional_packages = "${var.additional_packages}"
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
+  ipv6 = "${var.ipv6}"
   grains = <<EOF
 
 git_username: ${var.git_username}
