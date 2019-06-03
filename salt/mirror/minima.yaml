@@ -182,6 +182,11 @@ http:
   - url: http://download.opensuse.org/update/leap/15.0/oss
     archs: [x86_64]
 
+  - url: http://download.opensuse.org/distribution/leap/15.1/repo/oss
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.1/oss
+    archs: [x86_64]
+
   # SUSE Manager TEST devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1
     archs: [x86_64]
@@ -209,17 +214,19 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.1
+    archs: [x86_64]
 
   # security:logging (filebeat)
   - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP4
     archs: [x86_64]
 
   # Uyuni Master
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.0/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.1/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.0/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.1/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.0/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.1/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
     archs: [x86_64]
 
   # Uyuni Stable
@@ -230,15 +237,15 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
     archs: [x86_64]
 
-  # TODO: to be enabled when Uyuni on Leap 15.0 is released
+  # TODO: to be enabled when Uyuni on Leap 15.1 is released
   # # Uyuni Stable
-  # - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.0/
+  # - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.1/
   #   archs: [x86_64]
 
   # # Uyuni Server
-  # - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images-openSUSE_Leap_15.0/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
+  # - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
   #   archs: [x86_64]
 
   # # Uyuni Proxy
-  # - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images-openSUSE_Leap_15.0/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
+  # - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
   #   archs: [x86_64]
