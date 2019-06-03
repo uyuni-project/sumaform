@@ -77,7 +77,7 @@ variable "hvm_disk_image_hash" {
 // Provider-specific variables
 
 variable "image" {
-  description = "One of: sles15, sles15sp1 or opensuse150"
+  description = "One of: sles15, sles15sp1, opensuse150 or opensuse151"
   type = "string"
 }
 
