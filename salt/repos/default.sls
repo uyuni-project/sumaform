@@ -395,6 +395,29 @@ disable_apt_daily_upgrade_service:
 disable_apt_daily_wait:
   cmd.run:
     - name: systemd-run --property="After=apt-daily.service apt-daily-upgrade.service" --wait /bin/true
+
+tools_update_repo:
+  pkgrepo.managed:
+    - file: /etc/apt/sources.list.d/Ubuntu18.04-SUSE-Manager-Tools.list
+{% if 'head' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+    - name: deb {{ tools_repo_url }} /
+    - key_url: {{ tools_repo_url }}/Release.key
+{% elif '4.0' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+    - name: deb {{ tools_repo_url }} /
+    - key_url: {{ tools_repo_url }}/Release.key
+{% elif '3.2' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+    - name: deb {{ tools_repo_url }} /
+    - key_url: {{ tools_repo_url }}/Release.key
+{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
+    - name: deb {{ tools_repo_url }} /
+    - key_url: {{ tools_repo_url }}/Release.key
+    - file: /etc/apt/sources.list.d/Ubuntu1804-Uyuni-Client-Tools.list
+{% endif %}
+
 {% endif %}
 
 {% if grains['additional_repos'] %}
