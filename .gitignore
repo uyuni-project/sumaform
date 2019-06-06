@@ -10,3 +10,6 @@
 .terraform.tfstate.lock.info
 
 /salt/virthost/*.qcow2
+
+**/.*.sw*
+.*.sw*
