@@ -78,6 +78,8 @@ mirror_directory:
     - group: users
     - mode: 755
     - makedirs: True
+    - require:
+      - pkg: apache2
   mount.mounted:
     - name: /srv/mirror
     - device: /dev/{{grains['data_disk_device']}}1
@@ -121,6 +123,8 @@ exports_file:
 rpcbind:
   service.running:
     - enable: True
+    - require:
+      - pkg: nfs_kernel_support
 
 nfs_kernel_support:
   pkg.installed:
