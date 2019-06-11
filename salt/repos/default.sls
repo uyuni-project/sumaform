@@ -398,7 +398,7 @@ disable_apt_daily_wait:
 
 tools_update_repo:
   pkgrepo.managed:
-    - file: /etc/apt/sources.list.d/Ubuntu18.04-SUSE-Manager-Tools.list
+    - file: /etc/apt/sources.list.d/Ubuntu1804-Client-Tools.list
 {% if 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
     - name: deb {{ tools_repo_url }} /
@@ -408,17 +408,44 @@ tools_update_repo:
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
 {% elif '3.2' in grains.get('product_version') | default('', true) %}
-# The client tools are common for all versions of SUSE Manager: that is why you see 4.0 instead of 3.2 in the following line
-{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+# We only have one shared Client Tools repository, so we are using 4.0 even for 3.2
+# TODO: HEAD _MUST_ be changed to 4.0 as soon as 4.0 Client Tools are released
+{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
-    - file: /etc/apt/sources.list.d/Ubuntu1804-Uyuni-Client-Tools.list
 {% endif %}
 
+tools_update_repo_raised_priority:
+  file.append:
+    - name: /etc/apt/preferences.d/Ubuntu1804-Client-Tools
+    - unless:
+      - ls /etc/apt/preferences.d/Ubuntu1804-Client-Tools
+{% if 'head' in grains.get('product_version') | default('', true) %}
+    - text: |
+            Package: *
+            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu18.04-SUSE-Manager-Tools
+            Pin-Priority: 800
+{% elif '4.0' in grains.get('product_version') | default('', true) %}
+    - text: |
+            Package: *
+            Pin: release l=Devel:Galaxy:Manager:4.0:Ubuntu18.04-SUSE-Manager-Tools
+            Pin-Priority: 800
+{% elif '3.2' in grains.get('product_version') | default('', true) %}
+# TODO: Pin _MUST_ be changed to 4.0 as soon as 4.0 Client Tools are released.
+    - text: |
+            Package: *
+            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu18.04-SUSE-Manager-Tools
+            Pin-Priority: 800
+{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
+    - text: |
+            Package: *
+            Pin: release l=systemsmanagement:Uyuni:Master:Ubuntu1804-Uyuni-Client-Tools
+            Pin-Priority: 800
+{% endif %}
 {% endif %}
 
 {% if grains['additional_repos'] %}
@@ -435,6 +462,23 @@ tools_update_repo:
     - priority: 94
     - gpgcheck: 0
   {%- endif %}
+
+# HACK: to have additional_repos have priority over normal tools we hardcode the hostname originating them (in the future we may want to add an
+# input variable to match against origin or release file fields
+# Ref: https://wiki.debian.org/AptPreferences
+{% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
+{{ label }}_customrepo_raised_priority:
+  file.append:
+    - name: /etc/apt/preferences.d/sumaform_additional_repos
+    - text: |
+        Package: *
+        Pin: origin download.opensuse.org
+        Pin-Priority: 900
+        Package: *
+        Pin: origin download.suse.de
+        Pin-Priority: 850
+    - unless: ls /etc/apt/preferences.d/sumaform_additional_repos
+{% endif %}
 {% endfor %}
 {% endif %}
 
