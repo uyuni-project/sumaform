@@ -408,7 +408,8 @@ tools_update_repo:
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
 {% elif '3.2' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+# The client tools are common for all versions of SUSE Manager: that is why you see 4.0 instead of 3.2 in the following line
+{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
