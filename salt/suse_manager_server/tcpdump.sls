@@ -1,3 +1,5 @@
+{% if grains.get('saltapi_tcpdump', false) %}
+
 tcpdump:
   pkg.installed
 
@@ -15,3 +17,5 @@ tcpdump.service:
     - require:
       - file: tcpdump.unit
     - enable: True
+
+{% endif %}

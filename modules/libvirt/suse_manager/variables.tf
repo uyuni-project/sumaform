@@ -251,3 +251,8 @@ variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default = ""
 }
+
+variable "saltapi_tcpdump" {
+  description = "If set to true, all network operations of salt-api are logged to /tmp/ with tcpdump."
+  default = false
+}
