@@ -40,6 +40,17 @@ scc_data_refresh_script:
     - source: salt://mirror/refresh_scc_data.py
     - mode: 755
 
+apt-mirror:
+  pkg.installed:
+    - require:
+      - sls: default
+  file.managed:
+    - name: /etc/apt-mirror.list
+    - source: salt://mirror/apt-mirror.list
+    - template: jinja
+    - require:
+      - pkg: apt-mirror
+
 mirror_script:
   file.managed:
     - name: /root/mirror.sh
@@ -78,6 +89,8 @@ mirror_directory:
     - group: users
     - mode: 755
     - makedirs: True
+    - require:
+      - pkg: apache2
   mount.mounted:
     - name: /srv/mirror
     - device: /dev/{{grains['data_disk_device']}}1
@@ -121,6 +134,8 @@ exports_file:
 rpcbind:
   service.running:
     - enable: True
+    - require:
+      - pkg: nfs_kernel_support
 
 nfs_kernel_support:
   pkg.installed:

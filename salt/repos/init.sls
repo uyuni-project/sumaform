@@ -8,6 +8,7 @@ include:
   - repos.suse_manager_server
   - repos.testsuite
   - repos.virthost
+  - repos.mirror
 
 {% if grains['os'] == 'SUSE' %}
 

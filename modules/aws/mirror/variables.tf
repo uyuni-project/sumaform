@@ -72,3 +72,8 @@ variable "name_prefix" {
   description = "A prefix for names of objects created by this module"
   default = "sumaform"
 }
+
+variable "ubuntu_distros" {
+  description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
+  default = []
+}

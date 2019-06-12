@@ -22,6 +22,7 @@ role: mirror
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 data_disk_device: vdb
+ubuntu_distros: [${join(", ", formatlist("'%s'", var.ubuntu_distros))}]
 
 EOF
 

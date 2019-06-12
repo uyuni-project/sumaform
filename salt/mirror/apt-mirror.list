@@ -1,0 +1,20 @@
+
+set mirror_path    /srv/mirror/
+set defaultarch    amd64
+set nthreads       20
+
+##
+## Sources
+##
+
+{% set ubuntu_names = {'16.04': 'xenial', '18.04': 'bionic'} %}
+
+{% for distro in grains['ubuntu_distros']|default([], true) %}
+{% set distro_name = ubuntu_names.get(distro, distro) %}
+deb http://archive.ubuntu.com/ubuntu {{distro_name}} main
+deb http://archive.ubuntu.com/ubuntu {{distro_name}}-updates main
+deb http://archive.ubuntu.com/ubuntu {{distro_name}}-security main
+
+{% endfor %}
+
+clean http://archive.ubuntu.com/ubuntu
