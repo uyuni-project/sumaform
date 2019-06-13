@@ -14,6 +14,7 @@ include:
   - suse_manager_server.filebeat
   - suse_manager_server.salt_master
   - suse_manager_server.apparmor
+  - suse_manager_server.tcpdump
 
 # HACK: make sure we do not run into a JVM bug in the openSUSE 42.3 outdated package
 {% if grains['osfullname'] == 'Leap' and grains['osrelease'] == '42.3' %}

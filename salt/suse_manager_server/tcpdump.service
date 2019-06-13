@@ -1,0 +1,13 @@
+[Unit]
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30
+ExecStart=/bin/bash -c "/usr/sbin/tcpdump -ilo -n -v src localhost and tcp port 9080 -w /tmp/tcpdump-$$(date +%%s)_suma-head-srv.pcap -C 100 -W 10"
+ExecStop=/bin/kill -s QUIT $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+

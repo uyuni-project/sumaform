@@ -231,3 +231,8 @@ variable "floating_ips" {
   description = "List of floating IP IDs to associate"
   default = []
 }
+
+variable "saltapi_tcpdump" {
+  description = "If set to true, all network operations of salt-api are logged to /tmp/ with tcpdump."
+  default = false
+}
