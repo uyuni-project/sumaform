@@ -56,6 +56,10 @@ scc:
     - SUSE-Manager-Server-3.1-Updates
     - SUSE-Manager-Server-3.2-Pool
     - SUSE-Manager-Server-3.2-Updates
+    - SLE-Product-SUSE-Manager-Server-4.0-Pool
+    - SLE-Product-SUSE-Manager-Server-4.0-Updates
+    - SLE-Module-SUSE-Manager-Server-4.0-Pool
+    - SLE-Module-SUSE-Manager-Server-4.0-Updates
     # SUSE Manager Proxy
     - SUSE-Manager-Proxy-3.0-Pool
     - SUSE-Manager-Proxy-3.0-Updates
@@ -63,6 +67,15 @@ scc:
     - SUSE-Manager-Proxy-3.1-Updates
     - SUSE-Manager-Proxy-3.2-Pool
     - SUSE-Manager-Proxy-3.2-Updates
+    - SLE-Product-SUSE-Manager-Proxy-4.0-Pool
+    - SLE-Product-SUSE-Manager-Proxy-4.0-Updates
+    - SLE-Module-SUSE-Manager-Proxy-4.0-Pool
+    - SLE-Module-SUSE-Manager-Proxy-4.0-Updates
+    # Retail Branch Server
+    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Pool
+    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Updates
+    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.0-Pool
+    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.0-Updates
     # SUSE Manager Tools
     - SLES11-SP4-SUSE-Manager-Tools
     - SLE-Manager-Tools12-Pool
@@ -118,9 +131,13 @@ http:
   # SUSE Manager Head (SLE15-SP1)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.0-POOL-x86_64-Media1
     archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
+    archs: [x86_64]
 
-  # SUSE Manager Head Proxy (SLE12-SP4)
+  # SUSE Manager Head Proxy (SLE15-SP1)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
     archs: [x86_64]
 
   # SUSE Manager 3.0 devel
@@ -133,6 +150,12 @@ http:
 
   # SUSE Manager 3.2 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3
+    archs: [x86_64]
+
+  # SUSE Manager 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0/SLE_15_SP1
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/ToSLE/SLE_15_SP1/
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 3.2 devel
@@ -149,6 +172,22 @@ http:
 
   # RES 7 Manager Tools 3.2 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+    archs: [x86_64]
+
+  # SLE 11 SP4 Manager Tools 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
+    archs: [x86_64]
+
+  # SLE 12 (GA and all SPs) Manager Tools 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+    archs: [x86_64]
+
+  # SLE 15 Manager Tools 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
+    archs: [x86_64]
+
+  # RES 7 Manager Tools 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
   # SUSE Manager Head devel

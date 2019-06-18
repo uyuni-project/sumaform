@@ -42,6 +42,68 @@ suse_manager_update_repo:
     - template: jinja
 {% endif %}
 
+{% if '4.0' in grains['product_version'] %}
+suse_manager_server_product_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Product-SUSE-Manager-Server-4.0-x86_64-Pool.repo
+    - source: salt://repos/repos.d/SLE-Product-SUSE-Manager-Server-4.0-x86_64-Pool.repo
+    - template: jinja
+
+suse_manager_server_product_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Product-SUSE-Manager-Server-4.0-x86_64-Update.repo
+    - source: salt://repos/repos.d/SLE-Product-SUSE-Manager-Server-4.0-x86_64-Update.repo
+    - template: jinja
+
+suse_manager_server_module_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Module-SUSE-Manager-Server-4.0-x86_64-Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-SUSE-Manager-Server-4.0-x86_64-Pool.repo
+    - template: jinja
+
+suse_manager_server_module_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/SLE-Module-SUSE-Manager-Server-4.0-x86_64-Update.repo
+    - source: salt://repos/repos.d/SLE-Module-SUSE-Manager-Server-4.0-x86_64-Update.repo
+    - template: jinja
+
+module_server_applications_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Server_Applications_Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Server-Applications-SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+
+module_server_applications_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Server_Applications_Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Server-Applications-SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
+
+module_web_scripting_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Web_Scripting_Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Web-Scripting-SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+
+module_web_scripting_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Web_Scripting_Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Web-Scripting-SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
+
+module_python2_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Python2_Pool.repo
+    - source: salt://repos/repos.d/SLE-Module-Python2-SLE-15-SP1-x86_64-Pool.repo
+    - template: jinja
+
+module_python2_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Python2_Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Python2-SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
+{% endif %}
+
 {% if 'uyuni-released' in grains['product_version'] %}
 suse_manager_pool_repo:
   file.managed:
@@ -61,6 +123,14 @@ suse_manager_pool_repo:
     - source: salt://repos/repos.d/SUSE-Manager-Head-x86_64-Pool.repo
     {% endif %}
     - template: jinja
+
+{% if grains['osfullname'] != 'Leap' %}
+suse_manager_devel_releasenotes_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_ToSLE.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head_ToSLE.repo
+    - template: jinja
+{% endif %}
 
 suse_manager_devel_repo:
   file.managed:
@@ -103,6 +173,12 @@ module_python2_pool_repo:
     - name: /etc/zypp/repos.d/Module_Python2_Pool.repo
     - source: salt://repos/repos.d/SLE-Module-Python2-SLE-15-SP1-x86_64-Pool.repo
     - template: jinja
+
+module_python2_update_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Module_Python2_Update.repo
+    - source: salt://repos/repos.d/SLE-Module-Python2-SLE-15-SP1-x86_64-Update.repo
+    - template: jinja
 {% endif %}
 {% endif %}
 
@@ -127,6 +203,20 @@ suse_manager_devel_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2.repo
+    - template: jinja
+{% endif %}
+
+{% if '4.0-nightly' in grains['product_version'] %}
+suse_manager_devel_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_4.0.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_4.0.repo
+    - template: jinja
+
+suse_manager_devel_releasenotes_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_4.0_ToSLE.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_4.0_ToSLE.repo
     - template: jinja
 {% endif %}
 

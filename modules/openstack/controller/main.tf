@@ -6,6 +6,8 @@ variable "testsuite-branch" {
     "3.1-nightly" = "Manager-3.1"
     "3.2-released" = "Manager-3.2"
     "3.2-nightly" = "Manager-3.2"
+    "4.0-released" = "Manager-4.0"
+    "4.0-nightly" = "Manager-4.0"
     "head" = "master"
     "test" = "master"
     "uyuni-released" = "master"

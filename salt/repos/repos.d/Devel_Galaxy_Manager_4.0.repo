@@ -1,0 +1,6 @@
+[Devel_Galaxy_Manager_4.0]
+name=Devel Project for SUSE Manager 4.0 (SLE_15_SP1)
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0/SLE_15_SP1/
+priority=96

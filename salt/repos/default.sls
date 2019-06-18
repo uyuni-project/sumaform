@@ -58,8 +58,8 @@ tools_pool_repo:
 
 tools_additional_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-11-x86_64.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-11-x86_64.repo
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_4.0_SLE-Manager-Tools-11-x86_64.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_4.0_SLE-Manager-Tools-11-x86_64.repo
     - template: jinja
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
@@ -204,8 +204,8 @@ tools_update_repo:
 
 tools_additional_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-12-x86_64.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-12-x86_64.repo
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_4.0_SLE-Manager-Tools-12-x86_64.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_4.0_SLE-Manager-Tools-12-x86_64.repo
     - template: jinja
 
 {% elif ('head' in grains.get('product_version') | default('', true)) or ('test' in grains.get('product_version') | default('', true)) %}
@@ -241,8 +241,8 @@ tools_update_repo:
 
 tools_additional_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-15-x86_64.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_SLE-Manager-Tools-15-x86_64.repo
+    - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_4.0_SLE-Manager-Tools-15-x86_64.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_4.0_SLE-Manager-Tools-15-x86_64.repo
     - template: jinja
 
 {% elif ('head' in grains.get('product_version') | default('', true)) or ('test' in grains.get('product_version') | default('', true)) %}
@@ -361,8 +361,8 @@ tools_update_repo:
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
-    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_3.2_RES-Manager-Tools-7-x86_64.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_Manager_3.2_RES-Manager-Tools-7-x86_64.repo
+    - name: /etc/yum.repos.d/Devel_Galaxy_Manager_4.0_RES-Manager-Tools-7-x86_64.repo
+    - source: salt://repos/repos.d/Devel_Galaxy_Manager_4.0_RES-Manager-Tools-7-x86_64.repo
     - template: jinja
     - require:
       - cmd: galaxy_key
