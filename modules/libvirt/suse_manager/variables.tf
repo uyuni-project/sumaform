@@ -9,7 +9,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, 3.2-nightly, 3.2-released, head, test, uyuni-released"
+  description = "One of: 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, head, test, uyuni-released"
   type = "string"
 }
 
