@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import base64
-import httplib
+import http.client
 import json
 import re
 import sys
@@ -37,7 +37,7 @@ def save_json(content, path):
 if len(sys.argv) != 2:
     print("USAGE: refresh_scc_data.py SCC_USERNAME:SCC_PASS")
 
-connection = httplib.HTTPSConnection("scc.suse.com")
+connection = http.client.HTTPSConnection("scc.suse.com")
 token = base64.b64encode(sys.argv[1].encode("ASCII")).decode("ascii")
 headers = { 'Authorization' : 'Basic %s' %  token }
 
