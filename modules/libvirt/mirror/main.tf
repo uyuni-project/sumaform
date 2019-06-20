@@ -27,7 +27,7 @@ ubuntu_distros: [${join(", ", formatlist("'%s'", var.ubuntu_distros))}]
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse151"
   memory = 512
   vcpu = 1
   running = "${var.running}"
