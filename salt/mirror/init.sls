@@ -31,6 +31,10 @@ minima_configuration:
     - source: salt://mirror/minima.yaml
     - template: jinja
 
+# Ensure we have it: some images don't have it
+cron:
+  pkg.installed
+
 parted:
   pkg.installed
 
@@ -64,6 +68,7 @@ mirror_script:
     - hour: 20
     - minute: 0
     - require:
+      - pkg: cron
       - archive: minima
       - file: minima_configuration
       - file: mirror_script

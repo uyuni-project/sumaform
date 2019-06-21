@@ -18,7 +18,7 @@ ubuntu_distros: [${join(", ", formatlist("'%s'", var.ubuntu_distros))}]
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse151"
   flavor = "m1.small"
   floating_ips = "${var.floating_ips}"
   extra_volume_size = 500
