@@ -29,6 +29,7 @@ EOF
   running = "${var.running}"
   mac = "${var.mac}"
   cpu_model = "host-model"
+  xsl = "${file("${path.module}/sysinfos.xsl")}"
 }
 
 output "configuration" {

@@ -134,3 +134,8 @@ variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default = ""
 }
+
+variable "xsl" {
+  description = "module relative path to an xsl file to apply on the libvirt domain"
+  default = ""
+}
