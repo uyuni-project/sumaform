@@ -83,7 +83,9 @@ scc:
     - SLE-Manager-Tools15-Pool
     - SLE-Manager-Tools15-Updates
     - RES-7-SUSE-Manager-Tools
-  archs: [x86_64]
+    - Ubuntu-16.04-SUSE-Manager-Tools
+    - Ubuntu-18.04-SUSE-Manager-Tools
+  archs: [x86_64, amd64]
 
 http:
   # RES 7
