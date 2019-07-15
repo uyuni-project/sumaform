@@ -1,2 +1,0 @@
-#!/bin/sh
-/usr/sbin/dmidecode.bak --from-dump /root/baremetal-dmidecode.bin $@

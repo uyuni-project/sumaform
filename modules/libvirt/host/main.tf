@@ -111,6 +111,10 @@ EOF
       "sh /root/salt/first_deployment_highstate.sh"
     ]
   }
+
+  xml {
+    xslt = "${var.xsl}"
+  }
 }
 
 output "configuration" {

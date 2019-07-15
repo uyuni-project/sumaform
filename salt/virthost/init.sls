@@ -114,25 +114,6 @@ default_virt_net_start:
     - require:
       - cmd: default-net_defined
 
-fake_dmidecode_file:
-  file.managed:
-    - name: /root/baremetal-dmidecode.bin
-    - source: salt://virthost/baremetal-dmidecode.bin
-
-dmidecode_backup:
-  file.rename:
-    - name: /usr/sbin/dmidecode.bak
-    - source: /usr/sbin/dmidecode
-    - onlyif: test -e /usr/sbin/dmidecode.bak
-
-dmidecode_wrapper:
-  file.managed:
-    - name: /usr/sbin/dmidecode
-    - source: salt://virthost/dmidecode
-    - mode: 655
-    - require:
-      - file: /usr/sbin/dmidecode.bak
-
 fake_systemd_detect_virt:
   file.managed:
     - name: /usr/bin/systemd-detect-virt
