@@ -401,22 +401,16 @@ tools_update_repo:
     - file: /etc/apt/sources.list.d/Ubuntu1804-Client-Tools.list
 {% if 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
-    - name: deb {{ tools_repo_url }} /
-    - key_url: {{ tools_repo_url }}/Release.key
 {% elif '4.0' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
-    - name: deb {{ tools_repo_url }} /
-    - key_url: {{ tools_repo_url }}/Release.key
 {% elif '3.2' in grains.get('product_version') | default('', true) %}
 # We only have one shared Client Tools repository, so we are using 4.0 even for 3.2
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
-    - name: deb {{ tools_repo_url }} /
-    - key_url: {{ tools_repo_url }}/Release.key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
+{% endif %}
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
-{% endif %}
 
 tools_update_repo_raised_priority:
   file.append:
