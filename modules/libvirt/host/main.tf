@@ -99,7 +99,7 @@ connect_to_base_network: ${var.connect_to_base_network}
 connect_to_additional_network: ${var.connect_to_additional_network}
 reset_ids: true
 ipv6: {${join(", ", formatlist("'%s': '%s'", keys(var.ipv6), values(var.ipv6)))}}
-${var.grains}
+grains: ${var.grains}
 
 EOF
 
