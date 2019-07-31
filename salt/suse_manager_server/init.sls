@@ -35,6 +35,15 @@ suse_manager_packages:
       - sls: repos
       - sls: suse_manager_server.firewall
 
+{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
+baseproduct_link:
+  file.symlink:
+    - name: /etc/products.d/baseproduct
+    - target: SUSE-Manager-Server.prod
+    - require:
+      - pkg: suse_manager_packages
+{% endif %}
+
 environment_setup_script:
   file.managed:
     - name: /root/setup_env.sh
