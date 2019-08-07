@@ -28,12 +28,6 @@
           <xsl:text>SUSE</xsl:text>
         </xsl:element>
       </xsl:element>
-      <xsl:element name="chassis">
-        <xsl:element name="entry">
-          <xsl:attribute name="name">manufacturer</xsl:attribute>
-          <xsl:text>SUSE</xsl:text>
-        </xsl:element>
-      </xsl:element>
     </xsl:element>
     <!-- DMI types 4 and 17 aren't affected by the smbios config, use qemu args to change them -->
     <xsl:element name="commandline" namespace="http://libvirt.org/schemas/domain/qemu/1.0">
@@ -48,6 +42,12 @@
       </xsl:element>
       <xsl:element name="arg" namespace="http://libvirt.org/schemas/domain/qemu/1.0">
         <xsl:attribute name="value">type=4,manufacturer=SUSE</xsl:attribute>
+      </xsl:element>
+      <xsl:element name="arg" namespace="http://libvirt.org/schemas/domain/qemu/1.0">
+        <xsl:attribute name="value">-smbios</xsl:attribute>
+      </xsl:element>
+      <xsl:element name="arg" namespace="http://libvirt.org/schemas/domain/qemu/1.0">
+        <xsl:attribute name="value">type=3,manufacturer=SUSE</xsl:attribute>
       </xsl:element>
     </xsl:element>
     <xsl:element name="os">
