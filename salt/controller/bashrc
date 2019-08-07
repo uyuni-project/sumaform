@@ -10,6 +10,33 @@ export MINION="{{ grains.get('minion') }}"
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
 {% if grains.get('kvm_host') | default(false, true) %}
+
+# QAM clients
+{% if grains.get('sle11sp4_minion') | default(false, true) %}export SLE11SP4_MINION="{{ grains.get('sle11sp4_minion') }}" {% else %}# no SLE11SP4 minion defined {% endif %}
+{% if grains.get('sle11sp4_sshminion') | default(false, true) %}export SLE11SP4_SSHMINION="{{ grains.get('sle11sp4_sshminion') }}" {% else %}# no SLE11SP4 ssh minion defined {% endif %}
+{% if grains.get('sle11sp4_client') | default(false, true) %}export SLE11SP4_CLIENT="{{ grains.get('sle11sp4_client') }}" {% else %}# no SLE11SP4 client defined {% endif %}
+{% if grains.get('sle12sp4_minion') | default(false, true) %}export SLE12SP4_MINION="{{ grains.get('sle12sp4_minion') }}" {% else %}# no SLE12SP4 minion defined {% endif %}
+{% if grains.get('sle12sp4_sshminion') | default(false, true) %}export SLE12SP4_SSHMINION="{{ grains.get('sle12sp4_sshminion') }}" {% else %}# no SLE12SP4 ssh minion defined {% endif %}
+{% if grains.get('sle12sp4_client') | default(false, true) %}export SLE12SP4_CLIENT="{{ grains.get('sle12sp4_client') }}" {% else %}# no SLE12SP4 client defined {% endif %}
+{% if grains.get('sle15_minion') | default(false, true) %}export SLE15_MINION="{{ grains.get('sle15_minion') }}" {% else %}# no SLE15 minion defined {% endif %}
+{% if grains.get('sle15_sshminion') | default(false, true) %}export SLE15_SSHMINION="{{ grains.get('sle15sp4_sshminion') }}" {% else %}# no SLE15SP4 ssh minion defined {% endif %}
+{% if grains.get('sle15_client') | default(false, true) %}export SLE15_CLIENT="{{ grains.get('sle15_client') }}" {% else %}# no SLE15 client defined {% endif %}
+{% if grains.get('sle15sp1_minion') | default(false, true) %}export SLE15SP1_MINION="{{ grains.get('sle15sp1_minion') }}" {% else %}# no SLE15SP1 minion defined {% endif %}
+{% if grains.get('sle15sp1_sshminion') | default(false, true) %}export SLE15SP1_SSHMINION="{{ grains.get('sle15sp1_sshminion') }}" {% else %}# no SLE15SP1 ssh minion defined {% endif %}
+{% if grains.get('sle15sp1_client') | default(false, true) %}export SLE15SP1_CLIENT="{{ grains.get('sle15sp1_client') }}" {% else %}# no SLE15SP1 client defined {% endif %}
+{% if grains.get('centos6_minion') | default(false, true) %}export CENTOS6_MINION="{{ grains.get('centos6_minion') }}" {% else %}# no CENTOS6 minion defined {% endif %}
+{% if grains.get('centos6_sshminion') | default(false, true) %}export CENTOS6_SSHMINION="{{ grains.get('centos6_sshminion') }}" {% else %}# no CENTOS6 ssh minion defined {% endif %}
+{% if grains.get('centos6_client') | default(false, true) %}export CENTOS6_CLIENT="{{ grains.get('centos6_client') }}" {% else %}# no CENTOS6 client defined {% endif %}
+{% if grains.get('centos7_minion') | default(false, true) %}export CENTOS7_MINION="{{ grains.get('centos7_minion') }}" {% else %}# no CENTOS7 minion defined {% endif %}
+{% if grains.get('centos7_sshminion') | default(false, true) %}export CENTOS7_SSHMINION="{{ grains.get('centos7_sshminion') }}" {% else %}# no CENTOS7 ssh minion defined {% endif %}
+{% if grains.get('centos7_client') | default(false, true) %}export CENTOS7_CLIENT="{{ grains.get('centos7_client') }}" {% else %}# no CENTOS7 client defined {% endif %}
+{% if grains.get('ubuntu1604_minion') | default(false, true) %}export UBUNTU1604_MINION="{{ grains.get('ubuntu1604_minion') }}" {% else %}# no UBUNTU1604 minion defined {% endif %}
+{% if grains.get('ubuntu1604_sshminion') | default(false, true) %}export UBUNTU1604_SSHMINION="{{ grains.get('ubuntu1604_sshminion') }}" {% else %}# no UBUNTU1604 ssh minion defined {% endif %}
+{% if grains.get('ubuntu1804_minion') | default(false, true) %}export UBUNTU1804_MINION="{{ grains.get('ubuntu1804_minion') }}" {% else %}# no UBUNTU1804 minion defined {% endif %}
+{% if grains.get('ubuntu1804_sshminion') | default(false, true) %}export UBUNTU1804_SSHMINION="{{ grains.get('ubuntu1804_sshminion') }}" {% else %}# no UBUNTU1804 ssh minion defined {% endif %}
+
+{% if grains.get('') | default(false, true) %}export ="{{ grains.get('') }}" {% else %}# no  defined {% endif %}
+
 export VIRTHOST_KVM_URL="{{ grains.get('kvm_host') }}"
 export VIRTHOST_KVM_PASSWORD="linux"
 {% else %}# no KVM host defined {% endif %}

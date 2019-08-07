@@ -10,9 +10,14 @@ client_cucumber_requisites:
       - spacewalk-client-setup
       - spacewalk-check
       - spacewalk-oscap
-      - rhncfg-actions
       - openscap-utils
+{% if grains['os'] == 'CentOS' %}
+      - mgr-cfg-actions 
+      - man-db
+{% else %}
+      - rhncfg-actions
       - man
+{% endif %}
       - wget
     - require:
       - sls: default
