@@ -436,11 +436,15 @@ tools_update_repo:
     - file: /etc/apt/sources.list.d/Ubuntu1804-Client-Tools.list
 {% if 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
-{% elif '4.0' in grains.get('product_version') | default('', true) %}
+{% elif '4.0-nightly' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
-{% elif '3.2' in grains.get('product_version') | default('', true) %}
+{% elif '4.0-released' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://download.suse.de/ibs//SUSE/Updates/Ubuntu/18.04-CLIENT-TOOLS/x86_64/update/' %}
 # We only have one shared Client Tools repository, so we are using 4.0 even for 3.2
+{% elif '3.2-nightly' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+{% elif '3.2-released' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://download.suse.de/ibs//SUSE/Updates/Ubuntu/18.04-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
 {% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
@@ -459,16 +463,26 @@ tools_update_repo_raised_priority:
             Package: *
             Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu18.04-SUSE-Manager-Tools
             Pin-Priority: 800
-{% elif '4.0' in grains.get('product_version') | default('', true) %}
+{% elif '4.0-master' in grains.get('product_version') | default('', true) %}
     - text: |
             Package: *
             Pin: release l=Devel:Galaxy:Manager:4.0:Ubuntu18.04-SUSE-Manager-Tools
             Pin-Priority: 800
-{% elif '3.2' in grains.get('product_version') | default('', true) %}
+{% elif '4.0-released' in grains.get('product_version') | default('', true) %}
+    - text: |
+            Package: *
+            Pin: release l=SUSE:Updates:Ubuntu:18.04-CLIENT-TOOLS:x86_64:update
+            Pin-Priority: 800
 # We only have one shared Client Tools repository, so we are using 4.0 even for 3.2
+{% elif '3.2-master' in grains.get('product_version') | default('', true) %}
     - text: |
             Package: *
             Pin: release l=Devel:Galaxy:Manager:4.0:Ubuntu18.04-SUSE-Manager-Tools
+            Pin-Priority: 800
+{% elif '3.2-released' in grains.get('product_version') | default('', true) %}
+    - text: |
+            Package: *
+            Pin: release l=SUSE:Updates:Ubuntu:18.04-CLIENT-TOOLS:x86_64:update
             Pin-Priority: 800
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
     - text: |
