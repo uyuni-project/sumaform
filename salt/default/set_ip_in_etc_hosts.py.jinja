@@ -5,12 +5,17 @@ import re
 import socket
 import subprocess
 import sys
+import optparse
 
-if len(sys.argv) != 3:
-    print("Usage: set_ip_in_etc_hosts.py <HOSTNAME> <DOMAIN>")
+parser = optparse.OptionParser()
+parser.add_option('--no-ipv6', action="store_false", dest="ipv6_is_enabled", default=True, help="do not set up IPv6 address")
+options, args = parser.parse_args()
+
+if len(args) != 2:
+    print("Usage: set_ip_in_etc_hosts.py [--no-ipv6] <HOSTNAME> <DOMAIN>")
     sys.exit(1)
 
-_, hostname, domain = sys.argv
+hostname, domain = args
 fqdn = hostname + "." + domain
 
 def guess_address(fqdn, hostname, socket_type, invalid_prefixes, default):
@@ -43,9 +48,14 @@ def update_hosts_file(fqdn, hostname, repl):
 
 update_hosts_file(fqdn, hostname, "")
 ipv4 = guess_address(fqdn, hostname, socket.AF_INET, "127\\.0\\.", "127.0.1.1")
-# we explicitly exclude link-local addresses as we currently can't get the interface names
-ipv6 = guess_address(fqdn, hostname, socket.AF_INET6, "(::1$)|(fe[89ab][0-f]:)", "# ipv6 address not found for names:")
-repl = "\n\n{0} {1} {2}\n{3} {4} {5}\n".format(ipv4, fqdn, hostname, ipv6, fqdn, hostname)
+
+if options.ipv6_is_enabled:
+    # we explicitly exclude link-local addresses as we currently can't get the interface names
+   ipv6 = guess_address(fqdn, hostname, socket.AF_INET6, "(::1$)|(fe[89ab][0-f]:)", "# ipv6 address not found for names:")
+   repl = "\n\n{0} {1} {2}\n{3} {4} {5}\n".format(ipv4, fqdn, hostname, ipv6, fqdn, hostname)
+else:
+   repl = "\n\n{0} {1} {2}\n".format(ipv4, fqdn, hostname)
+
 update_hosts_file(fqdn, hostname, repl)
 
 print("/etc/hosts updated.")

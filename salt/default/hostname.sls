@@ -38,7 +38,11 @@ legacy_permanent_hostname:
 hosts_file_hack:
   cmd.script:
     - name: salt://default/set_ip_in_etc_hosts.py.jinja
+    {% if grains.get('ipv6')['enable'] | default('1') == '1' %}
     - args: "{{ grains['hostname'] }} {{ grains['domain'] }}"
+    {% else %}
+    - args: "--no-ipv6 {{ grains['hostname'] }} {{ grains['domain'] }}"
+    {% endif %}
     - template: jinja
     - context:
     {% if grains.get('osmajorrelease', None)|int() == 15 %}
