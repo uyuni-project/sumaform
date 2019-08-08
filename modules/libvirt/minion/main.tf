@@ -41,7 +41,7 @@ EOF
   running = "${var.running}"
   mac = "${var.mac}"
   cpu_model = "${var.cpu_model}"
-  xsl = "${var.xsl}"
+  xslt = "${var.xslt}"
 }
 
 output "configuration" {
