@@ -26,6 +26,16 @@ avahi_restrict_interfaces:
     - require:
       - pkg: avahi_pkg
 
+{% if grains.get('ipv6')['enable'] | default('1') != '1' %}
+avahi_disable_ipv6:
+  file.replace:
+    - name: /etc/avahi/avahi-daemon.conf
+    - pattern: "use-ipv6=yes"
+    - repl: "use-ipv6=no"
+    - require:
+      - pkg: avahi_pkg
+{% endif %}
+
 mdns_declare_domains:
   file.append:
     - name: /etc/mdns.allow
