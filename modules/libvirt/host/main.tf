@@ -113,7 +113,7 @@ EOF
   }
 
   xml {
-    xslt = "${var.xsl}"
+    xslt = "${var.xslt}"
   }
 }
 

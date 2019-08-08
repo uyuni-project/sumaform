@@ -110,7 +110,7 @@ variable "cpu_model" {
   default = ""
 }
 
-variable "xsl" {
+variable "xslt" {
   description = "module relative path to an xsl file to apply on the libvirt domain"
   default = ""
 }
