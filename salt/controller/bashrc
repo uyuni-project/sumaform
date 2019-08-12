@@ -15,7 +15,7 @@ export VIRTHOST_KVM_PASSWORD="linux"
 {% else %}# no KVM host defined {% endif %}
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
-export SCC_CREDS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
+export scc_credentials="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
 
 # Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
