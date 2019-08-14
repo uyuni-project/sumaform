@@ -65,6 +65,7 @@ module "cli-sles12sp3" {
   product_version = "3.1-nightly"
   name = "cli-sles12sp3"
   image = "sles12sp3"
+  memory = 768
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_register = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
@@ -76,6 +77,7 @@ module "min-sles12sp3" {
   product_version = "3.1-nightly"
   name = "min-sles12sp3"
   image = "sles12sp3"
+  memory = 768
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
@@ -88,6 +90,7 @@ module "minssh-sles12sp3" {
   base_configuration = "${module.base.configuration}"
   name = "minssh-sles12sp3"
   image = "sles12sp3"
+  memory = 768
   ssh_key_path = "./salt/controller/id_rsa.pub"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
@@ -99,6 +102,7 @@ module "min-centos7" {
   product_version = "3.1-nightly"
   name = "min-centos7"
   image = "centos7"
+  memory = 768
   server_configuration = { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
