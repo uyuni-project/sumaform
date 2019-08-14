@@ -20,7 +20,7 @@ variable "ami" {
 
 variable "instance_type" {
   description = "Instance type, see a list at: https://aws.amazon.com/ec2/instance-types/"
-  default = "t2.nano"
+  default = "t2.micro"
 }
 
 variable "volume_size" {
