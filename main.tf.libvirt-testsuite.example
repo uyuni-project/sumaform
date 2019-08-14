@@ -111,7 +111,6 @@ module "min-ubuntu" {
   product_version = "3.2-nightly"
   name = "min-ubuntu"
   image = "ubuntu1804"
-  memory = 1024
   server_configuration =  { hostname = "srv.tf.local" } // make sure to prepend the name_prefix, if used
   auto_connect_to_master = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
