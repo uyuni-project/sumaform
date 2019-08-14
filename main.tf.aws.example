@@ -71,8 +71,8 @@ module "aws_mirror" {
   data_volume_snapshot_id = "${data.aws_ebs_snapshot.data_disk_snapshot.id}" // see top comment in modules/aws/mirror/main.tf
   public_subnet_id = "${module.aws_network.public_subnet_id}"
   public_security_group_id = "${module.aws_network.public_security_group_id}"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
+  cc_username = "${local.cc_username}"
+  cc_password = "${local.cc_password}"
   name_prefix = "${local.name_prefix}"
 }
 
@@ -93,8 +93,8 @@ module "aws_suma31pg" {
 
   product_version = "3.1-nightly"
   role = "suse_manager_server"
-  cc_username = "${var.cc_username}"
-  cc_password = "${var.cc_password}"
+  cc_username = "${local.cc_username}"
+  cc_password = "${local.cc_password}"
   mirror_public_name = "${module.aws_mirror.public_name}"
   mirror_private_name = "${module.aws_mirror.private_name}"
 }
