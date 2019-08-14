@@ -35,6 +35,9 @@ data "aws_ebs_snapshot" "data_disk_snapshot" {
 
 data "aws_ami" "opensuse422" {
   most_recent = true
+  owners = [
+    // add "self" or your AWS account ID to restrict search
+  ]
 
   filter {
     name   = "name"
@@ -44,6 +47,9 @@ data "aws_ami" "opensuse422" {
 
 data "aws_ami" "sles12sp1" {
   most_recent = true
+  owners = [
+    // add "self" or your AWS account ID to restrict search
+  ]
 
   filter {
     name   = "name"
