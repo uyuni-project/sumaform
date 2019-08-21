@@ -7,7 +7,7 @@ create_first_user:
   http.wait_for_successful_query:
     - method: POST
     - name: https://localhost/rhn/newlogin/CreateFirstUser.do
-    - match: Discover a new way of managing your servers
+    - status: 200
     - data: "submitted=true&\
              orgName=SUSE&\
              login={{ grains.get('server_username') | default('admin', true) }}&\
