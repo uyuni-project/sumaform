@@ -3,6 +3,15 @@ include:
 
 {% if grains.get('create_first_user') %}
 
+wait_for_tomcat:
+  http.wait_for_successful_query:
+    - method: GET
+    - name: https://localhost/
+    - verify_ssl: False
+    - status: 200
+    - require:
+      - sls: suse_manager_server.rhn
+
 create_first_user:
   http.wait_for_successful_query:
     - method: POST
@@ -19,7 +28,7 @@ create_first_user:
     - verify_ssl: False
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} user_list | grep -x {{ grains.get('server_username') | default('admin', true) }}
     - require:
-      - sls: suse_manager_server.rhn
+      - http: wait_for_tomcat
 
 {% endif %}
 
