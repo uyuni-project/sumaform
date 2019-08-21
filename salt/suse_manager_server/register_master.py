@@ -4,11 +4,11 @@ import time
 import urllib2
 import xmlrpclib
 
-if len(sys.argv) != 4:
-    print("Usage: register_master.py <USERNAME> <PASSWORD> <MASTER FQDN>")
+if len(sys.argv) != 5:
+    print("Usage: register_master.py <USERNAME> <PASSWORD> <MASTER FQDN> <SLAVE FQDN>")
     sys.exit(1)
 
-MANAGER_URL = "http://localhost/rpc/api"
+MANAGER_URL = "http://{}/rpc/api".format(sys.argv[4])
 
 # ensure Tomcat is up
 for _ in range(10):

@@ -4,11 +4,11 @@ import time
 import urllib2
 import xmlrpclib
 
-if len(sys.argv) != 4:
-    print("Usage: register_slave.py <USERNAME> <PASSWORD> <SLAVE FQDN>")
+if len(sys.argv) != 5:
+    print("Usage: register_slave.py <USERNAME> <PASSWORD> <MASTER FQDN> <SLAVE FQDN>")
     sys.exit(1)
 
-MANAGER_URL = "http://localhost/rpc/api"
+MANAGER_URL = "http://{}/rpc/api".format(sys.argv[3])
 
 # ensure Tomcat is up
 for _ in range(10):
@@ -30,13 +30,13 @@ while session_key is None and attempts > 0:
         attempts -= 1
 
 try:
-    previous_slave = client.sync.slave.getSlaveByName(session_key, sys.argv[3])
+    previous_slave = client.sync.slave.getSlaveByName(session_key, sys.argv[4])
     client.sync.slave.delete(session_key, previous_slave["id"])
     print("Pre-existing Slave deleted.")
 except:
     pass
 
-slave = client.sync.slave.create(session_key, sys.argv[3], True, True)
+slave = client.sync.slave.create(session_key, sys.argv[4], True, True)
 
 print("Slave added to this Master.")
 
