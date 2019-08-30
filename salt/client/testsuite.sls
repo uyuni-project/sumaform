@@ -10,7 +10,11 @@ client_cucumber_requisites:
       - spacewalk-client-setup
       - spacewalk-check
       - spacewalk-oscap
+      {% if grains['osfullname'] == 'Leap' %}
+      - mgr-cfg-actions
+      {% else %}
       - rhncfg-actions
+      {% endif %}
       - openscap-utils
       - man
       - wget

@@ -24,6 +24,23 @@ os_update_repo:
     - name: /etc/zypp/repos.d/openSUSE-Leap-{{ grains['osrelease'] }}-Update.repo
     - source: salt://repos/repos.d/openSUSE-Leap-Update.repo
     - template: jinja
+
+{% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
+{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Master_openSUSE_Leap_15-Uyuni-Client-Tools.repo
+    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master_openSUSE_Leap_15-Uyuni-Client-Tools.repo
+    - template: jinja
+{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Stable_openSUSE_Leap_15-Uyuni-Client-Tools.repo
+    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Stable_openSUSE_Leap_15-Uyuni-Client-Tools.repo
+    - template: jinja
+{% endif %}
+{% endif %}
+
 {% elif grains['osfullname'] == 'SLES' %}
 
 {% if grains['osrelease'] == '11.4' %}
