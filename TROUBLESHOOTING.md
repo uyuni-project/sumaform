@@ -10,7 +10,7 @@ module "server" {
   base_configuration = "${module.base.configuration}"
 
   name = "server"
-  product_version = "3.1-nightly"
+  product_version = "3.2-nightly"
 }
 ```
 
