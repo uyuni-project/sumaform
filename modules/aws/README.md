@@ -1,4 +1,4 @@
-# AWS-specific configuration
+ # AWS-specific configuration
 
 ## Overview
 
@@ -54,6 +54,6 @@ This project provides a utility script, `configure_aws_tunnels.rb`, which will a
 $ terraform apply
 ...
 $ ./configure_aws_tunnels.rb
-$ ssh suma3pg
+$ ssh server
 ip-YYY-YYY-YYY-YYY:~ #
 ```

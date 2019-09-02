@@ -40,7 +40,7 @@ If you want to use a different SSH key, please check the README_ADVANCED.md file
 If you don't want to use mDNS, or want to forward Avahi between networks, please check that same file, in section "Disabling Avahi and Avahi reflectors".
 If mDNS does not work out of the box, please check TROUBLESHOOTING.md file, under question "How can I work around name resolution problems with `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?".
 
-Web access is on standard ports, so `firefox suma3pg.tf.local` will work as expected. SUSE Manager default user is `admin` with password `admin`.
+Web access is on standard ports, so `firefox server.tf.local` will work as expected. SUSE Manager default user is `admin` with password `admin`.
 
 Finally, the images come with serial console support, so you can use
 

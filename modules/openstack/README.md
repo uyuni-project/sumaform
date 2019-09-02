@@ -24,7 +24,7 @@ All machines come with user `root` with password `linux`. They are also accessib
 
 By default, the machines use Avahi (mDNS), and are configured on the `.tf.local` domain. Thus if your host is on the same network segment of the virtual machines you can simply use:
 ```
-ssh root@susemanager-suma31pg.tf.local
+ssh root@susemanager-server.tf.local
 ```
 
 If you use Avahi and are on another network segment, you can only connect using an IP address, because mDNS packets do not cross network boundaries unless using reflectors.
