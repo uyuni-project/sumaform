@@ -1,6 +1,0 @@
-[SUSE-Manager-3.0-x86_64-Update]
-name=SUSE-Manager-3.0-x86_64-Update
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SUSE-Manager-Server/3.0/x86_64/update/
-priority=97

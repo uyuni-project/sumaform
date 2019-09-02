@@ -5,11 +5,7 @@ include:
 
 tomcat_config:
   file.replace:
-    {% if '3.0' in grains['product_version'] %}
-    - name: /etc/tomcat/tomcat.conf
-    {% else %}
     - name: /etc/sysconfig/tomcat
-    {% endif %}
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
     {% if grains['hostname'] and grains['domain'] %}
     - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['hostname'] }}.{{ grains['domain'] }}:8000,server=y,suspend=n -Dcom.sun.management.jmxremote.port=3333 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{ grains['hostname'] }}.{{ grains['domain'] }} \1"'
