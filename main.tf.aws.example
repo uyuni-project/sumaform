@@ -97,7 +97,7 @@ module "aws_suma31pg" {
   private_security_group_id = "${module.aws_network.private_security_group_id}"
   name_prefix = "${local.name_prefix}"
 
-  product_version = "3.1-nightly"
+  product_version = "3.2-nightly"
   role = "suse_manager_server"
   cc_username = "${local.cc_username}"
   cc_password = "${local.cc_password}"
