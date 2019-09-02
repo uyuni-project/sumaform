@@ -7,15 +7,11 @@ Some modules have a `product_version` variable that determines the software prod
  * in `minion`, `client`, etc. `product_version` determines the SUSE Manager Tools version.
 
 Legal values for released software are:
- * `3.0-released`   (latest released Maintenance Update for SUSE Manager 3.0 and Tools)
- * `3.1-released`   (latest released Maintenance Update for SUSE Manager 3.1 and Tools)
  * `3.2-released`   (latest released Maintenance Update for SUSE Manager 3.2 and Tools)
  * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
  * `uyuni-released` (latest released version for Uyuni Server and Proxy, from systemsmanagement:Uyuni:Stable, for Tools use `head`)
 
 Legal values for work-in-progress software are:
- * `3.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.0)
- * `3.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.1)
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head if OS is SLE12 or systemsmanagement:Uyuni:Master otherwise)
@@ -43,7 +39,7 @@ module "suma31pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  product_version = "3.1-released"
+  product_version = "3.2-released"
 }
 ```
 
@@ -150,7 +146,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  product_version = "3.1-nightly"
+  product_version = "3.2-nightly"
   channels = ["sles12-sp2-pool-x86_64"]
 }
 ```
@@ -172,7 +168,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  product_version = "3.1-nightly"
+  product_version = "3.2-nightly"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
   cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
 }
@@ -313,7 +309,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  product_version = "3.0-nightly"
+  product_version = "3.2-nightly"
 }
 
 module "proxy" {
@@ -321,7 +317,7 @@ module "proxy" {
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
-  product_version = "3.0-nightly"
+  product_version = "3.2-nightly"
   server_configuration = "${module.suma3pg.configuration}"
 }
 
@@ -346,7 +342,7 @@ module "proxy" {
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
-  product_version = "3.0-nightly"
+  product_version = "3.2-nightly"
   server_configuration = "${module.suma3pg.configuration}"
 
   minion = false
@@ -364,7 +360,7 @@ module "master" {
   base_configuration = "${module.base.configuration}"
 
   name = "master"
-  product_version = "3.1-released"
+  product_version = "3.2-released"
   iss_slave = "suma3pgs.tf.local"
 }
 
@@ -373,7 +369,7 @@ module "slave" {
   base_configuration = "${module.base.configuration}"
 
   name = "slave"
-  product_version = "3.1-released"
+  product_version = "3.2-released"
   iss_master = "${module.master.configuration["hostname"]}"
 }
 ```
@@ -576,7 +572,7 @@ module "suma3pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma3pg"
-  product_version = "3.0-nightly"
+  product_version = "3.2-nightly"
   smt = "http://smt.suse.de"
 }
 ```
@@ -693,7 +689,7 @@ module "suma31pg" {
   base_configuration = "${module.base.configuration}"
 
   name = "suma31pg"
-  product_version = "3.1-released"
+  product_version = "3.2-released"
   log_server = "logstash.mgr.suse.de:5045"
 }
 ```
