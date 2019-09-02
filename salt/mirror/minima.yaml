@@ -50,10 +50,6 @@ scc:
     - SLE-Module-Containers15-SP1-Pool
     - SLE-Module-Containers15-SP1-Updates
     # SUSE Manager Server
-    - SUSE-Manager-Server-3.0-Pool
-    - SUSE-Manager-Server-3.0-Updates
-    - SUSE-Manager-Server-3.1-Pool
-    - SUSE-Manager-Server-3.1-Updates
     - SUSE-Manager-Server-3.2-Pool
     - SUSE-Manager-Server-3.2-Updates
     - SLE-Product-SUSE-Manager-Server-4.0-Pool
@@ -61,10 +57,6 @@ scc:
     - SLE-Module-SUSE-Manager-Server-4.0-Pool
     - SLE-Module-SUSE-Manager-Server-4.0-Updates
     # SUSE Manager Proxy
-    - SUSE-Manager-Proxy-3.0-Pool
-    - SUSE-Manager-Proxy-3.0-Updates
-    - SUSE-Manager-Proxy-3.1-Pool
-    - SUSE-Manager-Proxy-3.1-Updates
     - SUSE-Manager-Proxy-3.2-Pool
     - SUSE-Manager-Proxy-3.2-Updates
     - SLE-Product-SUSE-Manager-Proxy-4.0-Pool
@@ -140,14 +132,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
-    archs: [x86_64]
-
-  # SUSE Manager 3.0 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.0/SLE_12_SP1_Update
-    archs: [x86_64]
-
-  # SUSE Manager 3.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.1/SLE_12_SP2
     archs: [x86_64]
 
   # SUSE Manager 3.2 devel
