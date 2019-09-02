@@ -82,9 +82,9 @@ module "aws_mirror" {
   name_prefix = "${local.name_prefix}"
 }
 
-module "aws_suma31pg" {
+module "aws_server" {
   source = "./modules/aws/host"
-  name = "suma31pg"
+  name = "server"
   region = "us-east-1"
   availability_zone = "us-east-1e"
   ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)
@@ -120,7 +120,7 @@ module "aws_minion" {
   private_security_group_id = "${module.aws_network.private_security_group_id}"
   name_prefix = "sumaform"
 
-  server = "${module.aws_suma3pg.private_names[0]}"
+  server = "${module.aws_server.private_names[0]}"
   role = "minion"
   mirror_public_name = "${module.aws_mirror.public_name}"
   mirror_private_name = "${module.aws_mirror.private_name}"
@@ -134,8 +134,8 @@ output "mirror_public_name" {
   value = "${module.aws_mirror.public_name}"
 }
 
-output "aws_suma3pg_private_name" {
-  value = "${module.aws_suma3pg.private_names[0]}"
+output "aws_server_private_name" {
+  value = "${module.aws_server.private_names[0]}"
 }
 
 output "aws_minion_private_names" {

@@ -34,11 +34,11 @@ module "minsles12sp1" {
   product_version = "nightly"
 }
 
-module "suma31pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma31pg"
+  name = "server"
   product_version = "3.2-released"
 }
 ```
@@ -65,12 +65,12 @@ For other modules like `suse_manager` there is a default selection if nothing is
 The following example creates a SUSE Manager server using "nightly" packages from version 3.2 based on SLES 12 SP3:
 
 ```hcl
-module "suma3pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   image = "sles12sp3"
-  name = "suma3pg"
+  name = "server"
   product_version = "3.2-nightly"
 }
 ```
@@ -87,12 +87,12 @@ module "minionsles12sp1" {
 
   name = "minionsles12sp1"
   image = "sles12sp1"
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.server.configuration}"
   count = 10
 }
 ```
 
-This will create 10 minions connected to the `suma3pg` server.
+This will create 10 minions connected to the `server` server.
 
 
 ## Turning convenience features off
@@ -141,11 +141,11 @@ Available Channels:
 Then add it to the `channels` variable in a SUSE Manager Server module:
 
 ```hcl
-module "suma3pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma3pg"
+  name = "server"
   product_version = "3.2-nightly"
   channels = ["sles12-sp2-pool-x86_64"]
 }
@@ -163,11 +163,11 @@ Channels specified via the `channels` variable above can be automatically cloned
 A libvirt example follows:
 
 ```hcl
-module "suma3pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma3pg"
+  name = "server"
   product_version = "3.2-nightly"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
   cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
@@ -204,7 +204,7 @@ module "base" {
   ...
 }
 
-module "suma3pg" {
+module "server" {
   ...
   mac = "42:54:00:00:00:66"
   ...
@@ -293,7 +293,7 @@ module "min" {
 
   name = "min"
   image = "sles12sp2"
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.server.configuration}"
   activation_key = "1-DEFAULT"
 }
 ```
@@ -304,11 +304,11 @@ module "min" {
 A `proxy` module is similar to a `client` module but has a `product_version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
 
 ```hcl
-module "suma3pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma3pg"
+  name = "server"
   product_version = "3.2-nightly"
 }
 
@@ -318,7 +318,7 @@ module "proxy" {
 
   name = "proxy"
   product_version = "3.2-nightly"
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.server.configuration}"
 }
 
 module "clisles12sp1" {
@@ -343,7 +343,7 @@ module "proxy" {
 
   name = "proxy"
   product_version = "3.2-nightly"
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.server.configuration}"
 
   minion = false
 }
@@ -361,7 +361,7 @@ module "master" {
 
   name = "master"
   product_version = "3.2-released"
-  iss_slave = "suma3pgs.tf.local"
+  iss_slave = "servers.tf.local"
 }
 
 module "slave" {
@@ -555,7 +555,7 @@ module "minionswarm" {
 
   name = "ms"
   count = 2
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.server.configuration}"
 }
 ```
 
@@ -567,11 +567,11 @@ This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with t
 You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
 
 ```hcl
-module "suma3pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma3pg"
+  name = "server"
   product_version = "3.2-nightly"
   smt = "http://smt.suse.de"
 }
@@ -589,7 +589,7 @@ module "minsles12sp1" {
 
   name = "minsles12sp1"
   image = "sles12sp1"
-  server_configuration = "${module.suma3pg.configuration}"
+  server_configuration = "${module.server.configuration}"
 
   additional_repos {
     virtualization_containers = "http://download.opensuse.org/repositories/Virtualization:/containers/SLE_12_SP2/"
@@ -624,11 +624,11 @@ It is possible to install Prometheus exporters on a SUSE Manager Server instance
 
 
 ```hcl
-module "suma31pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma31pg"
+  name = "server"
   product_version = "head"
   monitored = true
 }
@@ -636,7 +636,7 @@ module "suma31pg" {
 module "grafana" {
   source = "./modules/libvirt/grafana"
   base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.suma31pg.configuration}"
+  server_configuration = "${module.server.configuration}"
 }
 ```
 
@@ -655,7 +655,7 @@ A libvirt example follows:
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma31pg"
+  name = "server"
   product_version = "head"
   apparmor = true
 ```
@@ -684,11 +684,11 @@ You may also start collecting new profiles with:
 SUSE Manager Server modules support forwarding logs to log servers via the `log_server` variable. A libvirt example follows:
 
 ```hcl
-module "suma31pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma31pg"
+  name = "server"
   product_version = "3.2-released"
   log_server = "logstash.mgr.suse.de:5045"
 }
@@ -742,7 +742,7 @@ You can deploy a locust host to test http performance of your SUSE Manager Serve
 module "locust" {
   source = "./modules/libvirt/locust"
   base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.suma31pg.configuration}"
+  server_configuration = "${module.server.configuration}"
   // optionally, specify a custom locustfile:
   // locust_file = "./my_locustfile.py"
 }
@@ -756,7 +756,7 @@ This host can also be monitored via Prometheus and Grafana by adding `locust_con
 module "grafana" {
   source = "./modules/libvirt/grafana"
   base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.suma31pg.configuration}"
+  server_configuration = "${module.server.configuration}"
   locust_configuration = "${module.locust.configuration}"
 }
 ```
@@ -767,7 +767,7 @@ In case you need to simulate a big amount of users, Locust's master-slave mode c
 module "locust" {
   source = "./modules/libvirt/locust"
   base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.suma31pg.configuration}"
+  server_configuration = "${module.server.configuration}"
   locust_file = "./my_heavy_locustfile.py"
   slave_count = 5
 }
@@ -797,11 +797,11 @@ With the default configuration, whenever SUSE Manager server hosts are configure
 This setting can be overridden with a custom 'from' address by supplying the parameter: `from_email`. A libvirt example would be:
 
 ```hcl
-module "suma3pg" {
+module "server" {
   source = "./modules/libvirt/suse_manager"
   base_configuration = "${module.base.configuration}"
 
-  name = "suma3pg"
+  name = "server"
   product_version = "head"
 
   from_email = "root@mbologna.openvpn.suse.de"
