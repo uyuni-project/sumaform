@@ -1,10 +1,6 @@
 RHN_PARENT={{grains['server']}}
 HTTP_PROXY=''
-{% if '3.0' in grains['product_version'] %}
-VERSION='3.0'
-{% elif '3.1' in grains['product_version'] %}
-VERSION='3.1'
-{% elif '3.2' in grains['product_version'] %}
+{% if '3.2' in grains['product_version'] %}
 VERSION='3.2
 {% else %}
 VERSION='4.0'
