@@ -9,7 +9,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 3.0-nightly, 3.0-released, 3.1-released, 3.1-nightly, 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, head, test"
+  description = "One of: 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, head, test"
   type = "string"
 }
 
@@ -218,7 +218,7 @@ variable "pts_system_prefix" {
 // Provider-specific variables
 
 variable "image" {
-  description = "Leave default for automatic selection or specify sles12sp2 only if product_version is 3.0-released or 3.0-nightly"
+  description = "Leave default for automatic selection or specify image name"
   default = "default"
 }
 

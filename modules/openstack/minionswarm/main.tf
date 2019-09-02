@@ -10,7 +10,7 @@ module "minionswarm" {
   ssh_key_path = "${var.ssh_key_path}"
   grains = <<EOF
 
-product_version: 3.0-released
+product_version: 3.2-released
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 role: minionswarm
