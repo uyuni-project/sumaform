@@ -361,7 +361,7 @@ module "master" {
 
   name = "master"
   product_version = "3.2-released"
-  iss_slave = "servers.tf.local"
+  iss_slave = "slave.tf.local"
 }
 
 module "slave" {
