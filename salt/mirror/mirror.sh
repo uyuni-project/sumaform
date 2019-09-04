@@ -8,4 +8,6 @@ minima -c /root/minima.yaml sync 2>&1 | tee /var/log/minima.log
 
 apt-mirror
 
+jdupes --linkhard -r -s /srv/mirror/
+
 chmod -R 777 .

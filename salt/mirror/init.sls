@@ -31,6 +31,19 @@ minima_configuration:
     - source: salt://mirror/minima.yaml
     - template: jinja
 
+jdupes:
+  archive.extracted:
+    - name: /
+    - source: https://github.com/jbruchon/jdupes/releases/download/v1.13.2/jdupes-1.13.2-linux64-static.tar.xz
+    - source_hash: 078531eee63b434f3b8383367050a55d18fdd671c4d7800df82da9630a35ea62fc755e6337bd703d6526d3ae265f4d37b218aa1045629809498056a59bda3922
+    - archive_format: tar
+    - enforce_toplevel: false
+    - options: --strip-components=1
+    - keep: True
+    - overwrite: True
+    - require:
+      - pkg: system_update
+
 # Ensure we have it: some images don't have it
 cron:
   pkg.installed
