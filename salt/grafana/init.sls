@@ -66,7 +66,7 @@ grafana:
 grafana_anonymous_login_configuration:
   file.blockreplace:
     - name: /etc/grafana/grafana.ini
-    - marker_start: '#################################### Anonymous Auth ##########################'
+    - marker_start: '#################################### Anonymous Auth ######################'
     - marker_end: '#################################### Github Auth ##########################'
     - content: |
         [auth.anonymous]
