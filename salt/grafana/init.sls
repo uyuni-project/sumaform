@@ -4,6 +4,7 @@ include:
 prometheus:
   pkg.installed:
     - name: golang-github-prometheus-prometheus
+    - version: 1.5.2
     - require:
       - sls: repos
 
