@@ -1,0 +1,8 @@
+[systemsmanagement_Uyuni_Stable_CentOS7-Uyuni-Client-Tools]
+name=systemsmanagement:Uyuni:Stable:CentOS7-Uyuni-Client-Tools (CentOS_7)
+type=rpm-md
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+gpgcheck=1
+gpgkey=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/repodata/repomd.xml.key
+enabled=1
+priority=98

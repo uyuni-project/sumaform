@@ -375,6 +375,24 @@ tools_update_repo:
     - require:
       - cmd: galaxy_key
 
+{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
+tools_update_repo:
+  file.managed:
+    - name: /etc/yum.repos.d/systemsmanagement_Uyuni_Master_CentOS7-Uyuni-Client-Tools.repo
+    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master_CentOS7-Uyuni-Client-Tools.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
+
+{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
+tools_update_repo:
+  file.managed:
+    - name: /etc/yum.repos.d/systemsmanagement_Uyuni_Stable_CentOS7-Uyuni-Client-Tools.repo
+    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Stable_CentOS7-Uyuni-Client-Tools.repo
+    - template: jinja
+    - require:
+      - cmd: galaxy_key
+
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
