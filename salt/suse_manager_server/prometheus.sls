@@ -6,6 +6,7 @@ include:
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter
+    - version: 0.15.2
     - require:
       - sls: repos
 
