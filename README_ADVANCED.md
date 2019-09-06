@@ -726,7 +726,7 @@ module "minion" {
   base_configuration = "${module.base.configuration}"
 
   name = "minion"
-  image = "sles12sp3"
+  image = "sles15sp1"
   server_configuration = "${module.server.configuration}"
   evil_minion_count = 10
   evil_minion_slowdown_factor = 1
