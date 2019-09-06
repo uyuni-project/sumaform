@@ -2,31 +2,23 @@
 
 {% if '12' in grains['osrelease'] %}
 containers_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
-    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-12-x86_64-Pool.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/12/x86_64/product/
 
 containers_updates_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
-    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-12-x86_64-Update.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/12/x86_64/update/
 
 {% endif %}
 
 {% if '15' in grains['osrelease'] %}
 containers_pool_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
-    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-15-x86_64-Pool.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15/x86_64/product/
 
 containers_updates_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
-    - source: salt://repos/repos.d/SLE-Module-Containers-SLE-15-x86_64-Update.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15/x86_64/update/
 {% endif %}
 
 
@@ -34,10 +26,10 @@ containers_updates_repo:
 
 {% if grains.get('evil_minion_count') and grains['os'] == 'SUSE' %}
 tools_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
-    - source: salt://repos/repos.d/systemsmanagement-sumaform-tools.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/repodata/repomd.xml.key
 {% endif %}
 
 # HACK: work around #10852
