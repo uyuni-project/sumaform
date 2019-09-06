@@ -31,6 +31,11 @@ minima_configuration:
     - source: salt://mirror/minima.yaml
     - template: jinja
 
+tar:
+  pkg.installed:
+    - require:
+      - pkg: system_update
+
 jdupes:
   archive.extracted:
     - name: /
@@ -42,7 +47,7 @@ jdupes:
     - keep: True
     - overwrite: True
     - require:
-      - pkg: system_update
+      - pkg: tar
 
 # Ensure we have it: some images don't have it
 cron:
