@@ -1,10 +1,10 @@
 {% if grains.get('role') == 'grafana' %}
 
 tools_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/systemsmanagement-sumaform-tools.repo
-    - source: salt://repos/repos.d/systemsmanagement-sumaform-tools.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/repodata/repomd.xml.key
 
 {% endif %}
 
