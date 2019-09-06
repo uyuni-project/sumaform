@@ -16,10 +16,9 @@ testsuite_build_repo:
 {% elif grains['os_family'] == 'Debian' %}
 
 testsuite_build_repo:
-  file.managed:
-    - name: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
-    - source: salt://repos/repos.d/Devel_Uyuni_BuildRepo.list
-    - template: jinja
+  pkgrepo.managed:
+    - name: deb [trusted=yes] https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test/xUbuntu_18.04 /
+    - file: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
 
 {% endif %}
 {% endif %}
