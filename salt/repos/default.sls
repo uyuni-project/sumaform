@@ -361,7 +361,6 @@ allow_all_vendor_changes:
 
 {% if grains['os_family'] == 'RedHat' %}
 
-{% if 'head' in grains.get('product_version') | default('', true) %}
 galaxy_key:
   file.managed:
     - name: /tmp/galaxy.key
@@ -370,7 +369,7 @@ galaxy_key:
     - name: rpm --import /tmp/galaxy.key
     - watch:
       - file: galaxy_key
-{% elif 'uyuni-master' in grains.get('product_version') or 'uyuni-stable' in grains.get('product_version') %}
+{% if 'uyuni-master' in grains.get('product_version') or 'uyuni-stable' in grains.get('product_version') %}
 uyuni_key:
   file.managed:
     - name: /tmp/uyuni.key
