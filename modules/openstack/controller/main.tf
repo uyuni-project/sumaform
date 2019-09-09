@@ -64,7 +64,7 @@ ubuntu1804_sshminion: ${var.ubuntu1804_sshminion_configuration["hostname"]}
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse150"
   flavor = "m1.small"
   floating_ips = "${var.floating_ips}"
 }
