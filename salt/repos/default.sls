@@ -234,13 +234,13 @@ tools_additional_repo:
 {% elif 'uyuni-master' in grains.get('product_version') %}
 tools_additional_repo:
   file.managed:
-    - name: /etc/yum.repos.d/Uyuni-Master-SLE12-Client-Tools-x86_64.repo
+    - name: /etc/zypp/repos.d/Uyuni-Master-SLE12-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Master-SLE12-Client-Tools-x86_64.repo
     - template: jinja
 {% elif 'uyuni-stable' in grains.get('product_version') %}
 tools_additional_repo:
   file.managed:
-    - name: /etc/yum.repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
+    - name: /etc/zypp/repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
     - template: jinja
 
@@ -281,13 +281,13 @@ tools_additional_repo:
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
-    - name: /etc/yum.repos.d/Uyuni-Master-SLE15-Client-Tools-x86_64.repo
+    - name: /etc/zypp/repos.d/Uyuni-Master-SLE15-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Master-SLE15-Client-Tools-x86_64.repo
     - template: jinja
 {% elif 'uyuni-stable' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
-    - name: /etc/yum.repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
+    - name: /etc/zypp/repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
     - template: jinja
 
