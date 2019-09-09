@@ -1,6 +1,0 @@
-[systemsmanagement_Uyuni_Master]
-name=Uyuni builds from master branch
-type=rpm-md
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.1/
-enabled=1
-priority=96

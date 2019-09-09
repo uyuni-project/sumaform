@@ -107,8 +107,8 @@ suse_manager_devel_releasenotes_repo:
 suse_manager_devel_repo:
   file.managed:
     {% if grains['osfullname'] == 'Leap' %}
-    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Master.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master.repo
+    - name: /etc/zypp/repos.d/systemsmanagement-Uyuni-Master-x86_64.repo
+    - source: salt://repos/repos.d/systemsmanagement-Uyuni-Master-x86_64.repo
     {% else %}
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head.repo
@@ -191,8 +191,8 @@ suse_manager_pool_repo:
 suse_manager_devel_repo:
   file.managed:
     {% if grains['osfullname'] == 'Leap' %}
-    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Master.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master.repo
+    - name: /etc/zypp/repos.d/Uyuni-Master-x86_64-Pool.repo
+    - source: salt://repos/repos.d/Uyuni-Master-x86_64-Pool.repo
     {% else %}
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head.repo

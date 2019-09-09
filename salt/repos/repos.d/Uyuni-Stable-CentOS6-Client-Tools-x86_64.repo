@@ -2,5 +2,5 @@
 name=Uyuni-Stable-CentOS6-Client_Tools-x86_64
 type=rpm-md
 enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS_6-Uyuni-Client-Tools/CentOS6/
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
 priority=98

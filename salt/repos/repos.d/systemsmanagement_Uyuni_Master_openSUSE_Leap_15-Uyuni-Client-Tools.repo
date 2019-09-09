@@ -1,8 +1,0 @@
-[systemsmanagement_Uyuni_Master_openSUSE_Leap_15-Uyuni-Client-Tools]
-name=systemsmanagement:Uyuni:Master:openSUSE_Leap_15-Uyuni-Client-Tools (openSUSE_Leap_15.0)
-type=rpm-md
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
-gpgcheck=1
-gpgkey=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/repodata/repomd.xml.key
-enabled=1
-priority=98

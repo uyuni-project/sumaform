@@ -26,17 +26,18 @@ os_update_repo:
     - template: jinja
 
 {% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
-{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+{% if grains.get('product_version') and grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   file.managed:
-    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Master_openSUSE_Leap_15-Uyuni-Client-Tools.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master_openSUSE_Leap_15-Uyuni-Client-Tools.repo
+    - name: /etc/zypp/repos.d/Uyuni-Stable-openSUSE_Leap_15-Client-Tools-x86_64.repo
+    - source: salt://repos/repos.d/Uyuni-Stable-openSUSE_Leap_15-Client-Tools-x86_64.repo
     - template: jinja
-{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
-tools_pool_repo:
+{% endif %}
+{% if grains.get('product_version') and 'uyuni-master' in grains.get('product_version') | default('', true) %}
+tools_pool_repo_master:
   file.managed:
-    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Stable_openSUSE_Leap_15-Uyuni-Client-Tools.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Stable_openSUSE_Leap_15-Uyuni-Client-Tools.repo
+    - name: /etc/zypp/repos.d/Uyuni-Master-openSUSE_Leap_15-Client-Tools-x86_64.repo
+    - source: salt://repos/repos.d/Uyuni-Master-openSUSE_Leap_15-Client-Tools-x86_64.repo
     - template: jinja
 {% endif %}
 {% endif %}
@@ -205,7 +206,7 @@ test_update_repo:
 {% endif %}
 
 {% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
-{% if not grains.get('product_version').startswith('uyuni-') %}
+{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Pool.repo
@@ -216,6 +217,12 @@ tools_update_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-12-x86_64-Update.repo
+    - template: jinja
+{% else %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
+    - source: salt://repos/repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
     - template: jinja
 {% endif %}
 
@@ -237,13 +244,6 @@ tools_additional_repo:
     - name: /etc/zypp/repos.d/Uyuni-Master-SLE12-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Master-SLE12-Client-Tools-x86_64.repo
     - template: jinja
-{% elif 'uyuni-stable' in grains.get('product_version') %}
-tools_additional_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
-    - source: salt://repos/repos.d/Uyuni-Stable-SLE12-Client-Tools-x86_64.repo
-    - template: jinja
-
 {% endif %}
 
 {% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
@@ -252,7 +252,7 @@ tools_additional_repo:
 
 {% if '15' in grains['osrelease'] %}
 {% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
-{% if not grains.get('product_version').startswith('uyuni-') %}
+{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Pool.repo
@@ -264,7 +264,14 @@ tools_update_repo:
     - name: /etc/zypp/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
     - source: salt://repos/repos.d/SLE-Manager-Tools-SLE-15-x86_64-Update.repo
     - template: jinja
+{% else %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/zypp/repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
+    - source: salt://repos/repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
+    - template: jinja
 {% endif %}
+
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
@@ -284,13 +291,6 @@ tools_update_repo:
     - name: /etc/zypp/repos.d/Uyuni-Master-SLE15-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Master-SLE15-Client-Tools-x86_64.repo
     - template: jinja
-{% elif 'uyuni-stable' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
-    - source: salt://repos/repos.d/Uyuni-Stable-SLE15-Client-Tools-x86_64.repo
-    - template: jinja
-
 {% endif %}
 {% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
 {% endif %} {# '15' in grains['osrelease'] #}
@@ -408,23 +408,6 @@ tools_update_repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/systemsmanagement_Uyuni_Master_CentOS7-Uyuni-Client-Tools.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master_CentOS7-Uyuni-Client-Tools.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
-
-{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/systemsmanagement_Uyuni_Stable_CentOS7-Uyuni-Client-Tools.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Stable_CentOS7-Uyuni-Client-Tools.repo
-    - template: jinja
-    - require:
-      - cmd: galaxy_key
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
@@ -433,7 +416,7 @@ tools_update_repo:
     - template: jinja
     - require:
       - cmd: galaxy_key
-{% elif 'uyuni-master' in grains.get('product_version') %}
+{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Uyuni-Master-CentOS7-Client-Tools-x86_64.repo
@@ -441,7 +424,7 @@ tools_update_repo:
     - template: jinja
     - require:
       - cmd: uyuni_key
-{% elif 'uyuni-stable' in grains.get('product_version') %}
+{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Uyuni-Stable-CentOS7-Client-Tools-x86_64.repo
