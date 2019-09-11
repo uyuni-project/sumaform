@@ -381,7 +381,7 @@ uyuni_key:
 {% endif %}
 
 {% if grains.get('osmajorrelease', None)|int() == 7 %}
-{% if not 'uyuni-master' in grains.get('product_version') and not 'uyuni-released' in grains.get('product_version') %}
+{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   file.managed:
     - name: /etc/yum.repos.d/SLE-Manager-Tools-RES-7-x86_64.repo
@@ -398,6 +398,14 @@ suse_res7_key:
     - name: rpm --import /tmp/suse_res7.key
     - watch:
       - file: suse_res7_key
+{% else %}
+tools_pool_repo:
+  file.managed:
+    - name: /etc/yum.repos.d/Uyuni-Stable-CentOS7-Client-Tools-x86_64.repo
+    - source: salt://repos/repos.d/Uyuni-Stable-CentOS7-Client-Tools-x86_64.repo
+    - template: jinja
+    - require:
+      - cmd: uyuni_key
 {% endif %}
 
 {% if 'head' in grains.get('product_version') | default('', true) %}
@@ -421,14 +429,6 @@ tools_update_repo:
   file.managed:
     - name: /etc/yum.repos.d/Uyuni-Master-CentOS7-Client-Tools-x86_64.repo
     - source: salt://repos/repos.d/Uyuni-Master-CentOS7-Client-Tools-x86_64.repo
-    - template: jinja
-    - require:
-      - cmd: uyuni_key
-{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/Uyuni-Stable-CentOS7-Client-Tools-x86_64.repo
-    - source: salt://repos/repos.d/Uyuni-Stable-CentOS7-Client-Tools-x86_64.repo
     - template: jinja
     - require:
       - cmd: uyuni_key
