@@ -9,12 +9,13 @@ Some modules have a `product_version` variable that determines the software prod
 Legal values for released software are:
  * `3.2-released`   (latest released Maintenance Update for SUSE Manager 3.2 and Tools)
  * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
- * `uyuni-released` (latest released version for Uyuni Server and Proxy, from systemsmanagement:Uyuni:Stable, for Tools use `head`)
+ * `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head if OS is SLE12 or systemsmanagement:Uyuni:Master otherwise)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `suse_manager` and `suse_manager_proxy`only works with SLE15SP1 image)
+ * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `suse_manager` and `suse_manager_proxy` only works with openSUSE Leap 15.1 image)
  * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST or a user-defined repo, see below)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.

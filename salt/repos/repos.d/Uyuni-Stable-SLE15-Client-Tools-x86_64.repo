@@ -1,0 +1,6 @@
+[Uyuni-Stable-SLE15-Client_Tools-x86_64]
+name=Uyuni-Stable-SLE15-Client_Tools-x86_64
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+priority=98

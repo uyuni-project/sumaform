@@ -1,0 +1,6 @@
+[Uyuni-Master-openSUSE_Leap_15-Client_Tools-x86_64]
+name=Uyuni-Master-openSUSE_Leap_15-Client_Tools-x86_64
+type=rpm-md
+enabled=1
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+priority=98

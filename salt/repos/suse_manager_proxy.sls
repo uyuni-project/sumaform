@@ -60,7 +60,7 @@ suse_manager_proxy_pool_repo:
     - template: jinja
 {% endif %}
 
-{% if 'head' in grains['product_version'] %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
 suse_manager_proxy_pool_repo:
   file.managed:
     {% if grains['osfullname'] == 'Leap' %}
@@ -83,8 +83,8 @@ suse_manager_devel_releasenotes_repo:
 suse_manager_devel_repo:
   file.managed:
     {% if grains['osfullname'] == 'Leap' %}
-    - name: /etc/zypp/repos.d/systemsmanagement_Uyuni_Master.repo
-    - source: salt://repos/repos.d/systemsmanagement_Uyuni_Master.repo
+    - name: /etc/zypp/repos.d/systemsmanagement-Uyuni-Master-x86_64.repo
+    - source: salt://repos/repos.d/systemsmanagement-Uyuni-Master-x86_64.repo
     {% else %}
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head.repo

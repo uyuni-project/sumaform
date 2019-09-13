@@ -84,7 +84,7 @@ module "min-sles12sp3" {
 
 # optional
 module "minssh-sles12sp3" {
-  source = "./modules/libvirt/host"
+  source = "./modules/libvirt/minionssh"
   base_configuration = "${module.base.configuration}"
   name = "minssh-sles12sp3"
   image = "sles12sp3"
