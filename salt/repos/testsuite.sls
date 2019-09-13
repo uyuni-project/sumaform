@@ -3,21 +3,21 @@
 
 {% if grains['os'] == 'SUSE' %}
 
-testsuite_build_repo:
+test_repo_rpm_pool:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP4/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/SLE_12_SP4/
 
 {% elif grains['os_family'] == 'RedHat' %}
 
-testsuite_build_repo:
+test_repo_rpm_pool:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP4/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/SLE_12_SP4/
 
 {% elif grains['os_family'] == 'Debian' %}
 
-testsuite_build_repo:
+test_repo_deb_pool:
   pkgrepo.managed:
-    - name: deb [trusted=yes] https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test/xUbuntu_18.04 /
+    - name: deb [trusted=yes] {{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/xUbuntu_18.04/
     - file: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
 
 {% endif %}
