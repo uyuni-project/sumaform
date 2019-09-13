@@ -93,7 +93,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(node_cpu{job=\"sumaform\",mode=\"user\"}[1m]))",
+          "expr": "sum(irate(node_cpu_seconds_total{job=\"sumaform\",mode=\"user\"}[1m]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -103,7 +103,7 @@
           "step": 2
         },
         {
-          "expr": "sum(irate(node_cpu{job=\"sumaform\",mode=\"system\"}[1m]))",
+          "expr": "sum(irate(node_cpu_seconds_total{job=\"sumaform\",mode=\"system\"}[1m]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -113,7 +113,7 @@
           "step": 2
         },
         {
-          "expr": "sum(irate(node_cpu{job=\"sumaform\",mode!~\"user|system|idle\"}[1m]))",
+          "expr": "sum(irate(node_cpu_seconds_total{job=\"sumaform\",mode!~\"user|system|idle\"}[1m]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -319,7 +319,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_MemTotal{job=\"sumaform\"} - node_memory_MemAvailable{job=\"sumaform\"}",
+          "expr": "node_memory_MemTotal_bytes{job=\"sumaform\"} - node_memory_MemAvailable{job=\"sumaform\"}",
           "intervalFactor": 1,
           "legendFormat": "used",
           "refId": "A",
@@ -409,7 +409,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_SwapTotal{job=\"sumaform\"} - node_memory_SwapFree{job=\"sumaform\"}",
+          "expr": "node_memory_SwapTotal_bytes{job=\"sumaform\"} - node_memory_SwapFree{job=\"sumaform\"}",
           "intervalFactor": 1,
           "legendFormat": "swapped",
           "refId": "A",
@@ -514,7 +514,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_network_receive_bytes{job=\"sumaform\", device=\"eth0\"}[1m])",
+          "expr": "irate(node_network_receive_bytes_total{job=\"sumaform\", device=\"eth0\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "in",
@@ -522,7 +522,7 @@
           "step": 2
         },
         {
-          "expr": "irate(node_network_transmit_bytes{job=\"sumaform\", device=\"eth0\"}[1m])",
+          "expr": "irate(node_network_transmit_bytes_total{job=\"sumaform\", device=\"eth0\"}[1m])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "out",
@@ -613,7 +613,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_network_transmit_fifo{job=\"sumaform\",device=\"eth0\"}",
+          "expr": "node_network_transmit_fifo_total{job=\"sumaform\",device=\"eth0\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -622,7 +622,7 @@
           "step": 2
         },
         {
-          "expr": "node_network_receive_fifo{job=\"sumaform\",device=\"eth0\"}",
+          "expr": "node_network_receive_fifo_total{job=\"sumaform\",device=\"eth0\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "receive errors",
@@ -726,7 +726,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_disk_io_time_ms{job=\"sumaform\", device=~\"sda|vda|xvda\"}[30s])/1000",
+          "expr": "irate(node_disk_io_time_seconds_total{job=\"sumaform\", device=~\"sda|vda|xvda\"}[30s])",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "%",
@@ -817,7 +817,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(node_disk_io_time_weighted{job=\"sumaform\",device=~\"sda|vda|xvda\"}[30s])/1000",
+          "expr": "rate(node_disk_io_time_weighted_seconds_total{job=\"sumaform\",device=~\"sda|vda|xvda\"}[30s])/1000",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "length",
