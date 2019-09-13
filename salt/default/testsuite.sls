@@ -24,7 +24,7 @@ default_cucumber_requisites:
       - milkyway-dummy
       - virgo-dummy
     - require:
-      - pkgrepo: testsuite_build_repo
+      - pkgrepo: test_repo_rpm_pool
 
 {% endif %}
 {% endif %}

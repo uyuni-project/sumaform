@@ -57,35 +57,27 @@ minima:
     - keep: True
     - overwrite: True
 
-test_repo:
+test_repo_rpm_updates:
   cmd.run:
     - name: minima sync
     - env:
       - MINIMA_CONFIG: |
-          - url: http://download.suse.de/ibs/Devel:/Galaxy:/TestsuiteRepo/SLE_12_SP4
-            path: /srv/www/htdocs/pub/TestRepo
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/SLE_12_SP4
+            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
     - require:
       - archive: minima
 
 another_test_repo:
   file.symlink:
     - name: /srv/www/htdocs/pub/AnotherRepo
-    - target: TestRepo
+    - target: TestRepoRpmUpdates
     - require:
-      - cmd: test_repo
-
-test_repo_debian:
-  cmd.script:
-    - name: salt://suse_manager_server/download_ubuntu_repo.sh
-    - args: "TestRepoDeb download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test/xUbuntu_18.04/"
-    - creates: /srv/www/htdocs/pub/TestRepoDeb/Release
-    - require:
-      - pkg: testsuite_packages
+      - cmd: test_repo_rpm_updates
 
 test_repo_debian_updates:
   cmd.script:
     - name: salt://suse_manager_server/download_ubuntu_repo.sh
-    - args: "TestRepoDebUpdates download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test-Updates/xUbuntu_18.04/"
+    - args: "TestRepoDebUpdates {{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/xUbuntu_18.04/"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
