@@ -1,0 +1,7 @@
+[Test-Packages_Pool]
+name=Testsuite Test Packages - Pool
+type=rpm-md
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/SLE_12_SP4/
+gpgcheck=1
+gpgkey=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/SLE_12_SP4/repodata/repomd.xml.key
+enabled=1
