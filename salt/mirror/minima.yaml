@@ -207,12 +207,7 @@ http:
   - url: http://download.opensuse.org/update/leap/15.0/oss
     archs: [x86_64]
 
-  # HACK: work around a checksum problem with the GARR mirror
-  # revert the line below as soon as the following command:
-  # curl --location http://opensuse.mirror.garr.it/mirrors/opensuse/distribution/leap/15.1/repo/oss/x86_64/lua51-lua-dbus-0.0+git20170818.8fe38d0-lp151.2.1.x86_64.rpm | sha256sum
-  # returns a398f1a076afc598f3fd6905a78959e27b60733137f24e6014477490a7cc1e38
-  #- url: http://download.opensuse.org/distribution/leap/15.1/repo/oss
-  - url: https://ftp.uni-erlangen.de/opensuse/distribution/leap/15.1/repo/oss
+  - url: http://download.opensuse.org/distribution/leap/15.1/repo/oss
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.1/oss
     archs: [x86_64]
