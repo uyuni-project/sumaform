@@ -12,5 +12,9 @@ minimal_package_update:
 {% if grains['os_family'] == 'Suse' %}
       - zypper
       - libzypp
+      # HACK: avoid a segfault on old versions
+      {% if grains['osrelease'] == '12.4' %}
+      - libgio-2_0-0
+      {% endif %}
 {% endif %}
     - order: last
