@@ -7,6 +7,7 @@ virthost_packages:
         {% if '15' in grains['osrelease'] %}
         - patterns-server-kvm_server
         - python3-six  # Workaround missing virt-manager-common dependency
+        - libvirt
         {% elif grains['osfullname'] == 'Leap' %}
         - patterns-openSUSE-kvm_server
         {% else %}
@@ -83,7 +84,7 @@ default-net.xml:
 default-net_destroyed:
   cmd.run:
     - name: 'virsh net-destroy default'
-    - onlyif: 'virsh net-dumpxml default'
+    - onlyif: 'virsh net-info default | grep Active | grep yes'
     - require:
       - service: libvirtd_service
       - file: default-net.xml
