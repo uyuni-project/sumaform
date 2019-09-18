@@ -492,7 +492,7 @@ tools_update_repo_raised_priority:
     - key_url: {{ url }}/Release.key
   {%- else %}
     - baseurl: {{ url }}
-    - priority: 94
+    - priority: 95
     - gpgcheck: 0
   {%- endif %}
 

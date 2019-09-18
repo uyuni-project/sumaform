@@ -28,7 +28,6 @@ module "suse_manager" {
   grains = <<EOF
 
 product_version: ${var.product_version}
-product_test_repository: ${var.product_test_repository}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 channels: [${join(",", var.channels)}]
