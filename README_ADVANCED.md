@@ -531,26 +531,6 @@ module "pxeboot"
 ```
 
 
-## `minionswarm` hosts
-
-It is possible to create large numbers of simulated minions using Salt's [minionswarm test script](https://docs.saltstack.com/en/latest/topics/releases/0.9.9.html#minionswarm).
-
-A libvirt example follows:
-
-```
-module "minionswarm" {
-  source = "./modules/libvirt/minionswarm"
-  base_configuration = "${module.base.configuration}"
-
-  name = "ms"
-  count = 2
-  server_configuration = "${module.server.configuration}"
-}
-```
-
-This will create 400 minions on 2 swarm hosts. Currently only SLES 12 SP1 with the released Salt version are supported.
-
-
 ## SMT
 
 You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
