@@ -679,31 +679,6 @@ You may also start collecting new profiles with:
 # aa-genprof <name of executable>
 ```
 
-
-## Log forwarding
-
-SUSE Manager Server modules support forwarding logs to log servers via the `log_server` variable. A libvirt example follows:
-
-```hcl
-module "server" {
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  name = "server"
-  product_version = "3.2-released"
-  log_server = "logstash.mgr.suse.de:5045"
-}
-```
-
-This will forward SUSE Manager Server logs to `logstash.mgr.suse.de` on port `5045`.
-
-Setting this variable installs the `filebeat` package. [Filebeat](https://www.elastic.co/guide/en/beats/filebeat/current/index.html) is a log forwarder, pushing local log files to either [Logstash](https://www.elastic.co/products/logstash) or [Elasticsearch](https://www.elastic.co/products/elasticsearch).
-
-The logstash input plugin for filebeat usually listens on port 5045. With the right configuration this gives you fully parsed logs for analysis ([an example is available here](https://github.com/kkaempf/logstash-tester/tree/openSUSE/spacewalk/config)).
-
-Elasticsearch listens on port 9200 and provides full text search on logs.
-
-
 ## [evil-minions](https://github.com/moio/evil-minions) load generator
 
 `evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.

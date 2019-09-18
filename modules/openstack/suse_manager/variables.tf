@@ -145,11 +145,6 @@ variable "apparmor" {
   default = false
 }
 
-variable "log_server" {
-  description = "hostname:port address to a Logstash or Elasticsearch server to push logs to, see README_ADVANCED.md"
-  default = "null"
-}
-
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default = {}

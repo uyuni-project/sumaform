@@ -200,12 +200,6 @@ module_python2_update_repo:
 {% endif %}
 {% endif %}
 
-{% if grains.get('log_server') | default(false, true) %}
-filebeat_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/security:/logging/SLE_12_SP4/
-{% endif %}
-
 {% endif %}
 
 # HACK: work around #10852
