@@ -7,7 +7,7 @@ virthost_packages:
         {% if '15' in grains['osrelease'] %}
         - patterns-server-kvm_server
         - python3-six  # Workaround missing virt-manager-common dependency
-        - libvirt
+        - libvirt-daemon-qemu
         {% elif grains['osfullname'] == 'Leap' %}
         - patterns-openSUSE-kvm_server
         {% else %}
