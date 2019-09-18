@@ -1,7 +1,6 @@
 include:
   - repos.default
   - repos.minion
-  - repos.minionswarm
   - repos.suse_manager_proxy
   - repos.suse_manager_server
   - repos.testsuite
@@ -16,7 +15,6 @@ refresh_repos:
     - require:
       - sls: repos.default
       - sls: repos.minion
-      - sls: repos.minionswarm
       - sls: repos.suse_manager_proxy
       - sls: repos.suse_manager_server
       - sls: repos.testsuite
