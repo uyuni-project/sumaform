@@ -1,5 +1,5 @@
 {% if grains.get('testsuite') | default(false, true) %}
-{% if grains.get('role') in ['client', 'minion', None] %}
+{% if grains.get('role') in ['client', 'minion', 'minionssh'] %}
 
 include:
   - repos
