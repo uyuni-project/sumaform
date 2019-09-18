@@ -242,10 +242,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.1
     archs: [x86_64]
 
-  # security:logging (filebeat)
-  - url: http://download.opensuse.org/repositories/security:/logging/SLE_12_SP4
-    archs: [x86_64]
-
   # Uyuni Master
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.1/
     archs: [x86_64]
