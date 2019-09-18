@@ -1,6 +1,0 @@
-[Uyuni-Stable-CentOS7-Client_Tools-x86_64]
-name=Uyuni-Stable-CentOS7-Client_Tools-x86_64
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
-priority=98

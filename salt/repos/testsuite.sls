@@ -4,26 +4,21 @@
 {% if grains['os'] == 'SUSE' %}
 
 testsuite_build_repo:
-  file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP4/
 
 {% elif grains['os_family'] == 'RedHat' %}
 
 testsuite_build_repo:
-  file.managed:
-    - name: /etc/yum.repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
-    - template: jinja
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/BuildRepo/SLE_12_SP4/
 
 {% elif grains['os_family'] == 'Debian' %}
 
 testsuite_build_repo:
-  file.managed:
-    - name: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
-    - source: salt://repos/repos.d/Devel_Uyuni_BuildRepo.list
-    - template: jinja
+  pkgrepo.managed:
+    - name: deb [trusted=yes] https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Ubuntu-Test/xUbuntu_18.04 /
+    - file: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
 
 {% endif %}
 {% endif %}

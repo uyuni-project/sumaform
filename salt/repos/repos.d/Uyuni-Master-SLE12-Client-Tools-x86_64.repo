@@ -1,6 +1,0 @@
-[Uyuni-Master-SLE12-Client_Tools-x86_64]
-name=Uyuni-Master-SLE12-Client_Tools-x86_64
-type=rpm-md
-enabled=1
-baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE12-Uyuni-Client-Tools/SLE_12/
-priority=98
