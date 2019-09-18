@@ -13,12 +13,6 @@ variable "product_version" {
   type = "string"
 }
 
-variable "product_test_repository" {
-  description = "an OBS repository to use to install the product instead of the regular test one."
-  type = "string"
-  default = "null"
-}
-
 variable "channels" {
   description = "a list of SUSE channel labels to add"
   default = []

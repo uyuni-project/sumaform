@@ -16,7 +16,6 @@ Legal values for work-in-progress software are:
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `suse_manager` and `suse_manager_proxy`only works with SLE15SP1 image)
  * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `suse_manager` and `suse_manager_proxy` only works with openSUSE Leap 15.1 image)
- * `test` (corresponds to the Build Service project Devel:Galaxy:Manager:TEST or a user-defined repo, see below)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 
@@ -43,17 +42,6 @@ module "server" {
   product_version = "3.2-released"
 }
 ```
-
-The repository used for the `test` product can be set to any open build service project using the
-`product_test_repository` variable. The following example will use the packages from `home:foobar:Galaxy_test`:
-
-```hcl
-module 'srv' {
-  product_version = "test"
-  product_test_repository = "https://download.opensuse.org/repositories/home:/foobar:/Galaxy_test/Leap_15/"
-}
-```
-
 
 ## Changing Operating Systems
 
