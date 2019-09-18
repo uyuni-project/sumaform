@@ -197,11 +197,6 @@ http:
     archs: [x86_64]
 
   # openSUSE Leap
-  - url: http://download.opensuse.org/distribution/leap/42.3/repo/oss/suse
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/42.3/oss
-    archs: [x86_64]
-
   - url: http://download.opensuse.org/distribution/leap/15.0/repo/oss
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.0/oss
@@ -236,8 +231,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP4
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP1
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_42.3
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
     archs: [x86_64]

@@ -75,12 +75,12 @@ variable "ipv6" {
 
 variable "hvm_disk_image" {
   description = "URL to the disk image to use for KVM guests"
-  default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2"
+  default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
 }
 
 variable "hvm_disk_image_hash" {
   description = "Hash of the the disk image, either a URL or the hash itself. See salt's file.managed source_hash documentations"
-  default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse423.x86_64.qcow2.sha256"
+  default = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2.sha256"
 }
 
 // Provider-specific variables

@@ -7,7 +7,7 @@ variable "images" {
     "head" = "sles15sp1"
     "test" = "sles15sp1"
     "uyuni-master" = "opensuse151"
-    "uyuni-released" = "opensuse423"
+    "uyuni-released" = "opensuse151"
   }
 }
 
