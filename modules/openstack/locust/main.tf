@@ -16,7 +16,7 @@ locust_slave_count: ${var.slave_count}
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse151"
   flavor = "${var.flavor}"
   floating_ips = "${var.floating_ips}"
 }
@@ -39,7 +39,7 @@ locust_master_host: ${module.locust.configuration["hostname"]}
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse151"
   flavor = "${var.flavor}"
 }
 

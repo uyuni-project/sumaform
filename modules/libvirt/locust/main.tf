@@ -16,7 +16,7 @@ locust_slave_count: ${var.slave_count}
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse151"
   memory = "${var.memory}"
   running = "${var.running}"
   mac = "${var.mac}"
@@ -40,7 +40,7 @@ locust_master_host: ${module.locust.configuration["hostname"]}
 EOF
 
   // Provider-specific variables
-  image = "opensuse423"
+  image = "opensuse151"
   memory = "${var.memory}"
   running = "${var.running}"
 }
