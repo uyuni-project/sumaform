@@ -37,7 +37,7 @@ legacy_permanent_hostname:
 {% if grains['use_avahi'] %}
 hosts_file_hack:
   cmd.script:
-    - name: salt://default/set_ip_in_etc_hosts.py.jinja
+    - name: salt://default/set_ip_in_etc_hosts.py
     {% if grains.get('ipv6')['enable'] | default('1') == '1' %}
     - args: "{{ grains['hostname'] }} {{ grains['domain'] }}"
     {% else %}
