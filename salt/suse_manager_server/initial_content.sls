@@ -59,6 +59,13 @@ wait_for_mgr_sync:
   cmd.script:
     - name: salt://suse_manager_server/wait_for_mgr_sync.py
     - use_vt: True
+    - template: jinja
+    - context:
+    {% if grains.get('osmajorrelease', None)|int() == 15 %}
+      pythonexec: python3
+    {% else %}
+      pythonexec: python
+    {% endif %}
     - require:
       - http: create_first_user
 
