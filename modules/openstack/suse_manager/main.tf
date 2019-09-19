@@ -62,6 +62,7 @@ apparmor: ${var.apparmor}
 from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
 saltapi_tcpdump: ${var.saltapi_tcpdump}
+data_disk_device: vdb
 
 EOF
 

@@ -71,6 +71,7 @@ additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_rep
 additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
 gpg_keys:  [${join(", ", formatlist("'%s'", var.gpg_keys))}]
 reset_ids: true
+data_disk_device: xvdf
 
 susemanager:
   activation_key: ${var.activation_key}

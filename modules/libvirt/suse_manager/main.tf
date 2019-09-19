@@ -64,6 +64,7 @@ apparmor: ${var.apparmor}
 from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
 saltapi_tcpdump: ${var.saltapi_tcpdump}
+enable_additional_disk: ${var.enable_additional_disk}
 
 EOF
 
@@ -73,7 +74,6 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
-  additional_disk = "${var.additional_disk}"
 }
 
 output "configuration" {

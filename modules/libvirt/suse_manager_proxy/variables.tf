@@ -139,3 +139,13 @@ variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default = ""
 }
+
+variable "data_disk_device" {
+  description = "Data disk device to be used for /var/spacewalk partition"
+  default = ""
+}
+
+variable "additional_disk" {
+  description = "disk block definition(s) to be added to this host"
+  default = []
+}

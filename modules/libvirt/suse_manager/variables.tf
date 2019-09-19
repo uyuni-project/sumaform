@@ -231,6 +231,11 @@ variable "mac" {
   default = ""
 }
 
+variable "enable_additional_disk" {
+  description = "Enable additional_disk device to be used for /var/spacewalk partition"
+  default = false
+}
+
 variable "additional_disk" {
   description = "disk block definition(s) to be added to this host"
   default = []
