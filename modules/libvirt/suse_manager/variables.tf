@@ -104,6 +104,11 @@ variable "publish_private_ssl_key" {
   default = true
 }
 
+variable "disable_download_tokens" {
+  description = "disable package token download checks"
+  default = true
+}
+
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default = false

@@ -62,6 +62,7 @@ module "srv" {
   create_sample_activation_key = false
   create_sample_bootstrap_script = false
   publish_private_ssl_key = false
+  disable_download_tokens = false
   ssh_key_path = "./salt/controller/id_rsa.pub"
 }
 
