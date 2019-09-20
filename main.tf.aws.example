@@ -108,7 +108,7 @@ module "aws_server" {
 module "aws_minion" {
   source = "./modules/aws/host"
   name = "minion"
-  count = 10
+  quantity = 10
   region = "us-east-1"
   availability_zone = "us-east-1e"
   ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)

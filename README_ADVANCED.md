@@ -67,7 +67,7 @@ module "server" {
 
 ## Multiple VMs of the same type
 
-Some modules, for example clients and minions, support a `count` variable that allows you to create several instances at once. For example:
+Some modules, for example clients and minions, support a `quantity` variable that allows you to create several instances at once. For example:
 
 ```hcl
 module "minionsles12sp1" {
@@ -77,7 +77,7 @@ module "minionsles12sp1" {
   name = "minionsles12sp1"
   image = "sles12sp1"
   server_configuration = "${module.server.configuration}"
-  count = 10
+  quantity = 10
 }
 ```
 
@@ -319,7 +319,7 @@ module "clisles12sp1" {
   name = "clisles12sp1"
   image = "sles12sp1"
   server_configuration = "${module.proxy.configuration}"
-  count = 3
+  quantity = 3
 }
 ```
 
@@ -724,7 +724,7 @@ module "locust" {
   base_configuration = "${module.base.configuration}"
   server_configuration = "${module.server.configuration}"
   locust_file = "./my_heavy_locustfile.py"
-  slave_count = 5
+  slave_quantity = 5
 }
 ```
 

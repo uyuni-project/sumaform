@@ -12,7 +12,7 @@ locust_file: ${base64encode(file(var.locust_file))}
 server_username: ${var.server_configuration["username"]}
 server_password: ${var.server_configuration["password"]}
 locust_master_host: null
-locust_slave_count: ${var.slave_count}
+locust_slave_count: ${var.slave_quantity}
 EOF
 
   // Provider-specific variables
@@ -26,7 +26,7 @@ module "locust-slave" {
   source = "../host"
   base_configuration = "${var.base_configuration}"
   name = "${var.name}-slave"
-  count = "${var.slave_count}"
+  quantity = "${var.slave_quantity}"
   ssh_key_path = "${var.ssh_key_path}"
   roles = ["locust"]
   grains = <<EOF

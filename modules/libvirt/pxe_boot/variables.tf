@@ -8,7 +8,7 @@ variable "name" {
   type = "string"
 }
 
-variable "count"  {
+variable "quantity"  {
   description = "number of hosts like this one"
   default = 1
 }

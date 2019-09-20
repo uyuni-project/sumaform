@@ -42,7 +42,7 @@ module "locust" {
   base_configuration = "${var.base_configuration}"
   server_configuration = "${module.server.configuration}"
   locust_file = "modules/libvirt/pts/locustfile.py"
-  slave_count = 5
+  slave_quantity = 5
 
   // Provider-specific variables
   memory = 1024
@@ -55,7 +55,7 @@ module "grafana" {
   base_configuration = "${var.base_configuration}"
   server_configuration = "${module.server.configuration}"
   locust_configuration = "${module.locust.configuration}"
-  count = "${var.grafana}"
+  quantity = "${var.grafana}"
 
   // Provider-specific variables
   mac = "${var.grafana_mac}"
