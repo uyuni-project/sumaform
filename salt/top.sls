@@ -34,6 +34,6 @@ base:
     - match: grain
     - locust
 
-  'virtual_host:true':
+  'roles: virthost':
     - match: grain
     - virthost
