@@ -1,4 +1,4 @@
-{% if grains.get('role') == 'suse_manager_server' %}
+{% if 'suse_manager_server' in grains.get('roles') %}
 
 {% if '3.2' in grains['product_version'] %}
 suse_manager_pool_repo:
