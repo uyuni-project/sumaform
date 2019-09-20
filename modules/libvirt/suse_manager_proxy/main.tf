@@ -71,7 +71,7 @@ EOF
 }
 
 output "configuration" {
-  value {
+  value = {
     id = "${module.suse_manager_proxy.configuration["id"]}"
     hostname = "${module.suse_manager_proxy.configuration["hostname"]}"
     product_version = "${var.product_version}"
