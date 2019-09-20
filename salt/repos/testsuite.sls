@@ -3,26 +3,26 @@
 
 {% if grains['os'] == 'SUSE' %}
 
-testsuite_build_repo:
+test_repo_rpm_pool:
   file.managed:
-    - name: /etc/zypp/repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
+    - name: /etc/zypp/repos.d/Test-Packages_Pool.repo
+    - source: salt://repos/repos.d/Test-Packages_Pool.repo
     - template: jinja
 
 {% elif grains['os_family'] == 'RedHat' %}
 
-testsuite_build_repo:
+test_repo_rpm_pool:
   file.managed:
-    - name: /etc/yum.repos.d/Devel_Galaxy_BuildRepo.repo
-    - source: salt://repos/repos.d/Devel_Galaxy_BuildRepo.repo
+    - name: /etc/yum.repos.d/Test-Packages_Pool.repo
+    - source: salt://repos/repos.d/Test-Packages_Pool.repo
     - template: jinja
 
 {% elif grains['os_family'] == 'Debian' %}
 
-testsuite_build_repo:
+test_repo_deb_pool:
   file.managed:
-    - name: /etc/apt/sources.list.d/Devel_Uyuni_BuildRepo.list
-    - source: salt://repos/repos.d/Devel_Uyuni_BuildRepo.list
+    - name: /etc/apt/sources.list.d/Test-Packages_Pool.list
+    - source: salt://repos/repos.d/Test-Packages_Pool.list
     - template: jinja
 
 {% endif %}
