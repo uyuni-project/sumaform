@@ -1,4 +1,5 @@
 include:
+  {% if not grains.get('additional_repos_only') %}
   - repos.default
   - repos.minion
   - repos.suse_manager_proxy
@@ -6,6 +7,8 @@ include:
   - repos.testsuite
   - repos.virthost
   - repos.tools
+  {% endif %}
+  - repos.additional
 
 {% if grains['os'] == 'SUSE' %}
 refresh_repos:

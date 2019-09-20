@@ -20,6 +20,7 @@ module "suse_manager" {
   use_os_released_updates = "${var.use_os_released_updates}"
   use_os_unreleased_updates = "${var.use_os_unreleased_updates}"
   additional_repos = "${var.additional_repos}"
+  additional_repos_only = "${var.additional_repos_only}"
   additional_packages = "${var.additional_packages}"
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"

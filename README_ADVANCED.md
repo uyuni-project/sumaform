@@ -570,6 +570,7 @@ module "minsles12sp1" {
 }
 ```
 
+If you want to have full control over a VM repos, you can also disable any standard repo via the `additional_repos_only` boolean variable. Note that in this case you will need to specify any repo (including base OS ones) via `additional_repos`.
 
 ## Add custom repo GPG keys
 
