@@ -18,7 +18,7 @@
 */
 
 terraform {
-    required_version = "~> 0.11.7"
+    required_version = "~> 0.12.9"
 }
 
 resource "aws_instance" "instance" {
