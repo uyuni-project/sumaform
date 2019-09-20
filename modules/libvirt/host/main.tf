@@ -121,7 +121,7 @@ EOF
 }
 
 output "configuration" {
-  value {
+  value = {
     id = "${libvirt_domain.domain.0.id}"
     hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.count > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
   }

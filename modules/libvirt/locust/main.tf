@@ -47,7 +47,7 @@ EOF
 
 
 output "configuration" {
-  value {
+  value = {
     id = "${module.locust.configuration["id"]}"
     hostname = "${module.locust.configuration["hostname"]}"
   }
