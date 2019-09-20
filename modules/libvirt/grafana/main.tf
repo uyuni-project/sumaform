@@ -3,7 +3,7 @@ module "grafana" {
 
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  count = "${var.count}"
+  quantity = "${var.quantity}"
   ssh_key_path = "${var.ssh_key_path}"
   roles = ["grafana"]
   grains = <<EOF

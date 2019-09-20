@@ -33,7 +33,7 @@ variable "additional_packages" {
   default = []
 }
 
-variable "count"  {
+variable "quantity"  {
   description = "number of hosts like this one"
   default = 1
 }
