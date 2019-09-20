@@ -8,6 +8,11 @@ variable "name" {
   type = "string"
 }
 
+variable "roles"  {
+  description = "List of the host roles"
+  default = ["minion"]
+}
+
 variable "product_version" {
   description = "A valid SUSE Manager version (eg. 3.2-nightly, head) see README_ADVANCED.md"
   default = "released"

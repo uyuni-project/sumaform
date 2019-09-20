@@ -55,7 +55,7 @@ use_avahi: False
 mirror: ${var.mirror_private_name}
 product_version: ${var.product_version}
 channels: [${join(",", var.channels)}]
-role: ${var.role}
+roles: [${join(",", var.roles)}]
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}
 server: ${var.server}

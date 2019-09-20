@@ -73,9 +73,9 @@ variable "channels" {
   default = []
 }
 
-variable "role"  {
-  description = "Name of the host role, see the main.tf example file"
-  type = "string"
+variable "roles"  {
+  description = "List of the host roles, see the main.tf example file"
+  default = []
 }
 
 variable "cc_username" {

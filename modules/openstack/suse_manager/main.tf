@@ -25,6 +25,7 @@ module "suse_manager" {
   ssh_key_path = "${var.ssh_key_path}"
   gpg_keys = "${var.gpg_keys}"
   ipv6 = "${var.ipv6}"
+  roles = ["suse_manager_server"]
   grains = <<EOF
 
 product_version: ${var.product_version}
@@ -36,7 +37,6 @@ mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
 smt: ${var.smt}
-role: suse_manager_server
 server_username: ${var.server_username}
 server_password: ${var.server_password}
 disable_firewall: ${var.disable_firewall}

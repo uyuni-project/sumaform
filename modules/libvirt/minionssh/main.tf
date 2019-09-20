@@ -14,10 +14,10 @@ module "minionssh" {
   ipv6 = "${var.ipv6}"
   connect_to_base_network = true
   connect_to_additional_network = true
+  roles = ["minionssh"]
   grains = <<EOF
 
 product_version: ${var.product_version}
-role: minionssh
 
 EOF
 

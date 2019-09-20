@@ -12,12 +12,12 @@ module "minion" {
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
   ipv6 = "${var.ipv6}"
+  roles = "${var.roles}"
   grains = <<EOF
 
 product_version: ${var.product_version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
 apparmor: ${var.apparmor}
 avahi_reflector: ${var.avahi_reflector}

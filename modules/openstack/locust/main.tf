@@ -3,11 +3,11 @@ module "locust" {
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
   ssh_key_path = "${var.ssh_key_path}"
+  roles = ["locust"]
   grains = <<EOF
 
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: locust
 locust_file: ${base64encode(file(var.locust_file))}
 server_username: ${var.server_configuration["username"]}
 server_password: ${var.server_configuration["password"]}
@@ -27,11 +27,11 @@ module "locust-slave" {
   name = "${var.name}-slave"
   count = "${var.slave_count}"
   ssh_key_path = "${var.ssh_key_path}"
+  roles = ["locust"]
   grains = <<EOF
 
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: locust
 locust_file: ${base64encode(file(var.locust_file))}
 server_username: ${var.server_configuration["username"]}
 server_password: ${var.server_configuration["password"]}

@@ -7,9 +7,9 @@ module "mirror" {
   additional_packages = "${var.additional_packages}"
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
+  roles = ["mirror"]
   grains = <<EOF
 
-role: mirror
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 data_disk_device: vdb

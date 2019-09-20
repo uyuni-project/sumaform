@@ -48,7 +48,7 @@ domain: ${var.region}.compute.internal
 use_avahi: False
 mirror: ${var.mirror_private_name}
 product_version: 3.2-released
-role: evil_minions
+roles: [evil_minions]
 server: ${var.server}
 evil_minion_count: ${var.evil_minion_count}
 slowdown_factor: ${var.slowdown_factor}

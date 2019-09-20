@@ -12,10 +12,10 @@ module "minionssh" {
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
   ipv6 = "${var.ipv6}"
+  roles = ["minionssh"]
   grains = <<EOF
 
 product_version: ${var.product_version}
-role: minionssh
 
 EOF
 
