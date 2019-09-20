@@ -1,0 +1,1 @@
+deb [trusted=yes] http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/xUbuntu_18.04/ /
