@@ -25,7 +25,7 @@ variable "locust_file" {
   default = "salt/locust/locustfile.py"
 }
 
-variable "slave_count" {
+variable "slave_quantity" {
   description = "number of Locust slaves, set to 0 to disable master-slave mode"
   default = 0
 }
