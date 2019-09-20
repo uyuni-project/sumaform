@@ -23,7 +23,7 @@ variable "instance_type" {
   default = "t2.medium"
 }
 
-variable "count"  {
+variable "quantity"  {
   description = "Number of hosts like this one"
   default = 1
 }

@@ -3,7 +3,7 @@ module "client" {
 
   base_configuration = "${var.base_configuration}"
   name = "${var.name}"
-  count = "${var.count}"
+  quantity = "${var.quantity}"
   use_os_released_updates = "${var.use_os_released_updates}"
   use_os_unreleased_updates = "${var.use_os_unreleased_updates}"
   additional_repos = "${var.additional_repos}"
