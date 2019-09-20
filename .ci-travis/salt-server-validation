@@ -19,7 +19,7 @@ mirror: null
 iss_master: null
 iss_slave: null
 smt: null
-role: suse_manager_server
+roles: [suse_manager_server]
 disable_firewall: 0
 allow_postgres_connections: 0
 unsafe_postgres: 1
