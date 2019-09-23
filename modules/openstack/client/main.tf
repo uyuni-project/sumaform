@@ -12,12 +12,12 @@ module "client" {
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
   ipv6 = "${var.ipv6}"
+  roles = ["client"]
   grains = <<EOF
 
 product_version: ${var.product_version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: client
 auto_register: ${var.auto_register}
 
 EOF

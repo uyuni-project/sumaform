@@ -23,6 +23,7 @@ module "controller" {
   ipv6 = "${var.ipv6}"
   connect_to_base_network = true
   connect_to_additional_network = false
+  roles = ["controller"]
   grains = <<EOF
 
 git_username: ${var.git_username}
@@ -38,7 +39,6 @@ ubuntu_minion:  ${var.ubuntu_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
 kvm_host: ${var.kvmhost_configuration["hostname"]}
 pxeboot_mac: ${var.pxeboot_configuration["macaddr"]}
-role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["product_version"]) : var.branch}
 git_profiles_repo: ${var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo}
 server_http_proxy: ${var.server_http_proxy}

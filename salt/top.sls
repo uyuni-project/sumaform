@@ -2,38 +2,38 @@ base:
   '*':
     - default
 
-  'role:suse_manager_server':
+  'roles:suse_manager_server':
     - match: grain
     - suse_manager_server
 
-  'role:client':
+  'roles:client':
     - match: grain
     - client
 
-  'role:suse_manager_proxy':
+  'roles:suse_manager_proxy':
     - match: grain
     - suse_manager_proxy
 
-  'role:minion':
+  'roles:minion':
     - match: grain
     - minion
 
-  'role:mirror':
+  'roles:mirror':
     - match: grain
     - mirror
 
-  'role:controller':
+  'roles:controller':
     - match: grain
     - controller
 
-  'role:grafana':
+  'roles:grafana':
     - match: grain
     - grafana
 
-  'role:locust':
+  'roles:locust':
     - match: grain
     - locust
 
-  'virtual_host:true':
+  'roles: virthost':
     - match: grain
     - virthost

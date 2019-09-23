@@ -72,7 +72,7 @@ resource "null_resource" "mirror_salt_configuration" {
 hostname: ${replace("${aws_instance.instance.private_dns}", ".${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}", "")}
 domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}
 use_avahi: False
-role: mirror
+roles: [mirror]
 cc_username: ${var.cc_username}
 cc_password: ${var.cc_password}
 data_disk_device: xvdf

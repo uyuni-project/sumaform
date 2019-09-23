@@ -14,12 +14,12 @@ module "minion" {
   ipv6 = "${var.ipv6}"
   connect_to_base_network = true
   connect_to_additional_network = true
+  roles = "${var.roles}"
   grains = <<EOF
 
 product_version: ${var.product_version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: minion
 auto_connect_to_master: ${var.auto_connect_to_master}
 apparmor: ${var.apparmor}
 avahi_reflector: ${var.avahi_reflector}

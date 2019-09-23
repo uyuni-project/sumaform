@@ -19,7 +19,7 @@ client: cli-travis.tf.local
 minion: min-travis.tf.local
 centos_minion: 100-travis.tf.local
 ssh_minion: ssh-travis.tf.local
-role: controller
+roles: [controller]
 mirror: null
 testsuite: true
 EOF

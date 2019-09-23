@@ -21,6 +21,7 @@ module "controller" {
   swap_file_size = "${var.swap_file_size}"
   ssh_key_path = "${var.ssh_key_path}"
   ipv6 = "${var.ipv6}"
+  roles = ["controller"]
   grains = <<EOF
 
 git_username: ${var.git_username}
@@ -34,7 +35,6 @@ minion: ${var.minion_configuration["hostname"]}
 centos_minion: ${var.centos_configuration["hostname"]}
 ubuntu_minion: ${var.ubuntu_configuration["hostname"]}
 ssh_minion: ${var.minionssh_configuration["hostname"]}
-role: controller
 branch: ${var.branch == "default" ? lookup(var.testsuite-branch, var.server_configuration["product_version"]) : var.branch}
 git_profiles_repo: ${var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo}
 server_http_proxy: ${var.server_http_proxy}

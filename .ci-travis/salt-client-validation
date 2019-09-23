@@ -14,7 +14,7 @@ authorized_keys: [ssh-rsa 1233= root@travis.git]
 reset_ids: true
 product_version: head
 server: travis.tf.local
-role: client
+roles: [client]
 mirror: null
 auto_register: false
 testsuite: true

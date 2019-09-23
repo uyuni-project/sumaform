@@ -8,6 +8,11 @@ variable "name" {
   type = "string"
 }
 
+variable "roles"  {
+  description = "List of the host roles"
+  default = []
+}
+
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default = false

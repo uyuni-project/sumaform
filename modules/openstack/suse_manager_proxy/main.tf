@@ -24,12 +24,12 @@ module "suse_manager_proxy" {
   ssh_key_path = "${var.ssh_key_path}"
   gpg_keys = "${var.gpg_keys}"
   ipv6 = "${var.ipv6}"
+  roles = ["suse_manager_proxy"]
   grains = <<EOF
 
 product_version: ${var.product_version}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
-role: suse_manager_proxy
 minion: ${var.minion}
 auto_connect_to_master: ${var.auto_connect_to_master}
 auto_register: ${var.auto_register}

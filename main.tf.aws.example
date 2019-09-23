@@ -98,7 +98,7 @@ module "aws_server" {
   name_prefix = "${local.name_prefix}"
 
   product_version = "3.2-nightly"
-  role = "suse_manager_server"
+  roles = ["suse_manager_server"]
   cc_username = "${local.cc_username}"
   cc_password = "${local.cc_password}"
   mirror_public_name = "${module.aws_mirror.public_name}"
@@ -121,7 +121,7 @@ module "aws_minion" {
   name_prefix = "sumaform"
 
   server = "${module.aws_server.private_names[0]}"
-  role = "minion"
+  roles = ["minion"]
   mirror_public_name = "${module.aws_mirror.public_name}"
   mirror_private_name = "${module.aws_mirror.private_name}"
 }

@@ -21,7 +21,7 @@ os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/oss/
 
-{% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
+{% if not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) %}
 {% if grains.get('product_version') and grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
@@ -36,7 +36,7 @@ tools_pool_repo_master:
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/repodata/repomd.xml.key
     - priority: 98
 {% endif %}
-{% endif %}
+{% endif %} {# not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) #}
 
 {% elif grains['osfullname'] == 'SLES' %}
 
@@ -185,7 +185,7 @@ test_update_repo:
 
 {% endif %}
 
-{% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
+{% if not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) %}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
@@ -219,12 +219,12 @@ tools_additional_repo:
     - priority: 98
 {% endif %}
 
-{% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
+{% endif %} {# not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) #}
 {% endif %} {# '12' in grains['osrelease'] #}
 
 
 {% if '15' in grains['osrelease'] %}
-{% if not grains.get('role') or not grains.get('role').startswith('suse_manager') %}
+{% if not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) %}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
@@ -256,7 +256,7 @@ tools_update_repo:
     - priority: 98
 {% endif %}
 
-{% endif %} {# not grains.get('role') or not grains.get('role').startswith('suse_manager') #}
+{% endif %} {# not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
 {% if '15' == grains['osrelease'] %}

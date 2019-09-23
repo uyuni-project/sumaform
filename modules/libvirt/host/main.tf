@@ -88,6 +88,7 @@ use_avahi: ${var.base_configuration["use_avahi"]}
 additional_network: ${var.base_configuration["additional_network"]}
 timezone: ${var.base_configuration["timezone"]}
 testsuite: ${var.base_configuration["testsuite"]}
+roles: [${join(",", var.roles)}]
 use_os_released_updates: ${var.use_os_released_updates}
 use_os_unreleased_updates: ${var.use_os_unreleased_updates}
 additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
