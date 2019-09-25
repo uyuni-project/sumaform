@@ -238,7 +238,7 @@ tools_additional_repo:
     - name: /etc/zypp/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
     - source: salt://repos/repos.d/Devel_Galaxy_Manager_Head_SLE-Manager-Tools-12-x86_64.repo
     - template: jinja
-{% elif 'uyuni-master' in grains.get('product_version') %}
+{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   file.managed:
     - name: /etc/zypp/repos.d/Uyuni-Master-SLE12-Client-Tools-x86_64.repo
