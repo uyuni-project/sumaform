@@ -4,84 +4,84 @@ terraform {
 
 resource "libvirt_volume" "centos7_volume" {
   name = "${var.name_prefix}centos7"
-  source = "https://github.com/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
+  source = "https://${var.mirror ? ${var.mirror} : "github.com"}/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "centos7") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "opensuse150_volume" {
   name = "${var.name_prefix}opensuse150"
-  source = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
+  source = "https://${var.mirror ? ${var.mirror} : "download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse150") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "opensuse151_volume" {
   name = "${var.name_prefix}opensuse151"
-  source = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
+  source = "https://${var.mirror ? ${var.mirror} : "download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse151") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles15_volume" {
   name = "${var.name_prefix}sles15"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles15sp1_volume" {
   name = "${var.name_prefix}sles15sp1"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15sp1.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15sp1.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles15sp1") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles11sp4_volume" {
   name = "${var.name_prefix}sles11sp4"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles11sp4") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12_volume" {
   name = "${var.name_prefix}sles12"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp1_volume" {
   name = "${var.name_prefix}sles12sp1"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp1") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp2_volume" {
   name = "${var.name_prefix}sles12sp2"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp2") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp3_volume" {
   name = "${var.name_prefix}sles12sp3"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp3") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "sles12sp4_volume" {
   name = "${var.name_prefix}sles12sp4"
-  source = "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
+  source = "http://${var.mirror ? ${var.mirror} : "download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "sles12sp4") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "ubuntu1804_volume" {
   name = "${var.name_prefix}ubuntu1804"
-  source = "https://github.com/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
+  source = "https://${var.mirror ? ${var.mirror} : "github.com"}/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "ubuntu1804") ? 1 : 0)}"
   pool = "${var.pool}"
 }
