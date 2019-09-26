@@ -4,21 +4,21 @@ terraform {
 
 resource "libvirt_volume" "centos7_volume" {
   name = "${var.name_prefix}centos7"
-  source = "${var.mirror != "" ? "http://"var.mirror : "https://github.com"}/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
+  source = "${var.mirror != "" ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "centos7") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "opensuse150_volume" {
   name = "${var.name_prefix}opensuse150"
-  source = "${var.mirror != "" ? "http://"var.mirror : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
+  source = "${var.mirror != "" ? "http://${var.mirror}" : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse150") ? 1 : 0)}"
   pool = "${var.pool}"
 }
 
 resource "libvirt_volume" "opensuse151_volume" {
   name = "${var.name_prefix}opensuse151"
-  source = "${var.mirror != "" ? "http://"var.mirror : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
+  source = "${var.mirror != "" ? "http://${var.mirror}" : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse151") ? 1 : 0)}"
   pool = "${var.pool}"
 }
@@ -81,7 +81,7 @@ resource "libvirt_volume" "sles12sp4_volume" {
 
 resource "libvirt_volume" "ubuntu1804_volume" {
   name = "${var.name_prefix}ubuntu1804"
-  source = "${var.mirror != "" ? "http://"var.mirror : "https://github.com"}/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
+  source = "${var.mirror != "" ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "ubuntu1804") ? 1 : 0)}"
   pool = "${var.pool}"
 }
