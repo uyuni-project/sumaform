@@ -547,9 +547,9 @@ module "server" {
 ```
 
 
-## Add custom repos and packages
+## Custom repos and packages
 
-You can specify custom repos and packages to be installed at deploy time for a specific host:
+You can specify additional custom repos and packages to be installed at deploy time for a specific host:
 
 ```hcl
 module "minsles12sp1" {
@@ -570,7 +570,15 @@ module "minsles12sp1" {
 }
 ```
 
-If you want to have full control over a VM repos, you can also disable any standard repo via the `additional_repos_only` boolean variable. Note that in this case you will need to specify any repo (including base OS ones) via `additional_repos`.
+If you want to have full control over repos, you can also choose to disable all repos but those explicitly mentioned in `additional_repos` via the  `additional_repos_only` boolean variable.
+
+If any repos or packages additionally need SSL certificates to be accessed, those can be added via the `additional_certs` variable:
+
+```hcl
+additional_certs = {
+  RHN-ORG-TRUSTED-SSL-CERT = "http://server.tf.local/pub/RHN-ORG-TRUSTED-SSL-CERT"
+}
+```
 
 ## Add custom repo GPG keys
 

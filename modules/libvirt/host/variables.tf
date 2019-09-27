@@ -33,6 +33,11 @@ variable "additional_repos_only" {
   default = false
 }
 
+variable "additional_certs" {
+  description = "extra SSL certficates in the form {name = url}, see README_ADVANCED.md"
+  default = {}
+}
+
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
   default = []

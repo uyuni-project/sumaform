@@ -32,6 +32,21 @@
 {% endfor %}
 {% endif %}
 
+{% if grains['additional_certs'] %}
+{% for label, url in grains['additional_certs'].items() %}
+{{ label }}_cert:
+  file.managed:
+    - name: /etc/pki/trust/anchors/{{ label }}
+    - source: {{ url }}
+    - source_hash: {{ url }}.sha512
+
+{% if grains['os'] == 'SUSE' %}
+update-ca-certificates:
+  cmd.run
+{% endif %}
+{% endfor %}
+{% endif %}
+
 # HACK: work around #10852
 {{ sls }}_nop:
   test.nop: []
