@@ -9,6 +9,7 @@ domain: travis
 use_avahi: 0
 timezone: Europe/Berlin
 additional_repos: {}
+additional_certs: {}
 additional_packages: []
 authorized_keys: [ssh-rsa 1233= root@travis.git]
 reset_ids: true
