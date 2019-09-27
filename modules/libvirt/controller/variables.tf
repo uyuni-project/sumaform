@@ -1,5 +1,5 @@
 variable "base_configuration" {
-  description = "use ${module.base.configuration}, see the main.tf example file"
+  description = "use module.base.configuration, see the main.tf example file"
   type = "map"
 }
 
@@ -30,12 +30,12 @@ variable "branch" {
 }
 
 variable "server_configuration" {
-  description = "use ${module.<SERVER_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SERVER_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
 }
 
 variable "proxy_configuration" {
-  description = "use ${module.<PROXY_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<PROXY_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -43,17 +43,17 @@ variable "proxy_configuration" {
 }
 
 variable "client_configuration" {
-  description = "use ${module.<CLIENT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CLIENT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
 }
 
 variable "minion_configuration" {
-  description = "use ${module.<MINION_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
 }
 
 variable "minionssh_configuration" {
-  description = "use ${module.<MINIONSSH_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<MINIONSSH_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -61,7 +61,7 @@ variable "minionssh_configuration" {
 }
 
 variable "centos_configuration" {
-  description = "use ${module.<CENTOS_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -69,7 +69,7 @@ variable "centos_configuration" {
 }
 
 variable "ubuntu_configuration" {
-  description = "use ${module.<UBUNTU_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<UBUNTU_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -77,7 +77,7 @@ variable "ubuntu_configuration" {
 }
 
 variable "pxeboot_configuration" {
-  description = "use ${module.<PXEBOOT_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<PXEBOOT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     macaddr = "null"
@@ -85,7 +85,7 @@ variable "pxeboot_configuration" {
 }
 
 variable "kvmhost_configuration" {
-  description = "use ${module.<VIRTHOST_NAME>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<VIRTHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -93,7 +93,7 @@ variable "kvmhost_configuration" {
 }
 
 variable "sle11sp4_minion_configuration" {
-  description = "use ${module.<SLE11SP4_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -101,7 +101,7 @@ variable "sle11sp4_minion_configuration" {
 }
 
 variable "sle11sp4_sshminion_configuration" {
-  description = "use ${module.<SLE11SP4_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -109,7 +109,7 @@ variable "sle11sp4_sshminion_configuration" {
 }
 
 variable "sle11sp4_client_configuration" {
-  description = "use ${module.<SLE11SP4_CLIENT>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE11SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -117,7 +117,7 @@ variable "sle11sp4_client_configuration" {
 }
 
 variable "sle12sp4_minion_configuration" {
-  description = "use ${module.<SLE12SP4_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE12SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -125,7 +125,7 @@ variable "sle12sp4_minion_configuration" {
 }
 
 variable "sle12sp4_sshminion_configuration" {
-  description = "use ${module.<SLE12SP4_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE12SP4_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -133,7 +133,7 @@ variable "sle12sp4_sshminion_configuration" {
 }
 
 variable "sle12sp4_client_configuration" {
-  description = "use ${module.<SLE12SP4_CLIENT>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE12SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -141,7 +141,7 @@ variable "sle12sp4_client_configuration" {
 }
 
 variable "sle15_minion_configuration" {
-  description = "use ${module.<SLE15_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE15_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -149,7 +149,7 @@ variable "sle15_minion_configuration" {
 }
 
 variable "sle15_sshminion_configuration" {
-  description = "use ${module.<SLE15_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE15_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -157,7 +157,7 @@ variable "sle15_sshminion_configuration" {
 }
 
 variable "sle15_client_configuration" {
-  description = "use ${module.<SLE15_CLIENT>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE15_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -165,7 +165,7 @@ variable "sle15_client_configuration" {
 }
 
 variable "sle15sp1_minion_configuration" {
-  description = "use ${module.<SLE15SP1_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE15SP1_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -173,7 +173,7 @@ variable "sle15sp1_minion_configuration" {
 }
 
 variable "sle15sp1_sshminion_configuration" {
-  description = "use ${module.<SLE15SP1_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE15SP1_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -181,7 +181,7 @@ variable "sle15sp1_sshminion_configuration" {
 }
 
 variable "sle15sp1_client_configuration" {
-  description = "use ${module.<SLE15SP1_CLIENT>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<SLE15SP1_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -189,7 +189,7 @@ variable "sle15sp1_client_configuration" {
 }
 
 variable "centos6_minion_configuration" {
-  description = "use ${module.<CENTOS6_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -197,7 +197,7 @@ variable "centos6_minion_configuration" {
 }
 
 variable "centos6_sshminion_configuration" {
-  description = "use ${module.<CENTOS6_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS6_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -205,7 +205,7 @@ variable "centos6_sshminion_configuration" {
 }
 
 variable "centos6_client_configuration" {
-  description = "use ${module.<CENTOS6_CLIENT>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS6_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -213,7 +213,7 @@ variable "centos6_client_configuration" {
 }
 
 variable "centos7_minion_configuration" {
-  description = "use ${module.<CENTOS7_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS7_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -221,7 +221,7 @@ variable "centos7_minion_configuration" {
 }
 
 variable "centos7_sshminion_configuration" {
-  description = "use ${module.<CENTOS7_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS7_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -229,7 +229,7 @@ variable "centos7_sshminion_configuration" {
 }
 
 variable "centos7_client_configuration" {
-  description = "use ${module.<CENTOS7_CLIENT>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<CENTOS7_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -237,7 +237,7 @@ variable "centos7_client_configuration" {
 }
 
 variable "ubuntu1604_minion_configuration" {
-  description = "use ${module.<UBUNTU1604_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<UBUNTU1604_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -245,7 +245,7 @@ variable "ubuntu1604_minion_configuration" {
 }
 
 variable "ubuntu1604_sshminion_configuration" {
-  description = "use ${module.<UBUNTU1604_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<UBUNTU1604_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -253,7 +253,7 @@ variable "ubuntu1604_sshminion_configuration" {
 }
 
 variable "ubuntu1804_minion_configuration" {
-  description = "use ${module.<UBUNTU1804_MINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<UBUNTU1804_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
@@ -261,7 +261,7 @@ variable "ubuntu1804_minion_configuration" {
 }
 
 variable "ubuntu1804_sshminion_configuration" {
-  description = "use ${module.<UBUNTU1804_SSHMINION>.configuration}, see main.tf.libvirt-testsuite.example"
+  description = "use module.<UBUNTU1804_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   type = "map"
   default = {
     hostname = "null"
