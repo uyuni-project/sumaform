@@ -1,5 +1,5 @@
 variable "base_configuration" {
-  description = "use ${module.base.configuration}, see the main.tf example file"
+  description = "use module.base.configuration, see the main.tf example file"
   type = "map"
 }
 
@@ -14,12 +14,12 @@ variable "count"  {
 }
 
 variable "server_configuration" {
-  description = "use ${module.<SERVER_NAME>.configuration}, see the main.tf example file"
+  description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
   type = "map"
 }
 
 variable "locust_configuration" {
-  description = "use ${module.<LOCUST_NAME>.configuration}, see README_ADVANCED.md"
+  description = "use module.<LOCUST_NAME>.configuration, see README_ADVANCED.md"
   default = { "hostname" = "none" }
 }
 
