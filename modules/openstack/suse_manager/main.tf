@@ -27,7 +27,8 @@ module "suse_manager" {
   ssh_key_path = "${var.ssh_key_path}"
   gpg_keys = "${var.gpg_keys}"
   ipv6 = "${var.ipv6}"
-  roles = ["suse_manager_server"]
+  # HACK: work around "conditional operator cannot be used with list values"
+  roles = "${split(",", var.register_to_server == "null" ? "suse_manager_server" : "suse_manager_server,minion")}"
   grains = <<EOF
 
 product_version: ${var.product_version}

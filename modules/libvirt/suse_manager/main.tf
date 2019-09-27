@@ -29,7 +29,8 @@ module "suse_manager" {
   ipv6 = "${var.ipv6}"
   connect_to_base_network = true
   connect_to_additional_network = false
-  roles = ["suse_manager_server"]
+  # HACK: work around "conditional operator cannot be used with list values"
+  roles = "${split(",", var.register_to_server == "null" ? "suse_manager_server" : "suse_manager_server,minion")}"
   grains = <<EOF
 
 product_version: ${var.product_version}
@@ -40,6 +41,10 @@ cloned_channels: ${var.cloned_channels}
 mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
 iss_slave: ${var.iss_slave}
+server: ${var.register_to_server}
+auto_connect_to_master: ${var.auto_register}
+susemanager:
+  activation_key: ${var.activation_key}
 smt: ${var.smt}
 server_username: ${var.server_username}
 server_password: ${var.server_password}

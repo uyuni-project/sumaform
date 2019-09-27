@@ -34,6 +34,21 @@ variable "iss_slave" {
   default = "null"
 }
 
+variable "register_to_server" {
+  description = "name of another Server to register to"
+  default = "null"
+}
+
+variable "auto_register" {
+  description = "whether this Server should automatically register to another Server"
+  default = true
+}
+
+variable "activation_key" {
+  description = "an Activation Key to be used when registering to another Server"
+  default = "null"
+}
+
 variable "server_username" {
   description = "username of the SUSE Manager administrator, admin by default"
   default = "admin"
