@@ -114,6 +114,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
    * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
+   * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
 
 
 ## Adding channels to SUSE Manager Servers

@@ -29,6 +29,15 @@ browser_side_less_configuration:
 
 {% endif %}
 
+{% if grains.get('disable_download_tokens') %}
+disable_download_tokens:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: java.salt_check_download_tokens = false
+    - require:
+      - sls: suse_manager_server
+{% endif %}
+
 {% if salt["grains.get"]("mirror") %}
 
 nfs_client:
