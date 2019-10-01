@@ -62,7 +62,7 @@ test_repo_rpm_updates:
     - name: minima sync
     - env:
       - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/SLE_12_SP4
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/standard_rpm
             path: /srv/www/htdocs/pub/TestRepoRpmUpdates
     - require:
       - archive: minima
@@ -77,7 +77,7 @@ another_test_repo:
 test_repo_debian_updates:
   cmd.script:
     - name: salt://suse_manager_server/download_ubuntu_repo.sh
-    - args: "TestRepoDebUpdates {{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/xUbuntu_18.04/"
+    - args: "TestRepoDebUpdates {{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/standard_deb/"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
