@@ -1,7 +1,7 @@
 {% if grains.get('testsuite') | default(false, true) %}
 {% if 'client' in grains.get('roles') or 'minion' in grains.get('roles') or 'minionssh' in grains.get('roles') %}
 
-{% if (grains['os'] == 'SUSE') or (grains['os_family'] == 'RedHat') %}
+{% if grains['os'] == 'SUSE' %}
 
 uyuni_key_for_fake_packages:
   file.managed:
@@ -17,6 +17,14 @@ test_repo_rpm_pool:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/repodata/repomd.xml.key
+
+{% elif grains['os_family'] == 'RedHat' %}
+
+test_repo_rpm_pool:
+  file.managed:
+    - name: /etc/yum.repos.d/Test-Packages_Pool.repo
+    - source: salt://repos/repos.d/Test-Packages_Pool.repo
+    - template: jinja
 
 {% elif grains['os_family'] == 'Debian' %}
 
