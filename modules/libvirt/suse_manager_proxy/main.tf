@@ -10,6 +10,13 @@ variable "images" {
   }
 }
 
+resource "libvirt_volume" "server_data_disk" {
+  name = "${var.base_configuration["name_prefix"]}${var.name}-server-data-disk"
+  size = "${var.repository_disk_size}"
+  pool = "${var.data_pool}"
+  count = "${var.repository_disk_size > 0 ? 1 : 0}"
+}
+
 module "suse_manager_proxy" {
   source = "../host"
 
@@ -42,6 +49,7 @@ server_password: ${var.server_configuration["password"]}
 generate_bootstrap_script: ${var.generate_bootstrap_script}
 publish_private_ssl_key: ${var.publish_private_ssl_key}
 apparmor: ${var.apparmor}
+repository_disk_size: ${var.repository_disk_size}
 
 EOF
 
@@ -51,6 +59,15 @@ EOF
   vcpu = "${var.vcpu}"
   running = "${var.running}"
   mac = "${var.mac}"
+
+  // HACK: Terraform 0.11 ternary operator is not short-circuiting
+  // https://github.com/hashicorp/terraform/issues/11566
+  // example by https://github.com/coreos/tectonic-installer/commit/0f209b31b169ce129ba457096b23792f6601d66e#diff-17708827fa84c637698cd840c01710c9R16
+  additional_disk = "${slice(
+    list(map("volume_id", join("",libvirt_volume.server_data_disk.*.id))),
+    0,
+    var.repository_disk_size > 0 ? 1 : 0
+  )}"
 }
 
 output "configuration" {

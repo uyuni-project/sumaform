@@ -1,5 +1,6 @@
 include:
   - repos
+  - suse_manager_proxy.additional_disk
   - suse_manager_proxy.apparmor
 {% if grains['minion'] %}
   - minion

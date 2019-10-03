@@ -1,5 +1,6 @@
 include:
   - repos
+  - suse_manager_server.additional_disk
   - suse_manager_server.firewall
   - suse_manager_server.postgres
   - suse_manager_server.tomcat

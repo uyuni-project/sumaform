@@ -135,6 +135,16 @@ variable "mac" {
   default = ""
 }
 
+variable "repository_disk_size" {
+  description = "Size of an aditional disk for /var/spacewalk partition"
+  default = 0
+}
+
+variable "data_pool" {
+  description = "libvirt storage pool name for this host's data disk"
+  default = "default"
+}
+
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default = ""
