@@ -93,200 +93,71 @@ tools_additional_repo:
 {% endif %} {# grains['osrelease'] == '11.4' #}
 
 
-{% if '12' in grains['osrelease'] %}
-{% if grains['osrelease'] == '12' %}
+{% if grains['osrelease_info'][0] >= 12 %}
+
+{% set version = grains['osrelease']|replace('.','-SP') %}
+{% set major = grains['osrelease_info'][0]|string %}
+{% if grains['osrelease_info'][0] == 12  %}
+{% set base_name = "SLE-SERVER" %}
+{% elif grains['osrelease_info'][0] == 15%}
+{% set base_name = "SLE-Module-Basesystem" %}
+{% endif %}
+
+
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ base_name }}/{{ version }}/x86_64/product/
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ base_name }}/{{ version }}/x86_64/update/
 
 {% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/{{ base_name }}:/{{ version }}:/x86_64/update/
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.1' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.2' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP2/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP2/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.3' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP3/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.4' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP4:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP4:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/{{ base_name }}:/{{ version }}:/x86_64/update/repodata/repomd.xml.key
 {% endif %}
 
 {% if not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) %}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/{{ major }}/x86_64/product/
 
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/{{ major }}/x86_64/update/
 {% else %}
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE{{ major }}-Uyuni-Client-Tools/SLE_{{ major }}/
     - priority: 98
 {% endif %}
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE{{ major }}-SUSE-Manager-Tools/images/repo/SLE-{{ major }}-Manager-Tools-POOL-x86_64-Media1/
     - priority: 98
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-Beta-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE{{ major }}-SUSE-Manager-Tools/images/repo/SLE-{{ major }}-Manager-Tools-Beta-POOL-x86_64-Media1/
     - priority: 98
 
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE12-Uyuni-Client-Tools/SLE_12/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE{{ major }}-Uyuni-Client-Tools/SLE_{{ major }}/
     - priority: 98
 {% endif %}
 
 {% endif %} {# not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) #}
-{% endif %} {# '12' in grains['osrelease'] #}
 
-
-{% if '15' in grains['osrelease'] %}
-{% if not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) %}
-{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
-tools_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
-
-tools_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
-{% else %}
-tools_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
-    - priority: 98
-{% endif %}
-
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
-tools_additional_repo:
-  pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
-  - priority: 98
-{% elif 'head' in grains.get('product_version') | default('', true) %}
-tools_additional_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
-    - priority: 98
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
-    - priority: 98
-{% endif %}
-
-{% endif %} {# not grains.get('roles') or ('suse_manager_server' not in grains.get('roles') and 'suse_manager_proxy' not in grains.get('roles')) #}
-{% endif %} {# '15' in grains['osrelease'] #}
-
-{% if '15' == grains['osrelease'] %}
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update/
-    - gpgcheck: 1
-{% endif %}
-{% endif %} {# '15' == grains['osrelease'] #}
-
-{% if '15.1' == grains['osrelease'] %}
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP1/x86_64/update/
-{% endif %} {# '15.1' == grains['osrelease'] #}
+{% endif %} {# grains[osrelease_info][0] >= 12 #}
 
 {% if '15.2' == grains['osrelease'] %}
 os_pool_repo:
