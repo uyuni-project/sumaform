@@ -52,6 +52,8 @@ disable_firewall: ${var.disable_firewall}
 allow_postgres_connections: ${var.allow_postgres_connections}
 unsafe_postgres: ${var.unsafe_postgres}
 java_debugging: ${var.java_debugging}
+salt_logging: ${var.salt_logging}
+python_logging: ${var.python_logging}
 skip_changelog_import: ${var.skip_changelog_import}
 browser_side_less: ${var.browser_side_less}
 create_first_user: ${var.create_first_user}

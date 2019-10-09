@@ -89,6 +89,13 @@ rhn_conf_prometheus:
 
 {% endif %}
 
+rhn_conf_debug:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: debug = {{ grains.get('python_logging') | default(0, true) }}
+    - require:
+      - sls: suse_manager_server
+
 # catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
 rhn_conf_present:
   file.touch:
