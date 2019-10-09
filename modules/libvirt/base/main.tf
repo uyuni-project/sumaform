@@ -18,7 +18,7 @@ resource "libvirt_volume" "opensuse150_volume" {
 
 resource "libvirt_volume" "opensuse151_volume" {
   name = "${var.name_prefix}opensuse151"
-  source = "${var.mirror != "" ? "http://${var.mirror}" : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
+  source = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "opensuse151") ? 1 : 0)}"
   pool = "${var.pool}"
 }
