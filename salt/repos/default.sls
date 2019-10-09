@@ -243,6 +243,7 @@ tools_pool_repo:
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
+  pkgrepo.managed:
   - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - priority: 98
 {% elif ('head' in grains.get('product_version') | default('', true)) or ('test' in grains.get('product_version') | default('', true)) %}
