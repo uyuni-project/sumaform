@@ -176,6 +176,10 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
+  # Ubuntu 18.04 Manager Tools 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
+    archs: [amd64]
+
   # SUSE Manager Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP1
     archs: [x86_64]
