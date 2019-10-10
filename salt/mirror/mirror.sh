@@ -22,6 +22,9 @@ wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/
 wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
 wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.3.0/ubuntu1804.qcow2"
 
+# compat link to serve also ibs/SUSE/
+ln -sf /srv/mirror/ibs/SUSE ../SUSE
+
 jdupes --linkhard -r -s /srv/mirror/
 
 chmod -R 777 .
