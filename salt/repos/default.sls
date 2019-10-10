@@ -414,20 +414,20 @@ tools_update_repo:
   pkgrepo.managed:
     - file: /etc/apt/sources.list.d/Ubuntu1804-Client-Tools.list
 {% if 'head' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
 {% elif '4.0-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
 {% elif '4.0-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://download.suse.de/ibs//SUSE/Updates/Ubuntu/18.04-CLIENT-TOOLS/x86_64/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs//SUSE/Updates/Ubuntu/18.04-CLIENT-TOOLS/x86_64/update/' %}
 # We only have one shared Client Tools repository, so we are using 4.0 even for 3.2
 {% elif '3.2-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04' %}
 {% elif '3.2-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://download.suse.de/ibs//SUSE/Updates/Ubuntu/18.04-CLIENT-TOOLS/x86_64/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/SUSE/Updates/Ubuntu/18.04-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
 {% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04' %}
 {% endif %}
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
