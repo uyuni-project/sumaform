@@ -1,1 +1,1 @@
-deb [trusted=yes] http://ftp2.nluug.nl/os/Linux/distr/opensuse/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/standard_deb/ /
+deb [trusted=yes] http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/ /
