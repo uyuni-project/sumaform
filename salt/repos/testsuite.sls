@@ -20,6 +20,15 @@ test_repo_rpm_pool:
 
 {% elif grains['os_family'] == 'RedHat' %}
 
+uyuni_key_for_fake_packages:
+  file.managed:
+    - name: /tmp/uyuni.key
+    - source: salt://default/gpg_keys/uyuni.key
+  cmd.wait:
+    - name: rpm --import /tmp/uyuni.key
+    - watch:
+      - file: uyuni_key_for_fake_packages
+
 test_repo_rpm_pool:
   file.managed:
     - name: /etc/yum.repos.d/Test-Packages_Pool.repo
