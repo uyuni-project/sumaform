@@ -62,7 +62,7 @@ test_repo_rpm_updates:
     - name: minima sync
     - env:
       - MINIMA_CONFIG: |
-          - url: http://ftp2.nluug.nl/os/Linux/distr/opensuse/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/standard_rpm
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
             path: /srv/www/htdocs/pub/TestRepoRpmUpdates
     - require:
       - archive: minima
@@ -77,7 +77,7 @@ another_test_repo:
 test_repo_debian_updates:
   cmd.script:
     - name: salt://suse_manager_server/download_ubuntu_repo.sh
-    - args: "TestRepoDebUpdates ftp2.nluug.nl/os/Linux/distr/opensuse/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/standard_deb/"
+    - args: "TestRepoDebUpdates {{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages

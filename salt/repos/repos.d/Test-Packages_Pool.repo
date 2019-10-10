@@ -2,6 +2,6 @@
 name=Testsuite Test Packages - Pool (SLE_12_SP4)
 type=rpm-md
 enabled=1
-baseurl=http://ftp2.nluug.nl/os/Linux/distr/opensuse/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/standard_rpm/
+baseurl=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
 gpgcheck=1
-gpgkey=http://ftp2.nluug.nl/os/Linux/distr/opensuse/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/standard_rpm/repodata/repomd.xml.key
+gpgkey=http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/repodata/repomd.xml.key
