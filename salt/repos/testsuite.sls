@@ -3,6 +3,15 @@
 
 {% if grains['os'] == 'SUSE' %}
 
+uyuni_key_for_fake_packages:
+  file.managed:
+    - name: /tmp/uyuni.key
+    - source: salt://default/gpg_keys/uyuni.key
+  cmd.wait:
+    - name: rpm --import /tmp/uyuni.key
+    - watch:
+      - file: uyuni_key_for_fake_packages
+
 test_repo_rpm_pool:
   file.managed:
     - name: /etc/zypp/repos.d/Test-Packages_Pool.repo
@@ -10,6 +19,15 @@ test_repo_rpm_pool:
     - template: jinja
 
 {% elif grains['os_family'] == 'RedHat' %}
+
+uyuni_key_for_fake_packages:
+  file.managed:
+    - name: /tmp/uyuni.key
+    - source: salt://default/gpg_keys/uyuni.key
+  cmd.wait:
+    - name: rpm --import /tmp/uyuni.key
+    - watch:
+      - file: uyuni_key_for_fake_packages
 
 test_repo_rpm_pool:
   file.managed:

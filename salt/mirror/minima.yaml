@@ -217,13 +217,13 @@ http:
     archs: [x86_64]
 
   # Testsuite dummy packages for testing repo
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/standard_rpm
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/standard_deb
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/standard_rpm
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/standard_deb
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
     archs: [x86_64]
 
   # Software for sumaformed Virtual Machines
