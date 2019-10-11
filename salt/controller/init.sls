@@ -91,15 +91,6 @@ install_cucumber_html_reporter_via_npm:
     - require:
       - pkg: install_npm
 
-# HACK: inject this bugfix https://github.com/gkushang/cucumber-html-reporter/pull/181 which is not released yet
-fix_cucumber_html_reporter_bug:
-  file.replace:
-    - name: /root/node_modules/cucumber-html-reporter/lib/reporter.js
-    - pattern: {{ 'var name = sanitize(step.name || step.keyword, /[^a-zA-Z0-9/-]+/g); // Only allow URL-friendly file names' | regex_escape }}
-    - repl: 'var name = sanitize(step.name || step.keyword, /[^a-zA-Z0-9-]+/g); // Only allow URL-friendly file names'
-    - require:
-      - cmd: install_cucumber_html_reporter_via_npm
-
 spacewalk_git_repository:
   cmd.run:
 {%- if grains.get("git_repo") == "default" %}
