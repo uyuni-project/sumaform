@@ -81,7 +81,7 @@ resource "libvirt_volume" "sles12sp4_volume" {
 
 resource "libvirt_volume" "ubuntu1804_volume" {
   name = "${var.name_prefix}ubuntu1804"
-  source = "https://github.com/moio/sumaform-images/releases/download/4.3.0/ubuntu1804.qcow2"
+  source = "https://github.com/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
   count = "${var.use_shared_resources ? 0 : (contains(var.images, "ubuntu1804") ? 1 : 0)}"
   pool = "${var.pool}"
 }
