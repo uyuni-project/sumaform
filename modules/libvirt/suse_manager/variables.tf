@@ -79,6 +79,16 @@ variable "java_debugging" {
   default = true
 }
 
+variable "salt_logging" {
+  description = "set all salt logging to 'info', 'debug' or 'trace'"
+  default = "info"
+}
+
+variable "python_logging" {
+  description = "set python backend to loglevel 0 - 10"
+  default = 0
+}
+
 variable "skip_changelog_import" {
   description = "import RPMs without changelog data, this speeds up spacewalk-repo-sync"
   default = true
