@@ -23,7 +23,7 @@ test_repo_rpm_pool:
 test_repo_deb_pool:
   pkgrepo.managed:
     - name: deb http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/ /
-    - file: /etc/apt/sources.list.d/Test-Packages_Pool.list
+    - file: /etc/apt/sources.list.d/test_repo_deb_pool.list
     - key_url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/Release.key
 
 {% endif %}
