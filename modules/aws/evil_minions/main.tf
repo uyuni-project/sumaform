@@ -66,7 +66,7 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "sh /root/salt/first_deployment_highstate.sh"
+      "bash /root/salt/first_deployment_highstate.sh"
     ]
   }
 }

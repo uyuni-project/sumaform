@@ -38,19 +38,9 @@ variable "public_security_group_id" {
   type = "string"
 }
 
-variable "data_volume_snapshot_id" {
-  description = "ID of a snapshot of the data volume, leave default to start with a blank volume"
-  default = ""
-}
-
-variable "cc_username" {
-  description = "Username for the Customer Center"
-  type = "string"
-}
-
-variable "cc_password" {
-  description = "Password for the Customer Center"
-  type = "string"
+variable "name_prefix" {
+  description = "A prefix for names of objects created by this module"
+  default = "sumaform"
 }
 
 variable "timezone" {
@@ -78,13 +68,8 @@ variable "additional_packages" {
   default = []
 }
 
-variable "name_prefix" {
-  description = "A prefix for names of objects created by this module"
-  default = "sumaform"
-}
-
-variable "ubuntu_distros" {
-  description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
+variable "gpg_keys" {
+  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
   default = []
 }
 
@@ -94,8 +79,47 @@ variable "ssh_user" {
   default = "ec2-user"
 }
 
-variable "minima_config" {
-  description = "minima config file to copy onto mirror host"
+variable "server" {
+  description = "address of Manager server"
   type = "string"
-  default = "minima.yaml"
+}
+
+variable "client" {
+  description = "address of client host"
+  type = "string"
+}
+
+variable "minion" {
+  description = "address of minion host"
+  type = "string"
+}
+
+variable "git_username" {
+  description = "username for GitHub"
+  type = "string"
+  default = ""
+}
+
+variable "git_password" {
+  description = "password for GitHub"
+  type = "string"
+  default = ""
+}
+
+variable "git_repo" {
+  description = "git repo to use when checking out testsuite"
+  type = "string"
+  default = "https://github.com/uyuni-project/uyuni.git"
+}
+
+variable "git_branch" {
+  description = "git branch to use when checking out testsuite"
+  type = "string"
+  default = "4.0-rc1"
+}
+
+variable "repos_to_sync" {
+  description = "list of repositories needed to be synced on the server for init_client test set"
+  type = "string"
+  default = ""
 }

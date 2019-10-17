@@ -33,6 +33,60 @@ resource "aws_instance" "instance" {
   tags {
     Name = "${var.name_prefix}-mirror"
   }
+
+}
+
+resource "null_resource" "mirror_salt_configuration" {
+  connection {
+    host = "${aws_instance.instance.public_dns}"
+    private_key = "${file(var.key_file)}"
+    user = "${var.ssh_user}"
+  }
+  connection {
+    host = "${aws_instance.instance.public_dns}"
+    private_key = "${file(var.key_file)}"
+    user = "${var.ssh_user}"
+  }
+
+  provisioner "file" {
+    source = "salt"
+    destination = "/tmp"
+  }
+
+  provisioner "file" {
+    content = <<EOF
+
+hostname: ${replace("${aws_instance.instance.private_dns}", ".${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}", "")}
+domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}
+use_avahi: False
+roles: [mirror]
+cc_username: ${var.cc_username}
+cc_password: ${var.cc_password}
+data_disk_device: xvdf
+timezone: ${var.timezone}
+authorized_keys: null
+additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
+additional_repos_only: ${var.additional_repos_only}
+additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
+additional_certs: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_certs), values(var.additional_certs)))}}
+reset_ids: true
+ubuntu_distros: [${join(", ", formatlist("'%s'", var.ubuntu_distros))}]
+data_disk_fstype: xfs
+no_update: true
+minima_config: ${var.minima_config}
+EOF
+
+    destination = "/tmp/grains"
+  }
+
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/grains /etc/salt/grains",
+      "sudo mv /tmp/salt /root",
+      "sudo bash /root/salt/first_deployment_highstate.sh"
+    ]
+  }
 }
 
 resource "aws_ebs_volume" "data_disk" {
@@ -49,50 +103,22 @@ resource "aws_volume_attachment" "data_disk_attachment" {
   device_name = "/dev/xvdf"
   volume_id = "${aws_ebs_volume.data_disk.id}"
   instance_id = "${aws_instance.instance.id}"
-}
-
-resource "null_resource" "mirror_salt_configuration" {
-  triggers {
-    instance_id = "${aws_instance.instance.id}"
-  }
+  // volume tends not to detach, breaking terraform destroy, so skip destroying
+  // volume attachment
+  skip_destroy = true
 
   connection {
     host = "${aws_instance.instance.public_dns}"
     private_key = "${file(var.key_file)}"
+    user = "${var.ssh_user}"
   }
+}
 
-  provisioner "file" {
-    source = "salt"
-    destination = "/root"
-  }
-
-  provisioner "file" {
-    content = <<EOF
-
-hostname: ${replace("${aws_instance.instance.private_dns}", ".${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}", "")}
-domain: ${var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"}
-use_avahi: False
-roles: [mirror]
-cc_username: ${var.cc_username}
-cc_password: ${var.cc_password}
-data_disk_device: xvdf
-timezone: ${var.timezone}
-authorized_keys: null
-additional_repos: {${join(", ", formatlist("'%s': '%s'", keys(var.additional_repos), values(var.additional_repos)))}}
-additional_packages: [${join(", ", formatlist("'%s'", var.additional_packages))}]
-reset_ids: true
-ubuntu_distros: [${join(", ", formatlist("'%s'", var.ubuntu_distros))}]
-
-EOF
-
-    destination = "/etc/salt/grains"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sh /root/salt/first_deployment_highstate.sh"
-    ]
-  }
+resource "null_resource" "dependency_setter" {
+  depends_on = [
+    "aws_instance.instance",
+    "null_resource.mirror_salt_configuration"
+  ]
 }
 
 output "public_name" {
@@ -101,4 +127,12 @@ output "public_name" {
 
 output "private_name" {
   value = "${aws_instance.instance.private_dns}"
+}
+
+output "depended_on" {
+  value = "${null_resource.dependency_setter.id}"
+}
+
+output "data_volume_id" {
+  value = "${aws_ebs_volume.data_disk.id}"
 }
