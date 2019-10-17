@@ -1,0 +1,222 @@
+locals {
+  cc_username = "CC_USER" // SCC or NCC username
+  cc_password = "CC_PASS"   //SCC or NCC password
+  key_name = "AWS_KEY"      // SSH key name
+  key_file = "/path/to/priave_ssh_key"      // SSH key file
+  name_prefix = "sumatest"   // change to a prefix if you do not have an exclusive VPC
+  prod_version = "4.0"
+  region = "eu-central-1"
+  availability_zone = "${local.region}a"
+}
+
+provider "aws" {
+  region = "${local.region}"
+  access_key = "MY_AWS_ACCESS_KEY" // add access key as a string here
+  secret_key = "MY_AWS_SECRET_KEY" // add secret key as a string here
+}
+
+
+module "aws_network" {
+  source = "./modules/aws/network"
+  region = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+  ssh_allowed_ips = [
+    "1.2.3.4"
+  ]
+  name_prefix = "${local.name_prefix}"
+}
+
+data "aws_ebs_snapshot" "data_disk_snapshot" {
+  most_recent = true
+
+  filter {
+    name   = "tag:Name"
+    values = ["${local.name_prefix}-mirror-data-volume-snapshot"]
+  }
+}
+
+module "aws_mirror" {
+  source = "./modules/aws/mirror"
+  region = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+  ami = "" // AMI ID of image to use as mirror. openSUSE Leap works fine. Image needs to have salt-minion installed.
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
+  data_volume_snapshot_id = "${data.aws_ebs_snapshot.data_disk_snapshot.id}" // see top comment in modules/aws/mirror/main.tf
+  public_subnet_id = "${module.aws_network.public_subnet_id}"
+  public_security_group_id = "${module.aws_network.public_security_group_id}"
+  cc_username = "${local.cc_username}"
+  cc_password = "${local.cc_password}"
+  name_prefix = "${local.name_prefix}"
+  additional_repos {
+    tools_repo = "http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0/"
+  }
+}
+
+module "aws_server" {
+  dependencies = [
+    "${module.aws_mirror.depended_on}"
+  ]
+  source = "./modules/aws/host"
+  roles = ["suse_manager_server"]
+  name = "server"
+  region = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+  ami = "" // look up ID with 'pint amazon images --active --region my-region --filter name~manager-4-0-server'
+  instance_type = "t2.large"
+  volume_size = 100 // GiB
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
+  monitored = false
+  private_subnet_id = "${module.aws_network.private_subnet_id}"
+  private_security_group_id = "${module.aws_network.private_security_group_id}"
+  name_prefix = "${local.name_prefix}"
+  authorized_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOSLK0kJAulwO9Qwm/DVKLsGzv8Fh+ZcGe5x5d+VzO4/+xKnxjOPvGVngm9Hki8N436bCCvIRqwzstDUyJnTHhEe3qzsl02QGqIIfVjzK3BEp4sA8XcmByBy3pxqbTjAjrW8a+n43DBRMx4J86LgywX3fFt8ceEym3rFer/IzQD9QvKRocycNCwhpmGKEDh4zdl9PdyU5RcUpiA01AD/8rdJMNYnUxIsaNElcgP2LSzROjNdyu11cq9h3/cb3b7oRRef718GOkIkzqL/szo4Mm/j4KfyG0SBWyPxlJktFADD3lcQIRrGakFhiZOFbg2HZci26q+l/hUfLMbzcBrWlc+gzY4z4LMF8YBy1x/x+yR4j1SzZuqempSRu7rDKevcIGBF/fALPyiXH2EzYKsVcN9nv5mFCjmwVK7WTjw1SFzufKwdmnvOYgyeYuMaOJv3LEBY1jJg8r4xqzuQx32KNK/iJz1E+njptV3ZhOYDiHBmieykP08nWxdS79N1DbljxRzS54T7CArfGo23nYTNlMewPeKFx7ZqtUVv03g8i1Hn8WdArz2TYciWWrPErBEALBpXsu7Oq5AT97wAhcAIf3B3dV5p/bXgnhALA/SodNBf/wr0U2f5VzTDyJ9eNZURt16jSxDgXkuKKY/rimLqqt2FC1SeicmTql1nVyHG3j9Q== root@controller"]
+
+  mirror_public_name = "${module.aws_mirror.public_name}"
+  mirror_private_name = "${module.aws_mirror.private_name}"
+  product_version = "${local.prod_version}"
+  cc_username = "${local.cc_username}"
+  cc_password = "${local.cc_password}"
+  testsuite = true
+  no_install = true
+}
+
+module "aws_minion" {
+  dependencies = [
+    "${module.aws_mirror.depended_on}"
+  ]
+  source = "./modules/aws/host"
+  roles = ["minion"]
+  name = "sle-minion"
+  count = 1
+  region = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+  ami = "ami-014799f67e8f28c77" // SLES12 SP4 image (SLES12 minion currently required for testsuite)
+                                // look up with 'pint amazon images --active --region my-region --filter name~sles-12-sp4-byos'
+  instance_type = "t2.nano"
+  volume_size = 10 // GiB
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
+  private_subnet_id = "${module.aws_network.private_subnet_id}"
+  private_security_group_id = "${module.aws_network.private_security_group_id}"
+  name_prefix = "${local.name_prefix}"
+  authorized_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOSLK0kJAulwO9Qwm/DVKLsGzv8Fh+ZcGe5x5d+VzO4/+xKnxjOPvGVngm9Hki8N436bCCvIRqwzstDUyJnTHhEe3qzsl02QGqIIfVjzK3BEp4sA8XcmByBy3pxqbTjAjrW8a+n43DBRMx4J86LgywX3fFt8ceEym3rFer/IzQD9QvKRocycNCwhpmGKEDh4zdl9PdyU5RcUpiA01AD/8rdJMNYnUxIsaNElcgP2LSzROjNdyu11cq9h3/cb3b7oRRef718GOkIkzqL/szo4Mm/j4KfyG0SBWyPxlJktFADD3lcQIRrGakFhiZOFbg2HZci26q+l/hUfLMbzcBrWlc+gzY4z4LMF8YBy1x/x+yR4j1SzZuqempSRu7rDKevcIGBF/fALPyiXH2EzYKsVcN9nv5mFCjmwVK7WTjw1SFzufKwdmnvOYgyeYuMaOJv3LEBY1jJg8r4xqzuQx32KNK/iJz1E+njptV3ZhOYDiHBmieykP08nWxdS79N1DbljxRzS54T7CArfGo23nYTNlMewPeKFx7ZqtUVv03g8i1Hn8WdArz2TYciWWrPErBEALBpXsu7Oq5AT97wAhcAIf3B3dV5p/bXgnhALA/SodNBf/wr0U2f5VzTDyJ9eNZURt16jSxDgXkuKKY/rimLqqt2FC1SeicmTql1nVyHG3j9Q== root@controller"]
+  server = "${module.aws_server.private_names[0]}"
+  mirror_public_name = "${module.aws_mirror.public_name}"
+  mirror_private_name = "${module.aws_mirror.private_name}"
+  testsuite = true
+}
+
+module "aws_client" {
+  dependencies = [
+    "${module.aws_mirror.depended_on}"
+  ]
+  source = "./modules/aws/host"
+  roles = ["client"]
+  name = "sle-client"
+  count = 1
+  region = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+  ami = "ami-014799f67e8f28c77" // see comment in module 'aws_minion' above
+  instance_type = "t2.nano"
+  volume_size = 10 // GiB
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
+  private_subnet_id = "${module.aws_network.private_subnet_id}"
+  private_security_group_id = "${module.aws_network.private_security_group_id}"
+  name_prefix = "${local.name_prefix}"
+  authorized_keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOSLK0kJAulwO9Qwm/DVKLsGzv8Fh+ZcGe5x5d+VzO4/+xKnxjOPvGVngm9Hki8N436bCCvIRqwzstDUyJnTHhEe3qzsl02QGqIIfVjzK3BEp4sA8XcmByBy3pxqbTjAjrW8a+n43DBRMx4J86LgywX3fFt8ceEym3rFer/IzQD9QvKRocycNCwhpmGKEDh4zdl9PdyU5RcUpiA01AD/8rdJMNYnUxIsaNElcgP2LSzROjNdyu11cq9h3/cb3b7oRRef718GOkIkzqL/szo4Mm/j4KfyG0SBWyPxlJktFADD3lcQIRrGakFhiZOFbg2HZci26q+l/hUfLMbzcBrWlc+gzY4z4LMF8YBy1x/x+yR4j1SzZuqempSRu7rDKevcIGBF/fALPyiXH2EzYKsVcN9nv5mFCjmwVK7WTjw1SFzufKwdmnvOYgyeYuMaOJv3LEBY1jJg8r4xqzuQx32KNK/iJz1E+njptV3ZhOYDiHBmieykP08nWxdS79N1DbljxRzS54T7CArfGo23nYTNlMewPeKFx7ZqtUVv03g8i1Hn8WdArz2TYciWWrPErBEALBpXsu7Oq5AT97wAhcAIf3B3dV5p/bXgnhALA/SodNBf/wr0U2f5VzTDyJ9eNZURt16jSxDgXkuKKY/rimLqqt2FC1SeicmTql1nVyHG3j9Q== root@controller"]
+
+  server = "${module.aws_server.private_names[0]}"
+  mirror_public_name = "${module.aws_mirror.public_name}"
+  mirror_private_name = "${module.aws_mirror.private_name}"
+  testsuite = true
+}
+
+module "testcontroller" {
+  source = "./modules/aws/controller"
+  region = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+  ami = "" // works best with openSUSE Leap 15.0 with chromium installed from https://build.opensuse.org/project/show/openSUSE:Maintenance:9813
+  public_subnet_id = "${module.aws_network.public_subnet_id}"
+  public_security_group_id = "${module.aws_network.public_security_group_id}"
+  key_name = "${local.key_name}"
+  key_file = "${local.key_file}"
+  server = "${module.aws_server.private_names[0]}"
+  client = "${module.aws_client.private_names[0]}"
+  minion = "${module.aws_minion.private_names[0]}"
+  git_username = "" // put github credentials here if necessary
+  git_password = "" // alternatively store a private deploy key in 'github_deploy_key' file
+  git_repo = "ssh://git@github.com/SUSE/spacewalk"
+  git_branch = "Manager-${local.prod_version}"
+  repos_to_sync = "sles12-sp4-pool-x86_64 sles12-sp4-updates-x86_64 sle-manager-tools12-pool-x86_64-sp4 sle-manager-tools12-updates-x86_64-sp4" // repos required for testsuite 'init_clients' set
+}
+
+// testsuite expects to be able to log in with password 'linux'
+resource "null_resource" "update_client_conf" {
+  depends_on = [ "module.aws_client" ]
+  connection {
+    host = "${module.aws_client.private_names[0]}"
+    private_key = "${file(local.key_file)}"
+    bastion_host = "${module.aws_mirror.public_name}"
+    user = "ec2-user"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo sed -i -e 's/.*PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
+      "sudo systemctl reload sshd.service",
+      "echo root:linux | sudo chpasswd"
+     ]
+  }
+}
+
+resource "null_resource" "update_minion_conf" {
+  depends_on = [ "module.aws_minion" ]
+  connection {
+    host = "${module.aws_minion.private_names[0]}"
+    private_key = "${file(local.key_file)}"
+    bastion_host = "${module.aws_mirror.public_name}"
+    user = "ec2-user"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo sed -i -e 's/.*PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config",
+      "sudo systemctl reload sshd.service",
+      "echo root:linux | sudo chpasswd"
+     ]
+  }
+}
+
+// testsuite expects admin password to be 'admin'
+// also make sure channels are sync'd
+resource "null_resource" "update_server_conf" {
+  depends_on = [ "module.aws_server" ]
+
+  connection {
+    host = "${module.aws_server.private_names[0]}"
+    private_key = "${file(local.key_file)}"
+    bastion_host = "${module.aws_mirror.public_name}"
+    user = "ec2-user"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo -e 'admin\nadmin' | sudo satpasswd -s admin",
+      "sudo sh -c \"echo 'mgrsync.user = admin' > /root/.mgr-sync\"",
+      "sudo sh -c \"echo 'mgrsync.password = admin' >> /root/.mgr-sync\"",
+      "sudo mgr-sync refresh"
+     ]
+  }
+}
+
+output "mirror host public name" {
+  value = "${module.aws_mirror.public_name}"
+}
+
+output "controller host public name" {
+  value = "${module.testcontroller.public_name}"
+}
+
