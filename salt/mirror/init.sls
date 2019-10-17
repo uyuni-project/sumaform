@@ -2,9 +2,14 @@ include:
   - default
 
 system_update:
+{% if not grains.get('no_update') | default(false) %}
   pkg.uptodate:
     - require:
       - sls: default
+{% else %}
+  pkg.installed:
+    - name: aaa_base
+{% endif %}
 
 mozilla_certificates:
   pkg.installed:
@@ -28,7 +33,7 @@ minima:
 minima_configuration:
   file.managed:
     - name: /root/minima.yaml
-    - source: salt://mirror/minima.yaml
+    - source: salt://mirror/{{ grains.get("minima_config") | default("minima.yaml", true) }}
     - template: jinja
 
 tar:
@@ -96,9 +101,10 @@ mirror_script:
     - watch:
       - file: /root/mirror.sh
 
+{% set fstype = grains.get('data_disk_fstype') | default('ext4') %}
 mirror_partition:
   cmd.run:
-    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mkpart primary 2048 100% && sleep 1 && /sbin/mkfs.ext4 /dev/{{grains['data_disk_device']}}1
+    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mkpart primary 2048 100% && sleep 1 && /sbin/mkfs.{{fstype}} /dev/{{grains['data_disk_device']}}1
     - unless: ls /dev//{{grains['data_disk_device']}}1
     - require:
       - pkg: parted
@@ -117,7 +123,7 @@ mirror_directory:
   mount.mounted:
     - name: /srv/mirror
     - device: /dev/{{grains['data_disk_device']}}1
-    - fstype: ext4
+    - fstype: {{fstype}}
     - mkmnt: True
     - persist: True
     - opts:

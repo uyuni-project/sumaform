@@ -27,7 +27,7 @@ suse_manager_packages:
       - sls: repos
       - sls: suse_manager_server.firewall
 
-{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
+{% if '4' in grains['product_version']|string and grains['osfullname'] != 'Leap' %}
 baseproduct_link:
   file.symlink:
     - name: /etc/products.d/baseproduct
@@ -47,7 +47,9 @@ suse_manager_setup:
     - name: /usr/lib/susemanager/bin/migration.sh -l /var/log/susemanager_setup.log -s
     - creates: /root/.MANAGER_SETUP_COMPLETE
     - require:
+      {% if not grains.get('no_install') | default(false) %}
       - pkg: suse_manager_packages
+      {% endif %}
       - file: environment_setup_script
       {% if grains.get('apparmor') %}
       - sls: suse_manager_server.apparmor

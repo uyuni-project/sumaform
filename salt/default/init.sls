@@ -1,7 +1,9 @@
 include:
   - default.locale
   - default.minimal
+  {% if not grains.get('no_install') | default(false) %}
   - default.pkgs
+  {% endif %}
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
