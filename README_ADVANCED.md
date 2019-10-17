@@ -101,6 +101,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
  * `suse_manager_server` module:
+   * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
    * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
      * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
