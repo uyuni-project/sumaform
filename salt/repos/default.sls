@@ -170,10 +170,12 @@ test_update_repo:
 os_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
+    - name: SLE-12-SP4-x86_64-Pool
 
 os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4/x86_64/update/
+    - name: SLE-12-SP4-x86_64-Update
 
 {% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
@@ -190,10 +192,12 @@ test_update_repo:
 tools_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
+    - name: SLE-Manager-Tools12-Pool
 
 tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
+    - name: SLE-Manager-Tools12-Update
 {% else %}
 tools_pool_repo:
   pkgrepo.managed:
