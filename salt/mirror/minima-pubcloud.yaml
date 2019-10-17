@@ -1,0 +1,152 @@
+storage:
+  type: file
+  path: /srv/mirror
+
+scc:
+  username: {{ grains.get("cc_username") }}
+  password: {{ grains.get("cc_password") }}
+  repo_names:
+    # SLES
+    - SLES11-SP4-Pool
+    - SLES11-SP4-Updates
+    - SLES12-Pool
+    - SLES12-Updates
+    - SLES12-SP1-Pool
+    - SLES12-SP1-Updates
+    - SLES12-SP2-Pool
+    - SLES12-SP2-Updates
+    - SLES12-SP3-Pool
+    - SLES12-SP3-Updates
+    - SLES12-SP4-Pool
+    - SLES12-SP4-Updates
+    # SLE 15 Products
+    - SLE-Product-SLES15-Pool
+    - SLE-Product-SLES15-Updates
+    # SLE 15 Basic Modules
+    - SLE-Module-Basesystem15-Pool
+    - SLE-Module-Basesystem15-Updates
+    - SLE-Module-Server-Applications15-Pool
+    - SLE-Module-Server-Applications15-Updates
+    # SLE 15-SP1 Products
+    - SLE-Product-SLES15-SP1-Pool
+    - SLE-Product-SLES15-SP1-Updates
+    # SLE 15-SP1 Basic Modules
+    - SLE-Module-Basesystem15-SP1-Pool
+    - SLE-Module-Basesystem15-SP1-Updates
+    - SLE-Module-Server-Applications15-SP1-Pool
+    - SLE-Module-Server-Applications15-SP1-Updates
+    - SLE-Module-Web-Scripting15-SP1-Pool
+    - SLE-Module-Web-Scripting15-SP1-Updates
+    - SLE-Module-Python2-15-SP1-Pool
+    - SLE-Module-Python2-15-SP1-Update
+    # SLE Legacy Module
+    - SLE-Module-Legacy12-Pool
+    - SLE-Module-Legacy12-Updates
+    # SLE Container Module
+    - SLE-Module-Containers12-Pool
+    - SLE-Module-Containers12-Updates
+    - SLE-Module-Containers15-Pool
+    - SLE-Module-Containers15-Updates
+    - SLE-Module-Containers15-SP1-Pool
+    - SLE-Module-Containers15-SP1-Updates
+    # SUSE Manager Server
+    - SUSE-Manager-Server-3.2-Pool
+    - SUSE-Manager-Server-3.2-Updates
+    - SLE-Product-SUSE-Manager-Server-4.0-Pool
+    - SLE-Product-SUSE-Manager-Server-4.0-Updates
+    - SLE-Module-SUSE-Manager-Server-4.0-Pool
+    - SLE-Module-SUSE-Manager-Server-4.0-Updates
+    # SUSE Manager Proxy
+    - SUSE-Manager-Proxy-3.2-Pool
+    - SUSE-Manager-Proxy-3.2-Updates
+    - SLE-Product-SUSE-Manager-Proxy-4.0-Pool
+    - SLE-Product-SUSE-Manager-Proxy-4.0-Updates
+    - SLE-Module-SUSE-Manager-Proxy-4.0-Pool
+    - SLE-Module-SUSE-Manager-Proxy-4.0-Updates
+    # Retail Branch Server
+    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Pool
+    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Updates
+    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.0-Pool
+    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.0-Updates
+    # SUSE Manager Tools
+    - SLES11-SP4-SUSE-Manager-Tools
+    - SLE-Manager-Tools12-Pool
+    - SLE-Manager-Tools12-Updates
+    - SLE-Manager-Tools15-Pool
+    - SLE-Manager-Tools15-Updates
+    - RES-7-SUSE-Manager-Tools
+    - Ubuntu-16.04-SUSE-Manager-Tools
+    - Ubuntu-18.04-SUSE-Manager-Tools
+    # Additional products used by testsuite
+    - SLE-Product-SLED15-Pool
+    - SLE-15-GA-Desktop-NVIDIA-Driver
+    - SLE-Module-Desktop-Applications15-Pool
+    - SLE-Module-Desktop-Applications15-Updates
+    - SLE-Product-SLED15-Updates
+    - SLE-Product-WE15-Pool
+    - SLE-Product-WE15-Updates
+    - SLE11-SP2-SAP-Updates
+    - SLE11-HAE-SP2-Pool
+    - SLE11-HAE-SP2-Updates
+    - SLE11-WebYaST-SP2-Pool
+    - SLE11-WebYaST-SP2-Updates
+    - SLES11-SP1-Pool
+    - SLES11-SP1-Updates
+    - SLES11-SP2-Core
+    - SLES11-SP2-SUSE-Manager-Tools
+    - SLES11-SP2-Updates
+    - SLE11-SP4-SAP-Pool
+    - SLE11-HAE-SP4-Pool
+    - SLE11-HAE-SP4-Updates
+    - SLE11-SP2-WebYaST-1.3-Pool
+    - SLE11-SP2-WebYaST-1.3-Updates
+    - SLE11-SP4-SAP-Updates
+    - SLES11-SP4-LTSS-Updates
+    - SUSE-Manager-Proxy-2.1-Pool
+    - SUSE-Manager-Proxy-2.1-Updates
+    - SLE-Module-DevTools15-Pool
+    - SLE-Module-DevTools15-Updates
+    - SLE-HA12-Pool
+    - SLE-HA12-Updates
+    - RES7
+  archs: [x86_64, amd64]
+
+http:
+  # Testsuite dummy packages for testing repo
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
+    archs: [x86_64, src]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+    archs: [x86_64, src]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
+    archs: [x86_64]
+
+  # Software for sumaformed Virtual Machines
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_11_SP4
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP1
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP2
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP3
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP4
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP1
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.1
+    archs: [x86_64]
+
+  # NVidia repositories
+  - url: https://download.nvidia.com/suse/sle15
+    archs: [x86_64]
+  - url: https://download.nvidia.com/suse/sle15sp1
+    archs: [x86_64]
+  - url: https://download.nvidia.com/suse/sle12sp4
+    archs: [x86_64]
+
