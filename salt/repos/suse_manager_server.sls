@@ -1,6 +1,6 @@
 {% if 'suse_manager_server' in grains.get('roles') %}
 
-{% if '3.2' in grains['product_version'] %}
+{% if '3.2' in grains['product_version']|string %}
 suse_manager_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SUSE-Manager-Server/3.2/x86_64/product
@@ -12,7 +12,7 @@ suse_manager_update_repo:
     - priority: 97
 {% endif %}
 
-{% if '4.0' in grains['product_version'] %}
+{% if '4.0' in grains['product_version']|string %}
 suse_manager_server_product_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Product-SUSE-Manager-Server/4.0/x86_64/product/
@@ -54,14 +54,14 @@ module_python2_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Python2/15-SP1/x86_64/update/
 {% endif %}
 
-{% if 'uyuni-released' in grains['product_version'] %}
+{% if 'uyuni-released' in grains['product_version']|string %}
 suse_manager_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-4.0-POOL-x86_64-Media1/
     - priority: 97
 {% endif %}
 
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+{% if 'head' in grains.get('product_version')|string or 'uyuni-master' in grains.get('product_version')|string %}
 {% if grains['osfullname'] == 'Leap' %}
 suse_manager_pool_repo:
   pkgrepo.managed:
@@ -120,14 +120,14 @@ module_python2_update_repo:
 {% endif %}
 {% endif %}
 
-{% if '3.2-nightly' in grains['product_version'] %}
+{% if '3.2-nightly' in grains['product_version']|string %}
 suse_manager_devel_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3/
     - priority: 96
 {% endif %}
 
-{% if '4.0-nightly' in grains['product_version'] %}
+{% if '4.0-nightly' in grains['product_version']|string %}
 suse_manager_devel_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0/SLE_15_SP1/
