@@ -18,6 +18,7 @@ module "minionssh" {
   grains = <<EOF
 
 product_version: ${var.product_version}
+mirror: ${var.base_configuration["mirror"]}
 
 EOF
 

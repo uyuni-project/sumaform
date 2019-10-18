@@ -23,6 +23,11 @@ variable "mirror" {
   default = "null"
 }
 
+variable "use_mirror_images" {
+  description = "use true download images from a mirror host"
+  default = false
+}
+
 variable "use_avahi" {
   description = "use false only if you use bridged networking with static MACs and an external DHCP"
   default = true
