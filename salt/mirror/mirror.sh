@@ -20,7 +20,7 @@ wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/
 wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
 wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
 wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
-wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.3.0/ubuntu1804.qcow2"
+wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
 
 jdupes --linkhard -r -s /srv/mirror/
 
