@@ -8,7 +8,7 @@ minima -c /root/minima.yaml sync 2>&1 | tee /var/log/minima.log
 
 apt-mirror
 
-# will mirror them in /srv/mirror under the same path as the URL
+{% if grains.get('use_mirror_images') %}
 wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
 wget --mirror --no-host-directories "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
 wget --mirror --no-host-directories "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
@@ -21,6 +21,7 @@ wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/
 wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
 wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
 wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
+{% endif %}
 
 jdupes --linkhard -r -s /srv/mirror/
 

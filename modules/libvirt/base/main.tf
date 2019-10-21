@@ -117,6 +117,7 @@ output "configuration" {
     timezone = "${var.timezone}"
     ssh_key_path = "${var.ssh_key_path}"
     mirror = "${var.mirror == "" ? "null" : var.mirror}"
+    use_mirror_images = "${var.use_mirror_images}"
     use_avahi = "${var.use_avahi}"
     domain = "${var.domain}"
     name_prefix = "${var.name_prefix}"
