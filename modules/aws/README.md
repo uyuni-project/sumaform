@@ -25,9 +25,11 @@ SUSE employees using openbare already have AMI images uploaded and data snapshot
 
 ## mirror
 
-In addition to acting as a bastion host for all other instances, the `mirror` host serves all repos and packages used by other instances. It works similarly to the one for the libvirt backend, allowing instances in the private subnet to be completely disconnected from the Internet.
+In addition to acting as a bastion host for all other instances, the `mirror` host serves all repos and packages used by other instances. It works similarly to the one for the libvirt backend, allowing instances in the private subnet to be completely disconnected from the Internet. The `mirror` host's data volume can be created from a prepopulated snapshot, which allows it to be operational without lengthy channel synchronization.
 
-Please note that content in `mirror` must be refreshed manually at this time, see comments in [modules/aws/mirror/main.tf](modules/aws/mirror/main.tf).
+For instructions on how to refresh content in `mirror`, see comments in [modules/aws/mirror/main.tf](modules/aws/mirror/main.tf).
+
+For instructions on how to set up a mirror data snapshot from scratch, see comments in [main.tf.aws-create-mirror-snapshot.example](main.tf.aws-create-mirror-snapshot.example).
 
 ## Accessing instances
 

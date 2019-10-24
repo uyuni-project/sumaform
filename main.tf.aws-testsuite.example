@@ -212,11 +212,23 @@ resource "null_resource" "update_server_conf" {
   }
 }
 
-output "mirror host public name" {
+output "mirror_host_name" {
   value = "${module.aws_mirror.public_name}"
 }
 
-output "controller host public name" {
+output "ebs_volume_id" {
+  value = "${module.aws_mirror.data_volume_id}"
+}
+
+output "region" {
+  value = "${local.region}"
+}
+
+output "snapshot_name" {
+  value = "${local.name_prefix}-mirror-data-volume-snapshot"
+}
+
+output "controller_host_public_name" {
   value = "${module.testcontroller.public_name}"
 }
 

@@ -1,0 +1,134 @@
+#!/usr/bin/python3
+
+# Copyright 2019 SUSE Linux Solutions GmbH
+#
+# create_aws_mirror_snapshot is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the License,
+# or (at your option) any later version.
+#
+# create_aws_mirror_snapshot is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# create_aws_mirror_snapshot. If not, see <http://www.gnu.org/licenses/>.
+
+# This script is meant to be used in conjunction with sumaform AWS templates,
+# either main.tf.aws-testsuite.example which creates a full test cluster or
+# main.tf.aws-create-mirror-snapshot.example which only creates a mirror host
+# to be used for creating the snapshot. This script will parse main.tf (which
+# should be based on one of those two templates) and the output of 'terraform
+# output'. It will log into the mirror host, run /root/mirror.sh, and create a
+# snapshot of the data storage volume.
+
+import json
+import boto3
+import subprocess
+import pprint
+import paramiko.client
+
+tf_params = ["mirror_host_name", "ebs_volume_id", "region", "snapshot_name"]
+
+
+def get_creds(tf_file):
+    creds = {}
+    with open(tf_file, 'r') as fh:
+        for line in fh:
+            lstr = line.split()
+            if len(lstr) > 2:
+                if lstr[0].strip() == "access_key":
+                    creds["access_key"] = lstr[2].strip('"\'')
+                elif lstr[0].strip() == "secret_key":
+                    creds["secret_key"] = lstr[2].strip('"\'')
+                elif lstr[0].strip() == "key_file":
+                    creds["key_file"] = lstr[2].strip('"\'')
+            if (len(creds) > 2):
+                break
+    if len(creds) < 3:
+        raise Exception("Could not parse credentials from {}".format(tf_file))
+    return creds
+
+
+def get_terraform_output():
+    p = subprocess.Popen(["terraform", "output", "--json"],
+                         stdout=subprocess.PIPE)
+    stdout, ignored = p.communicate()
+    if (p.returncode != 0):
+        raise Exception("Could not get terraform output")
+    tf_out = json.loads(stdout.decode())
+    for param in tf_params:
+        if not tf_out.get(param):
+            raise Exception("Expected value for '{}' not in terraform output")
+    return tf_out
+
+
+class SSHConnection:
+    def __init__(self, host_name, user_name, key_file):
+        self.host_name = host_name
+        self.user_name = user_name
+        self.key_file = key_file
+        self.ssh_client = paramiko.client.SSHClient()
+        self.ssh_client.set_missing_host_key_policy(paramiko.WarningPolicy())
+
+    def __enter__(self):
+        self._reconnect()
+      return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        self.ssh_client.close()
+
+    def _reconnect(self):
+        self.ssh_client.connect(
+            key_filename=self.key_file,
+            username=self.user_name,
+            hostname=self.host_name
+        )
+
+    def exec_command(self, cmd):
+      if not self.ssh_client.get_transport().is_active():
+          self._reconnect()
+          stdin, stdout, stderr = self.ssh_client.exec_command(cmd)
+      for line in iter(stdout.readline, ""):
+          print(line, end="")
+          err_msg = stderr.read()
+      if (err_msg):
+        raise Exception("Command {} failed with following error\n{}".format(
+            cmd, err_msg))
+
+creds = get_creds("main.tf")
+params = get_terraform_output()
+
+mirror_host = params["mirror_host_name"]["value"]
+print("Connecting to mirror host '{}'".format(mirror_host))
+  with SSHConnection(mirror_host, "ec2-user", creds["key_file"]) as conn:
+      print("Starting mirror sync (this will take a while)")
+      conn.exec_command("sudo bash /root/mirror.sh")
+      conn.exec_command("sudo systemctl stop nfs-server")
+      conn.exec_command("sudo systemctl stop apache2")
+      conn.exec_command("sudo umount /srv/mirror")
+
+print("Creating snapshot")
+ec2 = boto3.client(
+    service_name="ec2",
+    aws_access_key_id=creds["access_key"],
+    aws_secret_access_key=creds["secret_key"],
+    region_name=params["region"]["value"]
+)
+resp = ec2.create_snapshot(
+    VolumeId=params["ebs_volume_id"]["value"],
+    Description="Sumaform mirror host data snapshot",
+    TagSpecifications=[
+        {
+            "ResourceType": "snapshot",
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "{}".format(params["snapshot_name"]["value"])
+                }
+            ]
+        }
+    ])
+pprint.pprint(resp)
+

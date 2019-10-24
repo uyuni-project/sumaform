@@ -1,0 +1,82 @@
+// This template can be used to create a mirror hosts data snapshot.
+// To do so, copy this template to main.tf, fill in your SCC and AWS
+// credentials and the regions and AMI information.
+
+// Create a mirror instance using 'terraform apply', and if successful,
+// run 'modules/aws/create_aws_mirror_snapshot' to sync
+// channels and create a snapshot from the resulting data volume.
+
+// If you want to base the snapshot on an existing snapshot, either set
+// data_volume_snapshot_id to the ID of the snapshot to use, or set it
+// to "${data.aws_ebs_snapshot.data_disk_snapshot.id}" to look up the
+// latest snapshot that uses the same $name_prefix.
+
+locals {
+  cc_username       = "" // SCC or NCC username
+  cc_password       = "" // SCC password
+  key_name          = "" // SSH key name
+  key_file          = "" // SSH key file
+  name_prefix       = "mirrorsnap"  // change to a prefix if you do not have an exclusive VPC
+  region            = "eu-west-2"
+  availability_zone = "${local.region}a"
+}
+
+provider "aws" {
+  region     = "${local.region}"
+  access_key = "" // add access key as a string here
+  secret_key = "" // add secret key as a string here
+}
+
+module "aws_network" {
+  source            = "./modules/aws/network"
+  region            = "${local.region}"
+  availability_zone = "${local.availability_zone}"
+
+  ssh_allowed_ips = [
+    "1.2.3.4",
+  ]
+
+  name_prefix = "${local.name_prefix}"
+}
+
+data "aws_ebs_snapshot" "data_disk_snapshot" {
+  most_recent = true
+
+  filter {
+    name   = "tag:Name"
+    values = ["${local.name_prefix}-mirror-data-volume-snapshot"]
+  }
+}
+
+module "aws_mirror" {
+  source                   = "./modules/aws/mirror"
+  region                   = "${local.region}"
+  availability_zone        = "${local.availability_zone}"
+  ami                      = "ami-00aa3f926488064bf"
+  key_name                 = "${local.key_name}"
+  key_file                 = "${local.key_file}"
+  public_subnet_id         = "${module.aws_network.public_subnet_id}"
+  public_security_group_id = "${module.aws_network.public_security_group_id}"
+  cc_username              = "${local.cc_username}"
+  cc_password              = "${local.cc_password}"
+  name_prefix              = "${local.name_prefix}"
+  minima_config            = "minima-small.yaml"
+  data_volume_snapshot_id  = "" // use existing snapshot as starting point
+                                // leave empty to create from scratch
+}
+
+output "mirror_host_name" {
+  value = "${module.aws_mirror.public_name}"
+}
+
+output "ebs_volume_id" {
+  value = "${module.aws_mirror.data_volume_id}"
+}
+
+output "region" {
+  value = "${local.region}"
+}
+
+output "snapshot_name" {
+  value = "${local.name_prefix}-mirror-data-volume-snapshot"
+}
