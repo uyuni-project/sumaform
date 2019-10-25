@@ -4,13 +4,11 @@
 
 openSUSE images are built and tracked in the [Open Build Service](https://build.opensuse.org/):
  - [libvirt project](https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:libvirt)
- - [OpenStack project](https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:openstack)
 
 [Submit Requests](https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.request_and_review_ystem.html) can be created with a free account, project maintainership is given to meritable community members.
 
 SUSE Linux Enterprise images are built and tracked in [SUSE's internal OBS instance](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images):
  - [libvirt project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images)
- - [OpenStack project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images:OpenStack)
  - [AWS project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images:AmazonEC2)
 
 Access is limited to SUSE employees at this time.

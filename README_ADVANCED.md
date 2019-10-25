@@ -172,7 +172,7 @@ Activation keys are also automatically created for each clone with the name `1-<
 
 ## Shared resources, prefixing, sharing virtual hardware
 
-Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host, OpenStack instance) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
+Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
 
 Additionally, it is possible to have only one user to upload images and other shared infrastructure such as mirrors, having all other users re-use them. In order to accomplish this:
  * add a `use_shared_resources = true` variable to the `base` module of all users but one
@@ -183,7 +183,7 @@ Additionally, it is possible to have only one user to upload images and other sh
 
 SUSE Manager requires both direct and reverse domain names resolution. This can be provided by either DNS (client-server, unicast mode) or Avahi (peer-to-peer, multicast mode).
 
-Note that Avahi is not available in environments that disable multicast UDP, notably AWS, so the following is only relevant for the libvirt and OpenStack backends. Backends which support multicast UDP have Avahi enabled by default.
+Note that Avahi is not available in environments that disable multicast UDP, notably AWS, so the following is only relevant for the libvirt backend, where it is enabled by default.
 
 Avahi can be disabled if it is not needed. A typical example is a libvirt environment in bridged networking mode where all VMs have static MAC addresses and DNS names known in advance. Avahi can be disabled via something like:
 

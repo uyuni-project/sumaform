@@ -40,7 +40,6 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 
 `sumaform` can deploy virtual machines to:
  - single libvirt hosts
- - OpenStack Cloud
  - Amazon Web Services
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
@@ -54,7 +53,6 @@ In `sumaform` you define a set of virtual machines in a `main.tf` configuration 
 
 Refer to specific READMEs to get started:
  * [libvirt README](modules/libvirt/README.md)
- * [OpenStack README](modules/openstack/README.md)
  * [AWS README](modules/aws/README.md)
 
 ## Typical use
