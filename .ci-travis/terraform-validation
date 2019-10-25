@@ -4,8 +4,7 @@
 sed -i 's/\.\.\./"not used"/g' *.example
 
 # validate examples
-# HACK: OpenStack only at the moment, the libvirt backend is broken in Travis
-for tf_file in `ls *openstack*.example`; do
+for tf_file in `ls *libvirt*.example`; do
   echo "Validating $tf_file..."
   mv $tf_file main.tf
   terraform init

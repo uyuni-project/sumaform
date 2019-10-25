@@ -233,7 +233,7 @@ A simple solution is to create a symbolic link pointing to the `salt` directory 
 
 ## Q: how can I change to another workspace?
 
-If you want to work with more than one `main.tf` file, for example to use both a libvirt and an OpenStack configuration, you can follow [instructions in the README_ADVANCED.md file](README_ADVANCED.md#working-on-multiple-configuration-sets-workspaces-locally) to set up multiple workspaces.
+If you want to work with more than one `main.tf` file, for example to use both a libvirt and an AWS configuration, you can follow [instructions in the README_ADVANCED.md file](README_ADVANCED.md#working-on-multiple-configuration-sets-workspaces-locally) to set up multiple workspaces.
 
 To change to another workspace just remove and create the corresponding links again, and then execute `terraform init`.
 
