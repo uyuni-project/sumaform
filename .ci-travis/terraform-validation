@@ -7,6 +7,8 @@ sed -i 's/\.\.\./"not used"/g' *.example
 for tf_file in `ls *libvirt*.example`; do
   echo "Validating $tf_file..."
   mv $tf_file main.tf
+  # uncomment for Terraform detailed logging
+  # export TF_LOG=TRACE
   terraform init
   terraform validate
   echo
