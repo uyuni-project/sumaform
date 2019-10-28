@@ -49,7 +49,7 @@ suse_manager_proxy_pool_repo:
 {% if grains['osfullname'] == 'Leap' %}
 suse_manager_proxy_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images-openSUSE_Leap_15.1/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
     - priority: 97
 {% else %}
 suse_manager_proxy_pool_repo:
