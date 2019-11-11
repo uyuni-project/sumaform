@@ -39,6 +39,18 @@ scc:
     - SLE-Module-Web-Scripting15-SP1-Updates
     - SLE-Module-Python2-15-SP1-Pool
     - SLE-Module-Python2-15-SP1-Update
+    # SLE 15-SP2 Products
+    #- SLE-Product-SLES15-SP2-Pool
+    #- SLE-Product-SLES15-SP2-Updates
+    # SLE 15-SP2 Basic Modules
+    #- SLE-Module-Basesystem15-SP2-Pool
+    #- SLE-Module-Basesystem15-SP2-Updates
+    #- SLE-Module-Server-Applications15-SP2-Pool
+    #- SLE-Module-Server-Applications15-SP2-Updates
+    #- SLE-Module-Web-Scripting15-SP2-Pool
+    #- SLE-Module-Web-Scripting15-SP2-Updates
+    #- SLE-Module-Python2-15-SP2-Pool
+    #- SLE-Module-Python2-15-SP2-Update
     # SLE Legacy Module
     - SLE-Module-Legacy12-Pool
     - SLE-Module-Legacy12-Updates
@@ -49,6 +61,8 @@ scc:
     - SLE-Module-Containers15-Updates
     - SLE-Module-Containers15-SP1-Pool
     - SLE-Module-Containers15-SP1-Updates
+    #- SLE-Module-Containers15-SP2-Pool
+    #- SLE-Module-Containers15-SP2-Updates
     # SUSE Manager Server
     - SUSE-Manager-Server-3.2-Pool
     - SUSE-Manager-Server-3.2-Updates
@@ -56,6 +70,10 @@ scc:
     - SLE-Product-SUSE-Manager-Server-4.0-Updates
     - SLE-Module-SUSE-Manager-Server-4.0-Pool
     - SLE-Module-SUSE-Manager-Server-4.0-Updates
+    #- SLE-Product-SUSE-Manager-Server-4.1-Pool
+    #- SLE-Product-SUSE-Manager-Server-4.1-Updates
+    #- SLE-Module-SUSE-Manager-Server-4.1-Pool
+    #- SLE-Module-SUSE-Manager-Server-4.1-Updates
     # SUSE Manager Proxy
     - SUSE-Manager-Proxy-3.2-Pool
     - SUSE-Manager-Proxy-3.2-Updates
@@ -63,11 +81,19 @@ scc:
     - SLE-Product-SUSE-Manager-Proxy-4.0-Updates
     - SLE-Module-SUSE-Manager-Proxy-4.0-Pool
     - SLE-Module-SUSE-Manager-Proxy-4.0-Updates
+    #- SLE-Product-SUSE-Manager-Proxy-4.1-Pool
+    #- SLE-Product-SUSE-Manager-Proxy-4.1-Updates
+    #- SLE-Module-SUSE-Manager-Proxy-4.1-Pool
+    #- SLE-Module-SUSE-Manager-Proxy-4.1-Updates
     # Retail Branch Server
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Pool
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Updates
     - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.0-Pool
     - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.0-Updates
+    #- SLE-Product-SUSE-Manager-Retail-Branch-Server-4.1-Pool
+    #- SLE-Product-SUSE-Manager-Retail-Branch-Server-4.1-Updates
+    #- SLE-Module-SUSE-Manager-Retail-Branch-Server-4.1-Pool
+    #- SLE-Module-SUSE-Manager-Retail-Branch-Server-4.1-Updates
     # SUSE Manager Tools
     - SLES11-SP4-SUSE-Manager-Tools
     - SLE-Manager-Tools12-Pool
@@ -109,26 +135,50 @@ http:
     archs: [x86_64]
 
   # SLES 15 Test
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
-  #  #  archs: [x86_64]
-
-  # SLE 15 SP1 moving target (valid until GM)
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Basesystem-POOL-x86_64-Media1/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Python2-POOL-x86_64-Media1/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15:/x86_64/update
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Server-Applications-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP1-Module-Web-Scripting-POOL-x86_64-Media1/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15:/x86_64/update
     archs: [x86_64]
 
-  # SUSE Manager Head (SLE15-SP1)
+  # SLES 15 SP1 Test
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP1:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP1:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP1:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP1:/x86_64/update
+    archs: [x86_64]
+
+  # SLES 15 SP2 Test (not available until GM)
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP2:/x86_64/update
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP2:/x86_64/update
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP2:/x86_64/update
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP2:/x86_64/update
+  #  archs: [x86_64]
+
+  # SLE 15 SP2 moving target (valid until GM)
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Basesystem-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Python2-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Server-Applications-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Web-Scripting-POOL-x86_64-Media1/
+    archs: [x86_64]
+
+  # SUSE Manager Head (SLE15-SP2)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.0-POOL-x86_64-Media1
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
     archs: [x86_64]
 
-  # SUSE Manager Head Proxy (SLE15-SP1)
+  # SUSE Manager Head Proxy (SLE15-SP2)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
@@ -143,6 +193,12 @@ http:
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/ToSLE/SLE_15_SP1/
     archs: [x86_64]
+
+  # SUSE Manager 4.1 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1/SLE_15_SP2
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/ToSLE/SLE_15_SP2/
+  #  archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 3.2 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/3.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
@@ -179,6 +235,26 @@ http:
   # Ubuntu 18.04 Manager Tools 4.0 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
     archs: [amd64]
+
+  # SLE 11 SP4 Manager Tools 4.1 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
+  #  archs: [x86_64]
+
+  # SLE 12 (GA and all SPs) Manager Tools 4.1 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+  #  archs: [x86_64]
+
+  # SLE 15 Manager Tools 4.1 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
+  #  archs: [x86_64]
+
+  # RES 7 Manager Tools 4.1 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+  #  archs: [x86_64]
+
+  # Ubuntu 18.04 Manager Tools 4.1 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
+  #  archs: [amd64]
 
   # SUSE Manager Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP1
@@ -235,6 +311,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP4
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP1
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP2
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
     archs: [x86_64]
