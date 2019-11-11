@@ -211,12 +211,18 @@ preload_conntrack_modules_and_enable_them_at_boottime:
   file.managed:
     - name: /etc/modules-load.d/nf_conntrack.conf
     - content: |
+{% if salt['pkg.version_cmp'](grains['kernelrelease'],'4.19') < 0 %}
         nf_conntrack_ipv4
         nf_conntrack_ipv6
+{% endif %}
         nf_conntrack
     - require:
       - pkg: proxy-packages
   cmd.run:
+{% if salt['pkg.version_cmp'](grains['kernelrelease'],'4.19') < 0 %}
     - name: modprobe nf_conntrack_ipv4 && modprobe nf_conntrack_ipv6
+{% else %}
+    - name: modprobe nf_conntrack
+{% endif %}
     - require:
       - pkg: proxy-packages
