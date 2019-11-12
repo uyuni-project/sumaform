@@ -59,6 +59,11 @@ variable "ssh_key_path" {
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
+variable "quantity" {
+  description = "number of hosts like this one"
+  default     = 1
+}
+
 variable "gpg_keys" {
   description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
   default     = []
