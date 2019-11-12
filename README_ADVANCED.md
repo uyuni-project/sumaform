@@ -797,3 +797,19 @@ module "minion" {
 ```
 
 To disable the swap file, set its size to 0.
+
+# Additional disk on SUSE Manager server or proxy
+
+In case the default disk size for those machines is not enough for the amount of products you want to synchronize. You can add an additional disk which will mount the first volume in /var/spacewalk with size `repository_disk_size`. This additional disk will be created in the pool specified by `data_pool`
+
+A libvirt example is:
+
+```hcl
+module "server" {
+  source = "sumaform/modules/libvirt/suse_manager"
+  base_configuration = "${module.base.configuration}"
+  product_version = "4.0-nightly"
+  name = "server"
+  repository_disk_size = 536870912000
+  data_pool = "default"
+```
