@@ -34,6 +34,6 @@ base:
     - match: grain
     - locust
 
-  'roles: virthost':
+  'roles:virthost':
     - match: grain
     - virthost
