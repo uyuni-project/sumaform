@@ -288,6 +288,16 @@ os_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP1/x86_64/update/
 {% endif %} {# '15.1' == grains['osrelease'] #}
 
+{% if '15.2' == grains['osrelease'] %}
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/
+
+os_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/
+{% endif %} {# '15.2' == grains['osrelease'] #}
+
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 
 allow_vendor_changes:
