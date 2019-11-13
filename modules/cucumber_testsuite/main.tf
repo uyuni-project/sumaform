@@ -201,11 +201,11 @@ module "ctl" {
   server_configuration    = module.srv.configuration
   client_configuration    = module.cli-sles12sp4.configuration
   minion_configuration    = module.min-sles12sp4.configuration
-  centos_configuration    = contains(var.optional_clients, "min-centos7") ? module.min-centos7.configuration : {hostname = "null"}
-  ubuntu_configuration    = contains(var.optional_clients, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : {hostname = "null"}
-  minionssh_configuration = contains(var.optional_clients, "min-minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : {hostname = "null"}
-  pxeboot_configuration   = contains(var.optional_clients, "min-pxeboot") ? module.min-pxeboot.configuration : {hostname = "null"}
-  kvmhost_configuration   = contains(var.optional_clients, "min-kvm") ? module.min-kvm.configuration : {hostname = "null"}
+  centos_configuration    = contains(var.optional_clients, "min-centos7") ? module.min-centos7.configuration : {hostname = "null", ids=null}
+  ubuntu_configuration    = contains(var.optional_clients, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : {hostname = "null", ids=null}
+  minionssh_configuration = contains(var.optional_clients, "min-minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : {hostname = "null", ids=null}
+  pxeboot_configuration   = contains(var.optional_clients, "min-pxeboot") ? module.min-pxeboot.configuration : {hostname = "null",ids=null}
+  kvmhost_configuration   = contains(var.optional_clients, "min-kvm") ? module.min-kvm.configuration : {hostname = "null",ids=null}
 
   git_username      = var.git_username
   git_password      = var.git_password

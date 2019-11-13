@@ -30,7 +30,9 @@ variable "branch" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = map(string)
+  default = {
+    hostname = "null"
+  }
 }
 
 variable "proxy_configuration" {
@@ -43,12 +45,16 @@ variable "proxy_configuration" {
 
 variable "client_configuration" {
   description = "use module.<CLIENT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = map(string)
+  default = {
+    hostname = "null"
+  }
 }
 
 variable "minion_configuration" {
   description = "use module.<MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = map(string)
+  default = {
+    hostname = "null"
+  }
 }
 
 variable "minionssh_configuration" {
