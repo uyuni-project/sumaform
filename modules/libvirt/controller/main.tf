@@ -32,12 +32,12 @@ git_repo: ${var.git_repo}
 mirror: ${var.base_configuration["mirror"]}
 server: ${var.server_configuration["hostname"]}
 proxy: ${var.proxy_configuration["hostname"]}
-client: ${var.client_configuration["hostname"]}
-minion: ${var.minion_configuration["hostname"]}
-centos_minion: ${var.centos_configuration["hostname"]}
-ubuntu_minion:  ${var.ubuntu_configuration["hostname"]}
-ssh_minion: ${var.minionssh_configuration["hostname"]}
-kvm_host: ${var.kvmhost_configuration["hostname"]}
+client: ${var.client_configuration["hostnames"][0]}
+minion: ${var.minion_configuration["hostnames"][0]}
+centos_minion: ${var.centos_configuration["hostnames"] != null ? var.centos_configuration["hostnames"][0] : ""}
+ubuntu_minion:  ${var.ubuntu_configuration["hostnames"] != null ? var.ubuntu_configuration["hostnames"][0] : ""}
+ssh_minion: ${var.minionssh_configuration["hostnames"] != null ? var.minionssh_configuration["hostnames"][0] : ""}
+kvm_host: ${var.kvmhost_configuration["hostnames"] != null ? var.kvmhost_configuration["hostnames"][0] : ""}
 pxeboot_mac: ${var.pxeboot_configuration["macaddr"]}
 branch: ${var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch}
 git_profiles_repo: ${var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo}

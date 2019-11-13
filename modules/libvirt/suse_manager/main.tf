@@ -99,7 +99,7 @@ EOF
 output "configuration" {
   value = {
     id              = module.suse_manager.configuration["ids"][0]
-    hostname        = module.suse_manager.configuration["hostname"]
+    hostname        = module.suse_manager.configuration["hostnames"][0]
     product_version = var.product_version
     username        = var.server_username
     password        = var.server_password
