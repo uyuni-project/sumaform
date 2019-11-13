@@ -65,7 +65,7 @@ EOF
 
 output "configuration" {
   value = {
-    id              = module.suse_manager_proxy.configuration["id"]
+    ids              = module.suse_manager_proxy.configuration["ids"]
     hostname        = module.suse_manager_proxy.configuration["hostname"]
     product_version = var.product_version
     username        = var.server_configuration["username"]

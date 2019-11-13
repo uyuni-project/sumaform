@@ -49,7 +49,7 @@ EOF
 
 output "configuration" {
   value = {
-    id       = module.locust.configuration["id"]
+    id       = module.locust.configuration["ids"][0]
     hostname = module.locust.configuration["hostname"]
   }
 }
