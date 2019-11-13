@@ -44,16 +44,16 @@ variable "proxy_configuration" {
 variable "client_configuration" {
   description = "use module.<CLIENT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type        = object({
-    ids = list(string)
-    hostname = string
+    ids       = list(string)
+    hostnames = list(string)
   })
 }
 
 variable "minion_configuration" {
   description = "use module.<MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   type        = object({
-    ids = list(string)
-    hostname = string
+    ids       = list(string)
+    hostnames = list(string)
   })
 }
 
