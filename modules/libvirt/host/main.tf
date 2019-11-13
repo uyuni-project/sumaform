@@ -163,7 +163,7 @@ xml {
 
 output "configuration" {
   value = {
-    id       = libvirt_domain.domain[0].id
+    ids      = libvirt_domain.domain[*].id
     hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
   }
 }
