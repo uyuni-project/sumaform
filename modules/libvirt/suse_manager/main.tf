@@ -79,6 +79,7 @@ from_email: ${var.from_email}
 traceback_email: ${var.traceback_email}
 saltapi_tcpdump: ${var.saltapi_tcpdump}
 repository_disk_size: ${var.repository_disk_size}
+repository_disk_device: vdb
 
 EOF
 
