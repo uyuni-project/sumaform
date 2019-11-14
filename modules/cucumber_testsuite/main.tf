@@ -46,7 +46,7 @@ module "srv" {
 
   mac    = lookup(local.macs, "srv", "")
   memory = 8192
-  vcpu   = 8
+  vcpu   = 4
 }
 
 locals {
@@ -74,8 +74,6 @@ module "pxy" {
   ssh_key_path              = "./salt/controller/id_rsa.pub"
 
   mac    = lookup(local.macs, "pxy", null)
-  memory = 2048
-  vcpu   = 2
 }
 
 locals {
@@ -213,6 +211,4 @@ module "ctl" {
   server_http_proxy = var.server_http_proxy
 
   mac    = lookup(local.macs, "ctl", null)
-  memory = 4096
-  vcpu   = 4
 }
