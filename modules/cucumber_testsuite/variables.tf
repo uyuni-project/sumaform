@@ -74,6 +74,11 @@ variable "from_email" {
 }
 
 // ctl
+variable "branch" {
+  description = "Leave default for automatic selection or specify an existing branch of spacewalk"
+  default     = "default"
+}
+
 variable "git_username" {
   description = "username for GitHub"
   type        = string

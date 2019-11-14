@@ -226,6 +226,7 @@ module "ctl" {
   pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { hostnames = null, ids = null }
   kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = null, ids = null }
 
+  branch            = var.branch
   git_username      = var.git_username
   git_password      = var.git_password
   server_http_proxy = var.server_http_proxy
