@@ -87,6 +87,11 @@ variable "server_http_proxy" {
   default     = ""
 }
 
+variable "saltapi_tcpdump" {
+  description = "If set to true, all network operations of salt-api are logged to /tmp/ with tcpdump."
+  default     = false
+}
+
 // provider
 variable "provider_settings" {
   description = "Settings specific to the provider, see README_TESTING.md"

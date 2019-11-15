@@ -44,6 +44,8 @@ module "srv" {
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
 
+  saltapi_tcpdump                = var.saltapi_tcpdump
+
   mac    = lookup(local.macs, "srv", "")
   memory = 8192
   vcpu   = 4
