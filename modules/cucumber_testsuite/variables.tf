@@ -14,6 +14,11 @@ variable "use_avahi" {
   default     = true
 }
 
+variable "avahi_reflector" {
+  description = "if using avahi, let the daemon be a reflector"
+  default     = false
+}
+
 variable "domain" {
   description = "hostname's domain"
   default     = "tf.local"
