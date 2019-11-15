@@ -1,4 +1,4 @@
-{% if grains.get('virtual_host') | default(false, true) %}
+{% if 'virthost' in grains.get('roles') %}
 
 {% if grains['osfullname'] == 'SLES' %}
 {% if grains['osrelease'] == '15' %}
