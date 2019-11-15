@@ -38,7 +38,7 @@ legacy_permanent_hostname:
 hosts_file_hack:
   cmd.script:
     - name: salt://default/set_ip_in_etc_hosts.py
-    {% if grains.get('ipv6')['enable'] | default('1') == '1' %}
+    {% if grains.get('ipv6')['enable'] %}
     - args: "{{ grains['hostname'] }} {{ grains['domain'] }}"
     {% else %}
     - args: "--no-ipv6 {{ grains['hostname'] }} {{ grains['domain'] }}"

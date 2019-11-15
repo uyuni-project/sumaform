@@ -63,7 +63,7 @@ authorized_keys:
     - makedirs: True
 {% endif %}
 
-{% if grains.get('ipv6')['enable'] | default('1') == '1' %}
+{% if grains.get('ipv6')['enable'] %}
 
 ipv6_enable_all:
   sysctl.present:
@@ -73,7 +73,7 @@ ipv6_enable_all:
 {# net.ipv6.conf.all.accept_ra cannot be used, we have to proceed one interface at a time #}
 {% set ifaces = grains.get('ip6_interfaces').keys() %}
 
-{% if grains.get('ipv6')['accept_ra'] | default('1') == '1' %}
+{% if grains.get('ipv6')['accept_ra'] %}
 
 {% for iface in ifaces %}
 ipv6_accept_ra_{{ iface }}:
