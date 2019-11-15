@@ -55,6 +55,8 @@ module "srv" {
   from_email                     = var.from_email
   additional_repos               = lookup(local.additional_repos, "srv", {})
 
+  saltapi_tcpdump                = var.saltapi_tcpdump
+
   mac    = lookup(local.macs, "srv", "")
   memory = 8192
   vcpu   = 4
