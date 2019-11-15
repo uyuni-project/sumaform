@@ -198,6 +198,7 @@ module "ctl" {
 
   base_configuration      = module.base.configuration
   server_configuration    = module.srv.configuration
+  proxy_configuration     = var.proxy ? module.pxy.configuration : { hostnames = null, ids = null }
   client_configuration    = module.cli-sles12sp4.configuration
   minion_configuration    = module.min-sles12sp4.configuration
   centos_configuration    = contains(var.optional_clients, "min-centos7") ? module.min-centos7.configuration : { hostnames = null, ids = null }
