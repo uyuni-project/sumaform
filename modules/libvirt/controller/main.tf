@@ -68,7 +68,7 @@ ubuntu1804_sshminion: ${var.ubuntu1804_sshminion_configuration["hostname"]}
 EOF
 
   // Provider-specific variables
-  image = "opensuse151"
+  image = "opensuse150"
   vcpu = "${var.vcpu}"
   memory = "${var.memory}"
   running = "${var.running}"
