@@ -50,14 +50,16 @@ variable "use_shared_resources" {
 }
 
 // cucumber_testsuite
-variable "proxy" {
-  description = "whether or not to include a Proxy in the test"
-  default     = true
-}
-
-variable "optional_clients" {
-  description = "list of optional clients to test. Defaults to all"
-  default     = ["min-centos7", "min-ubuntu1804", "minssh-sles12sp4", "min-pxeboot", "min-kvm"]
+variable "host_settings" {
+  description = "Object with clients and is specific properties"
+  default = {
+    pxy              = null
+    min-centos7      = null
+    min-ubuntu1804   = null
+    minssh-sles12sp4 = null
+    min-pxeboot      = null
+    min-kvm          = null
+  }
 }
 
 // srv
@@ -110,7 +112,6 @@ variable "provider_settings" {
       network_name       = "default"
       bridge             = ""
       additional_network = ""
-      macs               = {}
     }
   }
 }
