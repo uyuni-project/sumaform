@@ -32,7 +32,7 @@ sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/uyuni-project/sumaform.git
 ```
 
-NOTE: be sure to have [SUSE's CA certificates](http://ca.suse.de/) installed on your system.
+NOTE: to deploy development versions of SUSE Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
 
 You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
 
