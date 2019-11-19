@@ -30,7 +30,7 @@ locals {
   additional_repos = { for host_key in local.hosts :
   host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
   images = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "image", null) if var.host_settings[host_key] != null }
+  host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null }
 }
 
 module "srv" {
