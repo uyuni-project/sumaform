@@ -20,7 +20,6 @@ module "base" {
   network_name       = lookup(var.provider_settings["libvirt"], "network_name", "default")
   bridge             = lookup(var.provider_settings["libvirt"], "bridge", "")
   additional_network = lookup(var.provider_settings["libvirt"], "additional_network", "")
-
 }
 
 locals {
@@ -30,12 +29,15 @@ locals {
   host_key => lookup(var.host_settings[host_key], "mac", null) if var.host_settings[host_key] != null }
   additional_repos = { for host_key in local.hosts :
   host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
+  images = { for host_key in local.hosts :
+  host_key => lookup(var.host_settings[host_key], "image", null) if var.host_settings[host_key] != null }
 }
 
 module "srv" {
   source                         = "../libvirt/suse_manager"
   base_configuration             = module.base.configuration
   product_version                = var.product_version
+  image                          = lookup(local.images, "srv", null)
   name                           = "srv"
   auto_accept                    = false
   disable_firewall               = false
@@ -70,6 +72,7 @@ module "pxy" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
+  image              = lookup(local.images, "pxy", null)
   name               = "pxy"
 
   server_configuration      = { hostname = local.server_full_name, username = "admin", password = "admin" }
@@ -192,7 +195,7 @@ module "min-pxeboot" {
 
   base_configuration = module.base.configuration
   name               = "min-pxeboot"
-  image              = "sles12sp3"
+  image              = lookup(local.images, "min-pxeboot", "sles12sp3")
 }
 
 module "min-kvm" {
@@ -203,7 +206,7 @@ module "min-kvm" {
   base_configuration   = module.base.configuration
   product_version      = var.product_version
   name                 = "min-kvm"
-  image                = "sles15sp1"
+  image                = lookup(local.images, "min-kvm", "sles15sp1")
   ssh_key_path         = "./salt/controller/id_rsa.pub"
   server_configuration = local.minimal_configuration
 
