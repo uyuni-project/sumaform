@@ -37,7 +37,7 @@ module "srv" {
   source                         = "../libvirt/suse_manager"
   base_configuration             = module.base.configuration
   product_version                = var.product_version
-  image                          = lookup(local.images, "srv", null)
+  image                          = lookup(local.images, "srv", "default")
   name                           = "srv"
   auto_accept                    = false
   disable_firewall               = false
