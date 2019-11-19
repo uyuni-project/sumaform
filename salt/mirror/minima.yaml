@@ -40,17 +40,17 @@ scc:
     - SLE-Module-Python2-15-SP1-Pool
     - SLE-Module-Python2-15-SP1-Update
     # SLE 15-SP2 Products
-    #- SLE-Product-SLES15-SP2-Pool
-    #- SLE-Product-SLES15-SP2-Updates
+    - SLE-Product-SLES15-SP2-Pool
+    - SLE-Product-SLES15-SP2-Updates
     # SLE 15-SP2 Basic Modules
-    #- SLE-Module-Basesystem15-SP2-Pool
-    #- SLE-Module-Basesystem15-SP2-Updates
-    #- SLE-Module-Server-Applications15-SP2-Pool
-    #- SLE-Module-Server-Applications15-SP2-Updates
-    #- SLE-Module-Web-Scripting15-SP2-Pool
-    #- SLE-Module-Web-Scripting15-SP2-Updates
-    #- SLE-Module-Python2-15-SP2-Pool
-    #- SLE-Module-Python2-15-SP2-Update
+    - SLE-Module-Basesystem15-SP2-Pool
+    - SLE-Module-Basesystem15-SP2-Updates
+    - SLE-Module-Server-Applications15-SP2-Pool
+    - SLE-Module-Server-Applications15-SP2-Updates
+    - SLE-Module-Web-Scripting15-SP2-Pool
+    - SLE-Module-Web-Scripting15-SP2-Updates
+    - SLE-Module-Python2-15-SP2-Pool
+    - SLE-Module-Python2-15-SP2-Update
     # SLE Legacy Module
     - SLE-Module-Legacy12-Pool
     - SLE-Module-Legacy12-Updates
@@ -173,15 +173,15 @@ http:
     archs: [x86_64]
 
   # SUSE Manager Head (SLE15-SP2)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.0-POOL-x86_64-Media1
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.1-POOL-x86_64-Media1
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP2/
     archs: [x86_64]
 
   # SUSE Manager Head Proxy (SLE15-SP2)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.1-POOL-x86_64-Media1
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP1/
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP2/
     archs: [x86_64]
 
   # SUSE Manager 3.2 devel
@@ -257,7 +257,7 @@ http:
   #  archs: [amd64]
 
   # SUSE Manager Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP1
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP2
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools Head devel
