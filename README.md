@@ -68,7 +68,8 @@ terraform apply # prepare and apply a plan to create your systems (after manual 
 
 ## Advanced use
 
-Please see [README_ADVANCED.md](README_ADVANCED.md).
+ - To run the Cucumber testsuite for Uyuni or SUSE Manager, see [README_TESTING.md](README_TESTING.md)
+ - For any other use, please see [README_ADVANCED.md](README_ADVANCED.md)
 
 ### I have a problem!
 
