@@ -72,7 +72,7 @@ module "pxy" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "pxy", null)
+  image              = lookup(local.images, "pxy", "default")
   name               = "pxy"
 
   server_configuration      = { hostname = local.server_full_name, username = "admin", password = "admin" }
