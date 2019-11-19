@@ -23,6 +23,7 @@ ssh_minion: ssh-travis.tf.local
 roles: [controller]
 mirror: null
 testsuite: true
+ipv6: {'accept_ra': true, 'enable': true}
 EOF
 
 cat >minion <<EOF

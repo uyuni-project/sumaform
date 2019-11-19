@@ -20,6 +20,7 @@ mirror: null
 auto_register: false
 testsuite: true
 use_os_unreleased_updates: 0
+ipv6: {'accept_ra': true, 'enable': true}
 EOF
 
 cat >minion <<EOF
