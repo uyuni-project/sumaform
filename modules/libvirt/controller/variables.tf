@@ -60,21 +60,21 @@ variable "minion_configuration" {
 variable "minionssh_configuration" {
   description = "use module.<MINIONSSH_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos_configuration" {
   description = "use module.<CENTOS_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "ubuntu_configuration" {
   description = "use module.<UBUNTU_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
@@ -88,161 +88,161 @@ variable "pxeboot_configuration" {
 variable "kvmhost_configuration" {
   description = "use module.<VIRTHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle11sp4_minion_configuration" {
   description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle11sp4_sshminion_configuration" {
   description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle11sp4_client_configuration" {
   description = "use module.<SLE11SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle12sp4_minion_configuration" {
   description = "use module.<SLE12SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle12sp4_sshminion_configuration" {
   description = "use module.<SLE12SP4_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle12sp4_client_configuration" {
   description = "use module.<SLE12SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle15_minion_configuration" {
   description = "use module.<SLE15_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle15_sshminion_configuration" {
   description = "use module.<SLE15_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle15_client_configuration" {
   description = "use module.<SLE15_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle15sp1_minion_configuration" {
   description = "use module.<SLE15SP1_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle15sp1_sshminion_configuration" {
   description = "use module.<SLE15SP1_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "sle15sp1_client_configuration" {
   description = "use module.<SLE15SP1_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos6_minion_configuration" {
   description = "use module.<CENTOS6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos6_sshminion_configuration" {
   description = "use module.<CENTOS6_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos6_client_configuration" {
   description = "use module.<CENTOS6_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos7_minion_configuration" {
   description = "use module.<CENTOS7_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos7_sshminion_configuration" {
   description = "use module.<CENTOS7_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "centos7_client_configuration" {
   description = "use module.<CENTOS7_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "ubuntu1604_minion_configuration" {
   description = "use module.<UBUNTU1604_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "ubuntu1604_sshminion_configuration" {
   description = "use module.<UBUNTU1604_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "ubuntu1804_minion_configuration" {
   description = "use module.<UBUNTU1804_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
 variable "ubuntu1804_sshminion_configuration" {
   description = "use module.<UBUNTU1804_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostname = "null"
+    hostnames = null
   }
 }
 
