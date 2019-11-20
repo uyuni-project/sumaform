@@ -1,11 +1,11 @@
 terraform {
-    required_version = "~> 0.11.7"
+    required_version = "~> 0.12.9"
 }
 
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
   instance_type = "${var.instance_type}"
-  count = "${var.count}"
+  count = "${var.quantity}"
   availability_zone = "${var.availability_zone}"
   key_name = "${var.key_name}"
   monitoring = "${var.monitoring}"
@@ -23,7 +23,7 @@ resource "aws_instance" "instance" {
 }
 
 resource "null_resource" "host_salt_configuration" {
-  count = "${var.count}"
+  count = "${var.quantity}"
 
   triggers {
     instance_id = "${element(aws_instance.instance.*.id, count.index)}"

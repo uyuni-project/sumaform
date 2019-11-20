@@ -28,7 +28,7 @@ variable "volume_size" {
   default = 10
 }
 
-variable "count"  {
+variable "quantity"  {
   description = "Number of hosts like this one"
   default = 1
 }

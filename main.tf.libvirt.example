@@ -37,7 +37,6 @@ module "client" {
   name = "client"
   image = "sles12sp3"
   server_configuration = "${module.server.configuration}"
-  count = 1
   // see modules/libvirt/client/variables.tf for possible values
 }
 
@@ -48,6 +47,5 @@ module "minion" {
   name = "minion"
   image = "sles12sp3"
   server_configuration = "${module.server.configuration}"
-  count = 1
   // see modules/libvirt/minion/variables.tf for possible values
 }

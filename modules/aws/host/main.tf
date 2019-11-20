@@ -1,11 +1,11 @@
 terraform {
-    required_version = "~> 0.11.7"
+    required_version = "~> 0.12.9"
 }
 
 resource "aws_instance" "instance" {
   ami = "${var.ami}"
   instance_type = "${var.instance_type}"
-  count = "${var.count}"
+  count = "${var.quantity}"
   availability_zone = "${var.availability_zone}"
   key_name = "${var.key_name}"
   subnet_id = "${var.private_subnet_id}"
@@ -33,7 +33,7 @@ resource "aws_instance" "instance" {
 }
 
 resource "null_resource" "host_salt_configuration" {
-  count = "${var.count}"
+  count = "${var.quantity}"
 
   connection {
     host = "${element(aws_instance.instance.*.private_dns, count.index)}"

@@ -1,40 +1,40 @@
 variable "images" {
   default = {
-    "3.2-released" = "sles12sp4"
-    "3.2-nightly" = "sles12sp4"
-    "4.0-released" = "sles15sp1"
-    "4.0-nightly" = "sles15sp1"
-    "head" = "sles15sp2"
-    "uyuni-master" = "opensuse151"
+    "3.2-released"   = "sles12sp4"
+    "3.2-nightly"    = "sles12sp4"
+    "4.0-released"   = "sles15sp1"
+    "4.0-nightly"    = "sles15sp1"
+    "head"           = "sles15sp2"
+    "uyuni-master"   = "opensuse151"
     "uyuni-released" = "opensuse151"
   }
 }
 
 resource "libvirt_volume" "server_data_disk" {
-  name = "${var.base_configuration["name_prefix"]}${var.name}-server-data-disk"
-  size = "${var.repository_disk_size}"
-  pool = "${var.data_pool}"
+  name  = "${var.base_configuration["name_prefix"]}${var.name}-server-data-disk"
+  size  = "${var.repository_disk_size}"
+  pool  = "${var.data_pool}"
   count = "${var.repository_disk_size > 0 ? 1 : 0}"
 }
 
 module "suse_manager_proxy" {
   source = "../host"
 
-  base_configuration = "${var.base_configuration}"
-  name = "${var.name}"
-  count = "${var.count}"
-  use_os_released_updates = "${var.use_os_released_updates}"
-  use_os_unreleased_updates = "${var.use_os_unreleased_updates}"
-  additional_repos = "${var.additional_repos}"
-  additional_packages = "${var.additional_packages}"
-  swap_file_size = "${var.swap_file_size}"
-  ssh_key_path = "${var.ssh_key_path}"
-  gpg_keys = "${var.gpg_keys}"
-  ipv6 = "${var.ipv6}"
-  connect_to_base_network = true
+  base_configuration            = var.base_configuration
+  name                          = var.name
+  quantity                      = var.quantity
+  use_os_released_updates       = var.use_os_released_updates
+  use_os_unreleased_updates     = var.use_os_unreleased_updates
+  additional_repos              = var.additional_repos
+  additional_packages           = var.additional_packages
+  swap_file_size                = var.swap_file_size
+  ssh_key_path                  = var.ssh_key_path
+  gpg_keys                      = var.gpg_keys
+  ipv6                          = var.ipv6
+  connect_to_base_network       = true
   connect_to_additional_network = true
-  roles = ["suse_manager_proxy"]
-  grains = <<EOF
+  roles                         = ["suse_manager_proxy"]
+  grains                        = <<EOF
 
 product_version: ${var.product_version}
 mirror: ${var.base_configuration["mirror"]}
@@ -54,29 +54,22 @@ repository_disk_device: vdb
 
 EOF
 
-  // Provider-specific variables
-  image = "${var.image == "default" ? lookup(var.images, var.product_version) : var.image}"
-  memory = "${var.memory}"
-  vcpu = "${var.vcpu}"
-  running = "${var.running}"
-  mac = "${var.mac}"
 
-  // HACK: Terraform 0.11 ternary operator is not short-circuiting
-  // https://github.com/hashicorp/terraform/issues/11566
-  // example by https://github.com/coreos/tectonic-installer/commit/0f209b31b169ce129ba457096b23792f6601d66e#diff-17708827fa84c637698cd840c01710c9R16
-  additional_disk = "${slice(
-    list(map("volume_id", join("",libvirt_volume.server_data_disk.*.id))),
-    0,
-    var.repository_disk_size > 0 ? 1 : 0
-  )}"
+  // Provider-specific variables
+  image           = var.image == "default" ? var.images[var.product_version] : var.image
+  memory          = var.memory
+  vcpu            = var.vcpu
+  running         = var.running
+  mac             = var.mac
+  additional_disk = var.repository_disk_size > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
 }
 
 output "configuration" {
-  value {
-    id = "${module.suse_manager_proxy.configuration["id"]}"
-    hostname = "${module.suse_manager_proxy.configuration["hostname"]}"
-    product_version = "${var.product_version}"
-    username = "${var.server_configuration["username"]}"
-    password = "${var.server_configuration["password"]}"
+  value = {
+    id              = module.suse_manager_proxy.configuration["ids"][0]
+    hostname        = module.suse_manager_proxy.configuration["hostnames"][0]
+    product_version = var.product_version
+    username        = var.server_configuration["username"]
+    password        = var.server_configuration["password"]
   }
 }

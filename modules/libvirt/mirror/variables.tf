@@ -1,52 +1,53 @@
 variable "base_configuration" {
-  description = "use ${module.base.configuration}, see the main.tf example file"
-  type = "map"
+  description = "use module.base.configuration, see the main.tf example file"
+  type        = map(string)
 }
 
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
-  default = {}
+  default     = {}
 }
 
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
-  default = []
+  default     = []
 }
 
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
-  default = 0
+  default     = 0
 }
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default = "/dev/null"
+  default     = "/dev/null"
   # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
 }
 
 variable "ubuntu_distros" {
   description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
-  default = []
+  default     = []
 }
 
 // Provider-specific variables
 
 variable "running" {
   description = "Whether this host should be turned on or off"
-  default = true
+  default     = true
 }
 
 variable "data_pool" {
   description = "libvirt storage pool name for this host's data disk"
-  default = "default"
+  default     = "default"
 }
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default = ""
+  default     = ""
 }
 
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default = ""
+  default     = ""
 }
+

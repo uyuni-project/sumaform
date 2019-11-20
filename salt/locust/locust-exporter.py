@@ -32,9 +32,9 @@ class LocustCollector(object):
         metric.add_sample('locust_errors', value=err['occurences'], labels={'path':err['name'], 'method':err['method']})
     yield metric
 
-    if 'slave_count' in response:
+    if 'slave_quantity' in response:
         metric = Metric('locust_slave_count', 'Locust number of slaves', 'gauge')
-        metric.add_sample('locust_slave_count', value=response['slave_count'], labels={})
+        metric.add_sample('locust_slave_count', value=response['slave_quantity'], labels={})
         yield metric
 
     metric = Metric('locust_fail_ratio', 'Locust failure ratio', 'gauge')
