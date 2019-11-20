@@ -223,7 +223,7 @@ module "ctl" {
 
   base_configuration      = module.base.configuration
   server_configuration    = module.srv.configuration
-  proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostnames = null, ids = null }
+  proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = null, id = null }
   client_configuration    = module.cli-sles12sp4.configuration
   minion_configuration    = module.min-sles12sp4.configuration
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = null, ids = null }
