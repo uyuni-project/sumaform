@@ -1,0 +1,160 @@
+# Cucumber testsuite
+
+## Basic deployment
+
+It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `cucumber_testsuite` module. A libvirt example follows:
+
+```hcl
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+
+  product_version = "4.0-nightly"
+
+  cc_username = ...
+  cc_password = ...
+
+  name_prefix = "moio-"
+  domain = "tf.local"
+  git_username = ...
+  git_password = ...
+
+  provider_settings = {
+    libvirt = {
+      uri = "qemu:///system"
+      network_name = "default"
+    }
+  }
+}
+```
+
+This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+
+The example will have to be completed with SCC credentials and GitHub credentials to the SUSE Manager or Uyuni repo.
+
+`product_version` determines the version under test, see [README_ADVANCED.md](README_ADVANCED.md) for the list of options.
+
+## Running the testsuite
+
+To start the testsuite, use:
+
+```
+ssh -t head-ctl.tf.local run-testsuite
+```
+
+To run sets of Cucumber features, edit `run_sets/testsuite.yml` and then run `run-testsuite`. Keep in mind that:
+ - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
+ - featurs not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
+
+Once all `core_` features have been executed once other non-core Cucumber features can be run via:
+```
+ssh -t head-ctl.tf.local cucumber spacewalk/testsuite/features/my_feature.feature
+```
+
+Read HTML results at:
+
+ `head-ctl.tf.local/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `80`.
+
+Get HTML results with:
+```
+scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
+```
+
+To keep the testsuite running after ending the ssh session using `screen` tool:
+```
+ssh -t head-ctl.tf.local screen run-testsuite
+```
+
+You can detach from the session at anytime using the key sequence `^A d`. To re-attach to the existing session:
+```
+ssh -t head-ctl.tf.local screen -r
+```
+
+## Advanced deployments
+
+### Adding hosts to the testsuite
+
+Several test hosts are optional and can be activated via a host_settings block like the following:
+
+```hcl
+host_settings = {
+  pxy = {
+    present = true
+  }
+  minssh-sles12sp4 = {
+    present = true
+  }
+  min-centos7 = {
+    present = true
+  }
+  min-ubuntu1804 = {
+    present = true
+  }
+  min-pxeboot = {
+    present = true
+  }
+  min-kvm = {
+    present = true
+  }
+}
+```
+
+In addition to the `present` flag, each of the hosts (including `srv`, `ctl`, `cli-sles12sp4` and `min-sles12sp4` which are always present) accepts the following parameters:
+ - `mac`: to use a fixed MAC address
+ - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
+ - `image` to use a different base image
+
+An example follows:
+
+```hcl
+srv = {
+  mac = "AA:B2:93:00:00:60"
+  additional_repos = {
+    Test_repo = "http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
+  }
+}
+````
+
+### Customizing provider settings
+
+Currently the `libvirt` provider accepts the following settings:
+
+ - `uri`: the connection string to the `libvirt` host
+ - `pool`: the storage pool
+ - `network_name`: the name of the main network for the hosts
+ - `bridge`: the name of a bridge device
+ - `additional_network`: a network mask for PXE tests
+
+libvirt = {
+  // provider
+  uri = "qemu:///system"
+  // base
+  pool               = "ssd"
+  network_name       = "default"
+  additional_network = "192.168.32.0/24"
+}
+
+The `cucumber_testsuite` module also offers the `use_avahi` and `avahi_reflector` variables, see [README_ADVANCED.md](README_ADVANCED.md) for their meaning.
+
+## Mirror
+
+You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
+
+## Alternative testsuite version
+
+You can also select an alternative fork or branch where for the Cucumber testsuite code:
+ - the `git_repo` variable in the `controller` overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
+ - the `branch` variable in the `controller` overrides the branch (by default an automatic selection is made).
+
+As an example:
+
+```hcl
+module "controller" {
+  source = "./modules/libvirt/controller"
+  base_configuration = "${module.base.configuration}"
+  name = "controller"
+  ...
+  git_repo = "https://url.to.git/repo/to/clone"
+  branch = "cool-feature"
+  ...
+}
+```

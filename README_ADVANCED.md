@@ -142,7 +142,6 @@ module "server" {
 }
 ```
 
-
 ## Cloning channels in SUSE Manager Servers upon deployment
 
 Channels specified via the `channels` variable above can be automatically cloned by date at deploy time. This operation is typically time-intensive, thus it is disabled by default. In order to clone channels specified via the `channels` variable, you need to specify the cloning details in a `cloned_channels` variable according to the following syntax:
@@ -402,76 +401,6 @@ ssh server.tf.local run-pts --patching-only
 ```
 
 It is also possible to specify non-default hostnames and MAC addresses, see `pts/variables.tf`.
-
-
-## Cucumber testsuite
-
-It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `main.tf.libvirt-testsuite.example` file. This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
-
-The proxy, the SSH minion, and the CentOS minion are optional. The server, traditional client and normal minion are not.
-
-To start the testsuite, use:
-
-```
-ssh -t head-ctl.tf.local run-testsuite
-```
-
-To run sets of Cucumber features, edit `run_sets/testsuite.yml` and then run `run-testsuite`. Keep in mind that:
- - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
- - featurs not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
-
-Once all `core_` features have been executed once other non-core Cucumber features can be run via:
-```
-ssh -t head-ctl.tf.local cucumber spacewalk/testsuite/features/my_feature.feature
-```
-
-Read HTML results at:
-
- `head-ctl.tf.local/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `80`.
-
-Get HTML results with:
-```
-scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
-```
-
-To keep the testsuite running after ending the ssh session using `screen` tool:
-```
-ssh -t head-ctl.tf.local screen run-testsuite
-```
-
-You can detach from the session at anytime using the key sequence `^A d`. To re-attach to the existing session:
-```
-ssh -t head-ctl.tf.local screen -r
-```
-
-You can configure a `mirror` host for the testsuite and that will be beneficial deploy performance, but presently an Internet connection will still be needed to deploy test hosts correctly.
-
-You can also select an alternative fork or branch where for the Cucumber testsuite code:
- - the `git_repo` variable in the `controller` overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
- - the `branch` variable in the `controller` overrides the branch (by default an automatic selection is made).
-
-As an example:
-
-```hcl
-module "controller" {
-  source = "./modules/libvirt/controller"
-  base_configuration = "${module.base.configuration}"
-  name = "controller"
-  ...
-  git_repo = "https://url.to.git/repo/to/clone"
-  branch = "cool-feature"
-  ...
-}
-```
-
-You can also use Docker and Kiwi profiles other than the ones embedded in the test suite:
-
-```hcl
-module "controller" {
-  git_profiles_repo = "https://github.com#mybranch:myprofiles"
-}
-
-```
 
 
 ## Working on multiple configuration sets (workspaces) locally
