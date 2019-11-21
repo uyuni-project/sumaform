@@ -6,14 +6,12 @@ module "grafana" {
   quantity           = var.quantity
   ssh_key_path       = var.ssh_key_path
   roles              = ["grafana"]
-  grains             = <<EOF
-
-mirror: ${var.base_configuration["mirror"]}
-server: ${var.server_configuration["hostname"]}
-locust: ${var.locust_configuration["hostname"]}
-product_version: 3.2-nightly
-
-EOF
+  grains = {
+    mirror          = var.base_configuration["mirror"]
+    server          = var.server_configuration["hostname"]
+    locust          = var.locust_configuration["hostname"]
+    product_version = "3.2-nightly"
+  }
 
 
   // Provider-specific variables

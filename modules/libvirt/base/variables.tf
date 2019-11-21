@@ -20,7 +20,7 @@ variable "ssh_key_path" {
 
 variable "mirror" {
   description = "hostname of the mirror host or leave the default for no mirror"
-  default     = "null"
+  default     = null
 }
 
 variable "use_mirror_images" {

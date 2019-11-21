@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -15,12 +14,11 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "activation_key" {
   description = "an Activation Key to be used when onboarding this minion"
-  default     = "null"
+  default     = null
 }
 
 variable "auto_connect_to_master" {

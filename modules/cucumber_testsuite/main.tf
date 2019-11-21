@@ -30,8 +30,8 @@ locals {
   additional_repos = { for host_key in local.hosts :
   host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
   images = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "image", "default")
-  if var.host_settings[host_key] != null? contains(keys(var.host_settings[host_key]), "image"): false }
+    host_key => lookup(var.host_settings[host_key], "image", "default")
+  if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
 }
 
 module "srv" {
@@ -58,7 +58,7 @@ module "srv" {
   from_email                     = var.from_email
   additional_repos               = lookup(local.additional_repos, "srv", {})
 
-  saltapi_tcpdump                = var.saltapi_tcpdump
+  saltapi_tcpdump = var.saltapi_tcpdump
 
   mac    = lookup(local.macs, "srv", "")
   memory = 8192
@@ -223,13 +223,13 @@ module "ctl" {
 
   base_configuration      = module.base.configuration
   server_configuration    = module.srv.configuration
-  proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = "null", id = "null" }
+  proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = null }
   client_configuration    = module.cli-sles12sp4.configuration
   minion_configuration    = module.min-sles12sp4.configuration
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = null, ids = null }
   ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = null, ids = null }
   minionssh_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = null, ids = null }
-  pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { hostname = "null", id = "null", macaddr = "null" }
+  pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null }
   kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = null, ids = null }
 
   branch            = var.branch

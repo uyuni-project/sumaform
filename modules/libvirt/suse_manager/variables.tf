@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -25,23 +24,23 @@ variable "wait_for_reposync" {
 
 variable "cloned_channels" {
   description = "a json formatted string representing a list of dictionaries containing SUSE channels information to clone"
-  default     = "null"
+  default     = null
   type        = string
 }
 
 variable "iss_master" {
   description = "ISS master server, leave the default for no ISS"
-  default     = "null"
+  default     = null
 }
 
 variable "iss_slave" {
   description = "ISS slave server, leave the default for no ISS"
-  default     = "null"
+  default     = null
 }
 
 variable "register_to_server" {
   description = "name of another Server to register to, eg module.<SERVER_NAME>.configuration.hostname"
-  default     = "null"
+  default     = null
 }
 
 variable "auto_register" {
@@ -51,7 +50,7 @@ variable "auto_register" {
 
 variable "activation_key" {
   description = "an Activation Key to be used when registering to another Server"
-  default     = "null"
+  default     = null
 }
 
 variable "server_username" {
@@ -141,12 +140,12 @@ variable "use_os_unreleased_updates" {
 
 variable "from_email" {
   description = "email address used as sender for emails"
-  default     = "null"
+  default     = null
 }
 
 variable "smt" {
   description = "URL to an SMT server to get packages from"
-  default     = "null"
+  default     = null
 }
 
 variable "auto_accept" {
@@ -186,7 +185,7 @@ variable "additional_packages" {
 
 variable "traceback_email" {
   description = "recipient email address that will receive errors during usage"
-  default     = "null"
+  default     = null
 }
 
 variable "swap_file_size" {

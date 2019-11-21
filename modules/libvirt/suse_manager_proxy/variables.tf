@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -15,7 +14,6 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
-  type        = map(string)
 }
 
 variable "minion" {

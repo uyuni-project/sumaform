@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -30,20 +29,18 @@ variable "branch" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = map(string)
 }
 
 variable "proxy_configuration" {
   description = "use module.<PROXY_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = map(string)
   default = {
-    hostname = "null"
+    hostname = null
   }
 }
 
 variable "client_configuration" {
   description = "use module.<CLIENT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = object({
+  type = object({
     ids       = list(string)
     hostnames = list(string)
   })
@@ -51,7 +48,7 @@ variable "client_configuration" {
 
 variable "minion_configuration" {
   description = "use module.<MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type        = object({
+  type = object({
     ids       = list(string)
     hostnames = list(string)
   })
@@ -81,7 +78,7 @@ variable "ubuntu_configuration" {
 variable "pxeboot_configuration" {
   description = "use module.<PXEBOOT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddr = "null"
+    macaddr = null
   }
 }
 

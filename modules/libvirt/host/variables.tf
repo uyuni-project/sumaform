@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -50,7 +49,7 @@ variable "quantity" {
 
 variable "grains" {
   description = "custom grain string to be added to this host's configuration"
-  default     = ""
+  default     = {}
 }
 
 variable "swap_file_size" {

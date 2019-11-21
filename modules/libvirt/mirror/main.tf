@@ -17,15 +17,13 @@ module "mirror" {
   swap_file_size      = var.swap_file_size
   ssh_key_path        = var.ssh_key_path
   roles               = ["mirror"]
-  grains              = <<EOF
-
-cc_username: ${var.base_configuration["cc_username"]}
-cc_password: ${var.base_configuration["cc_password"]}
-data_disk_device: vdb
-ubuntu_distros: [${join(", ", formatlist("'%s'", var.ubuntu_distros))}]
-use_mirror_images: ${var.base_configuration["use_mirror_images"]}
-
-EOF
+  grains = {
+    cc_username       = var.base_configuration["cc_username"]
+    cc_password       = var.base_configuration["cc_password"]
+    data_disk_device  = "vdb"
+    ubuntu_distros    = var.ubuntu_distros
+    use_mirror_images = var.base_configuration["use_mirror_images"]
+  }
 
 
   // Provider-specific variables
@@ -40,4 +38,3 @@ EOF
     },
   ]
 }
-

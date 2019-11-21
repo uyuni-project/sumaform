@@ -15,24 +15,20 @@ module "minion" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = var.roles
-  grains                        = <<EOF
 
-product_version: ${var.product_version}
-mirror: ${var.base_configuration["mirror"]}
-server: ${var.server_configuration["hostname"]}
-auto_connect_to_master: ${var.auto_connect_to_master}
-apparmor: ${var.apparmor}
-avahi_reflector: ${var.avahi_reflector}
-
-susemanager:
-  activation_key: ${var.activation_key}
-
-evil_minion_count: ${var.evil_minion_count}
-evil_minion_slowdown_factor: ${var.evil_minion_slowdown_factor}
-
-${var.additional_grains}
-
-EOF
+  grains = merge({
+    product_version        = var.product_version
+    mirror                 = var.base_configuration["mirror"]
+    server                 = var.server_configuration["hostname"]
+    auto_connect_to_master = var.auto_connect_to_master
+    apparmor               = var.apparmor
+    avahi_reflector        = var.avahi_reflector
+    susemanager = {
+      activation_key : var.activation_key
+    }
+    evil_minion_count           = var.evil_minion_count
+    evil_minion_slowdown_factor = var.evil_minion_slowdown_factor
+  }, var.additional_grains)
 
 
   // Provider-specific variables

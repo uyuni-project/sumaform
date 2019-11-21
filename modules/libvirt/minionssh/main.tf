@@ -15,13 +15,10 @@ module "minionssh" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = ["minionssh"]
-  grains                        = <<EOF
-
-product_version: ${var.product_version}
-mirror: ${var.base_configuration["mirror"]}
-
-EOF
-
+  grains = {
+    product_version = var.product_version
+    mirror          = var.base_configuration["mirror"]
+  }
 
   // Provider-specific variables
   image     = var.image
