@@ -6,6 +6,7 @@
 
 /terraform.tfstate*
 /.terraform/
+/.terraform.d/
 /main.tf
 .terraform.tfstate.lock.info
 
