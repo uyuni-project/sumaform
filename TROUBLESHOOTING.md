@@ -102,6 +102,12 @@ hosts:          files mdns [NOTFOUND=return] dns
 ```
 `mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
 
+## Q: how can I work around slowness in resolution of `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
+
+If there is a 5-second delay on any name resolution (or ping) between Avahi hosts, a likely cause is that ipv6 is enabled on the VMs (that is the default setting) but the network is blocking ipv6 traffic.
+
+This can happen, for example, in libvirt if the NAT network being used does not have ipv6 enabled. Re-creating the network with ipv6 enabled fixes the problem.
+
 ## Q: how can I work around a libvirt permission denied error?
 
 Typical error message follows:
