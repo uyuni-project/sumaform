@@ -142,6 +142,8 @@ module "server" {
 }
 ```
 
+Setting the `wait_for_reposync` variable to `true` will result into sumaform waiting for reposync to finish after channels are added.
+
 ## Cloning channels in SUSE Manager Servers upon deployment
 
 Channels specified via the `channels` variable above can be automatically cloned by date at deploy time. This operation is typically time-intensive, thus it is disabled by default. In order to clone channels specified via the `channels` variable, you need to specify the cloning details in a `cloned_channels` variable according to the following syntax:

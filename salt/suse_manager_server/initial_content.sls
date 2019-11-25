@@ -85,6 +85,7 @@ add_channels:
     - require:
       - cmd: scc_data_refresh
 
+{% if grains.get('wait_for_reposync') %}
 {% for channel in grains.get('channels') %}
 reposync_{{ channel }}:
   cmd.script:
@@ -94,6 +95,7 @@ reposync_{{ channel }}:
     - require:
       - cmd: add_channels
 {% endfor %}
+{% endif %}
 {% endif %}
 
 {% if grains.get('create_sample_channel') %}
