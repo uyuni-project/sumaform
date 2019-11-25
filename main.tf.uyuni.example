@@ -23,7 +23,7 @@ module "base" {
 
 module "srv" {
   source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "srv"
   image = "opensuse151"
@@ -38,32 +38,32 @@ module "srv" {
 
 module "min-centos7" {
   source = "./modules/libvirt/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "min-centos7"
   image = "centos7"
   memory = 1024
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
   // see modules/libvirt/minion/variables.tf for possible values
 }
 
 module "min-ubuntu1804" {
   source = "./modules/libvirt/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "min-ubuntu1804"
   image = "ubuntu1804"
   memory = 1024
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
   // see modules/libvirt/minion/variables.tf for possible values
 }
 
 module "min-kvm" {
   source = "./modules/libvirt/virthost"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "min-kvm"
   image = "opensuse151"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
   // see modules/libvirt/minion/variables.tf for possible values
 }
