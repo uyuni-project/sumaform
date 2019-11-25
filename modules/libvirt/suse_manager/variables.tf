@@ -18,6 +18,11 @@ variable "channels" {
   default     = []
 }
 
+variable "wait_for_reposync" {
+  description = "turn to true to make sure reposync is finished for channels"
+  default     = false
+}
+
 variable "cloned_channels" {
   description = "a json formatted string representing a list of dictionaries containing SUSE channels information to clone"
   default     = "null"

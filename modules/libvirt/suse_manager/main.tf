@@ -46,6 +46,7 @@ product_version: ${var.product_version}
 cc_username: ${var.base_configuration["cc_username"]}
 cc_password: ${var.base_configuration["cc_password"]}
 channels: [${join(",", var.channels)}]
+wait_for_reposync: ${var.wait_for_reposync}
 cloned_channels: ${var.cloned_channels}
 mirror: ${var.base_configuration["mirror"]}
 iss_master: ${var.iss_master}
