@@ -45,3 +45,7 @@ minion_service:
   service.running:
     - name: salt-minion
     - enable: True
+{% if grains.get('auto_connect_to_master') %}
+    - watch:
+      - file: master_configuration
+{% endif %}
