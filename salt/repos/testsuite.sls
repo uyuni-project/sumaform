@@ -1,5 +1,5 @@
 {% if grains.get('testsuite') | default(false, true) %}
-{% if 'client' in grains.get('roles') or 'minion' in grains.get('roles') or 'minionssh' in grains.get('roles') %}
+{% if 'client' in grains.get('roles') or 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') %}
 
 {% if (grains['os'] == 'SUSE') or (grains['os_family'] == 'RedHat') %}
 

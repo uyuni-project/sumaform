@@ -34,7 +34,7 @@ module "controller" {
     minion        = var.minion_configuration["hostnames"][0]
     centos_minion = var.centos_configuration["hostnames"] != null ? var.centos_configuration["hostnames"][0] : null
     ubuntu_minion = var.ubuntu_configuration["hostnames"] != null ? var.ubuntu_configuration["hostnames"][0] : null
-    ssh_minion        = var.minionssh_configuration["hostnames"] != null ? var.minionssh_configuration["hostnames"][0] : null
+    ssh_minion        = var.sshminion_configuration["hostnames"] != null ? var.sshminion_configuration["hostnames"][0] : null
     kvm_host          = var.kvmhost_configuration["hostnames"] != null ? var.kvmhost_configuration["hostnames"][0] : null
     pxeboot_mac       = var.pxeboot_configuration["macaddr"]
     branch            = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
