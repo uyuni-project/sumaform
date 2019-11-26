@@ -176,18 +176,21 @@ during the `terraform apply`, it means Terraform was able to create a VM, but th
 
 Run `sh /root/salt/highstate.sh`.
 
-## Q: how to force the re-creation of a resource?
+## Q: how to force the re-creation of a VM?
 
-A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the module and resource use `terraform state list`:
+A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the resources belonging to a VM use `terraform state list`, like in this example:
 
 ```
-$ terraform state list
-...
-module.server.module.suse_manager.libvirt_volume.main_disk
+$ terraform state list | grep srv
+module.srv.module.suse_manager.libvirt_domain.domain[0]
+module.srv.module.suse_manager.libvirt_volume.main_disk[0]
 
-$ terraform taint -module=server.suse_manager libvirt_volume.main_disk
-The resource libvirt_volume.main_disk in the module root.server.suse_manager has been marked as tainted!
+$ terraform taint module.srv.module.suse_manager.libvirt_domain.domain[0]
+Resource instance module.srv.module.suse_manager.libvirt_domain.domain[0] has been marked as tainted.
+$ terraform taint module.srv.module.suse_manager.libvirt_volume.main_disk[0]
+Resource instance module.srv.module.suse_manager.libvirt_volume.main_disk[0] has been marked as tainted.
 ```
+
 ## Q: how to force the re-download of an image?
 
 A: see above, use the taint command as per the following example:
