@@ -39,6 +39,9 @@ master_configuration:
     - name: /etc/salt/minion.d/master.conf
     - contents: |
         master: {{grains['server']}}
+        server_id_use_crc: adler32
+        enable_legacy_startup_events: False
+        enable_fqdns_grains: False
 {% endif %}
 
 minion_service:
