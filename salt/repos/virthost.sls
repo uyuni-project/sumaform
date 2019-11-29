@@ -17,6 +17,14 @@ module_server_applications_pool_repo:
 module_server_applications_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP1/x86_64/update/
+{% elif grains['osrelease'] == '15.2' %}
+module_server_applications_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product/
+
+module_server_applications_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update/
 {% endif %}
 {% endif %}
 
