@@ -51,15 +51,8 @@ variable "use_shared_resources" {
 
 // cucumber_testsuite
 variable "host_settings" {
-  description = "Object with clients and is specific properties"
-  default = {
-    pxy              = null
-    min-centos7      = null
-    min-ubuntu1804   = null
-    minssh-sles12sp4 = null
-    min-pxeboot      = null
-    min-kvm          = null
-  }
+  description = "Object with clients and their specific properties, see README_TESTING.md"
+  default = {}
 }
 
 // srv
