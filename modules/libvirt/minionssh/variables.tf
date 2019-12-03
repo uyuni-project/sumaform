@@ -38,8 +38,8 @@ variable "quantity" {
 }
 
 variable "grains" {
-  description = "custom grain string to be added to this host's configuration"
-  default     = ""
+  description = "custom grain map to be added to this host's configuration"
+  default     = {}
 }
 
 variable "swap_file_size" {
