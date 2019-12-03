@@ -25,7 +25,11 @@ variable "wait_for_reposync" {
 variable "cloned_channels" {
   description = "a json formatted string representing a list of dictionaries containing SUSE channels information to clone"
   default     = null
-  type        = string
+  type        = list(object({
+    channels = list(string)
+    prefix = string
+    date = string
+  }))
 }
 
 variable "iss_master" {
