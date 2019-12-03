@@ -162,6 +162,7 @@ module "server" {
   name = "server"
   product_version = "3.2-nightly"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
+  wait_for_reposync = true
   cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
 }
 ```
