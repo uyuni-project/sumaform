@@ -34,12 +34,8 @@ module "suse_manager" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
+  roles = var.register_to_server == null ? ["suse_manager_server"] : ["suse_manager_server", "minion"]
 
-  # HACK: work around "conditional operator cannot be used with list values"
-  roles = split(
-    ",",
-    var.register_to_server == null ? "suse_manager_server" : "suse_manager_server,minion",
-  )
   grains = {
     product_version        = var.product_version
     cc_username            = var.base_configuration["cc_username"]
