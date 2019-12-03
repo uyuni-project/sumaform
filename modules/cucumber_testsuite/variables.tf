@@ -108,8 +108,8 @@ variable "provider_settings" {
       // base
       pool               = "default"
       network_name       = "default"
-      bridge             = ""
-      additional_network = ""
+      bridge             = null
+      additional_network = null
     }
   }
 }

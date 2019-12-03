@@ -90,7 +90,7 @@ resource "libvirt_volume" "ubuntu1804_volume" {
 }
 
 resource "libvirt_network" "additional_network" {
-  count     = var.additional_network == "" ? 0 : 1
+  count     = var.additional_network == null ? 0 : 1
   name      = "${var.name_prefix}private"
   mode      = "none"
   addresses = [var.additional_network]
@@ -133,7 +133,7 @@ output "configuration" {
 
     // Provider-specific variables
     pool         = var.pool
-    network_name = var.bridge == "" ? var.network_name : ""
+    network_name = var.bridge == null ? var.network_name : null
     bridge       = var.bridge
   }
 }

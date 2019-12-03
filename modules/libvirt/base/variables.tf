@@ -66,13 +66,13 @@ variable "pool" {
 }
 
 variable "network_name" {
-  description = "libvirt NAT network name for VMs, use empty string for bridged networking"
+  description = "libvirt NAT network name for VMs, use null for bridged networking"
   default     = "default"
 }
 
 variable "bridge" {
   description = "a bridge device name available on the libvirt host, leave default for NAT"
-  default     = ""
+  default     = null
 }
 
 variable "images" {

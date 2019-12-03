@@ -18,8 +18,8 @@ module "base" {
 
   pool               = lookup(var.provider_settings["libvirt"], "pool", "default")
   network_name       = lookup(var.provider_settings["libvirt"], "network_name", "default")
-  bridge             = lookup(var.provider_settings["libvirt"], "bridge", "")
-  additional_network = lookup(var.provider_settings["libvirt"], "additional_network", "")
+  bridge             = lookup(var.provider_settings["libvirt"], "bridge", null)
+  additional_network = lookup(var.provider_settings["libvirt"], "additional_network", null)
 }
 
 locals {
