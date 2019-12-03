@@ -56,7 +56,7 @@ EOF
 
 
   // Provider-specific variables
-  image           = var.image == "default" ? var.images[var.product_version] : var.image
+  image           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
   memory          = var.memory
   vcpu            = var.vcpu
   running         = var.running
