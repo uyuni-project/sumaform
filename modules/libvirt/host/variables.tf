@@ -109,7 +109,7 @@ variable "running" {
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "additional_disk" {

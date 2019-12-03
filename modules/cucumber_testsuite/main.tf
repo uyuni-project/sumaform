@@ -60,7 +60,7 @@ module "srv" {
 
   saltapi_tcpdump = var.saltapi_tcpdump
 
-  mac    = lookup(local.macs, "srv", "")
+  mac    = lookup(local.macs, "srv", null)
   memory = 8192
   vcpu   = 4
 }
