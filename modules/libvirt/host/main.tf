@@ -105,21 +105,24 @@ resource "libvirt_domain" "domain" {
   provisioner "file" {
     content = yamlencode(merge(
       {
-        hostname                      = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-        domain                        = var.base_configuration["domain"]
-        use_avahi                     = var.base_configuration["use_avahi"]
-        additional_network            = var.base_configuration["additional_network"]
-        timezone                      = var.base_configuration["timezone"]
-        testsuite                     = var.base_configuration["testsuite"]
-        roles                         = var.roles
-        use_os_released_updates       = var.use_os_released_updates
-        use_os_unreleased_updates     = var.use_os_unreleased_updates
-        additional_repos              = var.additional_repos
-        additional_repos_only         = var.additional_repos_only
-        additional_certs              = var.additional_certs
-        additional_packages           = var.additional_packages
-        swap_file_size                = var.swap_file_size
-        authorized_keys               = [trimspace(file(var.base_configuration["ssh_key_path"])), trimspace(file(var.ssh_key_path))]
+        hostname                  = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+        domain                    = var.base_configuration["domain"]
+        use_avahi                 = var.base_configuration["use_avahi"]
+        additional_network        = var.base_configuration["additional_network"]
+        timezone                  = var.base_configuration["timezone"]
+        testsuite                 = var.base_configuration["testsuite"]
+        roles                     = var.roles
+        use_os_released_updates   = var.use_os_released_updates
+        use_os_unreleased_updates = var.use_os_unreleased_updates
+        additional_repos          = var.additional_repos
+        additional_repos_only     = var.additional_repos_only
+        additional_certs          = var.additional_certs
+        additional_packages       = var.additional_packages
+        swap_file_size            = var.swap_file_size
+        authorized_keys = concat(
+          var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
+          var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
+        )
         gpg_keys                      = var.gpg_keys
         connect_to_base_network       = var.connect_to_base_network
         connect_to_additional_network = var.connect_to_additional_network
