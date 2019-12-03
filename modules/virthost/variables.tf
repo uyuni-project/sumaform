@@ -79,29 +79,12 @@ variable "hvm_disk_image_hash" {
   default     = "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2.sha256"
 }
 
-// Provider-specific variables
-
 variable "image" {
   description = "One of: sles15, sles15sp1, sles15sp2, opensuse150 or opensuse151"
   type        = string
 }
 
-variable "memory" {
-  description = "RAM memory in MiB"
-  default     = 2048
-}
-
-variable "vcpu" {
-  description = "Number of virtual CPUs"
-  default     = 3
-}
-
-variable "running" {
-  description = "Whether this host should be turned on or off"
-  default     = true
-}
-
-variable "mac" {
-  description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = null
+variable "provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }

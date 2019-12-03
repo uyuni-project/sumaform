@@ -99,36 +99,9 @@ variable "ipv6" {
   }
 }
 
-// Provider-specific variables
-
 variable "image" {
   description = "Leave default for automatic selection or specify an OS supported by the specified product version"
   default     = "default"
-}
-
-variable "memory" {
-  description = "RAM memory in MiB"
-  default     = 1024
-}
-
-variable "vcpu" {
-  description = "Number of virtual CPUs"
-  default     = 1
-}
-
-variable "running" {
-  description = "Whether this host should be turned on or off"
-  default     = true
-}
-
-variable "mac" {
-  description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = null
-}
-
-variable "cpu_model" {
-  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = null
 }
 
 variable "repository_disk_size" {
@@ -136,9 +109,9 @@ variable "repository_disk_size" {
   default     = 0
 }
 
-variable "data_pool" {
-  description = "libvirt storage pool name for this host's data disk"
-  default     = "default"
+variable "provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }
 
 variable "volume_provider_settings" {

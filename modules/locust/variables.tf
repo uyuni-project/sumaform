@@ -26,24 +26,7 @@ variable "slave_quantity" {
   default     = 0
 }
 
-// Provider-specific variables
-
-variable "memory" {
-  description = "RAM memory in MiB"
-  default     = 1024
-}
-
-variable "running" {
-  description = "whether this host should be turned on or off"
-  default     = true
-}
-
-variable "mac" {
-  description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = null
-}
-
-variable "cpu_model" {
-  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = null
+variable "provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }

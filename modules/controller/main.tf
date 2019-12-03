@@ -11,7 +11,7 @@ variable "testsuite-branch" {
 }
 
 module "controller" {
-  source = "../host"
+  source = "../backend/host"
 
   base_configuration            = var.base_configuration
   name                          = var.name
@@ -74,10 +74,6 @@ module "controller" {
   }
 
 
-  // Provider-specific variables
   image   = "opensuse150"
-  vcpu    = var.vcpu
-  memory  = var.memory
-  running = var.running
-  mac     = var.mac
+  provider_settings = var.provider_settings
 }

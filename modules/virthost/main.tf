@@ -21,18 +21,10 @@ module "virthost" {
     hvm_disk_image_hash = var.hvm_disk_image_hash
   }
 
-
-  // Provider-specific variables
   image     = var.image
-  memory    = var.memory
-  vcpu      = var.vcpu
-  running   = var.running
-  mac       = var.mac
-  cpu_model = "host-model"
-  xslt      = file("${path.module}/sysinfos.xsl")
+  provider_settings = var.provider_settings
 }
 
 output "configuration" {
   value = module.virthost.configuration
 }
-

@@ -1,5 +1,14 @@
 locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
+  provider_settings = merge({
+    memory          = 1024
+    vcpu            = 1
+    running         = true
+    mac             = null
+    additional_disk = []
+    cpu_model       = null
+    xslt            = null
+  }, var.provider_settings)
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -11,22 +20,22 @@ resource "libvirt_volume" "main_disk" {
 
 resource "libvirt_domain" "domain" {
   name       = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-  memory     = var.memory
-  vcpu       = var.vcpu
-  running    = var.running
+  memory     = local.provider_settings["memory"]
+  vcpu       = local.provider_settings["vcpu"]
+  running    = local.provider_settings["running"]
   count      = var.quantity
   qemu_agent = true
 
   // copy host CPU model to guest to get the vmx flag if present
   cpu = {
-    mode = coalesce(var.cpu_model, "custom")
+    mode = coalesce(local.provider_settings["cpu_model"], "custom")
   }
 
   // base disk + additional disks if any
   dynamic "disk" {
     for_each = concat(
       length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
-      var.additional_disk,
+      local.provider_settings["additional_disk"],
     )
     content {
       volume_id = disk.value.volume_id
@@ -41,7 +50,7 @@ resource "libvirt_domain" "domain" {
           "network_name"   = var.base_configuration["network_name"]
           "network_id"     = null
           "bridge"         = var.base_configuration["bridge"]
-          "mac"            = var.mac
+          "mac"            = local.provider_settings["mac"]
         },
         {
           "wait_for_lease" = false
@@ -134,7 +143,7 @@ resource "libvirt_domain" "domain" {
   }
 
   xml {
-    xslt = var.xslt
+    xslt = local.provider_settings["xslt"]
   }
 }
 

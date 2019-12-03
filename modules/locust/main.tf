@@ -1,5 +1,5 @@
 module "locust" {
-  source             = "../host"
+  source             = "../backend/host"
   base_configuration = var.base_configuration
   name               = var.name
   ssh_key_path       = var.ssh_key_path
@@ -14,15 +14,12 @@ module "locust" {
     locust_slave_count = var.slave_quantity
   }
 
-  // Provider-specific variables
   image   = "opensuse151"
-  memory  = var.memory
-  running = var.running
-  mac     = var.mac
+  provider_settings = var.provider_settings
 }
 
 module "locust-slave" {
-  source             = "../host"
+  source             = "../backend/host"
   base_configuration = var.base_configuration
   name               = "${var.name}-slave"
   quantity           = var.slave_quantity
@@ -34,14 +31,11 @@ module "locust-slave" {
     locust_file        = base64encode(file(var.locust_file))
     server_username    = var.server_configuration["username"]
     server_password    = var.server_configuration["password"]
-    locust_master_host = module.locust.configuration["hostname"]
+    locust_master_host = length(module.locust.configuration["hostnames"]) > 0 ? module.locust.configuration["hostnames"][0] : null
   }
 
-
-  // Provider-specific variables
   image   = "opensuse151"
-  memory  = var.memory
-  running = var.running
+  provider_settings = var.provider_settings
 }
 
 output "configuration" {

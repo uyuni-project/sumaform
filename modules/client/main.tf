@@ -1,5 +1,5 @@
 module "client" {
-  source = "../host"
+  source = "../backend/host"
 
   base_configuration            = var.base_configuration
   name                          = var.name
@@ -22,13 +22,8 @@ module "client" {
     auto_register   = var.auto_register
   }
 
-
-  // Provider-specific variables
   image   = var.image
-  memory  = var.memory
-  vcpu    = var.vcpu
-  running = var.running
-  mac     = var.mac
+  provider_settings = var.provider_settings
 }
 
 output "configuration" {

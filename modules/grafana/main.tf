@@ -1,5 +1,5 @@
 module "grafana" {
-  source = "../host"
+  source = "../backend/host"
 
   base_configuration = var.base_configuration
   name               = var.name
@@ -13,13 +13,8 @@ module "grafana" {
     product_version = "3.2-nightly"
   }
 
-
-  // Provider-specific variables
   image   = "sles12sp2"
-  memory  = 4096
-  vcpu    = 1
-  running = var.running
-  mac     = var.mac
+  provider_settings = var.provider_settings
 }
 
 output "configuration" {

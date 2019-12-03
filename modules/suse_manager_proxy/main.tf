@@ -11,7 +11,7 @@ variable "images" {
 }
 
 module "proxy_data_disk" {
-  source                   = "../volume"
+  source                   = "../backend/volume"
   volume_name              = "${var.base_configuration["name_prefix"]}${var.name}-proxy-data-disk"
   volume_size              = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings
@@ -19,7 +19,7 @@ module "proxy_data_disk" {
 }
 
 module "suse_manager_proxy" {
-  source = "../host"
+  source = "../backend/host"
 
   base_configuration            = var.base_configuration
   name                          = var.name
@@ -52,13 +52,12 @@ module "suse_manager_proxy" {
     repository_disk_device    = "vdb"
   }
 
-  // Provider-specific variables
   image           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
-  memory          = var.memory
-  vcpu            = var.vcpu
-  running         = var.running
-  mac             = var.mac
-  additional_disk = length(module.proxy_data_disk.configuration.ids) > 0 ? [{ volume_id = module.proxy_data_disk.configuration.ids[0] }] : []
+  provider_settings = merge(
+  var.provider_settings,
+  {
+    additional_disk = length(module.proxy_data_disk.configuration.ids) > 0 ? [{ volume_id = module.proxy_data_disk.configuration.ids[0] }] : []
+  })
 }
 
 output "configuration" {

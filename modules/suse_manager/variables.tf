@@ -235,31 +235,9 @@ variable "pts_system_prefix" {
   default     = "minion"
 }
 
-// Provider-specific variables
-
 variable "image" {
   description = "Leave default for automatic selection or specify an OS supported by the specified product version"
   default     = "default"
-}
-
-variable "memory" {
-  description = "RAM memory in MiB"
-  default     = 4096
-}
-
-variable "vcpu" {
-  description = "Number of virtual CPUs"
-  default     = 2
-}
-
-variable "running" {
-  description = "Whether this host should be turned on or off"
-  default     = true
-}
-
-variable "mac" {
-  description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = null
 }
 
 variable "repository_disk_size" {
@@ -267,24 +245,14 @@ variable "repository_disk_size" {
   default     = 0
 }
 
-variable "cpu_model" {
-  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = null
-}
-
 variable "saltapi_tcpdump" {
   description = "If set to true, all network operations of salt-api are logged to /tmp/ with tcpdump."
   default     = false
 }
 
-variable "data_pool" {
-  description = "libvirt storage pool name for this host's data disk"
-  default     = "default"
-}
-
-variable "additional_disk" {
-  description = "disk block definition(s) to be added to this host"
-  default     = []
+variable "provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }
 
 variable "volume_provider_settings" {

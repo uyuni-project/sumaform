@@ -24,7 +24,7 @@ module "server" {
     }
   ]
 
-  // Provider-specific variables
+
   vcpu   = 8
   memory = 16384
   mac    = var.server_mac
@@ -40,7 +40,7 @@ module "minion" {
   activation_key       = "1-cloned-2017-q3"
   evil_minion_count    = var.pts_system_count
 
-  // Provider-specific variables
+
   vcpu   = 2
   memory = 4096
   mac    = var.minion_mac
@@ -54,8 +54,9 @@ module "locust" {
   locust_file          = "modules/libvirt/pts/locustfile.py"
   slave_quantity       = 5
 
-  // Provider-specific variables
+
   memory = 1024
+  // FIXME
   mac    = var.locust_mac
 }
 
@@ -67,6 +68,7 @@ module "grafana" {
   locust_configuration = module.locust.configuration
   quantity             = var.grafana
 
-  // Provider-specific variables
+
+  // FIXME
   mac = var.grafana_mac
 }

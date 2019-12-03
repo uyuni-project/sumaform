@@ -1,5 +1,5 @@
 module "minion" {
-  source = "../host"
+  source = "../backend/host"
 
   base_configuration            = var.base_configuration
   name                          = var.name
@@ -29,18 +29,10 @@ module "minion" {
     evil_minion_slowdown_factor = var.evil_minion_slowdown_factor
   }, var.additional_grains)
 
-
-  // Provider-specific variables
   image     = var.image
-  memory    = var.memory
-  vcpu      = var.vcpu
-  running   = var.running
-  mac       = var.mac
-  cpu_model = var.cpu_model
-  xslt      = var.xslt
+  provider_settings = var.provider_settings
 }
 
 output "configuration" {
   value = module.minion.configuration
 }
-

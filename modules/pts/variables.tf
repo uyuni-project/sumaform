@@ -32,7 +32,7 @@ variable "grafana_name" {
   default     = "grafana"
 }
 
-// Provider-specific variables
+
 
 variable "server_mac" {
   description = "a MAC address for the server in the form AA:BB:CC:11:22:22"

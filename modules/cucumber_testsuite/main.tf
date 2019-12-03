@@ -1,9 +1,6 @@
-provider "libvirt" {
-  uri = var.provider_settings["libvirt"]["uri"]
-}
 
 module "base" {
-  source = "../libvirt/base"
+  source = "../backend/base"
 
   cc_username          = var.cc_username
   cc_password          = var.cc_password
@@ -16,17 +13,14 @@ module "base" {
   use_shared_resources = var.use_shared_resources
   testsuite            = true
 
-  pool               = lookup(var.provider_settings["libvirt"], "pool", "default")
-  network_name       = lookup(var.provider_settings["libvirt"], "network_name", "default")
-  bridge             = lookup(var.provider_settings["libvirt"], "bridge", null)
-  additional_network = lookup(var.provider_settings["libvirt"], "additional_network", null)
+  provider_settings = var.provider_settings
 }
 
 locals {
   server_full_name = "${var.name_prefix}srv.${var.domain}"
   hosts            = keys(var.host_settings)
-  macs = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "mac", null) if var.host_settings[host_key] != null }
+  provider_settings_by_host = { for host_key in local.hosts :
+  host_key => lookup(var.host_settings[host_key], "provider_settings", {}) if var.host_settings[host_key] != null }
   additional_repos = { for host_key in local.hosts :
   host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
   images = { for host_key in local.hosts :
@@ -35,7 +29,7 @@ locals {
 }
 
 module "srv" {
-  source                         = "../libvirt/suse_manager"
+  source                         = "../suse_manager"
   base_configuration             = module.base.configuration
   product_version                = var.product_version
   image                          = lookup(local.images, "srv", "default")
@@ -58,15 +52,12 @@ module "srv" {
   from_email                     = var.from_email
   additional_repos               = lookup(local.additional_repos, "srv", {})
 
-  saltapi_tcpdump = var.saltapi_tcpdump
-
-  mac    = lookup(local.macs, "srv", null)
-  memory = 8192
-  vcpu   = 4
+  saltapi_tcpdump   = var.saltapi_tcpdump
+  provider_settings = lookup(local.provider_settings_by_host, "srv", {})
 }
 
 module "pxy" {
-  source = "../libvirt/suse_manager_proxy"
+  source = "../suse_manager_proxy"
 
   quantity = contains(local.hosts, "pxy") ? 1 : 0
 
@@ -85,9 +76,8 @@ module "pxy" {
   use_os_released_updates   = true
   ssh_key_path              = "./salt/controller/id_rsa.pub"
 
-  additional_repos = lookup(local.additional_repos, "pxy", {})
-
-  mac = lookup(local.macs, "pxy", null)
+  additional_repos  = lookup(local.additional_repos, "pxy", {})
+  provider_settings = lookup(local.provider_settings_by_host, "pxy", {})
 }
 
 locals {
@@ -96,10 +86,9 @@ locals {
 }
 
 module "cli-sles12sp4" {
-  source             = "../libvirt/client"
+  source             = "../client"
 
   quantity = contains(local.hosts, "cli-sles12sp4") ? 1 : 0
-
   base_configuration = module.base.configuration
   product_version    = var.product_version
   name               = "cli-sles12sp4"
@@ -111,16 +100,14 @@ module "cli-sles12sp4" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
-  additional_repos = lookup(local.additional_repos, "cli-sles12sp4", {})
-
-  mac = lookup(local.macs, "cli-sles12sp4", null)
+  additional_repos  = lookup(local.additional_repos, "cli-sles12sp4", {})
+  provider_settings = lookup(local.provider_settings_by_host, "cli-sles12sp4", {})
 }
 
 module "min-sles12sp4" {
-  source             = "../libvirt/minion"
+  source             = "../minion"
 
   quantity = contains(local.hosts, "min-sles12sp4") ? 1 : 0
-
   base_configuration = module.base.configuration
   product_version    = var.product_version
   name               = "min-sles12sp4"
@@ -133,13 +120,12 @@ module "min-sles12sp4" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   avahi_reflector         = var.avahi_reflector
 
-  additional_repos = lookup(local.additional_repos, "min-sles12sp4", {})
-
-  mac = lookup(local.macs, "min-sles12sp4", null)
+  additional_repos  = lookup(local.additional_repos, "min-sles12sp4", {})
+  provider_settings = lookup(local.provider_settings_by_host, "min-sles12sp4", {})
 }
 
 module "minssh-sles12sp4" {
-  source = "../libvirt/sshminion"
+  source = "../sshminion"
 
   quantity = contains(local.hosts, "minssh-sles12sp4") ? 1 : 0
 
@@ -152,13 +138,12 @@ module "minssh-sles12sp4" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
 
-  additional_repos = lookup(local.additional_repos, "minssh-sles12sp4", {})
-
-  mac = lookup(local.macs, "minssh-sles12sp4", null)
+  additional_repos  = lookup(local.additional_repos, "minssh-sles12sp4", {})
+  provider_settings = lookup(local.provider_settings_by_host, "minssh-sles12sp4", {})
 }
 
 module "min-centos7" {
-  source = "../libvirt/minion"
+  source = "../minion"
 
   quantity = contains(local.hosts, "min-centos7") ? 1 : 0
 
@@ -171,13 +156,12 @@ module "min-centos7" {
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
 
-  additional_repos = lookup(local.additional_repos, "min-centos7", {})
-
-  mac = lookup(local.macs, "min-centos7", null)
+  additional_repos  = lookup(local.additional_repos, "min-centos7", {})
+  provider_settings = lookup(local.provider_settings_by_host, "min-centos7", {})
 }
 
 module "min-ubuntu1804" {
-  source = "../libvirt/minion"
+  source = "../minion"
 
   quantity = contains(local.hosts, "min-ubuntu1804") ? 1 : 0
 
@@ -189,13 +173,12 @@ module "min-ubuntu1804" {
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
 
-  additional_repos = lookup(local.additional_repos, "min-ubuntu1804", {})
-
-  mac = lookup(local.macs, "min-ubuntu1804", null)
+  additional_repos  = lookup(local.additional_repos, "min-ubuntu1804", {})
+  provider_settings = lookup(local.provider_settings_by_host, "min-ubuntu1804", {})
 }
 
 module "min-pxeboot" {
-  source = "../libvirt/pxe_boot"
+  source = "../pxe_boot"
 
   quantity = contains(local.hosts, "min-pxeboot") ? 1 : 0
 
@@ -205,7 +188,7 @@ module "min-pxeboot" {
 }
 
 module "min-kvm" {
-  source = "../libvirt/virthost"
+  source = "../virthost"
 
   quantity = contains(local.hosts, "min-kvm") ? 1 : 0
 
@@ -218,13 +201,12 @@ module "min-kvm" {
 
   auto_connect_to_master = false
 
-  additional_repos = lookup(local.additional_repos, "min-kvm", {})
-
-  mac = lookup(local.macs, "min-kvm", null)
+  additional_repos  = lookup(local.additional_repos, "min-kvm", {})
+  provider_settings = lookup(local.provider_settings_by_host, "min-kvm", {})
 }
 
 module "ctl" {
-  source = "../libvirt/controller"
+  source = "../controller"
   name   = "ctl"
 
   base_configuration      = module.base.configuration
@@ -248,7 +230,6 @@ module "ctl" {
   portus_password   = var.portus_password
   server_http_proxy = var.server_http_proxy
 
-  additional_repos = lookup(local.additional_repos, "ctl", {})
-
-  mac = lookup(local.macs, "ctl", null)
+  additional_repos  = lookup(local.additional_repos, "ctl", {})
+  provider_settings = lookup(local.provider_settings_by_host, "ctl", {})
 }
