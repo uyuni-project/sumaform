@@ -137,6 +137,6 @@ variable "cpu_model" {
 }
 
 variable "xslt" {
-  description = "module relative path to an xslt file to apply on the libvirt domain"
-  default     = ""
+  description = "xslt contents to apply on the libvirt domain"
+  default     = null
 }
