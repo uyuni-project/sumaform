@@ -55,7 +55,7 @@ variable "testsuite" {
 
 variable "additional_network" {
   description = "additional network in CIDR notation, leave empty if none"
-  default     = ""
+  default     = null
 }
 
 // Provider-specific variables
