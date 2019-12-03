@@ -235,6 +235,7 @@ module "ctl" {
   branch            = var.branch
   git_username      = var.git_username
   git_password      = var.git_password
+  git_repo          = var.git_repo
   server_http_proxy = var.server_http_proxy
 
   additional_repos = lookup(local.additional_repos, "ctl", {})
