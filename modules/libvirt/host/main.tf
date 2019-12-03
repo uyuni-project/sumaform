@@ -19,7 +19,7 @@ resource "libvirt_domain" "domain" {
 
   // copy host CPU model to guest to get the vmx flag if present
   cpu = {
-    mode = var.cpu_model != "" ? var.cpu_model : "custom"
+    mode = coalesce(var.cpu_model, "custom")
   }
 
   // base disk + additional disks if any

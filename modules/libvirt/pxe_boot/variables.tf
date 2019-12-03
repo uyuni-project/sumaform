@@ -46,6 +46,5 @@ variable "additional_disk" {
 
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = ""
+  default     = null
 }
-
