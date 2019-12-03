@@ -1,18 +1,16 @@
-// Names are calculated as follows:
-// ${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-${count.index  + 1}" : ""}
-// This means:
-//   name_prefix + name (if quantity = 1)
-//   name_prefix + name + "-" + index (if quantity > 1)
+locals {
+  resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
+}
 
 resource "libvirt_volume" "main_disk" {
-  name             = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
+  name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
   pool             = var.base_configuration["pool"]
   count            = var.quantity
 }
 
 resource "libvirt_domain" "domain" {
-  name       = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+  name       = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
   memory     = var.memory
   vcpu       = var.vcpu
   running    = var.running
@@ -105,7 +103,7 @@ resource "libvirt_domain" "domain" {
   provisioner "file" {
     content = yamlencode(merge(
       {
-        hostname                  = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+        hostname                  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
         domain                    = var.base_configuration["domain"]
         use_avahi                 = var.base_configuration["use_avahi"]
         additional_network        = var.base_configuration["additional_network"]
