@@ -89,7 +89,7 @@ variable "git_repo" {
 
 variable "server_http_proxy" {
   description = "Hostname and port used by the Server as the http proxy to reach the outside network"
-  default     = ""
+  default     = null
 }
 
 variable "saltapi_tcpdump" {
