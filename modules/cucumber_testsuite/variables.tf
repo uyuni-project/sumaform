@@ -89,6 +89,11 @@ variable "git_password" {
   type        = string
 }
 
+variable "git_repo" {
+  description = "Git repo clone URL for testsuite code"
+  default     = "default"
+}
+
 variable "server_http_proxy" {
   description = "Hostname and port used by the Server as the http proxy to reach the outside network"
   default     = ""
