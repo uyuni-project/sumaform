@@ -40,7 +40,7 @@ variable "iss_slave" {
 }
 
 variable "register_to_server" {
-  description = "name of another Server to register to"
+  description = "name of another Server to register to, eg module.<SERVER_NAME>.configuration.hostname"
   default     = "null"
 }
 
