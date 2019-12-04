@@ -80,7 +80,7 @@ host_settings = {
   pxy = {
     present = true
   }
-  minssh-sles12sp4 = {
+  sshminion = {
     present = true
   }
   min-centos7 = {

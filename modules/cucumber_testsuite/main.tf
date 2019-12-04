@@ -95,12 +95,12 @@ locals {
   minimal_configuration = { hostname = contains(local.hosts, "pxy") ? local.proxy_full_name : local.server_full_name }
 }
 
-module "cli-sles12sp4" {
+module "client" {
   source             = "../libvirt/client"
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "cli-sles12sp4"
-  image              = "sles12sp4"
+  name               = "cli-${lookup(local.images, "client", "sles12sp4")}"
+  image              = lookup(local.images, "client", "sles12sp4")
 
   server_configuration = local.minimal_configuration
 
@@ -108,17 +108,17 @@ module "cli-sles12sp4" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
-  additional_repos = lookup(local.additional_repos, "cli-sles12sp4", {})
+  additional_repos = lookup(local.additional_repos, "client", {})
 
-  mac = lookup(local.macs, "cli-sles12sp4", null)
+  mac = lookup(local.macs, "client", null)
 }
 
-module "min-sles12sp4" {
+module "minion" {
   source             = "../libvirt/minion"
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "min-sles12sp4"
-  image              = "sles12sp4"
+  name               = "min-${lookup(local.images, "minion", "sles12sp4")}"
+  image              = lookup(local.images, "minion", "sles12sp4")
 
   server_configuration = local.minimal_configuration
 
@@ -129,18 +129,18 @@ module "min-sles12sp4" {
 
   additional_repos = lookup(local.additional_repos, "min-sles12sp4", {})
 
-  mac = lookup(local.macs, "min-sles12sp4", null)
+  mac = lookup(local.macs, "minion", null)
 }
 
-module "minssh-sles12sp4" {
+module "sshminion" {
   source = "../libvirt/minionssh"
 
   quantity = contains(local.hosts, "minssh-sles12sp4") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "minssh-sles12sp4"
-  image              = "sles12sp4"
+  name               = "sshmin-${lookup(local.images, "sshminion", "sles12sp4")}"
+  image              = lookup(local.images, "sshminion", "sles12sp4")
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
@@ -148,7 +148,7 @@ module "minssh-sles12sp4" {
 
   additional_repos = lookup(local.additional_repos, "minssh-sles12sp4", {})
 
-  mac = lookup(local.macs, "minssh-sles12sp4", null)
+  mac = lookup(local.macs, "sshminion", null)
 }
 
 module "min-centos7" {
@@ -224,11 +224,11 @@ module "ctl" {
   base_configuration      = module.base.configuration
   server_configuration    = module.srv.configuration
   proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = null }
-  client_configuration    = module.cli-sles12sp4.configuration
-  minion_configuration    = module.min-sles12sp4.configuration
+  client_configuration    = module.client.configuration
+  minion_configuration    = module.minion.configuration
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = null, ids = null }
   ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = null, ids = null }
-  minionssh_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = null, ids = null }
+  minionssh_configuration = contains(local.hosts, "sshminion") ? module.sshminion.configuration : { hostnames = null, ids = null }
   pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null }
   kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = null, ids = null }
 
