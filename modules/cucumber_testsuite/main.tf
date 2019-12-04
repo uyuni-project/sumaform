@@ -133,7 +133,7 @@ module "min-sles12sp4" {
 }
 
 module "minssh-sles12sp4" {
-  source = "../libvirt/minionssh"
+  source = "../libvirt/sshminion"
 
   quantity = contains(local.hosts, "minssh-sles12sp4") ? 1 : 0
 
@@ -228,7 +228,7 @@ module "ctl" {
   minion_configuration    = module.min-sles12sp4.configuration
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = null, ids = null }
   ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = null, ids = null }
-  minionssh_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = null, ids = null }
+  sshminion_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = null, ids = null }
   pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null }
   kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = null, ids = null }
 

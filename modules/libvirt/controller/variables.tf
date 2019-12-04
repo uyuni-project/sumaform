@@ -54,8 +54,8 @@ variable "minion_configuration" {
   })
 }
 
-variable "minionssh_configuration" {
-  description = "use module.<MINIONSSH_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sshminion_configuration" {
+  description = "use module.<SSHMINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = null
   }

@@ -1,4 +1,4 @@
-module "minionssh" {
+module "sshminion" {
   source = "../host"
 
   base_configuration            = var.base_configuration
@@ -14,7 +14,7 @@ module "minionssh" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = true
-  roles                         = ["minionssh"]
+  roles                         = ["sshminion"]
   grains = {
     product_version = var.product_version
     mirror          = var.base_configuration["mirror"]
@@ -31,6 +31,6 @@ module "minionssh" {
 }
 
 output "configuration" {
-  value = module.minionssh.configuration
+  value = module.sshminion.configuration
 }
 
