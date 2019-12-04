@@ -286,3 +286,8 @@ variable "additional_disk" {
   description = "disk block definition(s) to be added to this host"
   default     = []
 }
+
+variable "volume_provider_settings" {
+  description = "Map of volume-provider-specific settings, see the backend-specific README file"
+  default     = {}
+}

@@ -10,11 +10,12 @@ variable "images" {
   }
 }
 
-resource "libvirt_volume" "server_data_disk" {
-  name  = "${var.base_configuration["name_prefix"]}${var.name}-server-data-disk"
-  size  = var.repository_disk_size
-  pool  = var.data_pool
-  count = var.repository_disk_size > 0 ? 1 : 0
+module "proxy_data_disk" {
+  source                   = "../volume"
+  volume_name              = "${var.base_configuration["name_prefix"]}${var.name}-proxy-data-disk"
+  volume_size              = var.repository_disk_size
+  volume_provider_settings = var.volume_provider_settings
+  quantity                 = var.repository_disk_size > 0 ? 1 : 0
 }
 
 module "suse_manager_proxy" {
@@ -57,7 +58,7 @@ module "suse_manager_proxy" {
   vcpu            = var.vcpu
   running         = var.running
   mac             = var.mac
-  additional_disk = length(libvirt_volume.server_data_disk) > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
+  additional_disk = length(module.proxy_data_disk.configuration.ids) > 0 ? [{ volume_id = module.proxy_data_disk.configuration.ids[0] }] : []
 }
 
 output "configuration" {

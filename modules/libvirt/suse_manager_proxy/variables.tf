@@ -140,3 +140,8 @@ variable "data_pool" {
   description = "libvirt storage pool name for this host's data disk"
   default     = "default"
 }
+
+variable "volume_provider_settings" {
+  description = "Map of volume-provider-specific settings, see the backend-specific README file"
+  default     = {}
+}
