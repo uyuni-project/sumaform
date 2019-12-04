@@ -15,14 +15,12 @@ module "client" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = ["client"]
-  grains                        = <<EOF
-
-product_version: ${var.product_version}
-mirror: ${var.base_configuration["mirror"]}
-server: ${var.server_configuration["hostname"]}
-auto_register: ${var.auto_register}
-
-EOF
+  grains = {
+    product_version = var.product_version
+    mirror          = var.base_configuration["mirror"]
+    server          = var.server_configuration["hostname"]
+    auto_register   = var.auto_register
+  }
 
 
   // Provider-specific variables

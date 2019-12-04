@@ -20,7 +20,7 @@ variable "ssh_key_path" {
 
 variable "mirror" {
   description = "hostname of the mirror host or leave the default for no mirror"
-  default     = "null"
+  default     = null
 }
 
 variable "use_mirror_images" {
@@ -55,7 +55,7 @@ variable "testsuite" {
 
 variable "additional_network" {
   description = "additional network in CIDR notation, leave empty if none"
-  default     = ""
+  default     = null
 }
 
 // Provider-specific variables
@@ -66,13 +66,13 @@ variable "pool" {
 }
 
 variable "network_name" {
-  description = "libvirt NAT network name for VMs, use empty string for bridged networking"
+  description = "libvirt NAT network name for VMs, use null for bridged networking"
   default     = "default"
 }
 
 variable "bridge" {
   description = "a bridge device name available on the libvirt host, leave default for NAT"
-  default     = ""
+  default     = null
 }
 
 variable "images" {

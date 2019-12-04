@@ -4,17 +4,15 @@ module "locust" {
   name               = var.name
   ssh_key_path       = var.ssh_key_path
   roles              = ["locust"]
-  grains             = <<EOF
-
-mirror: ${var.base_configuration["mirror"]}
-server: ${var.server_configuration["hostname"]}
-locust_file: ${base64encode(file(var.locust_file))}
-server_username: ${var.server_configuration["username"]}
-server_password: ${var.server_configuration["password"]}
-locust_master_host: null
-locust_slave_count: ${var.slave_quantity}
-EOF
-
+  grains = {
+    mirror             = var.base_configuration["mirror"]
+    server             = var.server_configuration["hostname"]
+    locust_file        = base64encode(file(var.locust_file))
+    server_username    = var.server_configuration["username"]
+    server_password    = var.server_configuration["password"]
+    locust_master_host = null
+    locust_slave_count = var.slave_quantity
+  }
 
   // Provider-specific variables
   image   = "opensuse151"
@@ -30,15 +28,14 @@ module "locust-slave" {
   quantity           = var.slave_quantity
   ssh_key_path       = var.ssh_key_path
   roles              = ["locust"]
-  grains             = <<EOF
-
-mirror: ${var.base_configuration["mirror"]}
-server: ${var.server_configuration["hostname"]}
-locust_file: ${base64encode(file(var.locust_file))}
-server_username: ${var.server_configuration["username"]}
-server_password: ${var.server_configuration["password"]}
-locust_master_host: ${module.locust.configuration["hostname"]}
-EOF
+  grains = {
+    mirror             = var.base_configuration["mirror"]
+    server             = var.server_configuration["hostname"]
+    locust_file        = base64encode(file(var.locust_file))
+    server_username    = var.server_configuration["username"]
+    server_password    = var.server_configuration["password"]
+    locust_master_host = module.locust.configuration["hostname"]
+  }
 
 
   // Provider-specific variables

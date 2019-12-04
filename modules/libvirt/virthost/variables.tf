@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -15,12 +14,11 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "activation_key" {
   description = "an Activation Key to be used when onboarding this minion"
-  default     = "null"
+  default     = null
 }
 
 variable "auto_connect_to_master" {
@@ -55,8 +53,7 @@ variable "additional_packages" {
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default     = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+  default     = null
 }
 
 variable "quantity" {
@@ -111,5 +108,5 @@ variable "running" {
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }

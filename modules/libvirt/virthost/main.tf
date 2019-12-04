@@ -17,11 +17,10 @@ module "virthost" {
   ssh_key_path              = var.ssh_key_path
   ipv6                      = var.ipv6
   roles                     = ["minion", "virthost"]
-  additional_grains         = <<EOF
-
-hvm_disk_image: "${var.hvm_disk_image}"
-hvm_disk_image_hash: "${var.hvm_disk_image_hash}"
-EOF
+  additional_grains = {
+    hvm_disk_image      = var.hvm_disk_image
+    hvm_disk_image_hash = var.hvm_disk_image_hash
+  }
 
 
   // Provider-specific variables

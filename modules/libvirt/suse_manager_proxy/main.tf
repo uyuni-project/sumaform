@@ -34,26 +34,23 @@ module "suse_manager_proxy" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = ["suse_manager_proxy"]
-  grains                        = <<EOF
-
-product_version: ${var.product_version}
-mirror: ${var.base_configuration["mirror"]}
-server: ${var.server_configuration["hostname"]}
-minion: ${var.minion}
-auto_connect_to_master: ${var.auto_connect_to_master}
-auto_register: ${var.auto_register}
-download_private_ssl_key: ${var.download_private_ssl_key}
-auto_configure: ${var.auto_configure}
-server_username: ${var.server_configuration["username"]}
-server_password: ${var.server_configuration["password"]}
-generate_bootstrap_script: ${var.generate_bootstrap_script}
-publish_private_ssl_key: ${var.publish_private_ssl_key}
-apparmor: ${var.apparmor}
-repository_disk_size: ${var.repository_disk_size}
-repository_disk_device: vdb
-
-EOF
-
+  grains = {
+    product_version           = var.product_version
+    mirror                    = var.base_configuration["mirror"]
+    server                    = var.server_configuration["hostname"]
+    minion                    = var.minion
+    auto_connect_to_master    = var.auto_connect_to_master
+    auto_register             = var.auto_register
+    download_private_ssl_key  = var.download_private_ssl_key
+    auto_configure            = var.auto_configure
+    server_username           = var.server_configuration["username"]
+    server_password           = var.server_configuration["password"]
+    generate_bootstrap_script = var.generate_bootstrap_script
+    publish_private_ssl_key   = var.publish_private_ssl_key
+    apparmor                  = var.apparmor
+    repository_disk_size      = var.repository_disk_size
+    repository_disk_device    = "vdb"
+  }
 
   // Provider-specific variables
   image           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image

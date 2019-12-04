@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -20,12 +19,11 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "activation_key" {
   description = "an Activation Key to be used when onboarding this minion"
-  default     = "null"
+  default     = null
 }
 
 variable "auto_connect_to_master" {
@@ -85,8 +83,7 @@ variable "swap_file_size" {
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default     = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+  default     = null
 }
 
 variable "gpg_keys" {
@@ -104,7 +101,7 @@ variable "ipv6" {
 
 variable "additional_grains" {
   description = "custom grain string to be added to this minion's configuration"
-  default     = ""
+  default     = {}
 }
 
 // Provider-specific variables
@@ -131,15 +128,15 @@ variable "running" {
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = ""
+  default     = null
 }
 
 variable "xslt" {
-  description = "module relative path to an xslt file to apply on the libvirt domain"
-  default     = ""
+  description = "xslt contents to apply on the libvirt domain"
+  default     = null
 }

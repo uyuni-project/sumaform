@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -49,8 +48,8 @@ variable "quantity" {
 }
 
 variable "grains" {
-  description = "custom grain string to be added to this host's configuration"
-  default     = ""
+  description = "custom grain map to be added to this host's configuration"
+  default     = {}
 }
 
 variable "swap_file_size" {
@@ -60,8 +59,7 @@ variable "swap_file_size" {
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default     = "/dev/null"
-  # HACK: "" cannot be used as a default because of https://github.com/hashicorp/hil/issues/50
+  default     = null
 }
 
 variable "gpg_keys" {
@@ -111,7 +109,7 @@ variable "running" {
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "additional_disk" {
@@ -121,10 +119,10 @@ variable "additional_disk" {
 
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = ""
+  default     = null
 }
 
 variable "xslt" {
-  description = "module relative path to an xsl file to apply on the libvirt domain"
-  default     = ""
+  description = "xslt contents to apply on the libvirt domain"
+  default     = null
 }

@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "grafana" {
@@ -37,26 +36,25 @@ variable "grafana_name" {
 
 variable "server_mac" {
   description = "a MAC address for the server in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "minion_mac" {
   description = "a MAC address for the minion instance in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "locust_mac" {
   description = "a MAC address for the Locust instance in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "grafana_mac" {
   description = "a MAC address for the Grafana instance in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = ""
+  default     = null
 }
-

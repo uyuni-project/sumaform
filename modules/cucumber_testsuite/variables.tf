@@ -36,7 +36,7 @@ variable "images" {
 
 variable "mirror" {
   description = "hostname of the mirror host or leave the default for no mirror"
-  default     = "null"
+  default     = null
 }
 
 variable "use_mirror_images" {
@@ -63,7 +63,7 @@ variable "product_version" {
 
 variable "from_email" {
   description = "email address used as sender for emails"
-  default     = "null"
+  default     = null
 }
 
 // ctl
@@ -89,7 +89,7 @@ variable "git_repo" {
 
 variable "server_http_proxy" {
   description = "Hostname and port used by the Server as the http proxy to reach the outside network"
-  default     = ""
+  default     = null
 }
 
 variable "saltapi_tcpdump" {
@@ -108,8 +108,8 @@ variable "provider_settings" {
       // base
       pool               = "default"
       network_name       = "default"
-      bridge             = ""
-      additional_network = ""
+      bridge             = null
+      additional_network = null
     }
   }
 }

@@ -148,8 +148,11 @@ Setting the `wait_for_reposync` variable to `true` will result into sumaform wai
 
 Channels specified via the `channels` variable above can be automatically cloned by date at deploy time. This operation is typically time-intensive, thus it is disabled by default. In order to clone channels specified via the `channels` variable, you need to specify the cloning details in a `cloned_channels` variable according to the following syntax:
 
-```yaml
-[{ channels: [<PARENT_CHANNEL_NAME>, <CHILD_CHANNEL_1_NAME>, ...], prefix: <CLONE_PREFIX>, date: <YYYY-MM-DD> } ...]
+```hcl
+[{ channels = ["<PARENT_CHANNEL_NAME>", "<CHILD_CHANNEL_1_NAME>", ...],
+  prefix   = "<CLONE_PREFIX>",
+  date     = "<YYYY-MM-DD>"
+}]
 ```
 
 A libvirt example follows:
@@ -163,7 +166,12 @@ module "server" {
   product_version = "3.2-nightly"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
   wait_for_reposync = true
-  cloned_channels = "[{ channels: [sles12-sp3-pool-x86_64, sles12-sp3-updates-x86_64], prefix: cloned-2017-q1, date: 2017-03-31 }]"
+  cloned_channels = [
+    { channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"],
+      prefix   = "cloned-2017-q3",
+      date     = "2017-09-30"
+    }
+  ]
 }
 ```
 

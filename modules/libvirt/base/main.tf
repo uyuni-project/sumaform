@@ -90,7 +90,7 @@ resource "libvirt_volume" "ubuntu1804_volume" {
 }
 
 resource "libvirt_network" "additional_network" {
-  count     = var.additional_network == "" ? 0 : 1
+  count     = var.additional_network == null ? 0 : 1
   name      = "${var.name_prefix}private"
   mode      = "none"
   addresses = [var.additional_network]
@@ -121,7 +121,7 @@ output "configuration" {
     cc_password           = var.cc_password
     timezone              = var.timezone
     ssh_key_path          = var.ssh_key_path
-    mirror                = var.mirror == "" ? "null" : var.mirror
+    mirror                = var.mirror
     use_mirror_images     = var.use_mirror_images
     use_avahi             = var.use_avahi
     domain                = var.domain
@@ -133,7 +133,7 @@ output "configuration" {
 
     // Provider-specific variables
     pool         = var.pool
-    network_name = var.bridge == "" ? var.network_name : ""
+    network_name = var.bridge == null ? var.network_name : null
     bridge       = var.bridge
   }
 }

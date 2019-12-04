@@ -1,6 +1,5 @@
 variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
-  type        = map(string)
 }
 
 variable "name" {
@@ -37,7 +36,7 @@ variable "running" {
 
 variable "mac" {
   description = "a MAC address in the form AA:BB:CC:11:22:22"
-  default     = ""
+  default     = null
 }
 
 variable "additional_disk" {
@@ -47,6 +46,5 @@ variable "additional_disk" {
 
 variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = ""
+  default     = null
 }
-
