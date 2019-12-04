@@ -48,3 +48,8 @@ variable "cpu_model" {
   description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
   default     = null
 }
+
+variable "volume_provider_settings" {
+  description = "Map of volume-provider-specific settings, see the backend-specific README file"
+  default     = {}
+}

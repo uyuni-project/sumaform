@@ -1,10 +1,10 @@
-resource "libvirt_volume" "data_disk" {
-  name = "${var.base_configuration["name_prefix"]}mirror-data-disk"
-  size = 1099511627776 # 1 TiB
-  pool = var.data_pool
-  lifecycle {
-    prevent_destroy = true
-  }
+
+module "data_disk" {
+  source = "../volume"
+  volume_name = "${var.base_configuration["name_prefix"]}mirror-data-disk"
+  volume_size = 1099511627776 # 1 TiB
+  volume_provider_settings = var.volume_provider_settings
+  quantity = 1
 }
 
 module "mirror" {
@@ -34,7 +34,7 @@ module "mirror" {
   mac     = var.mac
   additional_disk = [
     {
-      volume_id = libvirt_volume.data_disk.id
+      additional_disk = length(module.data_disk.configuration.ids) > 0 ? [{ volume_id = module.data_disk.configuration.ids[0] }] : []
     },
   ]
 }
