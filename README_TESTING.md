@@ -19,10 +19,8 @@ module "cucumber_testsuite" {
   git_password = ...
 
   provider_settings = {
-    libvirt = {
-      uri = "qemu:///system"
-      network_name = "default"
-    }
+    uri = "qemu:///system"
+    network_name = "default"
   }
 }
 ```

@@ -1,3 +1,4 @@
+
 locals {
   images_used = var.use_shared_resources ? [] : var.images
   image_urls = {
@@ -14,8 +15,11 @@ locals {
     sles12sp3   = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
     sles12sp4   = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
     ubuntu1804  = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
-
   }
+  pool               = lookup(var.provider_settings, "pool", "default")
+  network_name       = lookup(var.provider_settings, "network_name", "default")
+  bridge             = lookup(var.provider_settings, "bridge", null)
+  additional_network = lookup(var.provider_settings, "additional_network", null)
 }
 
 resource "libvirt_volume" "volumes" {
@@ -23,14 +27,14 @@ resource "libvirt_volume" "volumes" {
 
   name   = "${var.name_prefix}${each.value}"
   source = local.image_urls[each.value]
-  pool   = var.pool
+  pool   = local.pool
 }
 
 resource "libvirt_network" "additional_network" {
-  count     = var.additional_network == null ? 0 : 1
+  count     = local.additional_network == null ? 0 : 1
   name      = "${var.name_prefix}private"
   mode      = "none"
-  addresses = [var.additional_network]
+  addresses = [local.additional_network]
   dhcp {
     enabled = "false"
   }
@@ -54,11 +58,11 @@ output "configuration" {
     name_prefix           = var.name_prefix
     use_shared_resources  = var.use_shared_resources
     testsuite             = var.testsuite
-    additional_network    = var.additional_network
+    additional_network    = local.additional_network
     additional_network_id = join(",", libvirt_network.additional_network.*.id)
 
-    pool         = var.pool
-    network_name = var.bridge == null ? var.network_name : null
-    bridge       = var.bridge
+    pool         = local.pool
+    network_name = local.bridge == null ? local.network_name : null
+    bridge       = local.bridge
   }
 }
