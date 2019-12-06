@@ -23,11 +23,7 @@ module "server" {
       date     = "2017-12-31"
     }
   ]
-
-
-  vcpu   = 8
-  memory = 16384
-  mac    = var.server_mac
+  provider_settings = var.server_provider_settings
 }
 
 module "minion" {
@@ -39,11 +35,8 @@ module "minion" {
   server_configuration = module.server.configuration
   activation_key       = "1-cloned-2017-q3"
   evil_minion_count    = var.pts_system_count
-
-
-  vcpu   = 2
-  memory = 4096
-  mac    = var.minion_mac
+  provider_settings    = var.minion_provider_settings
+  roles                = ["minion", "pts_minion"]
 }
 
 module "locust" {
@@ -51,13 +44,9 @@ module "locust" {
   name                 = var.locust_name
   base_configuration   = var.base_configuration
   server_configuration = module.server.configuration
-  locust_file          = "modules/libvirt/pts/locustfile.py"
+  locust_file          = "${path.module}/locustfile.py"
   slave_quantity       = 5
-
-
-  memory = 1024
-  // FIXME
-  mac    = var.locust_mac
+  provider_settings    = var.locust_provider_settings
 }
 
 module "grafana" {
@@ -67,8 +56,5 @@ module "grafana" {
   server_configuration = module.server.configuration
   locust_configuration = module.locust.configuration
   quantity             = var.grafana
-
-
-  // FIXME
-  mac = var.grafana_mac
+  provider_settings    = var.grafana_provider_settings
 }

@@ -32,29 +32,22 @@ variable "grafana_name" {
   default     = "grafana"
 }
 
-
-
-variable "server_mac" {
-  description = "a MAC address for the server in the form AA:BB:CC:11:22:22"
-  default     = null
+variable "server_provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }
 
-variable "minion_mac" {
-  description = "a MAC address for the minion instance in the form AA:BB:CC:11:22:22"
-  default     = null
+variable "minion_provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }
 
-variable "locust_mac" {
-  description = "a MAC address for the Locust instance in the form AA:BB:CC:11:22:22"
-  default     = null
+variable "locust_provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }
 
-variable "grafana_mac" {
-  description = "a MAC address for the Grafana instance in the form AA:BB:CC:11:22:22"
-  default     = null
-}
-
-variable "cpu_model" {
-  description = "Define what CPU model the guest is getting (host-model, host-passthrough or the default)."
-  default     = null
+variable "grafana_provider_settings" {
+  description = "Map of provider-specific settings, see the backend-specific README file"
+  default     = {}
 }
