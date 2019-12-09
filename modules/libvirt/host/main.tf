@@ -56,7 +56,7 @@ resource "libvirt_domain" "domain" {
         },
       ],
       var.connect_to_base_network ? 0 : 1,
-      var.base_configuration["additional_network"] != "" && var.connect_to_additional_network ? 2 : 1,
+      var.base_configuration["additional_network"] != null && var.connect_to_additional_network ? 2 : 1,
     )
     content {
       wait_for_lease = network_interface.value.wait_for_lease
