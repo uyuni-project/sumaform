@@ -12,9 +12,9 @@ variable "images" {
 
 resource "libvirt_volume" "server_data_disk" {
   name  = "${var.base_configuration["name_prefix"]}${var.name}-server-data-disk"
-  size  = "${var.repository_disk_size}"
-  pool  = "${var.data_pool}"
-  count = "${var.repository_disk_size > 0 ? 1 : 0}"
+  size  = var.repository_disk_size
+  pool  = var.data_pool
+  count = var.repository_disk_size > 0 ? 1 : 0
 }
 
 module "suse_manager" {
