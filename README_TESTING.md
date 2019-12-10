@@ -142,16 +142,16 @@ You can configure a `mirror` host for the testsuite and that will be beneficial 
 ## Alternative testsuite version
 
 You can also select an alternative fork or branch where for the Cucumber testsuite code:
- - the `git_repo` variable in the `controller` overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
- - the `branch` variable in the `controller` overrides the branch (by default an automatic selection is made).
+ - the `git_repo` variable in the `cucumber_testsuite` module overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
+ - the `branch` variable in the `cucumber_testsuite` module overrides the branch (by default an automatic selection is made).
 
 As an example:
 
 ```hcl
-module "controller" {
-  source = "./modules/libvirt/controller"
-  base_configuration = "${module.base.configuration}"
-  name = "controller"
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+
+  product_version = "4.0-nightly"
   ...
   git_repo = "https://url.to.git/repo/to/clone"
   branch = "cool-feature"
