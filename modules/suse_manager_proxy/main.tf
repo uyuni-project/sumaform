@@ -49,7 +49,6 @@ module "suse_manager_proxy" {
     generate_bootstrap_script = var.generate_bootstrap_script
     publish_private_ssl_key   = var.publish_private_ssl_key
     repository_disk_size      = var.repository_disk_size
-    repository_disk_device    = "vdb"
   }
 
   image           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image

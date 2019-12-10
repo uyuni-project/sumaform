@@ -22,7 +22,7 @@ module "virthost" {
   }
 
   image     = var.image
-  provider_settings = var.provider_settings
+  provider_settings =var.provider_settings
 }
 
 output "configuration" {

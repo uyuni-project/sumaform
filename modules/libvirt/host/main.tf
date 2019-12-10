@@ -8,7 +8,14 @@ locals {
     additional_disk = []
     cpu_model       = null
     xslt            = null
-  }, var.provider_settings)
+  },
+  contains(var.roles, "suse_manager_server")? {memory=4096, vcpu=2}:{},
+  contains(var.roles, "mirror")? {memory=512}:{},
+  contains(var.roles, "controller")? {memory=2048}:{},
+  contains(var.roles, "grafana")? {memory=4096}:{},
+  contains(var.roles, "virthost")? {memory=2048, vcpu=3}:{},
+  var.provider_settings,
+  contains(var.roles, "virthost")? {cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl")}:{})
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -131,6 +138,7 @@ resource "libvirt_domain" "domain" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
+        data_disk_device              = contains(var.roles, "suse_manager_server") || contains(var.roles, "suse_manager_proxy") || contains(var.roles, "mirror") ? "vdb" : null
       },
     var.grains))
     destination = "/etc/salt/grains"

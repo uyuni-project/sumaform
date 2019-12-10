@@ -35,7 +35,7 @@ module "suse_manager" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
-  roles = var.register_to_server == null ? ["suse_manager_server"] : ["suse_manager_server", "minion"]
+  roles                         = var.register_to_server == null ? ["suse_manager_server"] : ["suse_manager_server", "minion"]
 
   grains = {
     product_version        = var.product_version
@@ -79,11 +79,10 @@ module "suse_manager" {
     traceback_email                = var.traceback_email
     saltapi_tcpdump                = var.saltapi_tcpdump
     repository_disk_size           = var.repository_disk_size
-    repository_disk_device         = "vdb"
   }
 
 
-  image           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
   provider_settings = merge(
   var.provider_settings,
   {
