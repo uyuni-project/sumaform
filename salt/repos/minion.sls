@@ -28,6 +28,16 @@ devel_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/15-SP1/x86_64/update/
 
+{% if '3.2-nightly' in grains.get('product_version') or '4.0-nightly' in grains.get('product_version') %}
+python2_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Python2/15-SP1/x86_64/product/
+
+python2_updates_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Python2/15-SP1/x86_64/update/
+{% endif %}
+
 {% endif %}
 
 
