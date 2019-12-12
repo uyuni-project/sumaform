@@ -94,8 +94,8 @@ module "suse_manager" {
 
 output "configuration" {
   value = {
-    id              = module.suse_manager.configuration["ids"][0]
-    hostname        = module.suse_manager.configuration["hostnames"][0]
+    id              = length(module.suse_manager.configuration["ids"]) > 0 ? module.suse_manager.configuration["ids"][0] : null
+    hostname        = length(module.suse_manager.configuration["hostnames"]) > 0 ? module.suse_manager.configuration["hostnames"][0] : null
     product_version = var.product_version
     username        = var.server_username
     password        = var.server_password
