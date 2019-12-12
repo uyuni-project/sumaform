@@ -2,9 +2,9 @@ base:
   '*':
     - default
 
-  'roles:suse_manager_server':
+  'roles:server':
     - match: grain
-    - suse_manager_server
+    - server
 
   'roles:client':
     - match: grain

@@ -3,7 +3,7 @@ include:
   - repos.default
   - repos.minion
   - repos.suse_manager_proxy
-  - repos.suse_manager_server
+  - repos.server
   - repos.testsuite
   - repos.virthost
   - repos.tools

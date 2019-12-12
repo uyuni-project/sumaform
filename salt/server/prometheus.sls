@@ -74,7 +74,7 @@ postgres_exporter_configuration:
 postgres_exporter_service:
   file.managed:
     - name: /etc/sysconfig/prometheus-postgres_exporter
-    - source: salt://suse_manager_server/postgres-exporter
+    - source: salt://server/postgres-exporter
     - require:
       - pkg: postgres_exporter
       - file: postgres_exporter_configuration

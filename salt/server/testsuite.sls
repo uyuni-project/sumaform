@@ -1,7 +1,7 @@
 {% if grains.get('testsuite') | default(false, true) %}
 
 include:
-  - suse_manager_server
+  - server
 
 fedora_autoinstallation_initrd_file:
   file.managed:
@@ -34,18 +34,18 @@ sles_autoinstallation_linux_file:
 test_package_without_vendor_file:
   file.managed:
     - name: /root/subscription-tools-1.0-0.noarch.rpm
-    - source: salt://suse_manager_server/testsuite/subscription-tools-1.0-0.noarch.rpm
+    - source: salt://server/testsuite/subscription-tools-1.0-0.noarch.rpm
 
 test_autoinstallation_file:
   file.managed:
     - name: /install/empty.xml
-    - source: salt://suse_manager_server/testsuite/empty.xml
+    - source: salt://server/testsuite/empty.xml
     - makedirs: True
 
 test_vcenter_file:
   file.managed:
     - name: /var/tmp/vCenter.json
-    - source: salt://suse_manager_server/testsuite/vCenter.json
+    - source: salt://server/testsuite/vCenter.json
 
 minima:
   archive.extracted:
@@ -76,7 +76,7 @@ another_test_repo:
 
 test_repo_debian_updates:
   cmd.script:
-    - name: salt://suse_manager_server/download_ubuntu_repo.sh
+    - name: salt://server/download_ubuntu_repo.sh
     - args: "TestRepoDebUpdates {{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
@@ -92,13 +92,13 @@ cobbler_configuration:
     - watch :
       - file : /etc/cobbler/settings
     - require:
-      - sls: suse_manager_server
+      - sls: server
     file.replace:
     - name: /etc/cobbler/settings
     - pattern: "redhat_management_permissive: 0"
     - repl: "redhat_management_permissive: 1"
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 testsuite_packages:
   pkg.installed:
@@ -118,7 +118,7 @@ enable_salt_content_staging_window:
     - repl: 'java.salt_content_staging_window = 0.033'
     - append_if_not_found: True
     - require:
-      - cmd: suse_manager_setup
+      - cmd: server_setup
 
 enable_salt_content_staging_advance:
   file.replace:
@@ -127,7 +127,7 @@ enable_salt_content_staging_advance:
     - repl: 'java.salt_content_staging_advance = 0.05'
     - append_if_not_found: True
     - require:
-      - cmd: suse_manager_setup
+      - cmd: server_setup
 
 enable_kiwi_os_image_building:
   file.replace:
@@ -136,7 +136,7 @@ enable_kiwi_os_image_building:
     - repl: 'java.kiwi_os_image_building_enabled = true'
     - append_if_not_found: True
     - require:
-      - cmd: suse_manager_setup
+      - cmd: server_setup
 
 tomcat:
   service.running:

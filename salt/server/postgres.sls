@@ -1,5 +1,5 @@
 include:
-  - suse_manager_server
+  - server
 
 postgresql_main_configuration:
   file.append:
@@ -13,14 +13,14 @@ postgresql_main_configuration:
       - full_page_writes = off
       {% endif %}
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 postgresql_hba_configuration:
   file.append:
     - name: /var/lib/pgsql/data/pg_hba.conf
     - text: host    all     all       0.0.0.0/0      md5
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 postgresql:
   service.running:

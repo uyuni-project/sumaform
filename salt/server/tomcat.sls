@@ -1,7 +1,7 @@
 {% if grains.get('java_debugging') %}
 
 include:
-  - suse_manager_server.rhn
+  - server.rhn
 
 tomcat_config:
   file.replace:
@@ -13,7 +13,7 @@ tomcat_config:
     - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['fqdn'] }}:8000,server=y,suspend=n -Dcom.sun.management.jmxremote.port=3333 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{ grains['fqdn'] }} \1"'
     {% endif %}
     - require:
-      - sls: suse_manager_server.rhn
+      - sls: server.rhn
 
 {% endif %}
 

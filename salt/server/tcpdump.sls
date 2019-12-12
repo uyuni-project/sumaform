@@ -8,7 +8,7 @@ tcpdump.unit:
     - name: /etc/systemd/system/tcpdump.service
     - require:
       - pkg: tcpdump
-    - source: salt://suse_manager_server/tcpdump.service
+    - source: salt://server/tcpdump.service
     - user: root
     - group: root
 
