@@ -89,7 +89,7 @@ module "suse_manager" {
   vcpu            = var.vcpu
   running         = var.running
   mac             = var.mac
-  additional_disk = var.repository_disk_size > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
+  additional_disk = length(libvirt_volume.server_data_disk) > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
 }
 
 output "configuration" {
