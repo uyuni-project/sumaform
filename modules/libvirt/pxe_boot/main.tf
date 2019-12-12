@@ -26,7 +26,7 @@ resource "libvirt_domain" "domain" {
       var.additional_disk,
     )
     content {
-      volume_id = disk.value["volume_id"]
+      volume_id = disk.value.volume_id
     }
   }
 
