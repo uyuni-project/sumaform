@@ -22,11 +22,7 @@ resource "libvirt_domain" "domain" {
   // base disk + additional disks if any
   dynamic "disk" {
     for_each = concat(
-      [
-        {
-          "volume_id" = element(libvirt_volume.main_disk.*.id, count.index)
-        },
-      ],
+      length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
       var.additional_disk,
     )
     content {
