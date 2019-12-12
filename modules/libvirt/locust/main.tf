@@ -46,8 +46,7 @@ module "locust-slave" {
 
 output "configuration" {
   value = {
-    id       = module.locust.configuration["ids"][0]
+    id       = length(module.locust.configuration["ids"]) > 0 ? module.locust.configuration["ids"][0] : null
     hostname = module.locust.configuration["hostname"]
   }
 }
-
