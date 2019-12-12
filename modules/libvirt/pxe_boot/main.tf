@@ -54,8 +54,8 @@ resource "libvirt_domain" "domain" {
 
 output "configuration" {
   value = {
-    id       = var.quantity > 0 ? libvirt_domain.domain[0].id : null
+    id       = length(libvirt_domain.domain) > 0 ? libvirt_domain.domain[0].id : null
     hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
-    macaddr  = var.quantity > 0 ? libvirt_domain.domain[0].network_interface[0].mac : null
+    macaddr  = length(libvirt_domain.domain) > 0 ? libvirt_domain.domain[0].network_interface[0].mac : null
   }
 }
