@@ -30,8 +30,8 @@ module "controller" {
     mirror        = var.base_configuration["mirror"]
     server        = var.server_configuration["hostname"]
     proxy         = var.proxy_configuration["hostname"]
-    client        = var.client_configuration["hostnames"][0]
-    minion        = var.minion_configuration["hostnames"][0]
+    client        = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
+    minion        = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
     centos_minion = var.centos_configuration["hostnames"] != null ? var.centos_configuration["hostnames"][0] : null
     ubuntu_minion = var.ubuntu_configuration["hostnames"] != null ? var.ubuntu_configuration["hostnames"][0] : null
     ssh_minion        = var.sshminion_configuration["hostnames"] != null ? var.sshminion_configuration["hostnames"][0] : null
