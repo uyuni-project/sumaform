@@ -39,11 +39,17 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 `sumaform` can deploy virtual machines to:
  - single libvirt hosts
  - Amazon Web Services
+ - null backend
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
 
 The Amazon Web Services backend is currently under maintainance and is not immediately usable as-is. We plan to restore it soon.
+
+The null backend can be useful in a wide variety of scenarios, for example:
+ - Test configurations before going live in another supported backend
+ - Cases in which the virtual infrastructure is outside of the Terraform user's control
+ - Cover architectures that will maybe never be covered by any other Terraform plugin
 
 ## Basic `main.tf` configuration
 
@@ -52,6 +58,7 @@ In `sumaform` you define a set of virtual machines in a `main.tf` configuration 
 Refer to specific READMEs to get started:
  * [libvirt README](backend_modules/libvirt/README.md)
  * [AWS README](backend_modules/aws/README.md)
+ * [NULL README](backend_modules/null/README.md)
 
 ## Typical use
 
