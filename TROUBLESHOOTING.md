@@ -119,10 +119,10 @@ A: you can use [Terraform's taint command](https://www.terraform.io/docs/command
 ```
 $ terraform state list
 ...
-module.server.module.suse_manager.libvirt_volume.main_disk[0]
+module.server.module.server.libvirt_volume.main_disk[0]
 
-$ terraform taint module.server.module.suse_manager.libvirt_volume.main_disk[0]
-Resource instance module.server.module.suse_manager.libvirt_volume.main_disk[0] has been marked as tainted.
+$ terraform taint module.server.module.server.libvirt_volume.main_disk[0]
+Resource instance module.server.module.server.libvirt_volume.main_disk[0] has been marked as tainted.
 ```
 ## Q: how to force the re-download of an image?
 

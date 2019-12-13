@@ -26,13 +26,13 @@ module "base" {
 }
 
 module "srv" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "srv"
   image = "opensuse151"
   use_os_released_updates = true
-  // see modules/suse_manager/variables.tf for possible values
+  // see modules/server/variables.tf for possible values
 
   provider_settings = {
     memory = 8192
