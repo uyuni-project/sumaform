@@ -1,6 +1,6 @@
 include:
   - repos
-  - suse_manager_proxy.additional_disk
+  - proxy.additional_disk
 {% if grains['minion'] %}
   - minion
 {% endif %}
@@ -125,7 +125,7 @@ ssl-building-ca-configuration:
 
 /root/config-answers.txt:
   file.managed:
-    - source: salt://suse_manager_proxy/config-answers.txt
+    - source: salt://proxy/config-answers.txt
     - template: jinja
 
 configure-proxy:

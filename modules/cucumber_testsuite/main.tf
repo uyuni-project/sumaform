@@ -57,7 +57,7 @@ module "srv" {
 }
 
 module "pxy" {
-  source = "../suse_manager_proxy"
+  source = "../proxy"
 
   quantity = contains(local.hosts, "pxy") ? 1 : 0
 

@@ -18,7 +18,7 @@ module "proxy_data_disk" {
   quantity                 = var.repository_disk_size > 0 ? 1 : 0
 }
 
-module "suse_manager_proxy" {
+module "proxy" {
   source = "../host"
 
   base_configuration            = var.base_configuration
@@ -34,7 +34,7 @@ module "suse_manager_proxy" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = true
-  roles                         = ["suse_manager_proxy"]
+  roles                         = ["proxy"]
   grains = {
     product_version           = var.product_version
     mirror                    = var.base_configuration["mirror"]
@@ -61,8 +61,8 @@ module "suse_manager_proxy" {
 
 output "configuration" {
   value = {
-    id              = length(module.suse_manager_proxy.configuration["ids"]) > 0 ? module.suse_manager_proxy.configuration["ids"][0] : null
-    hostname        = length(module.suse_manager_proxy.configuration["hostnames"]) > 0 ? module.suse_manager_proxy.configuration["hostnames"][0] : null
+    id              = length(module.proxy.configuration["ids"]) > 0 ? module.proxy.configuration["ids"][0] : null
+    hostname        = length(module.proxy.configuration["hostnames"]) > 0 ? module.proxy.configuration["hostnames"][0] : null
     product_version = var.product_version
     username        = var.server_configuration["username"]
     password        = var.server_configuration["password"]
