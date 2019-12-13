@@ -37,6 +37,8 @@ scc:
     - SLE-Module-Server-Applications15-SP1-Updates
     - SLE-Module-Web-Scripting15-SP1-Pool
     - SLE-Module-Web-Scripting15-SP1-Updates
+    - SLE-Module-DevTools15-SP1-Pool
+    - SLE-Module-DevTools15-SP1-Updates
     - SLE-Module-Python2-15-SP1-Pool
     - SLE-Module-Python2-15-SP1-Update
     # SLE 15-SP2 Products
@@ -49,6 +51,8 @@ scc:
     - SLE-Module-Server-Applications15-SP2-Updates
     - SLE-Module-Web-Scripting15-SP2-Pool
     - SLE-Module-Web-Scripting15-SP2-Updates
+    - SLE-Module-DevTools15-SP2-Pool
+    - SLE-Module-DevTools15-SP2-Updates
     - SLE-Module-Python2-15-SP2-Pool
     - SLE-Module-Python2-15-SP2-Update
     # SLE Legacy Module
@@ -145,6 +149,8 @@ http:
   # SLES 15 SP1 Test
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP1:/x86_64/update
     archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP1:/x86_64/update
+    archs: [x86_64]
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP1:/x86_64/update
     archs: [x86_64]
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP1:/x86_64/update
@@ -155,6 +161,8 @@ http:
   # SLES 15 SP2 Test (not available until GM)
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP2:/x86_64/update
   #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP2:/x86_64/update
+  #  archs: [x86_64]
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP2:/x86_64/update
   #  archs: [x86_64]
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP2:/x86_64/update
@@ -164,6 +172,8 @@ http:
 
   # SLE 15 SP2 moving target (valid until GM)
   - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Basesystem-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Development-Tools-POOL-x86_64-Media1/
     archs: [x86_64]
   - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Python2-POOL-x86_64-Media1/
     archs: [x86_64]
