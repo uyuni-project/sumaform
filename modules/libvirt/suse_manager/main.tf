@@ -89,13 +89,13 @@ module "suse_manager" {
   vcpu            = var.vcpu
   running         = var.running
   mac             = var.mac
-  additional_disk = var.repository_disk_size > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
+  additional_disk = length(libvirt_volume.server_data_disk) > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
 }
 
 output "configuration" {
   value = {
-    id              = module.suse_manager.configuration["ids"][0]
-    hostname        = module.suse_manager.configuration["hostnames"][0]
+    id              = length(module.suse_manager.configuration["ids"]) > 0 ? module.suse_manager.configuration["ids"][0] : null
+    hostname        = length(module.suse_manager.configuration["hostnames"]) > 0 ? module.suse_manager.configuration["hostnames"][0] : null
     product_version = var.product_version
     username        = var.server_username
     password        = var.server_password

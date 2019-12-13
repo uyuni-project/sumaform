@@ -58,13 +58,13 @@ module "suse_manager_proxy" {
   vcpu            = var.vcpu
   running         = var.running
   mac             = var.mac
-  additional_disk = var.repository_disk_size > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
+  additional_disk = length(libvirt_volume.server_data_disk) > 0 ? [{ volume_id = libvirt_volume.server_data_disk[0].id }] : []
 }
 
 output "configuration" {
   value = {
-    id              = var.quantity > 0 ? module.suse_manager_proxy.configuration["ids"][0] : null
-    hostname        = var.quantity > 0 ? module.suse_manager_proxy.configuration["hostnames"][0] : null
+    id              = length(module.suse_manager_proxy.configuration["ids"]) > 0 ? module.suse_manager_proxy.configuration["ids"][0] : null
+    hostname        = length(module.suse_manager_proxy.configuration["hostnames"]) > 0 ? module.suse_manager_proxy.configuration["hostnames"][0] : null
     product_version = var.product_version
     username        = var.server_configuration["username"]
     password        = var.server_configuration["password"]

@@ -22,15 +22,11 @@ resource "libvirt_domain" "domain" {
   // base disk + additional disks if any
   dynamic "disk" {
     for_each = concat(
-      [
-        {
-          "volume_id" = element(libvirt_volume.main_disk.*.id, count.index)
-        },
-      ],
+      length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
       var.additional_disk,
     )
     content {
-      volume_id = disk.value["volume_id"]
+      volume_id = disk.value.volume_id
     }
   }
 
@@ -54,8 +50,8 @@ resource "libvirt_domain" "domain" {
 
 output "configuration" {
   value = {
-    id       = var.quantity > 0 ? libvirt_domain.domain[0].id : null
+    id       = length(libvirt_domain.domain) > 0 ? libvirt_domain.domain[0].id : null
     hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
-    macaddr  = var.quantity > 0 ? libvirt_domain.domain[0].network_interface[0].mac : null
+    macaddr  = length(libvirt_domain.domain) > 0 ? libvirt_domain.domain[0].network_interface[0].mac : null
   }
 }
