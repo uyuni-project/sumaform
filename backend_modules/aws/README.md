@@ -23,6 +23,10 @@ You will need:
 
 SUSE employees using openbare already have AMI images uploaded and data snapshots for the us-east-1 region; others have to follow instructions in [HOW_TO_UPLOAD.md](modules/aws/images/HOW_TO_UPLOAD.md).
 
+## Select AWS backend to be used
+
+Create a symbolic link to the `aws` backend module directory inside the `modules` directory: `ln -sfn ../backend_modules/aws modules/backend`
+
 ## mirror
 
 In addition to acting as a bastion host for all other instances, the `mirror` host serves all repos and packages used by other instances. It works similarly to the one for the libvirt backend, allowing instances in the private subnet to be completely disconnected from the Internet.

@@ -9,43 +9,46 @@ module "base" {
   cc_password = ...
 
   // optional parameters with defaults below
-  // pool = "default"
-  // network_name = "default" // change to "" if you change bridge below
-  // bridge = ""
   // use_avahi = true
-  // additional_network = ""
   // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
   // timezone = "Europe/Berlin"
+
+//  provider_settings = {
+//    bridge = null
+//    pool = "default"
+//    network_name = "default" // change to "" if you change bridge below
+//    additional_network = null
+//  }
 }
 
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = module.base.configuration
 
   name = "server"
   product_version = "3.2-nightly"
-  // see modules/libvirt/suse_manager/variables.tf for possible values
+  // see modules/suse_manager/variables.tf for possible values
 
   // connect_to_additional_network = true
   // if you want to use two networks
 }
 
 module "client" {
-  source = "./modules/libvirt/client"
+  source = "./modules/client"
   base_configuration = module.base.configuration
 
   name = "client"
   image = "sles12sp3"
   server_configuration = module.server.configuration
-  // see modules/libvirt/client/variables.tf for possible values
+  // see modules/client/variables.tf for possible values
 }
 
 module "minion" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/minion"
   base_configuration = module.base.configuration
 
   name = "minion"
   image = "sles12sp3"
   server_configuration = module.server.configuration
-  // see modules/libvirt/minion/variables.tf for possible values
+  // see modules/minion/variables.tf for possible values
 }

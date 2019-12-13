@@ -1,5 +1,17 @@
 # Troubleshooting
 
+## Q: how can I work around backend not defined error?
+
+Typical error message follows:
+```
+Error: Unreadable module directory
+
+Unable to evaluate directory symlink: lstat modules/backend: no such file or directory
+```
+
+Terraform cannot find the path for the backend in use.
+Create a symbolic link to the backend module directory inside the `modules` directory: `ln -sfn ../backend_modules/<BACKEND> modules/backend`
+
 ## Q: how can I work around name resolution problems with `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
 
 Typical error message follows:

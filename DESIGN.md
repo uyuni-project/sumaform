@@ -7,7 +7,8 @@ Security is explicitly not a goal, convenience is.
 
 ## Idea
 sumaform is:
- * [Terraform](https://www.terraform.io/) modules: they define a virtual infrastructure (VMs, networks, firewalls, disks, etc.)
+ * [Terraform](https://www.terraform.io/) modules composed of two types: backend modules (tied to a provider) and backend-independent modules (logical modules like `server` or `minion`)
+ With those modules, we can define a virtual infrastructure (VMs, networks, firewalls, disks, etc.) and apply it to different backend types.
  * base disk images: they contain bare-bones OSs to bootstrap VMs above
  * [Salt](https://saltstack.com/) states: they define all software configuration on top of bare-bones OSs: SUSE Manager servers, clients, proxies, etc.
 

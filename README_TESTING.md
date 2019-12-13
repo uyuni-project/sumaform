@@ -5,6 +5,10 @@
 It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `cucumber_testsuite` module. A libvirt example follows:
 
 ```hcl
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
 module "cucumber_testsuite" {
   source = "./modules/cucumber_testsuite"
 
@@ -19,7 +23,6 @@ module "cucumber_testsuite" {
   git_password = ...
 
   provider_settings = {
-    uri = "qemu:///system"
     network_name = "default"
   }
 }
@@ -116,7 +119,7 @@ host_settings = {
 ```
 
 In addition to the `present` flag, each of the hosts (including `srv` and `ctl` which are always present) accepts the following parameters:
- - `mac`: to use a fixed MAC address
+ - `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
  - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
  - `image` to use a different base image
 
@@ -124,33 +127,14 @@ An example follows:
 
 ```hcl
 srv = {
-  mac = "AA:B2:93:00:00:60"
+  provider_settings = {
+    mac = "AA:B2:93:00:00:60"
+  }
   additional_repos = {
     Test_repo = "http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
   }
 }
 ````
-
-### Customizing provider settings
-
-Currently the `libvirt` provider accepts the following settings:
-
- - `uri`: the connection string to the `libvirt` host
- - `pool`: the storage pool
- - `network_name`: the name of the main network for the hosts
- - `bridge`: the name of a bridge device
- - `additional_network`: a network mask for PXE tests
-
-```hcl
-libvirt = {
-  // provider
-  uri = "qemu:///system"
-  // base
-  pool               = "ssd"
-  network_name       = "default"
-  additional_network = "192.168.32.0/24"
-}
-```
 
 The `cucumber_testsuite` module also offers the `use_avahi` and `avahi_reflector` variables, see [README_ADVANCED.md](README_ADVANCED.md) for their meaning.
 
