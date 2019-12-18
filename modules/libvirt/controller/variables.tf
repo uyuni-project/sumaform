@@ -40,18 +40,18 @@ variable "proxy_configuration" {
 
 variable "client_configuration" {
   description = "use module.<CLIENT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type = object({
-    ids       = list(string)
-    hostnames = list(string)
-  })
+  default = {
+    ids       = []
+    hostnames = []
+  }
 }
 
 variable "minion_configuration" {
   description = "use module.<MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  type = object({
-    ids       = list(string)
-    hostnames = list(string)
-  })
+  default = {
+    ids       = []
+    hostnames = []
+  }
 }
 
 variable "sshminion_configuration" {
