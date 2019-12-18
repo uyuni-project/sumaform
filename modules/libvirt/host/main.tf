@@ -6,16 +6,20 @@ locals {
     running         = true
     mac             = null
     additional_disk = []
-    cpu_model       = null
+    cpu_model       = "custom"
     xslt            = null
-  },
-  contains(var.roles, "suse_manager_server")? {memory=4096, vcpu=2}:{},
-  contains(var.roles, "mirror")? {memory=512}:{},
-  contains(var.roles, "controller")? {memory=2048}:{},
-  contains(var.roles, "grafana")? {memory=4096}:{},
-  contains(var.roles, "virthost")? {memory=2048, vcpu=3}:{},
-  var.provider_settings,
-  contains(var.roles, "virthost")? {cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl")}:{})
+    },
+    contains(var.roles, "suse_manager_server") ? { memory = 4096, vcpu = 2 } : {},
+    contains(var.roles, "suse_manager_server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
+    contains(var.roles, "suse_manager_proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "suse_manager_server") && lookup(var.grains, "pts", false) ? { memory = 16384, vcpu = 8 } : {},
+    contains(var.roles, "pts_minion") ? { memory = 4096, vcpu = 2 } : {},
+    contains(var.roles, "mirror") ? { memory = 512 } : {},
+    contains(var.roles, "controller") ? { memory = 2048 } : {},
+    contains(var.roles, "grafana") ? { memory = 4096 } : {},
+    contains(var.roles, "virthost") ? { memory = 2048, vcpu = 3 } : {},
+    var.provider_settings,
+  contains(var.roles, "virthost") ? { cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl") } : {})
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -35,7 +39,7 @@ resource "libvirt_domain" "domain" {
 
   // copy host CPU model to guest to get the vmx flag if present
   cpu = {
-    mode = coalesce(local.provider_settings["cpu_model"], "custom")
+    mode = local.provider_settings["cpu_model"]
   }
 
   // base disk + additional disks if any
@@ -79,12 +83,6 @@ resource "libvirt_domain" "domain" {
     }
   }
 
-  connection {
-    host     = self.network_interface[0].addresses[0]
-    user     = "root"
-    password = "linux"
-  }
-
   console {
     type           = "pty"
     target_port    = "0"
@@ -105,6 +103,45 @@ resource "libvirt_domain" "domain" {
     type        = "spice"
     listen_type = "address"
     autoport    = true
+  }
+
+  xml {
+    xslt = local.provider_settings["xslt"]
+  }
+}
+
+resource "null_resource" "provisioning" {
+  depends_on = [libvirt_domain.domain]
+
+  triggers = {
+    main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
+    domain_id      = length(libvirt_domain.domain) == var.quantity ? libvirt_domain.domain[count.index].id : null
+    grains_subset = yamlencode(
+      {
+        domain                    = var.base_configuration["domain"]
+        use_avahi                 = var.base_configuration["use_avahi"]
+        timezone                  = var.base_configuration["timezone"]
+        testsuite                 = var.base_configuration["testsuite"]
+        roles                     = var.roles
+        use_os_released_updates   = var.use_os_released_updates
+        use_os_unreleased_updates = var.use_os_unreleased_updates
+        additional_repos          = var.additional_repos
+        additional_repos_only     = var.additional_repos_only
+        additional_certs          = var.additional_certs
+        additional_packages       = var.additional_packages
+        swap_file_size            = var.swap_file_size
+        authorized_keys           = var.ssh_key_path
+        gpg_keys                  = var.gpg_keys
+        ipv6                      = var.ipv6
+    })
+  }
+
+  count = var.provision ? var.quantity : 0
+
+  connection {
+    host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
+    user     = "root"
+    password = "linux"
   }
 
   provisioner "file" {
@@ -149,13 +186,10 @@ resource "libvirt_domain" "domain" {
       "sh /root/salt/first_deployment_highstate.sh",
     ]
   }
-
-  xml {
-    xslt = local.provider_settings["xslt"]
-  }
 }
 
 output "configuration" {
+  depends_on = [libvirt_domain.domain, null_resource.provisioning]
   value = {
     ids       = libvirt_domain.domain[*].id
     hostnames = [for value_used in libvirt_domain.domain : "${value_used.name}.${var.base_configuration["domain"]}"]

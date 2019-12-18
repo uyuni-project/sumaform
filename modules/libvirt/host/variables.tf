@@ -90,6 +90,12 @@ variable "image" {
   type        = string
 }
 
+variable "provision" {
+  description = "Indicates whether servers should be provisioned or not"
+  type        = bool
+  default     = true
+}
+
 variable "provider_settings" {
   description = "Map of provider-specific settings, see the modules/libvirt/README.md"
   default     = {}
