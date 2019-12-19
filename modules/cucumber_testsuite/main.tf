@@ -97,6 +97,9 @@ locals {
 
 module "cli-sles12sp4" {
   source             = "../libvirt/client"
+
+  quantity = contains(local.hosts, "cli-sles12sp4") ? 1 : 0
+
   base_configuration = module.base.configuration
   product_version    = var.product_version
   name               = "cli-sles12sp4"
@@ -115,6 +118,9 @@ module "cli-sles12sp4" {
 
 module "min-sles12sp4" {
   source             = "../libvirt/minion"
+
+  quantity = contains(local.hosts, "min-sles12sp4") ? 1 : 0
+
   base_configuration = module.base.configuration
   product_version    = var.product_version
   name               = "min-sles12sp4"
@@ -224,8 +230,8 @@ module "ctl" {
   base_configuration      = module.base.configuration
   server_configuration    = module.srv.configuration
   proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = null }
-  client_configuration    = module.cli-sles12sp4.configuration
-  minion_configuration    = module.min-sles12sp4.configuration
+  client_configuration    = contains(local.hosts, "cli-sles12sp4") ? module.cli-sles12sp4.configuration : { hostnames = [], ids = [] }
+  minion_configuration    = contains(local.hosts, "min-sles12sp4") ? module.min-sles12sp4.configuration : { hostnames = [], ids = [] }
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = [], ids = [] }
   ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = [], ids = [] }
   sshminion_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = [], ids = [] }

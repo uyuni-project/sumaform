@@ -80,6 +80,12 @@ host_settings = {
   pxy = {
     present = true
   }
+  cli-sles12sp4 = {
+    present = true
+  }
+  min-sles12sp4 = {
+    present = true
+  }
   minssh-sles12sp4 = {
     present = true
   }
@@ -98,7 +104,20 @@ host_settings = {
 }
 ```
 
-In addition to the `present` flag, each of the hosts (including `srv`, `ctl`, `cli-sles12sp4` and `min-sles12sp4` which are always present) accepts the following parameters:
+The default value for host_settings block has a SLES12SP4 Traditional Client and SLES12SP4 Minion present:
+
+```hcl
+host_settings = {
+  cli-sles12sp4 = {
+    present = true
+  }
+  min-sles12sp4 = {
+    present = true
+  }
+}
+```
+
+In addition to the `present` flag, each of the hosts (including `srv` and `ctl` which are always present) accepts the following parameters:
  - `mac`: to use a fixed MAC address
  - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
  - `image` to use a different base image
