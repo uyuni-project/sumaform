@@ -39,6 +39,9 @@ module "controller" {
     pxeboot_mac       = var.pxeboot_configuration["macaddr"]
     branch            = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
     git_profiles_repo = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
+    portus_uri        = var.portus_uri
+    portus_username   = var.portus_username
+    portus_password   = var.portus_password
     server_http_proxy = var.server_http_proxy
 
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null

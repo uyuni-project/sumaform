@@ -276,6 +276,21 @@ variable "git_profiles_repo" {
   default     = "default"
 }
 
+variable "portus_uri" {
+  description = "URI of portus server, see README_ADVANCED.md"
+  default     = null
+}
+
+variable "portus_username" {
+  description = "username on portus server, see README_ADVANCED.md"
+  default     = null
+}
+
+variable "portus_password" {
+  description = "password on portus server, see README_ADVANCED.md"
+  default     = null
+}
+
 variable "server_http_proxy" {
   description = "Hostname and port used by SUSE Manager http proxy"
   default     = null
