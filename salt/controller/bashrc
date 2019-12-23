@@ -42,11 +42,11 @@ export VIRTHOST_KVM_PASSWORD="linux"
 {% if grains.get('ubuntu1804_sshminion') | default(false, true) %}export UBUNTU1804_SSHMINION="{{ grains.get('ubuntu1804_sshminion') }}" {% else %}# no UBUNTU1804 ssh minion defined {% endif %}
 
 # various test suite settings
-{% if grains.get('git_profiles_repo') | default(false, true) %}export GITPROFILES="{{ grains.get('git_profiles_repo') }}" {% else %}# no profiles repository defined {% endif %}
+export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
 export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
-export PORTUS_URI="portus.mgr.suse.de:5000/cucutest"
-export PORTUS_CREDENTIALS="cucutest|cucusecret"
+export PORTUS_URI="{{ grains.get('portus_uri') }}"
+export PORTUS_CREDENTIALS="{{ grains.get('portus_username') }}|{{ grains.get('portus_password') }}"
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
