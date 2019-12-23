@@ -177,3 +177,34 @@ module "cucumber_testsuite" {
   ...
 }
 ```
+
+## Alternative Docker and Kiwi profiles
+
+By default, the Docker and Kiwi profiles used by the testsuite (all branches) are picked up from [the public uyuni branch](https://github.com/uyuni-project/uyuni/tree/master/testsuite/features/profiles). If you want to experiment with alternative Docker or Kiwi profiles, you can do that with the `git_profiles_repo` variable.
+
+Example:
+
+```hcl
+module "cucumber_testsuite" {
+   ...
+   git_profiles_repo = "https://url.to.git/repo/to/use"
+   ...
+}
+```
+
+
+## Alternative Portus server
+
+If you want the test suite to use a Portus server, you can specify it with the `portus_uri`, `portus_username`, and `portus_password` variables.
+
+Example:
+
+```hcl
+module "cucumber_testsuite" {
+   ...
+   portus_uri = "https://url.to.portus:5000/server/to/use"
+   portus_username = "username"
+   portus_password = "password"
+   ...
+}
+```
