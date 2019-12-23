@@ -1,19 +1,21 @@
-# Environment variables used by test suite
+#### Environment variables used by test suite
+
+# base hosts
 export SERVER="{{ grains.get('server') }}"
 {% if grains.get('proxy') | default(false, true) %}export PROXY="{{ grains.get('proxy') }}" {% else %}# no proxy defined {% endif %}
-export CLIENT="{{ grains.get('client') }}"
-export MINION="{{ grains.get('minion') }}"
+{% if grains.get('client') | default(false, true) %}export CLIENT="{{ grains.get('client') }}"{% else %}# no client defined {% endif %}
+{% if grains.get('minion') | default(false, true) %}export MINION="{{ grains.get('minion') }}"{% else %}# no minion defined {% endif %}
 {% if grains.get('ssh_minion') | default(false, true) %}export SSHMINION="{{ grains.get('ssh_minion') }}" {% else %}# no SSH minion defined {% endif %}
 {% if grains.get('centos_minion') | default(false, true) %}export CENTOSMINION="{{ grains.get('centos_minion') }}" {% else %}# no CentOS minion defined {% endif %}
 {% if grains.get('ubuntu_minion') | default(false, true) %}export UBUNTUMINION="{{ grains.get('ubuntu_minion') }}" {% else %}# no Ubuntu minion defined {% endif %}
 {% if grains.get('pxeboot_mac') | default(false, true) %}export PXEBOOTMAC="{{ grains.get('pxeboot_mac') }}" {% else %}# no JeOS minion defined {% endif %}
-{% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
-{% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
-{% if grains.get('kvm_host') | default(false, true) %}
-
-export VIRTHOST_KVM_URL="{{ grains.get('kvm_host') }}"
+{% if grains.get('kvm_host') | default(false, true) %}export VIRTHOST_KVM_URL="{{ grains.get('kvm_host') }}"
 export VIRTHOST_KVM_PASSWORD="linux"
 {% else %}# no KVM host defined {% endif %}
+
+# base goodies
+{% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
+{% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
 
 # QAM clients
 {% if grains.get('sle11sp4_minion') | default(false, true) %}export SLE11SP4_MINION="{{ grains.get('sle11sp4_minion') }}" {% else %}# no SLE11SP4 minion defined {% endif %}
@@ -39,11 +41,14 @@ export VIRTHOST_KVM_PASSWORD="linux"
 {% if grains.get('ubuntu1804_minion') | default(false, true) %}export UBUNTU1804_MINION="{{ grains.get('ubuntu1804_minion') }}" {% else %}# no UBUNTU1804 minion defined {% endif %}
 {% if grains.get('ubuntu1804_sshminion') | default(false, true) %}export UBUNTU1804_SSHMINION="{{ grains.get('ubuntu1804_sshminion') }}" {% else %}# no UBUNTU1804 ssh minion defined {% endif %}
 
-export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
+# various test suite settings
+{% if grains.get('git_profiles_repo') | default(false, true) %}export GITPROFILES="{{ grains.get('git_profiles_repo') }}" {% else %}# no profiles repository defined {% endif %}
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
-export scc_credentials="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
+export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
+export PORTUS_URI="portus.mgr.suse.de:5000/cucutest"
+export PORTUS_CREDENTIALS="cucutest|cucusecret"
 
-# Generate certificates for Google Chrome
+#### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
   wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
   update-ca-certificates
