@@ -565,39 +565,6 @@ Grafana is accessible at http://grafana.tf.local with username and password `adm
 Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `suse_manager_server` module (it is by default).
 
 
-## AppArmor access control
-
-Optional access control via AppArmor and Audit Daemon can be enforced on a SUSE Manager server, proxy, or SUSE minion. It is not implemented for CentOS, because the kernel of that system is compiled without AppArmor support.
-
-A libvirt example follows:
-
-```hcl
-  source = "./modules/libvirt/suse_manager"
-  base_configuration = "${module.base.configuration}"
-
-  name = "server"
-  product_version = "head"
-  apparmor = true
-```
-
-The access control uses AppArmor profiles provided by sumaform in directories `salt/*/apparmor.d/`.
-
-On the running host, AppArmor is initially in "complain" mode. The detected violations go to `/var/log/audit/audit.log`. You may incorporate these violations into the profiles with the command:
-```
-# aa-logprof
-```
-
-If you want to switch to "enforce" mode:
-```
-# aa-enforce /etc/apparmor.d/*
-# systemctl reload apparmor.service
-```
-
-You may also start collecting new profiles with:
-```
-# aa-genprof <name of executable>
-```
-
 ## [evil-minions](https://github.com/moio/evil-minions) load generator
 
 `evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.

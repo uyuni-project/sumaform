@@ -1,7 +1,6 @@
 include:
   - repos
   - minion.testsuite
-  - minion.apparmor
   - minion.reflector
 
 minion_package:
