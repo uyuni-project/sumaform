@@ -24,20 +24,24 @@ module "controller" {
   connect_to_additional_network = false
   roles                         = ["controller"]
   grains = {
-    git_username  = var.git_username
-    git_password  = var.git_password
-    git_repo      = var.git_repo
-    mirror        = var.base_configuration["mirror"]
+    cc_username  = var.base_configuration["cc_username"]
+    cc_password  = var.base_configuration["cc_password"]
+    git_username = var.git_username
+    git_password = var.git_password
+    git_repo     = var.git_repo
+    branch       = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
+    mirror       = var.base_configuration["mirror"]
+
     server        = var.server_configuration["hostname"]
     proxy         = var.proxy_configuration["hostname"]
     client        = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
     minion        = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
     centos_minion = length(var.centos_configuration["hostnames"]) > 0 ? var.centos_configuration["hostnames"][0] : null
     ubuntu_minion = length(var.ubuntu_configuration["hostnames"]) > 0 ? var.ubuntu_configuration["hostnames"][0] : null
-    ssh_minion        = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
-    kvm_host          = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
-    pxeboot_mac       = var.pxeboot_configuration["macaddr"]
-    branch            = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
+    ssh_minion    = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
+    kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
+    pxeboot_mac   = var.pxeboot_configuration["macaddr"]
+
     git_profiles_repo = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
     portus_uri        = var.portus_uri
     portus_username   = var.portus_username
