@@ -74,7 +74,6 @@ module "suse_manager" {
     pts_locust                     = var.pts_locust
     pts_system_count               = var.pts_system_count
     pts_system_prefix              = var.pts_system_prefix
-    apparmor                       = var.apparmor
     from_email                     = var.from_email
     traceback_email                = var.traceback_email
     saltapi_tcpdump                = var.saltapi_tcpdump

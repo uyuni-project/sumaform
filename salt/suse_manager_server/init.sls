@@ -13,7 +13,6 @@ include:
   - suse_manager_server.testsuite
   - suse_manager_server.pts
   - suse_manager_server.salt_master
-  - suse_manager_server.apparmor
   - suse_manager_server.tcpdump
 
 suse_manager_packages:
@@ -50,9 +49,6 @@ suse_manager_setup:
     - require:
       - pkg: suse_manager_packages
       - file: environment_setup_script
-      {% if grains.get('apparmor') %}
-      - sls: suse_manager_server.apparmor
-      {% endif %}
 
 ca_cert_checksum:
   cmd.run:

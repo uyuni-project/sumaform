@@ -47,7 +47,6 @@ module "suse_manager_proxy" {
     server_password           = var.server_configuration["password"]
     generate_bootstrap_script = var.generate_bootstrap_script
     publish_private_ssl_key   = var.publish_private_ssl_key
-    apparmor                  = var.apparmor
     repository_disk_size      = var.repository_disk_size
     repository_disk_device    = "vdb"
   }

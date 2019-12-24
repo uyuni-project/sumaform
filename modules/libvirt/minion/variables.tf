@@ -51,11 +51,6 @@ variable "use_os_unreleased_updates" {
   default     = false
 }
 
-variable "apparmor" {
-  description = "whether AppArmor access control should be installed"
-  default     = false
-}
-
 variable "avahi_reflector" {
   description = "if using avahi, let the daemon be a reflector"
   default     = false

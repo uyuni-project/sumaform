@@ -123,11 +123,6 @@ variable "monitored" {
   default = false
 }
 
-variable "apparmor" {
-  description = "whether AppArmor access control should be installed"
-  default = false
-}
-
 variable "timezone" {
   description = "Timezone setting for this VM"
   default = "Europe/Berlin"
