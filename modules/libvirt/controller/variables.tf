@@ -292,7 +292,7 @@ variable "portus_password" {
 }
 
 variable "server_http_proxy" {
-  description = "Hostname and port used by SUSE Manager http proxy"
+  description = "Hostname and port used by the server as the HTTP proxy to reach the outside network"
   default     = null
 }
 
