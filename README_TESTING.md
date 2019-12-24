@@ -143,6 +143,7 @@ Currently the `libvirt` provider accepts the following settings:
  - `bridge`: the name of a bridge device
  - `additional_network`: a network mask for PXE tests
 
+```hcl
 libvirt = {
   // provider
   uri = "qemu:///system"
@@ -151,6 +152,7 @@ libvirt = {
   network_name       = "default"
   additional_network = "192.168.32.0/24"
 }
+```
 
 The `cucumber_testsuite` module also offers the `use_avahi` and `avahi_reflector` variables, see [README_ADVANCED.md](README_ADVANCED.md) for their meaning.
 
@@ -192,7 +194,6 @@ module "cucumber_testsuite" {
 }
 ```
 
-
 ## Alternative Portus server
 
 If you want the test suite to use a Portus server, you can specify it with the `portus_uri`, `portus_username`, and `portus_password` variables.
@@ -202,9 +203,23 @@ Example:
 ```hcl
 module "cucumber_testsuite" {
    ...
-   portus_uri = "https://url.to.portus:5000/server/to/use"
+   portus_uri = "uri.of.portus:5000/used"
    portus_username = "username"
    portus_password = "password"
+   ...
+}
+```
+
+## HTTP proxy for server
+
+By default, the test suite has the SUSE Manager server do its HTTP requests directly on the internet. However, you may change this by using `server_http_proxy` variable, so the requests go through some squid proxy.
+
+For example:
+
+```hcl
+module "cucumber_testsuite" {
+   ...
+   server_http_proxy = "name.of.proxy:3128"
    ...
 }
 ```
