@@ -39,14 +39,15 @@ module "controller" {
     centos_minion = length(var.centos_configuration["hostnames"]) > 0 ? var.centos_configuration["hostnames"][0] : null
     ubuntu_minion = length(var.ubuntu_configuration["hostnames"]) > 0 ? var.ubuntu_configuration["hostnames"][0] : null
     ssh_minion    = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
-    kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
     pxeboot_mac   = var.pxeboot_configuration["macaddr"]
+    kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
 
     git_profiles_repo = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
     portus_uri        = var.portus_uri
     portus_username   = var.portus_username
     portus_password   = var.portus_password
     server_http_proxy = var.server_http_proxy
+    pxeboot_image     = var.pxeboot_configuration["image"]
 
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
