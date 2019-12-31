@@ -53,5 +53,6 @@ output "configuration" {
     id       = length(libvirt_domain.domain) > 0 ? libvirt_domain.domain[0].id : null
     hostname = "${var.base_configuration["name_prefix"]}${var.name}${var.quantity > 1 ? "-1" : ""}.${var.base_configuration["domain"]}"
     macaddr  = length(libvirt_domain.domain) > 0 ? libvirt_domain.domain[0].network_interface[0].mac : null
+    image    = var.image
   }
 }

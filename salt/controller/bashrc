@@ -8,7 +8,7 @@ export SERVER="{{ grains.get('server') }}"
 {% if grains.get('ssh_minion') | default(false, true) %}export SSHMINION="{{ grains.get('ssh_minion') }}" {% else %}# no SSH minion defined {% endif %}
 {% if grains.get('centos_minion') | default(false, true) %}export CENTOSMINION="{{ grains.get('centos_minion') }}" {% else %}# no CentOS minion defined {% endif %}
 {% if grains.get('ubuntu_minion') | default(false, true) %}export UBUNTUMINION="{{ grains.get('ubuntu_minion') }}" {% else %}# no Ubuntu minion defined {% endif %}
-{% if grains.get('pxeboot_mac') | default(false, true) %}export PXEBOOTMAC="{{ grains.get('pxeboot_mac') }}" {% else %}# no JeOS minion defined {% endif %}
+{% if grains.get('pxeboot_mac') | default(false, true) %}export PXEBOOT_MAC="{{ grains.get('pxeboot_mac') }}" {% else %}# no JeOS minion defined {% endif %}
 {% if grains.get('kvm_host') | default(false, true) %}export VIRTHOST_KVM_URL="{{ grains.get('kvm_host') }}"
 export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 
@@ -46,6 +46,7 @@ export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_passwo
 export PORTUS_URI="{{ grains.get('portus_uri') }}"
 export PORTUS_CREDENTIALS="{{ grains.get('portus_username') }}|{{ grains.get('portus_password') }}"
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
+{% if grains.get('pxeboot_image') | default(false, true) %}export PXEBOOT_IMAGE="{{ grains.get('pxeboot_image') }}" {% else %}# no PXE boot image defined {% endif %}
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then

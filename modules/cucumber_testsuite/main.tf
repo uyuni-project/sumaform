@@ -235,7 +235,7 @@ module "ctl" {
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = [], ids = [] }
   ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = [], ids = [] }
   sshminion_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = [], ids = [] }
-  pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null }
+  pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null, image = null }
   kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = [], ids = [] }
 
   branch            = var.branch

@@ -79,6 +79,7 @@ variable "pxeboot_configuration" {
   description = "use module.<PXEBOOT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     macaddr = null
+    image = null
   }
 }
 
