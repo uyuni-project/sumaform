@@ -95,22 +95,22 @@ variable "git_repo" {
 }
 
 variable "git_profiles_repo" {
-  description = "URL of git repository with alternate Docker and Kiwi profiles, see README_ADVANCED.md"
+  description = "URL of git repository with alternate Docker and Kiwi profiles, see README_TESTING.md"
   default     = "default"
 }
 
 variable "portus_uri" {
-  description = "URI of portus server, see README_ADVANCED.md"
+  description = "URI of portus server, see README_TESTING.md"
   default     = null
 }
 
 variable "portus_username" {
-  description = "username on portus server, see README_ADVANCED.md"
+  description = "username on portus server, see README_TESTING.md"
   default     = null
 }
 
 variable "portus_password" {
-  description = "password on portus server, see README_ADVANCED.md"
+  description = "password on portus server, see README_TESTING.md"
   default     = null
 }
 
