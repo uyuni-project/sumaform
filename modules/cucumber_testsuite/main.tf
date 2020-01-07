@@ -1,6 +1,6 @@
 
 module "base" {
-  source = "../backend/base"
+  source = "../base"
 
   cc_username          = var.cc_username
   cc_password          = var.cc_password

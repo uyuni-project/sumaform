@@ -3,7 +3,7 @@ provider "libvirt" {
 }
 
 module "base" {
-  source = "./modules/libvirt/base"
+  source = "./modules/base"
 
   cc_username = "UC7"
   cc_password = ...

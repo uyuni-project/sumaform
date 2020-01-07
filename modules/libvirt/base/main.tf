@@ -47,17 +47,6 @@ output "configuration" {
     libvirt_network.additional_network,
   ]
   value = {
-    cc_username           = var.cc_username
-    cc_password           = var.cc_password
-    timezone              = var.timezone
-    ssh_key_path          = var.ssh_key_path
-    mirror                = var.mirror
-    use_mirror_images     = var.use_mirror_images
-    use_avahi             = var.use_avahi
-    domain                = var.domain
-    name_prefix           = var.name_prefix
-    use_shared_resources  = var.use_shared_resources
-    testsuite             = var.testsuite
     additional_network    = local.additional_network
     additional_network_id = join(",", libvirt_network.additional_network.*.id)
 
