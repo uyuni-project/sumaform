@@ -19,7 +19,8 @@ locals {
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
     contains(var.roles, "virthost") ? { memory = 2048, vcpu = 3 } : {},
     var.provider_settings,
-  contains(var.roles, "virthost") ? { cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl") } : {})
+    contains(var.roles, "virthost") ? { cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl") } : {},
+    contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -193,5 +194,6 @@ output "configuration" {
   value = {
     ids       = libvirt_domain.domain[*].id
     hostnames = [for value_used in libvirt_domain.domain : "${value_used.name}.${var.base_configuration["domain"]}"]
+    macaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].mac if length(value_used.network_interface) > 0]
   }
 }
