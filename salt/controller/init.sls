@@ -91,6 +91,16 @@ install_cucumber_html_reporter_via_npm:
     - require:
       - pkg: install_npm
 
+fix_cucumber_html_reporter_style:
+  file.append:
+    - name: /root/node_modules/cucumber-html-reporter/templates/_common/bootstrap.hierarchy/style.css
+    - text: |
+        .container {
+            width: 100%;
+        }
+    - require:
+      - sls: install_cucumber_html_reporter_via_npm
+
 spacewalk_git_repository:
   cmd.run:
 {%- if grains.get("git_repo") == "default" %}
