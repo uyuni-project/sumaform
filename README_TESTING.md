@@ -123,7 +123,7 @@ In addition to the `present` flag, each of the hosts (including `srv` and `ctl` 
  - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
  - `image` to use a different base image
 
-An example follows:
+A libvirt example follows:
 
 ```hcl
 srv = {

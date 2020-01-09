@@ -64,14 +64,20 @@ module "server" {
 }
 ```
 
-## Change backend in use
+## Switching to another backend
 
-To change the backend in use the following steps need to be done:
- * Clean current Terraform state
+Changing the backend normally means destroying the current one (see "Working on multiple configuration sets" to maintain multiple).
+
+The following steps need to be performed:
+ * Clean the current Terraform state
    * Consider run `terraform destroy`
    * Remove the `terraform.tfstate` file
  * Adapt the `main.tf` file to the new provider specific properties
- * Recreate backend symbolic link(inside `modules` folder run `ln -sfn ../backend_modules/<BACKEND> modules/backend`)
+ * Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
+
+```
+ln -sfn ../backend_modules/<BACKEND> modules/backend
+```
 
 ## Multiple VMs of the same type
 

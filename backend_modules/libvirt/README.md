@@ -32,14 +32,14 @@ Most modules have configuration settings specific to the libvirt backend, those 
 
 ### Base module
 
-Available provides variables for this base module
+Available provider settings for the base module:
 
-| Variable name | Type | Default value | Description |
-| --- | --- | --- | --- |
-| pool | string | `default` | Storage pool |
-| network_name | string | `default` | Same of the main network for the hosts |
-| bridge | string | `null` | Same of a bridge device (will set `network_name` to `null` if `bridge` is not `null`) |
-| additional_network | string |`null` | A network mask for PXE tests |
+| Variable name      | Type   | Default value | Description                                                              |
+|--------------------|--------|---------------|--------------------------------------------------------------------------|
+| pool               | string | `default`     | libvirt storage pool name for VM disks                                   |
+| network_name       | string | `default`     | libvirt NAT network name for VMs, use null for bridged networking        |
+| bridge             | string | `null`        | a bridge device name available on the libvirt host, leave null for NAT   |
+| additional_network | string | `null`        | list of images to be uploaded to the libvirt host, leave default for all |
 
 An example follows:
 ```hcl-terraform
@@ -55,17 +55,17 @@ provider_settings = {
 
 ### Host modules
 
-Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion`, `pxe_boot` and `virthost`.
+Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion`, `pxe_boot` and `virthost`:
 
-| Variable name | Type | Default value | Description |
-| --- | --- | --- | --- |
-|memory | number | `1024` ([can be overwritten based on `role`](Default-values-by-role))| Machine's RAM to be used in MiB |
-|vcpu | number | `1` ([can be overwritten based on `role`](Default-values-by-role)) | Number of virtual CPUs |
-|running | bool | `true` | Keep libvirt host turned on/off. This is useful if you want to keep the instance around (ie. not destroying it) but not to consume resources. |
-|mac | string | `null` | Mac address to be associated with the host |
-|additional_disk | `list[string]` | [ ] | Any additional disks that should be attached to the host. List should contains the volume ID. |
-|cpu_model |string | `custom` |  The cpu model that should be used in the host |
-|xslt = | string | `null` ([can be overwritten based on `role`](Default-values-by-role)) | XSLT file to be associated with the host |
+| Variable name   | Type           | Default value                                                | Description                                                                                |
+|-----------------|----------------|--------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| memory          | number         | `1024` ([apart from specific roles](Default-values-by-role)) | RAM memory in MiB                                                                          |
+| vcpu            | number         | `1` ([apart from specific roles](Default-values-by-role))    | Number of virtual CPUs                                                                     |
+| running         | bool           | `true`                                                       | Whether this host should be turned on or off                                               |
+| mac             | string         | `null`                                                       | A MAC address in the form AA:BB:CC:11:22:22                                                |
+| additional_disk | `list[string]` | [ ]                                                          | List of volume IDs of disks to be attached to this host                                    |
+| cpu_model       | string         | `custom`                                                     | Defines what CPU model the guest is getting (host-model, host-passthrough or the default). |
+| xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                                               |
 
 An example follows:
 ```hcl-terraform
@@ -84,17 +84,19 @@ provider_settings = {
 
 #### Default provider settings by role
 
-| Role | Default values|
-| --- | --- |
-| server | `{memory=4096, vcpu=2}` |
-| mirror | `{memory=512}` |
-| controller | `{memory=2048}` |
-| grafana | `{memory=4096}` |
-| virthost | `{memory=2048, vcpu=3, cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl"}` |
+Some roles such as `suse_manager` or `mirror` have specific defaults that override those in the table above. Those are:
+
+| Role         | Default values                                                                               |
+|--------------|----------------------------------------------------------------------------------------------|
+| suse_manager | `{memory=4096, vcpu=2}`                                                                      |
+| mirror       | `{memory=512}`                                                                               |
+| controller   | `{memory=2048}`                                                                              |
+| grafana      | `{memory=4096}`                                                                              |
+| virthost     | `{memory=2048, vcpu=3, cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl"}` |
 
 ### Volume
 
-`Server`, `proxy` and `mirror` modules have configuration settings specific for data volumes in libvirt backend, those are set via the `volume_provider_settings` map variable. They are described below.
+`suse_manager`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
 
  * `pool = <String>` storage were the volume should be created (default value `default`)
 
