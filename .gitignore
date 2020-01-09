@@ -12,6 +12,8 @@
 
 /salt/virthost/*.qcow2
 
+/modules/backend
+
 **/.*.sw*
 .*.sw*
 
