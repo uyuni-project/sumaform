@@ -1,6 +1,6 @@
-provider "libvirt" {
-  uri = "qemu:///system"
-}
+//provider "libvirt" {
+//  uri = "qemu:///system"
+//}
 
 module "base" {
   source = "./modules/base"
@@ -25,7 +25,7 @@ module "base" {
   images = ["centos7", "opensuse151", "ubuntu1804"]
 }
 
-module "srv" {
+module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
   product_version = "uyuni-master"

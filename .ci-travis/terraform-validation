@@ -1,15 +1,20 @@
 #! /bin/bash
+set -xe
 
 # complete missing passwords in example files
 sed -i 's/\.\.\./"not used"/g' *.example
 
+ln -sfn ../backend_modules/null modules/backend
+
 # validate examples
-for tf_file in `ls *libvirt*.example`; do
+for tf_file in `ls main.tf.*.example | grep -v aws`; do
   echo "Validating $tf_file..."
-  mv $tf_file main.tf
+  cp $tf_file main.tf
   # uncomment for Terraform detailed logging
   # export TF_LOG=TRACE
   terraform init
   terraform validate
+  terraform apply -auto-approve
+  terraform destroy -auto-approve
   echo
 done
