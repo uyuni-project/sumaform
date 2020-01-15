@@ -11,7 +11,7 @@ variable "testsuite-branch" {
 }
 
 module "controller" {
-  source = "../backend/host"
+  source = "../host"
 
   base_configuration            = var.base_configuration
   name                          = var.name

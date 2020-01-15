@@ -1,5 +1,5 @@
 module "pxe_boot" {
-  source = "../backend/host"
+  source = "../host"
 
   base_configuration = var.base_configuration
   name               = var.name

@@ -19,7 +19,7 @@ module "proxy_data_disk" {
 }
 
 module "suse_manager_proxy" {
-  source = "../backend/host"
+  source = "../host"
 
   base_configuration            = var.base_configuration
   name                          = var.name

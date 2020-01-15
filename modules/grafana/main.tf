@@ -1,5 +1,5 @@
 module "grafana" {
-  source = "../backend/host"
+  source = "../host"
 
   base_configuration = var.base_configuration
   name               = var.name

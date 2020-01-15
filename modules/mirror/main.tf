@@ -8,7 +8,7 @@ module "data_disk" {
 }
 
 module "mirror" {
-  source = "../backend/host"
+  source = "../host"
 
   base_configuration  = var.base_configuration
   name                = "mirror"

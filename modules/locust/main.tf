@@ -1,5 +1,5 @@
 module "locust" {
-  source             = "../backend/host"
+  source             = "../host"
   base_configuration = var.base_configuration
   name               = var.name
   ssh_key_path       = var.ssh_key_path
@@ -19,7 +19,7 @@ module "locust" {
 }
 
 module "locust-slave" {
-  source             = "../backend/host"
+  source             = "../host"
   base_configuration = var.base_configuration
   name               = "${var.name}-slave"
   quantity           = var.slave_quantity
