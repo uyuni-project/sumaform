@@ -17,15 +17,16 @@ module "base" {
 }
 
 locals {
-  server_full_name = "${var.name_prefix}srv.${var.domain}"
-  hosts            = keys(var.host_settings)
+  server_full_name          = "${var.name_prefix}srv.${var.domain}"
+  hosts                     = keys(var.host_settings)
   provider_settings_by_host = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "provider_settings", {}) if var.host_settings[host_key] != null }
-  additional_repos = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
-  images = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "image", "default")
-  if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
+    host_key => lookup(var.host_settings[host_key], "provider_settings", {}) if var.host_settings[host_key] != null }
+  additional_repos          = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
+  images                    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
+  names                     = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "name", null) if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "name") : false }
 }
 
 module "srv" {
@@ -33,7 +34,7 @@ module "srv" {
   base_configuration             = module.base.configuration
   product_version                = var.product_version
   image                          = lookup(local.images, "srv", "default")
-  name                           = "srv"
+  name                           = lookup(local.names, "srv", "srv")
   auto_accept                    = false
   disable_firewall               = false
   allow_postgres_connections     = false
@@ -64,7 +65,7 @@ module "pxy" {
   base_configuration = module.base.configuration
   product_version    = var.product_version
   image              = lookup(local.images, "pxy", "default")
-  name               = "pxy"
+  name               = lookup(local.names, "pxy", "pxy")
 
   server_configuration      = { hostname = local.server_full_name, username = "admin", password = "admin" }
   auto_register             = false
@@ -91,8 +92,8 @@ module "cli-sles12sp4" {
   quantity = contains(local.hosts, "cli-sles12sp4") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "cli-sles12sp4"
-  image              = "sles12sp4"
+  image              = lookup(local.images, "cli-sles12sp4", "sles12sp4")
+  name               = lookup(local.names, "cli-sles12sp4", "cli-sles12")
 
   server_configuration = local.minimal_configuration
 
@@ -110,8 +111,8 @@ module "min-sles12sp4" {
   quantity = contains(local.hosts, "min-sles12sp4") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "min-sles12sp4"
-  image              = "sles12sp4"
+  image              = lookup(local.images, "min-sles12sp4", "sles12sp4")
+  name               = lookup(local.names, "min-sles12sp4", "min-sles12")
 
   server_configuration = local.minimal_configuration
 
@@ -131,8 +132,8 @@ module "minssh-sles12sp4" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "minssh-sles12sp4"
-  image              = "sles12sp4"
+  image              = lookup(local.images, "minssh-sles12sp4", "sles12sp4")
+  name               = lookup(local.names, "minssh-sles12sp4", "minssh-sles12")
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
@@ -149,8 +150,8 @@ module "min-centos7" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  name               = "min-centos7"
-  image              = "centos7"
+  image              = lookup(local.images, "min-centos7", "centos7")
+  name               = lookup(local.names, "min-centos7", "min-centos7")
 
   server_configuration   = local.minimal_configuration
   auto_connect_to_master = false
@@ -165,10 +166,11 @@ module "min-ubuntu1804" {
 
   quantity = contains(local.hosts, "min-ubuntu1804") ? 1 : 0
 
-  base_configuration     = module.base.configuration
-  product_version        = var.product_version
-  name                   = "min-ubuntu1804"
-  image                  = "ubuntu1804"
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "min-ubuntu1804", "ubuntu1804")
+  name               = lookup(local.names, "min-ubuntu1804", "min-ubuntu1804")
+
   server_configuration   = local.minimal_configuration
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
@@ -183,8 +185,8 @@ module "min-pxeboot" {
   quantity = contains(local.hosts, "min-pxeboot") ? 1 : 0
 
   base_configuration = module.base.configuration
-  name               = "min-pxeboot"
   image              = lookup(local.images, "min-pxeboot", "sles12sp3")
+  name               = lookup(local.names, "min-pxeboot", "min-pxeboot")
 }
 
 module "min-kvm" {
@@ -192,10 +194,11 @@ module "min-kvm" {
 
   quantity = contains(local.hosts, "min-kvm") ? 1 : 0
 
-  base_configuration   = module.base.configuration
-  product_version      = var.product_version
-  name                 = "min-kvm"
-  image                = lookup(local.images, "min-kvm", "sles15sp1")
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "min-kvm", "sles15sp1")
+  name               = lookup(local.names, "min-kvm", "min-kvm")
+
   ssh_key_path         = "./salt/controller/id_rsa.pub"
   server_configuration = local.minimal_configuration
 
@@ -207,7 +210,7 @@ module "min-kvm" {
 
 module "ctl" {
   source = "../controller"
-  name   = "ctl"
+  name   = lookup(local.names, "ctl", "ctl")
 
   base_configuration      = module.base.configuration
   server_configuration    = module.srv.configuration
