@@ -1,0 +1,59 @@
+module "base" {
+  source = "./modules/base"
+
+  cc_username = "UC7"
+  cc_password = ...
+
+  // optional parameters with defaults below
+  // use_avahi = true
+  // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
+  // timezone = "Europe/Berlin"
+
+//  provider_settings = {
+//    additional_network = null
+//  }
+}
+
+module "server" {
+  source = "./modules/server"
+  base_configuration = module.base.configuration
+
+  name = "server"
+  product_version = "3.2-nightly"
+  // see modules/suse_manager/variables.tf for possible values
+
+  // connect_to_additional_network = true
+  // if you want to use two networks
+
+  provider_settings = {
+    hostname = "192.168.1.1"
+  }
+}
+
+module "client" {
+  source = "./modules/client"
+  base_configuration = module.base.configuration
+
+  name = "client"
+  image = "sles12sp3"
+  server_configuration = module.server.configuration
+  // see modules/client/variables.tf for possible values
+
+  provider_settings = {
+    hostname = "192.168.1.2"
+  }
+}
+
+module "minion" {
+  source = "./modules/minion"
+  base_configuration = module.base.configuration
+
+  name = "minion"
+  image = "sles12sp3"
+  server_configuration = module.server.configuration
+  // see modules/minion/variables.tf for possible values
+
+  provider_settings = {
+    hostname = "192.168.1.3"
+  }
+}

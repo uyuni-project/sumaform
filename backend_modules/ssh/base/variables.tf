@@ -1,0 +1,1 @@
+../../null/base/variables.tf
