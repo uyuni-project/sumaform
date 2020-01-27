@@ -502,7 +502,7 @@ module "minsles12sp1" {
   image = "sles12sp1"
   server_configuration = "${module.server.configuration}"
 
-  additional_repos {
+  additional_repos = {
     virtualization_containers = "http://download.opensuse.org/repositories/Virtualization:/containers/SLE_12_SP2/"
   }
 
