@@ -50,8 +50,8 @@ The Amazon Web Services backend is currently under maintainance and is not immed
 In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
 Refer to specific READMEs to get started:
- * [libvirt README](modules/libvirt/README.md)
- * [AWS README](modules/aws/README.md)
+ * [libvirt README](backend_modules/libvirt/README.md)
+ * [AWS README](backend_modules/aws/README.md)
 
 ## Typical use
 

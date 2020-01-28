@@ -25,7 +25,7 @@ A libvirt example follows:
 
 ```hcl
 module "minsles12sp1" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/minion"
   base_configuration = "${module.base.configuration}"
 
   name = "minsles12sp1"
@@ -35,7 +35,7 @@ module "minsles12sp1" {
 }
 
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -55,7 +55,7 @@ The following example creates a SUSE Manager server using "nightly" packages fro
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   image = "sles12sp3"
@@ -64,6 +64,20 @@ module "server" {
 }
 ```
 
+## Switching to another backend
+
+Changing the backend normally means destroying the current one (see "Working on multiple configuration sets" to maintain multiple).
+
+The following steps need to be performed:
+ * Clean the current Terraform state
+   * Consider run `terraform destroy`
+   * Remove the `terraform.tfstate` file
+ * Adapt the `main.tf` file to the new provider specific properties
+ * Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
+
+```
+ln -sfn ../backend_modules/<BACKEND> modules/backend
+```
 
 ## Multiple VMs of the same type
 
@@ -71,7 +85,7 @@ Some modules, for example clients and minions, support a `quantity` variable tha
 
 ```hcl
 module "minionsles12sp1" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/minion"
   base_configuration = "${module.base.configuration}"
 
   name = "minionsles12sp1"
@@ -83,6 +97,87 @@ module "minionsles12sp1" {
 
 This will create 10 minions connected to the `server` server.
 
+## Mirror
+
+If you are using `sumaform` outside of the SUSE Nuremberg network you should use a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
+
+It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
+
+To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
+```hcl
+module "mirror" {
+  source = "./modules/mirror"
+  base_configuration = "${module.base.configuration}"
+
+  data_pool = "data"
+}
+```
+
+Note you are encouraged to specify an additional libvirt storage pool name (`data` in the example above). Downloaded content will be placed on a separate disk in this pool - it helps SUSE Manager performance significantly if the pool is mapped onto a different physical disk. You can configure a pool with `virt-manager` like in the following image:
+
+![data pool configuration in virt-manager](/help/data-pool-configuration.png)
+
+Omitting the `data_pool` variable results in the default "default" storage pool being used.
+
+The `mirror` can also synchronize Ubuntu official repositories.
+To enable mirroring Ubuntu versions add the corresponding version numbers to the `ubuntu_distros` variable as follows:
+
+```hcl
+module "mirror" {
+  source = "./modules/mirror"
+  base_configuration = "${module.base.configuration}"
+
+  ubuntu_distros = ['16.04', '18.04']
+}
+```
+
+Note that `mirror` must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
+
+## Virtual hosts
+
+Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM hypervisor.
+As this mechanism relies on nested virtualization, Xen is not supported.
+
+An example follows:
+
+```hcl
+module "virthost" {
+  source = "./modules/virthost"
+  base_configuration = "${module.base.configuration}"
+  server_configuration = "${module.srv.configuration}"
+  ...
+  name = "min-kvm"
+  image = "sles15sp1"
+  ...
+  provider_settings = {
+    vcpu = 3
+    memory = 2048
+  }
+}
+```
+
+The created virtual host will get the same CPU model its host has.
+This means that in order for virtual hosts to host virtual machines, nested virtualization has to be enabled on the physical machine.
+For this, the `kvm_intel` or `kvm_amd` kernel modules need to have `nested` parameter set to `1`.
+To check if nested virtualization is enabled on the physical machine, the following command needs to return either `1` or `Y`:
+
+```
+# For intel CPU:
+cat /sys/module/kvm_intel/parameters/nested
+
+# For AMD CPU:
+cat /sys/module/kvm_amd/parameters/nested
+```
+
+The generated virtual host will be setup with:
+
+* a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
+* a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
+* and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
+
+The template disk image is the `opensuse151` image used by sumaform and is downloaded when applying the highstate on the virtual host.
+In order to use another or a cached image, use the `hvm_disk_image` variable.
+For example, to use a local image copy it in `salt/virthost/` folder and set `hvm_disk_image = "salt://virthost/imagename.qcow2"`
 
 ## Turning convenience features off
 
@@ -133,7 +228,7 @@ Then add it to the `channels` variable in a SUSE Manager Server module:
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -159,7 +254,7 @@ A libvirt example follows:
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -207,7 +302,10 @@ module "base" {
 
 module "server" {
   ...
-  mac = "42:54:00:00:00:66"
+
+  provider_settings = {
+    mac = "42:54:00:00:00:66"
+  }
   ...
 }
 ```
@@ -232,7 +330,9 @@ You may get an additional, isolated, network, with neither DHCP nor DNS by speci
 ```hcl
 module "base" {
   ...
-  additional_network = "192.168.5.0/24"
+  provider_settings = {
+    additional_network = "192.168.5.0/24"
+  }
   ...
 }
 ```
@@ -289,7 +389,7 @@ You can specify an Activation Key string for minions to use at onboarding time t
 
 ```hcl
 module "min" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/minion"
   base_configuration = "${module.base.configuration}"
 
   name = "min"
@@ -306,7 +406,7 @@ A `proxy` module is similar to a `client` module but has a `product_version` and
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -314,7 +414,7 @@ module "server" {
 }
 
 module "proxy" {
-  source = "./modules/libvirt/suse_manager_proxy"
+  source = "./modules/suse_manager_proxy"
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
@@ -323,7 +423,7 @@ module "proxy" {
 }
 
 module "clisles12sp1" {
-  source = "./modules/libvirt/client"
+  source = "./modules/client"
   base_configuration = "${module.base.configuration}"
 
   name = "clisles12sp1"
@@ -339,7 +439,7 @@ Note that systems prepared by this module are by default registered as a Salt mi
 
 ```hcl
 module "proxy" {
-  source = "./modules/libvirt/suse_manager_proxy"
+  source = "./modules/suse_manager_proxy"
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
@@ -357,7 +457,7 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 
 ```hcl
 module "master" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "master"
@@ -366,7 +466,7 @@ module "master" {
 }
 
 module "slave" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "slave"
@@ -384,11 +484,11 @@ Also note that this requires `create_first_user` and `publish_private_ssl_key` s
 
 It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server, an minion instance with evil-minions running on it and (by default) a grafana host to monitor them.
 
-A libvirt example follows:
+An example follows:
 
 ```hcl
 module "pts" {
-  source = "./modules/libvirt/pts"
+  source = "./modules/pts"
   base_configuration = "${module.base.configuration}"
 }
 ```
@@ -440,11 +540,11 @@ local_workspaces/libvirt-testsuite/terraform.tfstate
 
 You can have totally unconfigured hosts in your configuration by using the `host` module, for example if you need to test bootstrapping.
 
-A libvirt example follows:
+An example follows:
 
 ```hcl
 module "vanilla" {
-  source = "./modules/libvirt/host"
+  source = "./modules/host"
   base_configuration = "${module.base.configuration}"
 
   name = "vanilla"
@@ -459,12 +559,12 @@ PXE boot hosts are unprovisioned hosts that are capable of booting from their ne
 
 "unprovisioned" means that they are completly unprepared: no SSH keys, no initialization at all.
 
-A libvirt example follows:
+An example follows:
 
 ```hcl
 module "pxeboot"
 {
-  source = "sumaform/modules/libvirt/pxe_boot"
+  source = "./modules/pxe_boot"
   base_configuration = "${module.base.configuration}"
 
   name = "pxeboot"
@@ -479,7 +579,7 @@ You can configure SUSE Manager instances to download packages from an SMT server
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -495,7 +595,7 @@ You can specify additional custom repos and packages to be installed at deploy t
 
 ```hcl
 module "minsles12sp1" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/minion"
   base_configuration = "${module.base.configuration}"
 
   name = "minsles12sp1"
@@ -529,7 +629,7 @@ The list contains paths relative to the `salt/` directory, as in the following e
 
 ```hcl
 module "minssh-sles12sp2" {
-  source = "./modules/libvirt/host"
+  source = "./modules/host"
   base_configuration = "${module.base.configuration}"
   name = "minssh-sles12sp2"
   image = "sles12sp2"
@@ -545,7 +645,7 @@ It is possible to install Prometheus exporters on a SUSE Manager Server instance
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -554,7 +654,7 @@ module "server" {
 }
 
 module "grafana" {
-  source = "./modules/libvirt/grafana"
+  source = "./modules/grafana"
   base_configuration = "${module.base.configuration}"
   server_configuration = "${module.server.configuration}"
 }
@@ -584,7 +684,7 @@ A libvirt example follows:
 
 ```hcl
 module "minion" {
-  source = "./modules/libvirt/minion"
+  source = "./modules/minion"
   base_configuration = "${module.base.configuration}"
 
   name = "minion"
@@ -602,7 +702,7 @@ You can deploy a locust host to test http performance of your SUSE Manager Serve
 
 ```hcl
 module "locust" {
-  source = "./modules/libvirt/locust"
+  source = "./modules/locust"
   base_configuration = "${module.base.configuration}"
   server_configuration = "${module.server.configuration}"
   // optionally, specify a custom locustfile:
@@ -616,7 +716,7 @@ This host can also be monitored via Prometheus and Grafana by adding `locust_con
 
 ```hcl
 module "grafana" {
-  source = "./modules/libvirt/grafana"
+  source = "./modules/grafana"
   base_configuration = "${module.base.configuration}"
   server_configuration = "${module.server.configuration}"
   locust_configuration = "${module.locust.configuration}"
@@ -627,7 +727,7 @@ In case you need to simulate a big amount of users, Locust's master-slave mode c
 
 ```hcl
 module "locust" {
-  source = "./modules/libvirt/locust"
+  source = "./modules/locust"
   base_configuration = "${module.base.configuration}"
   server_configuration = "${module.server.configuration}"
   locust_file = "./my_heavy_locustfile.py"
@@ -642,7 +742,7 @@ It is possible to run SUSE Manager servers, proxies, clients and minions with th
 
 ```hcl
 module "sumaheadpg" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "sumaheadpg"
@@ -660,7 +760,7 @@ This setting can be overridden with a custom 'from' address by supplying the par
 
 ```hcl
 module "server" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -675,7 +775,7 @@ By suppling the parameter `traceback_email` you can override that address to hav
 
 ```hcl
 module "sumamail3" {
-  source = "./modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
 
   name = "sumamail3"
@@ -709,14 +809,17 @@ To disable the swap file, set its size to 0.
 
 In case the default disk size for those machines is not enough for the amount of products you want to synchronize, you can add an additional disk which will mount the first volume in `/var/spacewalk` with size `repository_disk_size`. This additional disk will be created in the pool specified by `data_pool`.
 
-A libvirt example is:
+An example follows:
 
 ```hcl
 module "server" {
-  source = "sumaform/modules/libvirt/suse_manager"
+  source = "./modules/suse_manager"
   base_configuration = "${module.base.configuration}"
   product_version = "4.0-nightly"
   name = "server"
   repository_disk_size = 536870912000
-  data_pool = "default"
+  volume_provider_settings = {
+    pool = "default"
+  }
+}
 ```
