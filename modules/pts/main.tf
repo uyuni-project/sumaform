@@ -1,5 +1,5 @@
 module "server" {
-  source             = "../suse_manager"
+  source             = "../server"
   name               = var.suse_manager_name
   base_configuration = var.base_configuration
   product_version    = "3.2-nightly"

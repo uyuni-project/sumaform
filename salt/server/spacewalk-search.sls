@@ -1,7 +1,7 @@
 {% if grains.get('java_debugging') %}
 
 include:
-  - suse_manager_server
+  - server
 
 spacewalk_search_config:
   file.append:
@@ -14,7 +14,7 @@ spacewalk_search_config:
         wrapper.java.additional.5=-Dcom.sun.management.jmxremote.authenticate=false
         wrapper.java.additional.6=-Djava.rmi.server.hostname={{ salt['network.interfaces']()['eth0']['inet'][0]['address'] }}
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 spacewalk-service:
   service.running:

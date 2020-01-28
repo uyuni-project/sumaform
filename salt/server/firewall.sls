@@ -28,7 +28,7 @@ firewall_configuration:
 {% if grains.get('osmajorrelease', None)|int() == 15 %}
   file.managed:
     - name: /etc/firewalld/zones/public.xml
-    - source: salt://suse_manager_server/firewalld_public.xml
+    - source: salt://server/firewalld_public.xml
 {% else %}
   file.replace:
     - name: /etc/sysconfig/SuSEfirewall2

@@ -18,7 +18,7 @@ module "server_data_disk" {
   quantity                 = var.repository_disk_size > 0 ? 1 : 0
 }
 
-module "suse_manager" {
+module "server" {
   source = "../host"
 
   base_configuration            = var.base_configuration
@@ -35,7 +35,7 @@ module "suse_manager" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
-  roles                         = var.register_to_server == null ? ["suse_manager_server"] : ["suse_manager_server", "minion"]
+  roles                         = var.register_to_server == null ? ["server"] : ["server", "minion"]
 
   grains = {
     product_version        = var.product_version
@@ -92,8 +92,8 @@ module "suse_manager" {
 
 output "configuration" {
   value = {
-    id              = length(module.suse_manager.configuration["ids"]) > 0 ? module.suse_manager.configuration["ids"][0] : null
-    hostname        = length(module.suse_manager.configuration["hostnames"]) > 0 ? module.suse_manager.configuration["hostnames"][0] : null
+    id              = length(module.server.configuration["ids"]) > 0 ? module.server.configuration["ids"][0] : null
+    hostname        = length(module.server.configuration["hostnames"]) > 0 ? module.server.configuration["hostnames"][0] : null
     product_version = var.product_version
     username        = var.server_username
     password        = var.server_password

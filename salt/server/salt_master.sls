@@ -1,13 +1,13 @@
 include:
-  - suse_manager_server
+  - server
 
 custom_salt_master_configuration:
   file.managed:
     - name: /etc/salt/master.d/custom.conf
-    - source: salt://suse_manager_server/master-custom.conf
+    - source: salt://server/master-custom.conf
     - template: jinja
     - require:
-        - sls: suse_manager_server
+        - sls: server
 
 salt_master:
   service.running:

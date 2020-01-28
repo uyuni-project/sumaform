@@ -29,7 +29,7 @@ locals {
 }
 
 module "srv" {
-  source                         = "../suse_manager"
+  source                         = "../server"
   base_configuration             = module.base.configuration
   product_version                = var.product_version
   image                          = lookup(local.images, "srv", "default")
@@ -57,7 +57,7 @@ module "srv" {
 }
 
 module "pxy" {
-  source = "../suse_manager_proxy"
+  source = "../proxy"
 
   quantity = contains(local.hosts, "pxy") ? 1 : 0
 

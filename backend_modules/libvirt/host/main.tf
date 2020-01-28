@@ -9,10 +9,10 @@ locals {
     cpu_model       = "custom"
     xslt            = null
     },
-    contains(var.roles, "suse_manager_server") ? { memory = 4096, vcpu = 2 } : {},
-    contains(var.roles, "suse_manager_server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
-    contains(var.roles, "suse_manager_proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "suse_manager_server") && lookup(var.grains, "pts", false) ? { memory = 16384, vcpu = 8 } : {},
+    contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
+    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
+    contains(var.roles, "server") && lookup(var.grains, "pts", false) ? { memory = 16384, vcpu = 8 } : {},
+    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "pts_minion") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "mirror") ? { memory = 512 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},

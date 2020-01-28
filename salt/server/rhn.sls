@@ -1,5 +1,5 @@
 include:
-  - suse_manager_server
+  - server
 
 {% if grains.get('skip_changelog_import') %}
 
@@ -8,7 +8,7 @@ package_import_skip_changelog_reposync:
     - name: /etc/rhn/rhn.conf
     - text: package_import_skip_changelog = 1
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 {% endif %}
 
@@ -19,13 +19,13 @@ browser_side_less_configuration:
     - name: /etc/rhn/rhn.conf
     - text: development_environment = true
     - require:
-      - sls: suse_manager_server
+      - sls: server
   pkg.installed:
     - pkgs:
       - susemanager-frontend-libs-devel
       - spacewalk-branding-devel
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 {% endif %}
 
@@ -35,7 +35,7 @@ disable_download_tokens:
     - name: /etc/rhn/rhn.conf
     - text: java.salt_check_download_tokens = false
     - require:
-      - sls: suse_manager_server
+      - sls: server
 {% endif %}
 
 {% if salt["grains.get"]("mirror") %}
@@ -64,7 +64,7 @@ rhn_conf_from_dir:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.fromdir = /mirror
     - require:
-      - sls: suse_manager_server
+      - sls: server
       - mount: mirror_directory
 
 {% elif salt["grains.get"]("smt") %}
@@ -74,7 +74,7 @@ rhn_conf_mirror:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 {% endif %}
 
@@ -85,7 +85,7 @@ rhn_conf_prometheus:
     - name: /etc/rhn/rhn.conf
     - text: prometheus_monitoring_enabled = true
     - require:
-      - sls: suse_manager_server
+      - sls: server
 
 {% endif %}
 

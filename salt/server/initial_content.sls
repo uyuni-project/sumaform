@@ -1,5 +1,5 @@
 include:
-  - suse_manager_server.rhn
+  - server.rhn
 
 {% if grains.get('create_first_user') %}
 
@@ -10,7 +10,7 @@ wait_for_tomcat:
     - verify_ssl: False
     - status: 200
     - require:
-      - sls: suse_manager_server.rhn
+      - sls: server.rhn
 
 create_first_user:
   http.wait_for_successful_query:
@@ -57,7 +57,7 @@ mgr_sync_automatic_authentication:
 {% if grains.get('channels') %}
 wait_for_mgr_sync:
   cmd.script:
-    - name: salt://suse_manager_server/wait_for_mgr_sync.py
+    - name: salt://server/wait_for_mgr_sync.py
     - use_vt: True
     - template: jinja
     - context:
@@ -89,7 +89,7 @@ add_channels:
 {% for channel in grains.get('channels') %}
 reposync_{{ channel }}:
   cmd.script:
-    - name: salt://suse_manager_server/wait_for_reposync.py
+    - name: salt://server/wait_for_reposync.py
     - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains.get('fqdn') | default('localhost', true) }} {{ channel }}"
     - use_vt: True
     - require:
@@ -139,7 +139,7 @@ private_ssl_key:
     - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - mode: 644
     - require:
-      - sls: suse_manager_server.rhn
+      - sls: server.rhn
 
 private_ssl_key_checksum:
   cmd.run:
@@ -154,7 +154,7 @@ ca_configuration:
     - source: /root/ssl-build/rhn-ca-openssl.cnf
     - mode: 644
     - require:
-      - sls: suse_manager_server.rhn
+      - sls: server.rhn
 
 ca_configuration_checksum:
   cmd.run:

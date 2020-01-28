@@ -3,8 +3,8 @@
 ## Changing product versions
 
 Some modules have a `product_version` variable that determines the software product version. Specifically:
- * in `suse_manager`, `suse_manager_proxy` etc. `product_version` determines the SUSE Manager product version,
- * in `minion`, `client`, etc. `product_version` determines the SUSE Manager Tools version.
+ * in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
+ * in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
 
 Legal values for released software are:
  * `3.2-released`   (latest released Maintenance Update for SUSE Manager 3.2 and Tools)
@@ -14,8 +14,8 @@ Legal values for released software are:
 Legal values for work-in-progress software are:
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `suse_manager` and `suse_manager_proxy`only works with SLE15SP2 image)
- * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `suse_manager` and `suse_manager_proxy` only works with openSUSE Leap 15.1 image)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP2 image)
+ * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap 15.1 image)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 
@@ -35,7 +35,7 @@ module "minsles12sp1" {
 }
 
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -49,13 +49,13 @@ You can specifiy a base OS in most modules specifying an `image` variable.
 
 For some modules like `minion`, `image` is mandatory and Terraform will refuse to apply plans if it is missing. Please refer to `modules/<backend>/base/main.tf` for the exact list of supported OSs.
 
-For other modules like `suse_manager` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
+For other modules like `server` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
 
 The following example creates a SUSE Manager server using "nightly" packages from version 3.2 based on SLES 12 SP3:
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   image = "sles12sp3"
@@ -187,7 +187,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
  * `minion` module:
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
- * `suse_manager_proxy` module:
+ * `proxy` module:
    * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
    * `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
@@ -195,7 +195,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register` and `download_private_ssl_key`
    * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
- * `suse_manager_server` module:
+ * `server` module:
    * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
    * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
      * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
@@ -228,7 +228,7 @@ Then add it to the `channels` variable in a SUSE Manager Server module:
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -254,7 +254,7 @@ A libvirt example follows:
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -406,7 +406,7 @@ A `proxy` module is similar to a `client` module but has a `product_version` and
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -414,7 +414,7 @@ module "server" {
 }
 
 module "proxy" {
-  source = "./modules/suse_manager_proxy"
+  source = "./modules/proxy"
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
@@ -433,13 +433,13 @@ module "clisles12sp1" {
 }
 ```
 
-Note that proxy chains (proxies of proxies) also work as expected. You can find a list of customizable variables for the `suse_manager_proxy` module in `modules/libvirt/suse_manager_proxy/variables.tf`.
+Note that proxy chains (proxies of proxies) also work as expected. You can find a list of customizable variables for the `proxy` module in `modules/libvirt/proxy/variables.tf`.
 
 Note that systems prepared by this module are by default registered as a Salt minions. If this is not desired you can switch off Salt minion registration by setting the `minion` flag to `false`:
 
 ```hcl
 module "proxy" {
-  source = "./modules/suse_manager_proxy"
+  source = "./modules/proxy"
   base_configuration = "${module.base.configuration}"
 
   name = "proxy"
@@ -457,7 +457,7 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 
 ```hcl
 module "master" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "master"
@@ -466,7 +466,7 @@ module "master" {
 }
 
 module "slave" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "slave"
@@ -579,7 +579,7 @@ You can configure SUSE Manager instances to download packages from an SMT server
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -645,7 +645,7 @@ It is possible to install Prometheus exporters on a SUSE Manager Server instance
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -662,7 +662,7 @@ module "grafana" {
 
 Grafana is accessible at http://grafana.tf.local with username and password `admin`.
 
-Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `suse_manager_server` module (it is by default).
+Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `server` module (it is by default).
 
 
 ## [evil-minions](https://github.com/moio/evil-minions) load generator
@@ -742,7 +742,7 @@ It is possible to run SUSE Manager servers, proxies, clients and minions with th
 
 ```hcl
 module "sumaheadpg" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "sumaheadpg"
@@ -760,7 +760,7 @@ This setting can be overridden with a custom 'from' address by supplying the par
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "server"
@@ -775,7 +775,7 @@ By suppling the parameter `traceback_email` you can override that address to hav
 
 ```hcl
 module "sumamail3" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
 
   name = "sumamail3"
@@ -813,7 +813,7 @@ An example follows:
 
 ```hcl
 module "server" {
-  source = "./modules/suse_manager"
+  source = "./modules/server"
   base_configuration = "${module.base.configuration}"
   product_version = "4.0-nightly"
   name = "server"

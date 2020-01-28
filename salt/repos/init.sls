@@ -2,8 +2,8 @@ include:
   {% if not grains.get('additional_repos_only') %}
   - repos.default
   - repos.minion
-  - repos.suse_manager_proxy
-  - repos.suse_manager_server
+  - repos.proxy
+  - repos.server
   - repos.testsuite
   - repos.virthost
   - repos.tools
