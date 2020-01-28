@@ -1,6 +1,6 @@
-provider "libvirt" {
-  uri = "qemu:///system"
-}
+//provider "libvirt" {
+//  uri = "qemu:///system"
+//}
 
 module "base" {
   source = "./modules/base"
