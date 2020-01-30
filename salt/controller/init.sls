@@ -110,7 +110,7 @@ spacewalk_git_repository:
 cucumber_run_script:
   file.managed:
     - name: /usr/bin/run-testsuite
-    - source: salt://controller/run-testsuite.sh
+    - source: salt://controller/run-testsuite
     - template: jinja
     - user: root
     - group: root

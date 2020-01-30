@@ -1,0 +1,70 @@
+#! /bin/bash
+
+cd /root/spacewalk/testsuite
+
+ABORT_ON_ERROR=1
+if [ "$1" = "-d" -o "$1" = "--dont-fail" ]; then
+  ABORT_ON_ERROR=0
+  shift
+fi
+RESULT=0
+
+stage() {
+  rake "cucumber:$1"
+  if [ $? -ne 0 ]; then
+    [ $ABORT_ON_ERROR -ne 0 ] && exit -1
+    RESULT=1
+  fi
+}
+
+parallel_stage() {
+  rake "parallel:$1"
+  if [ $? -ne 0 ]; then
+    [ $ABORT_ON_ERROR -ne 0 ] && exit -1
+    RESULT=1
+  fi
+}
+
+# normal run
+if [ -z "$1" ]; then
+  stage core
+  stage reposync
+  stage init_clients
+  stage secondary
+  stage secondary_parallelizable
+  stage finishing
+fi
+
+# parallel run
+if [ "$1" = "parallel" ]; then
+  stage core
+  stage reposync
+  parallel_stage init_clients
+  stage secondary
+  parallel_stage secondary_parallelizable
+  stage finishing
+fi
+
+# essential features
+if [ "$1" = "essential" ]; then
+  stage core
+  stage reposync
+  stage init_clients
+end
+
+# prepare reference host
+if [ "$1" = "refhost" ]; then
+  stage refhost
+fi
+
+# virtualization tests
+if [ "$1" = "virtualization" ]; then
+  stage virtualization
+fi
+
+# SLE updates tests
+if [ "$1" = "sle-updates" ]; then
+  stage sle-updates
+fi
+
+exit $RESULT
