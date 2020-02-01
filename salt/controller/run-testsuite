@@ -50,7 +50,7 @@ if [ "$1" = "essential" ]; then
   stage core
   stage reposync
   stage init_clients
-end
+fi
 
 # prepare reference host
 if [ "$1" = "refhost" ]; then
