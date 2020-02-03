@@ -96,6 +96,12 @@ variable "provision" {
   default     = true
 }
 
+variable "cloud_init" {
+  description = "Indicates whether cloud-init should be applied to base image"
+  type        = bool
+  default     = true
+}
+
 variable "provider_settings" {
   description = "Map of provider-specific settings, see the modules/libvirt/README.md"
   default     = {}
