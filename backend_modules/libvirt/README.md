@@ -39,7 +39,7 @@ Available provider settings for the base module:
 | pool               | string | `default`     | libvirt storage pool name for VM disks                                   |
 | network_name       | string | `default`     | libvirt NAT network name for VMs, use null for bridged networking        |
 | bridge             | string | `null`        | a bridge device name available on the libvirt host, leave null for NAT   |
-| additional_network | string | `null`        | list of images to be uploaded to the libvirt host, leave default for all |
+| additional_network | string | `null`        | A network mask for PXE tests                                             |
 
 An example follows:
 ```hcl-terraform
