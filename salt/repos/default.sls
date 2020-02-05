@@ -329,7 +329,7 @@ galaxy_key:
     - name: rpm --import /tmp/galaxy.key
     - watch:
       - file: galaxy_key
-{% if 'uyuni-master' in grains.get('product_version') or 'uyuni-released' in grains.get('product_version') %}
+{% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-released' in grains.get('product_version', '') %}
 uyuni_key:
   file.managed:
     - name: /tmp/uyuni.key
