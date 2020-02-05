@@ -41,6 +41,10 @@ master_configuration:
         server_id_use_crc: adler32
         enable_legacy_startup_events: False
         enable_fqdns_grains: False
+        start_event_grains:
+          - machine_id
+          - saltboot_initrd
+          - susemanager
 {% endif %}
 
 minion_service:
