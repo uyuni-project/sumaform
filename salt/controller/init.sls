@@ -99,7 +99,7 @@ fix_cucumber_html_reporter_style:
             width: 100%;
         }
     - require:
-      - sls: install_cucumber_html_reporter_via_npm
+      - cmd: install_cucumber_html_reporter_via_npm
 
 spacewalk_git_repository:
   cmd.run:
