@@ -199,10 +199,11 @@ module "min-kvm" {
   image              = lookup(local.images, "min-kvm", "sles15sp1")
   name               = lookup(local.names, "min-kvm", "min-kvm")
 
-  ssh_key_path         = "./salt/controller/id_rsa.pub"
   server_configuration = local.minimal_configuration
 
-  auto_connect_to_master = false
+  auto_connect_to_master  = false
+  use_os_released_updates = true
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "min-kvm", {})
   provider_settings = lookup(local.provider_settings_by_host, "min-kvm", {})
