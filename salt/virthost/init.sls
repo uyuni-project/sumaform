@@ -35,6 +35,7 @@ fake_systemd_detect_virt:
     - source: salt://virthost/systemd-detect-virt
     - mode: 655
 
+{% if grains['hvm_disk_image'] %}
 disk-image-template.qcow2:
   file.managed:
     - name: /var/testsuite-data/disk-image-template.qcow2
@@ -46,3 +47,4 @@ disk-image-template.qcow2:
     {% endif %}
     - mode: 655
     - makedirs: True
+{% endif %}
