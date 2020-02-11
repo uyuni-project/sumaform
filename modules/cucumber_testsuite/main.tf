@@ -237,3 +237,18 @@ module "ctl" {
   additional_repos  = lookup(local.additional_repos, "ctl", {})
   provider_settings = lookup(local.provider_settings_by_host, "ctl", {})
 }
+
+output "configuration" {
+  value = {
+    srv = module.srv.configuration
+    pxy = module.pxy.configuration
+    cli-sles12sp4 = module.cli-sles12sp4.configuration
+    min-sles12sp4 = module.min-sles12sp4.configuration
+    minssh-sles12sp4 = module.minssh-sles12sp4.configuration
+    min-centos7 = module.min-centos7.configuration
+    min-ubuntu1804 = module.min-ubuntu1804.configuration
+    min-pxeboot = module.min-pxeboot.configuration
+    min-kvm = module.min-kvm.configuration
+    ctl = module.ctl.configuration
+  }
+}
