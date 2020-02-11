@@ -34,6 +34,21 @@ The example will have to be completed with SCC credentials and GitHub credential
 
 `product_version` determines the version under test, see [README_ADVANCED.md](README_ADVANCED.md) for the list of options.
 
+## Getting outputs
+
+By default, the `cucumber_testsuite` module will not produce any outputs for the resources (for example the hostname for the instances).
+
+If you want them, add:
+
+```hcl
+output "configuration" {
+  value = module.cucumber_testsuite.configuration
+}
+```
+At the end of your `main.tf` file.
+
+That will generate the outputs on-screen and will store them at the `terraform.tfstate`.
+
 ## Running the testsuite
 
 To start the testsuite, use:
