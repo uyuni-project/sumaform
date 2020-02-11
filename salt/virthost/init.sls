@@ -35,6 +35,10 @@ fake_systemd_detect_virt:
     - source: salt://virthost/systemd-detect-virt
     - mode: 655
 
+no-xen-tools:
+  pkg.removed:
+    - name: xen-tools-domU
+
 {% if grains['hvm_disk_image'] %}
 disk-image-template.qcow2:
   file.managed:
