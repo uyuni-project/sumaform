@@ -148,3 +148,251 @@ module "base" {
 ```
 
 The list of all supported images is available in "backend_modules/libvirt/base/variables.tf".
+
+
+## DNS and DHCP without Avahi
+
+If you do not want or cannot use Avahi (e. g. Windows minions), the easiest DHCP and DNS alternative is libvirt's own dnsmasq.
+
+First thing you need to do is tell sumaform to not use Avahi in `main.tf`:
+
+```hcl
+module "base" {
+  source = "./modules/base"
+
+  ...
+  use_avahi = false
+```
+
+
+### Configuring the libvirt network
+
+If you are using the `default`virtual network in the 192.168.122.1 network, you will have this interface:
+
+```
+$ sudo virsh net-list --all
+ Name                 State      Autostart     Persistent
+----------------------------------------------------------
+ default              active     yes           yes
+```
+
+You can edit the XML with virt-manager (do not forget to stop the interface before making changes, or they will be lost!) or with virsh:
+
+```
+$ sudo virsh net-edit default
+```
+
+It will look like this:
+
+```xml
+<network connections="3">
+  <name>default</name>
+  <uuid>366c6da3-f7e3-413c-93ca-c4c89ef02ac4</uuid>
+  <forward mode="nat">
+    <nat>
+      <port start="1024" end="65535" />
+    </nat>
+  </forward>
+  <bridge name="virbr0" stp="on" delay="0" />
+  <mac address="52:54:00:78:04:82" />
+  <ip address="192.168.122.1" netmask="255.255.255.0">
+    <dhcp>
+      <range start="192.168.122.2" end="192.168.122.254" />
+    </dhcp>
+  </ip>
+</network>
+```
+
+You can now add the MACs and desired IPs in the `ip` block, below the `range` entry. Please note I have changed the range start address to allocate space for static address leases. Your XML will look like this:
+
+```xml
+<ip address="192.168.122.1" netmask="255.255.255.0">
+  <dhcp>
+    <range start="192.168.122.10" end="192.168.122.254" />
+      <host mac="52:54:00:09:af:bf" ip="192.168.122.2" />
+      <host mac="52:54:00:76:78:dc" ip="192.168.122.3" />
+      <host mac="52:54:00:90:15:99" ip="192.168.122.4" />
+  </dhcp>
+</ip>
+```
+
+We could add the hostnames to the XML too but in that case, name resolution would only work across virtual guest. As we want name resolution to work also between host and guest, we will now add the domain name to the libvirt network XML, right after the `mac address` block:
+
+```xml
+<domain name="suse.lab" localOnly="yes" />
+```
+
+In the end, your XML will look like this:
+
+```xml
+<network connections="3">
+  <name>default</name>
+  <uuid>366c6da3-f7e3-413c-93ca-c4c89ef02ac4</uuid>
+  <forward mode="nat">
+    <nat>
+      <port start="1024" end="65535" />
+    </nat>
+  </forward>
+  <bridge name="virbr0" stp="on" delay="0" />
+  <mac address="52:54:00:78:04:82" />
+  <domain name="suse.lab" localOnly="yes" />
+  <ip address="192.168.122.1" netmask="255.255.255.0">
+    <dhcp>
+      <range start="192.168.122.10" end="192.168.122.254" />
+        <host mac="52:54:00:09:af:bf" ip="192.168.122.2" />
+        <host mac="52:54:00:76:78:dc" ip="192.168.122.3" />
+        <host mac="52:54:00:90:15:99" ip="192.168.122.4" />
+    </dhcp>
+  </ip>
+</network>
+```
+
+Also, add the desired domain name to `main.tf`:
+
+```hcl
+module "base" {
+  source = "./modules/base"
+
+  ...
+  use_avahi = false
+  domain = "suse.lab"
+```
+
+Now edit `/etc/hosts` on the host machine and add your guests:
+
+```
+192.168.122.2 uyuniserver.suse.lab
+192.168.122.3 leap151.suse.lab
+192.168.122.4 win10.suse.lab
+```
+
+Finally, destroy and start again your libvirt network:
+
+```
+$ sudo virsh net-destroy default && sudo virsh net-start default
+```
+
+### Host network configuration
+
+#### Identify the network management backend
+
+These days most Linux distributions are using Network Manager for configuration and management of network interfaces, so you should go for the "Configuring NetworkManager" section below.
+
+In case you want to double check whether you are using Network Manager or something else (e. g. wicked, networkd, etc), check for the service status:
+
+```
+$ sudo systemctl status NetworkManager
+● NetworkManager.service - Network Manager
+Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: disabled)
+Drop-In: /usr/lib/systemd/system/NetworkManager.service.d
+└─NetworkManager-ovs.conf
+Active: active (running)
+```
+
+or in case you are not running systemd:
+
+```
+$ sudo service NetworkManager status
+* NetworkManager.service - Network Manager
+Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: disabled)
+Drop-In: /usr/lib/systemd/system/NetworkManager.service.d
+`-NetworkManager-ovs.conf
+```
+
+Some other query command may be required if you are running another operating system (e. g. BSD, MacOS, Windows) or init system (e. g. OpenRC, System V, etc).
+
+
+#### Configuring NetworkManager
+
+If you are using NetworkManager on the host machine, tell it to control dnsmasq:
+
+```
+$ sudo vi /etc/NetworkManager/conf.d/localdns.conf
+[main]
+plugins=keyfile
+dns=dnsmasq
+```
+
+But only for the `suse.lab` domain:
+
+```
+$ sudo vi /etc/NetworkManager/dnsmasq.d/libvirt_dnsmasq.conf
+server=/suse.lab/192.168.122.1
+```
+
+#### Alternative: no NetworkManager
+
+If you are not using NetworkManager or do not want dnsmasq to be controlled by NetworkManager, use this configuration:
+
+```
+$ sudo vi /etc/NetworkManager/NetworkManager.conf
+[main]
+plugins=keyfile
+dns=none
+```
+
+Tell your local dnsmasq to manage only `suse.lab`:
+
+```
+$ sudo vi /etc/dnsmasq.conf
+listen-address=127.0.0.1
+interface=lo
+bind-interfaces
+server=<yourUpstreamDNS>
+log-queries
+
+# does not go upstream to resolve addresses ending in 'suse.lab'
+local=/suse.lab/
+```
+
+And add localhost to your /etc/resolv.conf:
+
+```
+$ sudo vi /etc/resolv.conf
+# This should be the first nameserver entry in resolv.conf!
+nameserver 127.0.0.1
+```
+
+
+### Finalize and test everything works as expected
+
+Finally, restart all services: libvirtd, dnsmasq and NetworkManager:
+
+```
+$ sudo systemctl restart NetworkManager.service NetworkManager-dispatcher.service dnsmasq.service libvirtd.service libvirt-guests.service
+```
+
+And test name resolution from the host:
+
+```
+$ nslookup uyuniserver.suse.lab 127.0.0.1
+Server:         127.0.0.1
+Address:        127.0.0.1#53
+
+Name:   uyuniserver.suse.lab
+Address: 127.0.0.1
+
+$ nslookup uyuniserver.suse.lab 192.168.122.1
+Server:         192.168.122.1
+Address:        192.168.122.1#53
+
+Name:   uyuniserver.suse.lab
+Address: 192.168.122.2
+
+$ nslookup 192.168.122.2 192.168.122.1
+2.122.168.192.in-addr.arpa      name = uyuniserver.suse.lab.
+```
+
+and from the guests:
+
+```
+$ nslookup uyuniserver.suse.lab 192.168.122.1
+Server:         192.168.122.1
+Address:        192.168.122.1#53
+
+Name:   uyuniserver.suse.lab
+Address: 192.168.122.2
+
+$ nslookup 192.168.122.2 192.168.122.1
+2.122.168.192.in-addr.arpa      name = uyuniserver.suse.lab.
+```

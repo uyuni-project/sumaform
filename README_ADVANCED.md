@@ -286,7 +286,7 @@ Additionally, it is possible to have only one user to upload images and other sh
 
 ## Disabling Avahi and Avahi reflectors
 
-SUSE Manager requires both direct and reverse domain names resolution. This can be provided by either DNS (client-server, unicast mode) or Avahi (peer-to-peer, multicast mode).
+SUSE Manager requires both direct and reverse domain names resolution. This can be provided by either DNS (client-server, unicast mode) or Avahi (peer-to-peer, multicast mode, only for .local domain).
 
 Note that Avahi is not available in environments that disable multicast UDP, notably AWS, so the following is only relevant for the libvirt backend, where it is enabled by default.
 
@@ -320,6 +320,7 @@ module "minion" {
 }
 ```
 
+If you will be adding Windows minions, you should disable Avahi in sumaform, as for historical reasons mDNS and resolution of .local and .lan is broken and will not work. Do not trust any source saying it works on Windows 10 (there are lots of "ifs" and "buts"), or can be fixed with Bonjour Printing Services (not for .local).
 
 ## Additional network and SUSE Manager for Retail
 
