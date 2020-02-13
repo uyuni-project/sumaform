@@ -2,13 +2,39 @@ include:
   - default.hostname
 
 {% if grains['use_avahi'] %}
-avahi_pkg:
-  pkg.installed:
-    {%- if grains['os_family'] == 'Debian' %}
-    - name: avahi-daemon
+
+# TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES versions we use
+{% if grains['osfullname'] == 'SLES' %}
+custom_avahi_repo:
+  pkgrepo.managed:
+    - humanname: custom_avahi
+    {% if grains.get('osmajorrelease', None)|int() == 12 %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP4/
     {% else %}
-    - name: avahi
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP1/
     {% endif %}
+    - priority: 95
+    - gpgcheck: 0
+{% endif %}
+
+# TODO: replace 'pkg.latest' with 'pkg.installed' when fix to bsc#1163683 is applied to all the SLES versions we use
+avahi_pkg:
+  pkg.latest:
+    - pkgs:
+      {% if grains['os_family'] == 'Debian' %}
+      - avahi-daemon
+      - libavahi-common-data
+      - libavahi-common3
+      - libavahi-core7
+      {% elif grains['os_family'] == 'RedHat' %}
+      - avahi
+      - avahi-libs
+      {% elif grains['os_family'] == 'Suse' %}
+      - avahi
+      - avahi-lang
+      - libavahi-common3
+      - libavahi-core7
+      {% endif %}
 
 avahi_change_domain:
   file.replace:
