@@ -310,7 +310,7 @@ module "server" {
 }
 ```
 
-If Avahi is enabled and you are running Docker on a minion, you will need an Avahi reflector on the minion to provide Avahi resolution inside of the containers. A typical example is the Cucumber testsuite which uses such a setup. An Avahi reflector can be enabled via:
+If Avahi is enabled and you are running Docker on a minion, you will need an Avahi reflector on the minion to provide multicast domain name resolution inside of the containers. A typical example is the Cucumber testsuite which uses such a setup. An Avahi reflector can be enabled via:
 
 ```hcl
 module "minion" {
@@ -319,8 +319,6 @@ module "minion" {
   ...
 }
 ```
-
-Beware this may trigger [a known Avahi bug](https://github.com/lathiat/avahi/issues/117). This bug causes wrong names to be assigned to hosts (with unexpected `-2`, `-3`, etc. suffixes) in many circumstances, in particular when more than one reflector is in use on the same network.
 
 
 ## Additional network and SUSE Manager for Retail
