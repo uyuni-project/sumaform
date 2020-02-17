@@ -63,7 +63,7 @@ resource "null_resource" "provisioning" {
 
   provisioner "file" {
     source      = "salt"
-    destination = "/root"
+    destination = "/opt"
   }
 
   provisioner "file" {
@@ -100,7 +100,7 @@ resource "null_resource" "provisioning" {
 
   provisioner "remote-exec" {
     inline = [
-      "sh /root/salt/first_deployment_highstate.sh",
+      "sudo bash /opt/salt/first_deployment_highstate.sh"
     ]
   }
 }
