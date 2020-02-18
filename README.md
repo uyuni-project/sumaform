@@ -55,7 +55,7 @@ The null backend can be useful in a wide variety of scenarios, for example:
 
 In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
-Refer to specific READMEs to get started:
+To choose the backend in use one should create a symbolic link to a `backend_module` module. Refer to specific READMEs to get started:
  * [libvirt README](backend_modules/libvirt/README.md)
  * [AWS README](backend_modules/aws/README.md)
  * [NULL README](backend_modules/null/README.md)
