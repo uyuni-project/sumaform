@@ -61,7 +61,7 @@ To run sets of Cucumber features, edit `run_sets/testsuite.yml` and then run `ru
  - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
  - featurs not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
 
-Once all `core_` features have been executed once other non-core Cucumber features can be run via:
+Once all `core_` features have been executed you can run a non-core Cucumber feature as follows:
 ```
 ssh -t head-ctl.tf.local cucumber spacewalk/testsuite/features/my_feature.feature
 ```
