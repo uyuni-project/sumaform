@@ -115,7 +115,9 @@ module "mirror" {
   source = "./modules/mirror"
   base_configuration = module.base.configuration
 
-  data_pool = "data"
+  volume_provider_settings = {
+    pool = "data"
+  }
 }
 ```
 
@@ -123,7 +125,7 @@ Note you are encouraged to specify an additional libvirt storage pool name (`dat
 
 ![data pool configuration in virt-manager](/help/data-pool-configuration.png)
 
-Omitting the `data_pool` variable results in the default "default" storage pool being used.
+Omitting the `volume_provider_settings` `pool` variable results in the default "default" storage pool being used.
 
 The `mirror` can also synchronize Ubuntu official repositories.
 To enable mirroring Ubuntu versions add the corresponding version numbers to the `ubuntu_distros` variable as follows:

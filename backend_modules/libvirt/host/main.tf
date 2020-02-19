@@ -5,7 +5,6 @@ locals {
     vcpu            = 1
     running         = true
     mac             = null
-    additional_disk = []
     cpu_model       = "custom"
     xslt            = null
     },
@@ -46,6 +45,14 @@ resource "libvirt_volume" "main_disk" {
   count            = var.quantity
 }
 
+resource "libvirt_volume" "data_disk" {
+  name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-data-disk"
+  // needs to be converted to bytes
+  size  = (var.additional_disk_size == null? 0: var.additional_disk_size) * 1024 * 1024 * 1024
+  pool  = lookup(var.volume_provider_settings, "pool", "default")
+  count = var.additional_disk_size == null? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+}
+
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
   user_data      = data.template_file.user_data.rendered
@@ -71,7 +78,7 @@ resource "libvirt_domain" "domain" {
   dynamic "disk" {
     for_each = concat(
       length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
-      local.provider_settings["additional_disk"],
+      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : []
     )
     content {
       volume_id = disk.value.volume_id

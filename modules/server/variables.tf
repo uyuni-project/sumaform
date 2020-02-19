@@ -25,10 +25,10 @@ variable "wait_for_reposync" {
 variable "cloned_channels" {
   description = "a json formatted string representing a list of dictionaries containing SUSE channels information to clone"
   default     = null
-  type        = list(object({
+  type = list(object({
     channels = list(string)
-    prefix = string
-    date = string
+    prefix   = string
+    date     = string
   }))
 }
 
@@ -241,7 +241,7 @@ variable "image" {
 }
 
 variable "repository_disk_size" {
-  description = "Size of an aditional disk for /var/spacewalk partition"
+  description = "Size of an aditional disk for /var/spacewalk partition, defined in GiB"
   default     = 0
 }
 

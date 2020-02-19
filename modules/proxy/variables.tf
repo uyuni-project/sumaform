@@ -105,7 +105,7 @@ variable "image" {
 }
 
 variable "repository_disk_size" {
-  description = "Size of an aditional disk for /var/spacewalk partition"
+  description = "Size of an aditional disk for /var/spacewalk partition, defined in GiB"
   default     = 0
 }
 
