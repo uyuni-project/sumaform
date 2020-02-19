@@ -32,6 +32,11 @@ variable "provider_settings" {
   default     = {}
 }
 
+variable "repository_disk_size" {
+  description = "Size of an aditional disk for the /srv/mirror partition, defined in GiB"
+  default     = 1024
+}
+
 variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}

@@ -10,14 +10,6 @@ variable "images" {
   }
 }
 
-module "server_data_disk" {
-  source                   = "../backend/volume"
-  volume_name              = "${var.base_configuration["name_prefix"]}${var.name}-server-data-disk"
-  volume_size              = var.repository_disk_size
-  volume_provider_settings = var.volume_provider_settings
-  quantity                 = var.repository_disk_size > 0 ? 1 : 0
-}
-
 module "server" {
   source = "../host"
 
@@ -82,12 +74,10 @@ module "server" {
   }
 
 
-  image = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
-  provider_settings = merge(
-  var.provider_settings,
-  {
-    additional_disk = length(module.server_data_disk.configuration.ids) > 0 ? [{ volume_id = module.server_data_disk.configuration.ids[0] }] : []
-  })
+  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  provider_settings        = var.provider_settings
+  additional_disk_size     = var.repository_disk_size
+  volume_provider_settings = var.volume_provider_settings
 }
 
 output "configuration" {

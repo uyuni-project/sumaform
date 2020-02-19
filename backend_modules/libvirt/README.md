@@ -63,7 +63,6 @@ Following settings apply to all modules that create one or more hosts of the sam
 | vcpu            | number         | `1` ([apart from specific roles](Default-values-by-role))    | Number of virtual CPUs                                                                     |
 | running         | bool           | `true`                                                       | Whether this host should be turned on or off                                               |
 | mac             | string         | `null`                                                       | A MAC address in the form AA:BB:CC:11:22:22                                                |
-| additional_disk | `list[string]` | [ ]                                                          | List of volume IDs of disks to be attached to this host                                    |
 | cpu_model       | string         | `custom`                                                     | Defines what CPU model the guest is getting (host-model, host-passthrough or the default). |
 | xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                                               |
 
@@ -75,11 +74,21 @@ provider_settings = {
   vcpu            = 2
   running         = true
   mac             = "52:54:00:1d:af:5a"
-  additional_disk = ["volume_id"]
   cpu_model       = "custom"
   xslt            = "file.xslt"
 }
 ...
+```
+
+`suse_manager`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
+
+ * `pool = <String>` storage were the volume should be created (default value `default`)
+
+ An example follows:
+ ``` hcl-terraform
+volume_provider_settings = {
+  pool = "ssd"
+}
 ```
 
 #### Default provider settings by role
@@ -93,19 +102,6 @@ Some roles such as `suse_manager` or `mirror` have specific defaults that overri
 | controller   | `{memory=2048}`                                                                              |
 | grafana      | `{memory=4096}`                                                                              |
 | virthost     | `{memory=2048, vcpu=3, cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl"}` |
-
-### Volume
-
-`suse_manager`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
-
- * `pool = <String>` storage were the volume should be created (default value `default`)
-
- An example follows:
- ``` hcl-terraform
-volume_provider_settings = {
-  pool = "ssd"
-}
-```
 
 ## Accessing VMs
 

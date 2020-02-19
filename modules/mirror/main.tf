@@ -1,12 +1,4 @@
 
-module "data_disk" {
-  source = "../backend/volume"
-  volume_name = "${var.base_configuration["name_prefix"]}mirror-data-disk"
-  volume_size = 1099511627776 # 1 TiB
-  volume_provider_settings = var.volume_provider_settings
-  quantity = 1
-}
-
 module "mirror" {
   source = "../host"
 
@@ -27,9 +19,11 @@ module "mirror" {
 
   image   = "opensuse151"
 
-  provider_settings = merge(
-  var.provider_settings,
-  {
-   additional_disk = length(module.data_disk.configuration.ids) > 0 ? [{ volume_id = module.data_disk.configuration.ids[0] }] : []
-  })
+  provider_settings = var.provider_settings
+  additional_disk_size = var.repository_disk_size
+  volume_provider_settings = var.volume_provider_settings
+}
+
+output "configuration" {
+  value = module.mirror.configuration
 }

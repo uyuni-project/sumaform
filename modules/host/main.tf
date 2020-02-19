@@ -22,6 +22,8 @@ module "host" {
   image                         = var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
+  additional_disk_size          = var.additional_disk_size
+  volume_provider_settings      = var.volume_provider_settings
 }
 
 output "configuration" {

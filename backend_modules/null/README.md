@@ -8,8 +8,6 @@ Existing modules:
 
 - `base`
 - `bost`
-- `pxe_boot`
-- `volume`
 
 # Interface for other backend's
 
