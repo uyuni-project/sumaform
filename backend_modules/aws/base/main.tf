@@ -50,7 +50,6 @@ module "bastion" {
   image              = "opensuse151"
   name               = "bastion"
   provision          = false
-  cloud_init         = false
   provider_settings = {
     instance_type   = "t2.micro"
     public_instance = true
