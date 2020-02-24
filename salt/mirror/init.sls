@@ -133,7 +133,7 @@ mirror_directory:
     - name: /srv/mirror
     - user: wwwrun
     - group: users
-    - mode: 755
+    - mode: 777
     - makedirs: True
     - require:
       - pkg: apache2
