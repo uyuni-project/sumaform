@@ -10,7 +10,12 @@ Unable to evaluate directory symlink: lstat modules/backend: no such file or dir
 ```
 
 Terraform cannot find the path for the backend in use.
-Create a symbolic link to the backend module directory inside the `modules` directory: `ln -sfn ../backend_modules/<BACKEND> modules/backend`
+Create a symbolic link to the backend module directory inside the `modules` directory:
+
+```
+cd modules
+ln -sfn ../backend_modules/<BACKEND> backend
+```
 
 ## Q: how can I work around name resolution problems with `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
 
