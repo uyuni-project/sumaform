@@ -1,1 +1,3 @@
-../../null/volume/versions.tf
+terraform {
+  required_version = "~> 0.12.9"
+}
