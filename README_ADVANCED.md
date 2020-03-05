@@ -133,6 +133,13 @@ module "mirror" {
 
 Note that `mirror` must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
 
+It is also possible to use parameters with `/root/mirror.sh` to limit what is going to be done.
+
+Check the help with:
+```bash
+/root/mirror.sh -h
+```
+
 ## Virtual hosts
 
 Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM hypervisor.
