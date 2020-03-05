@@ -25,11 +25,28 @@ minima:
       - pkg: mozilla_certificates
       - pkg: system_update
 
+mirror_configuration_dir:
+  file.directory:
+    - name: /root/.minima
+    - user: root
+    - group: root
+    - mode: 750
+
 minima_configuration:
   file.managed:
-    - name: /root/minima.yaml
+    - name: /root/.minima/minima.yaml
     - source: salt://mirror/minima.yaml
     - template: jinja
+    - require:
+      - file: mirror_configuration_dir
+
+mirrorsh_configuration:
+  file.managed:
+    - name: /root/.minima/mirror.sh.conf
+    - source: salt://mirror/mirror.sh.conf
+    - template: jinja
+    - require:
+      - file: mirror_configuration_dir
 
 tar:
   pkg.installed:
@@ -78,9 +95,12 @@ mirror_script:
     - name: /root/mirror.sh
     - source: salt://mirror/mirror.sh
     - mode: 755
-    - template: jinja
   cron.present:
-    - name: /root/mirror.sh
+{% if grains.get('use_mirror_images') %}
+    - name: /root/mirror.sh --mirror-images --refresh-scc-data --apt-mirror --minima-sync=/root/.minima/minima.yaml --config=/root/.minima/mirror.sh.conf &> /var/log/full-mirror.log || cat /var/log/full-mirror.log
+{% else %}
+    - name: /root/mirror.sh --refresh-scc-data --apt-mirror --minima-sync=/root/.minima/minima.yaml --config=/root/.minima/mirror.sh.conf &> /var/log/full-mirror.log || cat /var/log/full-mirror.log
+{% endif %}
     - identifier: MIRROR
     - user: root
     - hour: 20
@@ -89,6 +109,7 @@ mirror_script:
       - pkg: cron
       - archive: minima
       - file: minima_configuration
+      - file: mirrorsh_configuration
       - file: mirror_script
   service.running:
     - name: cron

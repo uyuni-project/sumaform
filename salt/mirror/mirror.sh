@@ -1,28 +1,150 @@
 #!/bin/bash
-set -e
-set -x
+
+# Get script name
+SCRIPT=$(basename ${0})
+
+function show_help() {
+  echo "Wrapper to help with mirror syncing"
+  echo ""
+  echo "Syntax: "
+  echo ""
+  echo "${SCRIPT} <ARGUMENTS>"
+  echo ""
+  echo "Mandatory arguments:"
+  echo ""
+  echo " --mirror-images      Mirror QCOW2 images"
+  echo " --refresh-scc-data   Refresh data from SCC"
+  echo " --apt-mirror         Mirror Apt repositories"
+  echo " --minima-sync=<FILE> Use minima to sync repositories specified on <FILE>"
+  echo "                      By default: ${HOME}/.minima/minima.yaml"
+  echo " --config=<FILE>      Config file with SCC credentials and list of images."
+  echo "                      By default: ${HOME}/.minima/mirror.sh.conf"
+  echo ""
+  echo "If called withou targuments, thiat will be equivalent to calling:"
+  echo "${SCRIPT} --mirror-images --refresh-scc-data --apt-mirror --minima-sync=${HOME}/.minima/minima.yaml"
+}
+
+function print_incorrect_syntax() {
+  echo "ERROR: Incorrect syntax (use -h for help)"
+}
+
+function set_error() {
+  if [ ${1} -ne 0 ]; then
+    ERRORS="TRUE"
+  fi
+}
+
+function minima_sync() {
+  if [ ! -f ${1} ]; then
+    echo "ERROR: minima configuration file ${1} does not exist!"
+    set_error 1
+    return 1
+  fi
+  minima -c ${1} sync
+  set_error ${?}
+}
+
+function refresh_scc_data() {
+  if [ -z "${SCC_CREDS}" ]; then
+    echo "ERROR: configuration file ${CONFIG} does not define SCC_CREDS!"
+    set_error 1
+    return 1
+  fi
+  /root/refresh_scc_data.py "$SCC_CREDS"
+  set_error ${?}
+}
+
+function apt_mirror() {
+  /usr/sbin/apt-mirror
+  set_error ${?}
+}
+
+function mirror_images() {
+  if [ -z "${IMAGES}" ]; then
+    echo "ERROR: configuration file ${CONFIG} does not define IMAGES!"
+    set_error 1
+    return 1
+  fi
+  # will mirror them in /srv/mirror under the same path as the URL
+  for IMAGE in ${IMAGES}; do
+    wget --mirror --no-host-directories ${IMAGE}
+    set_error ${?}
+  done
+}
+
+function adjust_external_repos() {
+  # external repos are special
+  mkdir -p repo/RPMMD
+  set_error ${?}
+  if [ ! -L repo/RPMMD/SLE-15-GA-Desktop-NVIDIA-Driver ]; then
+    ln -s ../../suse/sle15/ repo/RPMMD/SLE-15-GA-Desktop-NVIDIA-Driver
+  fi
+  set_error ${?}
+}
+
+function final_preparations() {
+  jdupes --linkhard -r -s /srv/mirror/
+  set_error ${?}
+  chmod -R 777 .
+  set_error ${?}
+}
+
+# No errors detected when we start
+ERRORS="FALSE"
+
+# Default place for minima config
+MINIMA_CFG="${HOME}/.minima/minima.yaml"
+
+# Default place for mirror.sh.conf
+CONFIG="${HOME}/.minima/mirror.sh.conf"
+
+if [ ${#} -eq 0 ]; then
+  MIRROR_IMAGES="TRUE"
+  REFRESH_SCC_DATA="TRUE"
+  APT_MIRROR="TRUE"
+  MINIMA_SYNC="TRUE"
+else
+  ARGS=$(getopt -o h --long help,mirror-images,refresh-scc-data,apt-mirror,minima-sync:,config: -n "${SCRIPT}" -- "$@")
+  if [ $? -ne 0 ]; then
+    print_incorrect_syntax
+    exit 1
+  fi
+  eval set -- "${ARGS}"
+  # extract options and their arguments into variables
+  while true; do
+    case "${1}" in
+      -h|--help)          show_help; exit 1 ;;
+      --mirror-images)    MIRROR_IMAGES="TRUE"; shift 1;;
+      --refresh-scc-data) REFRESH_SCC_DATA="TRUE"; shift 1;;
+      --apt-mirror)       APT_MIRROR="TRUE"; shift 1;;
+      --minima-sync)      MINIMA_SYNC="TRUE"; MINIMA_CFG="${2}"; shift 2;;
+      --config)           CONFIG="${2}"; shift 2;;
+      --)                 shift ; break ;;
+      *)                  print_incorrect_syntax; exit 1 ;;
+    esac
+  done
+fi
+
+# This is NOT safe. This is the moment where we should start
+# considering python as having complex config files is a nightmare
+# in bash (for example a variable with a value with several lines
+if [ ! -z "${MIRROR_IMAGES}" -o ! -z "${REFRESH_SCC_DATA}" ]; then
+  if [ ! -f ${CONFIG} ]; then
+    echo "ERROR: configuration file ${CONFIG} does not exist!"
+    exit 1
+  fi
+  source ${CONFIG}
+fi
 
 cd /srv/mirror
-minima -c /root/minima.yaml sync 2>&1 | tee /var/log/minima.log
-/root/refresh_scc_data.py {{ grains.get("cc_username") }}:{{ grains.get("cc_password") }}
+if [ ! -z "${MIRROR_IMAGES}" ]; then mirror_images; fi
+if [ ! -z "${REFRESH_SCC_DATA}" ]; then refresh_scc_data; fi
+if [ ! -z "${APT_MIRROR}" ]; then apt_mirror; fi
+if [ ! -z "${MINIMA_SYNC}" ]; then minima_sync "${MINIMA_CFG}"; fi
+adjust_external_repos
+final_preparations
 
-apt-mirror
-
-{% if grains.get('use_mirror_images') %}
-wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
-wget --mirror --no-host-directories "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
-wget --mirror --no-host-directories "https://download.opensuse.org/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15sp1.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles11sp4.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp1.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp2.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp3.x86_64.qcow2"
-wget --mirror --no-host-directories "http://download.suse.de/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles12sp4.x86_64.qcow2"
-wget --mirror --no-host-directories "https://github.com/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
-{% endif %}
-
-jdupes --linkhard -r -s /srv/mirror/
-
-chmod -R 777 .
+if [ "${ERRORS}" == "TRUE" ]; then
+  exit 1
+fi
+exit 0
