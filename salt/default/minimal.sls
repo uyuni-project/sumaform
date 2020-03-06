@@ -3,6 +3,7 @@ include:
   {% if grains['hostname'] and grains['domain'] %}
   - default.hostname
   {% endif %}
+  - default.network
   - default.avahi
 
 minimal_package_update:
