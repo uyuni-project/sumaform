@@ -1,3 +1,4 @@
+{% if grains['os_family'] == 'Suse' %}
 manually_set_locale_rc_lang:
   file.replace:
     - name: /etc/sysconfig/language
@@ -18,6 +19,7 @@ manually_set_locale_installed_languages:
     - pattern: ^INSTALLED_LANGUAGES=".*"
     - repl: INSTALLED_LANGUAGES=""
     - onlyif: test ! -f /usr/bin/localectl
+{% endif %}
 
 fix_en_US_UTF8_as_system_locale_with_localectl:
   cmd.run:
