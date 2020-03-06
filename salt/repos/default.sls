@@ -321,6 +321,8 @@ allow_vendor_changes:
 
 {% if grains['os_family'] == 'RedHat' %}
 
+{% set release = grains.get('osmajorrelease', None)|int() %}
+
 galaxy_key:
   file.managed:
     - name: /tmp/galaxy.key
@@ -340,14 +342,14 @@ uyuni_key:
       - file: uyuni_key
 {% endif %}
 
-{% if grains.get('osmajorrelease', None)|int() == 7 %}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
+    - humanname: tools_pool_repo
     {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools/x86_64/
     {% else %}
-    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     - require:
       - cmd: galaxy_key
@@ -363,7 +365,8 @@ suse_res7_key:
 {% else %}
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    - humanname: tools_pool_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS{{ release }}-Uyuni-Client-Tools/CentOS_{{ release }}/
     - priority: 98
     - require:
       - cmd: uyuni_key
@@ -372,27 +375,29 @@ tools_pool_repo:
 {% if 'head' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - priority: 98
     - require:
       - cmd: galaxy_key
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard/
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - require:
       - cmd: galaxy_key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/CentOS{{ release }}-Uyuni-Client-Tools/CentOS_{{ release }}/
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/CentOS{{ release }}-Uyuni-Client-Tools/CentOS_{{ release }}/repodata/repomd.xml.key
     - priority: 98
     - require:
       - cmd: uyuni_key
 {% endif %}
-{% endif %} {# grains.get('osmajorrelease', None)|int() == 7 #}
 {% endif %} {# grains['os_family'] == 'RedHat' #}
 
 {% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
