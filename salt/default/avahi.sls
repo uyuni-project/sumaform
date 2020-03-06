@@ -29,6 +29,7 @@ avahi_pkg:
       {% elif grains['os_family'] == 'RedHat' %}
       - avahi
       - avahi-libs
+      - nss-mdns
       {% elif grains['os_family'] == 'Suse' %}
       - avahi
       - avahi-lang
