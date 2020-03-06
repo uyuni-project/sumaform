@@ -1,0 +1,197 @@
+#cloud-config
+
+disable_root: false
+ssh_pwauth: true
+chpasswd:
+  expire: false
+  list: |
+     root:linux
+
+%{ if image == "centos6o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/6/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+
+runcmd:
+  # HACK: CentOS 6 changes the root password with a random one after cloud-init. Disable the mechanism
+  - "rm -f /root/firstrun"
+  # HACK: cloud-init in CentOS 6 does not take care of the following
+  - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
+  - "service sshd restart"
+%{ endif }
+
+%{ if image == "centos7o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "centos8o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "opensuse150o" }
+packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "opensuse151o" }
+packages: ["qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "sles12sp4o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "sles12sp5o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "sles15o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "sles15sp1o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "sles15sp2o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "ubuntu1604o" }
+apt:
+  sources:
+    tools_pool_repo:
+      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
+      key: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v2.0.15 (GNU/Linux)
+
+        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
+        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
+        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
+        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
+        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
+        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
+        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJbJ7pVAhsDBQkEHrAABgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPoS+B/4inB/cDPfk5ad3IzdY
+        SsFB+maVHaMhVdxFToM68pj7yLAEzYdVXjZYuUCmRiGuXhFdojFdTsDeYbPYflxi
+        xfGvQ/18zPSI/UA+UMyRxaT9e6D2IUqmWAwc+/WwQbzoyItgKVc4UB6N+vWq4JFq
+        pNCVpKvwi9d38HAROl6suzxm3m6GeDe0UCPXW/Rju/7uHrHE0tnUacQru8k2rJhM
+        FIoZxUrdAPjhDx+hDX/J/jFTIX6k05Nbn7n43G0UTV4kFNaqYKmy+8S5gTgpePfO
+        pHB9YLqe0zxGRERXgjT82iM799OfmD3kc+/s4l45i/jk6MOjkX217grKIujwXf0v
+        tG6giEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
+        =lTyy
+        -----END PGP PUBLIC KEY BLOCK-----
+
+runcmd:
+  # HACK: cloud-init in Ubuntu does not take care of the following
+  - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
+  - systemctl restart sshd
+
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "ubuntu1804o" }
+
+runcmd:
+  # HACK: cloud-init in Ubuntu does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }

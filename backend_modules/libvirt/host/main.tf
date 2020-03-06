@@ -21,13 +21,37 @@ locals {
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
+    cloud_init = length(regexall("o$", var.image)) > 0
+}
+
+data "template_file" "user_data" {
+  template = file("${path.module}/user_data.yaml")
+  vars = {
+    image = var.image
+  }
+}
+
+data "template_file" "network_config" {
+  template = file("${path.module}/network_config.yaml")
+  vars = {
+    image = var.image
+  }
 }
 
 resource "libvirt_volume" "main_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
   pool             = var.base_configuration["pool"]
+  size             = 214748364800
   count            = var.quantity
+}
+
+resource "libvirt_cloudinit_disk" "cloudinit_disk" {
+  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
+  user_data      = data.template_file.user_data.rendered
+  network_config = data.template_file.network_config.rendered
+  pool             = var.base_configuration["pool"]
+  count            = local.cloud_init ? var.quantity : 0
 }
 
 resource "libvirt_domain" "domain" {
@@ -53,6 +77,8 @@ resource "libvirt_domain" "domain" {
       volume_id = disk.value.volume_id
     }
   }
+
+  cloudinit = local.cloud_init ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
 
   dynamic "network_interface" {
     for_each = slice(
@@ -150,6 +176,12 @@ resource "null_resource" "provisioning" {
     destination = "/root"
   }
 
+  provisioner "remote-exec" {
+    inline = local.cloud_init ? [
+      "bash /root/salt/wait_for_salt.sh",
+    ] : []
+  }
+
   provisioner "file" {
     content = yamlencode(merge(
       {
@@ -184,7 +216,7 @@ resource "null_resource" "provisioning" {
 
   provisioner "remote-exec" {
     inline = [
-      "sh /root/salt/first_deployment_highstate.sh",
+      "bash /root/salt/first_deployment_highstate.sh",
     ]
   }
 }

@@ -1,10 +1,10 @@
 include:
-  - repos
   {% if grains['hostname'] and grains['domain'] %}
   - default.hostname
   {% endif %}
   - default.network
   - default.avahi
+  - repos
 
 minimal_package_update:
   pkg.latest:
