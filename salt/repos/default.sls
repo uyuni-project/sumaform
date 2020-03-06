@@ -317,6 +317,11 @@ allow_vendor_changes:
         vendors = SUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org
   {% endif %}
 
+install_recommends:
+  file.comment:
+    - name: /etc/zypp/zypp.conf
+    - regex: solver.onlyRequires =
+
 {% endif %}
 
 {% if grains['os_family'] == 'RedHat' %}
