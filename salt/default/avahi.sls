@@ -17,6 +17,13 @@ custom_avahi_repo:
     - gpgcheck: 0
 {% endif %}
 
+{% if grains['os_family'] == 'RedHat' and grains.get('osmajorrelease', None)|int() == 6 %}
+dbus_enable_service:
+  service.running:
+    - name: messagebus
+    - enable: true
+{% endif %}
+
 # TODO: replace 'pkg.latest' with 'pkg.installed' when fix to bsc#1163683 is applied to all the SLES versions we use
 avahi_pkg:
   pkg.latest:
@@ -37,21 +44,22 @@ avahi_pkg:
       - libavahi-core7
       {% endif %}
 
+# HACK: watch does not really work with Salt 2016.11
+avahi_dead_before_config:
+  service.dead:
+    - name: avahi-daemon
+
 avahi_change_domain:
   file.replace:
     - name: /etc/avahi/avahi-daemon.conf
     - pattern: "#domain-name=local"
     - repl: "domain-name={{ grains['domain'] }}"
-    - require:
-      - pkg: avahi_pkg
 
 avahi_restrict_interfaces:
   file.replace:
     - name: /etc/avahi/avahi-daemon.conf
     - pattern: "#deny-interfaces=eth1"
     - repl: "deny-interfaces=eth1,ens4"
-    - require:
-      - pkg: avahi_pkg
 
 {% if not grains.get('ipv6')['enable'] %}
 avahi_disable_ipv6:
@@ -59,8 +67,6 @@ avahi_disable_ipv6:
     - name: /etc/avahi/avahi-daemon.conf
     - pattern: "use-ipv6=yes"
     - repl: "use-ipv6=no"
-    - require:
-      - pkg: avahi_pkg
 {% endif %}
 
 mdns_declare_domains:
@@ -82,10 +88,9 @@ avahi_enable_service:
     - require:
       - file: mdns_declare_domains
       - file: nsswitch_enable_mdns
-    - watch:
-      - file: /etc/avahi/avahi-daemon.conf
+    - enable: true
 
-{% else %}
+{% else %} # use_avahi is false
 
 nsswitch_disable_mdns:
   file.replace:
