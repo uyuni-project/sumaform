@@ -1,143 +1,97 @@
-provider "aws" {
-  region = "us-east-1"
-  access_key = // add access key as a string here
-  secret_key = // add secret key as a string here
-}
-
 locals {
-  cc_username = "UC7" // SCC or NCC username
-  cc_password = ...   //SCC or NCC password
-  key_name = ...      // SSH key name
-  key_file = ...      // SSH key file
-  name_prefix = ...   // change to a prefix if you do not have an exclusive VPC
+  region            = ...
+  availability_zone = ...
+  key_file          = ...
+  key_name          = ...
+}
+
+provider "aws" {
+  region     = local.region
+  access_key = ...
+  secret_key = ...
+}
+
+module "base" {
+  source = "./modules/base"
+
+  cc_username = ...
+  cc_password = ...
+
+  name_prefix = ... // if you use name_prefix, make sure to update the server_configuration for clients/minions below
+
+  provider_settings = {
+    availability_zone = local.availability_zone
+    region            = local.region
+    ssh_allowed_ips   = [...]
+    key_name          = local.key_name
+    key_file          = local.key_file
+  }
 }
 
 
-module "aws_network" {
-  source = "./modules/aws/network"
-  region = "us-east-1"
-  availability_zone = "us-east-1e"
-  ssh_allowed_ips = [
-    // add comma-separated IP address strings here, those hosts will
-    // be able to access mirror via SSH
-  ]
-  name_prefix = "${local.name_prefix}"
-}
-
+// ================= Configuration with Mirror =================
 data "aws_ebs_snapshot" "data_disk_snapshot" {
   most_recent = true
 
   filter {
     name   = "tag:Name"
-    values = ["${local.name_prefix}-mirror-data-volume-snapshot"]
+    values = ["mirror-data-volume-snapshot"]
   }
 }
 
-data "aws_ami" "opensuse422" {
-  most_recent = true
-  owners = [
-    // add "self" or your AWS account ID to restrict search
-  ]
+module "mirror" {
+  source = "./modules/mirror"
 
-  filter {
-    name   = "name"
-    values = ["${local.name_prefix}-opensuse422*"]
+  base_configuration = module.base.configuration
+
+  volume_provider_settings = {
+    volume_snapshot_id = data.aws_ebs_snapshot.data_disk_snapshot.id
   }
 }
 
-data "aws_ami" "sles12sp1" {
-  most_recent = true
-  owners = [
-    // add "self" or your AWS account ID to restrict search
-  ]
-
-  filter {
-    name   = "name"
-    values = ["${local.name_prefix}-sles12sp1*"]
-  }
+locals{
+  base_configuration = merge(module.base.configuration,
+  {
+    mirror = length(module.mirror.configuration["hostnames"]) > 0 ? module.mirror.configuration["hostnames"][0] : null
+  })
 }
 
-data "aws_ami" "sles12sp2" {
-  most_recent = true
+ ================= END MIRROR =================
 
-  filter {
-    name   = "name"
-    values = ["${local.name_prefix}-sles12sp2*"]
-  }
+
+module "server" {
+  source             = "./modules/server"
+  base_configuration = local.base_configuration
+
+  name            = "server"
+  image           = "opensuse151"
+  product_version = "uyuni-release"
+
+  provider_settings = {  }
 }
 
+module "minion" {
+  source             = "./modules/minion"
+  base_configuration = local.base_configuration
 
-module "aws_mirror" {
-  source = "./modules/aws/mirror"
-  region = "us-east-1"
-  availability_zone = "us-east-1e"
-  ami = "${data.aws_ami.opensuse422.image_id}"
-  key_name = "${local.key_name}"
-  key_file = "${local.key_file}"
-  data_volume_snapshot_id = "${data.aws_ebs_snapshot.data_disk_snapshot.id}" // see top comment in modules/aws/mirror/main.tf
-  public_subnet_id = "${module.aws_network.public_subnet_id}"
-  public_security_group_id = "${module.aws_network.public_security_group_id}"
-  cc_username = "${local.cc_username}"
-  cc_password = "${local.cc_password}"
-  name_prefix = "${local.name_prefix}"
-}
-
-module "aws_server" {
-  source = "./modules/aws/host"
-  name = "server"
-  region = "us-east-1"
-  availability_zone = "us-east-1e"
-  ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)
-  instance_type = "m4.2xlarge"
-  volume_size = 100 // GiB
-  key_name = "${local.key_name}"
-  key_file = "${local.key_file}"
-  monitored = true
-  private_subnet_id = "${module.aws_network.private_subnet_id}"
-  private_security_group_id = "${module.aws_network.private_security_group_id}"
-  name_prefix = "${local.name_prefix}"
-
-  product_version = "3.2-nightly"
-  roles = ["suse_manager_server"]
-  cc_username = "${local.cc_username}"
-  cc_password = "${local.cc_password}"
-  mirror_public_name = "${module.aws_mirror.public_name}"
-  mirror_private_name = "${module.aws_mirror.private_name}"
-}
-
-module "aws_minion" {
-  source = "./modules/aws/host"
-  name = "minion"
-  quantity = 10
-  region = "us-east-1"
-  availability_zone = "us-east-1e"
-  ami = "ami-febcf8e9" // change if appropriate (non-SUSE employees or non-us-east-1 region)
-  instance_type = "t2.nano"
-  volume_size = 2 // GiB
-  key_name = // add SSH key name as a string here
-  key_file = // add SSH private key path as a string here
-  private_subnet_id = "${module.aws_network.private_subnet_id}"
-  private_security_group_id = "${module.aws_network.private_security_group_id}"
-  name_prefix = "sumaform"
-
-  server = "${module.aws_server.private_names[0]}"
-  roles = ["minion"]
-  mirror_public_name = "${module.aws_mirror.public_name}"
-  mirror_private_name = "${module.aws_mirror.private_name}"
+  name                 = "minion"
+  image                = "opensuse151"
+  server_configuration = module.server.configuration
+  product_version      = "uyuni-release"
 }
 
 output "key_file" {
-  value = // add SSH private key path as a string here
+  value = local.key_file
 }
 
-output "mirror_public_name" {
-  value = "${module.aws_mirror.public_name}"
+output "bastion_public_name" {
+  value = lookup(module.base.configuration, "bastion_host", null)
 }
 
 output "aws_server_private_name" {
-  value = "${module.aws_server.private_names[0]}"
+  value = module.server.configuration.hostname
 }
 
 output "aws_minion_private_names" {
-  value = ["${module.aws_minion.private_names}"]
+  value = module.minion.configuration.hostnames
 }
