@@ -1,0 +1,99 @@
+locals {
+    region            = ...
+    availability_zone = ...
+    key_file          = ...
+    key_name          = ...
+}
+
+//provider "aws" {
+//  region     = local.region
+//  access_key = ...
+//  secret_key = ...
+//}
+
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+
+  product_version = "uyuni-master"
+  branch          = "master"
+
+  cc_username = ...
+  cc_password = ...
+
+  images = ["opensuse150", "opensuse151"]
+
+  name_prefix  = ...
+  git_repo     = "https://github.com/uyuni-project/uyuni.git"
+  git_username = ...
+  git_password = ...
+
+  host_settings = {
+    ctl = {
+    }
+    srv = {}
+    pxy = {}
+    cli-sles12sp4 = {
+      image = "opensuse151"
+      name = "cli-opensuse151"
+    }
+    min-sles12sp4 = {
+      image = "opensuse151"
+      name = "min-opensuse151"
+    }
+    minssh-sles12sp4 = {
+      image = "opensuse151"
+      name = "minssh-opensuse151"
+    }
+  }
+
+  provider_settings = {
+    availability_zone = local.availability_zone
+    region            = local.region
+    ssh_allowed_ips   = [""]
+    key_name          = local.key_name
+    key_file          = local.key_file
+  }
+}
+
+output "key_file" {
+  value = local.key_file
+}
+//output "bastion_public_name" {
+//  value = module.cucumber_testsuite.configuration.base.bastion_host
+//}
+
+output "aws_server_private_name" {
+  value = module.cucumber_testsuite.configuration.srv.hostname
+}
+
+output "aws_proxy_private_name" {
+  value = module.cucumber_testsuite.configuration.pxy.hostname
+}
+
+output "aws_min-sles12sp4_private_names" {
+  value = module.cucumber_testsuite.configuration.min-sles12sp4.hostnames
+}
+
+output "aws_cli-sles12sp4_private_names" {
+  value = module.cucumber_testsuite.configuration.cli-sles12sp4.hostnames
+}
+
+output "aws_minssh-sles12sp4_private_names" {
+  value = module.cucumber_testsuite.configuration.minssh-sles12sp4.hostnames
+}
+
+output "aws_min-centos7_private_names" {
+  value = module.cucumber_testsuite.configuration.min-centos7.hostnames
+}
+
+output "aws_min-kvm_private_names" {
+  value = module.cucumber_testsuite.configuration.min-kvm.hostnames
+}
+
+output "aws_min-ubuntu1804_private_names" {
+  value = module.cucumber_testsuite.configuration.min-ubuntu1804.hostnames
+}
+
+output "aws_ctl_private_name" {
+  value = module.cucumber_testsuite.configuration.ctl.hostname
+}

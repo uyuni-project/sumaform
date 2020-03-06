@@ -8,7 +8,7 @@ sed -i '/provider/,/\}/d' *.example
 ln -sfn ../backend_modules/null modules/backend
 
 # validate examples
-for tf_file in `ls main.tf.*.example | grep -v aws`; do
+for tf_file in `ls main.tf.*.example`; do
   echo "Validating $tf_file..."
   cp $tf_file main.tf
   # uncomment for Terraform detailed logging
