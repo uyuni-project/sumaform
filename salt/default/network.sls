@@ -61,3 +61,7 @@ ipv6_disable_all:
     - value: 1
 
 {% endif %}
+
+remove_firewall_packages:
+  pkg.removed:
+    - pkgs: [firewalld, SuSEfirewall2]
