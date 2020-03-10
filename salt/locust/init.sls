@@ -89,12 +89,14 @@ locust_runner:
   file.managed:
     - name: /usr/bin/run-locust
     - source: salt://locust/run-locust.py
+    - template: jinja
     - mode: 755
 
 locust_exporter:
   file.managed:
     - name: /usr/bin/locust-exporter
     - source: salt://locust/locust-exporter.py
+    - template: jinja
     - mode: 755
 
 locust_exporter_service:

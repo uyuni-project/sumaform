@@ -119,5 +119,6 @@ grafana_service:
 grafana_setup:
   cmd.script:
     - name: salt://grafana/setup_grafana.py
+    - template: jinja
     - require:
       - service: grafana_service

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!{{grains['pythonexecutable']}}
 
 import base64
 import http.client

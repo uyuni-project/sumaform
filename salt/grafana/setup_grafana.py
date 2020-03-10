@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!{{grains['pythonexecutable']}}
 
 import base64
 import errno

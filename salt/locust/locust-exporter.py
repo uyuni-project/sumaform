@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!{{grains['pythonexecutable']}}
 
 from prometheus_client import start_http_server, Metric, REGISTRY
 import json
