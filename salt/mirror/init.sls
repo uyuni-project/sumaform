@@ -77,6 +77,7 @@ scc_data_refresh_script:
   file.managed:
     - name: /root/refresh_scc_data.py
     - source: salt://mirror/refresh_scc_data.py
+    - template: jinja
     - mode: 755
 
 apt-mirror:

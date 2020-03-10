@@ -1,4 +1,4 @@
-#!/usr/bin/{{ pythonexec }}
+#!{{grains['pythonexecutable']}}
 
 import time
 

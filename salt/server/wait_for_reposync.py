@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!{{grains['pythonexecutable']}}
+
 import os
 import sys
 import time

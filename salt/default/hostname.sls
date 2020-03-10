@@ -44,12 +44,4 @@ hosts_file_hack:
     - args: "--no-ipv6 {{ grains['hostname'] }} {{ grains['domain'] }}"
     {% endif %}
     - template: jinja
-    - context:
-    {% if grains.get('osmajorrelease', None)|int() == 15 %}
-      pythonexec: python3
-    {%- elif grains['os_family'] == 'Debian' %}
-      pythonexec: python3
-    {% else %}
-      pythonexec: python
-    {% endif %}
 {% endif %}

@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!{{grains['pythonexecutable']}}
+
 import sys
 import time
 import urllib2

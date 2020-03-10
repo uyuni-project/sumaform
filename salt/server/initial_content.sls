@@ -60,12 +60,6 @@ wait_for_mgr_sync:
     - name: salt://server/wait_for_mgr_sync.py
     - use_vt: True
     - template: jinja
-    - context:
-    {% if grains.get('osmajorrelease', None)|int() == 15 %}
-      pythonexec: python3
-    {% else %}
-      pythonexec: python
-    {% endif %}
     - require:
       - http: create_first_user
 
@@ -90,6 +84,7 @@ add_channels:
 reposync_{{ channel }}:
   cmd.script:
     - name: salt://server/wait_for_reposync.py
+    - template: jinja
     - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains.get('fqdn') | default('localhost', true) }} {{ channel }}"
     - use_vt: True
     - require:

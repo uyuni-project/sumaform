@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!{{grains['pythonexecutable']}}
 
 import argparse
 import requests

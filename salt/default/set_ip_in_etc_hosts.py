@@ -1,4 +1,5 @@
-#!/usr/bin/{{ pythonexec }}
+#!{{grains['pythonexecutable']}}
+
 import errno
 import os
 import re
