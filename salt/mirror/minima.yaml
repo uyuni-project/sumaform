@@ -392,6 +392,10 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     archs: [x86_64]
+  - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04/
+    archs: [x86_64]
+  - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
+    archs: [x86_64]
 
   # Uyuni Stable
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.1/
@@ -409,4 +413,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    archs: [x86_64]
+  - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04/
+    archs: [x86_64]
+  - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
