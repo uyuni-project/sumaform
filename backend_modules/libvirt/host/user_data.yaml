@@ -91,6 +91,9 @@ runcmd:
 
 %{ if image == "opensuse151o" }
 packages: ["qemu-guest-agent"]
+
+runcmd:
+  - zypper removerepo --all
 %{ endif }
 
 %{ if image == "sles12sp4o" }
