@@ -26,17 +26,17 @@ A libvirt example follows:
 ```hcl
 module "minsles12sp1" {
   source = "./modules/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "minsles12sp1"
   image = "sles12sp1"
-  server_configuration = "${module.proxy.configuration}"
-  product_version = "nightly"
+  server_configuration = module.proxy.configuration
+  product_version = "3.2-nightly"
 }
 
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "3.2-released"
@@ -56,7 +56,7 @@ The following example creates a SUSE Manager server using "nightly" packages fro
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   image = "sles12sp3"
   name = "server"
@@ -86,16 +86,16 @@ Some modules, for example clients and minions, support a `quantity` variable tha
 ```hcl
 module "minionsles12sp1" {
   source = "./modules/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "minionsles12sp1"
   image = "sles12sp1"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
   quantity = 10
 }
 ```
 
-This will create 10 minions connected to the `server` server.
+This will create 10 minions connected to the `server`.
 
 ## Mirror
 
@@ -107,7 +107,7 @@ To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `m
 ```hcl
 module "mirror" {
   source = "./modules/mirror"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   data_pool = "data"
 }
@@ -125,7 +125,7 @@ To enable mirroring Ubuntu versions add the corresponding version numbers to the
 ```hcl
 module "mirror" {
   source = "./modules/mirror"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   ubuntu_distros = ['16.04', '18.04']
 }
@@ -150,8 +150,8 @@ An example follows:
 ```hcl
 module "virthost" {
   source = "./modules/virthost"
-  base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.srv.configuration}"
+  base_configuration = module.base.configuration
+  server_configuration = module.srv.configuration
   ...
   name = "min-kvm"
   image = "sles15sp1"
@@ -236,7 +236,7 @@ Then add it to the `channels` variable in a SUSE Manager Server module:
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "3.2-nightly"
@@ -262,7 +262,7 @@ A libvirt example follows:
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "3.2-nightly"
@@ -396,11 +396,11 @@ You can specify an Activation Key string for minions to use at onboarding time t
 ```hcl
 module "min" {
   source = "./modules/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "min"
   image = "sles12sp2"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
   activation_key = "1-DEFAULT"
 }
 ```
@@ -413,7 +413,7 @@ A `proxy` module is similar to a `client` module but has a `product_version` and
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "3.2-nightly"
@@ -421,20 +421,20 @@ module "server" {
 
 module "proxy" {
   source = "./modules/proxy"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "proxy"
   product_version = "3.2-nightly"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
 }
 
 module "clisles12sp1" {
   source = "./modules/client"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "clisles12sp1"
   image = "sles12sp1"
-  server_configuration = "${module.proxy.configuration}"
+  server_configuration = module.proxy.configuration
   quantity = 3
 }
 ```
@@ -446,11 +446,11 @@ Note that systems prepared by this module are by default registered as a Salt mi
 ```hcl
 module "proxy" {
   source = "./modules/proxy"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "proxy"
   product_version = "3.2-nightly"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
 
   minion = false
 }
@@ -464,7 +464,7 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 ```hcl
 module "master" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "master"
   product_version = "3.2-released"
@@ -473,11 +473,11 @@ module "master" {
 
 module "slave" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "slave"
   product_version = "3.2-released"
-  iss_master = "${module.master.configuration["hostname"]}"
+  iss_master = module.master.configuration["hostname"]
 }
 ```
 
@@ -495,7 +495,7 @@ An example follows:
 ```hcl
 module "pts" {
   source = "./modules/pts"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 }
 ```
 
@@ -551,7 +551,7 @@ An example follows:
 ```hcl
 module "vanilla" {
   source = "./modules/host"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "vanilla"
   image = "sles12sp1"
@@ -571,7 +571,7 @@ An example follows:
 module "pxeboot"
 {
   source = "./modules/pxe_boot"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "pxeboot"
   image = "sles12sp3"
@@ -586,7 +586,7 @@ You can configure SUSE Manager instances to download packages from an SMT server
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "3.2-nightly"
@@ -602,11 +602,11 @@ You can specify additional custom repos and packages to be installed at deploy t
 ```hcl
 module "minsles12sp1" {
   source = "./modules/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "minsles12sp1"
   image = "sles12sp1"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
 
   additional_repos = {
     virtualization_containers = "http://download.opensuse.org/repositories/Virtualization:/containers/SLE_12_SP2/"
@@ -636,7 +636,7 @@ The list contains paths relative to the `salt/` directory, as in the following e
 ```hcl
 module "minssh-sles12sp2" {
   source = "./modules/host"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
   name = "minssh-sles12sp2"
   image = "sles12sp2"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
@@ -652,7 +652,7 @@ It is possible to install Prometheus exporters on a SUSE Manager Server instance
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "head"
@@ -661,8 +661,8 @@ module "server" {
 
 module "grafana" {
   source = "./modules/grafana"
-  base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.server.configuration}"
+  base_configuration = module.base.configuration
+  server_configuration = module.server.configuration
 }
 ```
 
@@ -691,11 +691,11 @@ A libvirt example follows:
 ```hcl
 module "minion" {
   source = "./modules/minion"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "minion"
   image = "sles15sp1"
-  server_configuration = "${module.server.configuration}"
+  server_configuration = module.server.configuration
   evil_minion_count = 10
   evil_minion_slowdown_factor = 1
 }
@@ -709,8 +709,8 @@ You can deploy a locust host to test http performance of your SUSE Manager Serve
 ```hcl
 module "locust" {
   source = "./modules/locust"
-  base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.server.configuration}"
+  base_configuration = module.base.configuration
+  server_configuration = module.server.configuration
   // optionally, specify a custom locustfile:
   // locust_file = "./my_locustfile.py"
 }
@@ -723,9 +723,9 @@ This host can also be monitored via Prometheus and Grafana by adding `locust_con
 ```hcl
 module "grafana" {
   source = "./modules/grafana"
-  base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.server.configuration}"
-  locust_configuration = "${module.locust.configuration}"
+  base_configuration = module.base.configuration
+  server_configuration = module.server.configuration
+  locust_configuration = module.locust.configuration
 }
 ```
 
@@ -734,8 +734,8 @@ In case you need to simulate a big amount of users, Locust's master-slave mode c
 ```hcl
 module "locust" {
   source = "./modules/locust"
-  base_configuration = "${module.base.configuration}"
-  server_configuration = "${module.server.configuration}"
+  base_configuration = module.base.configuration
+  server_configuration = module.server.configuration
   locust_file = "./my_heavy_locustfile.py"
   slave_quantity = 5
 }
@@ -749,7 +749,7 @@ It is possible to run SUSE Manager servers, proxies, clients and minions with th
 ```hcl
 module "sumaheadpg" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "sumaheadpg"
   product_version = "head"
@@ -767,7 +767,7 @@ This setting can be overridden with a custom 'from' address by supplying the par
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "server"
   product_version = "head"
@@ -782,7 +782,7 @@ By suppling the parameter `traceback_email` you can override that address to hav
 ```hcl
 module "sumamail3" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
 
   name = "sumamail3"
   product_version = "head"
@@ -820,7 +820,7 @@ An example follows:
 ```hcl
 module "server" {
   source = "./modules/server"
-  base_configuration = "${module.base.configuration}"
+  base_configuration = module.base.configuration
   product_version = "4.0-nightly"
   name = "server"
   repository_disk_size = 536870912000
