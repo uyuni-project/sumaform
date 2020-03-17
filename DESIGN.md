@@ -10,10 +10,19 @@ sumaform is:
  * [Terraform](https://www.terraform.io/) modules of two types:
    * "backend" modules, provider-specific. Those define basic infrastructure components such as hosts and disks
    * "backend-independent" modules (logical components like `suse_manager` or `minion`), that do not vary depending on the chosen backend
- * base disk images: they contain bare-bones OSs to bootstrap VMs above
+ * `cloud-init` configuration files (for OSs which have an official disk image on supported providers)
+ * base disk images: bare-bones OSs to bootstrap VMs (for OSs which do not have an official disk image, or for historical reasons)
  * [Salt](https://saltstack.com/) states: they define all software configuration on top of bare-bones OSs: SUSE Manager servers, clients, proxies, etc.
 
 Intent is to keep those three components well separated in their purpose.
+
+## Base disk images
+
+Historically, an important part of sumaform was descriptors of base disk images for the supported OSs.
+
+As of March 2020, support was added to use so-called "official" images from distributions/vendors which publish them. For those, `cloud-init` configuration files are integrated into Terraform modules in order to implement minimal configuration to bootstrap Salt states, which take care of the bulk of the complexity in configuration.
+
+It is expected all newly supported OSs to make use of "official" images, thus base disk images are at this point considered deprecated.
 
 ## Requirements for base disk images
 
