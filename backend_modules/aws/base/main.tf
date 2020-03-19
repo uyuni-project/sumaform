@@ -7,6 +7,13 @@ locals {
   key_name = lookup(var.provider_settings, "key_name", null)
   key_file = lookup(var.provider_settings, "key_file", null)
   ssh_user = lookup(var.provider_settings, "ssh_user", "ec2-user")
+
+  create_network            = lookup(var.provider_settings, "create_network", true)
+  public_subnet_id          = lookup(var.provider_settings, "public_subnet_id", null)
+  private_subnet_id         = lookup(var.provider_settings, "private_subnet_id", null)
+  public_security_group_id  = lookup(var.provider_settings, "public_security_group_id", null)
+  private_security_group_id = lookup(var.provider_settings, "private_security_group_id", null)
+  bastion_host = lookup(var.provider_settings, "bastion_host", null)
 }
 
 data "aws_ami" "opensuse150" {
@@ -205,6 +212,7 @@ module "network" {
   region            = local.region
   ssh_allowed_ips   = local.ssh_allowed_ips
   name_prefix       = local.name_prefix
+  create_network    = local.create_network
 }
 
 locals {
@@ -241,11 +249,17 @@ locals {
       sles11sp4 = data.aws_ami.sles11sp4.image_id,
     }
     },
-  module.network.configuration)
+    local.create_network ? module.network.configuration : {
+      public_subnet_id          = local.public_subnet_id
+      private_subnet_id         = local.private_subnet_id
+      public_security_group_id  = local.public_security_group_id
+      private_security_group_id = local.private_security_group_id
+  })
 }
 
 module "bastion" {
   source             = "../host"
+  quantity = local.create_network? 1: 0
   base_configuration = local.configuration_output
   image              = "opensuse151"
   name               = "bastion"
@@ -258,6 +272,6 @@ module "bastion" {
 
 output "configuration" {
   value = merge(local.configuration_output, {
-    bastion_host = length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null
+    bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null): local.bastion_host
   })
 }
