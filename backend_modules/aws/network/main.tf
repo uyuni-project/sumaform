@@ -5,6 +5,8 @@
 */
 
 resource "aws_vpc" "main" {
+  count = var.create_network ? 1 : 0
+
   cidr_block           = "172.16.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -14,24 +16,35 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_eip" "nat_eip" {
-  vpc = true
-  tags = {
-    Name = "${var.name_prefix}-nat-eip"
-  }
-}
-
 resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
+  count = var.create_network ? 1 : 0
+
+  vpc_id = local.vpc_id
 
   tags = {
     Name = "${var.name_prefix}-internet-gateway"
   }
 }
 
+locals {
+  vpc_id         = var.create_network ? aws_vpc.main[0].id : null
+  vpc_cidr_block = var.create_network ? aws_vpc.main[0].cidr_block : null
+}
+
+resource "aws_eip" "nat_eip" {
+  count = var.create_network ? 1 : 0
+
+  vpc = true
+  tags = {
+    Name = "${var.name_prefix}-nat-eip"
+  }
+}
+
 resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public.id
+  count = var.create_network ? 1 : 0
+
+  allocation_id = aws_eip.nat_eip[0].id
+  subnet_id     = aws_subnet.public[0].id
 
   depends_on = [aws_internet_gateway.main]
 
@@ -41,11 +54,13 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
+  count = var.create_network ? 1 : 0
+
+  vpc_id = local.vpc_id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main.id
+    gateway_id = aws_internet_gateway.main[0].id
   }
 
   tags = {
@@ -54,16 +69,20 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_main_route_table_association" "vpc_internet" {
-  vpc_id         = aws_vpc.main.id
-  route_table_id = aws_route_table.public.id
+  count = var.create_network ? 1 : 0
+
+  vpc_id         = local.vpc_id
+  route_table_id = aws_route_table.public[0].id
 }
 
 resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.main.id
+  count = var.create_network ? 1 : 0
+
+  vpc_id = local.vpc_id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
+    nat_gateway_id = aws_nat_gateway.nat[0].id
   }
 
   tags = {
@@ -72,8 +91,10 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_subnet" "public" {
+  count = var.create_network ? 1 : 0
+
   availability_zone       = var.availability_zone
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = local.vpc_id
   cidr_block              = "172.16.0.0/24"
   map_public_ip_on_launch = true
 
@@ -83,13 +104,17 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-  subnet_id      = aws_subnet.public.id
-  route_table_id = aws_route_table.public.id
+  count = var.create_network ? 1 : 0
+
+  subnet_id      = aws_subnet.public[0].id
+  route_table_id = aws_route_table.public[0].id
 }
 
 resource "aws_subnet" "private" {
+  count = var.create_network ? 1 : 0
+
   availability_zone       = var.availability_zone
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = local.vpc_id
   cidr_block              = "172.16.1.0/24"
   map_public_ip_on_launch = false
 
@@ -99,11 +124,15 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  subnet_id      = aws_subnet.private.id
-  route_table_id = aws_route_table.private.id
+  count = var.create_network ? 1 : 0
+
+  subnet_id      = aws_subnet.private[0].id
+  route_table_id = aws_route_table.private[0].id
 }
 
 resource "aws_vpc_dhcp_options" "dhcp_options" {
+  count = var.create_network ? 1 : 0
+
   domain_name         = var.region == "us-east-1" ? "ec2.internal" : "${var.region}.compute.internal"
   domain_name_servers = ["AmazonProvidedDNS"]
 
@@ -113,14 +142,18 @@ resource "aws_vpc_dhcp_options" "dhcp_options" {
 }
 
 resource "aws_vpc_dhcp_options_association" "vpc_dhcp_options" {
-  vpc_id          = aws_vpc.main.id
-  dhcp_options_id = aws_vpc_dhcp_options.dhcp_options.id
+  count = var.create_network ? 1 : 0
+
+  vpc_id          = local.vpc_id
+  dhcp_options_id = aws_vpc_dhcp_options.dhcp_options[0].id
 }
 
 resource "aws_security_group" "public" {
+  count = var.create_network ? 1 : 0
+
   name        = "${var.name_prefix}-public-security-group"
   description = "Allow inbound connections from the private subnet; allow SSH connections from whitelisted IPs; allow all outbound connections"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = local.vpc_id
 
   ingress {
     from_port   = 22
@@ -133,7 +166,7 @@ resource "aws_security_group" "public" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [aws_subnet.private.cidr_block]
+    cidr_blocks = [aws_subnet.private[0].cidr_block]
   }
 
   egress {
@@ -153,15 +186,17 @@ resource "aws_security_group" "public" {
 }
 
 resource "aws_security_group" "private" {
+  count = var.create_network ? 1 : 0
+
   name        = "${var.name_prefix}-private-security-group"
   description = "Allow all inbound and outbound connections within the VPC"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = local.vpc_id
 
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    cidr_blocks = [local.vpc_cidr_block]
   }
 
   egress {
@@ -182,10 +217,10 @@ resource "aws_security_group" "private" {
 
 output "configuration" {
   depends_on = [aws_route_table_association.private, aws_route_table_association.public]
-  value = {
-    public_subnet_id          = aws_subnet.public.id
-    private_subnet_id         = aws_subnet.private.id
-    public_security_group_id  = aws_security_group.public.id
-    private_security_group_id = aws_security_group.private.id
-  }
+  value = var.create_network ? {
+    public_subnet_id          = aws_subnet.public[0].id
+    private_subnet_id         = aws_subnet.private[0].id
+    public_security_group_id  = aws_security_group.public[0].id
+    private_security_group_id = aws_security_group.private[0].id
+  } : {}
 }

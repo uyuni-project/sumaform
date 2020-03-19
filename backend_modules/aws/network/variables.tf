@@ -17,3 +17,8 @@ variable "name_prefix" {
   description = "A prefix for names of objects created by this module"
   default     = "sumaform"
 }
+
+variable "create_network" {
+  description = "defined if a new network should be created"
+  default     = true
+}
