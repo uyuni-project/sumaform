@@ -1,0 +1,91 @@
+#cloud-config
+
+%{ if public_instance == "false" }
+#disable_root: false
+disable_root: false
+ssh_pwauth: true
+chpasswd:
+  expire: false
+  list: |
+    root:linux
+%{ endif }
+
+%{ if image == "opensuse151" || image == "opensuse150"}
+packages: ["salt-minion"]
+
+runcmd:
+  # HACK this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
+  - zypper rm -y gettext-runtime-mini
+  # HACK: instance might already have some repos that end up conflicting with the ones we want to install.
+  # Possible bug in zypper's Salt module
+  - zypper removerepo --all
+
+%{ endif }
+
+%{ if image == "sles15"}
+
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "sles12sp3"}
+zypper:
+  repos:
+    - id: os_manager_tools
+      name: os_manager_tools
+      baseurl: http://${mirror_url}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
+      enabled: 1
+      autorefresh: 1
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${mirror_url}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "sles12sp2"}
+zypper:
+  repos:
+    - id: os_manager_tools
+      name: os_manager_tools
+      baseurl: http://${mirror_url}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
+      enabled: 1
+      autorefresh: 1
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${mirror_url}/SUSE/Products/SLE-SERVER/12-SP2/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "sles11sp4"}
+# HACK: SLES 11 SP4 does not ship with Salt installed
+runcmd:
+  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ tools_pool_repo
+  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-Pool/sle-11-x86_64/ os_pool_repo
+  - zypper ref
+  - zypper in -y salt-minion
+  - zypper removerepo --all
+  - rm /etc/modprobe.d/50-ipv6.conf
+%{ endif }
+%{ if image == "centos8" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+
+packages: ["salt-minion"]
+%{ endif }
