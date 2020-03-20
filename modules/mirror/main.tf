@@ -18,10 +18,10 @@ module "mirror" {
     data_disk_fstype  = var.data_disk_fstype
   }
 
-  image   = "opensuse151"
+  image = "opensuse151"
 
-  provider_settings = var.provider_settings
-  additional_disk_size = var.repository_disk_size
+  provider_settings        = var.provider_settings
+  additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings
 }
 
