@@ -9,6 +9,195 @@ locals {
   ssh_user = lookup(var.provider_settings, "ssh_user", "ec2-user")
 }
 
+data "aws_ami" "opensuse150" {
+  most_recent      = true
+  name_regex       = "^openSUSE-Leap-15-v"
+  owners           = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "opensuse151" {
+  most_recent      = true
+  name_regex       = "^openSUSE-Leap-15-1-v"
+  owners           = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles15" {
+  most_recent      = true
+  name_regex       = "^suse-sles-15-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles15sp1" {
+  most_recent      = true
+  name_regex       = "^suse-sles-15-sp1-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles12sp5" {
+  most_recent      = true
+  name_regex       = "^suse-sles-12-sp5-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles12sp4" {
+  most_recent      = true
+  name_regex       = "^suse-sles-12-sp4-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles12sp3" {
+  most_recent      = true
+  name_regex       = "^suse-sles-12-sp3-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles12sp2" {
+  most_recent      = true
+  name_regex       = "^suse-sles-12-sp2-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles11sp4" {
+  most_recent      = true
+  name_regex       = "^suse-sles-11-sp4-byos-v"
+  owners           = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 module "network" {
   source = "../network"
 
@@ -40,6 +229,17 @@ locals {
     key_name = local.key_name
     key_file = local.key_file
     ssh_user = local.ssh_user
+    images_ami = {
+      opensuse151 = data.aws_ami.opensuse151.image_id,
+      opensuse150 = data.aws_ami.opensuse150.image_id,
+      sles15 = data.aws_ami.sles15.image_id,
+      sles15sp1 = data.aws_ami.sles15sp1.image_id,
+      sles12sp5 = data.aws_ami.sles12sp5.image_id,
+      sles12sp4 = data.aws_ami.sles12sp4.image_id,
+      sles12sp3 = data.aws_ami.sles12sp3.image_id,
+      sles12sp2 = data.aws_ami.sles12sp2.image_id,
+      sles11sp4 = data.aws_ami.sles11sp4.image_id,
+    }
     },
   module.network.configuration)
 }

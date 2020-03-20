@@ -1,9 +1,13 @@
 
 locals {
-  image_map = {
-    opensuse151 = "ami-014f38181a6bc0c52"
-  }
-  ami = lookup(local.image_map, var.image, var.image)
+//  image_map = {
+//    opensuse150 = "ami-005217ca13a6911ec",
+//    opensuse151 = "ami-014f38181a6bc0c52",
+//    sles15      = "ami-00dcdad1a10b5895a",
+//    sles15sp1   = "ami-00b2f7798f4b288da",
+//    centos8     = "ami-070bf7ef71fda7356",
+//  }
+  ami = lookup(var.base_configuration["images_ami"], var.image, var.image)
 
   provider_settings = merge({
     key_name        = var.base_configuration["key_name"]
@@ -35,6 +39,16 @@ locals {
   region            = var.base_configuration["region"]
 }
 
+data "template_file" "user_data" {
+  count    = var.quantity > 0 ? var.quantity : 0
+  template = file("${path.module}/user_data.yaml")
+  vars = {
+    image           = var.image
+    public_instance = local.provider_settings["public_instance"]
+    mirror_url      = var.base_configuration["mirror"]
+  }
+}
+
 resource "aws_instance" "instance" {
   ami                    = local.ami
   instance_type          = local.provider_settings["instance_type"]
@@ -47,6 +61,8 @@ resource "aws_instance" "instance" {
   root_block_device {
     volume_size = local.provider_settings["volume_size"]
   }
+
+  user_data = data.template_file.user_data[count.index].rendered
 
   # HACK: ephemeral block devices are defined in any case
   # they will only be used for instance types that provide them
@@ -64,11 +80,11 @@ resource "aws_instance" "instance" {
     Name = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
   }
 
-  // ## HACH
-  // SUSE aws account add some special tags identifying the instance owner ("PrincipalId", "Owner")
-  // after first apply terraform removes those thats. This hack avoid this behavior.
-  // Correct way to do it would be by ignoring those ttags, which is not support yet by aws terraform provider
-  // https://github.com/terraform-providers/terraform-provider-aws/issues/10689
+  # HACK
+  # SUSE internal openbare AWS accounts add special tags to identify the instance owner ("PrincipalId", "Owner").
+  # After the first `apply`, terraform removes those tags. The following block avoids this behavior.
+  # The correct way to do it would be by ignoring those tags, which is not supported yet by the AWS terraform provider
+  # https://github.com/terraform-providers/terraform-provider-aws/issues/10689
   lifecycle {
     ignore_changes = [tags]
   }
@@ -76,21 +92,29 @@ resource "aws_instance" "instance" {
 
 /** START: Set up an extra data disk */
 resource "aws_ebs_volume" "data_disk" {
-  count = var.additional_disk_size == null ? 0: var.additional_disk_size > 0 ? var.quantity : 0
+  count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 
   availability_zone = local.availability_zone
-  size              = var.additional_disk_size == null? 0: var.additional_disk_size
+  size              = var.additional_disk_size == null ? 0 : var.additional_disk_size
   type              = lookup(var.volume_provider_settings, "type", "sc1")
   snapshot_id       = lookup(var.volume_provider_settings, "volume_snapshot_id", null)
   tags = {
     Name = "${local.resource_name_prefix}-data-volume${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+  }
+  # HACK
+  # SUSE internal openbare AWS accounts add special tags to identify the instance owner ("PrincipalId", "Owner").
+  # After the first `apply`, terraform removes those tags. The following block avoids this behavior.
+  # The correct way to do it would be by ignoring those tags, which is not supported yet by the AWS terraform provider
+  # https://github.com/terraform-providers/terraform-provider-aws/issues/10689
+  lifecycle {
+    ignore_changes = [tags]
   }
 }
 
 resource "aws_volume_attachment" "data_disk_attachment" {
   depends_on = [aws_instance.instance, aws_ebs_volume.data_disk]
 
-  count = length(aws_ebs_volume.data_disk) == var.quantity? var.quantity : 0
+  count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 
   device_name = "/dev/xvdf"
   volume_id   = aws_ebs_volume.data_disk[count.index].id
@@ -104,7 +128,25 @@ resource "aws_volume_attachment" "data_disk_attachment" {
 /** START: provisioning */
 resource "null_resource" "host_salt_configuration" {
   depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment]
-  count      = var.quantity
+  count      = var.provision ? var.quantity : 0
+
+  triggers = {
+    main_volume_id = length(aws_ebs_volume.data_disk) == var.quantity ? aws_ebs_volume.data_disk[count.index].id : null
+    domain_id      = length(aws_instance.instance) == var.quantity ? aws_instance.instance[count.index].id : null
+    grains_subset = yamlencode(
+      {
+        testsuite             = var.base_configuration["testsuite"]
+        roles                 = var.roles
+        additional_repos      = var.additional_repos
+        additional_repos_only = var.additional_repos_only
+        additional_certs      = var.additional_certs
+        additional_packages   = var.additional_packages
+        swap_file_size        = var.swap_file_size
+        authorized_keys       = var.ssh_key_path
+        gpg_keys              = var.gpg_keys
+        ipv6                  = var.ipv6
+    })
+  }
 
   connection {
     host         = aws_instance.instance[count.index].associate_public_ip_address ? aws_instance.instance[count.index].public_dns : aws_instance.instance[count.index].private_dns
@@ -114,9 +156,19 @@ resource "null_resource" "host_salt_configuration" {
     timeout      = "120s"
   }
 
+//  provisioner "remote-exec" {
+//    inline = ["cloud-init status --wait ||:"]
+//  }
+
   provisioner "file" {
     source      = "salt"
     destination = "/tmp"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash /tmp/salt/wait_for_salt.sh",
+    ]
   }
 
   provisioner "file" {
@@ -156,13 +208,13 @@ resource "null_resource" "host_salt_configuration" {
     destination = "/tmp/grains"
   }
 
-  //  provisioner "remote-exec" {
-  //    inline = [
-  //      "sudo mv /tmp/grains /etc/salt/grains",
-  //      "sudo mv /tmp/salt /root",
-  //      "sudo bash /root/salt/first_deployment_highstate.sh"
-  //    ]
-  //  }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mv /tmp/grains /etc/salt/grains",
+      "sudo mv /tmp/salt /root",
+      "sudo bash /root/salt/first_deployment_highstate.sh"
+    ]
+  }
 }
 
 /** END: provisioning */
