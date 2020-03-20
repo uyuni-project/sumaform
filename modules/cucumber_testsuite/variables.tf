@@ -127,16 +127,5 @@ variable "saltapi_tcpdump" {
 // provider
 variable "provider_settings" {
   description = "Settings specific to the provider, see README_TESTING.md"
-  type        = map(any)
-  default = {
-    libvirt = {
-      // provider
-      uri = "qemu:///system"
-      // base
-      pool               = "default"
-      network_name       = "default"
-      bridge             = null
-      additional_network = null
-    }
-  }
+  default     = {}
 }

@@ -234,6 +234,7 @@ module "ctl" {
   portus_username   = var.portus_username
   portus_password   = var.portus_password
   server_http_proxy = var.server_http_proxy
+  swap_file_size    = null
 
   additional_repos  = lookup(local.additional_repos, "ctl", {})
   provider_settings = lookup(local.provider_settings_by_host, "ctl", {})
@@ -241,6 +242,7 @@ module "ctl" {
 
 output "configuration" {
   value = {
+    base = module.base.configuration
     srv = module.srv.configuration
     pxy = module.pxy.configuration
     cli-sles12sp4 = module.cli-sles12sp4.configuration
