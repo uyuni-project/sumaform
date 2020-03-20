@@ -15,6 +15,7 @@ module "mirror" {
     cc_password       = var.base_configuration["cc_password"]
     ubuntu_distros    = var.ubuntu_distros
     use_mirror_images = var.base_configuration["use_mirror_images"]
+    data_disk_fstype  = var.data_disk_fstype
   }
 
   image   = "opensuse151"
