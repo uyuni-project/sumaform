@@ -37,6 +37,11 @@ variable "repository_disk_size" {
   default     = 1024
 }
 
+variable "data_disk_fstype" {
+  description = "Data disk file system type"
+  default     = "ext4"
+}
+
 variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
