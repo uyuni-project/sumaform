@@ -319,7 +319,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_MemTotal_bytes{job=\"sumaform\"} - node_memory_MemAvailable{job=\"sumaform\"}",
+          "expr": "node_memory_MemTotal_bytes{job=\"sumaform\"} - node_memory_MemAvailable_bytes{job=\"sumaform\"}",
           "intervalFactor": 1,
           "legendFormat": "used",
           "refId": "A",
@@ -409,7 +409,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_SwapTotal_bytes{job=\"sumaform\"} - node_memory_SwapFree{job=\"sumaform\"}",
+          "expr": "node_memory_SwapTotal_bytes{job=\"sumaform\"} - node_memory_SwapFree_bytes{job=\"sumaform\"}",
           "intervalFactor": 1,
           "legendFormat": "swapped",
           "refId": "A",
