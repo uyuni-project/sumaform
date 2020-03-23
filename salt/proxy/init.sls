@@ -30,7 +30,7 @@ wget:
 
 squid-configuration-dns-multicast:
   file.replace:
-    - name: /usr/share/doc/proxy/conf-template/squid.conf
+    - name: /usr/share/rhn/proxy-template/squid.conf
     - pattern: ^dns_multicast_local .*$
     - repl: dns_multicast_local on
     - append_if_not_found: True
@@ -39,7 +39,7 @@ squid-configuration-dns-multicast:
 
 squid-configuration-unknown-nameservers:
   file.replace:
-    - name: /usr/share/doc/proxy/conf-template/squid.conf
+    - name: /usr/share/rhn/proxy-template/squid.conf
     - pattern: ^ignore_unknown_nameservers .*$
     - repl: ignore_unknown_nameservers off
     - append_if_not_found: True
