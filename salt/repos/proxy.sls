@@ -68,7 +68,7 @@ module_server_applications_update_repo:
 {% if 'uyuni-released' in grains['product_version'] %}
 proxy_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-4.0-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
     - priority: 97
 {% endif %}
 
