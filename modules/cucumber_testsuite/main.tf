@@ -187,6 +187,7 @@ module "min-pxeboot" {
   base_configuration = module.base.configuration
   image              = lookup(local.images, "min-pxeboot", "sles12sp3")
   name               = lookup(local.names, "min-pxeboot", "min-pxeboot")
+  provider_settings  = lookup(local.provider_settings_by_host, "min-pxeboot", {})
 }
 
 module "min-kvm" {
