@@ -26,5 +26,6 @@ output "configuration" {
   value = {
     ids       = ["1"]
     hostnames = ["domain"]
+    macaddrs  = []
   }
 }
