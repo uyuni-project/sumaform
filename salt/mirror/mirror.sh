@@ -73,11 +73,28 @@ function mirror_images() {
 }
 
 function adjust_external_repos() {
-  # external repos are special
-  mkdir -p repo/RPMMD
-  set_error ${?}
-  if [ ! -L repo/RPMMD/SLE-15-GA-Desktop-NVIDIA-Driver ]; then
-    ln -s ../../suse/sle15/ repo/RPMMD/SLE-15-GA-Desktop-NVIDIA-Driver
+  # External repos as nvidia drivers need this to emulate RMT
+  # which is what Uyuni/SUSE Manager server expects
+  ERROR=0
+  if [ -d suse ]; then
+    mkdir -p RPMMD
+    set_error ${?}
+    for dir in suse/sle* ; do
+      d=${dir^^}
+      ver=${d/SUSE\/SLE/SLE-}
+      if [[ $ver == ${ver%SP*} ]]; then
+        target="${ver}-GA"
+      else
+        target=${ver/SP/-SP}
+      fi
+      full_path=RPMMD/${target}-Desktop-NVIDIA-Driver
+      if [ ! -L ${full_path} ]; then
+        ln -s ../$dir ${full_path}
+	if [ ${?} -ne 0 ]; then
+	  ERROR=${?}
+	fi
+      fi
+    done
   fi
   set_error ${?}
 }
