@@ -16,7 +16,12 @@ scc:
     - SUSE-Manager-Proxy-2.1-Updates
     - SLES11-SP3-Pool
     - SLES11-SP3-Updates
+
+    # Required for SLED testing
     - SLE-15-GA-Desktop-NVIDIA-Driver
+    - SLE-15-SP1-Desktop-NVIDIA-Driver
+    - SLE-15-SP2-Desktop-NVIDIA-Driver
+
     # SLES
     - SLES11-SP4-Pool
     - SLES11-SP4-Updates
@@ -136,7 +141,10 @@ http:
   #- url: https://nu.novell.com/repo/$RCE/RES7/x86_64
   # #  archs: [x86_64]
 
+  # Required for SLED testing
   - url: https://download.nvidia.com/suse/sle15
+  - url: https://download.nvidia.com/suse/sle15sp1
+  - url: https://download.nvidia.com/suse/sle15sp2
 
   # SLES 11 SP4 Test
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
