@@ -27,6 +27,7 @@ parallel_stage() {
 
 # normal run
 if [ -z "$1" ]; then
+  stage sanity_check
   stage core
   stage reposync
   stage init_clients
@@ -37,6 +38,7 @@ fi
 
 # parallel run
 if [ "$1" = "parallel" ]; then
+  parallel_stage sanity_check
   stage core
   stage reposync
   parallel_stage init_clients
@@ -47,6 +49,7 @@ fi
 
 # essential features
 if [ "$1" = "essential" ]; then
+  stage sanity_check
   stage core
   stage reposync
   stage init_clients
