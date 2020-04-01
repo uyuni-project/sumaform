@@ -17,6 +17,18 @@ custom_avahi_repo:
     - gpgcheck: 0
 {% endif %}
 
+# TODO: remove the following state when fix to bsc#1168306 is applied to SLES 15 SP2
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] == '15.2' %}
+apparmor_allow_avahi_custom_domains:
+  pkg.installed:
+    - name: apparmor-abstractions
+  file.line:
+    - name: /etc/apparmor.d/abstractions/nameservice
+    - mode: insert
+    - after: run/avahi-daemon/socket
+    - content: "  /etc/mdns.allow         r,"
+{% endif %}
+
 {% if grains['os_family'] == 'RedHat' and grains.get('osmajorrelease', None)|int() == 6 %}
 dbus_enable_service:
   service.running:
