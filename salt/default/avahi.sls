@@ -22,6 +22,7 @@ custom_avahi_repo:
 apparmor_allow_avahi_custom_domains:
   file.line:
     - name: /etc/apparmor.d/abstractions/nameservice
+    - mode: insert
     - after: /etc/nsswitch.conf
     - content: "  /etc/mdns.allow         r,"
 {% endif %}
