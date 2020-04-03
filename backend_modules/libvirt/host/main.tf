@@ -12,6 +12,7 @@ locals {
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
     contains(var.roles, "server") && lookup(var.grains, "pts", false) ? { memory = 16384, vcpu = 8 } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "pxe_boot")? { memory = 2048} : {},
     contains(var.roles, "pts_minion") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "mirror") ? { memory = 512 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},
