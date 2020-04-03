@@ -246,6 +246,48 @@ data "aws_ami" "centos6" {
   }
 }
 
+data "aws_ami" "ubuntu1804" {
+  most_recent = true
+  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-bionic-18.04"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "ubuntu1604" {
+  most_recent = true
+  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-xenial-16.04"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 module "network" {
   source = "../network"
 
@@ -289,6 +331,8 @@ locals {
       sles11sp4   = { ami = data.aws_ami.sles11sp4.image_id },
       centos7     = { ami = data.aws_ami.centos7.image_id, ssh_user = "centos" },
       centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
+      ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
+      ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
     }
     },
     local.create_network ? module.network.configuration : {
