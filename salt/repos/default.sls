@@ -371,6 +371,15 @@ suse_res7_key:
     - name: rpm --import /tmp/suse_res7.key
     - watch:
       - file: suse_res7_key
+
+suse_res6_key:
+  file.managed:
+    - name: /tmp/suse_res6.key
+    - source: salt://default/gpg_keys/suse_res6.key
+  cmd.wait:
+    - name: rpm --import /tmp/suse_res6.key
+    - watch:
+      - file: suse_res6_key
 {% else %}
 tools_pool_repo:
   pkgrepo.managed:

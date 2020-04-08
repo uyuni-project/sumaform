@@ -204,6 +204,48 @@ data "aws_ami" "sles11sp4" {
   }
 }
 
+data "aws_ami" "centos7" {
+  most_recent = true
+  name_regex  = "^CentOS Linux 7 x86_64 HVM EBS"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "centos6" {
+  most_recent = true
+  name_regex  = "^CentOS Linux 6 x86_64 HVM EBS"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 module "network" {
   source = "../network"
 
@@ -245,6 +287,8 @@ locals {
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
       sles12sp2   = { ami = data.aws_ami.sles12sp2.image_id },
       sles11sp4   = { ami = data.aws_ami.sles11sp4.image_id },
+      centos7     = { ami = data.aws_ami.centos7.image_id, ssh_user = "centos" },
+      centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
     }
     },
     local.create_network ? module.network.configuration : {
