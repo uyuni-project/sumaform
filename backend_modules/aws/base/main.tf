@@ -6,20 +6,19 @@ locals {
 
   key_name = lookup(var.provider_settings, "key_name", null)
   key_file = lookup(var.provider_settings, "key_file", null)
-  ssh_user = lookup(var.provider_settings, "ssh_user", "ec2-user")
 
   create_network            = lookup(var.provider_settings, "create_network", true)
   public_subnet_id          = lookup(var.provider_settings, "public_subnet_id", null)
   private_subnet_id         = lookup(var.provider_settings, "private_subnet_id", null)
   public_security_group_id  = lookup(var.provider_settings, "public_security_group_id", null)
   private_security_group_id = lookup(var.provider_settings, "private_security_group_id", null)
-  bastion_host = lookup(var.provider_settings, "bastion_host", null)
+  bastion_host              = lookup(var.provider_settings, "bastion_host", null)
 }
 
 data "aws_ami" "opensuse150" {
-  most_recent      = true
-  name_regex       = "^openSUSE-Leap-15-v"
-  owners           = ["679593333241"]
+  most_recent = true
+  name_regex  = "^openSUSE-Leap-15-v"
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -38,9 +37,9 @@ data "aws_ami" "opensuse150" {
 }
 
 data "aws_ami" "opensuse151" {
-  most_recent      = true
-  name_regex       = "^openSUSE-Leap-15-1-v"
-  owners           = ["679593333241"]
+  most_recent = true
+  name_regex  = "^openSUSE-Leap-15-1-v"
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -59,9 +58,9 @@ data "aws_ami" "opensuse151" {
 }
 
 data "aws_ami" "sles15" {
-  most_recent      = true
-  name_regex       = "^suse-sles-15-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-15-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -80,9 +79,9 @@ data "aws_ami" "sles15" {
 }
 
 data "aws_ami" "sles15sp1" {
-  most_recent      = true
-  name_regex       = "^suse-sles-15-sp1-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp1-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -101,9 +100,9 @@ data "aws_ami" "sles15sp1" {
 }
 
 data "aws_ami" "sles12sp5" {
-  most_recent      = true
-  name_regex       = "^suse-sles-12-sp5-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-12-sp5-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -122,9 +121,9 @@ data "aws_ami" "sles12sp5" {
 }
 
 data "aws_ami" "sles12sp4" {
-  most_recent      = true
-  name_regex       = "^suse-sles-12-sp4-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-12-sp4-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -143,9 +142,9 @@ data "aws_ami" "sles12sp4" {
 }
 
 data "aws_ami" "sles12sp3" {
-  most_recent      = true
-  name_regex       = "^suse-sles-12-sp3-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-12-sp3-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -164,9 +163,9 @@ data "aws_ami" "sles12sp3" {
 }
 
 data "aws_ami" "sles12sp2" {
-  most_recent      = true
-  name_regex       = "^suse-sles-12-sp2-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-12-sp2-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -185,9 +184,9 @@ data "aws_ami" "sles12sp2" {
 }
 
 data "aws_ami" "sles11sp4" {
-  most_recent      = true
-  name_regex       = "^suse-sles-11-sp4-byos-v"
-  owners           = ["013907871322"]
+  most_recent = true
+  name_regex  = "^suse-sles-11-sp4-byos-v"
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
@@ -236,17 +235,16 @@ locals {
 
     key_name = local.key_name
     key_file = local.key_file
-    ssh_user = local.ssh_user
-    images_ami = {
-      opensuse151 = data.aws_ami.opensuse151.image_id,
-      opensuse150 = data.aws_ami.opensuse150.image_id,
-      sles15 = data.aws_ami.sles15.image_id,
-      sles15sp1 = data.aws_ami.sles15sp1.image_id,
-      sles12sp5 = data.aws_ami.sles12sp5.image_id,
-      sles12sp4 = data.aws_ami.sles12sp4.image_id,
-      sles12sp3 = data.aws_ami.sles12sp3.image_id,
-      sles12sp2 = data.aws_ami.sles12sp2.image_id,
-      sles11sp4 = data.aws_ami.sles11sp4.image_id,
+    ami_info = {
+      opensuse151 = { ami = data.aws_ami.opensuse151.image_id },
+      opensuse150 = { ami = data.aws_ami.opensuse150.image_id },
+      sles15      = { ami = data.aws_ami.sles15.image_id },
+      sles15sp1   = { ami = data.aws_ami.sles15sp1.image_id },
+      sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
+      sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
+      sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
+      sles12sp2   = { ami = data.aws_ami.sles12sp2.image_id },
+      sles11sp4   = { ami = data.aws_ami.sles11sp4.image_id },
     }
     },
     local.create_network ? module.network.configuration : {
@@ -259,7 +257,7 @@ locals {
 
 module "bastion" {
   source             = "../host"
-  quantity = local.create_network? 1: 0
+  quantity           = local.create_network ? 1 : 0
   base_configuration = local.configuration_output
   image              = "opensuse151"
   name               = "bastion"
@@ -272,6 +270,6 @@ module "bastion" {
 
 output "configuration" {
   value = merge(local.configuration_output, {
-    bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null): local.bastion_host
+    bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null) : local.bastion_host
   })
 }
