@@ -1,18 +1,11 @@
 
 locals {
-//  image_map = {
-//    opensuse150 = "ami-005217ca13a6911ec",
-//    opensuse151 = "ami-014f38181a6bc0c52",
-//    sles15      = "ami-00dcdad1a10b5895a",
-//    sles15sp1   = "ami-00b2f7798f4b288da",
-//    centos8     = "ami-070bf7ef71fda7356",
-//  }
-  ami = lookup(var.base_configuration["images_ami"], var.image, var.image)
+  ami = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ami", var.image)
 
   provider_settings = merge({
     key_name        = var.base_configuration["key_name"]
     key_file        = var.base_configuration["key_file"]
-    ssh_user        = var.base_configuration["ssh_user"]
+    ssh_user        = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ssh_user", "ec2-user")
     public_instance = false
     volume_size     = 50
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
@@ -149,16 +142,15 @@ resource "null_resource" "host_salt_configuration" {
   }
 
   connection {
-    host         = aws_instance.instance[count.index].associate_public_ip_address ? aws_instance.instance[count.index].public_dns : aws_instance.instance[count.index].private_dns
-    private_key  = file(local.provider_settings["key_file"])
-    bastion_host = aws_instance.instance[count.index].associate_public_ip_address ? null : local.provider_settings["bastion_host"]
-    user         = local.provider_settings["ssh_user"]
-    timeout      = "120s"
-  }
+    host        = aws_instance.instance[count.index].associate_public_ip_address ? aws_instance.instance[count.index].public_dns : aws_instance.instance[count.index].private_dns
+    private_key = file(local.provider_settings["key_file"])
+    user        = local.provider_settings["ssh_user"]
 
-//  provisioner "remote-exec" {
-//    inline = ["cloud-init status --wait ||:"]
-//  }
+    bastion_host        = aws_instance.instance[count.index].associate_public_ip_address ? null : local.provider_settings["bastion_host"]
+    bastion_user        = "ec2-user"
+    bastion_private_key = file(local.provider_settings["key_file"])
+    timeout             = "120s"
+  }
 
   provisioner "file" {
     source      = "salt"
@@ -179,10 +171,6 @@ resource "null_resource" "host_salt_configuration" {
         domain : local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"
         use_avahi : false
 
-        //        hostname                  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-        //        domain                    = var.base_configuration["domain"]
-        //        use_avahi                 = var.base_configuration["use_avahi"]
-        //        additional_network        = var.base_configuration["additional_network"]
         timezone                  = var.base_configuration["timezone"]
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
