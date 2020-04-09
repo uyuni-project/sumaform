@@ -1,14 +1,16 @@
 include:
   - default.hostname
 
-{% if grains['use_avahi'] %}
+{% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
 # TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES versions we use
 {% if grains['osfullname'] == 'SLES' %}
 custom_avahi_repo:
   pkgrepo.managed:
-    - humanname: custom_avahi
-    {% if grains.get('osmajorrelease', None)|int() == 12 %}
+    - humanname: custom_avahi_repo
+    {% if grains['osmajorrelease'] == '11' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.23/SLE_11_SP4/
+    {% elif grains['osmajorrelease'] == '12' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP4/
     {% else %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP1/
@@ -29,7 +31,7 @@ apparmor_allow_avahi_custom_domains:
     - content: "  /etc/mdns.allow         r,"
 {% endif %}
 
-{% if grains['os_family'] == 'RedHat' and grains.get('osmajorrelease', None)|int() == 6 %}
+{% if grains['os_family'] == 'RedHat' and grains['osmajorrelease'] == '6' %}
 dbus_enable_service:
   service.running:
     - name: messagebus
@@ -53,7 +55,11 @@ avahi_pkg:
       - avahi
       - avahi-lang
       - libavahi-common3
+      {% if grains['osmajorrelease'] == '11' %}
+      - libavahi-core5
+      {% else %}
       - libavahi-core7
+      {% endif %}
       {% endif %}
 
 # HACK: watch does not really work with Salt 2016.11
