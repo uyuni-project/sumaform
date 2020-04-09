@@ -57,9 +57,12 @@ To start the testsuite, use:
 ssh -t head-ctl.tf.local run-testsuite
 ```
 
-To run sets of Cucumber features, edit `run_sets/testsuite.yml` and then run `run-testsuite`. Keep in mind that:
+By default, `run-testsuite` runs over a selection of the YAML files at `run_sets`, i.e.:
+`sanity_check.yml`, `core.yml`, `reposync.yml`, `init_clients.yml`, `secondary.yml`, `secondary_parallelizable.yml`, `finishing.yml`.
+
+To enable/disable features, edit these YAML files. Keep in mind that:
  - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
- - featurs not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
+ - features not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
 
 Once all `core_` features have been executed you can run a non-core Cucumber feature as follows:
 ```
@@ -159,7 +162,7 @@ You can configure a `mirror` host for the testsuite and that will be beneficial 
 
 ## Alternative testsuite version
 
-You can also select an alternative fork or branch where for the Cucumber testsuite code:
+You can also select an alternative fork or branch for the Cucumber testsuite code:
  - the `git_repo` variable in the `cucumber_testsuite` module overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
  - the `branch` variable in the `cucumber_testsuite` module overrides the branch (by default an automatic selection is made).
 
