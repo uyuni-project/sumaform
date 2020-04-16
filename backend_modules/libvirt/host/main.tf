@@ -19,7 +19,7 @@ locals {
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
     contains(var.roles, "virthost") ? { memory = 2048, vcpu = 3 } : {},
     var.provider_settings,
-    contains(var.roles, "virthost") ? { cpu_model = "host-model", xslt = file("${path.module}/sysinfos.xsl") } : {},
+    contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
     cloud_init = length(regexall("o$", var.image)) > 0
 }
