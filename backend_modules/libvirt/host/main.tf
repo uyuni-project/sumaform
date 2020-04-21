@@ -137,6 +137,7 @@ resource "libvirt_domain" "domain" {
   graphics {
     type        = "spice"
     listen_type = "address"
+    listen_address = "0.0.0.0"
     autoport    = true
   }
 
