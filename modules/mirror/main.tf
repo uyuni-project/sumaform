@@ -2,13 +2,14 @@
 module "mirror" {
   source = "../host"
 
-  base_configuration  = var.base_configuration
-  name                = "mirror"
-  additional_repos    = var.additional_repos
-  additional_packages = var.additional_packages
-  swap_file_size      = var.swap_file_size
-  ssh_key_path        = var.ssh_key_path
-  roles               = ["mirror"]
+  base_configuration      = var.base_configuration
+  name                    = "mirror"
+  use_os_released_updates = var.use_os_released_updates
+  additional_repos        = var.additional_repos
+  additional_packages     = var.additional_packages
+  swap_file_size          = var.swap_file_size
+  ssh_key_path            = var.ssh_key_path
+  roles                   = ["mirror"]
 
   grains = {
     cc_username       = var.base_configuration["cc_username"]

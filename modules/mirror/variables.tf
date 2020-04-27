@@ -2,6 +2,11 @@ variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
 }
 
+variable "use_os_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default     = true
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}

@@ -1,11 +1,6 @@
 include:
   - default
 
-system_update:
-  pkg.uptodate:
-    - require:
-      - sls: default
-
 mozilla_certificates:
   pkg.installed:
     - name: ca-certificates-mozilla
@@ -23,7 +18,7 @@ minima:
     - overwrite: True
     - require:
       - pkg: mozilla_certificates
-      - pkg: system_update
+      - sls: default
 
 mirror_configuration_dir:
   file.directory:
@@ -51,7 +46,7 @@ mirrorsh_configuration:
 tar:
   pkg.installed:
     - require:
-      - pkg: system_update
+      - sls: default
 
 jdupes:
   archive.extracted:
