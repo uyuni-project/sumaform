@@ -184,6 +184,25 @@ test_update_repo:
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP4:/x86_64/update/repodata/repomd.xml.key
 {% endif %}
+{% elif grains['osrelease'] == '12.5' %}
+
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+    - name: SLE-12-SP5-x86_64-Pool
+
+os_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5/x86_64/update/
+    - name: SLE-12-SP5-x86_64-Update
+
+{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
+test_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP5:/x86_64/update/
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP5:/x86_64/update/repodata/repomd.xml.key
+{% endif %}
 
 {% endif %}
 
