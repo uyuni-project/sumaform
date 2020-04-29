@@ -21,10 +21,12 @@ locals {
     contains(var.roles, "virthost") ? { instance_type = "t2.small" } : {},
   var.provider_settings)
 
-  public_subnet_id          = var.base_configuration.public_subnet_id
-  private_subnet_id         = var.base_configuration.private_subnet_id
-  public_security_group_id  = var.base_configuration.public_security_group_id
-  private_security_group_id = var.base_configuration.private_security_group_id
+  public_subnet_id                     = var.base_configuration.public_subnet_id
+  private_subnet_id                    = var.base_configuration.private_subnet_id
+  private_additional_subnet_id         = var.base_configuration.private_additional_subnet_id
+  public_security_group_id             = var.base_configuration.public_security_group_id
+  private_security_group_id            = var.base_configuration.private_security_group_id
+  private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
@@ -48,8 +50,8 @@ resource "aws_instance" "instance" {
   count                  = var.quantity
   availability_zone      = local.availability_zone
   key_name               = local.provider_settings["key_name"]
-  subnet_id              = local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id
-  vpc_security_group_ids = [local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id]
+  subnet_id              = var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
+  vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
 
   root_block_device {
     volume_size = local.provider_settings["volume_size"]
@@ -80,6 +82,21 @@ resource "aws_instance" "instance" {
   # https://github.com/terraform-providers/terraform-provider-aws/issues/10689
   lifecycle {
     ignore_changes = [tags]
+  }
+}
+
+resource "aws_network_interface" "additional_network" {
+  count           = var.connect_to_base_network && var.connect_to_additional_network ? var.quantity : 0
+  subnet_id       = local.private_additional_subnet_id
+  security_groups = [local.private_additional_security_group_id]
+
+  tags = {
+    Name = "${local.resource_name_prefix}-aws_network_additional_interface${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+  }
+
+  attachment {
+    instance     = aws_instance.instance[count.index].id
+    device_index = 1
   }
 }
 

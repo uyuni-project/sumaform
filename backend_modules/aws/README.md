@@ -4,8 +4,9 @@
 
 Base Module will create:
  - a VPC
- - two subnets
-   - one private, that can only access other hosts in the VPC
+ - three subnets
+   - one private, that can only access other hosts in the VPC and outbound connection to internet
+   - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
    - one public, that can also access the Internet and accepts connections from an IP whitelist
  - security groups, routing tables, Internet gateways, NAT gateway as appropriate
  - one `bastion` host is also created in the public network
@@ -35,15 +36,15 @@ Most modules have configuration settings specific to the AWS backend, those are 
 ### Base Module
 Available provider settings for the base module:
 
-| Variable name      | Type   | Default value | Description                                                              |
-|--------------------|--------|---------------|--------------------------------------------------------------------------|
-| region             | string | `null`        | AWS region where infrastructure will be created                          |
-| availability_zone  | string | `null`        | AWS availability zone inside region                                      |
-| ssh_allowed_ips    | array  | `[]`          | Array of IP's to white list for ssh connection                           |
-| key_name           | string | `null`        | ssh key name in AWS                                                      |
-| key_file           | string | `null`        | ssh key file                                                             |
-| bastion_host       | string | `null`        | bastian host use to connect machines in private network                  |
-| additional_network | string | `null`        | A network mask for PXE tests                                             |
+| Variable name      | Type   | Default value   | Description                                                                                                    |
+|--------------------|--------|-----------------|----------------------------------------------------------------------------------------------------------------|
+| region             | string | `null`          | AWS region where infrastructure will be created                                                                |
+| availability_zone  | string | `null`          | AWS availability zone inside region                                                                            |
+| ssh_allowed_ips    | array  | `[]`            | Array of IP's to white list for ssh connection                                                                 |
+| key_name           | string | `null`          | ssh key name in AWS                                                                                            |
+| key_file           | string | `null`          | ssh key file                                                                                                   |
+| bastion_host       | string | `null`          | bastian host use to connect machines in private network                                                        |
+| additional_network | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1) |
 
 An example follows:
 ```hcl-terraform
