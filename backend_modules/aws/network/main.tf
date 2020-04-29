@@ -12,7 +12,7 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${var.name_prefix}-vpc"
+    Name = "${var.name_prefix}vpc"
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = local.vpc_id
 
   tags = {
-    Name = "${var.name_prefix}-internet-gateway"
+    Name = "${var.name_prefix}internet-gateway"
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_eip" "nat_eip" {
 
   vpc = true
   tags = {
-    Name = "${var.name_prefix}-nat-eip"
+    Name = "${var.name_prefix}nat-eip"
   }
 }
 
@@ -49,7 +49,7 @@ resource "aws_nat_gateway" "nat" {
   depends_on = [aws_internet_gateway.main]
 
   tags = {
-    Name = "${var.name_prefix}-nat"
+    Name = "${var.name_prefix}nat"
   }
 }
 
@@ -64,7 +64,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.name_prefix}-public-route-table"
+    Name = "${var.name_prefix}public-route-table"
   }
 }
 
@@ -86,7 +86,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${var.name_prefix}-private-route-table"
+    Name = "${var.name_prefix}private-route-table"
   }
 }
 
@@ -99,7 +99,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.name_prefix}-public-subnet"
+    Name = "${var.name_prefix}public-subnet"
   }
 }
 
@@ -119,7 +119,7 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.name_prefix}-private-subnet"
+    Name = "${var.name_prefix}private-subnet"
   }
 }
 
@@ -130,6 +130,26 @@ resource "aws_route_table_association" "private" {
   route_table_id = aws_route_table.private[0].id
 }
 
+resource "aws_subnet" "private_additional" {
+  count = var.create_network? 1: 0
+
+  availability_zone       = var.availability_zone
+  vpc_id                  = local.vpc_id
+  cidr_block              = var.additional_network
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "${var.name_prefix}private-additional-subnet"
+  }
+}
+
+resource "aws_route_table_association" "private_additional" {
+  count = var.create_network? 1: 0
+
+  subnet_id      = aws_subnet.private_additional[0].id
+  route_table_id = aws_route_table.private[0].id
+}
+
 resource "aws_vpc_dhcp_options" "dhcp_options" {
   count = var.create_network ? 1 : 0
 
@@ -137,7 +157,7 @@ resource "aws_vpc_dhcp_options" "dhcp_options" {
   domain_name_servers = ["AmazonProvidedDNS"]
 
   tags = {
-    Name = "${var.name_prefix}-dhcp-option-set"
+    Name = "${var.name_prefix}dhcp-option-set"
   }
 }
 
@@ -181,7 +201,7 @@ resource "aws_security_group" "public" {
   }
 
   tags = {
-    Name = "${var.name_prefix}-public-security-group"
+    Name = "${var.name_prefix}public-security-group"
   }
 }
 
@@ -211,16 +231,49 @@ resource "aws_security_group" "private" {
   }
 
   tags = {
-    Name = "${var.name_prefix}-private-security-group"
+    Name = "${var.name_prefix}private-security-group"
+  }
+}
+
+resource "aws_security_group" "private_additional" {
+  count = var.create_network? 1: 0
+
+  name        = "${var.name_prefix}-private-additional-security-group"
+  description = "Allow only internal connections"
+  vpc_id      = local.vpc_id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.additional_network]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = {
+    Name = "${var.name_prefix}private-additional-security-group"
   }
 }
 
 output "configuration" {
-  depends_on = [aws_route_table_association.private, aws_route_table_association.public]
+  depends_on = [aws_route_table_association.private, aws_route_table_association.private_additional , aws_route_table_association.public]
   value = var.create_network ? {
-    public_subnet_id          = aws_subnet.public[0].id
-    private_subnet_id         = aws_subnet.private[0].id
-    public_security_group_id  = aws_security_group.public[0].id
-    private_security_group_id = aws_security_group.private[0].id
+    public_subnet_id          = length(aws_subnet.public) > 0? aws_subnet.public[0].id: null
+    private_subnet_id         = length(aws_subnet.private) > 0? aws_subnet.private[0].id: null
+    private_additional_subnet_id = length(aws_subnet.private_additional) > 0? aws_subnet.private_additional[0].id: null
+
+    public_security_group_id  = length(aws_security_group.public) > 0? aws_security_group.public[0].id: null
+    private_security_group_id = length(aws_security_group.private) > 0? aws_security_group.private[0].id: null
+    private_additional_security_group_id = length(aws_security_group.private_additional) > 0? aws_security_group.private_additional[0].id: null
   } : {}
 }

@@ -7,12 +7,16 @@ locals {
   key_name = lookup(var.provider_settings, "key_name", null)
   key_file = lookup(var.provider_settings, "key_file", null)
 
-  create_network            = lookup(var.provider_settings, "create_network", true)
-  public_subnet_id          = lookup(var.provider_settings, "public_subnet_id", null)
-  private_subnet_id         = lookup(var.provider_settings, "private_subnet_id", null)
-  public_security_group_id  = lookup(var.provider_settings, "public_security_group_id", null)
-  private_security_group_id = lookup(var.provider_settings, "private_security_group_id", null)
-  bastion_host              = lookup(var.provider_settings, "bastion_host", null)
+  create_network                       = lookup(var.provider_settings, "create_network", true)
+  public_subnet_id                     = lookup(var.provider_settings, "public_subnet_id", null)
+  private_subnet_id                    = lookup(var.provider_settings, "private_subnet_id", null)
+  private_additional_subnet_id         = lookup(var.provider_settings, "private_additional_subnet_id", null)
+  public_security_group_id             = lookup(var.provider_settings, "public_security_group_id", null)
+  private_security_group_id            = lookup(var.provider_settings, "private_security_group_id", null)
+  private_additional_security_group_id = lookup(var.provider_settings, "private_additional_security_group_id", null)
+  bastion_host                         = lookup(var.provider_settings, "bastion_host", null)
+
+  additional_network = lookup(var.provider_settings, "additional_network", "172.16.2.0/24")
 }
 
 data "aws_ami" "opensuse150" {
@@ -291,11 +295,12 @@ data "aws_ami" "ubuntu1604" {
 module "network" {
   source = "../network"
 
-  availability_zone = local.availability_zone
-  region            = local.region
-  ssh_allowed_ips   = local.ssh_allowed_ips
-  name_prefix       = local.name_prefix
-  create_network    = local.create_network
+  availability_zone  = local.availability_zone
+  region             = local.region
+  ssh_allowed_ips    = local.ssh_allowed_ips
+  name_prefix        = local.name_prefix
+  create_network     = local.create_network
+  additional_network = local.additional_network
 }
 
 locals {
@@ -312,7 +317,7 @@ locals {
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
 
-    additional_network = lookup(var.provider_settings, "additional_network", null)
+    additional_network = local.additional_network
 
     region            = local.region
     availability_zone = local.availability_zone
@@ -336,19 +341,22 @@ locals {
     }
     },
     local.create_network ? module.network.configuration : {
-      public_subnet_id          = local.public_subnet_id
-      private_subnet_id         = local.private_subnet_id
-      public_security_group_id  = local.public_security_group_id
-      private_security_group_id = local.private_security_group_id
+      public_subnet_id                     = local.public_subnet_id
+      private_subnet_id                    = local.private_subnet_id
+      private_additional_subnet_id         = local.private_additional_subnet_id
+      public_security_group_id             = local.public_security_group_id
+      private_security_group_id            = local.private_security_group_id
+      private_additional_security_group_id = local.private_additional_security_group_id
   })
 }
 
 module "bastion" {
-  source             = "../host"
-  quantity           = local.create_network ? 1 : 0
-  base_configuration = local.configuration_output
-  image              = "opensuse151"
-  name               = "bastion"
+  source                        = "../host"
+  quantity                      = local.create_network ? 1 : 0
+  base_configuration            = local.configuration_output
+  image                         = "opensuse151"
+  name                          = "bastion"
+  connect_to_additional_network = true
   provider_settings = {
     instance_type   = "t2.micro"
     public_instance = true

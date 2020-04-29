@@ -18,6 +18,11 @@ variable "name_prefix" {
   default     = "sumaform"
 }
 
+variable "additional_network" {
+  description = "Additional network cidr_block (of the form 172.16.x.x/24)"
+  default = "172.16.2.0/24"
+}
+
 variable "create_network" {
   description = "defined if a new network should be created"
   default     = true
