@@ -29,15 +29,16 @@ module "base" {
 }
 
 
-// ================= Configuration with Mirror =================
-data "aws_ebs_snapshot" "data_disk_snapshot" {
-  most_recent = true
-
-  filter {
-    name   = "tag:Name"
-    values = ["mirror-data-volume-snapshot"]
-  }
-}
+#================= Configuration with Mirror ================
+# uncomment the following lines if you want to reuse an data disk snapshot
+//data "aws_ebs_snapshot" "data_disk_snapshot" {
+//  most_recent = true
+//
+//  filter {
+//    name   = "tag:Name"
+//    values = ["mirror-data-volume-snapshot"]
+//  }
+//}
 
 module "mirror" {
   source = "./modules/mirror"
@@ -45,7 +46,8 @@ module "mirror" {
   base_configuration = module.base.configuration
 
   volume_provider_settings = {
-    volume_snapshot_id = data.aws_ebs_snapshot.data_disk_snapshot.id
+# uncomment the following line if you want to reuse an data disk snapshot
+//    volume_snapshot_id = data.aws_ebs_snapshot.data_disk_snapshot.id
   }
 }
 
@@ -56,7 +58,7 @@ locals{
   })
 }
 
- ================= END MIRROR =================
+// ================= END MIRROR =================
 
 
 module "server" {
