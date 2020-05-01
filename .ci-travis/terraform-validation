@@ -3,7 +3,7 @@ set -xe
 
 # complete missing passwords in example files
 sed -i 's/\.\.\./"not used"/g' *.example
-sed -i '/provider/,/\}/d' *.example
+sed -i '/provider *"/,/\}/d' *.example
 
 ln -sfn ../backend_modules/null modules/backend
 
