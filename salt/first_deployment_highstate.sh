@@ -8,7 +8,7 @@ FILE_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 salt-call --local --file-root=$FILE_ROOT/ --log-level=quiet --output=quiet state.sls default.minimal ||:
 
 NEXT_TRY=0
-until [ $NEXT_TRY -eq 10 ] || salt-call --version
+until [ $NEXT_TRY -eq 10 ] || salt-call --local test.ping
 do
         echo "It seems salt-call is not available after default.minimal state was applied. Retrying... [$NEXT_TRY]";
         sleep 1;
