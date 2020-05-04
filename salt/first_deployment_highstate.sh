@@ -18,7 +18,6 @@ done
 if [ $NEXT_TRY -eq 10 ]
 then
         echo "ERROR: salt-call is not available after 10 retries";
-        exit 1;
 fi
 
 salt-call --local --file-root=$FILE_ROOT/ --log-level=info --retcode-passthrough --force-color state.highstate || exit 1
