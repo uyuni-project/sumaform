@@ -187,7 +187,7 @@ module "min-ubuntu1804" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-ubuntu1804", "ubuntu1804")
+  image              = lookup(local.images, "min-ubuntu1804", "ubuntu1804o")
   name               = lookup(local.names, "min-ubuntu1804", "min-ubuntu1804")
 
   server_configuration   = local.minimal_configuration
