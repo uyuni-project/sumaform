@@ -105,6 +105,9 @@ host_settings = {
   min-sles12sp4 = {
     present = true
   }
+  min-build = {
+    present = true
+  }
   minssh-sles12sp4 = {
     present = true
   }

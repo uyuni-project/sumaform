@@ -119,10 +119,29 @@ module "min-sles12sp4" {
   auto_connect_to_master  = false
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  avahi_reflector         = var.avahi_reflector
 
   additional_repos  = lookup(local.additional_repos, "min-sles12sp4", {})
   provider_settings = lookup(local.provider_settings_by_host, "min-sles12sp4", {})
+}
+
+module "min-build" {
+  source = "../minion"
+
+  quantity           = contains(local.hosts, "min-build") ? 1 : 0
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "min-build", "sles12sp4")
+  name               = lookup(local.names, "min-build", "min-build")
+
+  server_configuration = local.minimal_configuration
+
+  auto_connect_to_master  = false
+  use_os_released_updates = true
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  avahi_reflector         = var.avahi_reflector
+
+  additional_repos  = lookup(local.additional_repos, "min-build", {})
+  provider_settings = lookup(local.provider_settings_by_host, "min-build", {})
 }
 
 module "minssh-sles12sp4" {
@@ -219,6 +238,7 @@ module "ctl" {
   proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = null }
   client_configuration    = contains(local.hosts, "cli-sles12sp4") ? module.cli-sles12sp4.configuration : { hostnames = [], ids = [] }
   minion_configuration    = contains(local.hosts, "min-sles12sp4") ? module.min-sles12sp4.configuration : { hostnames = [], ids = [] }
+  buildhost_configuration = contains(local.hosts, "min-build") ? module.min-build.configuration : { hostnames = [], ids = [] }
   centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = [], ids = [] }
   ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = [], ids = [] }
   sshminion_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = [], ids = [] }
@@ -247,6 +267,7 @@ output "configuration" {
     pxy = module.pxy.configuration
     cli-sles12sp4 = module.cli-sles12sp4.configuration
     min-sles12sp4 = module.min-sles12sp4.configuration
+    min-build = module.min-build.configuration
     minssh-sles12sp4 = module.minssh-sles12sp4.configuration
     min-centos7 = module.min-centos7.configuration
     min-ubuntu1804 = module.min-ubuntu1804.configuration
