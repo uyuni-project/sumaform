@@ -349,7 +349,6 @@ module "bastion" {
   base_configuration = local.configuration_output
   image              = "opensuse151"
   name               = "bastion"
-  provision          = false
   provider_settings = {
     instance_type   = "t2.micro"
     public_instance = true
