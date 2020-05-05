@@ -54,6 +54,13 @@ variable "minion_configuration" {
   }
 }
 
+variable "buildhost_configuration" {
+  description = "use module.<BUILDHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "sshminion_configuration" {
   description = "use module.<SSHMINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {

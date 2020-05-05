@@ -5,6 +5,7 @@ export SERVER="{{ grains.get('server') }}"
 {% if grains.get('proxy') | default(false, true) %}export PROXY="{{ grains.get('proxy') }}" {% else %}# no proxy defined {% endif %}
 {% if grains.get('client') | default(false, true) %}export CLIENT="{{ grains.get('client') }}"{% else %}# no client defined {% endif %}
 {% if grains.get('minion') | default(false, true) %}export MINION="{{ grains.get('minion') }}"{% else %}# no minion defined {% endif %}
+{% if grains.get('build_host') | default(false, true) %}export BUILD_HOST="{{ grains.get('build_host') }}"{% else %}# no build host defined {% endif %}
 {% if grains.get('ssh_minion') | default(false, true) %}export SSHMINION="{{ grains.get('ssh_minion') }}" {% else %}# no SSH minion defined {% endif %}
 {% if grains.get('centos_minion') | default(false, true) %}export CENTOSMINION="{{ grains.get('centos_minion') }}" {% else %}# no CentOS minion defined {% endif %}
 {% if grains.get('ubuntu_minion') | default(false, true) %}export UBUNTUMINION="{{ grains.get('ubuntu_minion') }}" {% else %}# no Ubuntu minion defined {% endif %}
