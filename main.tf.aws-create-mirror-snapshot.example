@@ -23,12 +23,11 @@ locals {
   ssh_allowed_ips   = [""] // add your IP address in here
 }
 
-//provider "aws" {
-//  region     = "${local.region}"
-//  access_key = "" // add access key as a string here
-//  secret_key = "" // add secret key as a string here
-//}
-
+provider "aws" {
+  region     = local.region
+  access_key = ...
+  secret_key = ...
+}
 
 module "base" {
   source = "./modules/base"

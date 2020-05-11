@@ -5,11 +5,11 @@ locals {
     key_name          = ...
 }
 
-//provider "aws" {
-//  region     = local.region
-//  access_key = ...
-//  secret_key = ...
-//}
+provider "aws" {
+  region     = local.region
+  access_key = ...
+  secret_key = ...
+}
 
 module "cucumber_testsuite" {
   source = "./modules/cucumber_testsuite"
