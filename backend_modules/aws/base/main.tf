@@ -288,6 +288,48 @@ data "aws_ami" "ubuntu1604" {
   }
 }
 
+data "aws_ami" "rhel8" {
+  most_recent = true
+  name_regex  = "^RHEL-8.2.0_HVM-"
+  owners      = ["309956199498"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "rhel7" {
+  most_recent = true
+  name_regex  = "^RHEL-7.7_HVM-"
+  owners      = ["309956199498"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 module "network" {
   source = "../network"
 
@@ -333,6 +375,8 @@ locals {
       centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
       ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
       ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
+      rhel8       = { ami = data.aws_ami.rhel8.image_id},
+      rhel7       = { ami = data.aws_ami.rhel7.image_id},
     }
     },
     local.create_network ? module.network.configuration : {
