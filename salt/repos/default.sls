@@ -461,6 +461,14 @@ disable_apt_daily_upgrade_service:
     - name: apt-daily-upgrade.service
     - enable: False
 
+wait_until_apt_lock_file_unlock:
+  cmd.run:
+    - name: "test ! -f /var/lib/apt/lists/lock || ! lsof /var/lib/apt/lists/lock"
+    - retry:
+      - attempts: 10
+      - interval: 5
+      - until: True
+
 tools_update_repo:
   pkgrepo.managed:
     - file: /etc/apt/sources.list.d/Ubuntu{{ short_release }}-Client-Tools.list
