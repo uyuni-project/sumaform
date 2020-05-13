@@ -5,7 +5,7 @@
 
 FILE_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-salt-call --local --file-root=$FILE_ROOT/ --log-level=info state.sls default.minimal ||:
+salt-call --local --file-root=$FILE_ROOT/ --log-level=quiet --output=quiet state.sls default.minimal ||:
 
 NEXT_TRY=0
 until [ $NEXT_TRY -eq 10 ] || salt-call --local test.ping
