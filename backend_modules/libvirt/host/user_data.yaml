@@ -192,7 +192,24 @@ runcmd:
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 
-%{ if image == "ubuntu1804o" }
+%{ if image == "ubuntu1804o"}
+
+runcmd:
+  # HACK: cloud-init in Ubuntu does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }
+
+%{ if image == "ubuntu2004o"}
+
+apt:
+  sources:
+    tools_pool_repo:
+      # TODO after release, update this repository to use UYUNI instead
+      #source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04 /"
+      source: "deb [trusted=yes] http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04 /"
 
 runcmd:
   # HACK: cloud-init in Ubuntu does not take care of the following
