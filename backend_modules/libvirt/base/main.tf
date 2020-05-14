@@ -27,6 +27,7 @@ locals {
     ubuntu1604o  = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
     ubuntu1804   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
     ubuntu1804o  = "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img"
+    ubuntu2004o  = "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
   }
   pool               = lookup(var.provider_settings, "pool", "default")
   network_name       = lookup(var.provider_settings, "network_name", "default")

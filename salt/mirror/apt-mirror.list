@@ -7,7 +7,7 @@ set nthreads       20
 ## Sources
 ##
 
-{% set ubuntu_names = {'16.04': 'xenial', '18.04': 'bionic'} %}
+{% set ubuntu_names = {'16.04': 'xenial', '18.04': 'bionic', '20.04': 'focal'} %}
 
 {% for distro in grains['ubuntu_distros']|default([], true) %}
 {% set distro_name = ubuntu_names.get(distro, distro) %}
