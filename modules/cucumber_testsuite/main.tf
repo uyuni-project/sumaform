@@ -272,6 +272,7 @@ module "controller" {
   git_password      = var.git_password
   git_repo          = var.git_repo
   git_profiles_repo = var.git_profiles_repo
+  registry_uri      = var.registry_uri
   portus_uri        = var.portus_uri
   portus_username   = var.portus_username
   portus_password   = var.portus_password

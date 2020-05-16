@@ -97,6 +97,11 @@ variable "git_profiles_repo" {
   default     = "default"
 }
 
+variable "registry_uri" {
+  description = "URI of container registry server, see README_TESTING.md"
+  default     = null
+}
+
 variable "portus_uri" {
   description = "URI of portus server, see README_TESTING.md"
   default     = null
