@@ -190,7 +190,7 @@ module "cucumber_testsuite" {
 
 ## Alternative Container Registry server
 
-If you want the test suite to use a unauthenticated container registry server, you can specufy it with the `registry_uri` variable.
+If you want the test suite to use an unauthenticated container registry server, you can specify it with the `registry_uri` variable.
 
 Example:
 
@@ -204,7 +204,7 @@ module "cucumber_testsuite" {
 
 ## Alternative Portus server
 
-If you want the test suite to use a Portus server, you can specify it with the `portus_uri`, `portus_username`, and `portus_password` variables.
+If you want the test suite to use a Portus server (authenticated registry), you can specify it with the `portus_uri`, `portus_username`, and `portus_password` variables.
 
 Example:
 
