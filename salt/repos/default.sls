@@ -23,7 +23,7 @@ os_update_repo:
 
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %}
 {% if grains.get('product_version') and 'uyuni-master' in grains.get('product_version') | default('', true) %}
-tools_pool_repo_master:
+tools_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     - gpgcheck: 1
