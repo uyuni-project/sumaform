@@ -19,6 +19,9 @@ module "virthost" {
   additional_grains = {
     hvm_disk_image      = var.hvm_disk_image
     hvm_disk_image_hash = var.hvm_disk_image_hash
+    xen_disk_image      = var.xen_disk_image
+    xen_disk_image_hash = var.xen_disk_image_hash
+    hypervisor = var.hypervisor
   }
 
   image     = var.image
