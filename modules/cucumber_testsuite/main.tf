@@ -229,6 +229,27 @@ module "min-kvm" {
   provider_settings = lookup(local.provider_settings_by_host, "min-kvm", {})
 }
 
+module "min-xen" {
+  source = "../virthost"
+
+  quantity = contains(local.hosts, "min-xen") ? 1 : 0
+
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "min-xen", "sles15sp1")
+  name               = lookup(local.names, "min-xen", "min-xen")
+  hypervisor         = "xen"
+
+  server_configuration = local.minimal_configuration
+
+  auto_connect_to_master  = false
+  use_os_released_updates = true
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+
+  additional_repos  = lookup(local.additional_repos, "min-xen", {})
+  provider_settings = lookup(local.provider_settings_by_host, "min-xen", {})
+}
+
 module "ctl" {
   source = "../controller"
   name   = lookup(local.names, "ctl", "ctl")
@@ -244,6 +265,7 @@ module "ctl" {
   sshminion_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = [], ids = [] }
   pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null, image = null }
   kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = [], ids = [] }
+  xenhost_configuration   = contains(local.hosts, "min-xen") ? module.min-xen.configuration : { hostnames = [], ids = [] }
 
   branch            = var.branch
   git_username      = var.git_username
@@ -273,6 +295,7 @@ output "configuration" {
     min-ubuntu1804 = module.min-ubuntu1804.configuration
     min-pxeboot = module.min-pxeboot.configuration
     min-kvm = module.min-kvm.configuration
+    min-xen = module.min-xen.configuration
     ctl = module.ctl.configuration
   }
 }

@@ -123,6 +123,9 @@ host_settings = {
   min-kvm = {
     present = true
   }
+  min-xen = {
+    present = true
+  }
 }
 ```
 
