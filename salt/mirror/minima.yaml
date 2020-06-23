@@ -335,6 +335,11 @@ http:
   - url: http://download.opensuse.org/update/leap/15.1/oss
     archs: [x86_64]
 
+  - url: http://download.opensuse.org/distribution/leap/15.2/repo/oss
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.2/oss
+    archs: [x86_64]
+
   # Testsuite dummy packages for testing repo
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb
@@ -362,9 +367,11 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.1
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.2
+    archs: [x86_64]
 
   # Uyuni Master
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.1/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.2/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Server-POOL-x86_64-Media1/
     archs: [x86_64]
