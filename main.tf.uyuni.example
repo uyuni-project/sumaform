@@ -22,7 +22,7 @@ module "base" {
 //  }
 
   // Required images
-  images = ["centos7", "opensuse151", "ubuntu1804"]
+  images = ["centos7", "opensuse151", "opensuse152o", "ubuntu1804"]
 }
 
 module "server" {
@@ -30,7 +30,7 @@ module "server" {
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "srv"
-  image = "opensuse151"
+  image = "opensuse152o"
   use_os_released_updates = true
   // see modules/server/variables.tf for possible values
 
