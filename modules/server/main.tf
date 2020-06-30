@@ -56,6 +56,8 @@ module "server" {
     skip_changelog_import          = var.skip_changelog_import
     browser_side_less              = var.browser_side_less
     create_first_user              = var.create_first_user
+    first_user_preset              = var.first_user_preset
+    first_user_change_password     = var.first_user_change_password
     mgr_sync_autologin             = var.mgr_sync_autologin
     create_sample_channel          = var.create_sample_channel
     create_sample_activation_key   = var.create_sample_activation_key
@@ -73,6 +75,7 @@ module "server" {
     traceback_email                = var.traceback_email
     saltapi_tcpdump                = var.saltapi_tcpdump
     repository_disk_size           = var.repository_disk_size
+    skip_install                   = var.skip_install
   }
 
 

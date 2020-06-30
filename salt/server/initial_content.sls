@@ -3,6 +3,32 @@ include:
 
 {% if grains.get('create_first_user') %}
 
+{% set server_username = grains.get('server_username') | default('admin', true) %}
+{% set server_password = grains.get('server_password') | default('admin', true) %}
+
+{% if grains.get('first_user_preset') %}
+
+create_first_user:
+  http.wait_for_successful_query:
+    - method: GET
+    - name: https://localhost/
+    - verify_ssl: False
+    - status: 200
+    - require:
+      - sls: server.rhn
+
+{% if grains.get('first_user_change_password') %}
+
+first_user_change_password:
+  cmd.run:
+    - name: echo -e "{{ server_password }}\n{{ server_password }}" | satpasswd -s {{ server_username }}
+    - require:
+      - http: create_first_user
+
+{% endif %}
+
+{% else %}
+
 wait_for_tomcat:
   http.wait_for_successful_query:
     - method: GET
@@ -19,16 +45,18 @@ create_first_user:
     - status: 200
     - data: "submitted=true&\
              orgName=SUSE&\
-             login={{ grains.get('server_username') | default('admin', true) }}&\
-             desiredpassword={{ grains.get('server_password') | default('admin', true) }}&\
-             desiredpasswordConfirm={{ grains.get('server_password') | default('admin', true) }}&\
+             login={{ server_username }}&\
+             desiredpassword={{ server_password }}&\
+             desiredpasswordConfirm={{ server_password }}&\
              email=galaxy-noise%40suse.de&\
              firstNames=Administrator&\
              lastName=Administrator"
     - verify_ssl: False
-    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} user_list | grep -x {{ grains.get('server_username') | default('admin', true) }}
+    - unless: spacecmd -u {{ server_username }} -p {{ server_password }} user_list | grep -x {{ server_username }}
     - require:
       - http: wait_for_tomcat
+
+{% endif %}
 
 {% endif %}
 
