@@ -229,6 +229,8 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
    * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
      * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
+     * `first_user_preset`: whether the system already has a first user (e.g. when using public cloud images)
+     * `first_user_change_password`: change password for pre-existing first user. User name and password set in `server_username` and `server_password`
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
    * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
@@ -240,6 +242,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
    * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
+   * `skip_install`: do not install server packages. Intended to be used with images that have all required packages pre-installed
 
 
 ## Adding channels to SUSE Manager Servers

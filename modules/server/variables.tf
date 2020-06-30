@@ -107,6 +107,16 @@ variable "create_first_user" {
   default     = true
 }
 
+variable "first_user_preset" {
+  description = "whether first user is already present (i.e. public cloud images)"
+  default     = false
+}
+
+variable "first_user_change_password" {
+  description = "change first user's password to server_password"
+  default     = false
+}
+
 variable "mgr_sync_autologin" {
   description = "whether to set mgr-sync credentials in the .mgr-sync file"
   default     = true
@@ -185,6 +195,11 @@ variable "additional_certs" {
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
   default     = []
+}
+
+variable "skip_install" {
+  description = "skip instaallation (or removal) of packages, see README_ADVANCED.md"
+  default     = false
 }
 
 variable "traceback_email" {

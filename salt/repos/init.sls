@@ -10,7 +10,7 @@ include:
   {% endif %}
   - repos.additional
 
-{% if grains['os'] == 'SUSE' %}
+{% if grains['os'] == 'SUSE'  and not grains.get('skip_install') %}
 refresh_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
