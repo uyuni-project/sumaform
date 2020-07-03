@@ -217,7 +217,6 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
    * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
-   * `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
    * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
    * `browser_side_less`: enable compilation of LESS files in the browser, useful for development. Set to `false` to disable
    * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
@@ -837,3 +836,9 @@ module "server" {
   }
 }
 ```
+
+# Debugging facilities
+
+The `server` module has options to automatically capture more diagnostic information, off by default:
+
+* `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
