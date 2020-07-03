@@ -12,6 +12,9 @@ postgresql_main_configuration:
       - fsync = off
       - full_page_writes = off
       {% endif %}
+      {% if grains.get('postgres_log_min_duration') is not none %}
+      - log_min_duration_statement = {{ grains.get('postgres_log_min_duration') }}
+      {% endif %}
     - require:
       - sls: server
 

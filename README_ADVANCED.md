@@ -842,3 +842,4 @@ module "server" {
 The `server` module has options to automatically capture more diagnostic information, off by default:
 
 * `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+* `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`

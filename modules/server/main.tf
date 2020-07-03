@@ -50,6 +50,7 @@ module "server" {
     disable_firewall               = var.disable_firewall
     allow_postgres_connections     = var.allow_postgres_connections
     unsafe_postgres                = var.unsafe_postgres
+    postgres_log_min_duration      = var.postgres_log_min_duration
     java_debugging                 = var.java_debugging
     skip_changelog_import          = var.skip_changelog_import
     browser_side_less              = var.browser_side_less

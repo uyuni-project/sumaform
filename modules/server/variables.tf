@@ -82,6 +82,11 @@ variable "unsafe_postgres" {
   default     = true
 }
 
+variable "postgres_log_min_duration" {
+  description = "log any PostgreSQL statement taking longer than the specified amount of milliseconds. 0 for all, leave default for none"
+  default     = null
+}
+
 variable "java_debugging" {
   description = "enable Java debugging and profiling support in Tomcat and Taskomatic"
   default     = true
