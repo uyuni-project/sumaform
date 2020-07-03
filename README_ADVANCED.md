@@ -800,7 +800,7 @@ module "sumamail3" {
 ```
 
 
-# Swap file configuration
+## Swap file configuration
 
 You can add a swap file to most hosts, to prevent out-of-memory conditions.
 
@@ -819,7 +819,7 @@ module "minion" {
 
 To disable the swap file, set its size to 0.
 
-# Additional disk on Server or Proxy
+## Additional disk on Server or Proxy
 
 In case the default disk size for those machines is not enough for the amount of products you want to synchronize, you can add an additional disk which will mount the first volume in `/var/spacewalk` with size `repository_disk_size`. This additional disk will be created in the pool specified by `data_pool`.
 
