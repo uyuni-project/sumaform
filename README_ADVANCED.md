@@ -830,7 +830,7 @@ module "server" {
   base_configuration = module.base.configuration
   product_version = "4.0-nightly"
   name = "server"
-  repository_disk_size = 536870912000
+  repository_disk_size = 500
   volume_provider_settings = {
     pool = "default"
   }
