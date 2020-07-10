@@ -1,33 +1,10 @@
 include:
   - server.rhn
 
-{% if grains.get('create_first_user') %}
-
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
 
-{% if grains.get('first_user_preset') %}
-
-create_first_user:
-  http.wait_for_successful_query:
-    - method: GET
-    - name: https://localhost/
-    - verify_ssl: False
-    - status: 200
-    - require:
-      - sls: server.rhn
-
-{% if grains.get('first_user_change_password') %}
-
-first_user_change_password:
-  cmd.run:
-    - name: echo -e "{{ server_password }}\n{{ server_password }}" | satpasswd -s {{ server_username }}
-    - require:
-      - http: create_first_user
-
-{% endif %}
-
-{% else %}
+{% if grains.get('create_first_user') %}
 
 wait_for_tomcat:
   http.wait_for_successful_query:
@@ -52,11 +29,16 @@ create_first_user:
              firstNames=Administrator&\
              lastName=Administrator"
     - verify_ssl: False
-    - unless: spacecmd -u {{ server_username }} -p {{ server_password }} user_list | grep -x {{ server_username }}
+    - unless: satwho | grep -x {{ server_username }}
     - require:
       - http: wait_for_tomcat
 
-{% endif %}
+# set password in case user already existed with a different password
+first_user_set_password:
+  cmd.run:
+    - name: echo -e "{{ server_password }}\n{{ server_password }}" | satpasswd -s {{ server_username }}
+    - require:
+      - http: create_first_user
 
 {% endif %}
 

@@ -107,16 +107,6 @@ variable "create_first_user" {
   default     = true
 }
 
-variable "first_user_preset" {
-  description = "whether first user is already present (i.e. public cloud images)"
-  default     = false
-}
-
-variable "first_user_change_password" {
-  description = "change first user's password to server_password"
-  default     = false
-}
-
 variable "mgr_sync_autologin" {
   description = "whether to set mgr-sync credentials in the .mgr-sync file"
   default     = true
