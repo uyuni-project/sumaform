@@ -229,8 +229,6 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
    * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
      * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
-     * `first_user_preset`: whether the system already has a first user (e.g. when using public cloud images)
-     * `first_user_change_password`: change password for pre-existing first user. User name and password set in `server_username` and `server_password`
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
    * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
