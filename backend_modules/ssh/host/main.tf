@@ -22,6 +22,9 @@ resource "null_resource" "provisioning" {
     base_configuration = yamlencode(var.base_configuration)
     grains_subset = yamlencode(
       {
+        timezone                  = var.base_configuration["timezone"]
+        use_ntp                   = var.base_configuration["use_ntp"]
+        testsuite                 = var.base_configuration["testsuite"]
         hostname                  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
@@ -74,6 +77,7 @@ resource "null_resource" "provisioning" {
         use_avahi                 = var.base_configuration["use_avahi"]
         additional_network        = var.base_configuration["additional_network"]
         timezone                  = var.base_configuration["timezone"]
+        use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates

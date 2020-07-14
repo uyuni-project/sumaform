@@ -145,6 +145,8 @@ resource "null_resource" "host_salt_configuration" {
     domain_id      = length(aws_instance.instance) == var.quantity ? aws_instance.instance[count.index].id : null
     grains_subset = yamlencode(
       {
+        timezone              = var.base_configuration["timezone"]
+        use_ntp               = var.base_configuration["use_ntp"]
         testsuite             = var.base_configuration["testsuite"]
         roles                 = var.roles
         additional_repos      = var.additional_repos
@@ -189,6 +191,7 @@ resource "null_resource" "host_salt_configuration" {
         use_avahi : false
 
         timezone                  = var.base_configuration["timezone"]
+        use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates

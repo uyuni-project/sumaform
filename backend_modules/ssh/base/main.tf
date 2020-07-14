@@ -4,6 +4,7 @@ resource "null_resource" "base" {
     cc_username          = var.cc_username
     cc_password          = var.cc_password
     timezone             = var.timezone
+    use_ntp              = var.use_ntp
     ssh_key_path         = var.ssh_key_path
     mirror               = var.mirror
     use_mirror_images    = var.use_mirror_images
@@ -21,6 +22,7 @@ output "configuration" {
     cc_username          = var.cc_username
     cc_password          = var.cc_password
     timezone             = var.timezone
+    use_ntp              = var.use_ntp
     ssh_key_path         = var.ssh_key_path
     mirror               = var.mirror
     use_mirror_images    = var.use_mirror_images
