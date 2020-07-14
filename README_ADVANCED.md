@@ -9,11 +9,13 @@ Some modules have a `product_version` variable that determines the software prod
 Legal values for released software are:
  * `3.2-released`   (latest released Maintenance Update for SUSE Manager 3.2 and Tools)
  * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
+ * `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
  * `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
+ * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP2 image)
  * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap 15.1 image)
 
