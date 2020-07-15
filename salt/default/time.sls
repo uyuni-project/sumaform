@@ -29,6 +29,11 @@ chrony_pkg:
   pkg.installed:
     - name: chrony
 
+chrony_conf_file:
+  file.managed:
+    - name: /etc/chrony.conf
+    - source: salt://default/chrony.conf
+
 chrony_enable_service:
   service.running:
     - name: chronyd
