@@ -4,6 +4,7 @@ include:
   {% endif %}
   - default.network
   - default.avahi
+  - default.time
   - repos
 
 minimal_package_update:

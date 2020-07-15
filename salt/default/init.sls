@@ -7,29 +7,6 @@ include:
   {% endif %}
   - default.testsuite
 
-timezone_package:
-  pkg.installed:
-{% if grains['os_family'] == 'Suse' %}
-    - name: timezone
-{% else %}
-    - name: tzdata
-{% endif %}
-
-timezone_symlink:
-  file.symlink:
-    - name: /etc/localtime
-    - target: /usr/share/zoneinfo/{{ grains['timezone'] }}
-    - force: true
-    - require:
-      - pkg: timezone_package
-
-timezone_setting:
-  timezone.system:
-    - name: {{ grains['timezone'] }}
-    - utc: True
-    - require:
-      - file: timezone_symlink
-
 {% if grains.get('use_os_unreleased_updates') | default(False, true) or grains.get('use_os_released_updates') | default(False, true) %}
 update_packages:
   pkg.uptodate:

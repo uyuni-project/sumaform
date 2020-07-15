@@ -8,6 +8,7 @@ module "base" {
   // use_avahi = true
   // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
   // timezone = "Europe/Berlin"
+  // use_ntp = true
 
 //  provider_settings = {
 //    additional_network = null

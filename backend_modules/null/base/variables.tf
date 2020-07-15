@@ -13,6 +13,11 @@ variable "timezone" {
   default     = "Europe/Berlin"
 }
 
+variable "use_ntp" {
+  description = "use false if you don't want to run Network Time Protocol"
+  default     = true
+}
+
 variable "ssh_key_path" {
   description = "path of pub ssh key you want to use to access VMs, see libvirt/README.md"
   default     = "~/.ssh/id_rsa.pub"
