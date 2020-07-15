@@ -16,6 +16,7 @@ addons:
       - libvirt-daemon
 
 install:
+  - pip3 install 'importlib-metadata>=1.7.0'
   - pip3 install coala coala-bears
   - wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.1/x86_64/terraform.rpm
   - rpm2cpio ./terraform.rpm | cpio --extract --make-directories --verbose "./usr/bin/terraform"
