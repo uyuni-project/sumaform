@@ -54,10 +54,8 @@ variable "host_settings" {
   description = "Object with clients and their specific properties, see README_TESTING.md"
   default = {
     cli-sles12sp4 = {
-      present = true
     }
     min-sles12sp4 = {
-      present = true
     }
   }
 }

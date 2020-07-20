@@ -97,31 +97,22 @@ Several test hosts are optional and can be activated via a host_settings block l
 ```hcl
 host_settings = {
   pxy = {
-    present = true
   }
   cli-sles12sp4 = {
-    present = true
   }
   min-sles12sp4 = {
-    present = true
   }
   min-build = {
-    present = true
   }
   minssh-sles12sp4 = {
-    present = true
   }
   min-centos7 = {
-    present = true
   }
   min-ubuntu1804 = {
-    present = true
   }
   min-pxeboot = {
-    present = true
   }
   min-kvm = {
-    present = true
   }
   min-xen = {
     present = true
@@ -134,15 +125,13 @@ The default value for host_settings block has a SLES12SP4 Traditional Client and
 ```hcl
 host_settings = {
   cli-sles12sp4 = {
-    present = true
   }
   min-sles12sp4 = {
-    present = true
   }
 }
 ```
 
-In addition to the `present` flag, each of the hosts (including `srv` and `ctl` which are always present) accepts the following parameters:
+Each of the hosts (including `srv` and `ctl` which are always present) accepts the following parameters:
  - `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
  - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
  - `image` to use a different base image
