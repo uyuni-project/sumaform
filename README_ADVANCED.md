@@ -26,14 +26,14 @@ Note: on clients and minions only, the version number can be omitted to take the
 A libvirt example follows:
 
 ```hcl
-module "minsles12sp1" {
+module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "minsles12sp1"
-  image = "sles12sp1"
+  name = "minsles12sp4"
+  image = "sles12sp4"
   server_configuration = module.proxy.configuration
-  product_version = "3.2-nightly"
+  product_version = "4.0-nightly"
 }
 
 module "server" {
@@ -41,7 +41,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "3.2-released"
+  product_version = "4.0-released"
 }
 ```
 
@@ -60,9 +60,9 @@ module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
 
-  image = "sles12sp3"
+  image = "sles12sp5"
   name = "server"
-  product_version = "3.2-nightly"
+  product_version = "4.0-nightly"
 }
 ```
 
@@ -92,12 +92,12 @@ ln -sfn ../backend_modules/<BACKEND> modules/backend
 Some modules, for example clients and minions, support a `quantity` variable that allows you to create several instances at once. For example:
 
 ```hcl
-module "minionsles12sp1" {
+module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "minionsles12sp1"
-  image = "sles12sp1"
+  name = "minsles12sp4"
+  image = "sles12sp4"
   server_configuration = module.server.configuration
   quantity = 10
 }
@@ -409,12 +409,12 @@ User root
 You can specify an Activation Key string for minions to use at onboarding time to a SUSE Manager Server. An example follows:
 
 ```hcl
-module "min" {
+module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
   name = "min"
-  image = "sles12sp2"
+  image = "sles12sp4"
   server_configuration = module.server.configuration
   activation_key = "1-DEFAULT"
 }
@@ -443,12 +443,12 @@ module "proxy" {
   server_configuration = module.server.configuration
 }
 
-module "clisles12sp1" {
+module "suse-client" {
   source = "./modules/client"
   base_configuration = module.base.configuration
 
-  name = "clisles12sp1"
-  image = "sles12sp1"
+  name = "clisles12sp4"
+  image = "sles12sp4"
   server_configuration = module.proxy.configuration
   quantity = 3
 }
@@ -569,7 +569,7 @@ module "vanilla" {
   base_configuration = module.base.configuration
 
   name = "vanilla"
-  image = "sles12sp1"
+  image = "sles12sp4"
 }
 ```
 
@@ -583,13 +583,13 @@ PXE boot hosts are unprovisioned hosts that are capable of booting from their ne
 An example follows:
 
 ```hcl
-module "pxeboot"
+module "pxeboot-minion"
 {
   source = "./modules/pxe_boot"
   base_configuration = module.base.configuration
 
   name = "pxeboot"
-  image = "sles12sp3"
+  image = "sles12sp4"
 }
 ```
 
@@ -615,12 +615,12 @@ module "server" {
 You can specify additional custom repos and packages to be installed at deploy time for a specific host:
 
 ```hcl
-module "minsles12sp1" {
+module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "minsles12sp1"
-  image = "sles12sp1"
+  name = "minsles12sp4"
+  image = "sles12sp4"
   server_configuration = module.server.configuration
 
   additional_repos = {
@@ -649,11 +649,11 @@ If you need extra GPG keys to be installed for package installation, you can add
 The list contains paths relative to the `salt/` directory, as in the following example:
 
 ```hcl
-module "minssh-sles12sp2" {
+module "suse-sshminion" {
   source = "./modules/host"
   base_configuration = module.base.configuration
-  name = "minssh-sles12sp2"
-  image = "sles12sp2"
+  name = "minssh-sles12sp4"
+  image = "sles12sp4"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 ```
@@ -762,11 +762,11 @@ module "locust" {
 It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones, including updates currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` (respectively `use_os_unreleased_updates`) flag. Libvirt example:
 
 ```hcl
-module "sumaheadpg" {
+module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
 
-  name = "sumaheadpg"
+  name = "server"
   product_version = "head"
   use_os_unreleased_updates = true
 }

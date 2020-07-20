@@ -51,16 +51,16 @@ variable "use_shared_resources" {
 
 // cucumber_testsuite
 variable "host_settings" {
-  description = "Object with clients and their specific properties, see README_TESTING.md"
+  description = "Hosts and their specific properties, see README_TESTING.md"
   default = {
-    cli-sles12sp4 = {
+    suse-client = {
     }
-    min-sles12sp4 = {
+    suse-minion = {
     }
   }
 }
 
-// srv
+// server
 variable "product_version" {
   description = "One of: 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, 4.1-nightly, 4.1-released, head, test, uyuni-released"
   type        = string
@@ -71,7 +71,7 @@ variable "from_email" {
   default     = null
 }
 
-// ctl
+// controller
 variable "branch" {
   description = "Leave default for automatic selection or specify an existing branch of spacewalk"
   default     = "default"

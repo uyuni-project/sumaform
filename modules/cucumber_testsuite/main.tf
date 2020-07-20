@@ -29,12 +29,12 @@ locals {
     host_key => lookup(var.host_settings[host_key], "name", null) if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "name") : false }
 }
 
-module "srv" {
+module "server" {
   source                         = "../server"
   base_configuration             = module.base.configuration
   product_version                = var.product_version
-  image                          = lookup(local.images, "srv", "default")
-  name                           = lookup(local.names, "srv", "srv")
+  image                          = lookup(local.images, "server", "default")
+  name                           = lookup(local.names, "server", "srv")
   auto_accept                    = false
   disable_firewall               = false
   allow_postgres_connections     = false
@@ -54,18 +54,18 @@ module "srv" {
   additional_repos               = lookup(local.additional_repos, "srv", {})
 
   saltapi_tcpdump   = var.saltapi_tcpdump
-  provider_settings = lookup(local.provider_settings_by_host, "srv", {})
+  provider_settings = lookup(local.provider_settings_by_host, "server", {})
 }
 
-module "pxy" {
+module "proxy" {
   source = "../proxy"
 
-  quantity = contains(local.hosts, "pxy") ? 1 : 0
+  quantity = contains(local.hosts, "proxy") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "pxy", "default")
-  name               = lookup(local.names, "pxy", "pxy")
+  image              = lookup(local.images, "proxy", "default")
+  name               = lookup(local.names, "proxy", "pxy")
 
   server_configuration      = { hostname = local.server_full_name, username = "admin", password = "admin" }
   auto_register             = false
@@ -77,23 +77,23 @@ module "pxy" {
   use_os_released_updates   = true
   ssh_key_path              = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "pxy", {})
-  provider_settings = lookup(local.provider_settings_by_host, "pxy", {})
+  additional_repos  = lookup(local.additional_repos, "proxy", {})
+  provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
 }
 
 locals {
   proxy_full_name       = "${var.name_prefix}pxy.${var.domain}"
-  minimal_configuration = { hostname = contains(local.hosts, "pxy") ? local.proxy_full_name : local.server_full_name }
+  minimal_configuration = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
 }
 
-module "cli-sles12sp4" {
+module "suse-client" {
   source             = "../client"
 
-  quantity = contains(local.hosts, "cli-sles12sp4") ? 1 : 0
+  quantity = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "cli-sles12sp4", "sles12sp4")
-  name               = lookup(local.names, "cli-sles12sp4", "cli-sles12")
+  image              = lookup(local.images, "suse-client", "sles12sp4")
+  name               = lookup(local.names, "suse-client", "cli-sles12")
 
   server_configuration = local.minimal_configuration
 
@@ -101,18 +101,18 @@ module "cli-sles12sp4" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "cli-sles12sp4", {})
-  provider_settings = lookup(local.provider_settings_by_host, "cli-sles12sp4", {})
+  additional_repos  = lookup(local.additional_repos, "suse-client", {})
+  provider_settings = lookup(local.provider_settings_by_host, "suse-client", {})
 }
 
-module "min-sles12sp4" {
+module "suse-minion" {
   source             = "../minion"
 
-  quantity = contains(local.hosts, "min-sles12sp4") ? 1 : 0
+  quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-sles12sp4", "sles12sp4")
-  name               = lookup(local.names, "min-sles12sp4", "min-sles12")
+  image              = lookup(local.images, "suse-minion", "sles12sp4")
+  name               = lookup(local.names, "suse-minion", "min-sles12")
 
   server_configuration = local.minimal_configuration
 
@@ -120,18 +120,18 @@ module "min-sles12sp4" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "min-sles12sp4", {})
-  provider_settings = lookup(local.provider_settings_by_host, "min-sles12sp4", {})
+  additional_repos  = lookup(local.additional_repos, "suse-minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
 }
 
-module "min-build" {
+module "build-host" {
   source = "../minion"
 
-  quantity           = contains(local.hosts, "min-build") ? 1 : 0
+  quantity           = contains(local.hosts, "build-host") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-build", "sles12sp4")
-  name               = lookup(local.names, "min-build", "min-build")
+  image              = lookup(local.images, "build-host", "sles12sp4")
+  name               = lookup(local.names, "build-host", "min-build")
 
   server_configuration = local.minimal_configuration
 
@@ -140,84 +140,84 @@ module "min-build" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   avahi_reflector         = var.avahi_reflector
 
-  additional_repos  = lookup(local.additional_repos, "min-build", {})
-  provider_settings = lookup(local.provider_settings_by_host, "min-build", {})
+  additional_repos  = lookup(local.additional_repos, "build-host", {})
+  provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
 }
 
-module "minssh-sles12sp4" {
+module "suse-sshminion" {
   source = "../sshminion"
 
-  quantity = contains(local.hosts, "minssh-sles12sp4") ? 1 : 0
+  quantity = contains(local.hosts, "suse-sshminion") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "minssh-sles12sp4", "sles12sp4")
-  name               = lookup(local.names, "minssh-sles12sp4", "minssh-sles12")
+  image              = lookup(local.images, "suse-sshminion", "sles12sp4")
+  name               = lookup(local.names, "suse-sshminion", "minssh-sles12")
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
 
-  additional_repos  = lookup(local.additional_repos, "minssh-sles12sp4", {})
-  provider_settings = lookup(local.provider_settings_by_host, "minssh-sles12sp4", {})
+  additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
 }
 
-module "min-centos7" {
+module "redhat-minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "min-centos7") ? 1 : 0
+  quantity = contains(local.hosts, "redhat-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-centos7", "centos7")
-  name               = lookup(local.names, "min-centos7", "min-centos7")
+  image              = lookup(local.images, "redhat-minion", "centos7")
+  name               = lookup(local.names, "redhat-minion", "min-centos7")
 
   server_configuration   = local.minimal_configuration
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "min-centos7", {})
-  provider_settings = lookup(local.provider_settings_by_host, "min-centos7", {})
+  additional_repos  = lookup(local.additional_repos, "redhat-minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "redhat-minion", {})
 }
 
-module "min-ubuntu1804" {
+module "debian-minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "min-ubuntu1804") ? 1 : 0
+  quantity = contains(local.hosts, "debian-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-ubuntu1804", "ubuntu1804")
-  name               = lookup(local.names, "min-ubuntu1804", "min-ubuntu1804")
+  image              = lookup(local.images, "debian-minion", "ubuntu1804")
+  name               = lookup(local.names, "debian-minion", "min-ubuntu1804")
 
   server_configuration   = local.minimal_configuration
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "min-ubuntu1804", {})
-  provider_settings = lookup(local.provider_settings_by_host, "min-ubuntu1804", {})
+  additional_repos  = lookup(local.additional_repos, "debian-minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
 }
 
-module "min-pxeboot" {
+module "pxeboot-minion" {
   source = "../pxe_boot"
 
-  quantity = contains(local.hosts, "min-pxeboot") ? 1 : 0
+  quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "min-pxeboot", "sles12sp3")
-  name               = lookup(local.names, "min-pxeboot", "min-pxeboot")
-  provider_settings  = lookup(local.provider_settings_by_host, "min-pxeboot", {})
+  image              = lookup(local.images, "pxeboot-minion", "sles12sp3")
+  name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
+  provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
 }
 
-module "min-kvm" {
+module "kvm-host" {
   source = "../virthost"
 
-  quantity = contains(local.hosts, "min-kvm") ? 1 : 0
+  quantity = contains(local.hosts, "kvm-host") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-kvm", "sles15sp1")
-  name               = lookup(local.names, "min-kvm", "min-kvm")
+  image              = lookup(local.images, "kvm-host", "sles15sp1")
+  name               = lookup(local.names, "kvm-host", "min-kvm")
 
   server_configuration = local.minimal_configuration
 
@@ -225,19 +225,19 @@ module "min-kvm" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "min-kvm", {})
-  provider_settings = lookup(local.provider_settings_by_host, "min-kvm", {})
+  additional_repos  = lookup(local.additional_repos, "kvm-host", {})
+  provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
 }
 
-module "min-xen" {
+module "xen-host" {
   source = "../virthost"
 
-  quantity = contains(local.hosts, "min-xen") ? 1 : 0
+  quantity = contains(local.hosts, "xen-host") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "min-xen", "sles15sp1")
-  name               = lookup(local.names, "min-xen", "min-xen")
+  image              = lookup(local.images, "xen-host", "sles15sp1")
+  name               = lookup(local.names, "xen-host", "min-xen")
   hypervisor         = "xen"
 
   server_configuration = local.minimal_configuration
@@ -246,26 +246,26 @@ module "min-xen" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
-  additional_repos  = lookup(local.additional_repos, "min-xen", {})
-  provider_settings = lookup(local.provider_settings_by_host, "min-xen", {})
+  additional_repos  = lookup(local.additional_repos, "xen-host", {})
+  provider_settings = lookup(local.provider_settings_by_host, "xen-host", {})
 }
 
-module "ctl" {
+module "controller" {
   source = "../controller"
-  name   = lookup(local.names, "ctl", "ctl")
+  name   = lookup(local.names, "controller", "ctl")
 
   base_configuration      = module.base.configuration
-  server_configuration    = module.srv.configuration
-  proxy_configuration     = contains(local.hosts, "pxy") ? module.pxy.configuration : { hostname = null }
-  client_configuration    = contains(local.hosts, "cli-sles12sp4") ? module.cli-sles12sp4.configuration : { hostnames = [], ids = [] }
-  minion_configuration    = contains(local.hosts, "min-sles12sp4") ? module.min-sles12sp4.configuration : { hostnames = [], ids = [] }
-  buildhost_configuration = contains(local.hosts, "min-build") ? module.min-build.configuration : { hostnames = [], ids = [] }
-  centos_configuration    = contains(local.hosts, "min-centos7") ? module.min-centos7.configuration : { hostnames = [], ids = [] }
-  ubuntu_configuration    = contains(local.hosts, "min-ubuntu1804") ? module.min-ubuntu1804.configuration : { hostnames = [], ids = [] }
-  sshminion_configuration = contains(local.hosts, "minssh-sles12sp4") ? module.minssh-sles12sp4.configuration : { hostnames = [], ids = [] }
-  pxeboot_configuration   = contains(local.hosts, "min-pxeboot") ? module.min-pxeboot.configuration : { macaddr = null, image = null }
-  kvmhost_configuration   = contains(local.hosts, "min-kvm") ? module.min-kvm.configuration : { hostnames = [], ids = [] }
-  xenhost_configuration   = contains(local.hosts, "min-xen") ? module.min-xen.configuration : { hostnames = [], ids = [] }
+  server_configuration    = module.server.configuration
+  proxy_configuration     = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
+  client_configuration    = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [] }
+  minion_configuration    = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [] }
+  buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [] }
+  sshminion_configuration = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [] }
+  centos_configuration    = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [] }
+  ubuntu_configuration    = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [] }
+  pxeboot_configuration   = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
+  kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [] }
+  xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [] }
 
   branch            = var.branch
   git_username      = var.git_username
@@ -278,24 +278,24 @@ module "ctl" {
   server_http_proxy = var.server_http_proxy
   swap_file_size    = null
 
-  additional_repos  = lookup(local.additional_repos, "ctl", {})
-  provider_settings = lookup(local.provider_settings_by_host, "ctl", {})
+  additional_repos  = lookup(local.additional_repos, "controller", {})
+  provider_settings = lookup(local.provider_settings_by_host, "controller", {})
 }
 
 output "configuration" {
   value = {
     base = module.base.configuration
-    srv = module.srv.configuration
-    pxy = module.pxy.configuration
-    cli-sles12sp4 = module.cli-sles12sp4.configuration
-    min-sles12sp4 = module.min-sles12sp4.configuration
-    min-build = module.min-build.configuration
-    minssh-sles12sp4 = module.minssh-sles12sp4.configuration
-    min-centos7 = module.min-centos7.configuration
-    min-ubuntu1804 = module.min-ubuntu1804.configuration
-    min-pxeboot = module.min-pxeboot.configuration
-    min-kvm = module.min-kvm.configuration
-    min-xen = module.min-xen.configuration
-    ctl = module.ctl.configuration
+    server = module.server.configuration
+    proxy = module.proxy.configuration
+    suse-client = module.suse-client.configuration
+    suse-minion = module.suse-minion.configuration
+    build-host = module.build-host.configuration
+    suse-sshminion = module.suse-sshminion.configuration
+    redhat-minion = module.redhat-minion.configuration
+    debian-minion = module.debian-minion.configuration
+    pxeboot-minion = module.pxeboot-minion.configuration
+    kvm-host = module.kvm-host.configuration
+    xen-host = module.xen-host.configuration
+    controller = module.controller.configuration
   }
 }

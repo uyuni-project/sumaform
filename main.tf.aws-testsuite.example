@@ -28,19 +28,18 @@ module "cucumber_testsuite" {
   git_password = ...
 
   host_settings = {
-    ctl = {
-    }
-    srv = {}
-    pxy = {}
-    cli-sles12sp4 = {
+    controller = {}
+    server = {}
+    proxy = {}
+    suse-client = {
       image = "opensuse151"
       name = "cli-opensuse151"
     }
-    min-sles12sp4 = {
+    suse-minion = {
       image = "opensuse151"
       name = "min-opensuse151"
     }
-    minssh-sles12sp4 = {
+    suse-sshminion = {
       image = "opensuse151"
       name = "minssh-opensuse151"
     }
@@ -63,37 +62,33 @@ output "key_file" {
 //}
 
 output "aws_server_private_name" {
-  value = module.cucumber_testsuite.configuration.srv.hostname
+  value = module.cucumber_testsuite.configuration.server.hostname
 }
 
 output "aws_proxy_private_name" {
-  value = module.cucumber_testsuite.configuration.pxy.hostname
+  value = module.cucumber_testsuite.configuration.proxy.hostname
 }
 
-output "aws_min-sles12sp4_private_names" {
-  value = module.cucumber_testsuite.configuration.min-sles12sp4.hostnames
+output "aws_suse-minion_private_names" {
+  value = module.cucumber_testsuite.configuration.suse-minion.hostnames
 }
 
-output "aws_cli-sles12sp4_private_names" {
-  value = module.cucumber_testsuite.configuration.cli-sles12sp4.hostnames
+output "aws_suse-client_private_names" {
+  value = module.cucumber_testsuite.configuration.suse-client.hostnames
 }
 
-output "aws_minssh-sles12sp4_private_names" {
-  value = module.cucumber_testsuite.configuration.minssh-sles12sp4.hostnames
+output "aws_suse-sshminion_private_names" {
+  value = module.cucumber_testsuite.configuration.suse-sshminion.hostnames
 }
 
-output "aws_min-centos7_private_names" {
-  value = module.cucumber_testsuite.configuration.min-centos7.hostnames
+output "aws_redhat-minion_private_names" {
+  value = module.cucumber_testsuite.configuration.redhat-minion.hostnames
 }
 
-output "aws_min-kvm_private_names" {
-  value = module.cucumber_testsuite.configuration.min-kvm.hostnames
+output "aws_debian-minion_private_names" {
+  value = module.cucumber_testsuite.configuration.debian-minion.hostnames
 }
 
-output "aws_min-ubuntu1804_private_names" {
-  value = module.cucumber_testsuite.configuration.min-ubuntu1804.hostnames
-}
-
-output "aws_ctl_private_name" {
-  value = module.cucumber_testsuite.configuration.ctl.hostname
+output "aws_controller_private_name" {
+  value = module.cucumber_testsuite.configuration.controller.hostname
 }
