@@ -5,6 +5,11 @@ no-xen-tools:
   pkg.removed:
     - name: xen-tools-domU
 
+# SLES JeOS doesn't ship the KVM and Xen modules
+no_kernel_default_base:
+  pkg.removed:
+    - name: kernel-default-base
+
 virthost_packages:
   pkg.installed:
     - pkgs:
@@ -21,9 +26,11 @@ virthost_packages:
         - qemu-tools
         - guestfs-tools
         - tar # HACK: workaround missing supermin tar dependency. See boo#1134334
+        - kernel-default
     - require:
       - sls: repos
       - pkg: no-xen-tools
+      - pkg: no_kernel_default_base
 
 {% if grains['osrelease'] == '12.4' %}
 # Workaround for guestfs appliance missing libaugeas0 on 12SP4
@@ -110,11 +117,14 @@ rebuild_grub_cfg:
     - onchanges:
         - bootloader: set_xen_default
         - file: lower_dom0_memory
+{% endif %}
 
 reboot:
   module.run:
     - name: system.reboot
     - at_time: +1
     - onchanges:
+        - pkg: no_kernel_default_base
+        {% if grains['hypervisor']|lower() == 'xen' %}
         - cmd: rebuild_grub_cfg
-{% endif %}
+        {% endif %}
