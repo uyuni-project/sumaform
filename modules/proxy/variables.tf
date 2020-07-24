@@ -16,6 +16,11 @@ variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
 }
 
+variable "disable_firewall" {
+  description = "whether to disable the built-in firewall, opening up all ports"
+  default     = true
+}
+
 variable "minion" {
   description = "whether this Proxy should be onboarded as a minion"
   default     = true

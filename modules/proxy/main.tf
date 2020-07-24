@@ -29,6 +29,7 @@ module "proxy" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = ["proxy"]
+  disable_firewall              = var.disable_firewall
   grains = {
     product_version           = var.product_version
     mirror                    = var.base_configuration["mirror"]

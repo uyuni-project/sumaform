@@ -30,7 +30,7 @@ module "server" {
   connect_to_base_network       = true
   connect_to_additional_network = false
   roles                         = var.register_to_server == null ? ["server"] : ["server", "minion"]
-
+  disable_firewall              = var.disable_firewall
   grains = {
     product_version        = var.product_version
     cc_username            = var.base_configuration["cc_username"]
@@ -49,7 +49,6 @@ module "server" {
     smt                            = var.smt
     server_username                = var.server_username
     server_password                = var.server_password
-    disable_firewall               = var.disable_firewall
     allow_postgres_connections     = var.allow_postgres_connections
     unsafe_postgres                = var.unsafe_postgres
     postgres_log_min_duration      = var.postgres_log_min_duration
