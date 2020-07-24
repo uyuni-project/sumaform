@@ -15,13 +15,14 @@ module "sshminion" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = ["sshminion"]
+  disable_firewall              = var.disable_firewall
   grains = {
     product_version = var.product_version
     mirror          = var.base_configuration["mirror"]
   }
 
 
-  image     = var.image
+  image             = var.image
   provider_settings = var.provider_settings
 }
 

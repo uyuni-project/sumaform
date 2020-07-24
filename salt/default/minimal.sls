@@ -3,6 +3,7 @@ include:
   - default.hostname
   {% endif %}
   - default.network
+  - default.firewall
   - default.avahi
   - default.time
   - repos

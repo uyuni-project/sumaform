@@ -22,6 +22,11 @@ variable "use_os_unreleased_updates" {
   default     = false
 }
 
+variable "disable_firewall" {
+  description = "whether to disable the built-in firewall, opening up all ports"
+  default     = true
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}

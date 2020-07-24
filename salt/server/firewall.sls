@@ -11,18 +11,7 @@ firewall:
     - require:
       - sls: default
 
-{% if grains.get('disable_firewall') %}
-
-disable_firewall:
-  service.dead:
-{% if grains.get('osmajorrelease', None)|int() == 15 %}
-    - name: firewalld
-{% else %}
-    - name: SuSEfirewall2
-{% endif %}
-    - enable: False
-
-{% else %}
+{% if not grains.get('disable_firewall') | default(true, true)  %}
 
 firewall_configuration:
 {% if grains.get('osmajorrelease', None)|int() == 15 %}
@@ -39,6 +28,6 @@ firewall_configuration:
     - append_if_not_found: True
     - require:
       - pkg: firewall
-{% endif %}
 
+{% endif %}
 {% endif %}

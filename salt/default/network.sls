@@ -62,10 +62,6 @@ ipv6_disable_all:
 
 {% endif %}
 
-remove_firewall_packages:
-  pkg.removed:
-    - pkgs: [firewalld, SuSEfirewall2]
-
 {% if grains['os_family'] == 'RedHat' and grains.get('osmajorrelease', None)|int() == 6 %}
 mdns_iptables:
   iptables.insert:

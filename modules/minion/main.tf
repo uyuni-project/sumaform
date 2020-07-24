@@ -15,6 +15,7 @@ module "minion" {
   connect_to_base_network       = true
   connect_to_additional_network = true
   roles                         = var.roles
+  disable_firewall              = var.disable_firewall
 
   grains = merge({
     product_version        = var.product_version
@@ -29,7 +30,7 @@ module "minion" {
     evil_minion_slowdown_factor = var.evil_minion_slowdown_factor
   }, var.additional_grains)
 
-  image     = var.image
+  image             = var.image
   provider_settings = var.provider_settings
 }
 

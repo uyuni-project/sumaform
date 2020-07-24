@@ -56,6 +56,11 @@ variable "avahi_reflector" {
   default     = false
 }
 
+variable "disable_firewall" {
+  description = "whether to disable the built-in firewall, opening up all ports"
+  default     = true
+}
+
 variable "additional_repos" {
   description = "extra repositories used for installation {label = url}"
   default     = {}

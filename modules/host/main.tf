@@ -12,7 +12,6 @@ module "host" {
   additional_certs              = var.additional_certs
   additional_packages           = var.additional_packages
   quantity                      = var.quantity
-  grains                        = var.grains
   swap_file_size                = var.swap_file_size
   ssh_key_path                  = var.ssh_key_path
   gpg_keys                      = var.gpg_keys
@@ -24,6 +23,9 @@ module "host" {
   provider_settings             = var.provider_settings
   additional_disk_size          = var.additional_disk_size
   volume_provider_settings      = var.volume_provider_settings
+
+  grains = merge({ disable_firewall = var.disable_firewall },
+  var.grains)
 }
 
 output "configuration" {
