@@ -77,13 +77,6 @@ ifcfg-br0:
         BRIDGE=yes
         BRIDGE_PORTS=eth0
 
-network-restart:
-  cmd.run:
-    - name: systemctl restart network
-    - require:
-        - file: ifcfg-br0
-        - file: ifcfg-eth0
-
 {% if grains['hypervisor']|lower() == 'xen' %}
 {% if grains['xen_disk_image'] %}
 disk-image-template-xenpv.qcow2:
