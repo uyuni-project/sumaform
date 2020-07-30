@@ -32,4 +32,4 @@ script:
   - bash .ci-travis/salt-server-validation
   - bash .ci-travis/salt-client-validation
   - bash .ci-travis/salt-minion-validation
-  - bash .ci-travis/salt-ctl-validation
+  - bash .ci-travis/salt-controller-validation

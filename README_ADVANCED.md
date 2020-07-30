@@ -30,8 +30,8 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "minsles12sp4"
-  image = "sles12sp4"
+  name = "min-sles15sp1"
+  image = "sles15sp1"
   server_configuration = module.proxy.configuration
   product_version = "4.0-nightly"
 }
@@ -60,7 +60,7 @@ module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
 
-  image = "sles12sp5"
+  image = "sles15sp1"
   name = "server"
   product_version = "4.0-nightly"
 }
@@ -96,7 +96,7 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "minsles12sp4"
+  name = "min-sles12sp4"
   image = "sles12sp4"
   server_configuration = module.server.configuration
   quantity = 10
@@ -447,7 +447,7 @@ module "suse-client" {
   source = "./modules/client"
   base_configuration = module.base.configuration
 
-  name = "clisles12sp4"
+  name = "cli-sles12sp4"
   image = "sles12sp4"
   server_configuration = module.proxy.configuration
   quantity = 3
@@ -619,7 +619,7 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "minsles12sp4"
+  name = "min-sles12sp4"
   image = "sles12sp4"
   server_configuration = module.server.configuration
 
