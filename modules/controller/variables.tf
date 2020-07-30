@@ -68,15 +68,15 @@ variable "sshminion_configuration" {
   }
 }
 
-variable "centos_configuration" {
-  description = "use module.<CENTOS_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+variable "redhat_configuration" {
+  description = "use module.<REDHAT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "ubuntu_configuration" {
-  description = "use module.<UBUNTU_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+variable "debian_configuration" {
+  description = "use module.<DEBIAN_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

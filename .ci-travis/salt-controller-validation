@@ -19,7 +19,7 @@ server: travis.tf.local
 proxy: null
 client: cli-travis.tf.local
 minion: min-travis.tf.local
-centos_minion: 100-travis.tf.local
+redhat_minion: ceos-travis.tf.local
 ssh_minion: ssh-travis.tf.local
 roles: [controller]
 mirror: null
@@ -29,7 +29,7 @@ EOF
 
 cat >minion <<EOF
 root_dir: $PWD
-id: travis-ctl-validation
+id: travis-controller-validation
 EOF
 
 salt-call state.show_highstate --local --file-root=salt/ --config-dir=. --retcode-passthrough
