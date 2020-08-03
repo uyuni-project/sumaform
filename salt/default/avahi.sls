@@ -8,9 +8,9 @@ include:
 custom_avahi_repo:
   pkgrepo.managed:
     - humanname: custom_avahi_repo
-    {% if grains['osmajorrelease'] == '11' %}
+    {% if grains['osmajorrelease']|int() == 11 %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.23/SLE_11_SP4/
-    {% elif grains['osmajorrelease'] == '12' %}
+    {% elif grains['osmajorrelease']|int() == 12 %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP4/
     {% else %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP1/
@@ -31,7 +31,7 @@ apparmor_allow_avahi_custom_domains:
     - content: "  /etc/mdns.allow         r,"
 {% endif %}
 
-{% if grains['os_family'] == 'RedHat' and grains['osmajorrelease'] == '6' %}
+{% if grains['os_family'] == 'RedHat' and grains['osmajorrelease']|int() == 6 %}
 dbus_enable_service:
   service.running:
     - name: messagebus
@@ -55,7 +55,7 @@ avahi_pkg:
       - avahi
       - avahi-lang
       - libavahi-common3
-      {% if grains['osmajorrelease'] == '11' %}
+      {% if grains['osmajorrelease']|int() == 11 %}
       - libavahi-core5
       {% else %}
       - libavahi-core7
