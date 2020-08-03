@@ -51,7 +51,7 @@ module "server" {
   use_os_released_updates        = true
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
-  additional_repos               = lookup(local.additional_repos, "srv", {})
+  additional_repos               = lookup(local.additional_repos, "server", {})
 
   saltapi_tcpdump   = var.saltapi_tcpdump
   provider_settings = lookup(local.provider_settings_by_host, "server", {})
