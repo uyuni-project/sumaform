@@ -279,8 +279,8 @@ variable "ubuntu2004_minion_configuration" {
   }
 }
 
-variable "ubuntu1604_sshminion_configuration" {
-  description = "use module.<UBUNTU1604_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "ubuntu2004_sshminion_configuration" {
+  description = "use module.<UBUNTU2004_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
