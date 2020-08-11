@@ -230,6 +230,20 @@ variable "centos7_client_configuration" {
   }
 }
 
+variable "centos8_minion_configuration" {
+  description = "use module.<CENTOS8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "centos8_sshminion_configuration" {
+  description = "use module.<CENTOS8_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "ubuntu1604_minion_configuration" {
   description = "use module.<UBUNTU1604_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -253,6 +267,20 @@ variable "ubuntu1804_minion_configuration" {
 
 variable "ubuntu1804_sshminion_configuration" {
   description = "use module.<UBUNTU1804_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "ubuntu2004_minion_configuration" {
+  description = "use module.<UBUNTU2004_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "ubuntu1604_sshminion_configuration" {
+  description = "use module.<UBUNTU1604_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
