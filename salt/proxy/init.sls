@@ -6,7 +6,7 @@ include:
 {% endif %}
 
 proxy-packages:
-  pkg.latest:
+  pkg.installed:
     - pkgs:
       {% if grains['osfullname'] == 'Leap' %}
       - patterns-uyuni_proxy

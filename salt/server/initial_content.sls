@@ -161,7 +161,7 @@ ca_configuration_checksum:
 
 {% if grains.get('cloned_channels') %}
 spacewalk_utils:
-  pkg.latest:
+  pkg.installed:
     - name: spacewalk-utils
 
 {% for cloned_channel_set in grains.get('cloned_channels') %}

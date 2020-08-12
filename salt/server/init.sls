@@ -16,7 +16,7 @@ include:
   - server.tcpdump
 
 server_packages:
-  pkg.latest:
+  pkg.installed:
     - refresh: True
     {% if grains['osfullname'] == 'Leap' %}
     - name: patterns-uyuni_server
