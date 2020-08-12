@@ -202,8 +202,14 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
 
  * `client` module:
    * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
  * `minion` module:
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+ * `sshminion` module:
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+ * `host` module:
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
  * `proxy` module:
    * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
@@ -212,6 +218,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register` and `download_private_ssl_key`
    * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
+   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
  * `server` module:
    * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
    * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
