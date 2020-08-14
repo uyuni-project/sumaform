@@ -92,7 +92,7 @@ module "suse-client" {
   quantity = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-client", "sles12sp4")
+  image              = lookup(local.images, "suse-client", "sles12sp4o")
   name               = lookup(local.names, "suse-client", "cli-sles12")
 
   server_configuration = local.minimal_configuration
@@ -111,7 +111,7 @@ module "suse-minion" {
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-minion", "sles12sp4")
+  image              = lookup(local.images, "suse-minion", "sles12sp4o")
   name               = lookup(local.names, "suse-minion", "min-sles12")
 
   server_configuration = local.minimal_configuration
@@ -130,7 +130,7 @@ module "build-host" {
   quantity           = contains(local.hosts, "build-host") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "build-host", "sles12sp4")
+  image              = lookup(local.images, "build-host", "sles12sp4o")
   name               = lookup(local.names, "build-host", "min-build")
 
   server_configuration = local.minimal_configuration
@@ -151,7 +151,7 @@ module "suse-sshminion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-sshminion", "sles12sp4")
+  image              = lookup(local.images, "suse-sshminion", "sles12sp4o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles12")
 
   use_os_released_updates = true
@@ -169,7 +169,7 @@ module "redhat-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "redhat-minion", "centos7")
+  image              = lookup(local.images, "redhat-minion", "centos7o")
   name               = lookup(local.names, "redhat-minion", "min-centos7")
 
   server_configuration   = local.minimal_configuration
@@ -187,7 +187,7 @@ module "debian-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "debian-minion", "ubuntu1804")
+  image              = lookup(local.images, "debian-minion", "ubuntu1804o")
   name               = lookup(local.names, "debian-minion", "min-ubuntu1804")
 
   server_configuration   = local.minimal_configuration
@@ -216,7 +216,7 @@ module "kvm-host" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "kvm-host", "sles15sp1")
+  image              = lookup(local.images, "kvm-host", "sles15sp1o")
   name               = lookup(local.names, "kvm-host", "min-kvm")
 
   server_configuration = local.minimal_configuration
