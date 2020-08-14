@@ -315,3 +315,8 @@ variable "provider_settings" {
   description = "Map of provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "no_mirror" {
+  description = "Ignore mirror even if base configuration has one set"
+  default     = false
+}
