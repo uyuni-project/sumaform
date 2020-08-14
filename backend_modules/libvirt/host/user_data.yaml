@@ -140,7 +140,7 @@ zypper:
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
-%{ if image == "sles15sp1o" }
+%{ if image == "sles15sp1" }
 zypper:
   repos:
     - id: os_pool_repo
