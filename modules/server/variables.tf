@@ -187,11 +187,6 @@ variable "additional_packages" {
   default     = []
 }
 
-variable "skip_install" {
-  description = "skip instaallation (or removal) of packages, see README_ADVANCED.md"
-  default     = false
-}
-
 variable "traceback_email" {
   description = "recipient email address that will receive errors during usage"
   default     = null
