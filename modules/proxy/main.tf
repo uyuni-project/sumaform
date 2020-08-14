@@ -46,7 +46,7 @@ module "proxy" {
     repository_disk_size      = var.repository_disk_size
   }
 
-  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image                    = var.image == "default" ? var.images[var.product_version] : var.image
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings
