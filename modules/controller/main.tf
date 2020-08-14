@@ -32,7 +32,7 @@ module "controller" {
     git_password = var.git_password
     git_repo     = var.git_repo
     branch       = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
-    mirror       = var.base_configuration["mirror"]
+    mirror       = var.no_mirror == true ? null :  var.base_configuration["mirror"]
 
     server        = var.server_configuration["hostname"]
     proxy         = var.proxy_configuration["hostname"]
