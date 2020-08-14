@@ -1,4 +1,6 @@
 variable "images" {
+  # FIXME: temporary disabled sles15sp1o: when we use it in any
+  # suse client then sumaform fails deploynment.
   default = {
     "3.2-released"   = "sles12sp4o"
     "3.2-nightly"    = "sles12sp4o"
