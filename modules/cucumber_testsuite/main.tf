@@ -216,7 +216,7 @@ module "kvm-host" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "kvm-host", "sles15sp1o")
+  image              = lookup(local.images, "kvm-host", "sles15sp1")
   name               = lookup(local.names, "kvm-host", "min-kvm")
 
   server_configuration = local.minimal_configuration
