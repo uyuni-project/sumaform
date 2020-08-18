@@ -428,6 +428,11 @@ tools_update_repo:
     - require:
       - cmd: uyuni_key
 {% endif %}
+
+clean_repo_metadata:
+  cmd.run:
+    - name: yum clean metadata
+
 {% endif %} {# grains['os_family'] == 'RedHat' #}
 
 {% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
