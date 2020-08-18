@@ -71,10 +71,14 @@ module "controller" {
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null
+    centos8_minion       = length(var.centos8_minion_configuration["hostnames"]) > 0 ? var.centos8_minion_configuration["hostnames"][0] : null
+    centos8_sshminion    = length(var.centos8_sshminion_configuration["hostnames"]) > 0 ? var.centos8_sshminion_configuration["hostnames"][0] : null
     ubuntu1604_minion    = length(var.ubuntu1604_minion_configuration["hostnames"]) > 0 ? var.ubuntu1604_minion_configuration["hostnames"][0] : null
     ubuntu1604_sshminion = length(var.ubuntu1604_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1604_sshminion_configuration["hostnames"][0] : null
     ubuntu1804_minion    = length(var.ubuntu1804_minion_configuration["hostnames"]) > 0 ? var.ubuntu1804_minion_configuration["hostnames"][0] : null
     ubuntu1804_sshminion = length(var.ubuntu1804_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1804_sshminion_configuration["hostnames"][0] : null
+    ubuntu2004_minion    = length(var.ubuntu2004_minion_configuration["hostnames"]) > 0 ? var.ubuntu2004_minion_configuration["hostnames"][0] : null
+    ubuntu2004_sshminion = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
   }
 
 
