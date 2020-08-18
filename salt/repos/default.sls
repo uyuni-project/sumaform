@@ -367,13 +367,24 @@ uyuni_key:
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    {% if grains.get('mirror') %}
+    {% if release >= 8 %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/{{ release }}-CLIENT-TOOLS/x86_64/product/
+    {% elif grains.get('mirror') %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools/x86_64/
     {% else %}
     - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     - require:
       - cmd: galaxy_key
+
+{% if release >= 8 %}
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
+    - require:
+      - cmd: galaxy_key
+{% endif %}
 
 suse_res7_key:
   file.managed:
