@@ -39,10 +39,12 @@ devel_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/{{ sle_version_path }}/x86_64/update/
 
+{# The following "SLE-Module-Desktop-Applications" channel is required by "SLE-Module-Development-Tools" module #}
 desktop_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/product/
 
+{# The following "SLE-Module-Desktop-Applications" channel is required by "SLE-Module-Development-Tools" module #}
 desktop_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/update/
