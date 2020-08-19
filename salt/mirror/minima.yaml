@@ -136,6 +136,8 @@ scc:
     - SLE-Manager-Tools15-Updates
     - RES-6-SUSE-Manager-Tools
     - RES-7-SUSE-Manager-Tools
+    - RES8-Manager-Tools-Pool
+    - RES8-Manager-Tools-Updates
     - Ubuntu-16.04-SUSE-Manager-Tools
     - Ubuntu-18.04-SUSE-Manager-Tools
   archs: [x86_64, amd64]
@@ -278,6 +280,10 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
 
+  # RES 8 Manager Tools 4.0 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
+    archs: [x86_64]
+
   # Ubuntu 18.04 Manager Tools 4.0 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
     archs: [amd64]
@@ -300,6 +306,10 @@ http:
 
   # RES 7 Manager Tools 4.1 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+    archs: [x86_64]
+
+  # RES 8 Manager Tools 4.1 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
     archs: [x86_64]
 
   # Ubuntu 18.04 Manager Tools 4.1 devel
@@ -328,6 +338,10 @@ http:
 
   # RES 7 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+    archs: [x86_64]
+
+  # RES 8 Manager Tools Head devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
     archs: [x86_64]
 
   # Ubuntu 18.04 Manager Tools Head devel
