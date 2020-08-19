@@ -219,6 +219,8 @@ http:
   #  archs: [x86_64]
   #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP1:/GA:/TEST/images/repo/SLE-15-SP2-Module-Containers-POOL-x86_64-Media1/
   #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Desktop-Applications-POOL-x86_64-Media1/
+  #  archs: [x86_64]
   #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Development-Tools-POOL-x86_64-Media1/
   #  archs: [x86_64]
   #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP2:/GA:/TEST/images/repo/SLE-15-SP2-Module-Python2-POOL-x86_64-Media1/
