@@ -34,6 +34,7 @@ runcmd:
   # HACK: cloud-init in CentOS 6 does not take care of the following
   - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
   - "service sshd restart"
+  - "service qemu-ga start"
 %{ endif }
 
 %{ if image == "centos7o" }
