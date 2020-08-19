@@ -11,7 +11,6 @@ minion_cucumber_requisites:
       {%- if grains['os'] == 'Ubuntu' and grains['osrelease'] > '16.04' %}
       - libopenscap8
       - ssg-debderived
-      {% endif %}
       {% else %}
       - openscap-utils
       {% endif %}
