@@ -95,8 +95,8 @@ scc:
     - SLE-Module-Containers15-Updates
     - SLE-Module-Containers15-SP1-Pool
     - SLE-Module-Containers15-SP1-Updates
-    #- SLE-Module-Containers15-SP2-Pool
-    #- SLE-Module-Containers15-SP2-Updates
+    - SLE-Module-Containers15-SP2-Pool
+    - SLE-Module-Containers15-SP2-Updates
     # SUSE Manager Server
     - SUSE-Manager-Server-3.2-Pool
     - SUSE-Manager-Server-3.2-Updates
