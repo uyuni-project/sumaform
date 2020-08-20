@@ -12,7 +12,7 @@ client_cucumber_requisites:
       - spacewalk-oscap
       - openscap-utils
       - mgr-cfg-actions
-      {% if grains['os'] == 'CentOS' %}
+      {% if grains['os'] == 'CentOS' and grains['osrelease'] > '6' %}
       - man-db
       {% else %}
       - man
