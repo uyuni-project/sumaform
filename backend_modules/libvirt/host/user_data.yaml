@@ -98,7 +98,7 @@ runcmd:
 %{ endif }
 
 %{ if image == "opensuse152o" }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["qemu-guest-agent"]
 
 runcmd:
   - zypper removerepo --all
@@ -138,6 +138,10 @@ zypper:
       autorefresh: 1
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+
+runcmd:
+  - service qemu-guest-agent start
+
 %{ endif }
 
 %{ if image == "sles15sp1o" }
@@ -196,6 +200,7 @@ runcmd:
   # HACK: cloud-init in Ubuntu does not take care of the following
   - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
   - systemctl restart sshd
+  - service qemu-guest-agent start
 
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
@@ -243,6 +248,7 @@ runcmd:
   # HACK: cloud-init in Ubuntu does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
+  - service qemu-guest-agent start
 
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
