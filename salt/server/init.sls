@@ -44,7 +44,7 @@ environment_setup_script:
 
 server_setup:
   cmd.run:
-    - name: /usr/lib/susemanager/bin/migration.sh -l /var/log/susemanager_setup.log -s
+    - name: /usr/lib/susemanager/bin/mgr-setup -l /var/log/susemanager_setup.log -s
     - creates: /root/.MANAGER_SETUP_COMPLETE
     - require:
       - pkg: server_packages
