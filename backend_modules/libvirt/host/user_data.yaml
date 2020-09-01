@@ -148,6 +148,11 @@ zypper:
       baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
       enabled: 1
       autorefresh: 1
+    - id: module_server_applications_pool_repo
+      name: module_server_applications_pool_repo
+      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Server-Applications/15-SP1/x86_64/product
+      enabled: 1
+      autorefresh: 1
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
