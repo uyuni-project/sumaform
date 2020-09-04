@@ -4,7 +4,7 @@
 
 for i in {0..100}
 do
-  if [[ `salt-call` ]]; then
+  if [[ `salt-call --help` ]]; then
     break
   fi
   echo "Waiting for salt to be installed..."
