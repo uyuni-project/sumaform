@@ -22,7 +22,7 @@
      - Note: ipv6 is configured by default on all VMs created by sumaform, so make sure to enable ipv6 too (DHCPv6 is not necessary)
    - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
  - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
- - Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `ln -sfn backend_modules/libvirt modules/backend`
+ - Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `cd modules && ln -sfn ../backend_modules/libvirt backend`
  - run `terraform init` to make sure Terraform has detected all modules
  - run `terraform apply` to actually have the VMs set up!
 
