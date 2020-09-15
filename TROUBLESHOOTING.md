@@ -39,6 +39,15 @@ hosts:          files mdns [NOTFOUND=return] dns
 ```
 `mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
 
+Starting with `nss-mdns` version 0.14.1, you also need to populate `/etc/mdns.allow` with:
+
+```
+.local.
+.local
+```
+
+`mdns.allow` is required to [force all .local domains to be resolved regardless of label count or unicast SOA records](https://github.com/lathiat/nss-mdns/blob/master/README.md#etcmdnsallow).
+
 ## Q: how can I work around slowness in resolution of `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
 
 If there is a 5-second delay on any name resolution (or ping) between Avahi hosts, a likely cause is that ipv6 is enabled on the VMs (that is the default setting) but the network is blocking ipv6 traffic.
