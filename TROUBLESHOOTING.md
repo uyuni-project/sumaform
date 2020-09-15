@@ -30,6 +30,7 @@ Check that:
   - on SUSE systems check YaST -> Security and Users -> Firewall -> Zones -> public, "mdns" should appear on the list on the right
  - avahi is installed and running
    - typically you can check this via systemd: `systemctl status avahi-daemon`
+ - Avahi is capable of resolving the host you are trying to reach: `avahi-resolve -n mbologna-uyuni.tf.local`
  - mdns is configured in glibc's Name Server Switch configuration file
 
 In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
