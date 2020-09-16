@@ -27,7 +27,7 @@ module "server" {
   // if you want to use two networks
 
   provider_settings = {
-    hostname = "192.168.1.1"
+    host = "192.168.1.1"
   }
 }
 
@@ -41,7 +41,7 @@ module "client" {
   // see modules/client/variables.tf for possible values
 
   provider_settings = {
-    hostname = "192.168.1.2"
+    host = "192.168.1.2"
   }
 }
 
@@ -55,6 +55,6 @@ module "minion" {
   // see modules/minion/variables.tf for possible values
 
   provider_settings = {
-    hostname = "192.168.1.3"
+    host = "192.168.1.3"
   }
 }
