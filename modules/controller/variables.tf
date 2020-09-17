@@ -298,7 +298,7 @@ variable "additional_packages" {
 
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
-  default     = 4096
+  default     = 0
 }
 
 variable "ssh_key_path" {
