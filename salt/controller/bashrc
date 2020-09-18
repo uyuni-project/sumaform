@@ -48,8 +48,8 @@ export VIRTHOST_XEN_PASSWORD="linux" {% else %}# no Xen host defined {% endif %}
 # various test suite settings
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
 export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
-export PORTUS_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ grains.get('auth_registry_password') }}"
-{% if grains.get('auth_registry') | default(false, true) %}export PORTUS_URI="{{ grains.get('auth_registry') }}" {% else %}# no authenticated registry defined {% endif %}
+export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ grains.get('auth_registry_password') }}"
+{% if grains.get('auth_registry') | default(false, true) %}export AUTH_REGISTRY="{{ grains.get('auth_registry') }}" {% else %}# no authenticated registry defined {% endif %}
 {% if grains.get('no_auth_registry') | default(false, true) %}export NO_AUTH_REGISTRY="{{ grains.get('no_auth_registry') }}" {% else %}# no container registry defined {% endif %}
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
 {% if grains.get('pxeboot_image') | default(false, true) %}export PXEBOOT_IMAGE="{{ grains.get('pxeboot_image') }}" {% else %}# no PXE boot image defined {% endif %}
