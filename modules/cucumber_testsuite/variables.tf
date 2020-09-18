@@ -97,7 +97,7 @@ variable "git_profiles_repo" {
   default     = "default"
 }
 
-variable "registry_uri" {
+variable "no_auth_registry" {
   description = "URI of container registry server, see README_TESTING.md"
   default     = null
 }

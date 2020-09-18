@@ -50,7 +50,7 @@ export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
 export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}"
 export PORTUS_CREDENTIALS="{{ grains.get('portus_username') }}|{{ grains.get('portus_password') }}"
 {% if grains.get('portus_uri') | default(false, true) %}export PORTUS_URI="{{ grains.get('portus_uri') }}" {% else %}# no portus registry defined {% endif %}
-{% if grains.get('registry_uri') | default(false, true) %}export REGISTRY_URI="{{ grains.get('registry_uri') }}" {% else %}# no container registry defined {% endif %}
+{% if grains.get('no_auth_registry') | default(false, true) %}export NO_AUTH_REGISTRY="{{ grains.get('no_auth_registry') }}" {% else %}# no container registry defined {% endif %}
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
 {% if grains.get('pxeboot_image') | default(false, true) %}export PXEBOOT_IMAGE="{{ grains.get('pxeboot_image') }}" {% else %}# no PXE boot image defined {% endif %}
 

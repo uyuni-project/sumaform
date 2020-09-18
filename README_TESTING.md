@@ -190,14 +190,14 @@ module "cucumber_testsuite" {
 
 ## Alternative Container Registry server
 
-If you want the test suite to use an unauthenticated container registry server, you can specify it with the `registry_uri` variable.
+If you want the test suite to use an unauthenticated container registry server, you can specify it with the `no_auth_registry` variable.
 
 Example:
 
 ```hcl
 module "cucumber_testsuite" {
    ...
-   registry_uri = "uri.of.registry:443/used"
+   no_auth_registry = "uri.of.registry:443/used"
    ...
 }
 ```
