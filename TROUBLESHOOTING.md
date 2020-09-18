@@ -186,3 +186,9 @@ When we change between workspaces,it may happen that `terraform init` throws "is
 ```
 rm -r .terraform/
 ```
+
+## Q: Why are documentation files not installed after package installation?
+
+Sumaform uses JeOS and, by default, `zypper` is configures to not install docs.
+To change that behavior edit `/etc/zypp/zypp.conf` and change the property `rpm.install.excludedocs = no`
+and re-install the package.
