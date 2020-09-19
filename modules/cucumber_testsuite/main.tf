@@ -267,16 +267,17 @@ module "controller" {
   kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [] }
   xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [] }
 
-  branch            = var.branch
-  git_username      = var.git_username
-  git_password      = var.git_password
-  git_repo          = var.git_repo
-  git_profiles_repo = var.git_profiles_repo
-  portus_uri        = var.portus_uri
-  portus_username   = var.portus_username
-  portus_password   = var.portus_password
-  server_http_proxy = var.server_http_proxy
-  swap_file_size    = null
+  branch                 = var.branch
+  git_username           = var.git_username
+  git_password           = var.git_password
+  git_repo               = var.git_repo
+  git_profiles_repo      = var.git_profiles_repo
+  no_auth_registry       = var.no_auth_registry
+  auth_registry          = var.auth_registry
+  auth_registry_username = var.auth_registry_username
+  auth_registry_password = var.auth_registry_password
+  server_http_proxy      = var.server_http_proxy
+  swap_file_size         = null
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   provider_settings = lookup(local.provider_settings_by_host, "controller", {})

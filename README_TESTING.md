@@ -188,18 +188,32 @@ module "cucumber_testsuite" {
 }
 ```
 
-## Alternative Portus server
+## Alternative Container Registry server
 
-If you want the test suite to use a Portus server, you can specify it with the `portus_uri`, `portus_username`, and `portus_password` variables.
+If you want the test suite to use an unauthenticated container registry server, you can specify it with the `no_auth_registry` variable.
 
 Example:
 
 ```hcl
 module "cucumber_testsuite" {
    ...
-   portus_uri = "uri.of.portus:5000/used"
-   portus_username = "username"
-   portus_password = "password"
+   no_auth_registry = "uri.of.registry:443/used"
+   ...
+}
+```
+
+## Alternative Portus server
+
+If you want the test suite to use a Portus server (authenticated registry), you can specify it with the `auth_registry`, `auth_registry_username`, and `auth_registry_password` variables.
+
+Example:
+
+```hcl
+module "cucumber_testsuite" {
+   ...
+   auth_registry = "uri.of.auth.registry:5000/used"
+   auth_registry_username = "username"
+   auth_registry_password = "password"
    ...
 }
 ```

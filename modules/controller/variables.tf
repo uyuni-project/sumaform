@@ -319,18 +319,23 @@ variable "git_profiles_repo" {
   default     = "default"
 }
 
-variable "portus_uri" {
-  description = "URI of portus server, see README_ADVANCED.md"
+variable "no_auth_registry" {
+  description = "URI of container registry server, see README_ADVANCED.md"
   default     = null
 }
 
-variable "portus_username" {
-  description = "username on portus server, see README_ADVANCED.md"
+variable "auth_registry" {
+  description = "URI of authenticated registry, see README_ADVANCED.md"
   default     = null
 }
 
-variable "portus_password" {
-  description = "password on portus server, see README_ADVANCED.md"
+variable "auth_registry_username" {
+  description = "username on registry, see README_ADVANCED.md"
+  default     = null
+}
+
+variable "auth_registry_password" {
+  description = "password on registry, see README_ADVANCED.md"
   default     = null
 }
 
