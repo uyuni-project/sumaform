@@ -42,8 +42,8 @@ registry_certificate:
 
 auth_registry_certificate:
   file.managed:
-    - name: /etc/pki/trust/anchors/authreg.mgr.suse.de-ca.crt
-    - source: salt://minion/certs/authreg.mgr.suse.de-ca.crt
+    - name: /etc/pki/trust/anchors/portus.mgr.suse.de-ca.crt
+    - source: salt://minion/certs/portus.mgr.suse.de-ca.crt
     - makedirs: True
 
 suse_certificate:
