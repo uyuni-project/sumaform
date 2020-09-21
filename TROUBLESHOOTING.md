@@ -28,8 +28,9 @@ Could not resolve hostname server.tf.local: Name or service not known
 Check that:
  - your firewall is not blocking UDP port 5353
   - on SUSE systems check YaST -> Security and Users -> Firewall -> Zones -> public, "mdns" should appear on the list on the right
- - avahi is installed and running
+ - Avahi is installed and running
    - typically you can check this via systemd: `systemctl status avahi-daemon`
+ - Avahi is capable of resolving the host you are trying to reach: `avahi-resolve -n uyuni.tf.local`
  - mdns is configured in glibc's Name Server Switch configuration file
 
 In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
@@ -37,6 +38,15 @@ In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the follo
 hosts:          files mdns [NOTFOUND=return] dns
 ```
 `mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
+
+Starting with `nss-mdns` version 0.14.1, you also need to populate `/etc/mdns.allow` with:
+
+```
+.local
+.tf.local
+```
+
+`mdns.allow` is required to [force all multicast DNS domains to be resolved regardless of label count or unicast SOA records](https://github.com/lathiat/nss-mdns/blob/master/README.md#etcmdnsallow).
 
 ## Q: how can I work around slowness in resolution of `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
 
