@@ -109,7 +109,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
       enabled: 1
       autorefresh: 1
 
@@ -121,7 +121,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
       enabled: 1
       autorefresh: 1
 
@@ -133,7 +133,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
       enabled: 1
       autorefresh: 1
 
@@ -145,12 +145,12 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: module_server_applications_pool_repo
       name: module_server_applications_pool_repo
-      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Server-Applications/15-SP1/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP1/x86_64/product
       enabled: 1
       autorefresh: 1
 
@@ -162,7 +162,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
       enabled: 1
       autorefresh: 1
 
