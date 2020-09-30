@@ -27,7 +27,9 @@ locals {
 data "template_file" "user_data" {
   template = file("${path.module}/user_data.yaml")
   vars = {
-    image = var.image
+    image             = var.image
+    use_mirror_images = var.base_configuration["use_mirror_images"]
+    mirror            = var.base_configuration["mirror"]
   }
 }
 
