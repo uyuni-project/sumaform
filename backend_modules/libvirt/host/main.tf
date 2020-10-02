@@ -88,7 +88,7 @@ resource "libvirt_domain" "domain" {
     }
   }
 
-  cloudinit = local.cloud_init ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
+  cloudinit = length(libvirt_cloudinit_disk.cloudinit_disk) == var.quantity ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
 
   dynamic "network_interface" {
     for_each = slice(
