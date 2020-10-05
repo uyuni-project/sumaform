@@ -60,12 +60,12 @@ cucumber_requisites:
 chromium_fixed_version:
   pkg.installed:
   - name: chromium
-  - version: 73.0.3683.75
+  - version: 85.0.4183.121
 
 chromedriver_fixed_version:
   pkg.installed:
   - name: chromedriver
-  - version: 73.0.3683.75
+  - version: 85.0.4183.121
 
 create_syslink_for_chromedriver:
   file.symlink:
