@@ -2,8 +2,15 @@
 
 import sys
 import time
-import urllib2
-import xmlrpclib
+try:
+    # Python 2
+    from urllib2 import urlopen, HTTPError
+    from xmlrpclib import Server
+except ImportError:
+    # Python 3
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+    from xmlrpc.client import ServerProxy as Server
 
 if len(sys.argv) != 5:
     print("Usage: register_slave.py <USERNAME> <PASSWORD> <MASTER FQDN> <SLAVE FQDN>")
@@ -14,19 +21,19 @@ MANAGER_URL = "http://{}/rpc/api".format(sys.argv[3])
 # ensure Tomcat is up
 for _ in range(10):
     try:
-        urllib2.urlopen(MANAGER_URL)
+        urlopen(MANAGER_URL)
         break
-    except urllib2.HTTPError:
+    except HTTPError:
         time.sleep(3)
 
-client = xmlrpclib.Server(MANAGER_URL, verbose=0)
+client = Server(MANAGER_URL, verbose=0)
 
 session_key = None
 attempts = 10
 while session_key is None and attempts > 0:
     try:
         session_key = client.auth.login(sys.argv[1], sys.argv[2])
-    except xmlrpclib.ProtocolError:
+    except ProtocolError:
         time.sleep(3)
         attempts -= 1
 

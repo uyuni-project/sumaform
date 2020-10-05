@@ -3,8 +3,16 @@
 import os
 import sys
 import time
-import urllib2
-import xmlrpclib
+
+try:
+    # Python 2
+    from urllib2 import urlopen, HTTPError
+    from xmlrpclib import Server
+except ImportError:
+    # Python 3
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+    from xmlrpc.client import ServerProxy as Server
 
 if len(sys.argv) != 5:
     print("Usage: wait_for_reposync.py <USERNAME> <PASSWORD> <MASTER FQDN> <CHANNEL>")
@@ -17,12 +25,12 @@ MANAGER_URL = "http://{}/rpc/api".format(fqdn)
 # ensure Tomcat is up
 for _ in range(10):
     try:
-        urllib2.urlopen(MANAGER_URL)
+        urlopen(MANAGER_URL)
         break
-    except urllib2.HTTPError:
+    except HTTPError:
         time.sleep(3)
 
-client = xmlrpclib.Server(MANAGER_URL, verbose=0)
+client = Server(MANAGER_URL, verbose=0)
 
 session_key = client.auth.login(username, password)
 
