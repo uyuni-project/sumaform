@@ -171,6 +171,12 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 
 %{ if image == "ubuntu1604o" }
 apt:
+  conf: |
+    APT {
+      Get {
+        "AllowUnauthenticated" true;
+      };
+    };
   sources:
     tools_pool_repo:
       source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
