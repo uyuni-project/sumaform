@@ -45,7 +45,6 @@ cucumber_requisites:
       - apache2-worker
       - cantarell-fonts
       - git-core
-      - wget
       - aaa_base-extras
       - zlib-devel
       - libxslt-devel
@@ -57,15 +56,13 @@ cucumber_requisites:
     - require:
       - sls: repos
 
-chromium_fixed_version:
+install_chromium:
   pkg.installed:
   - name: chromium
-  - version: 73.0.3683.75
 
-chromedriver_fixed_version:
+install_chromedriver:
   pkg.installed:
   - name: chromedriver
-  - version: 73.0.3683.75
 
 create_syslink_for_chromedriver:
   file.symlink:
