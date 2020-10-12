@@ -204,7 +204,7 @@ apt:
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
-  # HACK: cloud-init in Ubuntu does not take care of the following
+  # HACK: cloud-init in Ubuntu 16.04 does not take care of the following
   - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
   - systemctl restart sshd
 
@@ -214,7 +214,7 @@ packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ if image == "ubuntu1804o" }
 
 runcmd:
-  # HACK: cloud-init in Ubuntu does not take care of the following
+  # HACK: cloud-init in Ubuntu 18.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
@@ -251,9 +251,10 @@ apt:
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
-  # HACK: cloud-init in Ubuntu does not take care of the following
+  # HACK: cloud-init in Ubuntu 20.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
+  - systemctl start qemu-guest-agent
 
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
