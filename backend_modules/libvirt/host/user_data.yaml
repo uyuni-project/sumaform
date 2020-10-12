@@ -182,7 +182,7 @@ apt:
       source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v2.0.15 (GNU/Linux)
+        Version: GnuPG v1.4.5 (GNU/Linux)
 
         mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
         NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
@@ -191,16 +191,16 @@ apt:
         feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
         +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
         ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJbJ7pVAhsDBQkEHrAABgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPoS+B/4inB/cDPfk5ad3IzdY
-        SsFB+maVHaMhVdxFToM68pj7yLAEzYdVXjZYuUCmRiGuXhFdojFdTsDeYbPYflxi
-        xfGvQ/18zPSI/UA+UMyRxaT9e6D2IUqmWAwc+/WwQbzoyItgKVc4UB6N+vWq4JFq
-        pNCVpKvwi9d38HAROl6suzxm3m6GeDe0UCPXW/Rju/7uHrHE0tnUacQru8k2rJhM
-        FIoZxUrdAPjhDx+hDX/J/jFTIX6k05Nbn7n43G0UTV4kFNaqYKmy+8S5gTgpePfO
-        pHB9YLqe0zxGRERXgjT82iM799OfmD3kc+/s4l45i/jk6MOjkX217grKIujwXf0v
-        tG6giEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJfM/XhAhsDBQkIKuuMBgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqQnB/wMkQdu3FtPd+Jppc9G
+        TLbSZC2CDLfGpciuBYU4yiUY6F8Gt2KASRQe9lHiKtJKeKpRXsXu1tEUuTr8xp2R
+        PbP+TKT2u7HFIEfrQUl5poSXSrEqtQyzaciTYxV343EWr+kn3Ry4M3Cj1uiMOYGd
+        UIT61uye1TUxbvnGLbl6NUl+KOgtH3DQZf6xLr+yCD/y97FHpLCGQtMMwQdcJ25z
+        9fmJlBb8SEOe0blfOQP2RTZe6pIuLvR+rbA+fj5fGI9m5VV1gznVXjY6PFlEwW9k
+        UaJlMJ4ximis8qO/8SMLI5y9AQC8gSy4qKc6oYe3TEnaK/GjRrEXNbKBkEKw3z0m
+        tbC0iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
         3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =lTyy
+        =H9dm
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
@@ -226,10 +226,10 @@ packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 apt:
   sources:
     tools_pool_repo:
-      source: "deb https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
+      source: "deb https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v2.0.15 (GNU/Linux)
+        Version: GnuPG v1.4.5 (GNU/Linux)
 
         mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
         NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
@@ -238,16 +238,16 @@ apt:
         feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
         +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
         ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJbJ7pVAhsDBQkEHrAABgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPoS+B/4inB/cDPfk5ad3IzdY
-        SsFB+maVHaMhVdxFToM68pj7yLAEzYdVXjZYuUCmRiGuXhFdojFdTsDeYbPYflxi
-        xfGvQ/18zPSI/UA+UMyRxaT9e6D2IUqmWAwc+/WwQbzoyItgKVc4UB6N+vWq4JFq
-        pNCVpKvwi9d38HAROl6suzxm3m6GeDe0UCPXW/Rju/7uHrHE0tnUacQru8k2rJhM
-        FIoZxUrdAPjhDx+hDX/J/jFTIX6k05Nbn7n43G0UTV4kFNaqYKmy+8S5gTgpePfO
-        pHB9YLqe0zxGRERXgjT82iM799OfmD3kc+/s4l45i/jk6MOjkX217grKIujwXf0v
-        tG6giEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJfM/XhAhsDBQkIKuuMBgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqQnB/wMkQdu3FtPd+Jppc9G
+        TLbSZC2CDLfGpciuBYU4yiUY6F8Gt2KASRQe9lHiKtJKeKpRXsXu1tEUuTr8xp2R
+        PbP+TKT2u7HFIEfrQUl5poSXSrEqtQyzaciTYxV343EWr+kn3Ry4M3Cj1uiMOYGd
+        UIT61uye1TUxbvnGLbl6NUl+KOgtH3DQZf6xLr+yCD/y97FHpLCGQtMMwQdcJ25z
+        9fmJlBb8SEOe0blfOQP2RTZe6pIuLvR+rbA+fj5fGI9m5VV1gznVXjY6PFlEwW9k
+        UaJlMJ4ximis8qO/8SMLI5y9AQC8gSy4qKc6oYe3TEnaK/GjRrEXNbKBkEKw3z0m
+        tbC0iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
         3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =lTyy
+        =H9dm
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
