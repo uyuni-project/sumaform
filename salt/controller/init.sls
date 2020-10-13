@@ -87,7 +87,7 @@ install_npm:
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
   cmd.run:
-    - name: npm install cucumber-html-reporter@5.1.0 --save-dev
+    - name: npm install cucumber-html-reporter@5.2.0 --save-dev
     - require:
       - pkg: install_npm
 
