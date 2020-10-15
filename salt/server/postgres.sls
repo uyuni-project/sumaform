@@ -21,7 +21,9 @@ postgresql_main_configuration:
 postgresql_hba_configuration:
   file.append:
     - name: /var/lib/pgsql/data/pg_hba.conf
-    - text: host    all     all       0.0.0.0/0      md5
+    - text: |
+        host    all     all       0.0.0.0/0      md5
+        host    all     all       ::/0           md5
     - require:
       - sls: server
 
