@@ -105,19 +105,24 @@ spacewalk_git_repository:
   cmd.run:
     - cwd: /tmp
     - name: |
-{%- if grains.get("git_repo") == "default" %}
-{%- if grains.get("branch") == "master" %}
-        curl -L -n https://github.com/uyuni-project/uyuni/archive/master.tar.gz --output archive.tar.gz
-        tar xzvf archive.tar.gz uyuni-master/testsuite
-        mv uyuni-master /root/spacewalk
+{%- set url = grains.get('git_repo') | default('default', true) %}
+{%- set branch = grains.get('branch') | default('master', true) %}
+{%- if url == 'default' %}
+{%-   if branch == 'master' %}
+{%-     set project = 'uyuni-project' %}
+{%-     set repo = 'spacewalk' %}
+{%-   else %}
+{%-     set project = 'SUSE' %}
+{%-     set repo = 'spacewalk' %}
+{%-   endif %}
 {%- else %}
-        curl -L -n https://github.com/SUSE/spacewalk/archive/{{ grains.get("branch") }}.tar.gz --output archive.tar.gz
-        tar xzvf archive.tar.gz spacewalk-{{ grains.get("branch") }}/testsuite
-        mv spacewalk-{{ grains.get("branch") }} /root/spacewalk
+{%-   set list = url.split('/') %}
+{%-   set project = list[-2] %}
+{%-   set repo = list[-1].replace('.git', '') %}
 {%- endif %}
-{%- else %}
-        git clone --depth 1 {{ grains.get("git_repo") }} -b {{ grains.get("branch") }} /root/spacewalk
-{%- endif %}
+        curl -L -n https://github.com/{{ project }}/{{ repo }}/archive/{{ branch }}.tar.gz --output archive.tar.gz
+        tar xzvf archive.tar.gz {{ repo }}-{{ branch }}/testsuite
+        mv {{ repo }}-{{ branch }} /root/spacewalk
     - creates: /root/spacewalk
     - require:
       - pkg: cucumber_requisites
