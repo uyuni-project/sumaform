@@ -103,14 +103,20 @@ fix_cucumber_html_reporter_style:
 
 spacewalk_git_repository:
   cmd.run:
+    - cwd: /tmp
+    - name: |
 {%- if grains.get("git_repo") == "default" %}
 {%- if grains.get("branch") == "master" %}
-    - name: git clone --depth 1 https://github.com/uyuni-project/uyuni.git -b master /root/spacewalk
+        curl -L -n https://github.com/uyuni-project/uyuni/archive/master.tar.gz --output archive.tar.gz
+        tar xzvf archive.tar.gz uyuni-master/testsuite
+        mv uyuni-master /root/spacewalk
 {%- else %}
-    - name: git clone --depth 1 https://github.com/SUSE/spacewalk -b {{ grains.get("branch") }} /root/spacewalk
+        curl -L -n https://github.com/SUSE/spacewalk/archive/{{ grains.get("branch") }}.tar.gz --output archive.tar.gz
+        tar xzvf archive.tar.gz spacewalk-{{ grains.get("branch") }}/testsuite
+        mv spacewalk-{{ grains.get("branch") }} /root/spacewalk
 {%- endif %}
 {%- else %}
-    - name: git clone --depth 1 {{ grains.get("git_repo") }} -b {{ grains.get("branch") }} /root/spacewalk
+        git clone --depth 1 {{ grains.get("git_repo") }} -b {{ grains.get("branch") }} /root/spacewalk
 {%- endif %}
     - creates: /root/spacewalk
     - require:
