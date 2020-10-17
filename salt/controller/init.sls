@@ -121,7 +121,7 @@ spacewalk_git_repository:
 {%-   set repo = list[-1].replace('.git', '') %}
 {%- endif %}
         curl -L -n https://github.com/{{ project }}/{{ repo }}/archive/{{ branch }}.tar.gz --output archive.tar.gz
-        tar xzvf archive.tar.gz {{ repo }}-{{ branch }}/testsuite
+        tar xzf archive.tar.gz {{ repo }}-{{ branch }}/testsuite
         mv {{ repo }}-{{ branch }} /root/spacewalk
     - creates: /root/spacewalk
     - require:
