@@ -101,32 +101,62 @@ fix_cucumber_html_reporter_style:
     - require:
       - cmd: install_cucumber_html_reporter_via_npm
 
-spacewalk_git_repository:
-  cmd.run:
-    - cwd: /tmp
-    - name: |
+git_helper:
+  file.append:
+    - name: ~/git_helper.sh
+    - text: |
 {%- set url = grains.get('git_repo') | default('default', true) %}
 {%- set branch = grains.get('branch') | default('master', true) %}
 {%- if url == 'default' %}
 {%-   if branch == 'master' %}
-{%-     set project = 'uyuni-project' %}
-{%-     set repo = 'spacewalk' %}
+{%-     set url = 'https://github.com/uyuni-project/uyuni.git' %}
 {%-   else %}
-{%-     set project = 'SUSE' %}
-{%-     set repo = 'spacewalk' %}
+{%-     set url = 'https://github.com/SUSE/spacewalk.git' %}
 {%-   endif %}
-{%- else %}
-{%-   set list = url.split('/') %}
-{%-   set project = list[-2] %}
-{%-   set repo = list[-1].replace('.git', '') %}
 {%- endif %}
-        curl -L -n https://github.com/{{ project }}/{{ repo }}/archive/{{ branch }}.tar.gz --output archive.tar.gz
-        tar xzf archive.tar.gz {{ repo }}-{{ branch }}/testsuite
-        mv {{ repo }}-{{ branch }} /root/spacewalk
+{%- set list = url.split('/') %}
+{%- set project = list[-2] %}
+{%- set repo = list[-1].replace('.git', '') %}
+        git clone --depth 1 {{ url }} -b {{ branch }} /root/spacewalk
+        if [ $? -ne 0 ]; then
+          cd /tmp
+          echo '********************************************' >&2
+          echo '*** PROBLEM WITH GIT CLONE, PLEASE DEBUG ***' >&2
+          echo '********************************************' >&2
+          curl -L -n https://github.com/{{ project }}/{{ repo }}/archive/{{ branch }}.tar.gz --output archive.tar.gz || exit 1
+          tar xzf archive.tar.gz {{ repo }}-{{ branch }}/testsuite || exit 2
+          mv {{ repo }}-{{ branch }} /root/spacewalk || exit 3
+        fi
+
+git_config:
+  file.append:
+    - name: ~/.netrc
+    - text: |
+{%- if grains.get("git_username") and grains.get("git_password") %}
+        machine github.com
+        login {{ grains.get("git_username") }}
+        password {{ grains.get("git_password") }}
+        protocol https
+{%- endif %}
+
+netrc_mode:
+  file.managed:
+    - name: ~/.netrc
+    - user: root
+    - group: root
+    - mode: 600
+    - replace: False
+    - require:
+      - file: git_config
+
+spacewalk_git_repository:
+  cmd.run:
+    - name: bash ~/git_helper.sh
     - creates: /root/spacewalk
     - require:
       - pkg: cucumber_requisites
       - file: netrc_mode
+      - file: git_helper
 
 cucumber_run_script:
   file.managed:
@@ -152,27 +182,6 @@ extra_pkgs:
       - screen
     - require:
       - sls: repos
-
-git_config:
-  file.append:
-    - name: ~/.netrc
-    - text:
-{%- if grains.get("git_username") and grains.get("git_password") %}
-      - machine github.com
-      - login {{ grains.get("git_username") }}
-      - password {{ grains.get("git_password") }}
-      - protocol https
-{%- endif %}
-
-netrc_mode:
-  file.managed:
-    - name: ~/.netrc
-    - user: root
-    - group: root
-    - mode: 600
-    - replace: False
-    - require:
-      - file: git_config
 
 chrome_certs:
   file.directory:
