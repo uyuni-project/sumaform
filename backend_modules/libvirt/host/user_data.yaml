@@ -37,7 +37,7 @@ runcmd:
   - "service qemu-ga start"
   
 write_files:
-  - content: |
+  content: |
     SELINUX=permissive
     SELINUXTYPE=targeted
   owner: root:root
@@ -68,7 +68,7 @@ yum_repos:
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 
 write_files:
-  - content: |
+  content: |
     SELINUX=permissive
     SELINUXTYPE=targeted
   owner: root:root
@@ -99,7 +99,7 @@ yum_repos:
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 
 write_files:
-  - content: |
+  content: |
     SELINUX=permissive
     SELINUXTYPE=targeted
   owner: root:root
