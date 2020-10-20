@@ -35,6 +35,14 @@ runcmd:
   - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
   - "service sshd restart"
   - "service qemu-ga start"
+  
+write_files:
+  - content: |
+    SELINUX=permissive
+    SELINUXTYPE=targeted
+  owner: root:root
+  path: /etc/sysconfig/selinux
+  permissions: '0644'
 %{ endif }
 
 %{ if image == "centos7o" }
@@ -58,6 +66,14 @@ yum_repos:
     name: epel
 
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+
+write_files:
+  - content: |
+    SELINUX=permissive
+    SELINUXTYPE=targeted
+  owner: root:root
+  path: /etc/sysconfig/selinux
+  permissions: '0644'
 %{ endif }
 
 %{ if image == "centos8o" }
@@ -81,6 +97,14 @@ yum_repos:
     name: epel
 
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+
+write_files:
+  - content: |
+    SELINUX=permissive
+    SELINUXTYPE=targeted
+  owner: root:root
+  path: /etc/sysconfig/selinux
+  permissions: '0644'
 %{ endif }
 
 %{ if image == "opensuse150o" }
