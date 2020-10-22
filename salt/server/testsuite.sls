@@ -108,6 +108,7 @@ testsuite_packages:
       - salt-ssh
       - wget
       - OpenIPMI
+      - tftpboot-installation-SLE-15-SP2-x86_64
     - require:
       - sls: repos
 
