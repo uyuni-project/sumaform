@@ -35,7 +35,7 @@ runcmd:
   - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
   - "service sshd restart"
   - "service qemu-ga start"
-  
+
 write_files:
   content: |
     SELINUX=permissive
