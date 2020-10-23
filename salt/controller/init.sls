@@ -138,7 +138,6 @@ spacewalk_git_repository:
     - require:
       - pkg: cucumber_requisites
       - file: netrc_mode
-      - file: git_helper
 
 cucumber_run_script:
   file.managed:
