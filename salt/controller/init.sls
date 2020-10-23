@@ -101,33 +101,6 @@ fix_cucumber_html_reporter_style:
     - require:
       - cmd: install_cucumber_html_reporter_via_npm
 
-git_helper:
-  file.append:
-    - name: ~/git_helper.sh
-    - text: |
-{%- set url = grains.get('git_repo') | default('default', true) %}
-{%- set branch = grains.get('branch') | default('master', true) %}
-{%- if url == 'default' %}
-{%-   if branch == 'master' %}
-{%-     set url = 'https://github.com/uyuni-project/uyuni.git' %}
-{%-   else %}
-{%-     set url = 'https://github.com/SUSE/spacewalk.git' %}
-{%-   endif %}
-{%- endif %}
-{%- set list = url.split('/') %}
-{%- set project = list[-2] %}
-{%- set repo = list[-1].replace('.git', '') %}
-        git clone --depth 1 {{ url }} -b {{ branch }} /root/spacewalk
-        if [ $? -ne 0 ]; then
-          cd /tmp
-          echo '********************************************' >&2
-          echo '*** PROBLEM WITH GIT CLONE, PLEASE DEBUG ***' >&2
-          echo '********************************************' >&2
-          curl -L -n https://github.com/{{ project }}/{{ repo }}/archive/{{ branch }}.tar.gz --output archive.tar.gz || exit 1
-          tar xzf archive.tar.gz {{ repo }}-{{ branch }}/testsuite || exit 2
-          mv {{ repo }}-{{ branch }} /root/spacewalk || exit 3
-        fi
-
 git_config:
   file.append:
     - name: ~/.netrc
@@ -151,7 +124,16 @@ netrc_mode:
 
 spacewalk_git_repository:
   cmd.run:
-    - name: bash ~/git_helper.sh
+{%- set url = grains.get('git_repo') | default('default', true) %}
+{%- set branch = grains.get('branch') | default('master', true) %}
+{%- if url == 'default' %}
+{%-   if branch == 'master' %}
+{%-     set url = 'https://github.com/uyuni-project/uyuni.git' %}
+{%-   else %}
+{%-     set url = 'https://github.com/SUSE/spacewalk.git' %}
+{%-   endif %}
+{%- endif %}
+    - name: git clone --depth 1 {{ url }} -b {{ branch }} /root/spacewalk
     - creates: /root/spacewalk
     - require:
       - pkg: cucumber_requisites
