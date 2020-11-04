@@ -16,7 +16,7 @@ Legal values for work-in-progress software are:
  * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
  * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP2 image)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP3 image)
  * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap 15.1 image)
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.

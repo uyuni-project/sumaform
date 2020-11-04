@@ -169,6 +169,18 @@ zypper:
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
+%{ if image == "sles15sp3o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
 %{ if image == "ubuntu1604o" }
 apt:
   conf: |

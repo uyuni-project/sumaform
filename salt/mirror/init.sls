@@ -51,8 +51,8 @@ tar:
 jdupes:
   archive.extracted:
     - name: /
-    - source: https://github.com/jbruchon/jdupes/releases/download/v1.13.2/jdupes-1.13.2-linux64-static.tar.xz
-    - source_hash: 078531eee63b434f3b8383367050a55d18fdd671c4d7800df82da9630a35ea62fc755e6337bd703d6526d3ae265f4d37b218aa1045629809498056a59bda3922
+    - source: https://github.com/jbruchon/jdupes/releases/download/v1.18.1/jdupes_1.18.1-x86-64.pkg.tar.xz
+    - source_hash: 7429fa365f63e8ce73c39cf42a3a5e26e8eb49246b3f58fae4ebb353478232a77cc17b4316cb7464bfc685f779bfb690559b24eb60fe61b0b97ea1b3a0ccba48
     - archive_format: tar
     - enforce_toplevel: false
     - options: --strip-components=1

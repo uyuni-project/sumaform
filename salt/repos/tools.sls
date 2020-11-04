@@ -28,6 +28,8 @@
 {% set path = 'SLE_15_SP1' %}
 {% elif grains['osrelease'] == '15.2' %}
 {% set path = 'SLE_15_SP2' %}
+{% elif grains['osrelease'] == '15.3' %}
+{% set path = 'SLE_15_SP3' %}
 {% endif %}
 {% endif %}
 
