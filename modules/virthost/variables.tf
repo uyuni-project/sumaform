@@ -95,7 +95,7 @@ variable "hypervisor" {
 }
 
 variable "image" {
-  description = "One of: sles15, sles15sp1, sles15sp2, sles15sp2o, opensuse150, opensuse151 or opensuse152o"
+  description = "One of: sles15, sles15sp1, sles15sp2, sles15sp2o, sle15sp3o, opensuse150, opensuse151 or opensuse152o"
   type        = string
 }
 
