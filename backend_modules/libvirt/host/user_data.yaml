@@ -98,7 +98,7 @@ runcmd:
 %{ endif }
 
 %{ if image == "opensuse152o" }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["qemu-guest-agent"]
 
 runcmd:
   - zypper removerepo --all
