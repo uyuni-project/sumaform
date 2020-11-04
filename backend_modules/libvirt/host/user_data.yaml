@@ -136,6 +136,15 @@ zypper:
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
       enabled: 1
       autorefresh: 1
+    - id: module_server_applications_pool_repo
+      name: module_server_applications_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+runcmd:
+  # HACK: cloud-init in SLES 15 does not take care of the following
+  - "systemctl start 'qemu-ga@virtio\x2dports-org.qemu.guest_agent.0'"
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
@@ -163,6 +172,11 @@ zypper:
     - id: os_pool_repo
       name: os_pool_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
+      enabled: 1
+      autorefresh: 1
+    - id: module_server_applications_pool_repo
+      name: module_server_applications_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product
       enabled: 1
       autorefresh: 1
 
