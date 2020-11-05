@@ -59,11 +59,16 @@ minima:
 
 test_repo_rpm_updates:
   cmd.run:
-    - name: minima sync
+    - name: minima sync && mv /tmp/repositories/systemsmanagement\:/Uyuni\:/Test-Packages\:/Updates/rpm /srv/www/htdocs/pub/TestRepoRpmUpdates
     - env:
       - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
+          storage:
+            type: file
+            path: /tmp
+
+          http:
+            - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+              archs: [x86_64]
     - require:
       - archive: minima
 
