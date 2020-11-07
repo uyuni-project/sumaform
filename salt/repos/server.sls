@@ -139,7 +139,7 @@ server_devel_repo:
 # Moving target, only until SLE15SP3 GA is ready
 module_server_applications_movingtarget_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Server-Applications-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Server-Applications-POOL-x86_64-Media1/
 
 module_server_applications_pool_repo:
   pkgrepo.managed:
@@ -156,7 +156,7 @@ module_web_scripting_pool_repo:
 # Moving target, only until SLE15SP3 GA is ready
 module_web_scripting_movingtarget_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Web-Scripting-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Web-Scripting-POOL-x86_64-Media1/
 
 module_web_scripting_update_repo:
   pkgrepo.managed:
@@ -165,7 +165,7 @@ module_web_scripting_update_repo:
 # Moving target, only until SLE15SP3 GA is ready
 module_python2_movingtarget_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Python2-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Python2-POOL-x86_64-Media1/
 
 module_python2_pool_repo:
   pkgrepo.managed:
