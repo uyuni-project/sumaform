@@ -11,7 +11,7 @@ chpasswd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -41,7 +41,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -64,7 +64,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -217,7 +217,7 @@ apt:
     };
   sources:
     tools_pool_repo:
-      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
+      source: "deb http://${ use_mirror_images ? mirror : \"download.opensuse.org\"}/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -264,7 +264,7 @@ packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 apt:
   sources:
     tools_pool_repo:
-      source: "deb https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
+      source: "deb https://${ use_mirror_images ? mirror : \"download.opensuse.org\"}/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
