@@ -142,11 +142,11 @@ zypper:
       enabled: 1
       autorefresh: 1
 
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+
 runcmd:
   # HACK: cloud-init in SLES 15 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\x2dports-org.qemu.guest_agent.0'"
-
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
 %{ if image == "sles15sp1o" }
@@ -164,6 +164,10 @@ zypper:
       autorefresh: 1
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+
+runcmd:
+  # HACK: cloud-init in SLES 15 does not take care of the following
+  - "systemctl start 'qemu-ga@virtio\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
 %{ if image == "sles15sp2o" }
@@ -181,6 +185,10 @@ zypper:
       autorefresh: 1
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+
+runcmd:
+  # HACK: cloud-init in SLES 15 does not take care of the following
+  - "systemctl start 'qemu-ga@virtio\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
 %{ if image == "sles15sp3o" }
@@ -193,6 +201,10 @@ zypper:
       autorefresh: 1
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+
+runcmd:
+  # HACK: cloud-init in SLES 15 does not take care of the following
+  - "systemctl start 'qemu-ga@virtio\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
 %{ if image == "ubuntu1604o" }
