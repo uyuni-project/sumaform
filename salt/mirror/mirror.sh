@@ -153,6 +153,10 @@ if [ ! -z "${MIRROR_IMAGES}" -o ! -z "${REFRESH_SCC_DATA}" ]; then
   source ${CONFIG}
 fi
 
+if [ ! -d /srv/mirror ];then
+    mkdir -p /srv/mirror
+fi
+
 cd /srv/mirror
 if [ ! -z "${MIRROR_IMAGES}" ]; then mirror_images; fi
 if [ ! -z "${REFRESH_SCC_DATA}" ]; then refresh_scc_data; fi
