@@ -9,22 +9,17 @@ client_cucumber_requisites:
     - pkgs:
       - spacewalk-client-setup
       - spacewalk-check
-      - spacewalk-oscap
-      - openscap-utils
       - mgr-cfg-actions
       - wget
     - require:
       - sls: default
 
-{% if grains['os'] == 'SUSE' %}
+{% if grains['os'] == 'SUSE' and '12' in grains['osrelease'] %}
 
 suse_client_cucumber_requisites:
   pkg.installed:
     - pkgs:
-      - openscap-content
-      {% if '12' in grains['osrelease'] %}
       - aaa_base-extras
-      {% endif %}
     - require:
       - sls: repos
 
