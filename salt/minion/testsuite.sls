@@ -8,32 +8,21 @@ minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
       - salt-minion
-      {%- if grains['os'] == 'Ubuntu' %}
-      {%- if grains['osrelease'] > '16.04' %}
-      - libopenscap8
-      - ssg-debderived
-      {% endif %}
-      {% else %}
-      - openscap-utils
-      {% endif %}
       - wget
     - require:
       - sls: default
 
 {% if grains['os'] == 'SUSE' %}
+{% if '12' in grains['osrelease'] or '15' in grains['osrelease']%}
 
 suse_minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
-      - openscap-content
-      {% if '12' in grains['osrelease'] or '15' in grains['osrelease']%}
       - aaa_base-extras
       - ca-certificates
-      {% endif %}
     - require:
       - sls: repos
 
-{% if '12' in grains['osrelease'] or '15' in grains['osrelease'] %}
 registry_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/registry.mgr.suse.de.pem
