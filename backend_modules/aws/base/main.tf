@@ -410,6 +410,7 @@ locals {
     key_name = local.key_name
     key_file = local.key_file
     ami_info = {
+      opensuse152 = { ami = data.aws_ami.opensuse152.image_id },
       opensuse151 = { ami = data.aws_ami.opensuse151.image_id },
       opensuse150 = { ami = data.aws_ami.opensuse150.image_id },
       sles15      = { ami = data.aws_ami.sles15.image_id },
