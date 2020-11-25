@@ -62,7 +62,7 @@ variable "host_settings" {
 
 // server
 variable "product_version" {
-  description = "One of: 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, 4.1-nightly, 4.1-released, head, test, uyuni-released"
+  description = "One of: 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, 4.1-nightly, 4.1-released, 4.2-beta, head, test, uyuni-released"
   type        = string
 }
 
