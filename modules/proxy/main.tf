@@ -6,6 +6,7 @@ variable "images" {
     "4.0-nightly"    = "sles15sp1o"
     "4.1-released"   = "sles15sp2o"
     "4.1-nightly"    = "sles15sp2o"
+    "4.2-beta"       = "sles15sp3o"
     "head"           = "sles15sp3o"
     "uyuni-master"   = "opensuse152o"
     "uyuni-released" = "opensuse152o"
