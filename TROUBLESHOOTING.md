@@ -48,6 +48,12 @@ Starting with `nss-mdns` version 0.14.1, you also need to populate `/etc/mdns.al
 
 `mdns.allow` is required to [force all multicast DNS domains to be resolved regardless of label count or unicast SOA records](https://github.com/lathiat/nss-mdns/blob/master/README.md#etcmdnsallow).
 
+Note that if you are using apparmor and [bsc#1168306](https://bugzilla.suse.com/show_bug.cgi?id=1168306) is not fixed yet, you will have to manually edit `/etc/apparmor.d/usr.sbin.avahi-daemon`, and add the following entry to it, otherwise apparmor will prevent avahi from reading `/etc/mdns.allow` file (reboot is needed):
+
+```
+/etc/mdns.allow r,
+```
+
 ## Q: how can I work around slowness in resolution of `tf.local` mDNS/Zeroconf/Bonjour/Avahi names?
 
 If there is a 5-second delay on any name resolution (or ping) between Avahi hosts, a likely cause is that ipv6 is enabled on the VMs (that is the default setting) but the network is blocking ipv6 traffic.
