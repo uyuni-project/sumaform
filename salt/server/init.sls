@@ -31,7 +31,7 @@ server_packages:
 baseproduct_link:
   file.symlink:
     - name: /etc/products.d/baseproduct
-    - target: SUSE-Manager-Server.prod
+    - target: SLES.prod
     - require:
       - pkg: server_packages
 {% endif %}
