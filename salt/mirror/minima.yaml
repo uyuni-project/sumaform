@@ -72,6 +72,8 @@ scc:
     # SLE 15-SP2 Products
     - SLE-Product-SLES15-SP2-Pool
     - SLE-Product-SLES15-SP2-Updates
+    - SLE-Product-SLED15-SP2-Pool
+    - SLE-Product-SLED15-SP2-Updates
     # SLE 15-SP2 Basic Modules
     - SLE-Module-Basesystem15-SP2-Pool
     - SLE-Module-Basesystem15-SP2-Updates
