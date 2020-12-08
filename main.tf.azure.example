@@ -1,0 +1,93 @@
+locals {
+  name_prefix = "Tfs"
+  location = "francecentral"
+  
+  key_file            = "Private Key File"
+  public_key_location = "Public Key File"
+}
+
+provider "azurerm" {
+  features {}
+}
+
+module "base" {
+  source = "./modules/base"
+
+  cc_username = "*"
+  cc_password = "*"
+
+  name_prefix =  local.name_prefix 
+   // if you use name_prefix, make sure to update the server_configuration for clients/minions below
+
+  provider_settings = {
+    location = local.location
+    ssh_allowed_ips   = "*"
+    public_key_location = local.public_key_location
+    key_file            = local.key_file
+  }
+}
+
+module "mirror" {
+  
+  
+
+  source = "./modules/mirror"
+
+  base_configuration = module.base.configuration
+
+  volume_provider_settings = {
+# uncomment the following line if you want to reuse an data disk snapshot
+  # volume_snapshot_id = data.aws_ebs_snapshot.data_disk_snapshot.id
+  }
+}
+
+locals{
+  base_configuration = merge(module.base.configuration,
+  {
+    mirror = length(module.mirror.configuration["hostnames"]) > 0 ? module.mirror.configuration["hostnames"][0] : null
+  })
+}
+
+// ================= END MIRROR =================
+
+
+module "server" {
+  
+  source             = "./modules/server"
+  base_configuration = local.base_configuration
+
+  name            = "server"
+  image           = "suma41"
+  product_version = "suma41"
+  
+
+  provider_settings = {
+    public_instance = true
+  }
+}
+
+module "minion" {
+  source             = "./modules/minion"
+  base_configuration = local.base_configuration
+
+  name                 = "minion"
+  image                = "opensuse152"
+  server_configuration =  module.server.configuration
+  product_version      = "uyuni-release"
+}
+
+output "key_file" {
+  value = local.key_file
+}
+
+output "bastion_public_name" {
+  value = lookup(module.base.configuration, "bastion_host", null)
+}
+
+output "azure_server_private_name" {
+  value = module.server.configuration.hostname
+}
+
+output "azure_minion_private_names" {
+  value = module.minion.configuration.hostnames
+}
