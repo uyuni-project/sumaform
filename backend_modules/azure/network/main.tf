@@ -4,7 +4,6 @@
   The public network has an Internet Gateway and accepts SSH connections from a whitelist of trusted IPs.
 */
 /*TODO: add tags*/
-
 resource "azurerm_resource_group" "suma-rg" {
   
   name     = "${var.name_prefix}-resources"
