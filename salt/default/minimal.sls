@@ -11,7 +11,9 @@ include:
 minimal_package_update:
   pkg.latest:
     - pkgs:
+{% if grains.get('product_version', 'default') != 'suma41' %}
       - salt-minion
+{% endif %}
 {% if grains['os_family'] == 'Suse' %}
       - zypper
       - libzypp
