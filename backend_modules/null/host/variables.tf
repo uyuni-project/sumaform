@@ -46,6 +46,12 @@ variable "quantity" {
   description = "number of hosts like this one"
   default     = 1
 }
+variable "public_instance" {
+  description = "is public instance"
+  type = bool
+  default = false
+}
+
 
 variable "grains" {
   description = "custom grain map to be added to this host's configuration"
