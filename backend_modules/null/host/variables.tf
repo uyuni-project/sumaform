@@ -46,6 +46,8 @@ variable "quantity" {
   description = "number of hosts like this one"
   default     = 1
 }
+
+#The azure module needs this in order to use count in the creation of network cardsand public ips
 variable "public_instance" {
   description = "is public instance"
   type = bool
