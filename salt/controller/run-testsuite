@@ -70,4 +70,23 @@ if [ "$1" = "sle-updates" ]; then
   stage sle-updates
 fi
 
+# QAM
+if [ "$1" = "qam" ]; then
+  stage qam_add_custom_repositories
+  stage qam_add_activation_keys
+  stage qam_init_proxy
+  stage qam_init_clients
+  stage qam_smoke_tests
+  stage qam_finishing
+fi
+
+if [ "$1" = "qam-parallel" ]; then
+  parallel_stage qam_add_custom_repositories
+  parallel_stage qam_add_activation_keys
+  stage qam_init_proxy
+  parallel_stage qam_init_clients
+  parallel_stage qam_smoke_tests
+  stage qam_finishing
+fi
+
 exit $RESULT
