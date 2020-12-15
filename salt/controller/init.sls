@@ -52,6 +52,10 @@ cucumber_requisites:
       # packaged ruby gems
       - ruby2.5-rubygem-bundler
       - twopence
+      - python-twopence
+      - twopence-devel
+      - twopence-shell-client
+      - twopence-test-server
       - rubygem-twopence
     - require:
       - sls: repos
