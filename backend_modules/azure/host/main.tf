@@ -93,7 +93,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
 
   location                         = local.region
   resource_group_name              = local.resource_group_name
-  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
+  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${length(azurerm_network_interface.suma-additional-nic) > 0?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
   
   size                          = local.provider_settings["vm_size"]
   admin_username      = "azureuser"
