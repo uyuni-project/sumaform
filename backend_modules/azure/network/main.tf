@@ -189,7 +189,7 @@ resource "azurerm_subnet_nat_gateway_association" "suma-ngw-association" {
 }
 
 output "configuration" {
-  depends_on = [azurerm_subnet_route_table_association.private-rtas, azurerm_subnet_route_table_association.private_additional-rtas , azurerm_subnet_route_table_association.public-rtas]
+  depends_on = [azurerm_subnet_route_table_association.private-rtas, azurerm_subnet_route_table_association.private-additional-rtas , azurerm_subnet_route_table_association.public-rtas]
   value = var.create_network ? {
     public_subnet_id          = length(azurerm_subnet.public-sn) > 0? azurerm_subnet.public-sn[0].id: null
     private_subnet_id         = length(azurerm_subnet.private-sn) > 0? azurerm_subnet.private-sn[0].id: null
