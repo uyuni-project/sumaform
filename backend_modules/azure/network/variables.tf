@@ -9,7 +9,7 @@ variable "name_prefix" {
 }
 
 variable "create_network" {
-  description = "resource name prefix"
+  description = "defined if a new network should be created"
   type        = bool
   default = true
 }
