@@ -178,8 +178,13 @@ resource "azurerm_nat_gateway" "suma-ngw" {
   name                = "${var.name_prefix}-ngw"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
-  public_ip_address_ids   = ["${azurerm_public_ip.nat-pubIP[0].id}"]
 }
+
+resource "azurerm_nat_gateway_public_ip_association" "ngw-pubip-association" {
+  nat_gateway_id       = azurerm_nat_gateway.suma-ngw.id
+  public_ip_address_id = azurerm_public_ip.nat-pubIP[0].id
+}
+
 
 resource "azurerm_subnet_nat_gateway_association" "suma-ngw-association" {
   count = var.create_network? 1: 0

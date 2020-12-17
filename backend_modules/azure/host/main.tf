@@ -1,7 +1,7 @@
 
 locals {
   platform_image = lookup(lookup(var.base_configuration["platform_image_info"], var.image, {}), "platform_image", var.image)
-
+  disk_snapshot = lookup(var.volume_provider_settings, "volume_snapshot", null)
   provider_settings = merge({
     public_key_location        = var.base_configuration["public_key_location"]
     key_file                   = var.base_configuration["key_file"]
@@ -10,15 +10,15 @@ locals {
     volume_size     = 50
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     vm_size = lookup(var.base_configuration, "vm_size", "Standard_B1s") },
-    contains(var.roles, "server") ? { instance_type = "Standard_B2s" } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "Standard_D2d_v4" } : {},
-    contains(var.roles, "server") && lookup(var.grains, "pts", false) ? { instance_type = "Standard_B4ms" } : {},
-    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "Standard_B2s" } : {},
-    contains(var.roles, "pts_minion") ? { instance_type = "Standard_B2s" } : {},
-    contains(var.roles, "mirror") ? { instance_type = "Standard_B1s" } : {},
-    contains(var.roles, "controller") ? { instance_type = "Standard_B2s" } : {},
-    contains(var.roles, "grafana") ? { instance_type = "Standard_B2s" } : {},
-    contains(var.roles, "virthost") ? { instance_type = "Standard_B1ms" } : {},
+    contains(var.roles, "server") ? { vm_size = "Standard_B4ms" } : {},
+    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { vm_size = "Standard_D2d_v4" } : {},
+    contains(var.roles, "server") && lookup(var.grains, "pts", false) ? { vm_size = "Standard_B4ms" } : {},
+    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { vm_size = "Standard_B2s" } : {},
+    contains(var.roles, "pts_minion") ? { vm_size = "Standard_B2s" } : {},
+    contains(var.roles, "mirror") ? { vm_size = "Standard_B1s" } : {},
+    contains(var.roles, "controller") ? { vm_size = "Standard_B2s" } : {},
+    contains(var.roles, "grafana") ? { vm_size = "Standard_B2s" } : {},
+    contains(var.roles, "virthost") ? { vm_size = "Standard_B1ms" } : {},
   var.provider_settings)
 
   public_subnet_id                     = var.base_configuration.public_subnet_id
@@ -32,7 +32,6 @@ locals {
   
   public_instance = var.public_instance
   
-  # availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["location"]
 }
 
@@ -48,7 +47,7 @@ data "template_file" "user_data" {
 
 resource "azurerm_public_ip" "suma-pubIP" {
   count = local.public_instance ? var.quantity: 0
-  name                = "${var.base_configuration["name_prefix"]}${var.name}-pubIP"
+  name                = "${var.base_configuration["name_prefix"]}${var.name}-pubIP${count.index}"
   resource_group_name = local.resource_group_name
   location            = local.region
   allocation_method   = "Static"
@@ -93,7 +92,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
 
   location                         = local.region
   resource_group_name              = local.resource_group_name
-  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${length(azurerm_network_interface.suma-additional-nic) > 0?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
+  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
   
   size                          = local.provider_settings["vm_size"]
   admin_username      = "azureuser"
@@ -102,7 +101,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
   os_disk {
     name              = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-os-disk"
     caching           = "ReadWrite"
-
+    disk_size_gb      =  lookup(var.provider_settings, "disk_size", null)
     storage_account_type = "Standard_LRS"
   }
   source_image_reference {
@@ -125,8 +124,9 @@ resource "azurerm_managed_disk" "addtionaldisks" {
   location             = local.region
   resource_group_name  = local.resource_group_name
   storage_account_type = "Standard_LRS"
-  create_option        = "Empty"
-  disk_size_gb         = var.additional_disk_size == null ? 0 : var.additional_disk_size
+  create_option        = local.disk_snapshot == null?"Empty":"Copy"
+  source_resource_id   = local.disk_snapshot == null?null:local.disk_snapshot.id
+  disk_size_gb         = var.additional_disk_size == null ? (local.disk_snapshot == null?0:local.disk_snapshot.disk_size_gb) : var.additional_disk_size
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" {
