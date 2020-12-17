@@ -339,7 +339,7 @@ os_update_repo:
 
 {% if '15.3' == grains['osrelease'] %}
 # Moving target, only until SLE15SP3 GA is ready. Remove this block when we start using GA.
-{% if '4.2-nightly' in grains['product_version'] %}
+{% if '4.2-nightly' in grains['product_version'] or 'head' in grains.get('product_version') %}
 os_movingtarget_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Basesystem-POOL-x86_64-Media1/
