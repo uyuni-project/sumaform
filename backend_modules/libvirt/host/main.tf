@@ -54,6 +54,7 @@ resource "libvirt_volume" "data_disk" {
   size  = (var.additional_disk_size == null? 0: var.additional_disk_size) * 1024 * 1024 * 1024
   pool  = lookup(var.volume_provider_settings, "pool", "default")
   count = var.additional_disk_size == null? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+  lifecycle { prevent_destroy = var.prevent_additional_disk_destroy }
 }
 
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {

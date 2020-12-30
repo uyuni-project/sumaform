@@ -21,9 +21,10 @@ module "mirror" {
 
   image = "opensuse151"
 
-  provider_settings        = var.provider_settings
-  additional_disk_size     = var.repository_disk_size
-  volume_provider_settings = var.volume_provider_settings
+  provider_settings               = var.provider_settings
+  additional_disk_size            = var.repository_disk_size
+  prevent_additional_disk_destroy = true
+  volume_provider_settings        = var.volume_provider_settings
 }
 
 output "configuration" {

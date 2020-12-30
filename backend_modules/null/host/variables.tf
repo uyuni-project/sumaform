@@ -106,6 +106,12 @@ variable "additional_disk_size" {
   default     = null
 }
 
+variable "prevent_additional_disk_destroy" {
+  description = "should the additional disk be protected against destruction"
+  type        = bool
+  default     = false
+}
+
 variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
