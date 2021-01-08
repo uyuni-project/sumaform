@@ -81,6 +81,12 @@ module "controller" {
     ubuntu1804_sshminion = length(var.ubuntu1804_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1804_sshminion_configuration["hostnames"][0] : null
     ubuntu2004_minion    = length(var.ubuntu2004_minion_configuration["hostnames"]) > 0 ? var.ubuntu2004_minion_configuration["hostnames"][0] : null
     ubuntu2004_sshminion = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
+    sle11sp4_buildhost   = length(var.sle11sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle11sp4_buildhost_configuration["hostnames"][0] : null
+    sle11sp3_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
+    sle12sp4_buildhost   = length(var.sle12sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp4_buildhost_configuration["hostnames"][0] : null
+    sle12sp4_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
+    sle15sp2_buildhost   = length(var.sle15sp2_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp2_buildhost_configuration["hostnames"][0] : null
+    sle15sp2_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
   }
 
 

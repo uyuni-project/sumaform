@@ -46,6 +46,12 @@ export VIRTHOST_XEN_PASSWORD="linux" {% else %}# no Xen host defined {% endif %}
 {% if grains.get('ubuntu1804_sshminion') | default(false, true) %}export UBUNTU1804_SSHMINION="{{ grains.get('ubuntu1804_sshminion') }}" {% else %}# no UBUNTU1804 ssh minion defined {% endif %}
 {% if grains.get('ubuntu2004_minion') | default(false, true) %}export UBUNTU1804_MINION="{{ grains.get('ubuntu2004_minion') }}" {% else %}# no UBUNTU2004 minion defined {% endif %}
 {% if grains.get('ubuntu2004_sshminion') | default(false, true) %}export UBUNTU1804_SSHMINION="{{ grains.get('ubuntu2004_sshminion') }}" {% else %}# no UBUNTU2004 ssh minion defined {% endif %}
+{% if grains.get('sle15sp2_buildhost') | default(false, true) %}export SLE15SP2_BUILDHOST="{{ grains.get('sle15sp2_buildhost') }}" {% else %}# no SLE15SP2 buildhost defined {% endif %}
+{% if grains.get('sle15sp2_terminal') | default(false, true) %}export SLE15SP2_TERMINAL="{{ grains.get('sle15sp2_terminal') }}" {% else %}# no SLE15SP2 terminal defined {% endif %}
+{% if grains.get('sle12sp4_buildhost') | default(false, true) %}export SLE12SP4_BUILDHOST="{{ grains.get('sle12sp4_buildhost') }}" {% else %}# no SLE12SP4 buildhost defined {% endif %}
+{% if grains.get('sle12sp4_terminal') | default(false, true) %}export SLE12SP4_TERMINAL="{{ grains.get('sle12sp4_terminal') }}" {% else %}# no SLE12SP4 terminal defined {% endif %}
+{% if grains.get('sle11sp4_buildhost') | default(false, true) %}export SLE11SP4_BUILDHOST="{{ grains.get('sle11sp4_buildhost') }}" {% else %}# no SLE11SP4 buildhost defined {% endif %}
+{% if grains.get('sle11sp3_terminal') | default(false, true) %}export SLE11SP3_TERMINAL="{{ grains.get('sle11sp3_terminal') }}" {% else %}# no SLE11SP3 terminal defined {% endif %}
 
 # various test suite settings
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
