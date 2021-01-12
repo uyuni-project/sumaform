@@ -90,6 +90,15 @@ variable "pxeboot_configuration" {
   }
 }
 
+variable "terminal_configuration" {
+  description = "use module.<TERMINAL_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+    macaddr = null
+    image = null
+  }
+}
+
 variable "kvmhost_configuration" {
   description = "use module.<VIRTHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -283,6 +292,51 @@ variable "ubuntu2004_sshminion_configuration" {
   description = "use module.<UBUNTU2004_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
+  }
+}
+
+variable "sle15sp2_buildhost_configuration" {
+  description = "use module.<SLE15SP2_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp2_terminal_configuration" {
+  description = "use module.<SLE15SP2_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    macaddr = null
+    image = null
+  }
+}
+
+variable "sle12sp4_buildhost_configuration" {
+  description = "use module.<SLE12SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle12sp4_terminal_configuration" {
+  description = "use module.<SLE12SP4_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    macaddr = null
+    image = null
+  }
+}
+
+variable "sle11sp4_buildhost_configuration" {
+  description = "use module.<SLE11SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle11sp3_terminal_configuration" {
+  description = "use module.<SLE11SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    macaddr = null
+    image = null
   }
 }
 
