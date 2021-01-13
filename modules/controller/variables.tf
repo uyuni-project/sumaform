@@ -197,6 +197,48 @@ variable "sle15sp1_client_configuration" {
   }
 }
 
+variable "sle15sp2_minion_configuration" {
+  description = "use module.<SLE15SP2_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp2_sshminion_configuration" {
+  description = "use module.<SLE15SP2_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp2_client_configuration" {
+  description = "use module.<SLE15SP2_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp3_minion_configuration" {
+  description = "use module.<SLE15SP3_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp3_sshminion_configuration" {
+  description = "use module.<SLE15SP3_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp3_client_configuration" {
+  description = "use module.<SLE15SP3_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "centos6_minion_configuration" {
   description = "use module.<CENTOS6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {

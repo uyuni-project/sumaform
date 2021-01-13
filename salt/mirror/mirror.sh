@@ -20,7 +20,7 @@ function show_help() {
   echo " --config=<FILE>      Config file with SCC credentials and list of images."
   echo "                      By default: ${HOME}/.minima/mirror.sh.conf"
   echo ""
-  echo "If called withou targuments, thiat will be equivalent to calling:"
+  echo "If called without arguments, that will be equivalent to calling:"
   echo "${SCRIPT} --mirror-images --refresh-scc-data --apt-mirror --minima-sync=${HOME}/.minima/minima.yaml"
 }
 
