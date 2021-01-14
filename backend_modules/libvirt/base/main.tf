@@ -14,7 +14,7 @@ locals {
     sles15       = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15.x86_64.qcow2"
     sles15o      = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/install/SLE-15-JeOS-GM/SLES15-JeOS.x86_64-15.0-OpenStack-Cloud-GM.qcow2"
     sles15sp1    = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15sp1.x86_64.qcow2"
-    sles15sp1o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.suse.de"}/install/SLE-15-SP1-JeOS-QU2/SLES15-SP1-JeOS.x86_64-15.1-OpenStack-Cloud-QU2.qcow2"
+    sles15sp1o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.suse.de"}/install/SLE-15-SP1-JeOS-QU4/SLES15-SP1-JeOS.x86_64-15.1-OpenStack-Cloud-QU4.qcow2"
     sles15sp2    = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Terraform:/Images/images/sles15sp2.x86_64.qcow2"
     sles15sp2o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.suse.de"}/install/SLE-15-SP2-JeOS-GM/SLES15-SP2-JeOS.x86_64-15.2-OpenStack-Cloud-GM.qcow2"
     sles15sp3o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.suse.de"}/install/SLE-15-SP3-JeOS-TEST/SLES15-SP3-JeOS.x86_64-15.3-OpenStack-Cloud-Build20.214.qcow2"
