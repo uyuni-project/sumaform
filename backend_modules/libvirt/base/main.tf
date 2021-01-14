@@ -5,7 +5,7 @@ locals {
     centos6o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/6/images/CentOS-6-x86_64-GenericCloud.qcow2"
     centos7      = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
     centos7o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-    centos8o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/8/x86_64/images/CentOS-8-GenericCloud-8.1.1911-20200113.3.x86_64.qcow2"
+    centos8o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/8/x86_64/images/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2 "
     opensuse150  = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse150.x86_64.qcow2"
     opensuse150o = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.0/jeos/openSUSE-Leap-15.0-JeOS.x86_64-15.0.1-OpenStack-Cloud-Current.qcow2"
     opensuse151  = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse151.x86_64.qcow2"
