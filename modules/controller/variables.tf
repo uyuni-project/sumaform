@@ -344,6 +344,20 @@ variable "debian9_minion_configuration" {
   }
 }
 
+variable "debian9_sshminion_configuration" {
+  description = "use module.<DEBIAN9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "debian10_minion_configuration" {
+  description = "use module.<DEBIAN10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "debian10_sshminion_configuration" {
   description = "use module.<DEBIAN10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
