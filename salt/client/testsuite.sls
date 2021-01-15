@@ -23,6 +23,12 @@ suse_client_cucumber_requisites:
     - require:
       - sls: repos
 
+python-cryptography:
+  pkg.latest:
+    - fromrepo: os_update_repo
+    - require:
+      - sls: repos
+
 {% endif %}
 
 {% endif %}
