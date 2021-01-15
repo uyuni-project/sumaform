@@ -296,3 +296,20 @@ runcmd:
 
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
+%{ if image == "debian10o" }
+runcmd:
+#   HACK: cloud-init in Debian 10 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - systemctl start qemu-guest-agent
+
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }
+%{ if image == "debian9o" }
+runcmd:
+#   HACK: cloud-init in Debian 9 does not take care of the following
+  - echo '\nPermitRootLogin yes' >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }
