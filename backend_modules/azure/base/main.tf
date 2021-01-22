@@ -97,7 +97,6 @@ locals {
   image                         = "opensuse152"
   name                          = "bastion"
   connect_to_additional_network = true
-  public_instance = true 
   provider_settings = {
     vm_size = "Standard_B1s"
     public_instance = true 
@@ -105,8 +104,7 @@ locals {
 }
 
 output "configuration" {
-  
-    value = merge(local.configuration_output, {
+     value = merge(local.configuration_output, {
     bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null) : local.bastion_host
   })
 } 
