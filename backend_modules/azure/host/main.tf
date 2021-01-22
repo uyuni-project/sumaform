@@ -6,10 +6,9 @@ locals {
     public_key_location        = var.base_configuration["public_key_location"]
     key_file                   = var.base_configuration["key_file"]
     ssh_user                   = lookup(lookup(var.base_configuration["platform_image_info"], var.image, {}), "ssh_user", "azureuser")
-    public_instance = false
     volume_size     = 50
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
-    vm_size = lookup(var.base_configuration, "vm_size", "Standard_B1s") },
+    vm_size = lookup(var.provider_settings, "vm_size", "Standard_B1s") },
     contains(var.roles, "server") ? { vm_size = "Standard_B4ms" } : {},
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { vm_size = "Standard_D2d_v4" } : {},
     contains(var.roles, "server") && lookup(var.grains, "pts", false) ? { vm_size = "Standard_B4ms" } : {},
@@ -30,7 +29,7 @@ locals {
   resource_group_name = var.base_configuration.resource_group_name
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   
-  public_instance = var.public_instance
+  public_instance = lookup(var.provider_settings, "public_instance", false)
   
   region            = var.base_configuration["location"]
 }

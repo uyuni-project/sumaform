@@ -1,13 +1,14 @@
 locals {
   name_prefix = "Tfs"
   location = "francecentral"
-  
   key_file            = "Private Key File"
   public_key_location = "Public Key File"
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    
+  }
 }
 
 module "base" {

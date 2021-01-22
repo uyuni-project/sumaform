@@ -20,7 +20,7 @@ server_packages:
     - refresh: True
     {% if grains['osfullname'] == 'Leap' %}
     - name: patterns-uyuni_server
-    {% elif grains.get('product_version', 'default') != 'suma41' %}
+    {% elif %}
     - name: patterns-suma_server
     {% endif %}
     - require:

@@ -47,14 +47,6 @@ variable "quantity" {
   default     = 1
 }
 
-#The azure module needs this in order to use count in the creation of network cardsand public ips
-variable "public_instance" {
-  description = "is public instance"
-  type = bool
-  default = false
-}
-
-
 variable "grains" {
   description = "custom grain map to be added to this host's configuration"
   default     = {}
