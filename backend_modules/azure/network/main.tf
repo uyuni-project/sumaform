@@ -181,7 +181,9 @@ resource "azurerm_nat_gateway" "suma-ngw" {
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "ngw-pubip-association" {
-  nat_gateway_id       = azurerm_nat_gateway.suma-ngw.id
+  count = var.create_network? 1: 0
+
+  nat_gateway_id       = azurerm_nat_gateway.suma-ngw[0].id
   public_ip_address_id = azurerm_public_ip.nat-pubIP[0].id
 }
 
