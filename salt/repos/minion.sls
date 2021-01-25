@@ -28,7 +28,7 @@ containers_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/{{ sle_version_path }}/x86_64/product/
 {# HACK to workaround invalid GPG keys for sle15}
 {% if grains['sle_version_path'] == '15' %}
-    - gpgcheck: 1
+    - gpgcheck: 0
 {% endif %}
 
 containers_updates_repo:
@@ -36,7 +36,7 @@ containers_updates_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/{{ sle_version_path }}/x86_64/update/
 {# HACK to workaround invalid GPG keys for sle15}
 {% if grains['sle_version_path'] == '15' %}
-    - gpgcheck: 1
+    - gpgcheck: 0
 {% endif %}
 
 devel_pool_repo:
@@ -44,7 +44,7 @@ devel_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Development-Tools/{{ sle_version_path }}/x86_64/product/
 {# HACK to workaround invalid GPG keys for sle15}
 {% if grains['sle_version_path'] == '15' %}
-    - gpgcheck: 1
+    - gpgcheck: 0
 {% endif %}
 
 devel_updates_repo:
@@ -52,7 +52,7 @@ devel_updates_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/{{ sle_version_path }}/x86_64/update/
 {# HACK to workaround invalid GPG keys for sle15}
 {% if grains['sle_version_path'] == '15' %}
-    - gpgcheck: 1
+    - gpgcheck: 0
 {% endif %}
 
 {# The following "SLE-Module-Desktop-Applications" channel is required by "SLE-Module-Development-Tools" module #}
@@ -61,7 +61,7 @@ desktop_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/product/
 {# HACK to workaround invalid GPG keys for sle15}
 {% if grains['sle_version_path'] == '15' %}
-    - gpgcheck: 1
+    - gpgcheck: 0
 {% endif %}
 
 {# The following "SLE-Module-Desktop-Applications" channel is required by "SLE-Module-Development-Tools" module #}
@@ -70,7 +70,7 @@ desktop_updates_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/update/
 {# HACK to workaround invalid GPG keys for sle15}
 {% if grains['sle_version_path'] == '15' %}
-    - gpgcheck: 1
+    - gpgcheck: 0
 {% endif %}
 
 {% if '3.2-nightly' in grains.get('product_version') or '4.0-nightly' in grains.get('product_version') %}
