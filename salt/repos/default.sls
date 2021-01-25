@@ -271,6 +271,10 @@ tools_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15-BETA/x86_64/update/
     {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
+{# HACK to workaround invalid GPG keys for sle15}
+{% if grains['sle_version_path'] == '15' %}
+    - gpgcheck: 1
+{% endif %}
     {% endif %}
 {% else %}
 tools_pool_repo:
@@ -304,10 +308,18 @@ tools_update_repo:
 os_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product/
+{# HACK to workaround invalid GPG keys for sle15}
+{% if grains['sle_version_path'] == '15' %}
+    - gpgcheck: 1
+{% endif %}
 
 os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update/
+{# HACK to workaround invalid GPG keys for sle15}
+{% if grains['sle_version_path'] == '15' %}
+    - gpgcheck: 1
+{% endif %}
 
 {% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
