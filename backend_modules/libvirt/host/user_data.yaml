@@ -157,15 +157,12 @@ zypper:
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
       enabled: 1
       autorefresh: 1
-# HACK: repo metadata is not valid, disabling gpgcheck makes the image able to deploy
-      gpgcheck: 0
-    - id: module_server_applications_pool_repo
+      ## HACK name of server app repo needs to be alphabetically after the base system repo to force GPG key update
+    - id: server_applications_pool_repo
       name: module_server_applications_pool_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15/x86_64/product
       enabled: 1
       autorefresh: 1
-# HACK: repo metadata is not valid, disabling gpgcheck makes the image able to deploy
-      gpgcheck: 0
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 
