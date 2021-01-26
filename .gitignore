@@ -18,3 +18,5 @@
 .*.sw*
 
 .idea
+backend_modules/azure/base/variables.tf
+backend_modules/azure/host/variables.tf
