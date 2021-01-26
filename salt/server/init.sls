@@ -14,7 +14,6 @@ include:
   - server.pts
   - server.salt_master
   - server.tcpdump
-  - server.release-notes-workaround
 
 server_packages:
   pkg.installed:
