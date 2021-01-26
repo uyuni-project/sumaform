@@ -16,6 +16,6 @@ refresh_repos:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh
 {% endif %}
 
-# HACK: work around #10852
+# WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []

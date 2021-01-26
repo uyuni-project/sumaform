@@ -59,7 +59,7 @@ resource "aws_instance" "instance" {
 
   user_data = data.template_file.user_data[count.index].rendered
 
-  # HACK: ephemeral block devices are defined in any case
+  # WORKAROUND: ephemeral block devices are defined in any case
   # they will only be used for instance types that provide them
   ephemeral_block_device {
     device_name  = "xvdb"
@@ -75,11 +75,11 @@ resource "aws_instance" "instance" {
     Name = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
   }
 
-  # HACK
+  # WORKAROUND
   # SUSE internal openbare AWS accounts add special tags to identify the instance owner ("PrincipalId", "Owner").
   # After the first `apply`, terraform removes those tags. The following block avoids this behavior.
   # The correct way to do it would be by ignoring those tags, which is not supported yet by the AWS terraform provider
-  # https://github.com/terraform-providers/terraform-provider-aws/issues/10689
+  # See github:terraform-providers/terraform-provider-aws#10689
   lifecycle {
     ignore_changes = [tags]
   }
@@ -111,11 +111,11 @@ resource "aws_ebs_volume" "data_disk" {
   tags = {
     Name = "${local.resource_name_prefix}-data-volume${var.quantity > 1 ? "-${count.index + 1}" : ""}"
   }
-  # HACK
+  # WORKAROUND
   # SUSE internal openbare AWS accounts add special tags to identify the instance owner ("PrincipalId", "Owner").
   # After the first `apply`, terraform removes those tags. The following block avoids this behavior.
   # The correct way to do it would be by ignoring those tags, which is not supported yet by the AWS terraform provider
-  # https://github.com/terraform-providers/terraform-provider-aws/issues/10689
+  # See github:terraform-providers/terraform-provider-aws#10689
   lifecycle {
     ignore_changes = [tags]
   }
