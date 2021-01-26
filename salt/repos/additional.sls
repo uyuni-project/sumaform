@@ -13,7 +13,7 @@
     - gpgcheck: 0
   {%- endif %}
 
-# HACK: to have additional_repos have priority over normal tools we hardcode the hostname originating them (in the future we may want to add an
+# WORKAROUND: to have additional_repos have priority over normal tools we hardcode the hostname originating them (in the future we may want to add an
 # input variable to match against origin or release file fields
 # Ref: https://wiki.debian.org/AptPreferences
 {% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
@@ -47,6 +47,6 @@ update-ca-certificates:
 {% endfor %}
 {% endif %}
 
-# HACK: work around #10852
+# WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
