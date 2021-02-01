@@ -25,11 +25,6 @@ authorized_keys_controller:
     - source: salt://controller/id_rsa.pub
     - makedirs: True
 
-virtualhost:
-  file.managed:
-    - name: /tmp/virtualhostmanager.create.json
-    - source: salt://controller/virtualhostmanager.create.json
-
 cucumber_requisites:
   pkg.installed:
     - pkgs:

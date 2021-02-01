@@ -15,7 +15,7 @@ virthost_packages:
     - pkgs:
         {% if '15' in grains['osrelease'] %}
         - patterns-server-{{ grains['hypervisor']|lower() }}_server
-        - python3-six  # Workaround missing virt-manager-common dependency
+        - python3-six  # WORKAROUND: missing virt-manager-common dependency
         - libvirt-daemon-qemu
         {% elif grains['osfullname'] == 'Leap' %}
         - patterns-openSUSE-{{ grains['hypervisor']|lower() }}_server
@@ -25,7 +25,7 @@ virthost_packages:
         - libvirt-client
         - qemu-tools
         - guestfs-tools
-        - tar # HACK: workaround missing supermin tar dependency. See boo#1134334
+        - tar # WORKAROUND: missing supermin tar dependency bsc#1134334
         - kernel-default
     - require:
       - sls: repos
@@ -33,7 +33,7 @@ virthost_packages:
       - pkg: no_kernel_default_base
 
 {% if grains['osrelease'] == '12.4' %}
-# Workaround for guestfs appliance missing libaugeas0 on 12SP4
+# WORKAROUND for guestfs appliance missing libaugeas0 on 12SP4
 guestfs-fix:
   file.append:
     - name: /usr/lib64/guestfs/supermin.d/packages
@@ -41,6 +41,14 @@ guestfs-fix:
     - require:
       - pkg: virthost_packages
 {% endif %}
+
+# WORKAROUND for bsc#1181264
+{% if grains['osrelease'] == '15.3' and grains['hypervisor'] == 'kvm' %}
+no-50-xen-hvm-x86_64.json:
+  file.absent:
+    - name: /usr/share/qemu/firmware/50-xen-hvm-x86_64.json
+{% endif %}
+
 fake_systemd_detect_virt:
   file.managed:
     - name: /usr/bin/systemd-detect-virt

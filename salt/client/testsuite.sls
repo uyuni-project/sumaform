@@ -22,9 +22,10 @@ suse_client_cucumber_requisites:
       - aaa_base-extras
     - require:
       - sls: repos
-      
-# HACK: Isssue #834 - SLES12SP4 python-cryptography rpm is pre-installed in our official image,
-#                     but the version is too old for our bootstrap script, so we manually update it.
+
+# WORKAROUND: see github:uyuni-project/sumaform#834
+# SLES12SP4 python-cryptography rpm is pre-installed in our official image,
+# but the version is too old for our bootstrap script, so we manually update it.
 python-cryptography:
   pkg.latest:
     - fromrepo: os_update_repo
