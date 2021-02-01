@@ -68,6 +68,9 @@ export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ 
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
 {% if grains.get('pxeboot_image') | default(false, true) %}export PXEBOOT_IMAGE="{{ grains.get('pxeboot_image') }}" {% else %}# no PXE boot image defined {% endif %}
 
+# Differentiate from build validation or CI run
+{% if grains.get('build_validation') | default(false, true) %}export BUILD_VALIDATION="true" {% else %}# normal CI {% endif %}
+
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
   wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
