@@ -62,7 +62,7 @@ avahi_pkg:
       {% endif %}
       {% endif %}
 
-# HACK: watch does not really work with Salt 2016.11
+# WORKAROUND: watch does not really work with Salt 2016.11
 avahi_dead_before_config:
   service.dead:
     - name: avahi-daemon
