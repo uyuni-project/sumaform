@@ -27,7 +27,7 @@ locals {
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
   resource_group_name = var.base_configuration.resource_group_name
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
-  public_instance = lookup(var.provider_settings, "public_instance", false)  
+  public_instance = lookup(var.provider_settings, "public_instance", false)
   region            = var.base_configuration["location"]
 }
 
@@ -71,8 +71,6 @@ resource "azurerm_network_interface" "suma-additional-nic" {
   name                = "${var.base_configuration["name_prefix"]}${var.name}-additional-nic${count.index}"
   location            = local.region
   resource_group_name = local.resource_group_name
-  
-
   ip_configuration {
     name                          = "internal-additional"
     subnet_id                     =  local.private_additional_subnet_id
@@ -105,7 +103,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
     admin_ssh_key {
     username   = "azureuser"
     public_key = file(local.provider_settings["public_key_location"])
-  } 
+  }
 }
 
 
@@ -217,7 +215,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
       "sudo bash /root/salt/first_deployment_highstate.sh"
     ]
   }
-} 
+}
 
 /** END: provisioning */
 
