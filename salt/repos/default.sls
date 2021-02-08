@@ -339,7 +339,7 @@ os_update_repo:
 
 {% if '15.3' == grains['osrelease'] %}
 # Moving target, only until SLE15SP3 GA is ready. Remove this block when we start using GA.
-{% if '4.2-nightly' in grains['product_version'] %}
+{% if '4.2-nightly' in grains['product_version'] or 'head' in grains.get('product_version') %}
 os_movingtarget_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Basesystem-POOL-x86_64-Media1/
@@ -616,6 +616,6 @@ remove_no_install_recommends:
     - name: /etc/apt/apt.conf.d/00InstallRecommends
 {% endif %}
 
-# HACK: work around #10852
+# WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []

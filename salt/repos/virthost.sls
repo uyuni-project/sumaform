@@ -43,6 +43,6 @@ module_server_applications_update_repo:
 
 {% endif %}
 
-# HACK: work around #10852
+# WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []

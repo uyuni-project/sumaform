@@ -14,9 +14,9 @@ chpasswd:
 packages: ["salt-minion"]
 
 runcmd:
-  # HACK this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
+  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
-  # HACK: instance might already have some repos that end up conflicting with the ones we want to install.
+  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
 
@@ -67,7 +67,7 @@ zypper:
 packages: ["salt-minion"]
 %{ endif }
 %{ if image == "sles11sp4"}
-# HACK: SLES 11 SP4 does not ship with Salt installed
+# WORKAROUND: SLES 11 SP4 does not ship with Salt installed
 runcmd:
   - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ tools_pool_repo
   - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-Pool/sle-11-x86_64/ os_pool_repo
@@ -115,12 +115,12 @@ yum_repos:
 packages: ["salt-minion"]
 
 runcmd:
-  # HACK: CentOS 6 changes the root password with a random one after cloud-init. Disable the mechanism
+  # WORKAROUND: CentOS 6 changes the root password with a random one after cloud-init. Disable the mechanism
   - "rm -f /root/firstrun"
-  # HACK: cloud-init in CentOS 6 does not take care of the following
+  # WORKAROUND: cloud-init in CentOS 6 does not take care of the following
   - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
   - "service sshd restart"
-  # HACK: needed because onboard traditional clients
+  # WORKAROUND: needed because onboard traditional clients
   - "/usr/bin/update-ca-trust force-enable"
 %{ endif }
 %{ if image == "ubuntu2004" }
@@ -153,7 +153,7 @@ apt:
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
-  # HACK: cloud-init in Ubuntu does not take care of the following
+  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
@@ -162,7 +162,7 @@ packages: ["salt-minion"]
 %{ if image == "ubuntu1804" }
 
 runcmd:
-  # HACK: cloud-init in Ubuntu does not take care of the following
+  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
@@ -197,7 +197,7 @@ apt:
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
-  # HACK: cloud-init in Ubuntu does not take care of the following
+  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
   - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
   - systemctl restart sshd
 
