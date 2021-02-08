@@ -31,7 +31,7 @@ packages: ["salt-minion"]
 
 %{ endif }
 
-%{ if image == "sles15" || image == "sles15sp1"}  
+%{ if image == "sles15" || image == "sles15sp1"}
 
 #zypper:
  # repos:

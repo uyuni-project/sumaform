@@ -19,7 +19,6 @@ locals {
     contains(var.roles, "grafana") ? { vm_size = "Standard_B2s" } : {},
     contains(var.roles, "virthost") ? { vm_size = "Standard_B1ms" } : {},
   var.provider_settings)
-
   public_subnet_id                     = var.base_configuration.public_subnet_id
   private_subnet_id                    = var.base_configuration.private_subnet_id
   private_additional_subnet_id         = var.base_configuration.private_additional_subnet_id
@@ -28,9 +27,7 @@ locals {
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
   resource_group_name = var.base_configuration.resource_group_name
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
-  
-  public_instance = lookup(var.provider_settings, "public_instance", false)
-  
+  public_instance = lookup(var.provider_settings, "public_instance", false)  
   region            = var.base_configuration["location"]
 }
 
@@ -61,8 +58,6 @@ resource "azurerm_network_interface" "suma-main-nic" {
   name                = "${var.base_configuration["name_prefix"]}${var.name}-main-nic${count.index}"
   location            = local.region
   resource_group_name = local.resource_group_name
-  
-
   ip_configuration {
     name                          = "internal"
     subnet_id                     = var.connect_to_base_network ? (local.public_instance ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
@@ -92,11 +87,9 @@ resource "azurerm_linux_virtual_machine" "instance" {
   location                         = local.region
   resource_group_name              = local.resource_group_name
   network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
-  
   size                          = local.provider_settings["vm_size"]
   admin_username      = "azureuser"
   disable_password_authentication = true
-    
   os_disk {
     name              = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-os-disk"
     caching           = "ReadWrite"
