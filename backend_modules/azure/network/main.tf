@@ -133,7 +133,7 @@ resource "azurerm_subnet_network_security_group_association" "public-nsg-associa
   name                = "${var.name_prefix}-private-nsg"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
-} 
+}
 
 resource "azurerm_network_security_group" "private-additional-nsg" {
   count = var.create_network? 1: 0
@@ -195,4 +195,4 @@ output "configuration" {
     private_additional_security_group_id = length(azurerm_network_security_group.private-additional-nsg) > 0? azurerm_network_security_group.private-additional-nsg[0].id: null
     resource_group_name = azurerm_resource_group.suma-rg.name
   } : {}
-} 
+}
