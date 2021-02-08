@@ -5,7 +5,6 @@
 */
 /*TODO: add tags*/
 resource "azurerm_resource_group" "suma-rg" {
-  
   name     = "${var.name_prefix}-resources"
   location = "${var.location}"
 }
