@@ -31,7 +31,7 @@ You will need:
 
 ## Select Azure backend to be used
 
-Create a symbolic link to the `azure` backend module directory inside the `modules` directory: `ln -sfn ../backend_modules/azure/backend`
+Create a symbolic link to the `azure` backend module directory inside the `modules` directory: `ln -sfn ../backend_modules/azure modules/backend `
 
 ## Azure backend specific variables
 
@@ -90,7 +90,6 @@ An example follows:
  * `name`: name of the volume snapshot to be used as a base for the new disk (default value: `null`)
  * `resource_group_name`: resource group where the snapshot disk can be found (default value: `null`)
  
-
  An example follows:
  ``` hcl
  data "azurerm_snapshot" "repodisk-snapshot" {
