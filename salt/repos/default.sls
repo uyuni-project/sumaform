@@ -415,7 +415,7 @@ tools_pool_repo:
     {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/{{ release }}-CLIENT-TOOLS/x86_64/product/
     {% endif %}
-    {% elif release == 7 %}
+    {% elif grains.get('mirror') %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools-Beta/x86_64/
     {% else %}
@@ -436,7 +436,7 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-Beta/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
