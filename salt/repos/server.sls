@@ -108,7 +108,7 @@ server_product_update_repo:
 {% if 'beta' in grains['product_version'] %}
 server_module_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/SLE-15-SP3:/Update:/Products:/Manager42/images/repo/SLE-Module-SUSE-Manager-Server-4.2-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP3:/Update:/Products:/Manager42/images/repo/SLE-Module-SUSE-Manager-Server-4.2-POOL-x86_64-Media1/
 {% else %}
 server_module_pool_repo:
   pkgrepo.managed:
