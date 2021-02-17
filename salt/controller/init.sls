@@ -129,7 +129,12 @@ spacewalk_git_repository:
 {%-     set url = 'https://github.com/SUSE/spacewalk.git' %}
 {%-   endif %}
 {%- endif %}
-    - name: git clone --depth 1 {{ url }} -b {{ branch }} /root/spacewalk
+    - name: |
+        git clone --depth 100 --no-checkout --branch {{ branch }} {{ url }} /root/spacewalk
+        cd /root/spacewalk
+        git sparse-checkout init --cone
+        git sparse-checkout set testsuite
+        git checkout
     - creates: /root/spacewalk
     - require:
       - pkg: cucumber_requisites
