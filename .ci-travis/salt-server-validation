@@ -18,6 +18,7 @@ product_version: head
 cc_username: UC7
 cc_password: passme
 mirror: null
+server_mounted_mirror: null
 iss_master: null
 iss_slave: null
 smt: null
