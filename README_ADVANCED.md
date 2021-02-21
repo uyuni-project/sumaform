@@ -112,7 +112,7 @@ If you are using `sumaform` outside of the SUSE Nuremberg network you should use
 
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
-To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
+To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following module definition:
 ```hcl
 module "mirror" {
   source = "./modules/mirror"
@@ -150,6 +150,12 @@ Check the help with:
 ```bash
 /root/mirror.sh -h
 ```
+
+## Mirror only for Server (products synchronization)
+
+In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products syncronization, but not for the repositories used by sumaform during the deployment of your environment.
+For that use case, instead of `mirror` use `server_mounted_mirror` parameter inside the server module definition.
+
 
 ## Virtual hosts
 

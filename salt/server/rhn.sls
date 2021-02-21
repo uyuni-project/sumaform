@@ -38,7 +38,9 @@ disable_download_tokens:
       - sls: server
 {% endif %}
 
-{% if salt["grains.get"]("mirror") %}
+{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+
+{% if mirror_hostname %}
 
 nfs_client:
   pkg.installed:
@@ -52,7 +54,7 @@ non_empty_fstab:
 mirror_directory:
   mount.mounted:
     - name: /mirror
-    - device: {{ salt["grains.get"]("mirror") }}:/srv/mirror
+    - device: {{ mirror_hostname }}:/srv/mirror
     - fstype: nfs
     - mkmnt: True
     - require:
