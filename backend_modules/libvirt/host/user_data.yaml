@@ -8,11 +8,6 @@ chpasswd:
      root:linux
 
 %{ if image == "centos6o" }
-bootcmd:
-  # WORKAROUND: yum_repos state cant replace a repo, so we need to delete it,
-  # otherwise the workaround for archived repo doesn't work
-  - [rm, -f, /etc/yum.repos.d/CentOS-Base.repo]
-
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -30,22 +25,6 @@ yum_repos:
     gpgcheck: false
     priority: 99
     name: epel
-  # repo for Centos-Base backup
-  CentOS-Base_backup:
-    baseurl: http://vault.centos.org/centos/6/os/$basearch
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    priority: 99
-    name: CentOS-Base_backup
-  # repo for Centos-Updates backup
-  CentOS-Updates_backup:
-    baseurl: http://vault.centos.org/centos/6/updates/$basearch
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    priority: 99
-    name: CentOS-Updates_backup
 
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 
