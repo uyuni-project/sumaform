@@ -4,7 +4,7 @@
 
 Base Module will create:
  - A Resource Group
- - A Vortiual Network
+ - A Virtual Network
  - three subnets
    - one private, that can only access other hosts in the VPC and outbound connection to internet
    - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
