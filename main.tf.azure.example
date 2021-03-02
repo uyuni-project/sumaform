@@ -6,7 +6,7 @@ locals {
 }
 
 provider "azurerm" {
-
+features {}
 }
 
 module "base" {
