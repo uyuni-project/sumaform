@@ -32,7 +32,7 @@ module "suse-minion" {
   base_configuration = module.base.configuration
 
   name = "min-sles15sp1"
-  image = "sles15sp1"
+  image = "sles15sp1o"
   server_configuration = module.proxy.configuration
   product_version = "4.0-nightly"
 }
@@ -61,7 +61,7 @@ module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
 
-  image = "sles15sp1"
+  image = "sles15sp1o"
   name = "server"
   product_version = "4.0-nightly"
 }
@@ -98,7 +98,7 @@ module "suse-minion" {
   base_configuration = module.base.configuration
 
   name = "min-sles12sp4"
-  image = "sles12sp4"
+  image = "sles12sp4o"
   server_configuration = module.server.configuration
   quantity = 10
 }
@@ -112,7 +112,7 @@ If you are using `sumaform` outside of the SUSE Nuremberg network you should use
 
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
-To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following mode definition:
+To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following module definition:
 ```hcl
 module "mirror" {
   source = "./modules/mirror"
@@ -151,6 +151,12 @@ Check the help with:
 /root/mirror.sh -h
 ```
 
+## Mirror only for Server (products synchronization)
+
+In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products syncronization, but not for the repositories used by sumaform during the deployment of your environment.
+For that use case, instead of `mirror` use `server_mounted_mirror` parameter inside the server module definition.
+
+
 ## Virtual hosts
 
 Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM or Xen hypervisor.
@@ -164,7 +170,7 @@ module "virthost" {
   server_configuration = module.srv.configuration
   ...
   name = "min-kvm"
-  image = "sles15sp1"
+  image = "sles15sp1o"
   hypervisor = "kvm"
   ...
   provider_settings = {
@@ -422,7 +428,7 @@ module "suse-minion" {
   base_configuration = module.base.configuration
 
   name = "min"
-  image = "sles12sp4"
+  image = "sles12sp4o"
   server_configuration = module.server.configuration
   activation_key = "1-DEFAULT"
 }
@@ -456,7 +462,7 @@ module "suse-client" {
   base_configuration = module.base.configuration
 
   name = "cli-sles12sp4"
-  image = "sles12sp4"
+  image = "sles12sp4o"
   server_configuration = module.proxy.configuration
   quantity = 3
 }
@@ -577,7 +583,7 @@ module "vanilla" {
   base_configuration = module.base.configuration
 
   name = "vanilla"
-  image = "sles12sp4"
+  image = "sles12sp4o"
 }
 ```
 
@@ -597,7 +603,7 @@ module "pxeboot-minion"
   base_configuration = module.base.configuration
 
   name = "pxeboot"
-  image = "sles12sp4"
+  image = "sles12sp4o"
 }
 ```
 
@@ -628,7 +634,7 @@ module "suse-minion" {
   base_configuration = module.base.configuration
 
   name = "min-sles12sp4"
-  image = "sles12sp4"
+  image = "sles12sp4o"
   server_configuration = module.server.configuration
 
   additional_repos = {
@@ -661,7 +667,7 @@ module "suse-sshminion" {
   source = "./modules/host"
   base_configuration = module.base.configuration
   name = "minssh-sles12sp4"
-  image = "sles12sp4"
+  image = "sles12sp4o"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 ```
@@ -717,7 +723,7 @@ module "minion" {
   base_configuration = module.base.configuration
 
   name = "minion"
-  image = "sles15sp1"
+  image = "sles15sp1o"
   server_configuration = module.server.configuration
   evil_minion_count = 10
   evil_minion_slowdown_factor = 1

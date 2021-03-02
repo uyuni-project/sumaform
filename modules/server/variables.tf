@@ -264,3 +264,8 @@ variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "server_mounted_mirror" {
+  description = "hostname of a mounted mirror in the server (to get packages from it)"
+  default     = null
+}
