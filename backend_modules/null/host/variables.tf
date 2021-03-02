@@ -86,7 +86,7 @@ variable "connect_to_additional_network" {
 }
 
 variable "image" {
-  description = "One of: opensuse150, opensuse151, opensuse152o, sles11sp4, sles12, sles12sp1, sles12sp2, sles12sp3, sles12sp4, sles15, centos7"
+  description = "An image name, e.g. sles11sp4 or opensuse152o"
   type        = string
 }
 
