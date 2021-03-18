@@ -325,7 +325,7 @@ runcmd:
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
 
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 %{ if image == "debian9o" }
 runcmd:
@@ -333,5 +333,5 @@ runcmd:
   - echo '\nPermitRootLogin yes' >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
