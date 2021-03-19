@@ -29,12 +29,9 @@ server_packages:
       - sls: server.firewall
 
 {% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
-baseproduct_link:
-  file.symlink:
-    - name: /etc/products.d/baseproduct
-    - target: SUSE-Manager-Server.prod
-    - require:
-      - pkg: server_packages
+product_package_installed:
+   cmd.run:
+     - name: zypper --non-interactive install --auto-agree-with-licenses --force-resolution -t product SUSE-Manager-Server
 {% endif %}
 
 environment_setup_script:
