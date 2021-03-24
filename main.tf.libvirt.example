@@ -15,10 +15,10 @@ module "base" {
   // use_ntp = true
 
 //  provider_settings = {
+//    network_name = "default" // change to null if you add a bridge below
+//    additional_network = null
 //    bridge = null
 //    pool = "default"
-//    network_name = "default" // change to "" if you change bridge below
-//    additional_network = null
 //  }
 }
 
