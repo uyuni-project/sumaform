@@ -8,7 +8,7 @@
    - set up bridged networking:
      - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([openSUSE instructions](https://doc.opensuse.org/documentation/leap/virtualization/html/book.virt/cha-libvirt-networks.html#libvirt-networks-bridged) [Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
      - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
-     - change the `network_name` variable declaration to `null`
+     - set the `network_name` variable declaration to `null` or remove it
      - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
    - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
  - complete the `cc_password` variable in the `base` module
