@@ -8,11 +8,13 @@ include:
 proxy-packages:
   pkg.installed:
     - pkgs:
+{% if grains.get('install_proxy_pattern') %}
       {% if grains['osfullname'] == 'Leap' %}
       - patterns-uyuni_proxy
       {% else %}
       - patterns-suma_proxy
       {% endif %}
+{% endif %}
 {% if grains.get('osmajorrelease', None)|int() == 15 %}
       - firewalld
 {% else %}
@@ -26,7 +28,7 @@ wget:
     - require:
       - sls: repos
 
-{% if grains['use_avahi'] %}
+{% if grains['use_avahi'] and grains.get('install_proxy_pattern') %}
 
 squid-configuration-dns-multicast:
   file.replace:

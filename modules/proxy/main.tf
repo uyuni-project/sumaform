@@ -39,6 +39,7 @@ module "proxy" {
     auto_connect_to_master    = var.auto_connect_to_master
     auto_register             = var.auto_register
     download_private_ssl_key  = var.download_private_ssl_key
+    install_proxy_pattern     = var.install_proxy_pattern
     auto_configure            = var.auto_configure
     server_username           = var.server_configuration["username"]
     server_password           = var.server_configuration["password"]
