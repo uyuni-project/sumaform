@@ -71,6 +71,7 @@ module "proxy" {
   auto_register             = false
   auto_connect_to_master    = false
   download_private_ssl_key  = false
+  install_proxy_pattern     = false
   auto_configure            = false
   generate_bootstrap_script = false
   publish_private_ssl_key   = false

@@ -41,6 +41,11 @@ variable "download_private_ssl_key" {
   default     = true
 }
 
+variable "install_proxy_pattern" {
+  description = "whether to install proxy pattern upon deployment"
+  default     = true
+}
+
 variable "auto_configure" {
   description = "whether to automatically run configure-proxy.sh upon deployment"
   default     = true
