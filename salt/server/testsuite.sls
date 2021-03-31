@@ -3,44 +3,11 @@
 include:
   - server
 
-fedora_autoinstallation_initrd_file:
-  file.managed:
-    - name: /install/Fedora_12_i386/images/pxeboot/initrd.img
-    - contents:
-      - This is mocked contents for /pxeboot/initrd.img
-    - makedirs: True
-
-fedora_autoinstallation_vmlinuz_file:
-  file.managed:
-    - name: /install/Fedora_12_i386/images/pxeboot/vmlinuz
-    - contents:
-      - This is mocked contents for /pxeboot/vmlinuz
-    - makedirs: True
-
-sles_autoinstallation_initrd_file:
-  file.managed:
-    - name: /install/SLES15-SP2-x86_64/DVD1/boot/x86_64/loader/initrd
-    - contents:
-      - This is mocked contents for /boot/x86_64/loader/initrd
-    - makedirs: True
-
-sles_autoinstallation_linux_file:
-  file.managed:
-    - name: /install/SLES15-SP2-x86_64/DVD1/boot/x86_64/loader/linux
-    - contents:
-      - This is mocked contents for /boot/x86_64/loader/linux
-    - makedirs: True
-
 test_package_without_vendor_file:
   file.managed:
     - name: /root/subscription-tools-1.0-0.noarch.rpm
     - source: salt://server/testsuite/subscription-tools-1.0-0.noarch.rpm
 
-test_autoinstallation_file:
-  file.managed:
-    - name: /install/empty.xml
-    - source: salt://server/testsuite/empty.xml
-    - makedirs: True
 
 test_vcenter_file:
   file.managed:
