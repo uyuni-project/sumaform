@@ -19,14 +19,14 @@ fedora_autoinstallation_vmlinuz_file:
 
 sles_autoinstallation_initrd_file:
   file.managed:
-    - name: /install/SLES11-SP1-x86_64/DVD1/boot/x86_64/loader/initrd
+    - name: /install/SLES15-SP2-x86_64/DVD1/boot/x86_64/loader/initrd
     - contents:
       - This is mocked contents for /boot/x86_64/loader/initrd
     - makedirs: True
 
 sles_autoinstallation_linux_file:
   file.managed:
-    - name: /install/SLES11-SP1-x86_64/DVD1/boot/x86_64/loader/linux
+    - name: /install/SLES15-SP2-x86_64/DVD1/boot/x86_64/loader/linux
     - contents:
       - This is mocked contents for /boot/x86_64/loader/linux
     - makedirs: True
