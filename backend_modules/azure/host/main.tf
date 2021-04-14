@@ -28,7 +28,7 @@ locals {
   resource_group_name = var.base_configuration.resource_group_name
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   public_instance = lookup(var.provider_settings, "public_instance", false)
-  region            = var.base_configuration["location"]
+  location            = var.base_configuration["location"]
 }
 
 data "template_file" "user_data" {
@@ -45,7 +45,7 @@ resource "azurerm_public_ip" "suma-pubIP" {
   count = local.public_instance ? var.quantity: 0
   name                = "${var.base_configuration["name_prefix"]}${var.name}-pubIP${count.index}"
   resource_group_name = local.resource_group_name
-  location            = local.region
+  location            = local.location
   allocation_method   = "Static"
 
   tags = {
@@ -56,7 +56,7 @@ resource "azurerm_public_ip" "suma-pubIP" {
 resource "azurerm_network_interface" "suma-main-nic" {
   count = var.quantity
   name                = "${var.base_configuration["name_prefix"]}${var.name}-main-nic${count.index}"
-  location            = local.region
+  location            = local.location
   resource_group_name = local.resource_group_name
   ip_configuration {
     name                          = "internal"
@@ -69,7 +69,7 @@ resource "azurerm_network_interface" "suma-main-nic" {
 resource "azurerm_network_interface" "suma-additional-nic" {
   count = var.connect_to_base_network && var.connect_to_additional_network ? var.quantity : 0
   name                = "${var.base_configuration["name_prefix"]}${var.name}-additional-nic${count.index}"
-  location            = local.region
+  location            = local.location
   resource_group_name = local.resource_group_name
   ip_configuration {
     name                          = "internal-additional"
@@ -82,7 +82,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
   count                            = var.quantity
   name                             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
 
-  location                         = local.region
+  location                         = local.location
   resource_group_name              = local.resource_group_name
   network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
   size                          = local.provider_settings["vm_size"]
@@ -111,7 +111,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
 resource "azurerm_managed_disk" "addtionaldisks" {
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
   name                 = "${local.resource_name_prefix}-data-volume${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-  location             = local.region
+  location             = local.location
   resource_group_name  = local.resource_group_name
   storage_account_type = "Standard_LRS"
   create_option        = local.disk_snapshot == null?"Empty":"Copy"

@@ -18,7 +18,7 @@ locals {
 }
 
 data "azurerm_platform_image" "opensuse152" {
-  location  = "France Central"
+  location  = local.location
   publisher = "suse"
   offer     = "opensuse-leap"
   sku       = "15-2"
@@ -67,7 +67,6 @@ locals {
     additional_network = local.additional_network
 
     location            = local.location
-    #availability_zone = local.availability_zone
 
     public_key_location = local.public_key_location
     key_file = local.key_file
