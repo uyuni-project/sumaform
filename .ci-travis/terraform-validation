@@ -1,6 +1,7 @@
 #! /bin/bash
 set -xe
-
+#special hack for azure example
+sed -i '/feature */d' main.tf.azure.example
 # complete missing passwords in example files
 sed -i 's/\.\.\./"not used"/g' *.example
 sed -i '/provider *"/,/\}/d' *.example
