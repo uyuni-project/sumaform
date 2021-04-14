@@ -40,14 +40,15 @@ Most modules have configuration settings specific to the Azure backend, those ar
 ### Base Module
 Available provider settings for the base module:
 
-| Variable name      | Type   | Default value   | Description                                                                                                    |
-|--------------------|--------|-----------------|----------------------------------------------------------------------------------------------------------------|
-| region             | string | `null`          | Azure region where infrastructure will be created                                                                |
-| ssh_allowed_ips    | array  | `[]`            | Array of IP's to white list for ssh connection                                                                 |
-| key_name           | string | `null`          | ssh key name in Azure                                                                                            |
-| key_file           | string | `null`          | ssh key file                                                                                                   |
-| bastion_host       | string | `null`          | bastian host use to connect machines in private network                                                        |
-| additional_network | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1) |
+| Variable name       | Type   | Default value   | Description                                                                                                     |
+|---------------------|--------|-----------------|-----------------------------------------------------------------------------------------------------------------|
+| location            | string | `null`          | Azure region where infrastructure will be created                                                               |
+| ssh_allowed_ips     | array  | `[]`            | Array of IP's to white list for ssh connection                                                                  |
+| key_name            | string | `null`          | ssh key name in Azure                                                                                           |
+| key_file            | string | `null`          | ssh key file                                                                                                    |
+| bastion_host        | string | `null`          | bastian host use to connect machines in private network                                                         |
+| additional_network  | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1) |
+| public_key_location | string | `null`          | Location for access public key                                                                                  |
 
 An example follows:
 ```hcl-terraform
@@ -65,15 +66,16 @@ provider_settings = {
 
 Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
 
-| Variable name   | Type     | Default value                                                    | Description                                                         |
-|-----------------|----------|------------------------------------------------------------------|---------------------------------------------------------------------|
-| key_name        | string   | [from base Module](base-module)                                  | ssh key name in Azure                                                 |
-| key_file        | string   | [from base Module](base-module)                                  | ssh key file                                                        |
-| ssh_user        | string   | OS-specific SSH user (ec2-user, centos, ubuntu, etc)          | ssh user to use in ssh into the machine for provisioning            |
-| bastion_host    | string   | [from base Module](base-module)                                  | bastion host used to connect to machines in the private network             |
-| public_instance | boolean  | `false`                                                          | boolean to connect host either to the private or the public network                    |
-| volume_size     | number   | `50`                                                             | main volume size in GB                                              |
-| vm_size         | string   | `Standard_B4ms`([apart from specific roles](Default-values-by-role))  | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/)  |
+| Variable name       | Type     | Default value                                                    | Description                                                         |
+|---------------------|----------|------------------------------------------------------------------|---------------------------------------------------------------------|
+| public_key_location | string   | [from base Module](base-module)                                  | Location for access public key                                      |
+| key_name            | string   | [from base Module](base-module)                                  | ssh key name in Azure                                               |
+| key_file            | string   | [from base Module](base-module)                                  | ssh key file                                                        |
+| ssh_user            | string   | OS-specific SSH user (ec2-user, centos, ubuntu, etc)             | ssh user to use in ssh into the machine for provisioning            |
+| bastion_host        | string   | [from base Module](base-module)                                  | bastion host used to connect to machines in the private network     |
+| public_instance     | boolean  | `false`                                                          | boolean to connect host either to the private or the public network |
+| volume_size         | number   | `50`                                                             | main volume size in GB                                              |
+| vm_size             | string   | `Standard_B4ms`([apart from specific roles](Default-values-by-role))  | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/)  |
 
 An example follows:
 ```hcl
@@ -87,14 +89,12 @@ An example follows:
 
 `server`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
 
- * `name`: name of the volume snapshot to be used as a base for the new disk (default value: `null`)
- * `resource_group_name`: resource group where the snapshot disk can be found (default value: `null`)
+ * `volume_snapshot`: name of the volume snapshot to be used as a base for the new disk (default value: `null`)
 
  An example follows:
  ``` hcl
  data "azurerm_snapshot" "repodisk-snapshot" {
-     name                = "snapshot disk name"
-     resource_group_name = "resource group for snapshot disk"
+     volume_snapshot                = "snapshot disk name"
  }
 ```
 
