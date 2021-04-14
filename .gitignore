@@ -1,6 +1,3 @@
-/modules/aws/images/ec2utils.conf
-/modules/aws/images/upload.sh
-/modules/aws/images/openbare*.json
 
 /local_workspaces
 
@@ -18,5 +15,3 @@
 .*.sw*
 
 .idea
-backend_modules/azure/base/variables.tf
-backend_modules/azure/host/variables.tf
