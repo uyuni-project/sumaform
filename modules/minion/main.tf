@@ -14,7 +14,7 @@ module "minion" {
   ssh_key_path                  = var.ssh_key_path
   ipv6                          = var.ipv6
   connect_to_base_network       = true
-  connect_to_additional_network = true
+  connect_to_additional_network = false
   roles                         = var.roles
   disable_firewall              = var.disable_firewall
 
