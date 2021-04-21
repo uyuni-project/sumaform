@@ -23,6 +23,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "provider_settings", {}) if var.host_settings[host_key] != null }
   additional_repos          = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
+  additional_packages       = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "additional_packages", []) if var.host_settings[host_key] != null }
   images                    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
   names                     = { for host_key in local.hosts :
@@ -53,6 +55,7 @@ module "server" {
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
   additional_repos               = lookup(local.additional_repos, "server", {})
+  additional_packages            = lookup(local.additional_packages, "server", [])
 
   saltapi_tcpdump   = var.saltapi_tcpdump
   provider_settings = lookup(local.provider_settings_by_host, "server", {})
@@ -80,6 +83,7 @@ module "proxy" {
   ssh_key_path              = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "proxy", {})
+  additional_packages = lookup(local.additional_packages, "proxy", [])
   provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
 }
 
@@ -104,6 +108,7 @@ module "suse-client" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "suse-client", {})
+  additional_packages = lookup(local.additional_packages, "suse-client", [])
   provider_settings = lookup(local.provider_settings_by_host, "suse-client", {})
 }
 
@@ -123,6 +128,7 @@ module "suse-minion" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "suse-minion", {})
+  additional_packages = lookup(local.additional_packages, "suse-minion", [])
   provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
 }
 
@@ -143,6 +149,7 @@ module "build-host" {
   avahi_reflector         = var.avahi_reflector
 
   additional_repos  = lookup(local.additional_repos, "build-host", {})
+  additional_packages = lookup(local.additional_packages, "build-host", [])
   provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
 }
 
@@ -161,6 +168,7 @@ module "suse-sshminion" {
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
 
   additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
+  additional_packages = lookup(local.additional_packages, "suse-sshminion", [])
   provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
 }
 
@@ -179,6 +187,7 @@ module "redhat-minion" {
   ssh_key_path           = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "redhat-minion", {})
+  additional_packages = lookup(local.additional_packages, "redhat-minion", [])
   provider_settings = lookup(local.provider_settings_by_host, "redhat-minion", {})
 }
 
@@ -197,6 +206,7 @@ module "debian-minion" {
   ssh_key_path           = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "debian-minion", {})
+  additional_packages = lookup(local.additional_packages, "debian-minion", [])
   provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
 }
 
@@ -228,6 +238,7 @@ module "kvm-host" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "kvm-host", {})
+  additional_packages = lookup(local.additional_packages, "kvm-host", [])
   provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
 }
 
@@ -249,6 +260,7 @@ module "xen-host" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
 
   additional_repos  = lookup(local.additional_repos, "xen-host", {})
+  additional_packages = lookup(local.additional_packages, "xen-host", [])
   provider_settings = lookup(local.provider_settings_by_host, "xen-host", {})
 }
 
@@ -282,6 +294,7 @@ module "controller" {
   swap_file_size         = null
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
+  additional_packages = lookup(local.additional_packages, "controller", [])
   provider_settings = lookup(local.provider_settings_by_host, "controller", {})
 }
 
