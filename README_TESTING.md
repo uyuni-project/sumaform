@@ -133,6 +133,7 @@ host_settings = {
 Each of the hosts (including `server` and `controller` which are always present) accepts the following parameters:
  - `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
  - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
+ - `additional_packages` to add software packages (see [README_ADVANCED.md](README_ADVANCED.md))
  - `image` to use a different base image
 
 A libvirt example follows:
@@ -145,6 +146,7 @@ server = {
   additional_repos = {
     Test_repo = "http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
   }
+  additional_packages = [ "vim" ]
 }
 ````
 
