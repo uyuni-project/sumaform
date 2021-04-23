@@ -23,6 +23,12 @@ proxy-packages:
     - require:
       - sls: repos
 
+{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
+product_package_installed:
+   cmd.run:
+     - name: zypper --non-interactive install --auto-agree-with-licenses --force-resolution -t product SUSE-Manager-Proxy
+{% endif %}
+
 wget:
   pkg.installed:
     - require:
