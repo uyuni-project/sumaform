@@ -84,7 +84,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
     - priority: 98
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
@@ -234,7 +234,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
     - priority: 98
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
@@ -282,7 +282,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - priority: 98
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
@@ -483,7 +483,7 @@ tools_update_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - require:
       - cmd: galaxy_key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
@@ -548,7 +548,7 @@ tools_update_repo:
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 # We only have one shared Client Tools repository, so we are using 4.1 for 4.0 and 3.2
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.1:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
 {% else %}
@@ -568,7 +568,7 @@ tools_update_repo_raised_priority:
 {% elif '4.1-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:4.1:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.1-released' in grains.get('product_version') | default('', true) %}
     - contents: |
@@ -579,7 +579,7 @@ tools_update_repo_raised_priority:
 {% elif '4.0-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:4.1:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.0-released' in grains.get('product_version') | default('', true) %}
     - contents: |
@@ -590,7 +590,7 @@ tools_update_repo_raised_priority:
 {% elif '3.2-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:4.1:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '3.2-released' in grains.get('product_version') | default('', true) %}
     - contents: |
