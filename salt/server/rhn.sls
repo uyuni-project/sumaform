@@ -91,6 +91,17 @@ rhn_conf_prometheus:
 
 {% endif %}
 
+{% if not grains.get('forward_registration') | default(false, true) %}
+
+rhn_conf_forward_reg:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: server.susemanager.forward_registration = 0
+    - require:
+      - sls: server
+
+{% endif %}
+
 # catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
 rhn_conf_present:
   file.touch:
