@@ -75,6 +75,7 @@ module "server" {
     traceback_email                = var.traceback_email
     saltapi_tcpdump                = var.saltapi_tcpdump
     repository_disk_size           = var.repository_disk_size
+    forward_registration           = var.forward_registration
   }
 
 

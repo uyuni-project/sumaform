@@ -269,3 +269,8 @@ variable "server_mounted_mirror" {
   description = "hostname of a mounted mirror in the server (to get packages from it)"
   default     = null
 }
+
+variable "forward_registration" {
+  description = "Forward client registrations to SCC"
+  default     = false
+}

@@ -47,6 +47,7 @@ module "server" {
   create_sample_bootstrap_script = false
   publish_private_ssl_key        = false
   disable_download_tokens        = false
+  forward_registration           = false
   monitored                      = true
   use_os_released_updates        = true
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
