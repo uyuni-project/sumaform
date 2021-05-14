@@ -539,7 +539,8 @@ wait_until_apt_lock_file_unlock:
 
 tools_update_repo:
   pkgrepo.managed:
-    - file: /etc/apt/sources.list.d/Ubuntu{{ short_release }}-Client-Tools.list
+    - humanname: tools_update_repo
+    - file: /etc/apt/sources.list.d/tools_update_repo.list
 {% if 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
@@ -559,7 +560,7 @@ tools_update_repo:
 
 tools_update_repo_raised_priority:
   file.managed:
-    - name: /etc/apt/preferences.d/Ubuntu{{ short_release }}-Client-Tools
+    - name: /etc/apt/preferences.d/tools_update_repo
 {% if 'head' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
