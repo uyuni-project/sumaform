@@ -164,11 +164,9 @@ scc:
     - SLE-Manager-Tools12-Updates
     - SLE-Manager-Tools15-Pool
     - SLE-Manager-Tools15-Updates
-    - RES-6-SUSE-Manager-Tools
     - RES-7-SUSE-Manager-Tools
     - RES8-Manager-Tools-Pool
     - RES8-Manager-Tools-Updates
-    - Ubuntu-16.04-SUSE-Manager-Tools
     - Ubuntu-18.04-SUSE-Manager-Tools
     - Ubuntu-20.04-SUSE-Manager-Tools
     # SUSE Manager Beta Tools
@@ -177,11 +175,9 @@ scc:
     - SLE-Manager-Tools12-Updates-Beta
     - SLE-Manager-Tools15-Pool-Beta
     - SLE-Manager-Tools15-Updates-Beta
-    - RES-6-SUSE-Manager-Tools-Beta
     - RES-7-SUSE-Manager-Tools-Beta
     - RES8-Manager-Tools-Pool-Beta
     - RES8-Manager-Tools-Updates-Beta
-    - Ubuntu-16.04-SUSE-Manager-Tools-Beta
     - Ubuntu-18.04-SUSE-Manager-Tools-Beta
     - Ubuntu-20.04-SUSE-Manager-Tools-Beta
   archs: [x86_64, amd64]
@@ -333,10 +329,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
     archs: [x86_64]
 
-  # RES 6 Manager Tools 4.0 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/RES6-SUSE-Manager-Tools/SUSE_RES-6_Update_standard
-    archs: [x86_64]
-
   # RES 7 Manager Tools 4.0 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.0:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
     archs: [x86_64]
@@ -359,10 +351,6 @@ http:
 
   # SLE 15 Manager Tools 4.1 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # RES 6 Manager Tools 4.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/RES6-SUSE-Manager-Tools/SUSE_RES-6_Update_standard
     archs: [x86_64]
 
   # RES 7 Manager Tools 4.1 devel
@@ -391,10 +379,6 @@ http:
 
   # SLE 15 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # RES 6 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/RES6-SUSE-Manager-Tools/SUSE_RES-6_Update_standard
     archs: [x86_64]
 
   # RES 7 Manager Tools Head devel
@@ -471,11 +455,7 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS6-Uyuni-Client-Tools/CentOS_6/
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/
-    archs: [x86_64]
-  - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04/
     archs: [x86_64]
   - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
@@ -493,11 +473,7 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
-    archs: [x86_64]
-  - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04/
     archs: [x86_64]
   - url: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
