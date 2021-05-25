@@ -2,7 +2,6 @@ include:
   - default.locale
   - default.minimal
   - default.pkgs
-  - default.grub
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
