@@ -24,6 +24,13 @@ data "azurerm_platform_image" "opensuse152" {
   sku       = "15-2"
 }
 
+data "azurerm_platform_image" "opensuse153" {
+  location  = local.location
+  publisher = "suse"
+  offer     = "opensuse-leap"
+  sku       = "15-3"
+}
+
 data "azurerm_platform_image" "sles15sp2" {
   location  = local.location
   publisher = "suse"
@@ -72,6 +79,7 @@ locals {
     key_file = local.key_file
     resource_group_name = module.network.configuration.resource_group_name
     platform_image_info = {
+      opensuse153 = { platform_image = data.azurerm_platform_image.opensuse153 },
       opensuse152 = { platform_image = data.azurerm_platform_image.opensuse152 },
       sles15sp2   = { platform_image = data.azurerm_platform_image.sles15sp2 },
       suma41 = { platform_image = data.azurerm_platform_image.suma41 },
