@@ -176,7 +176,7 @@ server_devel_releasenotes_repo:
 {% if grains['osfullname'] == 'Leap' %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.2/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/
     - priority: 96
 {% else %}
 server_devel_repo:
