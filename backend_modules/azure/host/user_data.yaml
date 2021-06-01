@@ -30,3 +30,24 @@ packages: ["salt-minion"]
   # - zypper removerepo --all
 
 %{ endif }
+
+%{ if image == "opensuse153" "}
+
+zypper:
+    repos:
+      - id: opensuse_pool_repo
+        name: opensuse_pool_repo
+        baseurl: http://download.opensuse.org/distribution/leap/15.3/repo/oss/
+        enabled: 1
+        autorefresh: 1
+
+packages: ["salt-minion"]
+
+  # runcmd:
+  # HACK this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
+  # - zypper rm -y gettext-runtime-mini
+  # HACK: instance might already have some repos that end up conflicting with the ones we want to install.
+  # Possible bug in zypper's Salt module
+  # - zypper removerepo --all
+
+%{ endif }
