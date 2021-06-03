@@ -19,27 +19,6 @@ locals {
   additional_network = lookup(var.provider_settings, "additional_network", "172.16.2.0/24")
 }
 
-data "aws_ami" "opensuse150" {
-  most_recent = true
-  name_regex  = "^openSUSE-Leap-15-v"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "opensuse151" {
   most_recent = true
   name_regex  = "^openSUSE-Leap-15-1-v"
@@ -433,7 +412,6 @@ locals {
     ami_info = {
       opensuse152 = { ami = data.aws_ami.opensuse152.image_id },
       opensuse151 = { ami = data.aws_ami.opensuse151.image_id },
-      opensuse150 = { ami = data.aws_ami.opensuse150.image_id },
       sles15      = { ami = data.aws_ami.sles15.image_id },
       sles15sp1   = { ami = data.aws_ami.sles15sp1.image_id },
       sles15sp2o   = { ami = data.aws_ami.sles15sp2o.image_id },

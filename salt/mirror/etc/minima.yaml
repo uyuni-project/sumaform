@@ -424,11 +424,6 @@ http:
     archs: [amd64]
 
   # openSUSE Leap
-  - url: http://download.opensuse.org/distribution/leap/15.0/repo/oss
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.0/oss
-    archs: [x86_64]
-
   - url: http://download.opensuse.org/distribution/leap/15.1/repo/oss
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.1/oss
