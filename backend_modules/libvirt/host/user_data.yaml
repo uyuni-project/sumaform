@@ -125,6 +125,13 @@ runcmd:
   - zypper removerepo --all
 %{ endif }
 
+%{ if image == "opensuse153o" }
+packages: ["avahi", "nss-mdns"]
+
+runcmd:
+  - zypper removerepo --all
+%{ endif }
+
 %{ if image == "sles12sp4o" }
 zypper:
   repos:
