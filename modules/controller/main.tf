@@ -95,6 +95,8 @@ module "controller" {
     sle11sp3_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
     sle12sp4_buildhost   = length(var.sle12sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp4_buildhost_configuration["hostnames"][0] : null
     sle12sp4_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
+    sle12sp5_buildhost   = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
+    sle12sp5_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
     sle15sp2_buildhost   = length(var.sle15sp2_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp2_buildhost_configuration["hostnames"][0] : null
     sle15sp2_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
   }
