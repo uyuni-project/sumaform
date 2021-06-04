@@ -380,6 +380,21 @@ variable "sle15sp2_terminal_configuration" {
   }
 }
 
+variable "sle12sp5_buildhost_configuration" {
+  description = "use module.<SLE12SP5_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle12sp5_terminal_configuration" {
+  description = "use module.<SLE12SP5_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    macaddr = null
+    image = null
+  }
+}
+
 variable "sle12sp4_buildhost_configuration" {
   description = "use module.<SLE12SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
