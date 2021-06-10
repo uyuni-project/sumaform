@@ -98,7 +98,7 @@ module "suse-client" {
   quantity = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-client", "sles12sp4o")
+  image              = lookup(local.images, "suse-client", "sles12sp5o")
   name               = lookup(local.names, "suse-client", "cli-sles12")
 
   server_configuration = local.minimal_configuration
@@ -118,7 +118,7 @@ module "suse-minion" {
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-minion", "sles12sp4o")
+  image              = lookup(local.images, "suse-minion", "sles12sp5o")
   name               = lookup(local.names, "suse-minion", "min-sles12")
 
   server_configuration = local.minimal_configuration
@@ -138,7 +138,7 @@ module "build-host" {
   quantity           = contains(local.hosts, "build-host") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "build-host", "sles12sp4o")
+  image              = lookup(local.images, "build-host", "sles12sp5o")
   name               = lookup(local.names, "build-host", "min-build")
 
   server_configuration = local.minimal_configuration
@@ -160,7 +160,7 @@ module "suse-sshminion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-sshminion", "sles12sp4o")
+  image              = lookup(local.images, "suse-sshminion", "sles12sp5o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles12")
 
   use_os_released_updates = true

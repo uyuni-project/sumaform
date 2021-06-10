@@ -97,8 +97,8 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "min-sles12sp4"
-  image = "sles12sp4o"
+  name = "min-sles12sp5"
+  image = "sles12sp5o"
   server_configuration = module.server.configuration
   quantity = 10
 }
@@ -430,7 +430,7 @@ module "suse-minion" {
   base_configuration = module.base.configuration
 
   name = "min"
-  image = "sles12sp4o"
+  image = "sles12sp5o"
   server_configuration = module.server.configuration
   activation_key = "1-DEFAULT"
 }
@@ -447,7 +447,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "3.2-nightly"
+  product_version = "4.1-nightly"
 }
 
 module "proxy" {
@@ -455,7 +455,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "3.2-nightly"
+  product_version = "4.1-nightly"
   server_configuration = module.server.configuration
 }
 
@@ -463,8 +463,8 @@ module "suse-client" {
   source = "./modules/client"
   base_configuration = module.base.configuration
 
-  name = "cli-sles12sp4"
-  image = "sles12sp4o"
+  name = "cli-sles12sp5"
+  image = "sles12sp5o"
   server_configuration = module.proxy.configuration
   quantity = 3
 }
@@ -585,7 +585,7 @@ module "vanilla" {
   base_configuration = module.base.configuration
 
   name = "vanilla"
-  image = "sles12sp4o"
+  image = "sles12sp5o"
 }
 ```
 
@@ -605,7 +605,7 @@ module "pxeboot-minion"
   base_configuration = module.base.configuration
 
   name = "pxeboot"
-  image = "sles12sp4o"
+  image = "sles12sp5o"
 }
 ```
 
@@ -635,8 +635,8 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "min-sles12sp4"
-  image = "sles12sp4o"
+  name = "min-sles12sp5"
+  image = "sles12sp5o"
   server_configuration = module.server.configuration
 
   additional_repos = {
@@ -668,8 +668,8 @@ The list contains paths relative to the `salt/` directory, as in the following e
 module "suse-sshminion" {
   source = "./modules/host"
   base_configuration = module.base.configuration
-  name = "minssh-sles12sp4"
-  image = "sles12sp4o"
+  name = "minssh-sles12sp5"
+  image = "sles12sp5o"
   gpg_keys = ["default/gpg_keys/galaxy.key"]
 }
 ```
