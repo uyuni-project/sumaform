@@ -356,9 +356,6 @@ yum_repos:
     priority: 99
     name: epel
 
-runcmd:
-  - yum install -t -y --enablerepo=salt-repo-amazon salt-minion
-
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 
 runcmd:
@@ -366,6 +363,7 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
+  - yum install -t -y --disablerepo=epel salt-minion
 %{ endif }
 %{ if image == "almalinux8o" }
 yum_repos:
