@@ -349,7 +349,7 @@ yum_repos:
     priority: 99
     name: epel
 
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 
 runcmd:
   #   HACK: cloud-init in Debian 10 does not take care of the following
