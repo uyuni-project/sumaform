@@ -329,6 +329,34 @@ runcmd:
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 
+%{ if image == "amazonlinux2o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+
+runcmd:
+  #   HACK: cloud-init in Debian 10 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - systemctl start qemu-guest-agent
+%{ endif }
 %{ if image == "almalinux8o" }
 yum_repos:
   # repo for salt
