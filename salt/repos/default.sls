@@ -593,10 +593,20 @@ tools_update_repo_raised_priority:
             Package: *
             Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
+{% elif '4.2-nightly' in grains.get('product_version') | default('', true) %}
+    - contents: |
+            Package: *
+            Pin: release l=Devel:Galaxy:Manager:4.2:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin-Priority: 800
+{% elif '4.2-released' in grains.get('product_version') | default('', true) %}
+    - contents: |
+            Package: *
+            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
+            Pin-Priority: 800
 {% elif '4.1-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin: release l=Devel:Galaxy:Manager:4.2:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.1-released' in grains.get('product_version') | default('', true) %}
     - contents: |
@@ -607,7 +617,7 @@ tools_update_repo_raised_priority:
 {% elif '4.0-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin: release l=Devel:Galaxy:Manager:4.2:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.0-released' in grains.get('product_version') | default('', true) %}
     - contents: |
@@ -618,7 +628,7 @@ tools_update_repo_raised_priority:
 {% elif '3.2-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
+            Pin: release l=Devel:Galaxy:Manager:4.2:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '3.2-released' in grains.get('product_version') | default('', true) %}
     - contents: |

@@ -124,6 +124,27 @@ data "aws_ami" "sles15sp1" {
   }
 }
 
+data "aws_ami" "sles15sp2o" {
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp2-byos-v"
+  owners      = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles12sp5" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp5-byos-v"
@@ -415,6 +436,7 @@ locals {
       opensuse150 = { ami = data.aws_ami.opensuse150.image_id },
       sles15      = { ami = data.aws_ami.sles15.image_id },
       sles15sp1   = { ami = data.aws_ami.sles15sp1.image_id },
+      sles15sp2o   = { ami = data.aws_ami.sles15sp2o.image_id },
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
