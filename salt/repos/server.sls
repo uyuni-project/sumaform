@@ -258,6 +258,18 @@ server_devel_releasenotes_repo:
     - priority: 96
 {% endif %}
 
+{% if '4.2-nightly' in grains['product_version'] %}
+server_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2/SLE_15_SP3/
+    - priority: 96
+
+server_devel_releasenotes_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/ToSLE/SLE_15_SP3/
+    - priority: 96
+{% endif %}
+
 {% endif %}
 
 # WORKAROUND: see github:saltstack/salt#10852
