@@ -258,36 +258,36 @@ http:
     archs: [x86_64]
 
   # SLES 15 SP3 Test (not available until GM)
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP3:/x86_64/update
-  #  archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP3:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP3:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP3:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP3:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP3:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP3:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP3:/x86_64/update
+    archs: [x86_64]
 
   # SLE 15 SP3 moving target (valid until GM)
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Basesystem-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Containers-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Desktop-Applications-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Development-Tools-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Python2-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Server-Applications-POOL-x86_64-Media1/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Web-Scripting-POOL-x86_64-Media1/
-    archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Basesystem-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Containers-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Desktop-Applications-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Development-Tools-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Python2-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Server-Applications-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/SUSE:/SLE-15-SP3:/GA:/TEST/images/repo/SLE-15-SP3-Module-Web-Scripting-POOL-x86_64-Media1/
+  #  archs: [x86_64]
 
   # SUSE Manager Head (SLE15-SP3)
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.2-POOL-x86_64-Media1
@@ -315,6 +315,12 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1/SLE_15_SP2
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/ToSLE/SLE_15_SP2/
+    archs: [x86_64]
+
+  # SUSE Manager 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2/SLE_15_SP3
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/ToSLE/SLE_15_SP3/
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 4.0 devel
@@ -363,6 +369,30 @@ http:
 
   # Ubuntu 18.04 Manager Tools 4.1 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
+    archs: [amd64]
+
+  # SLE 11 SP4 Manager Tools 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
+    archs: [x86_64]
+
+  # SLE 12 (GA and all SPs) Manager Tools 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
+    archs: [x86_64]
+
+  # SLE 15 Manager Tools 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
+    archs: [x86_64]
+
+  # RES 7 Manager Tools 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+    archs: [x86_64]
+
+  # RES 8 Manager Tools 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
+    archs: [x86_64]
+
+  # Ubuntu 18.04 Manager Tools 4.2 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
     archs: [amd64]
 
   # SUSE Manager Head devel
