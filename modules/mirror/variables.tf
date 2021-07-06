@@ -34,7 +34,7 @@ variable "ubuntu_distros" {
 
 variable "minima_config_path" {
   description = "minima config file to copy onto mirror host"
-  type = "string"
+  type = string
   default = "minima.yaml"
 }
 
