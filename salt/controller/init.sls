@@ -81,9 +81,16 @@ install_npm:
     - name: npm8
 
 # https://github.com/gkushang/cucumber-html-reporter
-install_cucumber_html_reporter_via_npm:
+#install_cucumber_html_reporter_via_npm:
+#  cmd.run:
+#    - name: npm install cucumber-html-reporter@5.2.0 --save-dev
+#    - require:
+#      - pkg: install_npm
+
+# Temporary using a personal fork until this commit is publicly released
+install_cucumber_html_reporter_via_git:
   cmd.run:
-    - name: npm install cucumber-html-reporter@5.2.0 --save-dev
+    - name: npm install github:srbarrios/cucumber-html-reporter#788ef843796aa76bfa33bb4dc4de04eb7c00c0ed
     - require:
       - pkg: install_npm
 
@@ -95,7 +102,7 @@ fix_cucumber_html_reporter_style:
             width: 100%;
         }
     - require:
-      - cmd: install_cucumber_html_reporter_via_npm
+      - cmd: install_cucumber_html_reporter_via_git
 
 git_config:
   file.append:
