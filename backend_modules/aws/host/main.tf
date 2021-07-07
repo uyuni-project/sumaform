@@ -41,6 +41,7 @@ data "template_file" "user_data" {
     image           = var.image
     public_instance = local.provider_settings["public_instance"]
     mirror_url      = var.base_configuration["mirror"]
+    server_registry_code             = var.base_configuration["server_registry_code"]
   }
 }
 

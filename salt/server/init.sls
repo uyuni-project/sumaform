@@ -27,7 +27,7 @@ server_packages:
       - sls: repos
       - sls: server.firewall
 
-{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
+{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and grains['server_registry_code'] == 'null' %}
 product_package_installed:
    cmd.run:
      - name: zypper --non-interactive install --auto-agree-with-licenses --force-resolution -t product SUSE-Manager-Server

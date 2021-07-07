@@ -54,7 +54,7 @@ module_python2_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Python2/15-SP1/x86_64/update/
 {% endif %}
 
-{% if '4.1' in grains['product_version'] %}
+{% if '4.1' in grains['product_version'] and grains['server_registry_code'] == 'null' %}
 server_product_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Product-SUSE-Manager-Server/4.1/x86_64/product/

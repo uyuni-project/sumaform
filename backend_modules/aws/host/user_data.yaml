@@ -23,7 +23,6 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15"}
-
 zypper:
   repos:
     - id: os_pool_repo
@@ -34,6 +33,17 @@ zypper:
 
 packages: ["salt-minion"]
 %{ endif }
+
+%{ if image == "sles15sp2o"}
+runcmd:
+  - SUSEConnect --url https://scc.suse.com -r ${server_registry_code}
+  - SUSEConnect -p sle-module-python2/15.2/x86_64
+  - SUSEConnect -p sle-module-web-scripting/15.2/x86_64
+  - SUSEConnect -p sle-module-suse-manager-server/4.1/x86_64
+  - zypper in -y salt-minion
+
+%{ endif }
+
 %{ if image == "sles12sp3"}
 zypper:
   repos:

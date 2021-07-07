@@ -380,6 +380,7 @@ locals {
     name_prefix          = var.name_prefix
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
+    server_registry_code = var.server_registry_code
 
     additional_network = local.additional_network
 
