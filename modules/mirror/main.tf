@@ -4,6 +4,7 @@ module "mirror" {
 
   base_configuration      = var.base_configuration
   name                    = "mirror"
+  quantity                = var.quantity
   use_os_released_updates = var.use_os_released_updates
   additional_repos        = var.additional_repos
   additional_packages     = var.additional_packages
@@ -19,7 +20,7 @@ module "mirror" {
     data_disk_fstype  = var.data_disk_fstype
   }
 
-  image = "opensuse151"
+  image = "opensuse152o"
 
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size

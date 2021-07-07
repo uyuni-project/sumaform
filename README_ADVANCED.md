@@ -125,7 +125,22 @@ module "mirror" {
 }
 ```
 
-Note you are encouraged to specify an additional libvirt storage pool name (`data` in the example above). Downloaded content will be placed on a separate disk in this pool - it helps SUSE Manager performance significantly if the pool is mapped onto a different physical disk. You can configure a pool with `virt-manager` like in the following image:
+Alternatively, if you use the `cucumber_testsuite` module, the latter can become:
+```hcl
+module "cucumber_testsuite" {
+  (...)
+  host_settings = {
+    (...)
+    mirror = {
+      volume_provider_settings = {
+        pool = "data"
+      }
+    }
+  }
+}
+```
+
+Note you are encouraged to specify an additional libvirt storage pool name (`data` in the examples above). Downloaded content will be placed on a separate disk in this pool - it helps SUSE Manager performance significantly if the pool is mapped onto a different physical disk. You can configure a pool with `virt-manager` like in the following image:
 
 ![data pool configuration in virt-manager](/help/data-pool-configuration.png)
 

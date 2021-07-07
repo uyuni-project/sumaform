@@ -92,6 +92,16 @@ locals {
   minimal_configuration = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
 }
 
+module "mirror" {
+  source = "../mirror"
+
+  quantity = contains(local.hosts, "mirror") ? 1 : 0
+  base_configuration = module.base.configuration
+
+  provider_settings        = lookup(local.provider_settings_by_host, "mirror", {})
+  volume_provider_settings = lookup(var.host_settings["mirror"], "volume_provider_settings", {})
+}
+
 module "suse-client" {
   source             = "../client"
 

@@ -17,6 +17,11 @@ variable "additional_packages" {
   default     = []
 }
 
+variable "quantity" {
+  description = "number of hosts like this one"
+  default     = 0
+}
+
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
   default     = 0
