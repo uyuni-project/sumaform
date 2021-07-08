@@ -32,12 +32,6 @@ variable "ubuntu_distros" {
   default     = []
 }
 
-variable "minima_config_path" {
-  description = "minima config file to copy onto mirror host"
-  type = string
-  default = "minima.yaml"
-}
-
 variable "provider_settings" {
   description = "Map of provider-specific settings, see the backend-specific README file"
   default     = {}

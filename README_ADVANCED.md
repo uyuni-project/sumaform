@@ -143,14 +143,8 @@ module "mirror" {
 }
 ```
 
-Note that `mirror` must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
+Note that `mirror` must be populated before any host can be deployed. By default, its cache is refreshed nightly via `cron`, as configured in `/etc/cron.daily`. You can also schedule a one-time refresh by running manually some of the scripts that reside in `/usr/local/bin` directory.
 
-It is also possible to use parameters with `/root/mirror.sh` to limit what is going to be done.
-
-Check the help with:
-```bash
-/root/mirror.sh -h
-```
 
 ## Mirror only for Server (products synchronization)
 

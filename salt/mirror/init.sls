@@ -1,15 +1,35 @@
 include:
   - default
 
+# base programs and services
+
 mozilla_certificates:
   pkg.installed:
     - name: ca-certificates-mozilla
     - require:
       - sls: default
 
+cron:
+  pkg.installed
+
+cron_service:
+  service.running:
+    - name: cron
+    - enable: True
+    - require:
+      - pkg: cron
+
+parted:
+  pkg.installed
+
+tar:
+  pkg.installed:
+    - require:
+      - sls: default
+
 minima:
   archive.extracted:
-    - name: /usr/bin
+    - name: /usr/local/bin/utils/
     - source: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz
     - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz.sha512
     - archive_format: tar
@@ -20,98 +40,158 @@ minima:
       - pkg: mozilla_certificates
       - sls: default
 
-mirror_configuration_dir:
-  file.directory:
-    - name: /root/.minima
-    - user: root
-    - group: root
-    - mode: 750
-
-minima_configuration:
-  file.managed:
-    - name: /root/.minima/minima.yaml
-    - source: salt://mirror/{{ grains.get("minima_config_path") | default("minima.yaml", true) }}
-    - template: jinja
-    - require:
-      - file: mirror_configuration_dir
-
-mirrorsh_configuration:
-  file.managed:
-    - name: /root/.minima/mirror.sh.conf
-    - source: salt://mirror/mirror.sh.conf
-    - template: jinja
-    - require:
-      - file: mirror_configuration_dir
-
-tar:
+apt-mirror:
   pkg.installed:
     - require:
       - sls: default
 
 jdupes:
   archive.extracted:
-    - name: /
+    - name: /usr/local/bin/utils/
     - source: https://github.com/jbruchon/jdupes/releases/download/v1.18.1/jdupes_1.18.1-x86-64.pkg.tar.xz
     - source_hash: 7429fa365f63e8ce73c39cf42a3a5e26e8eb49246b3f58fae4ebb353478232a77cc17b4316cb7464bfc685f779bfb690559b24eb60fe61b0b97ea1b3a0ccba48
     - archive_format: tar
     - enforce_toplevel: false
-    - options: --strip-components=1
+    - options: --strip-components=3 --wildcards */jdupes
     - keep: True
     - overwrite: True
     - require:
       - pkg: tar
 
-# Ensure we have it: some images don't have it
-cron:
-  pkg.installed
-
-parted:
-  pkg.installed
-
-scc_data_refresh_script:
+docker_images:
   file.managed:
-    - name: /root/refresh_scc_data.py
-    - source: salt://mirror/refresh_scc_data.py
+    - name: /usr/local/bin/utils/docker_images
+    - source: salt://mirror/utils/docker_images
+    - mode: 755
+
+adjust_external_repos:
+  file.managed:
+    - name: /usr/local/bin/utils/adjust_external_repos
+    - source: salt://mirror/utils/adjust_external_repos
     - template: jinja
     - mode: 755
 
-apt-mirror:
-  pkg.installed:
-    - require:
-      - sls: default
+scc_data_refresh:
   file.managed:
-    - name: /etc/apt-mirror.list
-    - source: salt://mirror/apt-mirror.list
+    - name: /usr/local/bin/utils/refresh_scc_data.py
+    - source: salt://mirror/utils/refresh_scc_data.py
     - template: jinja
-    - require:
-      - pkg: apt-mirror
-
-mirror_script:
-  file.managed:
-    - name: /root/mirror.sh
-    - source: salt://mirror/mirror.sh
     - mode: 755
-  cron.present:
-{% if grains.get('use_mirror_images') %}
-    - name: /root/mirror.sh --mirror-images --refresh-scc-data --apt-mirror --minima-sync=/root/.minima/minima.yaml --config=/root/.minima/mirror.sh.conf &> /var/log/full-mirror.log || cat /var/log/full-mirror.log
-{% else %}
-    - name: /root/mirror.sh --refresh-scc-data --apt-mirror --minima-sync=/root/.minima/minima.yaml --config=/root/.minima/mirror.sh.conf &> /var/log/full-mirror.log || cat /var/log/full-mirror.log
-{% endif %}
-    - identifier: MIRROR
-    - user: root
-    - hour: 20
-    - minute: 0
+
+
+# mirroring scripts
+
+minima_configuration:
+  file.managed:
+    - name: /etc/minima.yaml
+    - source: salt://mirror/etc/minima.yaml
+    - template: jinja
+
+minima_script:
+  file.managed:
+    - name: /usr/local/bin/minima.sh
+    - source: salt://mirror/cron_scripts/minima.sh
+    - mode: 755
     - require:
       - pkg: cron
       - archive: minima
       - file: minima_configuration
-      - file: mirrorsh_configuration
-      - file: mirror_script
-  service.running:
-    - name: cron
-    - enable: True
-    - watch:
-      - file: /root/mirror.sh
+
+minima_symlink:
+  file.symlink:
+    - name: /etc/cron.daily/minima.sh
+    - target: /usr/local/bin/minima.sh
+    - require:
+      - file: minima_script
+
+apt-mirror_configuration:
+  file.managed:
+    - name: /etc/apt-mirror.list
+    - source: salt://mirror/etc/apt-mirror.list
+    - template: jinja
+    - require:
+      - pkg: apt-mirror
+
+apt-mirror_script:
+  file.managed:
+    - name: /usr/local/bin/apt-mirror.sh
+    - source: salt://mirror/cron_scripts/apt-mirror.sh
+    - mode: 755
+    - require:
+      - pkg: cron
+      - pkg: apt-mirror
+      - file: apt-mirror_configuration
+
+apt-mirror_symlink:
+  file.symlink:
+    - name: /etc/cron.daily/apt-mirror.sh
+    - target: /usr/local/bin/apt-mirror.sh
+    - require:
+      - file: apt-mirror_script
+
+mirror-images_configuration:
+  file.managed:
+    - name: /etc/mirror-images.conf
+    - source: salt://mirror/etc/mirror-images.conf
+
+mirror-images_script:
+  file.managed:
+    - name: /usr/local/bin/mirror-images.sh
+    - source: salt://mirror/cron_scripts/mirror-images.sh
+    - mode: 755
+    - require:
+      - pkg: cron
+      - file: mirror-images_configuration
+
+mirror-images_symlink:
+  file.symlink:
+    - name: /etc/cron.daily/mirror-images.sh
+    - target: /usr/local/bin/mirror-images.sh
+    - require:
+      - file: mirror-images_script
+
+docker-images_configuration:
+  file.managed:
+    - name: /etc/docker-images.conf
+    - source: salt://mirror/etc/docker-images.conf
+    - template: jinja
+
+docker-images_script:
+  file.managed:
+    - name: /usr/local/bin/docker-images.sh
+    - source: salt://mirror/cron_scripts/docker-images.sh
+    - mode: 755
+    - require:
+      - pkg: cron
+      - file: docker-images_configuration
+
+# no symlinck by default for docker-images.sh
+# (docker is not installed by default)
+
+scc-data_configuration:
+  file.managed:
+    - name: /etc/scc-data.conf
+    - source: salt://mirror/etc/scc-data.conf
+    - template: jinja
+
+scc-data_script:
+  file.managed:
+    - name: /usr/local/bin/scc-data.sh
+    - source: salt://mirror/cron_scripts/scc-data.sh
+    - mode: 755
+    - require:
+      - pkg: cron
+      - file: scc-data_configuration
+
+scc-data_symlink:
+  file.symlink:
+    - name: /etc/cron.daily/scc-data.sh
+    - target: /usr/local/bin/scc-data.sh
+    - require:
+      - file: scc-data_script
+
+
+# partitioning
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 mirror_partition:
@@ -121,7 +201,8 @@ mirror_partition:
     - require:
       - pkg: parted
 
-# http serving of mirrored packages
+
+# HTTP serving of mirrored packages
 
 mirror_directory:
   file.directory:
@@ -150,7 +231,7 @@ web_server:
       - sls: default
   file.managed:
     - name: /etc/apache2/vhosts.d/mirror.conf
-    - source: salt://mirror/mirror.conf
+    - source: salt://mirror/etc/mirror.conf
     - require:
       - pkg: apache2
   service.running:
@@ -162,6 +243,7 @@ web_server:
       - file: mirror_directory
     - watch:
       - file: /etc/apache2/vhosts.d/mirror.conf
+
 
 # NFS serving of mirrored packages
 
