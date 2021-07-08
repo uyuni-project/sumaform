@@ -1,0 +1,28 @@
+#! /bin/bash
+
+# External repos as nvidia drivers need this to emulate RMT
+# which is what Uyuni/SUSE Manager server expects
+
+ERROR=0
+
+if [ -d suse -a -d repo ]; then
+  mkdir -p repo/RPMMD || exit ${?}
+  for dir in suse/sle* ; do
+    d=${dir^^}
+    ver=${d/SUSE\/SLE/SLE-}
+    if [[ $ver == ${ver%SP*} ]]; then
+      target="${ver}-GA"
+    else
+      target=${ver/SP/-SP}
+    fi
+    full_path=repo/RPMMD/${target}-Desktop-NVIDIA-Driver
+    if [ ! -L ${full_path} ]; then
+      ln -s ../../$dir ${full_path}
+	if [ ${?} -ne 0 ]; then
+	  ERROR=${?}
+	fi
+    fi
+  done
+fi
+
+exit $ERROR

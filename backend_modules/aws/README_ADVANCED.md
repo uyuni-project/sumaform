@@ -5,7 +5,7 @@
 The `mirror` host serves all repos and packages used by other instances.
 It will be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
-Note that `mirror` must be populated before any host can be deployed - by default its cache is refreshed nightly via `cron`, you can also schedule a one-time refresh via the `/root/mirror.sh` script.
+Note that `mirror` must be populated before any host can be deployed. By default, its cache is refreshed nightly via `cron`, as configured in `/etc/cron.daily`. You can also schedule a one-time refresh by running manually some of the scripts that reside in `/usr/local/bin` directory.
 The `mirror` host's data volume can be created from a pre-populated snapshot, which allows it to be operational without lengthy channel synchronization.
 
 ### mirror setup
@@ -54,7 +54,7 @@ module "mirror" {
 
    If you are using released versions only or creating a mirror disk from scratch:
    1. `ssh root@<MIRROR_HOST>`
-   1. `sudo bash /root/mirror.sh`
+   1. `sudo minima.sh` (or any other mirroring script in `/usr/local/bin`)
 
 If you need access to SUSE internal nightly builds or `Devel:` packages, you will first of all need a fully set up and synced libvirt based mirror on a machine in the engineering network.
 Once you have it you can transfer development packages to your AWS mirror via rsync, for example via the commands below:
