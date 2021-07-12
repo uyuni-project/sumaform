@@ -77,7 +77,7 @@ module "server" {
     saltapi_tcpdump                = var.saltapi_tcpdump
     repository_disk_size           = var.repository_disk_size
     forward_registration           = var.forward_registration
-    server_registry_code           = var.server_registry_code
+    server_registry_code           = var.base_configuration["server_registry_code"]
   }
 
 

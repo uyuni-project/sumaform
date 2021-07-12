@@ -274,9 +274,3 @@ variable "forward_registration" {
   description = "Forward client registrations to SCC"
   default     = false
 }
-
-variable "server_registry_code" {
-  description = "Use scc register"
-  type        = string
-  default = null
-}
