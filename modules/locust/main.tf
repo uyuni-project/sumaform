@@ -14,7 +14,7 @@ module "locust" {
     locust_slave_count = var.slave_quantity
   }
 
-  image   = "opensuse151"
+  image   = "opensuse152"
   provider_settings = var.provider_settings
 }
 
@@ -34,7 +34,7 @@ module "locust-slave" {
     locust_master_host = length(module.locust.configuration["hostnames"]) > 0 ? module.locust.configuration["hostnames"][0] : null
   }
 
-  image   = "opensuse151"
+  image   = "opensuse152"
   provider_settings = var.provider_settings
 }
 
