@@ -3,6 +3,7 @@ locals {
   region            = lookup(var.provider_settings, "region", null)
   ssh_allowed_ips   = lookup(var.provider_settings, "ssh_allowed_ips", [])
   name_prefix       = var.name_prefix
+  server_registry_code = var.server_registry_code
 
   key_name = lookup(var.provider_settings, "key_name", null)
   key_file = lookup(var.provider_settings, "key_file", null)
@@ -61,7 +62,7 @@ data "aws_ami" "sles15" {
   }
 }
 
-data "aws_ami" "sles15sp1" {
+data "aws_ami" "sles15sp1o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp1-byos-v"
   owners      = ["013907871322"]
@@ -392,7 +393,7 @@ locals {
     ami_info = {
       opensuse152 = { ami = data.aws_ami.opensuse152.image_id },
       sles15      = { ami = data.aws_ami.sles15.image_id },
-      sles15sp1   = { ami = data.aws_ami.sles15sp1.image_id },
+      sles15sp1o   = { ami = data.aws_ami.sles15sp1o.image_id },
       sles15sp2o   = { ami = data.aws_ami.sles15sp2o.image_id },
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },

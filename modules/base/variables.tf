@@ -72,5 +72,5 @@ variable "images" {
 variable "server_registry_code" {
   description = "Use scc register"
   type        = string
-  default = null
+  default     = "null"
 }

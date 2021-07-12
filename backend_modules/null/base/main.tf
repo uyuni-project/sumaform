@@ -16,6 +16,7 @@ resource "null_resource" "base" {
     testsuite            = var.testsuite
     provider_settings    = yamlencode(var.provider_settings)
     images               = yamlencode(var.images)
+    server_registry_code = var.server_registry_code
   }
 }
 
@@ -33,5 +34,6 @@ output "configuration" {
     name_prefix          = var.name_prefix
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
+    server_registry_code = var.server_registry_code
   }
 }

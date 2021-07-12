@@ -38,10 +38,10 @@ data "template_file" "user_data" {
   count    = var.quantity > 0 ? var.quantity : 0
   template = file("${path.module}/user_data.yaml")
   vars = {
-    image           = var.image
-    public_instance = local.provider_settings["public_instance"]
-    mirror_url      = var.base_configuration["mirror"]
-    server_registry_code             = var.base_configuration["server_registry_code"]
+    image                = var.image
+    public_instance      = local.provider_settings["public_instance"]
+    mirror_url           = var.base_configuration["mirror"]
+    server_registry_code = var.base_configuration["server_registry_code"]
   }
 }
 
