@@ -104,13 +104,6 @@ yum_repos:
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
-%{ if image == "opensuse151o" }
-packages: ["qemu-guest-agent"]
-
-runcmd:
-  - zypper removerepo --all
-%{ endif }
-
 %{ if image == "opensuse152o" }
 packages: ["qemu-guest-agent"]
 

@@ -10,7 +10,7 @@ chpasswd:
     root:linux
 %{ endif }
 
-%{ if image == "opensuse152" || image == "opensuse151" }
+%{ if image == "opensuse152" }
 packages: ["salt-minion"]
 
 runcmd:
