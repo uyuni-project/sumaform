@@ -194,7 +194,7 @@ The generated virtual host will be setup with:
 * a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
 * and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
 
-The template disk image is the `opensuse151` image used by sumaform and is downloaded when applying the highstate on the virtual host.
+The template disk image is the `opensuse153` image used by sumaform and is downloaded when applying the highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
 If the `hvm_disk_image` is set to the empty string, no image will be copied in `/var/testsuite-data/`.
 For example, to use a local image copy it in `salt/virthost/` folder and set `hvm_disk_image = "salt://virthost/imagename.qcow2"`
