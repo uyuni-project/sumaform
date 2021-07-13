@@ -3,12 +3,6 @@
 include:
   - server
 
-test_package_without_vendor_file:
-  file.managed:
-    - name: /root/subscription-tools-1.0-0.noarch.rpm
-    - source: salt://server/testsuite/subscription-tools-1.0-0.noarch.rpm
-
-
 test_vcenter_file:
   file.managed:
     - name: /var/tmp/vCenter.json
