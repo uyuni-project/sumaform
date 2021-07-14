@@ -71,12 +71,16 @@ variable "ipv6" {
 
 variable "hvm_disk_image" {
   description = "URL to the disk image to use for KVM guests"
-  default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2"
+  # default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2"
+  # WORKAROUND: temporary fix Error: HTTP 404: Not Found reading
+  default = "https://www.mirrorservice.org/sites/download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2"
 }
 
 variable "hvm_disk_image_hash" {
   description = "Hash of the HVM disk image, either a URL or the hash itself. See salt's file.managed source_hash documentations"
-  default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
+  # default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
+  # WORKAROUND: temporary fix Error: HTTP 404: Not Found reading
+  default = "https://www.mirrorservice.org/sites/download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
 }
 
 variable "xen_disk_image" {
