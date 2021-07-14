@@ -20,6 +20,6 @@ then
         echo "ERROR: salt-call is not available after 10 retries";
 fi
 
-salt-call --local --file-root=$FILE_ROOT/ --log-level=debug --retcode-passthrough --force-color state.highstate || exit 1
+salt-call --local --file-root=$FILE_ROOT/ --log-level=trace --retcode-passthrough --force-color state.highstate || exit 1
 
 chmod +x ${FILE_ROOT}/highstate.sh
