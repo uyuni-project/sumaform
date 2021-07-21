@@ -35,32 +35,33 @@ packages: ["salt-minion"]
 %{ endif }
 
 %{ if server_registration_code != "null" }
-runcmd:
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
 
 %{ if image == "sles15sp1o" }
 runcmd:
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
   - SUSEConnect -p sle-module-python2/15.1/x86_64
   - SUSEConnect -p sle-module-web-scripting/15.1/x86_64
   - SUSEConnect -p sle-module-suse-manager-server/4.0/x86_64
+  - zypper in -y salt-minion
 %{ endif }
 
 %{ if image == "sles15sp2o" }
 runcmd:
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
   - SUSEConnect -p sle-module-python2/15.2/x86_64
   - SUSEConnect -p sle-module-web-scripting/15.2/x86_64
   - SUSEConnect -p sle-module-suse-manager-server/4.1/x86_64
+  - zypper in -y salt-minion
 %{ endif }
 
 %{ if image == "sles15sp3o" }
 runcmd:
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
   - SUSEConnect -p sle-module-python2/15.3/x86_64
   - SUSEConnect -p sle-module-web-scripting/15.3/x86_64
   - SUSEConnect -p sle-module-suse-manager-server/4.2/x86_64
-%{ endif }
-
-runcmd:
   - zypper in -y salt-minion
+%{ endif }
 
 %{ endif }
 
