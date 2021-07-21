@@ -69,7 +69,7 @@ variable "images" {
   type        = set(string)
 }
 
-variable "server_registry_code" {
-  description = "Use scc register"
+variable "server_registration_code" {
+  description = "Use SUMA SCC registration code to enable the SLES and SUMA repositories"
   default     = "null"
 }

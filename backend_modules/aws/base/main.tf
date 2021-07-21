@@ -3,7 +3,6 @@ locals {
   region            = lookup(var.provider_settings, "region", null)
   ssh_allowed_ips   = lookup(var.provider_settings, "ssh_allowed_ips", [])
   name_prefix       = var.name_prefix
-  server_registry_code = var.server_registry_code
 
   key_name = lookup(var.provider_settings, "key_name", null)
   key_file = lookup(var.provider_settings, "key_file", null)
@@ -381,7 +380,7 @@ locals {
     name_prefix          = var.name_prefix
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
-    server_registry_code = var.server_registry_code
+    server_registration_code = var.server_registration_code
 
     additional_network = local.additional_network
 

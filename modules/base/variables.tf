@@ -69,7 +69,7 @@ variable "images" {
   type        = set(string)
 }
 
-variable "server_registry_code" {
+variable "server_registration_code" {
   description = "Use scc register"
   type        = string
   default     = "null"
