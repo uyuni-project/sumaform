@@ -21,6 +21,16 @@ os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/oss/
 
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
+sle_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/sle/
+
+backports_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/backports/
+{% endif %}
+
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %}
 {% if grains.get('product_version') and 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_pool_repo:
