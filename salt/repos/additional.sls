@@ -42,7 +42,12 @@
 
 {% if grains['os'] == 'SUSE' %}
 update-ca-certificates:
-  cmd.run
+  cmd.run:
+    - name: /usr/sbin/update-ca-certificates
+    - unless:
+      - fun: service.status
+        args:
+          - ca-certificates.path
 {% endif %}
 {% endfor %}
 {% endif %}
