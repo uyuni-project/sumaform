@@ -71,5 +71,5 @@ variable "images" {
 
 variable "server_registration_code" {
   description = "Use SUMA SCC registration code to enable the SLES and SUMA repositories"
-  default     = "null"
+  default     = null
 }

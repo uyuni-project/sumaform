@@ -34,7 +34,7 @@ zypper:
 packages: ["salt-minion"]
 %{ endif }
 
-%{ if server_registration_code != "null" }
+%{ if server_registration_code != "" }
 
 %{ if image == "sles15sp1o" }
 runcmd:
