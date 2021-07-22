@@ -42,17 +42,13 @@ suse_certificate:
     - makedirs: True
 
 update_ca_truststore:
-  cmd.run:
+  cmd.wait:
     - name: /usr/sbin/update-ca-certificates
-    - onchanges:
+    - watch:
       - file: registry_certificate
       - file: suse_certificate
     - require:
       - pkg: suse_minion_cucumber_requisites
-    - unless:
-      - fun: service.status
-        args:
-          - ca-certificates.path
 
 {% endif %}
 
