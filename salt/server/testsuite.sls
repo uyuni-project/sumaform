@@ -3,11 +3,6 @@
 include:
   - server
 
-test_vcenter_file:
-  file.managed:
-    - name: /var/tmp/vCenter.json
-    - source: salt://server/testsuite/vCenter.json
-
 minima:
   archive.extracted:
     - name: /usr/bin
