@@ -41,15 +41,6 @@ suse_certificate:
     - source: salt://minion/certs/SUSE_Trust_Root.crt.pem
     - makedirs: True
 
-update_ca_truststore:
-  cmd.wait:
-    - name: /usr/sbin/update-ca-certificates
-    - watch:
-      - file: registry_certificate
-      - file: suse_certificate
-    - require:
-      - pkg: suse_minion_cucumber_requisites
-
 {% endif %}
 
 {% endif %}

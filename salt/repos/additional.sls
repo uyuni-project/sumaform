@@ -40,10 +40,6 @@
     - source: {{ url }}
     - source_hash: {{ url }}.sha512
 
-{% if grains['os'] == 'SUSE' %}
-update-ca-certificates:
-  cmd.run
-{% endif %}
 {% endfor %}
 {% endif %}
 
