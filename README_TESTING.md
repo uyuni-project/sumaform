@@ -66,7 +66,16 @@ To enable/disable features, edit these YAML files. Keep in mind that:
 
 Once all `core_` features have been executed you can run a non-core Cucumber feature as follows:
 ```
-ssh -t head-ctl.tf.local cucumber -r spacewalk/testsuite/features spacewalk/testsuite/features/secondary/my_feature.feature
+$ ssh root@head-ctl.tf.local
+# cd spacewalk/testsuite
+# cucumber -r features features/secondary/my_feature.feature
+```
+
+or an individual scenario with:
+```
+$ ssh root@head-ctl.tf.local
+# cd spacewalk/testsuite
+# cucumber -r features "My nice scenario title"
 ```
 
 Read HTML results at:
