@@ -61,7 +61,7 @@ data "aws_ami" "sles15" {
   }
 }
 
-data "aws_ami" "sles15sp1" {
+data "aws_ami" "sles15sp1o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp1-byos-v"
   owners      = ["013907871322"]
@@ -380,6 +380,7 @@ locals {
     name_prefix          = var.name_prefix
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
+    server_registration_code = var.server_registration_code
 
     additional_network = local.additional_network
 
@@ -391,7 +392,7 @@ locals {
     ami_info = {
       opensuse152 = { ami = data.aws_ami.opensuse152.image_id },
       sles15      = { ami = data.aws_ami.sles15.image_id },
-      sles15sp1   = { ami = data.aws_ami.sles15sp1.image_id },
+      sles15sp1o   = { ami = data.aws_ami.sles15sp1o.image_id },
       sles15sp2o   = { ami = data.aws_ami.sles15sp2o.image_id },
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },

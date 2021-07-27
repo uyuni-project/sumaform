@@ -68,3 +68,8 @@ variable "images" {
   default     = ["centos6o", "centos7o", "centos8o", "opensuse152o", "opensuse153o", "sles11sp4", "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "ubuntu1604o", "ubuntu1804o", "ubuntu2004o"]
   type        = set(string)
 }
+
+variable "server_registration_code" {
+  description = "Use SUMA SCC registration code to enable the SLES and SUMA repositories"
+  default     = null
+}
