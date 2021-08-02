@@ -12,10 +12,10 @@ openSUSE and SUSE Linux Enterprise Server:
 ```
 # Uncomment one of the following lines depending on your distro
 
-#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/systemsmanagement:sumaform.repo
-#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.1/systemsmanagement:sumaform.repo
-#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP4/systemsmanagement:sumaform.repo
-#sudo zypper addrepo https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.1/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP4/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/systemsmanagement:sumaform.repo
 
 sudo zypper install terraform-provider-libvirt git-core
 git clone https://github.com/uyuni-project/sumaform.git
@@ -24,9 +24,9 @@ git clone https://github.com/uyuni-project/sumaform.git
 Ubuntu and Debian:
 ```
 sudo apt install alien
-wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform.rpm
+wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
-wget https://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform-provider-libvirt.rpm
+wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/uyuni-project/sumaform.git
 ```
