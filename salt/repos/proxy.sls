@@ -12,7 +12,7 @@ proxy_update_repo:
     - priority: 97
 {% endif %}
 
-{% if '4.0' in grains['product_version'] %}
+{% if '4.0' in grains['product_version'] and not grains.get('proxy_registration_code') %}
 proxy_product_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Product-SUSE-Manager-Proxy/4.0/x86_64/product/
@@ -38,7 +38,7 @@ module_server_applications_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP1/x86_64/update/
 {% endif %}
 
-{% if '4.1' in grains['product_version'] %}
+{% if '4.1' in grains['product_version'] and not grains.get('proxy_registration_code')%}
 proxy_product_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Product-SUSE-Manager-Proxy/4.1/x86_64/product/
@@ -64,7 +64,7 @@ module_server_applications_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP2/x86_64/update/
 {% endif %}
 
-{% if '4.2' in grains['product_version'] %}
+{% if '4.2' in grains['product_version'] and not grains.get('proxy_registration_code') %}
 proxy_product_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Product-SUSE-Manager-Proxy/4.2/x86_64/product/

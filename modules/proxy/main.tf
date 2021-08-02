@@ -47,6 +47,7 @@ module "proxy" {
     generate_bootstrap_script = var.generate_bootstrap_script
     publish_private_ssl_key   = var.publish_private_ssl_key
     repository_disk_size      = var.repository_disk_size
+    proxy_registration_code   = var.base_configuration["proxy_registration_code"]
   }
 
   image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
