@@ -159,7 +159,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      source: "deb https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
+      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v2.0.15 (GNU/Linux)
