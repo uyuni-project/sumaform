@@ -98,8 +98,8 @@ module "suse-client" {
   quantity = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-client", "sles12sp5o")
-  name               = lookup(local.names, "suse-client", "cli-sles12")
+  image              = lookup(local.images, "suse-client", "sles15sp2o")
+  name               = lookup(local.names, "suse-client", "cli-sles15")
 
   server_configuration = local.minimal_configuration
 
@@ -118,8 +118,8 @@ module "suse-minion" {
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-minion", "sles12sp5o")
-  name               = lookup(local.names, "suse-minion", "min-sles12")
+  image              = lookup(local.images, "suse-minion", "sles15sp2o")
+  name               = lookup(local.names, "suse-minion", "min-sles15")
 
   server_configuration = local.minimal_configuration
 
@@ -138,7 +138,7 @@ module "build-host" {
   quantity           = contains(local.hosts, "build-host") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "build-host", "sles12sp5o")
+  image              = lookup(local.images, "build-host", "sles15sp2o")
   name               = lookup(local.names, "build-host", "min-build")
 
   server_configuration = local.minimal_configuration
@@ -160,8 +160,8 @@ module "suse-sshminion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-sshminion", "sles12sp5o")
-  name               = lookup(local.names, "suse-sshminion", "minssh-sles12")
+  image              = lookup(local.images, "suse-sshminion", "sles15sp2o")
+  name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
@@ -198,8 +198,8 @@ module "debian-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "debian-minion", "ubuntu1804o")
-  name               = lookup(local.names, "debian-minion", "min-ubuntu1804")
+  image              = lookup(local.images, "debian-minion", "ubuntu2004o")
+  name               = lookup(local.names, "debian-minion", "min-ubuntu2004")
 
   server_configuration   = local.minimal_configuration
   auto_connect_to_master = false
@@ -216,7 +216,7 @@ module "pxeboot-minion" {
   quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "pxeboot-minion", "sles12sp3")
+  image              = lookup(local.images, "pxeboot-minion", "sles15sp3o")
   name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
   provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
 }
@@ -228,7 +228,7 @@ module "kvm-host" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "kvm-host", "sles15sp1o")
+  image              = lookup(local.images, "kvm-host", "sles15sp3o")
   name               = lookup(local.names, "kvm-host", "min-kvm")
 
   server_configuration = local.minimal_configuration
@@ -249,7 +249,7 @@ module "xen-host" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "xen-host", "sles15sp1")
+  image              = lookup(local.images, "xen-host", "sles15sp3o")
   name               = lookup(local.names, "xen-host", "min-xen")
   hypervisor         = "xen"
 
