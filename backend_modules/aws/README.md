@@ -45,7 +45,9 @@ Available provider settings for the base module:
 | key_file                 | string | `null`          | ssh key file                                                                                                   |
 | bastion_host             | string | `null`          | bastian host use to connect machines in private network                                                        |
 | additional_network       | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1)|
-| server_registration_code | string | `null`          | Add your SUMA SCC server registration code to use SCC repositories and disable internal repositories           |
+| server_registration_code | string | `null`          | SUMA SCC server registration code to use SCC repositories and disable internal repositories                    |
+| proxy_registration_code  | string | `null`          | SUMA SCC proxy registration code to use SCC repositories and disable internal repositories                     |
+
 
 An example follows:
 ```hcl-terraform

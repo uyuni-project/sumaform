@@ -34,32 +34,62 @@ zypper:
 packages: ["salt-minion"]
 %{ endif }
 
-%{ if server_registration_code != "" }
-
 %{ if image == "sles15sp1o" }
 runcmd:
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
+%{ if server_registration_code != "" }
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.0/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
   - SUSEConnect -p sle-module-python2/15.1/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
   - SUSEConnect -p sle-module-web-scripting/15.1/x86_64
   - SUSEConnect -p sle-module-suse-manager-server/4.0/x86_64
   - zypper in -y salt-minion
 %{ endif }
+%{ if proxy_registration_code != "" }
+  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.0/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
+  - SUSEConnect -p sle-module-suse-manager-proxy/4.0/x86_64
+  - zypper in -y salt-minion
+%{ endif }
+%{ endif }
 
 %{ if image == "sles15sp2o" }
 runcmd:
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
+%{ if server_registration_code != "" }
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.1/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.2/x86_64
   - SUSEConnect -p sle-module-python2/15.2/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.2/x86_64
   - SUSEConnect -p sle-module-web-scripting/15.2/x86_64
   - SUSEConnect -p sle-module-suse-manager-server/4.1/x86_64
   - zypper in -y salt-minion
 %{ endif }
+%{ if proxy_registration_code != "" }
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Proxy/4.1/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.2/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.2/x86_64
+  - SUSEConnect -p sle-module-suse-manager-proxy/4.1/x86_64
+  - zypper in -y salt-minion
+%{ endif }
+%{ endif }
 
 %{ if image == "sles15sp3o" }
 runcmd:
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code}
+%{ if server_registration_code != "" }
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.2/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.3/x86_64
   - SUSEConnect -p sle-module-python2/15.3/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.3/x86_64
   - SUSEConnect -p sle-module-web-scripting/15.3/x86_64
   - SUSEConnect -p sle-module-suse-manager-server/4.2/x86_64
+  - zypper in -y salt-minion
+%{ endif }
+%{ if proxy_registration_code != "" }
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Proxy/4.2/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.3/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.3/x86_64
+  - SUSEConnect -p sle-module-suse-manager-proxy/4.2/x86_64
   - zypper in -y salt-minion
 %{ endif }
 
