@@ -70,11 +70,11 @@ variable "images" {
 }
 
 variable "server_registration_code" {
-  description = "Use scc register"
+  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for server"
   default     = null
 }
 
 variable "proxy_registration_code" {
-  description = "Use Proxy SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
+  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
   default     = null
 }
