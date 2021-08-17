@@ -232,7 +232,7 @@ runcmd:
   - zypper in -y salt-minion
 %{ endif }
 %{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Proxy/4.1/x86_64
+  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.1/x86_64
   - SUSEConnect -p sle-module-basesystem/15.2/x86_64
   - SUSEConnect -p sle-module-server-applications/15.2/x86_64
   - SUSEConnect -p sle-module-suse-manager-proxy/4.1/x86_64
@@ -265,7 +265,7 @@ runcmd:
   - zypper in -y salt-minion
 %{ endif }
 %{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Proxy/4.2/x86_64
+  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.2/x86_64
   - SUSEConnect -p sle-module-basesystem/15.3/x86_64
   - SUSEConnect -p sle-module-server-applications/15.3/x86_64
   - SUSEConnect -p sle-module-suse-manager-proxy/4.2/x86_64
