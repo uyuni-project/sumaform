@@ -204,6 +204,7 @@ runcmd:
   - zypper in -y salt-minion
 %{ endif }
 
+%{ endif }
 
 %{ if image == "sles15sp2o" }
 zypper:
