@@ -165,6 +165,27 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15sp1o" }
+
+%{ if server_registration_code != "" }
+runcmd:
+  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.0/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
+  - SUSEConnect -p sle-module-python2/15.1/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
+  - SUSEConnect -p sle-module-web-scripting/15.1/x86_64
+  - SUSEConnect -p sle-module-suse-manager-server/4.0/x86_64
+  - zypper in -y salt-minion
+%{ endif }
+%{ if proxy_registration_code != "" }
+runcmd:
+  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.0/x86_64
+  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
+  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
+  - SUSEConnect -p sle-module-suse-manager-proxy/4.0/x86_64
+  - zypper in -y salt-minion
+%{ endif }
+
+%{ if server_registration_code == "" && proxy_registration_code == ""}
 zypper:
   repos:
     - id: os_pool_repo
@@ -177,6 +198,7 @@ zypper:
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP1/x86_64/product
       enabled: 1
       autorefresh: 1
+%{ endif }
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 
