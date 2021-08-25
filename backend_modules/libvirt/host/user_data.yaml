@@ -212,9 +212,6 @@ runcmd:
   - zypper install -y avahi nss-mdns qemu-guest-agent
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ if server_registration_code != "" }
-  - zypper rr os_pool_repo
-  - zypper rr module_server_applications_pool_repo
-  - zypper refresh
   - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.1/x86_64
   - SUSEConnect -p sle-module-basesystem/15.2/x86_64
   - SUSEConnect -p sle-module-python2/15.2/x86_64
