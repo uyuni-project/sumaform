@@ -204,23 +204,12 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15sp2o" }
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
-      enabled: 1
-      autorefresh: 1
-    - id: module_server_applications_pool_repo
-      name: module_server_applications_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product
-      enabled: 1
-      autorefresh: 1
-
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
+  - zypper ar -e -f http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product os_pool_repo
+  - zypper ar -e -f http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product module_server_applications_pool_repo
+  - zypper install -y avahi nss-mdns qemu-guest-agent
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ if server_registration_code != "" }
   - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.1/x86_64
