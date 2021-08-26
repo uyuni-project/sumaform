@@ -184,32 +184,15 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP1 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
-%{ if server_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.0/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
-  - SUSEConnect -p sle-module-python2/15.1/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
-  - SUSEConnect -p sle-module-web-scripting/15.1/x86_64
-  - SUSEConnect -p sle-module-suse-manager-server/4.0/x86_64
-  - zypper in -y salt-minion
-%{ endif }
-%{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.0/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
-  - SUSEConnect -p sle-module-suse-manager-proxy/4.0/x86_64
-  - zypper in -y salt-minion
-%{ endif }
 
 %{ endif }
 
 %{ if image == "sles15sp2o" }
 
 runcmd:
-  # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
   - zypper ar -e -f http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product os_pool_repo
-  - zypper ar -e -f http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product module_server_applications_pool_repo
   - zypper install -y avahi nss-mdns qemu-guest-agent
+  # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ if server_registration_code != "" }
   - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.1/x86_64
@@ -234,17 +217,10 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15sp3o" }
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product
-      enabled: 1
-      autorefresh: 1
-
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 
 runcmd:
+  - zypper ar -e -f http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product os_pool_repo
+  - zypper install -y avahi nss-mdns qemu-guest-agent
   # WORKAROUND: cloud-init in SLES 15 SP3 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ if server_registration_code != "" }
