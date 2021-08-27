@@ -16,7 +16,7 @@ add_sle_module_server_application:
      - name: SUSEConnect -p sle-module-server-applications/15.2/x86_64
 add_sle_module_suse_manager_server:
    cmd.run:
-     - name: SUSEConnect -p sle-module-suse-manager-server/4.1/x86_64
+     - name: SUSEConnect -p sle-module-suse-manager-proxy/4.1/x86_64
 {% endif %}
 
 {% if '4.2' in grains['product_version'] %}
@@ -31,7 +31,7 @@ add_sle_module_server_application:
      - name: SUSEConnect -p sle-module-server-applications/15.3/x86_64
 add_sle_module_suse_manager_server:
    cmd.run:
-     - name: SUSEConnect -p sle-module-suse-manager-server/4.2/x86_64
+     - name: SUSEConnect -p sle-module-suse-manager-proxy/4.2/x86_64
 {% endif %}
 
 {% endif %}
