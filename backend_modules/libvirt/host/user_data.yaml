@@ -196,6 +196,7 @@ runcmd:
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
   - sleep 4
 %{ if server_registration_code != "" }
+  - rpm -e --nodeps sles-release
   - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.1/x86_64
   - SUSEConnect -p sle-module-basesystem/15.2/x86_64
   - SUSEConnect -p sle-module-python2/15.2/x86_64
