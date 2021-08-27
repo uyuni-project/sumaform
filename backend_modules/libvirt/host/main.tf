@@ -174,7 +174,6 @@ resource "null_resource" "provisioning" {
         authorized_keys           = var.ssh_key_path
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
-        provider                  = "libvirt"
     })
   }
 
@@ -225,6 +224,7 @@ resource "null_resource" "provisioning" {
         reset_ids                     = true
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") ? "vdb" : null
+        provider                      = "libvirt"
       },
     var.grains))
     destination = "/etc/salt/grains"
