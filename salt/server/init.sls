@@ -1,5 +1,6 @@
 include:
   - repos
+  - scc
   - server.additional_disk
   - server.firewall
   - server.postgres
