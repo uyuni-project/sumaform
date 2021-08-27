@@ -174,6 +174,7 @@ resource "null_resource" "provisioning" {
         authorized_keys           = var.ssh_key_path
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
+        provider                  = "libvirt"
     })
   }
 

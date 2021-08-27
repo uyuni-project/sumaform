@@ -1,4 +1,4 @@
-{% if 'proxy' in grains.get('roles') and grains.get('proxy_registration_code')%}
+{% if 'proxy' in grains.get('roles') and grains.get('proxy_registration_code') and grains['provider'] == "libvirt"  %}
 
 clean_sles_release_package:
    cmd.run:
