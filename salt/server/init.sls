@@ -1,6 +1,6 @@
 include:
   - repos
-  - scc
+  - scc.server
   - server.additional_disk
   - server.firewall
   - server.postgres
@@ -25,6 +25,7 @@ server_packages:
     - name: patterns-suma_server
     {% endif %}
     - require:
+      - sls: repos
       - sls: repos
       - sls: server.firewall
 
