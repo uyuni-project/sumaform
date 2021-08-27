@@ -6,7 +6,7 @@ clean_sles_release_package:
      - name: rpm -e --nodeps sles-release
 register_suse_manager_server_with_scc:
    cmd.run:
-     - name: SUSEConnect --url https://scc.suse.com -r grains.get("server_registration_code") -p SUSE-Manager-Server/4.1/x86_64
+     - name: SUSEConnect --url https://scc.suse.com -r {{ grains.get("server_registration_code") }} -p SUSE-Manager-Server/4.1/x86_64
 add_sle_module_basesystem:
    cmd.run:
      - name: SUSEConnect -p sle-module-basesystem/15.2/x86_64
