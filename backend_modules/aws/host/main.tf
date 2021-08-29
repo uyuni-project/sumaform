@@ -191,6 +191,7 @@ resource "null_resource" "host_salt_configuration" {
         hostname : replace(aws_instance.instance[count.index].private_dns, ".${local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"}", "")
         domain : local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"
         use_avahi : false
+        provider                  = "aws"
 
         timezone                  = var.base_configuration["timezone"]
         use_ntp                   = var.base_configuration["use_ntp"]

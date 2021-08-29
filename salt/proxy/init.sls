@@ -1,5 +1,6 @@
 include:
   - repos
+  - scc.proxy
   - proxy.additional_disk
 {% if grains['minion'] %}
   - minion
