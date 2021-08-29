@@ -203,7 +203,7 @@ runcmd:
   - SUSEConnect -p sle-module-suse-manager-proxy/4.1/x86_64
   - zypper in -y salt-minion
 %{ endif }
-%{ if server_registration_code == "" and proxy_registration_code == ""}
+%{ if server_registration_code == "" && proxy_registration_code == "" }
 zypper:
   repos:
     - id: os_pool_repo
