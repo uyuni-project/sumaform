@@ -30,6 +30,8 @@ data "template_file" "user_data" {
     image             = var.image
     use_mirror_images = var.base_configuration["use_mirror_images"]
     mirror            = var.base_configuration["mirror"]
+    server_registration_code = var.base_configuration["server_registration_code"] != null && contains(var.roles, "server") ? var.base_configuration["server_registration_code"] : ""
+    proxy_registration_code  = var.base_configuration["proxy_registration_code"] != null && contains(var.roles, "proxy") ? var.base_configuration["proxy_registration_code"] : ""
   }
 }
 
@@ -222,6 +224,7 @@ resource "null_resource" "provisioning" {
         reset_ids                     = true
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") ? "vdb" : null
+        provider                      = "libvirt"
       },
     var.grains))
     destination = "/etc/salt/grains"
