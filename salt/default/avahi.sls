@@ -3,6 +3,38 @@ include:
 
 {% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
+# TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES versions we use
+{% if grains['osfullname'] == 'SLES' %}
+custom_avahi_repo:
+  pkgrepo.managed:
+    - humanname: custom_avahi_repo
+    {%   if grains['osrelease'] == '11.4' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.23/SLE_11_SP4/
+    {% elif grains['osrelease'] == '12' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12/
+    {% elif grains['osrelease'] == '12.1' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP1/
+    {% elif grains['osrelease'] == '12.2' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP2/
+    {% elif grains['osrelease'] == '12.3' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP3/
+    {% elif grains['osrelease'] == '12.4' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP4/
+    {% elif grains['osrelease'] == '12.5' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP5/
+    {% elif grains['osrelease'] == '15' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15/
+    {% elif grains['osrelease'] == '15.1' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP1/
+    {% elif grains['osrelease'] == '15.2' %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP2/
+    {% else %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP3/
+    {% endif %}
+    - priority: 95
+    - gpgcheck: 0
+{% endif %}
+
 {% if grains['os_family'] == 'RedHat' and grains['osmajorrelease']|int() == 6 %}
 dbus_enable_service:
   service.running:
