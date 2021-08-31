@@ -449,7 +449,10 @@ tools_pool_repo:
     {% if release >= 8 %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/product/
-    {% else %}
+    # Amazon Linux support
+    {% elsif release == 2 %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/7-CLIENT-TOOLS/x86_64/product/
+    {% else}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/{{ release }}-CLIENT-TOOLS/x86_64/product/
     {% endif %}
     {% elif grains.get('mirror') %}
