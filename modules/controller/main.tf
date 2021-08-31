@@ -97,6 +97,8 @@ module "controller" {
     debian9_sshminion    = length(var.debian9_sshminion_configuration["hostnames"]) > 0 ? var.debian9_sshminion_configuration["hostnames"][0] : null
     debian10_minion      = length(var.debian10_minion_configuration["hostnames"]) > 0 ? var.debian10_minion_configuration["hostnames"][0] : null
     debian10_sshminion   = length(var.debian10_sshminion_configuration["hostnames"]) > 0 ? var.debian10_sshminion_configuration["hostnames"][0] : null
+    debian11_minion      = length(var.debian11_minion_configuration["hostnames"]) > 0 ? var.debian11_minion_configuration["hostnames"][0] : null
+    debian11_sshminion   = length(var.debian11_sshminion_configuration["hostnames"]) > 0 ? var.debian11_sshminion_configuration["hostnames"][0] : null
     sle11sp4_buildhost   = length(var.sle11sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle11sp4_buildhost_configuration["hostnames"][0] : null
     sle11sp3_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
     sle12sp4_buildhost   = length(var.sle12sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp4_buildhost_configuration["hostnames"][0] : null
