@@ -1,4 +1,4 @@
-{% if grains.get('testsuite') | default(false, true) %}
+{% if grains.get('testsuite') %}
 
 include:
   - repos
