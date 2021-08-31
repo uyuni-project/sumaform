@@ -26,7 +26,6 @@ server_packages:
     {% endif %}
     - require:
       - sls: repos
-      - sls: repos
       - sls: server.firewall
 
 {% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and not grains.get('server_registration_code') %}

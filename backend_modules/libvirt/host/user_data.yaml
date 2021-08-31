@@ -165,7 +165,6 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15sp1o" }
-
 zypper:
   repos:
     - id: os_pool_repo
@@ -187,7 +186,6 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15sp2o" }
-
 zypper:
   repos:
     - id: os_pool_repo
