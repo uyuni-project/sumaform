@@ -387,6 +387,15 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
+%{ if image == "debian11o" }
+runcmd:
+#   HACK: cloud-init in Debian 11 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - systemctl start qemu-guest-agent
+
+packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+%{ endif }
 %{ if image == "debian10o" }
 runcmd:
 #   HACK: cloud-init in Debian 10 does not take care of the following
