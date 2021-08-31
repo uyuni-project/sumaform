@@ -40,27 +40,6 @@ data "aws_ami" "opensuse152" {
   }
 }
 
-data "aws_ami" "opensuse153" {
-  most_recent = true
-  name_regex  = "^openSUSE-Leap-15-3-v"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "sles15" {
   most_recent = true
   name_regex  = "^suse-sles-15-byos-v"
@@ -82,7 +61,7 @@ data "aws_ami" "sles15" {
   }
 }
 
-data "aws_ami" "sles15sp1" {
+data "aws_ami" "sles15sp1o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp1-byos-v"
   owners      = ["013907871322"]
