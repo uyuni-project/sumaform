@@ -363,5 +363,5 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
-  - [ yum, install, -y, --disablerepo=epel, salt-minion ]
+  - [ yum, install, -y, --no-best, salt-minion ]
 %{ endif }
