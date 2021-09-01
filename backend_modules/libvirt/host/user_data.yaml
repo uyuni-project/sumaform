@@ -329,7 +329,7 @@ runcmd:
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 
-%{ if image == "almalinuxo" }
+%{ if image == "almalinux8o" }
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -340,13 +340,13 @@ yum_repos:
     name: tools_pool_repo
     priority: 98
   # repo for nss-mdns
-  salt-repo-amazon:
-    baseurl: http://${ use_mirror_images ? mirror : "repo.saltproject.io"}/py3/amazon/2/x86_64/3000
+  salt-repo-almalinux:
+    baseurl: http://${ use_mirror_images ? mirror : "repo.saltproject.io"}/py3/redhat/8/x86_64/3003.repo
     failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
-    name: salt-repo-amazon
+    name: salt-repo-almalinux
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
