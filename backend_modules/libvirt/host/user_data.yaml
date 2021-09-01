@@ -341,7 +341,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   salt-repo-almalinux:
-    baseurl: http://${ use_mirror_images ? mirror : "repo.saltproject.io"}/py3/redhat/8/x86_64/3003.repo
+    baseurl: http://${ use_mirror_images ? mirror : "repo.saltproject.io"}/py3/redhat/8/x86_64/3003
     failovermethod: priority
     enabled: true
     gpgcheck: false
