@@ -464,7 +464,7 @@ tools_pool_repo:
     {% else %}
     # Amazon Linux support
     {% if release == 2 %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/7-CLIENT-TOOLS/x86_64/product/
+    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
     {% else %}
     - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
