@@ -334,7 +334,7 @@ packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-htt
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -342,8 +342,8 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
-    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
     failovermethod: priority
     enabled: true
     gpgcheck: false
