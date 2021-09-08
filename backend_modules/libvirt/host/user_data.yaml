@@ -340,13 +340,6 @@ yum_repos:
     name: tools_pool_repo
     priority: 98
   # repo for nss-mdns
-#   salt-repo-almalinux:
-#     baseurl: http://${ use_mirror_images ? mirror : "repo.saltproject.io"}/py3/redhat/8/x86_64/3003
-#     failovermethod: priority
-#     enabled: true
-#     gpgcheck: false
-#     priority: 99
-#     name: salt-repo-almalinux
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
@@ -358,10 +351,4 @@ yum_repos:
 
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 
-# runcmd:
-#   #   HACK: cloud-init in Debian 10 does not take care of the following
-#   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-#   - systemctl restart sshd
-#   - systemctl start qemu-guest-agent
-#   - [ yum, install, -y, --nobest, salt-minion ]
 %{ endif }
