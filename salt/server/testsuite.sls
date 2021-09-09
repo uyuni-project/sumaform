@@ -33,10 +33,11 @@ another_test_repo:
 test_repo_debian_updates:
   cmd.script:
     - name: salt://server/download_ubuntu_repo.sh
-    - args: "TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
+    - args: "TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
+      - pkg: testsuite_salt_packages
 
 # modify cobbler to be executed from remote-machines..
 
@@ -61,9 +62,16 @@ testsuite_packages:
     - pkgs:
       - expect
       - aaa_base-extras
-      - salt-ssh
       - wget
       - OpenIPMI
+    - require:
+      - sls: repos
+
+testsuite_salt_packages:
+  pkg.installed:
+    - pkgs:
+      - salt-ssh
+    - fromrepo: server_devel_repo
     - require:
       - sls: repos
 
