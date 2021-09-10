@@ -27,6 +27,8 @@ virthost_packages:
         - guestfs-tools
         - tar # WORKAROUND: missing supermin tar dependency bsc#1134334
         - kernel-default
+        - tuned
+        - irqbalance
     - require:
       - sls: repos
       - pkg: no-xen-tools
