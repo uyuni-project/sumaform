@@ -19,7 +19,14 @@ Legal values for work-in-progress software are:
  * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
  * `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
  * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP3 image)
- * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap 15.1 image)
+ * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
+
+Legal values for CI:
+
+`uyuni-pr` is a special product version used internally to test Pull Requests. Packages are under a subproject in systemsmanagement:Uyuni:Master:TEST and systemsmanagement:Uyuni:Master:PR.
+This is not meant to be used outside the Continous Integration system (CI).
+
+Because packages are under different subprojects for each CI run and each Pull Request, repositories will be added later as additional repositories.
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 

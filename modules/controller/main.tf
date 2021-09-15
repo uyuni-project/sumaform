@@ -11,6 +11,7 @@ variable "testsuite-branch" {
     "head"           = "master"
     "uyuni-master"   = "master"
     "uyuni-released" = "master"
+    "uyuni-pr"       = "master"
   }
 }
 
