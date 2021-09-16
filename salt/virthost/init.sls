@@ -112,7 +112,7 @@ lower_dom0_memory:
   file.replace:
     - name: /etc/default/grub
     - pattern: ^GRUB_CMDLINE_XEN="[^"]*"
-    - repl: GRUB_CMDLINE_XEN="dom0_mem=819200"
+    - repl: GRUB_CMDLINE_XEN="dom0_mem=1024000"
 
 rebuild_grub_cfg:
   cmd.run:

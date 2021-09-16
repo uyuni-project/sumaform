@@ -17,7 +17,7 @@ locals {
     contains(var.roles, "mirror") ? { memory = 512 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
-    contains(var.roles, "virthost") ? { memory = 2048, vcpu = 3 } : {},
+    contains(var.roles, "virthost") ? { memory = 3072, vcpu = 3 } : {},
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})

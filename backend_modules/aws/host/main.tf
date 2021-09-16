@@ -18,7 +18,7 @@ locals {
     contains(var.roles, "mirror") ? { instance_type = "t2.micro" } : {},
     contains(var.roles, "controller") ? { instance_type = "t2.medium" } : {},
     contains(var.roles, "grafana") ? { instance_type = "t2.medium" } : {},
-    contains(var.roles, "virthost") ? { instance_type = "t2.small" } : {},
+    contains(var.roles, "virthost") ? { instance_type = "t2.medium" } : {},
   var.provider_settings)
 
   public_subnet_id                     = var.base_configuration.public_subnet_id
