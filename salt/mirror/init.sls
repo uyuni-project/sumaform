@@ -91,20 +91,33 @@ minima_script:
       - archive: minima
       - file: minima_configuration
 
-{% if grains.get('customize_minima_file') %}
-minima_customize_configuration:
-  file.managed:
-    - name: /etc/minima.yaml
-    - source: salt://{{ grains['customize_minima_file'] }}
-    - template: jinja
-
-{% else %}
+    {% if grains['hostname'] and grains['domain'] %}
+    - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
+    {% else %}
+    - repl: PROFILENAME="{{grains['fqdn']}}"
+    {% endif %}
 
 minima_configuration:
   file.managed:
     - name: /etc/minima.yaml
+    {% if grains.get('customize_minima_file') %}
+    - source: salt://{{ grains['customize_minima_file'] }}
+    {% else %}
     - source: salt://mirror/etc/minima.yaml
+    {% endif %}
     - template: jinja
+
+minima_script:
+  file.managed:
+    - name: /usr/local/bin/minima.sh
+    - source: salt://mirror/cron_scripts/minima.sh
+    - mode: 755
+    - require:
+      - pkg: cron
+      - archive: minima
+      - file: minima_configuration
+
+{% if not grains.get('immediate_synchronization') %}
 
 minima_symlink:
   file.symlink:
@@ -294,6 +307,7 @@ nfs_server:
       - file: exports_file
 
 {% if grains.get('immediate_synchronization') %}
+
 synchronize_http_repositories :
    cmd.run:
      - name: bash /usr/local/bin/minima.sh
