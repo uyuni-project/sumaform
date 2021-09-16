@@ -81,16 +81,6 @@ scc_data_refresh:
 
 # mirroring scripts
 
-minima_script:
-  file.managed:
-    - name: /usr/local/bin/minima.sh
-    - source: salt://mirror/cron_scripts/minima.sh
-    - mode: 755
-    - require:
-      - pkg: cron
-      - archive: minima
-      - file: minima_configuration
-
 minima_configuration:
   file.managed:
     - name: /etc/minima.yaml
