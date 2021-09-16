@@ -70,5 +70,5 @@ variable "disable_cron" {
 variable "image" {
   description = "An image name, e.g. sles11sp4 or opensuse152o"
   type        = string
-  default = "opensuse152o"
+  default = "opensuse153o"
 }
