@@ -87,13 +87,14 @@ minima_configuration:
     - name: /etc/minima.yaml
     - source: salt://{{ grains['customize_minima_file'] }}
     - template: jinja
+
 {% else %}
+
 minima_configuration:
   file.managed:
     - name: /etc/minima.yaml
     - source: salt://mirror/etc/minima.yaml
     - template: jinja
-{% endif %}
 
 minima_script:
   file.managed:
@@ -198,6 +199,7 @@ scc-data_symlink:
     - require:
       - file: scc-data_script
 
+{% endif %}
 
 # partitioning
 
