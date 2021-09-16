@@ -91,12 +91,6 @@ minima_script:
       - archive: minima
       - file: minima_configuration
 
-    {% if grains['hostname'] and grains['domain'] %}
-    - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
-    {% else %}
-    - repl: PROFILENAME="{{grains['fqdn']}}"
-    {% endif %}
-
 minima_configuration:
   file.managed:
     - name: /etc/minima.yaml
