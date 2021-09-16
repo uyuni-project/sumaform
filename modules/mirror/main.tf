@@ -21,7 +21,7 @@ module "mirror" {
     immediate_synchronization = var.immediate_synchronization
   }
 
-  image = "opensuse152o"
+  image = var.image
 
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size

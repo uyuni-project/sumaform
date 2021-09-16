@@ -61,3 +61,9 @@ variable "immediate_synchronization" {
   description = "Synchronize the minima.yaml during terraform deployment"
   default     = false
 }
+
+variable "image" {
+  description = "An image name, e.g. sles11sp4 or opensuse152o"
+  type        = string
+  default = "opensuse152o"
+}
