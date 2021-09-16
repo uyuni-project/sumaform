@@ -81,8 +81,18 @@ scc_data_refresh:
 
 # mirroring scripts
 
+minima_script:
+  file.managed:
+    - name: /usr/local/bin/minima.sh
+    - source: salt://mirror/cron_scripts/minima.sh
+    - mode: 755
+    - require:
+      - pkg: cron
+      - archive: minima
+      - file: minima_configuration
+
 {% if grains.get('customize_minima_file') %}
-minima_configuration:
+minima_customize_configuration:
   file.managed:
     - name: /etc/minima.yaml
     - source: salt://{{ grains['customize_minima_file'] }}
@@ -95,16 +105,6 @@ minima_configuration:
     - name: /etc/minima.yaml
     - source: salt://mirror/etc/minima.yaml
     - template: jinja
-
-minima_script:
-  file.managed:
-    - name: /usr/local/bin/minima.sh
-    - source: salt://mirror/cron_scripts/minima.sh
-    - mode: 755
-    - require:
-      - pkg: cron
-      - archive: minima
-      - file: minima_configuration
 
 minima_symlink:
   file.symlink:
@@ -292,3 +292,10 @@ nfs_server:
       - service: nfs
     - watch:
       - file: exports_file
+
+{% if grains.get('immediate_synchronization') %}
+synchronize_http_repositories :
+   cmd.run:
+     - name: bash /usr/local/bin/minima.sh
+
+{% endif %}

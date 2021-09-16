@@ -56,3 +56,8 @@ variable "customize_minima_file" {
   description = "Specify a customize minima file. Will only upload this file"
   default     = null
 }
+
+variable "immediate_synchronization" {
+  description = "Synchronize the minima.yaml during terraform deployment"
+  default     = false
+}
