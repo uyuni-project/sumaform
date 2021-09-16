@@ -81,11 +81,19 @@ scc_data_refresh:
 
 # mirroring scripts
 
+{% if grains.get('customize_minima_file') %}
+minima_configuration:
+  file.managed:
+    - name: /etc/minima.yaml
+    - source: salt://{{ grains['customize_minima_file'] }}
+    - template: jinja
+{% else %}
 minima_configuration:
   file.managed:
     - name: /etc/minima.yaml
     - source: salt://mirror/etc/minima.yaml
     - template: jinja
+{% endif %}
 
 minima_script:
   file.managed:

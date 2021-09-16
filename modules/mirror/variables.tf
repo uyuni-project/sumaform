@@ -51,3 +51,8 @@ variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "customize_minima_file" {
+  description = "Specify a customize minima file. Will only upload this file"
+  default     = null
+}

@@ -12,11 +12,12 @@ module "mirror" {
   roles                   = ["mirror"]
 
   grains = {
-    cc_username       = var.base_configuration["cc_username"]
-    cc_password       = var.base_configuration["cc_password"]
-    ubuntu_distros    = var.ubuntu_distros
-    use_mirror_images = var.base_configuration["use_mirror_images"]
-    data_disk_fstype  = var.data_disk_fstype
+    cc_username            = var.base_configuration["cc_username"]
+    cc_password            = var.base_configuration["cc_password"]
+    ubuntu_distros         = var.ubuntu_distros
+    use_mirror_images      = var.base_configuration["use_mirror_images"]
+    data_disk_fstype       = var.data_disk_fstype
+    customize_minima_file  = var.customize_minima_file
   }
 
   image = "opensuse152o"
