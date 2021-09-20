@@ -57,6 +57,12 @@ fake_systemd_detect_virt:
     - source: salt://virthost/systemd-detect-virt
     - mode: 655
 
+fake_virt_what:
+  file.managed:
+    - name: /usr/sbin/virt-what
+    - mode: 655
+    - contents: "# Fake from sumaform to mock physical machine"
+
 {% if grains['hvm_disk_image'] %}
 disk-image-template.qcow2:
   file.managed:
