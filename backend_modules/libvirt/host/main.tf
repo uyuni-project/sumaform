@@ -21,7 +21,7 @@ locals {
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
-    cloud_init = length(regexall("o$", var.image)) > 0
+  cloud_init = length(regexall("o$", var.image)) > 0
 }
 
 data "template_file" "user_data" {
