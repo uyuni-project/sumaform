@@ -11,6 +11,7 @@ module "base" {
   mirror               = var.mirror
   use_mirror_images    = var.use_mirror_images
   use_shared_resources = var.use_shared_resources
+  ssh_key_path         = var.ssh_key_path
   testsuite            = true
 
   provider_settings = var.provider_settings
