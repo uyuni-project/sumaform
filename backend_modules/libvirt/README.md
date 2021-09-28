@@ -105,7 +105,18 @@ Some roles such as `suse_manager` or `mirror` have specific defaults that overri
 
 ## Accessing VMs
 
-All machines come with user `root` with password `linux`. They are also accessible via your SSH public key (by default `~/.ssh/id_rsa.pub`) if you have one.
+All machines come with user `root` with password `linux`.
+
+They are also accessible via your SSH public key if you have one. By default the key `~/.ssh/id_rsa.pub` is used, but this value can be changed by specifying the variable `ssh_key_path`:
+
+```hcl
+module "base" {
+  source = "./modules/base"
+
+  ...
+  ssh_key_path = "~/.ssh/id_ed25519.pub"
+}
+```
 
 By default, the machines use Avahi (mDNS), and are configured on the `.tf.local` domain. Thus if your host is on the same network segment of the virtual machines you can simply use:
 
