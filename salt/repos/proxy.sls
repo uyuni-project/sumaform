@@ -128,12 +128,13 @@ server_devel_releasenotes_repo:
 {% if grains['osfullname'] == 'Leap' %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
     - priority: 96
 {% else %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP3/
+{# change SLE-Module-SUSE-Manager-Proxy-4.2... to SLE-Module-SUSE-Manager-Proxy-4.3... as soon as we adapt the product in Head #}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.2-POOL-x86_64-Media1/
     - priority: 96
 {% endif %}
 
@@ -157,14 +158,14 @@ module_server_applications_update_repo:
 {% if '3.2-nightly' in grains['product_version'] %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1/
     - priority: 96
 {% endif %}
 
 {% if '4.0-nightly' in grains['product_version'] %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0/SLE_15_SP1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.0/images/repo/SUSE-Manager-Proxy-4.0-POOL-x86_64-Media1/
     - priority: 96
 
 server_devel_releasenotes_repo:
@@ -176,7 +177,7 @@ server_devel_releasenotes_repo:
 {% if '4.1-nightly' in grains['product_version'] %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1/SLE_15_SP2/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1/images/repo/SUSE-Manager-Proxy-4.1-POOL-x86_64-Media1/
     - priority: 96
 
 server_devel_releasenotes_repo:
@@ -188,7 +189,7 @@ server_devel_releasenotes_repo:
 {% if '4.2-nightly' in grains['product_version'] %}
 server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2/SLE_15_SP3/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2/images/repo/SUSE-Manager-Proxy-4.2-POOL-x86_64-Media1/
     - priority: 96
 
 server_devel_releasenotes_repo:
