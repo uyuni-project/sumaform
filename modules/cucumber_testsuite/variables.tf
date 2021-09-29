@@ -19,6 +19,11 @@ variable "avahi_reflector" {
   default     = false
 }
 
+variable "ssh_key_path" {
+  description = "path of pub ssh key you want to use to access VMs, see backend_modules/libvirt/README.md"
+  default     = "~/.ssh/id_rsa.pub"
+}
+
 variable "domain" {
   description = "domain of all hosts in this testsuite"
   default     = "tf.local"

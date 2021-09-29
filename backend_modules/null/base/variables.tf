@@ -19,7 +19,7 @@ variable "use_ntp" {
 }
 
 variable "ssh_key_path" {
-  description = "path of pub ssh key you want to use to access VMs, see libvirt/README.md"
+  description = "path of pub ssh key you want to use to access VMs, see backend_modules/libvirt/README.md"
   default     = "~/.ssh/id_rsa.pub"
 }
 
@@ -59,7 +59,7 @@ variable "testsuite" {
 }
 
 variable "provider_settings" {
-  description = "Map of provider-specific settings, see the modules/libvirt/README.md"
+  description = "Map of provider-specific settings, see the backend_modules/libvirt/README.md"
   default     = {}
 }
 
