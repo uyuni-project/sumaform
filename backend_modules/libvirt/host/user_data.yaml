@@ -377,3 +377,10 @@ yum_repos:
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 
 %{ endif }
+
+%{ if image == "opensuse153armo" }
+packages: ["salt-minion"]
+
+runcmd:
+  - zypper removerepo --all
+%{ endif }
