@@ -195,6 +195,11 @@ server_devel_releasenotes_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/ToSLE/SLE_15_SP3/
     - priority: 96
+
+basesystem_overlay_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2/images/repo/SLE-Module-SUSE-Manager-Server-Basesystem-Overlay-Testing-Head-POOL-x86_64-Media1/
+    - priority: 96
 {% endif %}
 
 {% endif %}
