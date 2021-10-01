@@ -125,6 +125,18 @@ server_devel_releasenotes_repo:
     - priority: 96
 {% endif %}
 
+{% if grains['osfullname'] == 'Leap' %}
+opensuse_overlay_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/openSUSE-Overlay-POOL-x86_64-Media1/
+    - priority: 96
+{% else %}
+basesystem_overlay_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-Basesystem-Overlay-Testing-Head-POOL-x86_64-Media1/
+    - priority: 96
+{% endif %}
+
 {% if grains['osfullname'] != 'Leap' %}
 # Moving target, only until SLE15SP3 GA is ready
 module_server_applications_movingtarget_repo:
