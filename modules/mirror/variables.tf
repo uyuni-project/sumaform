@@ -57,7 +57,12 @@ variable "customize_minima_file" {
   default     = null
 }
 
-variable "immediate_synchronization" {
+variable "synchronize_immediately" {
+  description = "Synchronize the minima.yaml during terraform deployment"
+  default     = false
+}
+
+variable "disable_cron" {
   description = "Synchronize the minima.yaml during terraform deployment"
   default     = false
 }

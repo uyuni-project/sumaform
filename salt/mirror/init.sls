@@ -101,7 +101,7 @@ minima_script:
       - archive: minima
       - file: minima_configuration
 
-{% if not grains.get('immediate_synchronization') %}
+{% if not grains.get('disable_cron') %}
 
 minima_symlink:
   file.symlink:
@@ -290,7 +290,7 @@ nfs_server:
     - watch:
       - file: exports_file
 
-{% if grains.get('immediate_synchronization') %}
+{% if grains.get('synchronize_immediately') %}
 
 synchronize_http_repositories :
    cmd.run:
