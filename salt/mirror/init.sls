@@ -301,5 +301,5 @@ synchronize_http_repositories :
 aws_key:
   file.managed:
     - name: /root/.ssh/testing-suma.pem
-    - source: salt://mirror/utils/testing-suma.pem
+    - source: /home/jenkins/.ssh/testing-suma.pem
     - mode: 400
