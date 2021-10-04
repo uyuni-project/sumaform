@@ -183,6 +183,11 @@ server_devel_releasenotes_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1:/ToSLE/SLE_15_SP2/
     - priority: 96
+
+basesystem_overlay_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1/images/repo/SLE-Module-SUSE-Manager-Server-Basesystem-Overlay-Testing-4.1-POOL-x86_64-Media1/
+    - priority: 96
 {% endif %}
 
 {% if '4.2-nightly' in grains['product_version'] %}
