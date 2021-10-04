@@ -316,11 +316,15 @@ http:
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/ToSLE/SLE_15_SP2/
     archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1/images/repo/SLE-Module-SUSE-Manager-Server-Basesystem-Overlay-Testing-4.1-POOL-x86_64-Media1/
+    archs: [x86_64]
 
   # SUSE Manager 4.2 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2/SLE_15_SP3
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/ToSLE/SLE_15_SP3/
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2/images/repo/SLE-Module-SUSE-Manager-Server-Basesystem-Overlay-Testing-4.2-POOL-x86_64-Media1/
     archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools 4.0 devel
@@ -398,6 +402,8 @@ http:
   # SUSE Manager Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP3
     archs: [x86_64]
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-Basesystem-Overlay-Testing-Head-POOL-x86_64-Media1/
+    archs: [x86_64]
 
   # SLE 11 SP4 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
@@ -466,6 +472,8 @@ http:
 
   # Uyuni Master
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/openSUSE-Overlay-POOL-x86_64-Media1/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Server-POOL-x86_64-Media1/
     archs: [x86_64]
