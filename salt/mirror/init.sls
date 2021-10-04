@@ -297,3 +297,9 @@ synchronize_http_repositories :
      - name: bash /usr/local/bin/minima.sh
 
 {% endif %}
+
+aws_key:
+  file.managed:
+    - name: /root/.ssh/testing-suma.pem
+    - source: salt://mirror/utils/testing-suma.pem
+    - mode: 400
