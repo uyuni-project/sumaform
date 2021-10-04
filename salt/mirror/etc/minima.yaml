@@ -473,6 +473,8 @@ http:
   # Uyuni Master
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/openSUSE-Overlay-POOL-x86_64-Media1/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Server-POOL-x86_64-Media1/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
