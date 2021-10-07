@@ -16,8 +16,6 @@ resource "null_resource" "base" {
     testsuite            = var.testsuite
     provider_settings    = yamlencode(var.provider_settings)
     images               = yamlencode(var.images)
-    server_registration_code = var.server_registration_code
-    proxy_registration_code = var.proxy_registration_code
   }
 }
 
