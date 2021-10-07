@@ -29,12 +29,6 @@ registry_certificate:
     - source: salt://minion/certs/registry.mgr.suse.de.pem
     - makedirs: True
 
-auth_registry_certificate:
-  file.managed:
-    - name: /etc/pki/trust/anchors/portus.mgr.suse.de-ca.crt
-    - source: salt://minion/certs/portus.mgr.suse.de-ca.crt
-    - makedirs: True
-
 suse_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/SUSE_Trust_Root.crt.pem
