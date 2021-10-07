@@ -174,14 +174,14 @@ server_devel_releasenotes_repo:
 {% endif %}
 
 {% if grains['osfullname'] == 'Leap' %}
-server_devel_repo:
+testing_overlay_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-x86_64-Media1/
     - priority: 96
 {% else %}
-server_devel_repo:
+testing_overlay_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP3/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.2-POOL-x86_64-Media1/
     - priority: 96
 {% endif %}
 
@@ -247,9 +247,9 @@ server_devel_releasenotes_repo:
 {% endif %}
 
 {% if '4.1-nightly' in grains['product_version'] %}
-server_devel_repo:
+testing_overlay_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1/SLE_15_SP2/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.1/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.1-POOL-x86_64-Media1/
     - priority: 96
 
 server_devel_releasenotes_repo:
@@ -259,9 +259,9 @@ server_devel_releasenotes_repo:
 {% endif %}
 
 {% if '4.2-nightly' in grains['product_version'] %}
-server_devel_repo:
+testing_overlay_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2/SLE_15_SP3/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.2-POOL-x86_64-Media1/
     - priority: 96
 
 server_devel_releasenotes_repo:
