@@ -63,7 +63,7 @@ variable "synchronize_immediately" {
 }
 
 variable "disable_cron" {
-  description = "Synchronize the minima.yaml during terraform deployment"
+  description = "Disable the cron tasks not needed for MU features"
   default     = false
 }
 
