@@ -213,9 +213,9 @@ module "cucumber_testsuite" {
 }
 ```
 
-## Alternative Portus server
+## Alternative Authenticated Docker Registry
 
-If you want the test suite to use a Portus server (authenticated registry), you can specify it with the `auth_registry`, `auth_registry_username`, and `auth_registry_password` variables.
+If you want the test suite to use an authenticated Docker Registry, you can specify it with the `auth_registry`, `auth_registry_username`, and `auth_registry_password` variables.
 
 Example:
 
