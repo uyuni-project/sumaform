@@ -71,8 +71,8 @@ testsuite_salt_packages:
   pkg.installed:
     - pkgs:
       - salt-ssh
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
-    - fromrepo: server_devel_repo
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') %}
+    - fromrepo: testing_overlay_devel_repo
 {% endif %}
     - require:
       - sls: repos
