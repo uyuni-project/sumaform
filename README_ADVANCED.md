@@ -7,14 +7,12 @@ Some modules have a `product_version` variable that determines the software prod
  * in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
 
 Legal values for released software are:
- * `3.2-released`   (latest released Maintenance Update for SUSE Manager 3.2 and Tools)
  * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
  * `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
  * `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
  * `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
- * `3.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:3.2)
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
  * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
  * `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
@@ -62,16 +60,16 @@ For some modules like `minion`, `image` is mandatory and Terraform will refuse t
 
 For other modules like `server` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
 
-The following example creates a SUSE Manager server using "nightly" packages from version 3.2 based on SLES 12 SP3:
+The following example creates a SUSE Manager server using "nightly" packages from version 4.2 based on SLES 15 SP3:
 
 ```hcl
 module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
 
-  image = "sles15sp1o"
+  image = "sles15sp3o"
   name = "server"
-  product_version = "4.0-nightly"
+  product_version = "4.2-nightly"
 }
 ```
 
@@ -271,7 +269,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "3.2-nightly"
+  product_version = "4.2-nightly"
   channels = ["sles12-sp2-pool-x86_64"]
 }
 ```
@@ -297,7 +295,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "3.2-nightly"
+  product_version = "4.2-nightly"
   channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
   wait_for_reposync = true
   cloned_channels = [
@@ -481,7 +479,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "3.2-nightly"
+  product_version = "4.2-nightly"
   server_configuration = module.server.configuration
 
   minion = false
@@ -499,7 +497,7 @@ module "master" {
   base_configuration = module.base.configuration
 
   name = "master"
-  product_version = "3.2-released"
+  product_version = "4.2-released"
   iss_slave = "slave.tf.local"
 }
 
@@ -508,7 +506,7 @@ module "slave" {
   base_configuration = module.base.configuration
 
   name = "slave"
-  product_version = "3.2-released"
+  product_version = "4.2-released"
   iss_master = module.master.configuration["hostname"]
 }
 ```
@@ -621,7 +619,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "3.2-nightly"
+  product_version = "4.2-nightly"
   smt = "http://smt.suse.de"
 }
 ```

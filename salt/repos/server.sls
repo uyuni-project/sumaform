@@ -1,17 +1,5 @@
 {% if 'server' in grains.get('roles') %}
 
-{% if '3.2' in grains['product_version'] %}
-server_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SUSE-Manager-Server/3.2/x86_64/product
-    - priority: 97
-
-server_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SUSE-Manager-Server/3.2/x86_64/update/
-    - priority: 97
-{% endif %}
-
 {% if '4.0' in grains['product_version'] and not grains.get('server_registration_code') %}
 server_product_pool_repo:
   pkgrepo.managed:
@@ -225,13 +213,6 @@ module_python2_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Python2/15-SP3/x86_64/update/
 {% endif %}
-{% endif %}
-
-{% if '3.2-nightly' in grains['product_version'] %}
-server_devel_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2/SLE_12_SP3/
-    - priority: 96
 {% endif %}
 
 {% if '4.0-nightly' in grains['product_version'] %}

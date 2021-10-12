@@ -10,7 +10,7 @@ module "grafana" {
     mirror          = var.base_configuration["mirror"]
     server          = var.server_configuration["hostname"]
     locust          = var.locust_configuration["hostname"]
-    product_version = "3.2-nightly"
+    product_version = "4.2-nightly"
   }
 
   image   = "sles12sp2"
