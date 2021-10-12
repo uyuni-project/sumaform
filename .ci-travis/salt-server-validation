@@ -28,7 +28,6 @@ allow_postgres_connections: 0
 unsafe_postgres: 1
 java_debugging: 0
 skip_changelog_import: 0
-browser_side_less: 0
 create_first_user: 0
 mgr_sync_autologin: 0
 create_sample_channel: 0

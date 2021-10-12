@@ -243,7 +243,6 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
    * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
    * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
-   * `browser_side_less`: enable compilation of LESS files in the browser, useful for development. Set to `false` to disable
    * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
    * `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
    * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`

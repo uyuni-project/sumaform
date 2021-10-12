@@ -12,23 +12,6 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
-{% if grains.get('browser_side_less') and 'released' not in grains['product_version'] and not grains.get('server_registration_code') %}
-
-browser_side_less_configuration:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: development_environment = true
-    - require:
-      - sls: server
-  pkg.installed:
-    - pkgs:
-      - susemanager-frontend-libs-devel
-      - spacewalk-branding-devel
-    - require:
-      - sls: server
-
-{% endif %}
-
 {% if grains.get('disable_download_tokens') %}
 disable_download_tokens:
   file.append:

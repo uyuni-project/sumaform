@@ -42,7 +42,6 @@ module "server" {
   disable_firewall               = false
   allow_postgres_connections     = false
   skip_changelog_import          = false
-  browser_side_less              = false
   create_first_user              = false
   mgr_sync_autologin             = false
   create_sample_channel          = false

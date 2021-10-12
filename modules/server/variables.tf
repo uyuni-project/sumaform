@@ -97,11 +97,6 @@ variable "skip_changelog_import" {
   default     = true
 }
 
-variable "browser_side_less" {
-  description = "enable compilation of LESS files in the browser, useful for development"
-  default     = true
-}
-
 variable "create_first_user" {
   description = "whether to automatically create the first user"
   default     = true
