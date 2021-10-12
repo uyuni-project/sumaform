@@ -14,7 +14,7 @@ locals {
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "pxe_boot")? { memory = 2048} : {},
     contains(var.roles, "pts_minion") ? { memory = 4096, vcpu = 2 } : {},
-    contains(var.roles, "mirror") ? { memory = 512 } : {},
+    contains(var.roles, "mirror") ? { memory = 1024 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
     contains(var.roles, "virthost") ? { memory = 3072, vcpu = 3 } : {},
