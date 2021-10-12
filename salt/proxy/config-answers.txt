@@ -1,10 +1,5 @@
 RHN_PARENT={{grains['server']}}
 HTTP_PROXY=''
-{% if '3.2' in grains['product_version'] %}
-VERSION='3.2
-{% else %}
-VERSION='4.0'
-{% endif %}
 TRACEBACK_EMAIL=''
 USE_SSL=Y/n
 USE_EXISTING_CERTS=y/N

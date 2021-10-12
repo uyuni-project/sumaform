@@ -1,17 +1,5 @@
 {% if 'proxy' in grains.get('roles') %}
 
-{% if '3.2' in grains['product_version'] %}
-proxy_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains["mirror"] | default("download.suse.de/ibs", true) }}/SUSE/Products/SUSE-Manager-Proxy/3.2/x86_64/product/
-    - priority: 97
-
-proxy_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains["mirror"] | default("download.suse.de/ibs", true) }}/SUSE/Updates/SUSE-Manager-Proxy/3.2/x86_64/update/
-    - priority: 97
-{% endif %}
-
 {% if '4.0' in grains['product_version'] and not grains.get('proxy_registration_code') %}
 proxy_product_pool_repo:
   pkgrepo.managed:
@@ -152,13 +140,6 @@ module_server_applications_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP3/x86_64/update/
 
 {% endif %}
-{% endif %}
-
-{% if '3.2-nightly' in grains['product_version'] %}
-server_devel_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/3.2/images/repo/SUSE-Manager-Proxy-3.2-POOL-x86_64-Media1/
-    - priority: 96
 {% endif %}
 
 {% if '4.0-nightly' in grains['product_version'] %}
