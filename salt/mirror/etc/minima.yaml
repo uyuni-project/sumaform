@@ -434,6 +434,14 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.2/oss
     archs: [x86_64]
+  - url: http://download.opensuse.org/distribution/leap/15.3/repo/oss
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.3/oss
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.3/backports
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.3/sle
+    archs: [x86_64]
 
   # Testsuite dummy packages for testing repo
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
