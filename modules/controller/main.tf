@@ -1,7 +1,5 @@
 variable "testsuite-branch" {
   default = {
-    "3.2-released"   = "Manager-3.2"
-    "3.2-nightly"    = "Manager-3.2"
     "4.0-released"   = "Manager-4.0"
     "4.0-nightly"    = "Manager-4.0"
     "4.1-released"   = "Manager-4.1"
