@@ -6,9 +6,12 @@ variable "images" {
     "4.1-nightly"    = "sles15sp2o"
     "4.2-released"   = "sles15sp3o"
     "4.2-nightly"    = "sles15sp3o"
-    "head"           = "sles15sp3o"
+    "4.3-released"   = "sles15sp4o"
+    "4.3-nightly"    = "sles15sp4o"
+    "4.3-released"   = "sles15sp4o"
+    "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse153o"
-    "uyuni-released" = "opensuse152o"
+    "uyuni-released" = "opensuse153o"
     "uyuni-pr"       = "opensuse153o"
   }
 }
