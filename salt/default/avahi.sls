@@ -83,13 +83,16 @@ avahi_restrict_interfaces:
     - pattern: "#deny-interfaces=eth1"
     - repl: "deny-interfaces=eth1,ens4"
 
-{% if not grains.get('ipv6')['enable'] %}
+# HACK: always disable IPv6 in avahi settings
+# to work around https://github.com/lathiat/avahi/issues/110
+# uncomment the following conditional when issue is fixed
+# {% if not grains.get('ipv6')['enable'] %}
 avahi_disable_ipv6:
   file.replace:
     - name: /etc/avahi/avahi-daemon.conf
     - pattern: "use-ipv6=yes"
     - repl: "use-ipv6=no"
-{% endif %}
+# {% endif %}
 
 mdns_declare_domains:
   file.append:
@@ -102,7 +105,7 @@ nsswitch_enable_mdns:
   file.replace:
     - name: /etc/nsswitch.conf
     - pattern: "(hosts: .*?)mdns([46]?)_minimal(.*)"
-    - repl: "\\1mdns\\2\\3"
+    - repl: "\\1mdns4\\3"
 
 avahi_enable_service:
   service.running:

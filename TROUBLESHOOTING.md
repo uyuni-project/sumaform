@@ -25,6 +25,11 @@ Typical error message follows:
 Could not resolve hostname server.tf.local: Name or service not known
 ```
 
+or:
+```
+connect: Invalid argument
+```
+
 Check that:
  - your firewall is not blocking UDP port 5353
   - on SUSE systems check YaST -> Security and Users -> Firewall -> Zones -> "public" and "libvirt"
@@ -37,9 +42,11 @@ Check that:
 
 In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
 ```
-hosts:          files mdns [NOTFOUND=return] dns
+hosts:          files mdns4 [NOTFOUND=return] dns
 ```
-`mdns` (optionally suffixed with `4` for IPv4-only or `6` for IPv6-only) should be present in this line. If it is not, add it.
+`mdns4` should be present in this line. If it is not, add it.
+
+Note: `mdns6` also exists to resolve to IPv6 addresses, but currently [one known issue exists](https://github.com/lathiat/avahi/issues/110) where it may return incorrect addresses (specifically: link local addresses starting with `fe80:` but without a zone identifier trailer such as `%eth0`). We recommend IPv4 for the time being.
 
 Starting with `nss-mdns` version 0.14.1, you also need to populate `/etc/mdns.allow` with:
 
