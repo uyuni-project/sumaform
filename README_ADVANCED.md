@@ -10,13 +10,16 @@ Legal values for released software are:
  * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
  * `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
  * `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
+ * `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
  * `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
  * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
  * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
  * `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP3 image)
+ * `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
+ * `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
+ * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
  * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
 Legal values for CI:
