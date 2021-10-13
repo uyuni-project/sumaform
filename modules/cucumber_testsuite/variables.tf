@@ -36,7 +36,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos6o", "centos7o", "centos8o", "opensuse152o", "opensuse153o", "sles11sp4", "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "ubuntu1604o", "ubuntu1804o", "ubuntu2004o"]
+  default     = ["centos6o", "centos7o", "centos8o", "opensuse152o", "opensuse153o", "sles11sp4", "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "sles15sp4o", "ubuntu1604o", "ubuntu1804o", "ubuntu2004o"]
 }
 
 variable "mirror" {
@@ -67,7 +67,7 @@ variable "host_settings" {
 
 // server
 variable "product_version" {
-  description = "One of: 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, 4.1-nightly, 4.1-released, 4.2-nightly, 4.2-released, head, test, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 3.2-nightly, 3.2-released, 4.0-nightly, 4.0-released, 4.1-nightly, 4.1-released, 4.2-nightly, 4.2-released, 4.3-nightly, 4.3-released, 4.3-beta, head, test, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
