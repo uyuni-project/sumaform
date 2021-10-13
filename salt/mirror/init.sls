@@ -247,38 +247,29 @@ web_server:
 
 # NFS serving of mirrored packages
 
-exports_file:
-  file.append:
-    - name: /etc/exports
-    - text: /srv/mirror *(ro,sync,no_root_squash,insecure)
-    - require:
-      - file: mirror_directory
-
-rpcbind:
-  service.running:
-    - enable: True
-    - require:
-      - pkg: nfs_kernel_support
-
-nfs_kernel_support:
+nfs_ganesha:
   pkg.installed:
-    - name: nfs-kernel-server
+    - names: [nfs-ganesha, nfs-ganesha-vfs]
     - require:
       - sls: default
-
-nfs:
-  service.running:
-    - enable: True
+  file.append:
+    - name: /etc/ganesha/ganesha.conf
+    - text: |
+        EXPORT
+        {
+                Export_Id = 1;
+                Path = /srv/mirror;
+                Pseudo = /srv/mirror;
+                Access_Type = RO;
+                SecType = None;
+                Squash = None;
+                FSAL
+                {
+                        Name = VFS;
+                }
+        }
     - require:
-      - service: rpcbind
-      - pkg: nfs-kernel-server
-
-nfs_server:
+      - file: mirror_directory
   service.running:
-    - name: nfsserver
+    - name: nfs-ganesha
     - enable: True
-    - require:
-      - file: exports_file
-      - service: nfs
-    - watch:
-      - file: exports_file
