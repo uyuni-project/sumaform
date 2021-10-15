@@ -80,7 +80,6 @@ minima_script:
     - source: salt://mirror/cron_scripts/minima.sh
     - mode: 755
     - require:
-      - pkg: cron
       - archive: minima
       - file: minima_configuration
 
@@ -98,7 +97,6 @@ apt-mirror_script:
     - source: salt://mirror/cron_scripts/apt-mirror.sh
     - mode: 755
     - require:
-      - pkg: cron
       - pkg: apt-mirror
       - file: apt-mirror_configuration
 
@@ -113,7 +111,6 @@ mirror-images_script:
     - source: salt://mirror/cron_scripts/mirror-images.sh
     - mode: 755
     - require:
-      - pkg: cron
       - file: mirror-images_configuration
 
 docker-images_configuration:
@@ -128,11 +125,7 @@ docker-images_script:
     - source: salt://mirror/cron_scripts/docker-images.sh
     - mode: 755
     - require:
-      - pkg: cron
       - file: docker-images_configuration
-
-# no symlinck by default for docker-images.sh
-# (docker is not installed by default)
 
 scc-data_configuration:
   file.managed:
@@ -146,7 +139,6 @@ scc-data_script:
     - source: salt://mirror/cron_scripts/scc-data.sh
     - mode: 755
     - require:
-      - pkg: cron
       - file: scc-data_configuration
 
 
