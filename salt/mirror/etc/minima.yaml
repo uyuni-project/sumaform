@@ -27,19 +27,27 @@ scc:
     - SLES11-SP4-Updates
     - SLES12-Pool
     - SLES12-Updates
+    - SLES12-LTSS-Updates
     - SLES12-SP1-Pool
     - SLES12-SP1-Updates
+    - SLES12-SP1-LTSS-Updates
     - SLES12-SP2-Pool
     - SLES12-SP2-Updates
+    - SLES12-SP2-LTSS-Updates
     - SLES12-SP3-Pool
     - SLES12-SP3-Updates
+    - SLES12-SP3-LTSS-Updates
     - SLES12-SP4-Pool
     - SLES12-SP4-Updates
+    - SLES12-SP4-LTSS-Updates
     - SLES12-SP5-Pool
     - SLES12-SP5-Updates
+    # uncomment when it goes LTSS
+    # - SLES12-SP5-LTSS-Updates
     # SLE 15 Products
     - SLE-Product-SLES15-Pool
     - SLE-Product-SLES15-Updates
+    - SLE-Product-SLES15-LTSS-Updates
     - SLE-Product-SLES_SAP15-Pool
     - SLE-Product-SLES_SAP15-Updates
     - SLE-Product-SLED15-Pool
@@ -56,6 +64,7 @@ scc:
     # SLE 15-SP1 Products
     - SLE-Product-SLES15-SP1-Pool
     - SLE-Product-SLES15-SP1-Updates
+    - SLE-Product-SLES15-SP1-LTSS-Updates
     # SLE 15-SP1 Basic Modules
     - SLE-Module-Basesystem15-SP1-Pool
     - SLE-Module-Basesystem15-SP1-Updates
@@ -72,6 +81,8 @@ scc:
     # SLE 15-SP2 Products
     - SLE-Product-SLES15-SP2-Pool
     - SLE-Product-SLES15-SP2-Updates
+    # uncomment when it goes LTSS
+    # - SLE-Product-SLES15-SP2-LTSS-Updates
     - SLE-Product-SLED15-SP2-Pool
     - SLE-Product-SLED15-SP2-Updates
     # SLE 15-SP2 Basic Modules
@@ -90,6 +101,8 @@ scc:
     # SLE 15-SP3 Products
     - SLE-Product-SLES15-SP3-Pool
     - SLE-Product-SLES15-SP3-Updates
+    # uncomment when it goes LTSS
+    # - SLE-Product-SLES15-SP3-LTSS-Updates
     # SLE 15-SP3 Basic Modules
     - SLE-Module-Basesystem15-SP3-Pool
     - SLE-Module-Basesystem15-SP3-Updates
