@@ -219,7 +219,10 @@ os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5/x86_64/update/
 
-# TODO: Add os_ltss_repo when it goes into LTSS
+# uncomment when it goes LTSS
+# os_ltss_repo:
+#   pkgrepo.managed:
+#           - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5-LTSS/x86_64/update/
 
 {% if grains.get('use_os_unreleased_updates') | default(False, true) %}
 test_update_repo:
@@ -369,10 +372,10 @@ os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/
 
-# Already made in advance but empty now:
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update/
+# uncomment when it goes LTSS
+# os_ltss_repo:
+#   pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update/
 
 {% endif %} {# '15.2' == grains['osrelease'] #}
 
@@ -386,10 +389,10 @@ os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP3/x86_64/update/
 
-# Already made in advance but empty now:
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP3-LTSS/x86_64/update/
+# uncomment when it goes LTSS
+# os_ltss_repo:
+#   pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP3-LTSS/x86_64/update/
 
 {% endif %} {# '15.3' == grains['osrelease'] #}
 
