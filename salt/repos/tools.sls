@@ -13,12 +13,6 @@
 {% if grains['osfullname'] != 'Leap' %}
 {% if grains['osrelease'] == '11.4' %}
 {% set path = 'SLE_11_SP4' %}
-{% elif grains['osrelease'] == '12' %}
-{% set path = 'SLE_12' %}
-{% elif grains['osrelease'] == '12.1' %}
-{% set path = 'SLE_12_SP1' %}
-{% elif grains['osrelease'] == '12.2' %}
-{% set path = 'SLE_12_SP2' %}
 {% elif grains['osrelease'] == '12.3' %}
 {% set path = 'SLE_12_SP3' %}
 {% elif grains['osrelease'] == '12.4' %}

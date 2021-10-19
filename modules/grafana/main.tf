@@ -13,7 +13,7 @@ module "grafana" {
     product_version = "4.2-nightly"
   }
 
-  image   = "sles12sp2"
+  image   = "sles12sp5"
   provider_settings = var.provider_settings
 }
 
