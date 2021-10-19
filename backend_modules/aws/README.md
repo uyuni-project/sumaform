@@ -109,7 +109,6 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 | controller   | `{instance_type="t2.medium"}` |
 | grafana      | `{instance_type="t2.medium"}` |
 | virthost     | `{instance_type="t2.small"}`  |
-| pts_minion   | `{instance_type="t2.medium"}` |
 
 ## Accessing instances
 

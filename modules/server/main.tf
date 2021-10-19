@@ -68,11 +68,6 @@ module "server" {
     disable_download_tokens        = var.disable_download_tokens
     auto_accept                    = var.auto_accept
     monitored                      = var.monitored
-    pts                            = var.pts
-    pts_minion                     = var.pts_minion
-    pts_locust                     = var.pts_locust
-    pts_system_count               = var.pts_system_count
-    pts_system_prefix              = var.pts_system_prefix
     from_email                     = var.from_email
     traceback_email                = var.traceback_email
     saltapi_tcpdump                = var.saltapi_tcpdump

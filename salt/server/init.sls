@@ -12,7 +12,6 @@ include:
   - server.initial_content
   - server.iss
   - server.testsuite
-  - server.pts
   - server.salt_master
   - server.tcpdump
 
