@@ -166,27 +166,6 @@ data "aws_ami" "sles12sp3" {
   }
 }
 
-data "aws_ami" "sles12sp2" {
-  most_recent = true
-  name_regex  = "^suse-sles-12-sp2-byos-v"
-  owners      = ["013907871322"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "sles11sp4" {
   most_recent = true
   name_regex  = "^suse-sles-11-sp4-byos-v"
@@ -398,7 +377,6 @@ locals {
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
-      sles12sp2   = { ami = data.aws_ami.sles12sp2.image_id },
       sles11sp4   = { ami = data.aws_ami.sles11sp4.image_id },
       centos7     = { ami = data.aws_ami.centos7.image_id, ssh_user = "centos" },
       centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },

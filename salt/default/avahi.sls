@@ -10,12 +10,6 @@ custom_avahi_repo:
     - humanname: custom_avahi_repo
     {%   if grains['osrelease'] == '11.4' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.23/SLE_11_SP4/
-    {% elif grains['osrelease'] == '12' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12/
-    {% elif grains['osrelease'] == '12.1' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP1/
-    {% elif grains['osrelease'] == '12.2' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP2/
     {% elif grains['osrelease'] == '12.3' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP3/
     {% elif grains['osrelease'] == '12.4' %}

@@ -130,22 +130,6 @@ zypper:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "sles12sp2"}
-zypper:
-  repos:
-    - id: os_manager_tools
-      name: os_manager_tools
-      baseurl: http://${mirror_url}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
-      enabled: 1
-      autorefresh: 1
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-SERVER/12-SP2/x86_64/product/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-%{ endif }
 %{ if image == "sles11sp4"}
 # WORKAROUND: SLES 11 SP4 does not ship with Salt installed
 runcmd:

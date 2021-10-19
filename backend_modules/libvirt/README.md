@@ -150,7 +150,7 @@ module "base" {
   source = "./modules/base"
 
   ...
-  images = ["centos7", "sles12sp2"]
+  images = ["centos7", "sles12sp5"]
 }
 ```
 

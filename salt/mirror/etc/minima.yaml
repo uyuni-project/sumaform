@@ -25,15 +25,6 @@ scc:
     # SLES
     - SLES11-SP4-Pool
     - SLES11-SP4-Updates
-    - SLES12-Pool
-    - SLES12-Updates
-    - SLES12-LTSS-Updates
-    - SLES12-SP1-Pool
-    - SLES12-SP1-Updates
-    - SLES12-SP1-LTSS-Updates
-    - SLES12-SP2-Pool
-    - SLES12-SP2-Updates
-    - SLES12-SP2-LTSS-Updates
     - SLES12-SP3-Pool
     - SLES12-SP3-Updates
     - SLES12-SP3-LTSS-Updates
@@ -237,18 +228,6 @@ http:
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
     archs: [x86_64]
 
-  # SLES 12 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 12 SP1 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 12 SP2 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update
-    archs: [x86_64]
-
   # SLES 12 SP3 Test
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
     archs: [x86_64]
@@ -327,7 +306,7 @@ http:
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP4:/x86_64/update
   #  archs: [x86_64]
   #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP4:/x86_64/update
-    archs: [x86_64]
+  #  archs: [x86_64]
 
 
   # SLE 15 SP4 moving target (valid until GM)
@@ -524,12 +503,6 @@ http:
 
   # Software for sumaformed Virtual Machines
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_11_SP4
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP1
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP2
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP3
     archs: [x86_64]
