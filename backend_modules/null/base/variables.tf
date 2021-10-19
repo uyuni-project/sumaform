@@ -65,7 +65,7 @@ variable "provider_settings" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos6o", "centos7o", "centos8o", "opensuse152o", "opensuse153o", "sles11sp4", "sles12", "sles12sp1", "sles12sp2", "sles12sp3", "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "ubuntu1604o", "ubuntu1804o", "ubuntu2004o", "amazonlinux2o", "almalinux8o"]
+  default     = ["centos6o", "centos7o", "centos8o", "opensuse152o", "opensuse153o", "sles11sp4", "sles12sp3", "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "ubuntu1604o", "ubuntu1804o", "ubuntu2004o", "amazonlinux2o", "almalinux8o"]
   type        = set(string)
 }
 

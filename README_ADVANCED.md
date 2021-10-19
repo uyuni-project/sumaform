@@ -261,7 +261,7 @@ You can specifiy a set of SUSE official channels to be added at deploy time of a
 # mgr-sync list channels --compact
 Available Channels:
 ...
-[ ] sles12-sp2-pool-x86_64
+[ ] sles12-sp5-pool-x86_64
 ```
 
 Then add it to the `channels` variable in a SUSE Manager Server module:
@@ -273,7 +273,7 @@ module "server" {
 
   name = "server"
   product_version = "4.2-nightly"
-  channels = ["sles12-sp2-pool-x86_64"]
+  channels = ["sles12-sp5-pool-x86_64"]
 }
 ```
 

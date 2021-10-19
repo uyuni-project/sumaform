@@ -117,60 +117,7 @@ tools_additional_repo:
 
 
 {% if '12' in grains['osrelease'] %}
-{% if grains['osrelease'] == '12' %}
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.1' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP1/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP1/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP1:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.2' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP2/x86_64/product/
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP2/x86_64/update/
-
-{% if grains.get('use_os_unreleased_updates') | default(False, true) %}
-test_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP2:/x86_64/update/repodata/repomd.xml.key
-{% endif %}
-
-{% elif grains['osrelease'] == '12.3' %}
+{% if grains['osrelease'] == '12.3' %}
 
 os_pool_repo:
   pkgrepo.managed:
