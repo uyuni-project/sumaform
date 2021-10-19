@@ -109,7 +109,6 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 | controller   | `{vm_size = "Standard_B2s"}`  |
 | grafana      | `{vm_size = "Standard_B2s"}`  |
 | virthost     | `{vm_size = "Standard_B1ms"}` |
-| pts_minion   | `{vm_size = "Standard_B2s"}`  |
 
 ## Accessing instances
 

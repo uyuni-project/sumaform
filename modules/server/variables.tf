@@ -210,31 +210,6 @@ variable "ipv6" {
   }
 }
 
-variable "pts" {
-  description = "Whether this instance is part of a Performance Testsuite"
-  default     = false
-}
-
-variable "pts_minion" {
-  description = "Hostname of the minion instance in the PTS environment, if pts is enabled"
-  default     = "minion.tf.local"
-}
-
-variable "pts_locust" {
-  description = "Hostname of the locust instance, if pts is enabled"
-  default     = "locust.tf.local"
-}
-
-variable "pts_system_count" {
-  description = "Number of minions, if pts is enabled"
-  default     = 200
-}
-
-variable "pts_system_prefix" {
-  description = "Prefix of minion names, if pts is enabled"
-  default     = "minion"
-}
-
 variable "image" {
   description = "Leave default for automatic selection or specify an OS supported by the specified product version"
   default     = "default"

@@ -3,8 +3,7 @@
       'grafana' in grains.get('roles') or
       'mirror' in grains.get('roles') or
       grains.get('evil_minion_count') or
-      grains.get('monitored') or
-      grains.get('pts')
+      grains.get('monitored')
 ) %}
 
 {% if grains['osfullname'] == 'Leap' %}

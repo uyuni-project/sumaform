@@ -516,40 +516,6 @@ Please note that `iss_master` is set from `master`'s module output variable `hos
 Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 
-## Performance testsuite
-
-It is possible to run the Performance testsuite for SUSE Manager by defining a "pts" module. This will create a test server, a locust load server, an minion instance with evil-minions running on it and (by default) a grafana host to monitor them.
-
-An example follows:
-
-```hcl
-module "pts" {
-  source = "./modules/pts"
-  base_configuration = module.base.configuration
-}
-```
-
-To run the complete testsuite, run `run-pts` from the server, eg.:
-
-```
-ssh server.tf.local run-pts
-```
-
-It is possible to run only the locust HTTP load test, as follows:
-
-```
-ssh server.tf.local run-pts --locust-only
-```
-
-You can also run only the system patching test, as follows:
-
-```
-ssh server.tf.local run-pts --patching-only
-```
-
-It is also possible to specify non-default hostnames and MAC addresses, see `pts/variables.tf`.
-
-
 ## Working on multiple configuration sets (workspaces) locally
 
 Terraform supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://www.terraform.io/docs/state/workspaces.html). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.
