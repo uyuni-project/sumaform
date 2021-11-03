@@ -51,3 +51,24 @@ variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "customize_minima_file" {
+  description = "Specify a customize minima file. Will only upload this file"
+  default     = null
+}
+
+variable "synchronize_immediately" {
+  description = "Synchronize the minima.yaml during terraform deployment"
+  default     = false
+}
+
+variable "disable_cron" {
+  description = "Disable the cron tasks not needed for MU features"
+  default     = false
+}
+
+variable "image" {
+  description = "An image name, e.g. sles11sp4 or opensuse152o"
+  type        = string
+  default = "opensuse153o"
+}
