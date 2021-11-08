@@ -1,6 +1,13 @@
 terraform {
-  required_version = "~> 0.12.9"
+  required_version = "1.0.10"
   required_providers {
-    null = ">=2.1.0"
+    null = {
+      source  = "hashicorp/null"
+      version = ">= 2.1.0"
+    }
+    libvirt = {
+      source = "dmacvicar/libvirt"
+      version = "0.6.3"
+    }
   }
 }
