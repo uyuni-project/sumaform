@@ -16,6 +16,7 @@ locals {
     contains(var.roles, "controller") ? { vm_size = "Standard_B2s" } : {},
     contains(var.roles, "grafana") ? { vm_size = "Standard_B2s" } : {},
     contains(var.roles, "virthost") ? { vm_size = "Standard_B1ms" } : {},
+    contains(var.roles, "jenkins") ? { vm_size = "Standard_B4ms" } : {},
   var.provider_settings)
   public_subnet_id                     = var.base_configuration.public_subnet_id
   private_subnet_id                    = var.base_configuration.private_subnet_id
@@ -200,7 +201,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") ? "sdc" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdc" : null
       },
     var.grains))
     destination = "/tmp/grains"

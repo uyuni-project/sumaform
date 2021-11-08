@@ -17,6 +17,7 @@ locals {
     contains(var.roles, "controller") ? { instance_type = "t2.medium" } : {},
     contains(var.roles, "grafana") ? { instance_type = "t2.medium" } : {},
     contains(var.roles, "virthost") ? { instance_type = "t2.medium" } : {},
+    contains(var.roles, "jenkins") ? { instance_type = "t3.xlarge" } : {},
   var.provider_settings)
 
   public_subnet_id                     = var.base_configuration.public_subnet_id
@@ -211,7 +212,7 @@ resource "null_resource" "host_salt_configuration" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") ? "xvdf" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "xvdf" : null
       },
     var.grains))
     destination = "/tmp/grains"

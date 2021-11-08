@@ -7,6 +7,7 @@ include:
   - repos.testsuite
   - repos.virthost
   - repos.tools
+  - repos.jenkins
   {% endif %}
   - repos.additional
 
