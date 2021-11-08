@@ -209,6 +209,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
   provisioner "remote-exec" {
     inline = [
       "sudo mv /tmp/grains /etc/salt/grains",
+      "sudo rm -rf /root/salt",
       "sudo mv /tmp/salt /root",
       "sudo bash /root/salt/first_deployment_highstate.sh"
     ]
