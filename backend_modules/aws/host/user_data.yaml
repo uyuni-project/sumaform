@@ -10,7 +10,7 @@ chpasswd:
     root:linux
 %{ endif }
 
-%{ if image == "opensuse152" }
+%{ if image == "opensuse152o" }
 packages: ["salt-minion"]
 
 runcmd:
@@ -35,83 +35,55 @@ packages: ["salt-minion"]
 %{ endif }
 
 %{ if image == "sles15sp1o" }
-runcmd:
-%{ if server_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.0/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
-  - SUSEConnect -p sle-module-python2/15.1/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
-  - SUSEConnect -p sle-module-web-scripting/15.1/x86_64
-  - SUSEConnect -p sle-module-suse-manager-server/4.0/x86_64
-  - zypper in -y salt-minion
-%{ endif }
-%{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.0/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.1/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.1/x86_64
-  - SUSEConnect -p sle-module-suse-manager-proxy/4.0/x86_64
-  - zypper in -y salt-minion
-%{ endif }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP1/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
 %{ endif }
 
 %{ if image == "sles15sp2o" }
-runcmd:
-%{ if server_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.1/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.2/x86_64
-  - SUSEConnect -p sle-module-python2/15.2/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.2/x86_64
-  - SUSEConnect -p sle-module-web-scripting/15.2/x86_64
-  - SUSEConnect -p sle-module-suse-manager-server/4.1/x86_64
-  - zypper in -y salt-minion
-%{ endif }
-%{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.1/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.2/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.2/x86_64
-  - SUSEConnect -p sle-module-suse-manager-proxy/4.1/x86_64
-  - zypper in -y salt-minion
-%{ endif }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP2/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
 %{ endif }
 
 %{ if image == "sles15sp3o" }
-runcmd:
-%{ if server_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.2/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.3/x86_64
-  - SUSEConnect -p sle-module-python2/15.3/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.3/x86_64
-  - SUSEConnect -p sle-module-web-scripting/15.3/x86_64
-  - SUSEConnect -p sle-module-suse-manager-server/4.2/x86_64
-  - zypper in -y salt-minion
-%{ endif }
-%{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.2/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.3/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.3/x86_64
-  - SUSEConnect -p sle-module-suse-manager-proxy/4.2/x86_64
-  - zypper in -y salt-minion
-%{ endif }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP3/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
 %{ endif }
 
 %{ if image == "sles15sp4o" }
-runcmd:
-%{ if server_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${server_registration_code} -p SUSE-Manager-Server/4.3/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.4/x86_64
-  - SUSEConnect -p sle-module-python2/15.4/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.4/x86_64
-  - SUSEConnect -p sle-module-web-scripting/15.4/x86_64
-  - SUSEConnect -p sle-module-suse-manager-server/4.3/x86_64
-  - zypper in -y salt-minion
-%{ endif }
-%{ if proxy_registration_code != "" }
-  - SUSEConnect --url https://scc.suse.com -r ${proxy_registration_code} -p SUSE-Manager-Proxy/4.3/x86_64
-  - SUSEConnect -p sle-module-basesystem/15.4/x86_64
-  - SUSEConnect -p sle-module-server-applications/15.4/x86_64
-  - SUSEConnect -p sle-module-suse-manager-proxy/4.3/x86_64
-  - zypper in -y salt-minion
-%{ endif }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
 %{ endif }
 
 %{ if image == "sles12sp3"}

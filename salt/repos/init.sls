@@ -14,7 +14,7 @@ include:
 {% if grains['os'] == 'SUSE' %}
 refresh_repos:
   cmd.run:
-    - name: zypper --non-interactive --gpg-auto-import-keys refresh
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh; exit 0
 {% endif %}
 
 # WORKAROUND: see github:saltstack/salt#10852

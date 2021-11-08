@@ -1,4 +1,4 @@
-{% if 'server' in grains.get('roles') and grains.get('server_registration_code') and grains['provider'] == "libvirt" %}
+{% if 'server' in grains.get('roles') and grains.get('server_registration_code') %}
 
 clean_sles_release_package:
    cmd.run:
