@@ -37,3 +37,7 @@ base:
   'roles:virthost':
     - match: grain
     - virthost
+
+  'roles:jenkins':
+    - match: grain
+    - jenkins

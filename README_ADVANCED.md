@@ -114,6 +114,38 @@ module "suse-minion" {
 
 This will create 10 minions connected to the `server`.
 
+## Jenkins (PoC)
+
+If you are running `sumaform` for Uyuni and you want Continuous Integration, you can a setup a Jenkins instance using the `jenkins` module.
+
+For now, the module provides Jenkins with the following plugins enabled:
+
+- swarm
+- git
+- git-client
+- workflow-aggregator
+- extended-choice-parameter
+- timestamper
+- htmlpublisher
+- rebuild
+- http_request
+- ansicolor
+- greenballs
+
+Authentication is enabled, and a user `admin` is created. The password can be found at `/var/lib/jenkins/secrets/initialAdminPassword` at the Jenkins instance.
+
+To enable Jenkins, use the following definition.
+
+```hcl
+module "jenkins" {
+  source             = "./modules/jenkins"
+  base_configuration = module.base.configuration
+}
+```
+
+Usually you will want to use this on public clouds, but if you want to use this in libvirt, you are encouraged to use a separate pool, as explained for the mirror below.
+
+
 ## Mirror
 
 If you are using `sumaform` outside of the SUSE Nuremberg network you should use a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.

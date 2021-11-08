@@ -525,6 +525,16 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.3
     archs: [x86_64]
 
+  # Jenkins
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/SLE_15_SP1
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/SLE_15_SP2
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/openSUSE_Leap_15.2
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/openSUSE_Leap_15.3
+    archs: [x86_64]
+
   # Uyuni Master
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/
     archs: [x86_64]

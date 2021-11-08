@@ -16,6 +16,7 @@ locals {
     contains(var.roles, "controller") ? { memory = 2048 } : {},
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
     contains(var.roles, "virthost") ? { memory = 3072, vcpu = 3 } : {},
+    contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
@@ -221,7 +222,7 @@ resource "null_resource" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") ? "vdb" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
         provider                      = "libvirt"
       },
     var.grains))
