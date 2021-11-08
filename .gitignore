@@ -1,4 +1,5 @@
 
+.terraform.lock.hcl
 /local_workspaces
 
 /terraform.tfstate*
