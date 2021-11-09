@@ -244,3 +244,8 @@ variable "forward_registration" {
   description = "Forward client registrations to SCC"
   default     = false
 }
+
+variable "server_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for server"
+  default     = null
+}

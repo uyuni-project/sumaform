@@ -68,13 +68,3 @@ variable "images" {
   default     = ["centos6o", "centos7o", "centos8o", "opensuse152o", "opensuse153o", "sles11sp4", "sles12sp3", "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "ubuntu1604o", "ubuntu1804o", "ubuntu2004o", "amazonlinux2o", "almalinux8o"]
   type        = set(string)
 }
-
-variable "server_registration_code" {
-  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for server"
-  default     = null
-}
-
-variable "proxy_registration_code" {
-  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
-  default     = null
-}

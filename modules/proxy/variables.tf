@@ -128,3 +128,8 @@ variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "proxy_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
+  default     = null
+}
