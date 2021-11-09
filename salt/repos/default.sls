@@ -334,7 +334,7 @@ test_update_repo:
 {% endif %}
 {% endif %} {# '15' == grains['osrelease'] #}
 
-{% if '15.1' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') ) %}
+{% if '15.1' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code')) %}
 os_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product/
@@ -352,7 +352,7 @@ os_ltss_repo:
 
 {% endif %} {# '15.1' == grains['osrelease'] #}
 
-{% if '15.2' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') ) %}
+{% if '15.2' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code')) %}
 os_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/
@@ -370,7 +370,7 @@ os_update_repo:
 
 {% endif %} {# '15.2' == grains['osrelease'] #}
 
-{% if '15.3' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') ) %}
+{% if '15.3' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code')) %}
 
 os_pool_repo:
   pkgrepo.managed:
@@ -389,7 +389,7 @@ os_update_repo:
 
 {% endif %} {# '15.3' == grains['osrelease'] #}
 
-{% if '15.4' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') ) %}
+{% if '15.4' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') ) %}
 
 # WORKAROUND: Moving target, only until SLE15SP4 GA is ready. Remove this block when we start using GA.
 {% if not 'beta' in grains['product_version'] %}
