@@ -90,6 +90,7 @@ The following steps need to be performed:
  * Clean the current Terraform state
    * Consider run `terraform destroy`
    * Remove the `terraform.tfstate` file
+   * Remove the `.terraform` directory
  * Adapt the `main.tf` file to the new provider specific properties
  * Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
 
