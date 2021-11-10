@@ -19,7 +19,7 @@ openSUSE and SUSE Linux Enterprise Server:
 #sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP3/systemsmanagement:sumaform.repo
 
 sudo zypper install git-core
-sudo zypper install --from systemsmanagement_sumaform terraform terraform-provider-libvirtt
+sudo zypper install --from systemsmanagement_sumaform terraform terraform-provider-libvirt
 git clone https://github.com/uyuni-project/sumaform.git
 ```
 
