@@ -204,7 +204,7 @@ test_update_repo:
 
 {% endif %}
 
-{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %}
+{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) and not grains.get('sles_registration_code') %}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
@@ -258,7 +258,7 @@ tools_additional_repo:
 
 
 {% if '15' in grains['osrelease'] %}
-{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %}
+{% if (not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles'))) and not grains.get('sles_registration_code')%}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
