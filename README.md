@@ -13,11 +13,13 @@ openSUSE and SUSE Linux Enterprise Server:
 # Uncomment one of the following lines depending on your distro
 
 #sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.1/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP4/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.2/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.3/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP5/systemsmanagement:sumaform.repo
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP3/systemsmanagement:sumaform.repo
 
-sudo zypper install terraform-provider-libvirt git-core
+sudo zypper install git-core
+sudo zypper install --from systemsmanagement_sumaform terraform terraform-provider-libvirtt
 git clone https://github.com/uyuni-project/sumaform.git
 ```
 
