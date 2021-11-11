@@ -80,8 +80,6 @@ module "server" {
 
 Many projects/vendors provide official OS images for the various backends, and sumaform uses them when available. The name for those images is suffixed with an "o" (eg. `sles15o`).
 
-Presently, those images require a working Internet connection to be used and are not downloaded by default.
-
 ## Switching to another backend
 
 Changing the backend normally means destroying the current one (see "Working on multiple configuration sets" to maintain multiple).
