@@ -8,6 +8,10 @@
 
 ## Installation
 
+**Terraform version**: 1.0.10
+
+**Libvirt provider version**: 0.6.3
+
 openSUSE and SUSE Linux Enterprise Server:
 ```
 # Uncomment one of the following lines depending on your distro
