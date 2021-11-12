@@ -23,5 +23,5 @@ cli_call() {
 # Only credential 2.6.1 is compatible with current LTS 2.303.3
 # For some reason using URL breaks the command if it's reapplied, so be sure
 # you removed credentials from thos command if you want to reapply
-cli_call install-plugin swarm https://updates.jenkins.io/download/plugins/credentials/2.6.1/credentials.hpi git git-client workflow-aggregator extended-choice-parameter timestamper htmlpublisher rebuild http_request ansicolor greenballs -deploy -restart
+cli_call install-plugin swarm https://updates.jenkins.io/download/plugins/credentials/2.6.1/credentials.hpi git git-client workflow-aggregator copyartifact extended-choice-parameter timestamper htmlpublisher rebuild http_request ansicolor greenballs -deploy -restart
 
