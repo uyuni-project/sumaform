@@ -271,15 +271,15 @@ module "controller" {
   base_configuration      = module.base.configuration
   server_configuration    = module.server.configuration
   proxy_configuration     = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
-  client_configuration    = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [] }
-  minion_configuration    = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [] }
-  buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [] }
-  sshminion_configuration = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [] }
-  redhat_configuration    = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [] }
-  debian_configuration    = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [] }
+  client_configuration    = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [] }
+  minion_configuration    = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [] }
+  buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [] }
+  sshminion_configuration = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [] }
+  redhat_configuration    = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [] }
+  debian_configuration    = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [] }
   pxeboot_configuration   = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
-  kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [] }
-  xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [] }
+  kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [] }
+  xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [], ipaddrs = [] }
 
   branch                 = var.branch
   git_username           = var.git_username
