@@ -401,9 +401,6 @@ locals {
     name_prefix              = var.name_prefix
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
-    server_registration_code = var.server_registration_code
-    proxy_registration_code  = var.proxy_registration_code
-
     additional_network = local.additional_network
 
     region            = local.region

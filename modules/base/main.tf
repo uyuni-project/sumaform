@@ -15,8 +15,6 @@ module "base_backend" {
   testsuite                = var.testsuite
   provider_settings        = var.provider_settings
   images                   = var.images
-  server_registration_code = var.server_registration_code
-  proxy_registration_code  = var.proxy_registration_code
 }
 
 output "configuration" {
@@ -33,7 +31,5 @@ output "configuration" {
     name_prefix              = var.name_prefix
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
-    server_registration_code = var.server_registration_code
-    proxy_registration_code  = var.proxy_registration_code
   }, module.base_backend.configuration)
 }
