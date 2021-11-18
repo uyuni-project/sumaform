@@ -9,6 +9,7 @@ module "base_backend" {
   mirror                   = var.mirror
   use_mirror_images        = var.use_mirror_images
   use_avahi                = var.use_avahi
+  product_version          = var.product_version
   domain                   = var.domain
   name_prefix              = var.name_prefix
   use_shared_resources     = var.use_shared_resources
@@ -27,6 +28,7 @@ output "configuration" {
     mirror                   = var.mirror
     use_mirror_images        = var.use_mirror_images
     use_avahi                = var.use_avahi
+    product_version          = var.product_version
     domain                   = var.domain
     name_prefix              = var.name_prefix
     use_shared_resources     = var.use_shared_resources
