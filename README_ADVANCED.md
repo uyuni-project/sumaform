@@ -700,6 +700,21 @@ Grafana is accessible at http://grafana.tf.local with username and password `adm
 
 Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `server` module (it is by default).
 
+## Container registry
+
+You can run a basic container registry as per the following example:
+
+```hcl
+module "registry" {
+  source = "./modules/registry"
+  base_configuration = module.base.configuration
+
+  name = "registry"
+}
+```
+
+The registry will be available on port 80 (unencrypted http) and without authentication.
+
 
 ## [evil-minions](https://github.com/moio/evil-minions) load generator
 
