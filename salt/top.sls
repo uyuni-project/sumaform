@@ -41,3 +41,7 @@ base:
   'roles:jenkins':
     - match: grain
     - jenkins
+
+  'roles:registry':
+    - match: grain
+    - registry
