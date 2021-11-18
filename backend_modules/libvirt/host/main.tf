@@ -28,6 +28,7 @@ data "template_file" "user_data" {
   vars = {
     image             = var.image
     use_mirror_images = var.base_configuration["use_mirror_images"]
+    product_version   = var.base_configuration["product_version"]
     mirror            = var.base_configuration["mirror"]
   }
 }
