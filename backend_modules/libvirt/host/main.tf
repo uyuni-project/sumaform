@@ -235,6 +235,12 @@ resource "null_resource" "provisioning" {
       "bash /root/salt/first_deployment_highstate.sh",
     ]
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash /root/salt/post_provisioning_cleanup.sh",
+    ]
+  }
 }
 
 output "configuration" {
