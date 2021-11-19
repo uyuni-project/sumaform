@@ -14,11 +14,6 @@ variable "use_avahi" {
   default     = true
 }
 
-variable "install_salt_bundle" {
-  description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
-}
-
 variable "avahi_reflector" {
   description = "if using avahi, allow one minion to have a reflector configured"
   default     = false
