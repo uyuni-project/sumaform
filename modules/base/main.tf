@@ -8,6 +8,7 @@ module "base_backend" {
   ssh_key_path             = var.ssh_key_path
   mirror                   = var.mirror
   use_mirror_images        = var.use_mirror_images
+  install_salt_bundle      = var.install_salt_bundle
   use_avahi                = var.use_avahi
   domain                   = var.domain
   name_prefix              = var.name_prefix
@@ -26,6 +27,7 @@ output "configuration" {
     ssh_key_path             = var.ssh_key_path
     mirror                   = var.mirror
     use_mirror_images        = var.use_mirror_images
+    install_salt_bundle      = var.install_salt_bundle
     use_avahi                = var.use_avahi
     domain                   = var.domain
     name_prefix              = var.name_prefix
