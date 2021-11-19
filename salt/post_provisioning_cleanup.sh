@@ -23,8 +23,10 @@ elif [ -x /usr/bin/apt ]; then
 fi
 
 echo "Removing Salt packages, except Salt Bundle (venv-salt-minion) ..."
-if [[ "$INSTALLER" == "zypper" ]] || [[ "$INSTALLER" == "dnf" ]] || [[ "$INSTALLER" == "yum" ]]; then
+if [[ "$INSTALLER" == "zypper" ]]; then
 zypper -q --non-interactive remove salt salt-minion python3-salt python2-salt ||:
+elif [[ "$INSTALLER" == "yum" ]]; then
+yum -y remove salt salt-minion python3-salt python2-salt ||:
 elif [[ "$INSTALLER" == "apt" ]]; then
 apt-get --yes purge salt-common ||:
 fi
