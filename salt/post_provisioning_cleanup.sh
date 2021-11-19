@@ -4,7 +4,9 @@
 # the original Salt package installed on the instance.
 
 # Nothing to do in case "install_salt_bundle" grain is not true
-if ! grep -q '"install_salt_bundle": true' /etc/salt/grains; then
+INSTALL_SALT_BUNDLE=$(salt-call --local --log-level=quiet --output=txt grains.get install_salt_bundle)
+
+if [[ "$INSTALL_SALT_BUNDLE" != "local: True" ]]; then
     exit 0
 fi
 
@@ -21,9 +23,9 @@ elif [ -x /usr/bin/apt ]; then
 fi
 
 echo "Removing Salt packages, except Salt Bundle (venv-salt-minion) ..."
-if [ "$INSTALLER" == "zypper" ] || [ "$INSTALLER" == "dnf" ] || [ "$INSTALLER" == "yum" ]; then
+if [[ "$INSTALLER" == "zypper" ]] || [[ "$INSTALLER" == "dnf" ]] || [[ "$INSTALLER" == "yum" ]]; then
 zypper -q --non-interactive remove salt salt-minion python3-salt python2-salt ||:
-elif [ "$INSTALLER" == "apt" ]; then
+elif [[ "$INSTALLER" == "apt" ]]; then
 apt-get --yes purge salt-common ||:
 fi
 
