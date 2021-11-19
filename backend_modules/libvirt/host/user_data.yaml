@@ -47,7 +47,7 @@ yum_repos:
     priority: 99
     name: CentOS-Updates_backup
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -82,7 +82,7 @@ yum_repos:
     priority: 99
     name: epel
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -109,7 +109,7 @@ yum_repos:
     priority: 99
     name: epel
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -117,7 +117,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
 %{ if image == "opensuse152o" }
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "qemu-guest-agent"]
 %{ else }
 packages: ["qemu-guest-agent"]
@@ -128,7 +128,7 @@ runcmd:
 %{ endif }
 
 %{ if image == "opensuse153o" || image == "opensuse153-ci-pr" || image == "opensuse153-ci-pr-client" }
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns"]
 %{ else }
 packages: ["avahi", "nss-mdns"]
@@ -147,7 +147,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -163,7 +163,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -185,7 +185,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -210,7 +210,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -235,7 +235,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -255,7 +255,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -275,7 +275,7 @@ zypper:
       enabled: 1
       autorefresh: 1
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
@@ -325,7 +325,7 @@ runcmd:
   - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
   - systemctl restart sshd
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
@@ -339,7 +339,7 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
@@ -381,7 +381,7 @@ runcmd:
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
@@ -394,7 +394,7 @@ runcmd:
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
@@ -406,7 +406,7 @@ runcmd:
   - echo '\nPermitRootLogin yes' >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
@@ -434,7 +434,7 @@ yum_repos:
     priority: 99
     name: epel
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -462,7 +462,7 @@ yum_repos:
     priority: 99
     name: epel
 
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
@@ -471,7 +471,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 %{ endif }
 
 %{ if image == "opensuse153armo" }
-%{ if product_version in ["uyuni-master", "uyuni-released"] }
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion"]
 %{ else }
 packages: ["salt-minion"]
