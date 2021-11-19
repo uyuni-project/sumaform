@@ -5,6 +5,7 @@ module "base" {
   cc_username          = var.cc_username
   cc_password          = var.cc_password
   use_avahi            = var.use_avahi
+  install_salt_bundle  = var.install_salt_bundle
   domain               = var.domain
   name_prefix          = var.name_prefix
   images               = var.images
