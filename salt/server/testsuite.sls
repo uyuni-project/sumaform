@@ -79,7 +79,6 @@ testsuite_salt_packages:
 
 
 {% if 'uyuni' in grains.get('product_version') | default('', true) %}
-{% if grains['install_salt_bundle'] %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,
 # in cases where the "venv-salt-minion" is not available in the bootstrap repository.
@@ -93,6 +92,8 @@ create_pillar_top_sls_to_assign_salt_bundle_config:
         base:
           'G@install_salt_bundle:True':
             - salt_bundle
+    - require:
+        - sls: server
 
 custom_pillar_to_force_salt_bundle:
   file.managed:
@@ -101,7 +102,6 @@ custom_pillar_to_force_salt_bundle:
         mgr_force_venv_salt_minion: True
     - require:
       - file: create_pillar_top_sls_to_assign_salt_bundle_config
-{% endif %}
 {% endif %}
 
 enable_salt_content_staging_window:
