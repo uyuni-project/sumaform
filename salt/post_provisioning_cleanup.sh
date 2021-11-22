@@ -12,6 +12,9 @@ fi
 
 echo "This instance is configured to use Salt Bundle in /etc/salt/grains !"
 
+echo "Copying /etc/salt/grains to /etc/venv-salt-minion"
+cp /etc/salt/grains /etc/venv-salt-minion/grains
+
 if [ -x /usr/bin/dnf ]; then
     INSTALLER=yum
 elif [ -x /usr/bin/zypper ]; then
