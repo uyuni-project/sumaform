@@ -77,8 +77,15 @@ testsuite_salt_packages:
     - require:
       - sls: repos
 
+
 {% if 'uyuni' in grains.get('product_version') | default('', true) %}
 {% if grains['install_salt_bundle'] %}
+
+# The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,
+# in cases where the "venv-salt-minion" is not available in the bootstrap repository.
+# Once bootstrap repository contains the venv-salt-minion before running bootstrap
+# then these staes can be removed
+
 create_pillar_top_sls_to_assign_salt_bundle_config:
   file.managed:
     - name: /srv/pillar/top.sls
