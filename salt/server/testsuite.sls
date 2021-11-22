@@ -91,7 +91,7 @@ create_pillar_top_sls_to_assign_salt_bundle_config:
     - name: /srv/pillar/top.sls
     - contents: |
         base:
-          '*':
+          'G@install_salt_bundle:True':
             - salt_bundle
 
 custom_pillar_to_force_salt_bundle:
