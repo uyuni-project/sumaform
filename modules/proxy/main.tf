@@ -24,6 +24,7 @@ module "proxy" {
   quantity                      = var.quantity
   use_os_released_updates       = var.use_os_released_updates
   use_os_unreleased_updates     = var.use_os_unreleased_updates
+  install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
   additional_packages           = var.additional_packages
   swap_file_size                = var.swap_file_size
