@@ -77,6 +77,26 @@ testsuite_salt_packages:
     - require:
       - sls: repos
 
+{% if 'uyuni' in grains.get('product_version') | default('', true) %}
+{% if grains['install_salt_bundle'] %}
+create_pillar_top_sls_to_assign_salt_bundle_config:
+  file.managed:
+    - name: /srv/pillar/top.sls
+    - contents: |
+        base:
+          '*':
+            - salt_bundle
+
+custom_pillar_to_force_salt_bundle:
+  file.managed:
+    - name: /srv/pillar/salt_bundle.sls
+    - contents: |
+        mgr_force_venv_salt_minion: True
+    - require:
+      - file: create_pillar_top_sls_to_assign_salt_bundle_config
+{% endif %}
+{% endif %}
+
 enable_salt_content_staging_window:
   file.replace:
     - name: /etc/rhn/rhn.conf
