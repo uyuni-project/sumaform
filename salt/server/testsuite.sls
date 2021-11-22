@@ -77,6 +77,7 @@ testsuite_salt_packages:
     - require:
       - sls: repos
 
+{% if 'uyuni' in grains.get('product_version') | default('', true) %}
 {% if grains['install_salt_bundle'] %}
 create_pillar_top_sls_to_assign_salt_bundle_config:
   file.managed:
@@ -93,6 +94,7 @@ custom_pillar_to_force_salt_bundle:
         mgr_force_venv_salt_minion: True
     - require:
       - file: create_pillar_top_sls_to_assign_salt_bundle_config
+{% endif %}
 {% endif %}
 
 enable_salt_content_staging_window:
