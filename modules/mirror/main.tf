@@ -5,6 +5,7 @@ module "mirror" {
   base_configuration      = var.base_configuration
   name                    = "mirror"
   use_os_released_updates = var.use_os_released_updates
+  install_salt_bundle     = var.install_salt_bundle
   additional_repos        = var.additional_repos
   additional_packages     = var.additional_packages
   swap_file_size          = var.swap_file_size

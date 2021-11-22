@@ -46,6 +46,11 @@ variable "additional_packages" {
   default     = []
 }
 
+variable "install_salt_bundle" {
+  description = "use true to install the venv-salt-minion package in the hosts"
+  default     = false
+}
+
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
   default     = null

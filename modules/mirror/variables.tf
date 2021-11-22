@@ -17,6 +17,11 @@ variable "additional_packages" {
   default     = []
 }
 
+variable "install_salt_bundle" {
+  description = "use true to install the venv-salt-minion package in the hosts"
+  default     = false
+}
+
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
   default     = 0

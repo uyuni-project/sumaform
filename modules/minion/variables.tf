@@ -71,6 +71,11 @@ variable "additional_packages" {
   default     = []
 }
 
+variable "install_salt_bundle" {
+  description = "use true to install the venv-salt-minion package in the hosts"
+  default     = false
+}
+
 variable "quantity" {
   description = "number of hosts like this one"
   default     = 1
