@@ -90,14 +90,14 @@ create_pillar_top_sls_to_assign_salt_bundle_config:
     - name: /srv/pillar/top.sls
     - contents: |
         base:
-          'G@install_salt_bundle:True':
-            - salt_bundle
+          '*':
+            - salt_bundle_config
     - require:
         - sls: server
 
 custom_pillar_to_force_salt_bundle:
   file.managed:
-    - name: /srv/pillar/salt_bundle.sls
+    - name: /srv/pillar/salt_bundle_config.sls
     - contents: |
         mgr_force_venv_salt_minion: True
     - require:
