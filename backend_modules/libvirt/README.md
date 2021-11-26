@@ -6,7 +6,7 @@
  - if your VMs are to be deployed on an external libvirt host:
    - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
    - set up bridged networking:
-     - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([openSUSE instructions](https://doc.opensuse.org/documentation/leap/virtualization/html/book.virt/cha-libvirt-networks.html#libvirt-networks-bridged) [Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
+     - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([openSUSE instructions](https://doc.opensuse.org/documentation/leap/virtualization/html/book-virtualization/cha-libvirt-host.html#libvirt-networks-bridged), [Ubuntu instructions](https://help.ubuntu.com/community/NetworkConnectionBridge))
      - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
      - set the `network_name` variable declaration to `null` or remove it
      - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
