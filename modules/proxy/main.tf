@@ -51,6 +51,7 @@ module "proxy" {
     publish_private_ssl_key   = var.publish_private_ssl_key
     repository_disk_size      = var.repository_disk_size
     proxy_registration_code   = var.proxy_registration_code
+    accept_all_ssl_protocols  = var.accept_all_ssl_protocols
   }
 
   image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
