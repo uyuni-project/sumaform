@@ -73,7 +73,7 @@ resource "libvirt_domain" "domain" {
   qemu_agent = true
 
   // copy host CPU model to guest to get the vmx flag if present
-  cpu = {
+  cpu {
     mode = local.provider_settings["cpu_model"]
   }
 

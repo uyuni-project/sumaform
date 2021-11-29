@@ -6,8 +6,8 @@ terraform {
       version = ">= 2.1.0"
     }
     libvirt = {
-      source = "dmacvicar/libvirt"
-      version = "0.6.3"
+      source = "uyuni-project/libvirt"
+      version = "0.6.11-1"
     }
   }
 }
