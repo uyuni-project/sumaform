@@ -10,6 +10,7 @@
      - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
      - set the `network_name` variable declaration to `null` or remove it
      - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
+     - if configuration does not work, double check your firewall rules
    - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
  - complete the `cc_password` variable in the `base` module
  - make sure that:
