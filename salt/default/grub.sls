@@ -1,6 +1,6 @@
 # HACK
-# This problem should be fixed when we build the image
-#   https://build.suse.de/package/show/Devel:Galaxy:Terraform:Images/sles11sp4
+# Use symlinks to boot SLES 11 SP4
+# That's needed when we patch the kernel on such a system
 {% if grains['osfullname'] == 'SLES' %}
 
 {% if grains['osrelease'] == '11.4' %}
