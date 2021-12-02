@@ -105,6 +105,8 @@ module "controller" {
     sle12sp5_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
     sle15sp2_buildhost   = length(var.sle15sp2_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp2_buildhost_configuration["hostnames"][0] : null
     sle15sp2_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
+    sle15sp3_buildhost   = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
+    sle15sp3_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
     opensuse153arm_minion = length(var.opensuse153arm_minion_configuration["hostnames"]) > 0 ? var.opensuse153arm_minion_configuration["hostnames"][0] : null
   }
 
