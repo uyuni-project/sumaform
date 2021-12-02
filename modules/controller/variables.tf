@@ -386,6 +386,21 @@ variable "debian10_sshminion_configuration" {
   }
 }
 
+variable "sle15sp3_buildhost_configuration" {
+  description = "use module.<SLE15SP3_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp3_terminal_configuration" {
+  description = "use module.<SLE15SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    macaddr = null
+    image = null
+  }
+}
+
 variable "sle15sp2_buildhost_configuration" {
   description = "use module.<SLE15SP2_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
