@@ -57,6 +57,15 @@ squid-configuration-unknown-nameservers:
 
 {% endif %}
 
+{% if grains.get('accept_all_ssl_protocols') %}
+proxy_substitute_sslprotocols:
+  file.replace:
+    - name: /etc/apache2/ssl-global.conf
+    - pattern: SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+    - repl: SSLProtocol all -SSLv2 -SSLv3
+    - require:
+      - proxy-packages
+{% endif %}
 
 {% if grains.get('auto_register') %}
 

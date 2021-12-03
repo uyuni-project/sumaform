@@ -70,6 +70,16 @@ substitute_email_sender_address:
         - cmd: server_setup
 {% endif %}
 
+{% if grains.get('accept_all_ssl_protocols') %}
+server_substitute_sslprotocols:
+  file.replace:
+    - name: /etc/apache2/ssl-global.conf
+    - pattern: SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+    - repl: SSLProtocol all -SSLv2 -SSLv3
+    - require:
+        - cmd: server_setup
+{% endif %}
+
 {% if grains.get('traceback_email') %}
 substitute_email_traceback_address:
   file.replace:
