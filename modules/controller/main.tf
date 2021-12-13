@@ -99,16 +99,12 @@ module "controller" {
     debian10_sshminion   = length(var.debian10_sshminion_configuration["hostnames"]) > 0 ? var.debian10_sshminion_configuration["hostnames"][0] : null
     debian11_minion      = length(var.debian11_minion_configuration["hostnames"]) > 0 ? var.debian11_minion_configuration["hostnames"][0] : null
     debian11_sshminion   = length(var.debian11_sshminion_configuration["hostnames"]) > 0 ? var.debian11_sshminion_configuration["hostnames"][0] : null
-    sle11sp4_buildhost   = length(var.sle11sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle11sp4_buildhost_configuration["hostnames"][0] : null
-    sle11sp3_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
-    sle12sp4_buildhost   = length(var.sle12sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp4_buildhost_configuration["hostnames"][0] : null
-    sle12sp4_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
-    sle12sp5_buildhost   = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
-    sle12sp5_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
-    sle15sp2_buildhost   = length(var.sle15sp2_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp2_buildhost_configuration["hostnames"][0] : null
-    sle15sp2_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
-    sle15sp3_buildhost   = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
-    sle15sp3_terminal    = length(var.terminal_configuration["hostnames"]) > 0 ? var.terminal_configuration["hostnames"][0] : null
+    sle11sp4_buildhost    = length(var.sle11sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle11sp4_buildhost_configuration["hostnames"][0] : null
+    sle11sp3_terminal_mac = length(var.sle11sp3_terminal_configuration["macaddrs"]) > 0 ? var.sle11sp3_terminal_configuration["macaddrs"][0] : null
+    sle12sp5_buildhost    = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
+    sle12sp5_terminal_mac = length(var.sle12sp5_terminal_configuration["macaddrs"]) > 0 ? var.sle12sp5_terminal_configuration["macaddrs"][0] : null
+    sle15sp3_buildhost    = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
+    sle15sp3_terminal_mac = length(var.sle15sp3_terminal_configuration["macaddrs"]) > 0 ? var.sle15sp3_terminal_configuration["macaddrs"][0] : null
     opensuse153arm_minion = length(var.opensuse153arm_minion_configuration["hostnames"]) > 0 ? var.opensuse153arm_minion_configuration["hostnames"][0] : null
   }
 
