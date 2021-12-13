@@ -394,7 +394,11 @@ runcmd:
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
 
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+%{ else }
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+%{ endif }
 %{ endif }
 %{ if image == "debian10o" }
 runcmd:
