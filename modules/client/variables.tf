@@ -94,3 +94,8 @@ variable "provider_settings" {
   description = "Map of provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "sles_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES server"
+  default     = null
+}

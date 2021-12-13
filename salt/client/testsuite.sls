@@ -1,6 +1,7 @@
 {% if grains.get('testsuite') | default(false, true) %}
 
 include:
+  - scc.minion
   - repos
   - client
 

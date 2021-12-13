@@ -24,6 +24,7 @@ module "virthost" {
     xen_disk_image      = var.xen_disk_image
     xen_disk_image_hash = var.xen_disk_image_hash
     hypervisor = var.hypervisor
+    sles_registration_code = var.sles_registration_code
   },var.additional_grains)
 
   image     = var.image

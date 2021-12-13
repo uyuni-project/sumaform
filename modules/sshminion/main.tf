@@ -22,6 +22,7 @@ module "sshminion" {
     product_version = var.product_version
     mirror          = var.base_configuration["mirror"]
     auto_connect_to_master = var.auto_connect_to_master
+    sles_registration_code = var.sles_registration_code
   }
 
 
