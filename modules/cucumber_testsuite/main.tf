@@ -26,6 +26,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
   additional_packages       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_packages", []) if var.host_settings[host_key] != null }
+  additional_grains       = { for host_key in local.hosts :
+  host_key => lookup(var.host_settings[host_key], "additional_grains", {}) if var.host_settings[host_key] != null }
   images                    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
   names                     = { for host_key in local.hosts :
@@ -135,6 +137,7 @@ module "suse-minion" {
 
   additional_repos  = lookup(local.additional_repos, "suse-minion", {})
   additional_packages = lookup(local.additional_packages, "suse-minion", [])
+  additional_grains = lookup(local.additional_grains, "suse-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
 }
 
@@ -157,6 +160,7 @@ module "build-host" {
 
   additional_repos  = lookup(local.additional_repos, "build-host", {})
   additional_packages = lookup(local.additional_packages, "build-host", [])
+  additional_grains = lookup(local.additional_grains, "build-host", {})
   provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
 }
 
@@ -177,6 +181,7 @@ module "suse-sshminion" {
 
   additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
   additional_packages = lookup(local.additional_packages, "suse-sshminion", [])
+  additional_grains = lookup(local.additional_grains, "suse-sshminion", {})
   provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
 }
 
@@ -197,6 +202,7 @@ module "redhat-minion" {
 
   additional_repos  = lookup(local.additional_repos, "redhat-minion", {})
   additional_packages = lookup(local.additional_packages, "redhat-minion", [])
+  additional_grains = lookup(local.additional_grains, "redhat-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "redhat-minion", {})
 }
 
@@ -217,6 +223,7 @@ module "debian-minion" {
 
   additional_repos  = lookup(local.additional_repos, "debian-minion", {})
   additional_packages = lookup(local.additional_packages, "debian-minion", [])
+  additional_grains = lookup(local.additional_grains, "debian-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
 }
 
@@ -250,6 +257,7 @@ module "kvm-host" {
 
   additional_repos  = lookup(local.additional_repos, "kvm-host", {})
   additional_packages = lookup(local.additional_packages, "kvm-host", [])
+  additional_grains = lookup(local.additional_grains, "kvm-host", {})
   provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
 }
 
@@ -273,6 +281,7 @@ module "xen-host" {
 
   additional_repos  = lookup(local.additional_repos, "xen-host", {})
   additional_packages = lookup(local.additional_packages, "xen-host", [])
+  additional_grains = lookup(local.additional_grains, "xen-host", {})
   provider_settings = lookup(local.provider_settings_by_host, "xen-host", {})
 }
 

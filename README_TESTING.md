@@ -143,6 +143,7 @@ Each of the hosts (including `server` and `controller` which are always present)
  - `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
  - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
  - `additional_packages` to add software packages (see [README_ADVANCED.md](README_ADVANCED.md))
+ - `additional_grains` to add or overwrite salt grains on salt minions. Map of key value
  - `image` to use a different base image
 
 A libvirt example follows:
@@ -242,3 +243,26 @@ module "cucumber_testsuite" {
    ...
 }
 ```
+## Virtual host
+
+User may need to change the kvm/xem image download. To do it, one can use the `additional_grains` property:
+
+host_settings = {
+    kvm-host = {
+        additional_grains = {
+            hvm_disk_image = ".."
+            hvm_disk_image_hash = "..."
+            xen_disk_image = "..."
+            xen_disk_image_hash = "..."
+        }
+    }
+    xen-host = {
+        additional_grains = {
+            hvm_disk_image = ".."
+            hvm_disk_image_hash = "..."
+            xen_disk_image = "..."
+            xen_disk_image_hash = "..."
+        }
+    }
+}
+    ```
