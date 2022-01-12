@@ -17,13 +17,13 @@ module "virthost" {
   ssh_key_path              = var.ssh_key_path
   ipv6                      = var.ipv6
   roles                     = ["minion", "virthost"]
-  additional_grains = {
+  additional_grains = merge({
     hvm_disk_image      = var.hvm_disk_image
     hvm_disk_image_hash = var.hvm_disk_image_hash
     xen_disk_image      = var.xen_disk_image
     xen_disk_image_hash = var.xen_disk_image_hash
     hypervisor = var.hypervisor
-  }
+  },var.additional_grains)
 
   image     = var.image
   provider_settings =var.provider_settings

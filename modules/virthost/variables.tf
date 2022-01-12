@@ -104,6 +104,11 @@ variable "image" {
   type        = string
 }
 
+variable "additional_grains" {
+  description = "custom grain string to be added to this minion's configuration"
+  default     = {}
+}
+
 variable "provider_settings" {
   description = "Map of provider-specific settings, see the backend-specific README file"
   default     = {}
