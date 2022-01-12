@@ -181,7 +181,6 @@ module "suse-sshminion" {
 
   additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
   additional_packages = lookup(local.additional_packages, "suse-sshminion", [])
-  additional_grains = lookup(local.additional_grains, "suse-sshminion", {})
   provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
 }
 
