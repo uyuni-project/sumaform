@@ -55,7 +55,7 @@ module "server" {
   disable_download_tokens        = false
   forward_registration           = false
   monitored                      = true
-  use_os_released_updates        = true
+  use_os_released_updates        = var.product_version == "head" ? false : true
   install_salt_bundle            = lookup(local.install_salt_bundle, "server", false)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
@@ -84,7 +84,7 @@ module "proxy" {
   auto_configure            = false
   generate_bootstrap_script = false
   publish_private_ssl_key   = false
-  use_os_released_updates   = true
+  use_os_released_updates   = var.product_version == "head" ? false : true
   ssh_key_path              = "./salt/controller/id_rsa.pub"
   install_salt_bundle = lookup(local.install_salt_bundle, "proxy", false)
 
