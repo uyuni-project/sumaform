@@ -137,3 +137,4 @@ reboot:
         {% if grains['hypervisor']|lower() == 'xen' %}
         - cmd: rebuild_grub_cfg
         {% endif %}
+    - order: last
