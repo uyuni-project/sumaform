@@ -111,13 +111,13 @@ host_settings = {
   }
   suse-minion = {
   }
-  build-host = {
-  }
   suse-sshminion = {
   }
   redhat-minion = {
   }
   debian-minion = {
+  }
+  build-host = {
   }
   pxeboot-minion = {
   }

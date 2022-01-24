@@ -141,29 +141,6 @@ module "suse-minion" {
   provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
 }
 
-module "build-host" {
-  source = "../minion"
-
-  quantity           = contains(local.hosts, "build-host") ? 1 : 0
-  base_configuration = module.base.configuration
-  product_version    = var.product_version
-  image              = lookup(local.images, "build-host", "sles15sp2o")
-  name               = lookup(local.names, "build-host", "min-build")
-
-  server_configuration = local.minimal_configuration
-
-  auto_connect_to_master  = false
-  use_os_released_updates = true
-  ssh_key_path            = "./salt/controller/id_rsa.pub"
-  avahi_reflector         = var.avahi_reflector
-  install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
-
-  additional_repos  = lookup(local.additional_repos, "build-host", {})
-  additional_packages = lookup(local.additional_packages, "build-host", [])
-  additional_grains = lookup(local.additional_grains, "build-host", {})
-  provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
-}
-
 module "suse-sshminion" {
   source = "../sshminion"
 
@@ -195,6 +172,7 @@ module "redhat-minion" {
   name               = lookup(local.names, "redhat-minion", "min-centos7")
 
   server_configuration   = local.minimal_configuration
+
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
   install_salt_bundle    = lookup(local.install_salt_bundle, "redhat-minion", false)
@@ -216,6 +194,7 @@ module "debian-minion" {
   name               = lookup(local.names, "debian-minion", "min-ubuntu2004")
 
   server_configuration   = local.minimal_configuration
+
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
   install_salt_bundle    = lookup(local.install_salt_bundle, "debian-minion", false)
@@ -226,14 +205,36 @@ module "debian-minion" {
   provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
 }
 
+module "build-host" {
+  source = "../build_host"
+
+  quantity           = contains(local.hosts, "build-host") ? 1 : 0
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "build-host", "sles15sp2o")
+  name               = lookup(local.names, "build-host", "min-build")
+
+  server_configuration = local.minimal_configuration
+
+  auto_connect_to_master  = false
+  use_os_released_updates = true
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  avahi_reflector         = var.avahi_reflector
+  install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
+
+  additional_repos  = lookup(local.additional_repos, "build-host", {})
+  additional_packages = lookup(local.additional_packages, "build-host", [])
+  provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
+}
+
 module "pxeboot-minion" {
   source = "../pxe_boot"
 
   quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
-
   base_configuration = module.base.configuration
   image              = lookup(local.images, "pxeboot-minion", "sles15sp3o")
   name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
+
   provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
 }
 
@@ -293,10 +294,10 @@ module "controller" {
   proxy_configuration     = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
   client_configuration    = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   minion_configuration    = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   sshminion_configuration = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   redhat_configuration    = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   debian_configuration    = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   pxeboot_configuration   = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
   kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
@@ -325,10 +326,10 @@ output "configuration" {
     proxy = module.proxy.configuration
     suse-client = module.suse-client.configuration
     suse-minion = module.suse-minion.configuration
-    build-host = module.build-host.configuration
     suse-sshminion = module.suse-sshminion.configuration
     redhat-minion = module.redhat-minion.configuration
     debian-minion = module.debian-minion.configuration
+    build-host = module.build-host.configuration
     pxeboot-minion = module.pxeboot-minion.configuration
     kvm-host = module.kvm-host.configuration
     xen-host = module.xen-host.configuration

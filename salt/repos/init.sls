@@ -4,8 +4,9 @@ include:
   - repos.minion
   - repos.proxy
   - repos.server
-  - repos.testsuite
+  - repos.build_host
   - repos.virthost
+  - repos.testsuite
   - repos.tools
   - repos.jenkins
   {% endif %}

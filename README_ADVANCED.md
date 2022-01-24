@@ -589,11 +589,33 @@ module "vanilla" {
 ```
 
 
+## Build hosts
+
+Build hosts have more repositories, so they can build Docker container and Kiwi images.
+
+Building Kiwi images is needed for starting PXE boot hosts (see below) in Retail context.
+
+An example follows:
+
+```hcl
+module "build-host"
+{
+  source = "./modules/build_host"
+  base_configuration = module.base.configuration
+
+  name = "buildhost"
+  image = "sles15sp3o"
+}
+```
+
+
 ## PXE boot hosts
 
 PXE boot hosts are unprovisioned hosts that are capable of booting from their networking card. Additionally, they have a hardware type of "Genuine Intel" to make provisioning via SUSE Manager for Retail easier.
 
 "unprovisioned" means that they are completly unprepared: no SSH keys, no initialization at all.
+
+SUSE Manager makes use of PXE booting in two use cases: cobbler, and Retail.
 
 An example follows:
 
