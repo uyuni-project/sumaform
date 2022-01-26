@@ -346,9 +346,11 @@ os_update_repo:
 {% if '15.4' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') ) %}
 
 # WORKAROUND: Moving target, only until SLE15SP4 GA is ready. Remove this block when we start using GA.
+{% if not 'beta' in grains['product_version'] %}
 os_movingtarget_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP4:/GA:/TEST/images/repo/SLE-15-SP4-Module-Basesystem-POOL-x86_64-Media1/
+{% endif %}
 # WORKAROUND: Moving target, only until SLE15SP4 GA is ready
 
 os_pool_repo:
