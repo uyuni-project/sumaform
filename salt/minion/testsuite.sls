@@ -23,12 +23,6 @@ suse_minion_cucumber_requisites:
     - require:
       - sls: repos
 
-registry_certificate:
-  file.managed:
-    - name: /etc/pki/trust/anchors/registry.mgr.suse.de.pem
-    - source: salt://minion/certs/registry.mgr.suse.de.pem
-    - makedirs: True
-
 suse_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/SUSE_Trust_Root.crt.pem
@@ -39,7 +33,6 @@ update_ca_truststore:
   cmd.run:
     - name: /usr/sbin/update-ca-certificates
     - onchanges:
-      - file: registry_certificate
       - file: suse_certificate
     - require:
       - pkg: suse_minion_cucumber_requisites
