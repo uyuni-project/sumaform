@@ -38,6 +38,10 @@ base:
     - match: grain
     - virthost
 
+  'roles:build_host':
+    - match: grain
+    - build_host
+
   'roles:jenkins':
     - match: grain
     - jenkins
