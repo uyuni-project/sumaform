@@ -4,10 +4,12 @@
 containers_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/12/x86_64/product/
+    - refresh: True
 
 containers_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/12/x86_64/update/
+    - refresh: True
 
 {% endif %}
 
@@ -28,28 +30,34 @@ containers_updates_repo:
 containers_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/{{ sle_version_path }}/x86_64/product/
+    - refresh: True
 
 containers_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/{{ sle_version_path }}/x86_64/update/
+    - refresh: True
 
 devel_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Development-Tools/{{ sle_version_path }}/x86_64/product/
+    - refresh: True
 
 devel_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/{{ sle_version_path }}/x86_64/update/
+    - refresh: True
 
 {# The following "SLE-Module-Desktop-Applications" channel is required by "SLE-Module-Development-Tools" module #}
 desktop_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/product/
+    - refresh: True
 
 {# The following "SLE-Module-Desktop-Applications" channel is required by "SLE-Module-Development-Tools" module #}
 desktop_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/update/
+    - refresh: True
 
 {% endif %}
 
