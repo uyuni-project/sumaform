@@ -90,6 +90,11 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
 %{ if image == "centos8o" }
+bootcmd:
+  # WORKAROUND: yum_repos state cant replace a repo, so we need to delete it,
+  # otherwise the workaround for archived repo doesn't work
+  - [rm, -f, /etc/yum.repos.d/CentOS-Base.repo, CentOS-AppStream.repo]
+
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -108,6 +113,22 @@ yum_repos:
     gpgcheck: false
     priority: 99
     name: epel
+  # repo for Centos-Base backup
+  CentOS-Base_backup:
+    baseurl: http://vault.centos.org/$contentdir/$releasever/BaseOS/$basearch/os/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: CentOS-Base_backup
+  # repo for Centos-Appstream backup
+  CentOS-Appstream_backup:
+    baseurl: http://vault.centos.org/$contentdir/$releasever/AppStream/$basearch/os/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: CentOS-AppStream_backup
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
