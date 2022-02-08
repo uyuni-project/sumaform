@@ -93,7 +93,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 bootcmd:
   # WORKAROUND: yum_repos state cant replace a repo, so we need to delete it,
   # otherwise the workaround for archived repo doesn't work
-  - [rm, -f, /etc/yum.repos.d/CentOS-Base.repo, CentOS-AppStream.repo]
+  - [rm, -f, /etc/yum.repos.d/CentOS-Base.repo, /etc/yum.repos.d/CentOS-AppStream.repo]
 
 yum_repos:
   # repo for salt
