@@ -22,6 +22,7 @@ locals {
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
   cloud_init = length(regexall("o$", var.image)) > 0
+  ignition = length(regexall("-ign$", var.image)) > 0
 }
 
 data "template_file" "user_data" {
@@ -39,6 +40,10 @@ data "template_file" "network_config" {
   vars = {
     image = var.image
   }
+}
+
+data "template_file" "ignition" {
+  template = file("${path.module}/config.ign")
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -63,6 +68,13 @@ resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   network_config = data.template_file.network_config.rendered
   pool             = var.base_configuration["pool"]
   count            = local.cloud_init ? var.quantity : 0
+}
+
+resource "libvirt_ignition" "ignition_disk" {
+  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
+  pool             = var.base_configuration["pool"]
+  content          = data.template_file.ignition.rendered
+  count            = local.ignition ? var.quantity : 0
 }
 
 resource "libvirt_domain" "domain" {
@@ -90,6 +102,7 @@ resource "libvirt_domain" "domain" {
   }
 
   cloudinit = length(libvirt_cloudinit_disk.cloudinit_disk) == var.quantity ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
+  coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : null
 
   dynamic "network_interface" {
     for_each = slice(
