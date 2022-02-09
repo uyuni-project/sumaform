@@ -15,6 +15,7 @@ uyuni_key_for_fake_packages:
 test_repo_rpm_pool:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
+    - refresh: True
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/repodata/repomd.xml.key
 
@@ -23,6 +24,7 @@ test_repo_rpm_pool:
 test_repo_deb_pool:
   pkgrepo.managed:
     - name: deb http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/ /
+    - refresh: True
     - file: /etc/apt/sources.list.d/test_repo_deb_pool.list
     - key_url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/Release.key
 

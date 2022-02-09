@@ -14,6 +14,7 @@
   {%- endif %}
   {%- else %}
     - baseurl: {{ url }}
+    - refresh: True
     - priority: 95
     - gpgcheck: 0
   {%- endif %}

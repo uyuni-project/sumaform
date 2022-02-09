@@ -25,6 +25,7 @@ custom_avahi_repo:
     {% elif grains['osrelease'] == '15.3' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP3/
     {% endif %}
+    - refresh: True
     - priority: 95
     - gpgcheck: 0
 {% endif %}

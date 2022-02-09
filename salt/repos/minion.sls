@@ -18,10 +18,12 @@
 python2_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Python2/{{ sle_version_path }}/x86_64/product/
+    - refresh: True
 
 python2_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Python2/{{ sle_version_path }}/x86_64/update/
+    - refresh: True
 {% endif %}
 
 {% endif %}
