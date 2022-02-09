@@ -36,15 +36,12 @@ update_ca_truststore:
       - file: suse_certificate
     - require:
       - pkg: suse_minion_cucumber_requisites
-{%- if grains['saltversioninfo'][0] >= 3002 %} # Workaround for bsc#1188641
     - unless:
       - fun: service.status
         args:
           - ca-certificates.path
-{%- endif %}
 
 {% endif %}
-
 {% endif %}
 
 {% endif %}
