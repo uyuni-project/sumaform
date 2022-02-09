@@ -50,12 +50,10 @@
 update-ca-certificates:
   cmd.run:
     - name: /usr/sbin/update-ca-certificates
-{%- if grains['saltversioninfo'][0] >= 3002 %} # Workaround for bsc#1188641
     - unless:
       - fun: service.status
         args:
           - ca-certificates.path
-{%- endif %}
 {% endif %}
 {% endfor %}
 {% endif %}
