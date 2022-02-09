@@ -11,6 +11,7 @@ module "virthost" {
   use_os_unreleased_updates = var.use_os_unreleased_updates
   install_salt_bundle       = var.install_salt_bundle
   additional_repos          = var.additional_repos
+  additional_repos_only         = var.additional_repos_only
   additional_packages       = var.additional_packages
   quantity                  = var.quantity
   gpg_keys                  = var.gpg_keys

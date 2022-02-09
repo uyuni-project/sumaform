@@ -41,6 +41,11 @@ variable "additional_repos" {
   default     = {}
 }
 
+variable "additional_repos_only" {
+  description = "whether to exclusively use additional repos"
+  default     = false
+}
+
 variable "additional_packages" {
   description = "extra packages which should be installed"
   default     = []
