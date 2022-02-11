@@ -16,7 +16,7 @@ module "build_host" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = true
-  roles                         = ["build_host"]
+  roles                         = ["build_host", "minion"]
   disable_firewall              = var.disable_firewall
   grains = {
     product_version = var.product_version
