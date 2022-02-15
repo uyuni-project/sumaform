@@ -1,5 +1,5 @@
 include:
-  - scc.minion
+  - scc.client
   - client.testsuite
 
 wget:
