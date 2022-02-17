@@ -132,9 +132,4 @@ reboot:
   module.run:
     - name: system.reboot
     - at_time: +2
-    - onchanges:
-        - pkg: no_kernel_default_base
-        {% if grains['hypervisor']|lower() == 'xen' %}
-        - cmd: rebuild_grub_cfg
-        {% endif %}
     - order: last
