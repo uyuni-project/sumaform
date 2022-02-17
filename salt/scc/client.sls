@@ -10,7 +10,7 @@ basesystem_activation:
 
 containers_activation:
    cmd.run:
-     - name: SUSEConnect -p sle-module-server-applications/{{ grains['osrelease'] }}/x86_64
+     - name: SUSEConnect -p sle-module-containers/{{ grains['osrelease'] }}/x86_64
 
 desktop_activation:
    cmd.run:
