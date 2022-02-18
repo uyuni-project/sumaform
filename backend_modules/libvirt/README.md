@@ -102,6 +102,7 @@ Some roles such as `suse_manager` or `mirror` have specific defaults that overri
 | mirror       | `{memory=512}`                                                                               |
 | controller   | `{memory=2048}`                                                                              |
 | grafana      | `{memory=4096}`                                                                              |
+| build_host   | `{vcpu=2}`                                                                                   |
 | virthost     | `{memory=3072, vcpu=3, cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl"}` |
 
 ## Accessing VMs
