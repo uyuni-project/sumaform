@@ -18,7 +18,7 @@ node_exporter_service:
 
 postgres_exporter:
   pkg.installed:
-    - name: golang-github-wrouesnel-postgres_exporter
+    - name: prometheus-postgres_exporter
     - require:
       - sls: repos
 
