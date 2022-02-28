@@ -27,6 +27,7 @@ module "mirror" {
 ```
 
 * Creating using a data disk snapshot:
+
 ```hcl
 data "aws_ebs_snapshot" "data_disk_snapshot" {
   most_recent = true
@@ -70,12 +71,14 @@ Once you have it you can transfer development packages to your AWS mirror via rs
 We have two options to perform this task: using AWS console or with terraform resource.
 
 ##### AWS console
+
 1. Login to the AWS console
 2. Select `EC2` on Services list
 3. On left-side menu select `Volumes` under `Elastic Block Store` menu option
 4. Right click on the data volume and select `Create Snapshot`
 
 ##### Terraform resource
+
 1. Create a disk snapshot (this will take some time)
 
     ```hcl
@@ -99,6 +102,7 @@ We have two options to perform this task: using AWS console or with terraform re
       }
     }
     ```
+
 2. In case you want to destroy/delete the mirror instance but keep the snapshot
     1. remove snapshot resource from terraform state: `terraform state rm aws_ebs_snapshot.mirror_data_snapshot`
     2. If you now run `terraform destroy` the snapshot will be preserved.
@@ -125,6 +129,7 @@ To use it, a set of properties should be set on sumaform base module.
 | bastion_host                         | string  | `null`        | bastion machine hostname (to access machines in private network) |
 
 Example:
+
 ```hcl
 module "base" {
   source = "./modules/base"
@@ -147,6 +152,7 @@ module "base" {
 It is possible to use a custom image instead of letting sumaform lookup the most appropriate image.
 
 Example:
+
 ```hcl
 module "server" {
   source = "./modules/server"

@@ -31,6 +31,7 @@ sumaform requires a specific Terraform version and provides several special-purp
 #### Terraform and terraform-provider libvirt upgrade instructions
 
 Terraform:
+
 ```bash
 osc checkout systemsmanagement:sumaform
 osc up systemsmanagement:sumaform
@@ -45,6 +46,7 @@ osc commit
 ```
 
 terraform-provider-libvirt:
+
 ```bash
 osc checkout systemsmanagement:sumaform
 osc up systemsmanagement:sumaform

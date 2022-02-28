@@ -40,6 +40,7 @@ Create a symbolic link to the `azure` backend module directory inside the `modul
 Most modules have configuration settings specific to the Azure backend, those are set via the `provider_settings` map variable. They are all described below.
 
 ### Base Module
+
 Available provider settings for the base module:
 
 | Variable name       | Type   | Default value   | Description                                                                                                     |
@@ -53,6 +54,7 @@ Available provider settings for the base module:
 | public_key_location | string | `null`          | Location for access public key                                                                                  |
 
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -80,6 +82,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | vm_size             | string   | `Standard_B4ms`([apart from specific roles](Default-values-by-role))  | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/)  |
 
 An example follows:
+
 ```hcl
 ...
   provider_settings = {
@@ -94,6 +97,7 @@ An example follows:
 - `volume_snapshot`: name of the volume snapshot to be used as a base for the new disk (default value: `null`)
 
  An example follows:
+
  ``` hcl
  data "azurerm_snapshot" "repodisk-snapshot" {
      volume_snapshot                = "snapshot disk name"

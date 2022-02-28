@@ -95,6 +95,7 @@ The following steps need to be performed:
 - Adapt the `main.tf` file to the new provider specific properties
 - remove folder `.terraform`
 - Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
+
 ln -sfn ../backend_modules/<BACKEND> modules/backend
 ```
 
@@ -147,7 +148,6 @@ module "jenkins" {
 
 Usually you will want to use this on public clouds, but if you want to use this in libvirt, you are encouraged to use a separate pool, as explained for the mirror below.
 
-
 ## Mirror
 
 If you are using `sumaform` outside of the SUSE Nuremberg network you should use a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
@@ -155,6 +155,7 @@ If you are using `sumaform` outside of the SUSE Nuremberg network you should use
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
 To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following module definition:
+
 ```hcl
 module "mirror" {
   source = "./modules/mirror"
@@ -186,12 +187,10 @@ module "mirror" {
 
 Note that `mirror` must be populated before any host can be deployed. By default, its cache is refreshed nightly via `cron`, as configured in `/etc/cron.daily`. You can also schedule a one-time refresh by running manually some of the scripts that reside in `/usr/local/bin` directory.
 
-
 ## Mirror only for Server (products synchronization)
 
 In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products syncronization, but not for the repositories used by sumaform during the deployment of your environment.
 For that use case, instead of `mirror` use `server_mounted_mirror` parameter inside the server module definition.
-
 
 ## Virtual hosts
 
@@ -346,7 +345,6 @@ At deploy time the `spacewalk-clone-by-date` will be used for each channel set. 
 
 Activation keys are also automatically created for each clone with the name `1-<CLONE_PREFIX>`.
 
-
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
@@ -424,7 +422,6 @@ When there is only one connection, the card is always `eth0`, no matter to which
 
 Some modules have preset defaults: SUSE Manager/Uyuni Servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni Proxies and clients or minions connect to both networks.
 
-
 ## Custom SSH keys
 
 If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
@@ -441,7 +438,6 @@ The `ssh_key_path` option can also be specified on a per-host basis. In this cas
 
 If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
 
-
 ## SSH access without specifying a username
 
 You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
@@ -452,7 +448,6 @@ StrictHostKeyChecking no
 UserKnownHostsFile=/dev/null
 User root
 ```
-
 
 ## Activation Keys for minions
 
@@ -469,7 +464,6 @@ module "suse-minion" {
   activation_key = "1-DEFAULT"
 }
 ```
-
 
 ## Proxies
 
@@ -521,7 +515,6 @@ module "proxy" {
 }
 ```
 
-
 ## Inter-Server Sync (ISS)
 
 Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
@@ -550,7 +543,6 @@ Please note that `iss_master` is set from `master`'s module output variable `hos
 
 Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
-
 ## Working on multiple configuration sets (workspaces) locally
 
 Terraform supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://www.terraform.io/docs/state/workspaces.html). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.
@@ -572,7 +564,6 @@ local_workspaces/libvirt-testsuite/terraform.tfstate
 ... -> local_workspaces/libvirt-testsuite/terraform.tfstate
 ```
 
-
 ## Plain hosts
 
 You can have totally unconfigured hosts in your configuration by using the `host` module, for example if you need to test bootstrapping.
@@ -588,7 +579,6 @@ module "vanilla" {
   image = "sles12sp5o"
 }
 ```
-
 
 ## Build hosts
 
@@ -608,7 +598,6 @@ module "build-host"
   image = "sles15sp3o"
 }
 ```
-
 
 ## PXE boot hosts
 
@@ -631,7 +620,6 @@ module "pxeboot-minion"
 }
 ```
 
-
 ## SMT
 
 You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
@@ -646,7 +634,6 @@ module "server" {
   smt = "http://smt.suse.de"
 }
 ```
-
 
 ## Custom repos and packages
 
@@ -696,11 +683,9 @@ module "suse-sshminion" {
 }
 ```
 
-
 ## Prometheus/Grafana monitoring
 
 It is possible to install Prometheus exporters on a SUSE Manager Server instance via the `monitored` flag. Those can be consumed by Prometheus and Grafana server to analyze visually. A libvirt example follows:
-
 
 ```hcl
 module "server" {
@@ -738,7 +723,6 @@ module "registry" {
 
 The registry will be available on port 80 (unencrypted http) and without authentication.
 
-
 ## [evil-minions](https://github.com/moio/evil-minions) load generator
 
 `evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.
@@ -768,7 +752,6 @@ module "minion" {
   evil_minion_slowdown_factor = 1
 }
 ```
-
 
 ## Use Locust for http load testing
 
@@ -808,7 +791,6 @@ module "locust" {
   slave_quantity = 5
 }
 ```
-
 
 ## Use Operating System updates (released and unreleased)
 
@@ -858,7 +840,6 @@ module "sumamail3" {
   traceback_email = "michele.bologna@chameleon-mail.com"
 }
 ```
-
 
 ## Swap file configuration
 

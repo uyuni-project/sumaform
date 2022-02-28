@@ -60,6 +60,7 @@ Following settings apply to all modules, such as `server`, `proxy`, `client`, `g
 | timeout             | string  | base module value | The timeout to wait for the connection to become available. Should be a value like 30s or 5m                                                                                                  |
 
 An example follows:
+
 ```hcl-terraform
  ...
  provider_settings = {

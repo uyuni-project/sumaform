@@ -246,6 +246,7 @@ module "cucumber_testsuite" {
    ...
 }
 ```
+
 ## Virtual host
 
 User may need to change the kvm/xem image download. To do it, one can use the `additional_grains` property:

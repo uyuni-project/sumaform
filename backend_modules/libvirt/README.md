@@ -43,6 +43,7 @@ Available provider settings for the base module:
 | additional_network | string | `null`        | A network mask for PXE tests                                             |
 
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -68,6 +69,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                                               |
 
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -86,6 +88,7 @@ provider_settings = {
  * `pool = <String>` storage were the volume should be created (default value `default`)
 
  An example follows:
+
  ``` hcl-terraform
 volume_provider_settings = {
   pool = "ssd"
@@ -139,6 +142,7 @@ Finally, the images come with serial console support, so you can use
 ```
 virsh console suma32pg
 ```
+
 especially in the case the network is not working and you need to debug it, or if the images have difficulties booting.
 
 ## Only upload a subset of available images

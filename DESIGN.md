@@ -1,11 +1,13 @@
 # Design of sumaform
 
 ## Goal
+
 Automating deployment and configuration of virtualized SUSE Manager installations for testing, debugging and development.
 
 Security is explicitly not a goal, convenience is.
 
 ## Idea
+
 sumaform is:
 
 - [Terraform](https://www.terraform.io/) modules of two types:
