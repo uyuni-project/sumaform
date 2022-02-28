@@ -61,8 +61,9 @@ By default, `run-testsuite` runs over a selection of the YAML files at `run_sets
 `sanity_check.yml`, `core.yml`, `reposync.yml`, `init_clients.yml`, `secondary.yml`, `secondary_parallelizable.yml`, `finishing.yml`.
 
 To enable/disable features, edit these YAML files. Keep in mind that:
- - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
- - features not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
+
+- features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
+- features not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
 
 Once all `core_` features have been executed you can run a non-core Cucumber feature as follows:
 ```
@@ -140,11 +141,12 @@ host_settings = {
 ```
 
 Each of the hosts (including `server` and `controller` which are always present) accepts the following parameters:
- - `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
- - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
- - `additional_packages` to add software packages (see [README_ADVANCED.md](README_ADVANCED.md))
- - `additional_grains` to add or overwrite salt grains on salt minions. Map of key value
- - `image` to use a different base image
+
+- `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
+- `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
+- `additional_packages` to add software packages (see [README_ADVANCED.md](README_ADVANCED.md))
+- `additional_grains` to add or overwrite salt grains on salt minions. Map of key value
+- `image` to use a different base image
 
 A libvirt example follows:
 
@@ -169,8 +171,9 @@ You can configure a `mirror` host for the testsuite and that will be beneficial 
 ## Alternative testsuite version
 
 You can also select an alternative fork or branch for the Cucumber testsuite code:
- - the `git_repo` variable in the `cucumber_testsuite` module overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
- - the `branch` variable in the `cucumber_testsuite` module overrides the branch (by default an automatic selection is made).
+
+- the `git_repo` variable in the `cucumber_testsuite` module overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
+- the `branch` variable in the `cucumber_testsuite` module overrides the branch (by default an automatic selection is made).
 
 As an example:
 

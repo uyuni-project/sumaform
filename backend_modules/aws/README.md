@@ -3,13 +3,14 @@
 ## Overview
 
 Base Module will create:
- - a VPC
- - three subnets
-   - one private, that can only access other hosts in the VPC and outbound connection to internet
-   - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
-   - one public, that can also access the Internet and accepts connections from an IP whitelist
- - security groups, routing tables, Internet gateways, NAT gateway as appropriate
- - one `bastion` host is also created in the public network
+
+- a VPC
+- three subnets
+  - one private, that can only access other hosts in the VPC and outbound connection to internet
+  - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
+  - one public, that can also access the Internet and accepts connections from an IP whitelist
+- security groups, routing tables, Internet gateways, NAT gateway as appropriate
+- one `bastion` host is also created in the public network
 
 This architecture is based on [AWS VPC with Public and Private Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html).
 
@@ -21,9 +22,10 @@ AWS backend don't have support for pxe_boot hosts. It's implementation will be c
 ## Prerequisites
 
 You will need:
- - an AWS account, specifically an Access Key ID and a Secret Access Key
- - [an SSH key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) valid for that account
- - the name of the region and availability zone you want to use.
+
+- an AWS account, specifically an Access Key ID and a Secret Access Key
+- [an SSH key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) valid for that account
+- the name of the region and availability zone you want to use.
 
 ## Select AWS backend to be used
 
@@ -88,8 +90,8 @@ An example follows:
 
 `server`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
 
- * `volume_snapshot_id`: data volume snapshot id to be used as base for the new disk (default value: `null`)
- * `type`: volume type that should be used (default value `sc1`). See the list at the [AWS EBS Volume Type documentation page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
+- `volume_snapshot_id`: data volume snapshot id to be used as base for the new disk (default value: `null`)
+- `type`: volume type that should be used (default value `sc1`). See the list at the [AWS EBS Volume Type documentation page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
 
  An example follows:
  ``` hcl

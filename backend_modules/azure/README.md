@@ -3,14 +3,15 @@
 ## Overview
 
 Base Module will create:
- - A Resource Group
- - A Virtual Network
- - three subnets
-   - one private, that can only access other hosts in the VPC and outbound connection to internet
-   - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
-   - one public, that can also access the Internet and accepts connections from an IP whitelist
- - security groups, routing tables, Internet gateways, NAT gateway as appropriate
- - one `bastion` host is also created in the public network
+
+- A Resource Group
+- A Virtual Network
+- three subnets
+  - one private, that can only access other hosts in the VPC and outbound connection to internet
+  - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
+  - one public, that can also access the Internet and accepts connections from an IP whitelist
+- security groups, routing tables, Internet gateways, NAT gateway as appropriate
+- one `bastion` host is also created in the public network
 
 This architecture is based on [Azure Virtual Network concepts and best practices](https://docs.microsoft.com/en-us/azure/virtual-network/concepts-and-best-practices).
 
@@ -22,10 +23,11 @@ Azure backend don't have support for pxe_boot hosts. It's implementation will be
 ## Prerequisites
 
 You will need:
- - an azure account. You have 2 options here:
-    - [Sign in via the CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
-    - [Use an azure service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal): In this case you will need to include the service principal in the provider configuration. More information on alternative connection methods to azure can be found here:
-       - [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
+
+- an azure account. You have 2 options here:
+  - [Sign in via the CLI](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli)
+  - [Use an azure service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal): In this case you will need to include the service principal in the provider configuration. More information on alternative connection methods to azure can be found here:
+    - [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [an SSH key pair](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys) valid for that account
 - the name of the region and availability zone you want to use.
 
@@ -89,7 +91,7 @@ An example follows:
 
 `server`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
 
- * `volume_snapshot`: name of the volume snapshot to be used as a base for the new disk (default value: `null`)
+- `volume_snapshot`: name of the volume snapshot to be used as a base for the new disk (default value: `null`)
 
  An example follows:
  ``` hcl

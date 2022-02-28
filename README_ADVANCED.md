@@ -3,24 +3,27 @@
 ## Changing product versions
 
 Some modules have a `product_version` variable that determines the software product version. Specifically:
- * in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
- * in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
+
+- in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
+- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
 
 Legal values for released software are:
- * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
- * `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
- * `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
- * `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
- * `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
+
+- `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
+- `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
+- `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
+- `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
+- `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
- * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
- * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
- * `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
- * `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
- * `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
- * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
+
+- `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
+- `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
+- `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
+- `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
+- `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
+- `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
 Legal values for CI:
 
@@ -85,14 +88,13 @@ Many projects/vendors provide official OS images for the various backends, and s
 Changing the backend normally means destroying the current one (see "Working on multiple configuration sets" to maintain multiple).
 
 The following steps need to be performed:
- * Clean the current Terraform state
-   * Consider run `terraform destroy`
-   * Remove the `terraform.tfstate` file
- * Adapt the `main.tf` file to the new provider specific properties
- * remove folder `.terraform`
- * Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
 
-```
+- Clean the current Terraform state
+  - Consider run `terraform destroy`
+  - Remove the `terraform.tfstate` file
+- Adapt the `main.tf` file to the new provider specific properties
+- remove folder `.terraform`
+- Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
 ln -sfn ../backend_modules/<BACKEND> modules/backend
 ```
 
@@ -229,9 +231,9 @@ cat /sys/module/kvm_amd/parameters/nested
 
 The generated virtual host will be setup with:
 
-* a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
-* a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
-* and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
+- a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
+- a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
+- and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
 
 The template disk image is the `opensuse153` image used by sumaform and is downloaded when applying the highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
@@ -247,42 +249,41 @@ Note that the Xen virtualization host will be rebooted when applying the highsta
 
 By default, sumaform deploys hosts with a range of tweaked settings for convenience reasons. If in your use case this is not wanted, you can turn those off via the following variables.
 
- * `client` module:
-   * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `minion` module:
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `sshminion` module:
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `host` module:
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `proxy` module:
-   * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
-   * `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
-   * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
-   * `install_proxy_pattern`: install proxy pattern with all proxy-related software. Set to `false` to install manually
-   * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register`, `download_private_ssl_key`, and `install_proxy_pattern`
-   * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
-   * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `server` module:
-   * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
-   * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
-     * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
-   * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
-   * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
-   * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
-   * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
-   * `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
-   * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
-   * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
-   * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
-   * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
-   * `forward_registration`: enable forwarding of registrations to SCC (default off)
-
+- `client` module:
+  - `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `minion` module:
+  - `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `sshminion` module:
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `host` module:
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `proxy` module:
+  - `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
+  - `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
+  - `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
+  - `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
+  - `install_proxy_pattern`: install proxy pattern with all proxy-related software. Set to `false` to install manually
+  - `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register`, `download_private_ssl_key`, and `install_proxy_pattern`
+  - `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
+  - `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `server` module:
+  - `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
+  - `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
+    - `server_username` and `server_password`: define credentials for the first user, admin/admin by default
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+  - `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
+  - `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
+  - `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
+  - `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
+  - `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
+  - `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
+  - `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
+  - `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
+  - `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
+  - `forward_registration`: enable forwarding of registrations to SCC (default off)
 
 ## Adding channels to SUSE Manager Servers
 
@@ -351,9 +352,9 @@ Activation keys are also automatically created for each clone with the name `1-<
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
 
 Additionally, it is possible to have only one user to upload images and other shared infrastructure such as mirrors, having all other users re-use them. In order to accomplish this:
- * add a `use_shared_resources = true` variable to the `base` module of all users but one
- * make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
 
+- add a `use_shared_resources = true` variable to the `base` module of all users but one
+- make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
 
 ## Disabling Avahi and Avahi reflectors
 
@@ -746,10 +747,10 @@ In order to create an `evil-minions` load generator, you have to define a regula
 
 It is also possible to set up a delay on the response time of the replicas. By default, the replicas will respond as fast as possible, which might not be appropriate depending on the objectives of your simulation. To reproduce delays observed by the original minion, use the `evil_minion_slowdown_factor` variable, as follows:
 
- - `0.0`, the default value, makes evil minions respond as fast as possible
- - `1.0` makes `evil-minion` introduce delays to match the response times of the original minion
- - `2.0` makes `evil-minion` react twice as slow as the original minion
- - `0.5` makes `evil-minion` react twice as fast as the original minion
+- `0.0`, the default value, makes evil minions respond as fast as possible
+- `1.0` makes `evil-minion` introduce delays to match the response times of the original minion
+- `2.0` makes `evil-minion` react twice as slow as the original minion
+- `0.5` makes `evil-minion` react twice as fast as the original minion
 
 For more information, visit the `evil-minions` project page at https://github.com/moio/evil-minions/ .
 
@@ -901,5 +902,5 @@ module "server" {
 
 The `server` module has options to automatically capture more diagnostic information, off by default:
 
-* `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
-* `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
+- `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+- `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`

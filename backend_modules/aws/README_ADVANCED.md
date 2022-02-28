@@ -53,11 +53,13 @@ module "mirror" {
 **Sync mirror data (this will take some time):**
 
    If you are using released versions only or creating a mirror disk from scratch:
+
    1. `ssh root@<MIRROR_HOST>`
    1. `sudo minima.sh` (or any other mirroring script in `/usr/local/bin`)
 
 If you need access to SUSE internal nightly builds or `Devel:` packages, you will first of all need a fully set up and synced libvirt based mirror on a machine in the engineering network.
 Once you have it you can transfer development packages to your AWS mirror via rsync, for example via the commands below:
+
    1. `scp <YOUR_AWS_KEY> root@<LOCAL_MIRROR_HOST>://root/key.pem`
    2. `ssh root@<MIRROR_HOST>`
    3. `zypper in rsync`
@@ -75,6 +77,7 @@ We have two options to perform this task: using AWS console or with terraform re
 
 ##### Terraform resource
 1. Create a disk snapshot (this will take some time)
+
     ```hcl
     data "aws_ebs_volume" "data_disk_id" {
       most_recent = true

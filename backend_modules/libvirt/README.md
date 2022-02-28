@@ -2,30 +2,30 @@
 
 ## First-time configuration
 
- - copy `main.tf.libvirt.example` to `main.tf`
- - if your VMs are to be deployed on an external libvirt host:
-   - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
-   - set up bridged networking:
-     - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([NetworkManager instructions](https://www.xmodulo.com/configure-linux-bridge-network-manager-ubuntu.html), refer to distro-specific instructions if you are not using NetworkManager)
-     - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
-     - set the `network_name` variable declaration to `null` or remove it
-     - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
-     - if configuration does not work, double check your firewall rules
-   - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
- - complete the `cc_password` variable in the `base` module
- - make sure that:
-   - either your target libvirt host has a storage pool named `default`
-   - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-storage.html#sec-libvirt-storage-vmm-addpool)
-   - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
- - if you are not using bridged networking, make sure that:
-   - either your target libvirt host has a NAT network which is named `default`
-   - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-networks.html#libvirt-networks-virtual-vmm-define)
-     - Note: ipv6 is configured by default on all VMs created by sumaform, so make sure to enable ipv6 too (DHCPv6 is not necessary)
-   - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
- - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
- - Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `cd modules && ln -sfn ../backend_modules/libvirt backend`
- - run `terraform init` to make sure Terraform has detected all modules
- - run `terraform apply` to actually have the VMs set up!
+- copy `main.tf.libvirt.example` to `main.tf`
+- if your VMs are to be deployed on an external libvirt host:
+  - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
+  - set up bridged networking:
+    - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([NetworkManager instructions](https://www.xmodulo.com/configure-linux-bridge-network-manager-ubuntu.html), refer to distro-specific instructions if you are not using NetworkManager)
+    - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
+    - set the `network_name` variable declaration to `null` or remove it
+    - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
+    - if configuration does not work, double check your firewall rules
+  - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
+- complete the `cc_password` variable in the `base` module
+- make sure that:
+  - either your target libvirt host has a storage pool named `default`
+  - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-storage.html#sec-libvirt-storage-vmm-addpool)
+  - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
+- if you are not using bridged networking, make sure that:
+  - either your target libvirt host has a NAT network which is named `default`
+  - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-networks.html#libvirt-networks-virtual-vmm-define)
+    - Note: ipv6 is configured by default on all VMs created by sumaform, so make sure to enable ipv6 too (DHCPv6 is not necessary)
+  - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
+- decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
+- Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `cd modules && ln-sfn ../backend_modules/libvirt backend`
+- run `terraform init` to make sure Terraform has detected all modules
+- run `terraform apply` to actually have the VMs set up!
 
 ## libvirt backend specific variables
 

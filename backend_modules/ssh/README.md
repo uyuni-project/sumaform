@@ -4,16 +4,16 @@ This backend, differently from others, assumes hosts already exist and can be ac
 
 ## First-time configuration
 
- - Copy `main.tf.ssh.example` to `main.tf`
- - Complete the missing information
- - Create a symbolic link to the `ssh` backend module directory inside the `modules` directory: `ln -sfn ../backend_modules/ssh modules/backend`
+- Copy `main.tf.ssh.example` to `main.tf`
+- Complete the missing information
+- Create a symbolic link to the `ssh` backend module directory inside the `modules` directory: `ln-sfn ../backend_modules/ssh modules/backend`
 
 ## Requirements
 
- - SSH access via password or private key to a user with root privileges
-    - Access through a [bastion host](https://en.wikipedia.org/wiki/Bastion_host) is also possible using password or private key
- - Machine must come with `salt` pre-installed
- - If additional_network is needed one should make sure it is set up correctly and have the IP mask for it (this backend will not create it)
+- SSH access via password or private key to a user with root privileges
+  - Access through a [bastion host](https://en.wikipedia.org/wiki/Bastion_host) is also possible using password or private key
+- Machine must come with `salt` pre-installed
+- If additional_network is needed one should make sure it is set up correctly and have the IP mask for it (this backend will not create it)
 
 ### Base module
 

@@ -31,14 +31,15 @@ connect: Invalid argument
 ```
 
 Check that:
- - your firewall is not blocking UDP port 5353
+
+- your firewall is not blocking UDP port 5353
   - on SUSE systems check YaST -> Security and Users -> Firewall -> Zones -> "public" and "libvirt"
-   - "mdns" should appear on the list on the right (allowed)
- - Avahi is installed and running
-   - typically you can check this via systemd: `systemctl status avahi-daemon`
-   - be sure you don't have mixed versions: `rpm -qa | grep avahi`
- - Avahi is capable of resolving the host you are trying to reach: `avahi-resolve -n <host>.tf.local`
- - mdns is configured in glibc's Name Server Switch configuration file
+  - "mdns" should appear on the list on the right (allowed)
+- Avahi is installed and running
+  - typically you can check this via systemd: `systemctl status avahi-daemon`
+  - be sure you don't have mixed versions: `rpm -qa | grep avahi`
+- Avahi is capable of resolving the host you are trying to reach: `avahi-resolve -n <host>.tf.local`
+- mdns is configured in glibc's Name Server Switch configuration file
 
 In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
 ```
@@ -100,20 +101,21 @@ There are two possible causes: plain Unix permissions or AppArmor.
 Check that the interested directory (in the case above `/var/lib/libvirt/images`) is writable by the user running `qemu` (you can check it via `ps -eo uname:20,comm | grep qemu-system-x86` when you have at least one virtual machine running).
 
 If the directory has wrong permissions:
- - fix their them manually via `chmod`/`chown`;
- - check that the pool definition has right user and permissions via `virsh pool-edit <POOL_NAME>` (note that mode is specified in octal and user/group as IDs, see `id -u <USERNAME>` and `cat /etc/groups`).
+
+- fix their them manually via `chmod`/`chown`;
+- check that the pool definition has right user and permissions via `virsh pool-edit <POOL_NAME>` (note that mode is specified in octal and user/group as IDs, see `id -u <USERNAME>` and `cat /etc/groups`).
 
 If the user running `qemu` is not the one you expected:
- - change the `user` and `group` variables in `/etc/libvirt/qemu.conf`, typically `root`/`root` will solve any problem
- - restart the libvirt daemon
+
+- change the `user` and `group` variables in `/etc/libvirt/qemu.conf`, typically `root`/`root` will solve any problem
+- restart the libvirt daemon
 
 ### AppArmor
 
 AppArmor can be used both to isolate the host from its guests, and guests from one another. Both of those protections must be properly configured in order for sumaform to operate correctly. Unfortunately, this configuration can be difficult and is well beyond the scope of this guide. Following are instructions to disable AppArmor completely in non-security-sensitive environments.
 
- * host-guest protection: add `security_driver = "none"` to `/etc/libvirt/qemu.conf
- * guest-guest protection:
-```sh
+- host-guest protection: add `security_driver = "none"` to `/etc/libvirt/qemu.conf
+- guest-guest protection:
 sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
 sudo /etc/init.d/apparmor restart
 sudo aa-status | grep libvirt # output should be empty
@@ -171,7 +173,7 @@ Error applying plan:
 
 1 error(s) occurred:
 
-* libvirt_domain.domain: diffs didn't match during apply. This is a bug with Terraform and should be reported as a GitHub Issue.
+libvirt_domain.domain: diffs didn't match during apply. This is a bug with Terraform and should be reported as a GitHub Issue.
 ...
 Mismatch reason: attribute mismatch: network_interface.0.bridge
 ```
