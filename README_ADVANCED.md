@@ -705,7 +705,7 @@ module "grafana" {
 }
 ```
 
-Grafana is accessible at http://grafana.tf.local with username and password `admin`.
+Grafana is accessible at [http://grafana.tf.local](http://grafana.tf.local) with username and password `admin`.
 
 Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `server` module (it is by default).
 
@@ -737,7 +737,7 @@ It is also possible to set up a delay on the response time of the replicas. By d
 - `2.0` makes `evil-minion` react twice as slow as the original minion
 - `0.5` makes `evil-minion` react twice as fast as the original minion
 
-For more information, visit the `evil-minions` project page at https://github.com/moio/evil-minions/ .
+For more information, visit the `evil-minions` project page at [here](https://github.com/moio/evil-minions).
 
 A libvirt example follows:
 

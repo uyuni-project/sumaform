@@ -2,7 +2,7 @@
 
 ## Basic deployment
 
-It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `cucumber_testsuite` module. A libvirt example follows:
+It is possible to run [the Cucumber testsuite](https://github.com/uyuni-project/uyuni/tree/master/testsuite)  for SUSE Manager and Uyuni by using the `cucumber_testsuite` module. A libvirt example follows:
 
 ```hcl
 provider "libvirt" {
