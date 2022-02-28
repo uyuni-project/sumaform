@@ -104,7 +104,7 @@ ssh -t head-ctl.tf.local screen -r
 
 ### Adding hosts to the testsuite
 
-Several test hosts are optional and can be activated via a host_settings block like the following:
+Several test hosts are optional and can be activated via a `host_settings` block like the following:
 
 ```hcl
 host_settings = {
@@ -131,7 +131,7 @@ host_settings = {
 }
 ```
 
-The default value for host_settings block has a SUSE family traditional client and SUSE family minion present:
+The default value for `host_settings` block has a SUSE family traditional client and SUSE family minion present:
 
 ```hcl
 host_settings = {
