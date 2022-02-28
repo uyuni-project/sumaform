@@ -82,6 +82,7 @@ For a very quick start:
 ```bash
 vim main.tf     # change your VM setup
 terraform init  # populate modules
+terraform validate # check if the configuration is valid
 terraform apply # prepare and apply a plan to create your systems (after manual confirmation)
 ```
 
