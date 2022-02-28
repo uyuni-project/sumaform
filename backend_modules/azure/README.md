@@ -1,4 +1,4 @@
- # Azure-specific configuration
+# Azure-specific configuration
 
 ## Overview
 

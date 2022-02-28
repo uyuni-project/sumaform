@@ -1,4 +1,4 @@
- # AWS-specific configuration
+# AWS-specific configuration
 
 ## Overview
 
@@ -36,6 +36,7 @@ Create a symbolic link to the `aws` backend module directory inside the `modules
 Most modules have configuration settings specific to the AWS backend, those are set via the `provider_settings` map variable. They are all described below.
 
 ### Base Module
+
 Available provider settings for the base module:
 
 | Variable name            | Type   | Default value   | Description                                                                                                    |

@@ -879,7 +879,7 @@ module "server" {
 }
 ```
 
-# Debugging facilities
+## Debugging facilities
 
 The `server` module has options to automatically capture more diagnostic information, off by default:
 
