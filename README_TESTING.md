@@ -38,16 +38,15 @@ The example will have to be completed with SCC credentials and GitHub credential
 
 By default, the `cucumber_testsuite` module will not produce any outputs for the resources (for example the hostname for the instances).
 
-If you want them, add:
+If you want them, add the following to the end of your `main.tf` file:
 
 ```hcl
 output "configuration" {
   value = module.cucumber_testsuite.configuration
 }
 ```
-At the end of your `main.tf` file.
 
-That will generate the outputs on-screen and will store them at the `terraform.tfstate`.
+That will generate the outputs on-screen and will store them in the `terraform.tfstate` file.
 
 ## Running the testsuite
 
@@ -57,7 +56,7 @@ To start the testsuite, use:
 ssh -t head-ctl.tf.local run-testsuite
 ```
 
-By default, `run-testsuite` runs over a selection of the YAML files at `run_sets`, i.e.:
+By default, `run-testsuite` runs over a selection of the YAML files in `run_sets`, i.e.:
 `sanity_check.yml`, `core.yml`, `reposync.yml`, `init_clients.yml`, `secondary.yml`, `secondary_parallelizable.yml`, `finishing.yml`.
 
 To enable/disable features, edit these YAML files. Keep in mind that:
@@ -194,7 +193,7 @@ module "cucumber_testsuite" {
 
 ## Alternative Docker and Kiwi profiles
 
-By default, the Docker and Kiwi profiles used by the testsuite (all branches) are picked up from [the public uyuni branch](https://github.com/uyuni-project/uyuni/tree/master/testsuite/features/profiles). If you want to experiment with alternative Docker or Kiwi profiles, you can do that with the `git_profiles_repo` variable.
+By default, the Docker and Kiwi profiles used by the testsuite (all branches) are picked up from [the public Uyuni branch](https://github.com/uyuni-project/uyuni/tree/master/testsuite/features/profiles). If you want to experiment with alternative Docker or Kiwi profiles, you can do that with the `git_profiles_repo` variable.
 
 Example:
 
@@ -252,7 +251,7 @@ module "cucumber_testsuite" {
 
 ## Virtual host
 
-User may need to change the kvm/xem image download. To do it, one can use the `additional_grains` property:
+User may need to change the KVM/Xen image download. To do it, one can use the `additional_grains` property:
 
 ```hcl
 host_settings = {

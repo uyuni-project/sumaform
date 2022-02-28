@@ -60,7 +60,7 @@ module "server" {
 
 ## Changing Operating Systems
 
-You can specifiy a base OS in most modules specifying an `image` variable.
+You can specify a base OS in most modules specifying an `image` variable.
 
 For some modules like `minion`, `image` is mandatory and Terraform will refuse to apply plans if it is missing. Please refer to `modules/<backend>/base/main.tf` for the exact list of supported OSs.
 
@@ -138,7 +138,7 @@ For now, the module provides Jenkins with the following plugins enabled:
 
 Authentication is enabled, and a user `admin` is created. The password can be found at `/var/lib/jenkins/secrets/initialAdminPassword` at the Jenkins instance.
 
-To enable Jenkins, use the following definition.
+To enable Jenkins, use the following definition:
 
 ```hcl
 module "jenkins" {
@@ -190,7 +190,7 @@ Note that `mirror` must be populated before any host can be deployed. By default
 
 ## Mirror only for Server (products synchronization)
 
-In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products syncronization, but not for the repositories used by sumaform during the deployment of your environment.
+In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products synchronization, but not for the repositories used by sumaform during the deployment of your environment.
 For that use case, instead of `mirror` use `server_mounted_mirror` parameter inside the server module definition.
 
 ## Virtual hosts
@@ -287,7 +287,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
 
 ## Adding channels to SUSE Manager Servers
 
-You can specifiy a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
+You can specify a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
 
 ```bash
 # mgr-sync list channels --compact
@@ -604,7 +604,7 @@ module "build-host"
 
 PXE boot hosts are unprovisioned hosts that are capable of booting from their networking card. Additionally, they have a hardware type of "Genuine Intel" to make provisioning via SUSE Manager for Retail easier.
 
-"unprovisioned" means that they are completly unprepared: no SSH keys, no initialization at all.
+"unprovisioned" means that they are completely unprepared: no SSH keys, no initialization at all.
 
 SUSE Manager makes use of PXE booting in two use cases: cobbler, and Retail.
 
@@ -808,8 +808,7 @@ module "server" {
 }
 ```
 
-
-## E-mail configuration
+## Email configuration
 
 With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
 

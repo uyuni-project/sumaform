@@ -51,9 +51,9 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 - null backend
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
-If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
+If you need a lot of VMs or lack hardware you probably want to use an external libvirt host with bridged networking.
 
-The Amazon Web Services backend is currently under maintainance and is not immediately usable as-is. We plan to restore it soon.
+The Amazon Web Services backend is currently under maintenance and is not immediately usable as-is. We plan to restore it soon.
 
 The null backend can be useful in a wide variety of scenarios, for example:
 
@@ -65,6 +65,7 @@ The null backend can be useful in a wide variety of scenarios, for example:
 
 In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
+To choose the backend in use one should create a symbolic link to a `backend_module` module. Refer to the specific READMEs to get started:
 
 - [libvirt README](backend_modules/libvirt/README.md)
 - [AWS README](backend_modules/aws/README.md)
