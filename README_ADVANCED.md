@@ -96,6 +96,7 @@ The following steps need to be performed:
 - remove folder `.terraform`
 - Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
 
+```bash
 ln -sfn ../backend_modules/<BACKEND> modules/backend
 ```
 
@@ -220,7 +221,7 @@ This means that in order for virtual hosts to host virtual machines, nested virt
 For this, the `kvm_intel` or `kvm_amd` kernel modules need to have `nested` parameter set to `1`.
 To check if nested virtualization is enabled on the physical machine, the following command needs to return either `1` or `Y`:
 
-```
+```bash
 # For intel CPU:
 cat /sys/module/kvm_intel/parameters/nested
 
@@ -288,7 +289,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
 
 You can specifiy a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
 
-```
+```bash
 # mgr-sync list channels --compact
 Available Channels:
 ...
@@ -442,7 +443,7 @@ If you don't want to copy any ssh key at all (and use passwords instead), just s
 
 You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
 
-```
+```config
 Host *.tf.local
 StrictHostKeyChecking no
 UserKnownHostsFile=/dev/null
@@ -549,7 +550,7 @@ Terraform supports working on multiple infrastructure resource groups with the s
 
 As a workaround, you can create a `local_workspaces` directory with a subdirectory per workspace, each containing main.tf and terraform.tfstate files, then use symlinks to the sumaform root:
 
-```
+```bash
 ~/sumaform$ find local_workspaces/
 local_workspaces/
 local_workspaces/aws-demo

@@ -3,7 +3,8 @@
 ## Q: how can I work around backend not defined error?
 
 Typical error message follows:
-```
+
+```bash
 Error: Unreadable module directory
 
 Unable to evaluate directory symlink: lstat modules/backend: no such file or directory
@@ -12,7 +13,7 @@ Unable to evaluate directory symlink: lstat modules/backend: no such file or dir
 Terraform cannot find the path for the backend in use.
 Create a symbolic link to the backend module directory inside the `modules` directory:
 
-```
+```bash
 cd modules
 ln -sfn ../backend_modules/<BACKEND> backend
 ```
@@ -21,12 +22,11 @@ ln -sfn ../backend_modules/<BACKEND> backend
 
 Typical error message follows:
 
-```
+```bash
 Could not resolve hostname server.tf.local: Name or service not known
-```
 
-or:
-```
+# or
+
 connect: Invalid argument
 ```
 
@@ -42,16 +42,18 @@ Check that:
 - mdns is configured in glibc's Name Server Switch configuration file
 
 In `/etc/nsswitch.conf` you should see a `hosts:` line that looks like the following:
-```
+
+```config
 hosts:          files mdns4 [NOTFOUND=return] dns
 ```
+
 `mdns4` should be present in this line. If it is not, add it.
 
 Note: `mdns6` also exists to resolve to IPv6 addresses, but currently [one known issue exists](https://github.com/lathiat/avahi/issues/110) where it may return incorrect addresses (specifically: link local addresses starting with `fe80:` but without a zone identifier trailer such as `%eth0`). We recommend IPv4 for the time being.
 
 Starting with `nss-mdns` version 0.14.1, you also need to populate `/etc/mdns.allow` with:
 
-```
+```bash
 .local
 .tf.local
 ```
@@ -67,26 +69,24 @@ This can happen, for example, in libvirt if the NAT network being used does not 
 ## Q: how can I work around a libvirt permission denied error?
 
 Typical error message follows:
-```
-* libvirt_domain.domain: Error creating libvirt domain: [Code-1] [Domain-10]
+
+```bash
+libvirt_domain.domain: Error creating libvirt domain: [Code-1] [Domain-10]
 internal error: process exited while connecting to monitor:
 2016-10-14T06:49:07.518689Z qemu-system-x86_64: -drive file=/var/lib/libvirt/images/mirror-main-disk,format=qcow2,if=none,id=drive-virtio-disk0:
 Could not open '/var/lib/libvirt/images/mirror-main-disk':
 Permission denied
-```
 
-Another possible one is:
-```
-* libvirt_domain.domain: Error creating libvirt domain: virError(Code=1, Domain=0, Message='internal error: child reported: Kernel does not provide mount namespace: Permission denied')
-```
+# Another possible one is:
+libvirt_domain.domain: Error creating libvirt domain: virError(Code=1, Domain=0, Message='internal error: child reported: Kernel does not provide mount namespace: Permission denied')
 
-Yet another one is:
-```
+# Yet another one is:
 Failed to connect socket to '/var/run/libvirt/libvirt-sock': No such file or directory'
 ```
 
 Some variants of this issue will also be logged in `/var/log/syslog` like:
-```
+
+```bash
 Oct 14 08:10:03 dell kernel: [52456.461754] audit: type=1400 audit(1476425403.666:27):
 apparmor="DENIED" operation="open" profile="libvirt-4d4f9b58-f50d-4f60-a8a1-315c9a2d02c1"
 name="/var/lib/libvirt/images/terraform_mirror_main_disk"
@@ -116,6 +116,8 @@ AppArmor can be used both to isolate the host from its guests, and guests from o
 
 - host-guest protection: add `security_driver = "none"` to `/etc/libvirt/qemu.conf
 - guest-guest protection:
+
+```bash
 sudo ln -s /etc/apparmor.d/usr.sbin.libvirtd /etc/apparmor.d/disable/
 sudo /etc/init.d/apparmor restart
 sudo aa-status | grep libvirt # output should be empty
@@ -125,7 +127,7 @@ sudo aa-status | grep libvirt # output should be empty
 
 If you run into this error:
 
-`* dial tcp 192.168.122.193:22: getsockopt: network is unreachable`
+`dial tcp 192.168.122.193:22: getsockopt: network is unreachable`
 
 during the `terraform apply`, it means Terraform was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking configuration. If you are using AWS, make sure your current IP is listed in the `ssh_allowed_ips` variable (or check it is whitelisted in AWS Console -> VPC -> Security Groups).
 
@@ -137,7 +139,7 @@ Run `sh /root/salt/highstate.sh`.
 
 A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the module and resource use `terraform state list`:
 
-```
+```bash
 $ terraform state list
 ...
 module.server.module.server.libvirt_volume.main_disk[0]
@@ -145,11 +147,12 @@ module.server.module.server.libvirt_volume.main_disk[0]
 $ terraform taint module.server.module.server.libvirt_volume.main_disk[0]
 Resource instance module.server.module.server.libvirt_volume.main_disk[0] has been marked as tainted.
 ```
+
 ## Q: how to force the re-download of an image?
 
 A: see above, use the taint command as per the following example:
 
-```
+```bash
 $ terraform state list
 ...
 module.base.libvirt_volume.volumes[2]
@@ -168,7 +171,7 @@ Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See 
 
 If you have just switched from non-bridged to bridged networking or vice versa you might get the following error:
 
-```
+```bash
 Error applying plan:
 
 1 error(s) occurred:
@@ -184,12 +187,12 @@ This is a known issue, simply repeat the `terraform apply` command and it will g
 
 If you run `terraform apply` from outside of the sumaform tree, you will get the error message:
 
-```
+```bash
 Error applying plan:
 
 1 error(s) occurred:
 
-* stat salt: no such file or directory
+stat salt: no such file or directory
 ```
 
 A simple solution is to create a symbolic link pointing to the `salt` directory on top level of the sumaform files tree. Create this symlink in your current directory.
@@ -204,7 +207,7 @@ To change to another workspace just remove and create the corresponding links ag
 
 When we change between workspaces,it may happen that `terraform init` throws "is not a valid parameter" errors, as if we actually didn't change to another workspace. To resolve this just remove the terraform cache:
 
-```
+```bash
 rm -r .terraform/
 ```
 

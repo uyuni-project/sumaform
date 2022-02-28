@@ -53,7 +53,7 @@ That will generate the outputs on-screen and will store them at the `terraform.t
 
 To start the testsuite, use:
 
-```
+```bash
 ssh -t head-ctl.tf.local run-testsuite
 ```
 
@@ -84,17 +84,20 @@ Read HTML results at:
  `head-ctl.tf.local/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `80`.
 
 Get HTML results with:
-```
+
+```bash
 scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
 ```
 
 To keep the testsuite running after ending the ssh session using `screen` tool:
-```
+
+```bash
 ssh -t head-ctl.tf.local screen run-testsuite
 ```
 
 You can detach from the session at anytime using the key sequence `^A d`. To re-attach to the existing session:
-```
+
+```bash
 ssh -t head-ctl.tf.local screen -r
 ```
 
@@ -160,7 +163,7 @@ server = {
   }
   additional_packages = [ "vim" ]
 }
-````
+```
 
 The `cucumber_testsuite` module also offers the `use_avahi` and `avahi_reflector` variables, see [README_ADVANCED.md](README_ADVANCED.md) for their meaning.
 
@@ -251,6 +254,7 @@ module "cucumber_testsuite" {
 
 User may need to change the kvm/xem image download. To do it, one can use the `additional_grains` property:
 
+```hcl
 host_settings = {
     kvm-host = {
         additional_grains = {
@@ -269,4 +273,4 @@ host_settings = {
         }
     }
 }
-    ```
+```

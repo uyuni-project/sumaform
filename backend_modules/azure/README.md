@@ -120,7 +120,7 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 
 `bastion` is accessible through SSH at the public name noted in outputs.
 
-```
+```bash
 $ terraform apply
 ...
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.

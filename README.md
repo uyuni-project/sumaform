@@ -12,7 +12,8 @@
 **Libvirt provider version**: 0.6.3
 
 openSUSE and SUSE Linux Enterprise Server:
-```
+
+```bash
 # Uncomment one of the following lines depending on your distro
 
 #sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/systemsmanagement:sumaform.repo
@@ -27,7 +28,8 @@ git clone https://github.com/uyuni-project/sumaform.git
 ```
 
 Ubuntu and Debian:
-```
+
+```bash
 sudo apt install alien
 wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
@@ -75,7 +77,8 @@ In `sumaform` you define a set of virtual machines in a `main.tf` configuration 
 Refer to the [official guides](https://www.terraform.io/docs/index.html) for a general understanding of Terraform and full commands.
 
 For a very quick start:
-```
+
+```bash
 vim main.tf     # change your VM setup
 terraform init  # populate modules
 terraform apply # prepare and apply a plan to create your systems (after manual confirmation)

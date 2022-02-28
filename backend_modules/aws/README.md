@@ -50,8 +50,8 @@ Available provider settings for the base module:
 | server_registration_code | string | `null`          | SUMA SCC server registration code to use SCC repositories and disable internal repositories                    |
 | proxy_registration_code  | string | `null`          | SUMA SCC proxy registration code to use SCC repositories and disable internal repositories                     |
 
-
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -79,6 +79,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | instance_type   | string   | `t2.micro`([apart from specific roles](Default-values-by-role))  | [AWS instance type](https://aws.amazon.com/pt/ec2/instance-types/)  |
 
 An example follows:
+
 ```hcl
 ...
   provider_settings = {
@@ -94,6 +95,7 @@ An example follows:
 - `type`: volume type that should be used (default value `sc1`). See the list at the [AWS EBS Volume Type documentation page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
 
  An example follows:
+
  ``` hcl
 volume_provider_settings = {
   volume_snapshot_id = "snap-0123abcd"
@@ -116,7 +118,7 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 
 `bastion` is accessible through SSH at the public name noted in outputs.
 
-```
+```bash
 $ terraform apply
 ...
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
@@ -133,7 +135,7 @@ Other hosts are accessible via SSH from the `bastion` itself.
 
 This project provides a utility script, `configure_aws_tunnels.rb`, which will add `Host` definitions in your SSH config file so that you don't have to input tunneling flags manually.
 
-```
+```bash
 $ terraform apply
 ...
 $ ./configure_aws_tunnels.rb

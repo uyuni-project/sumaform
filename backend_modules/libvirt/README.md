@@ -125,7 +125,7 @@ module "base" {
 
 By default, the machines use Avahi (mDNS), and are configured on the `.tf.local` domain. Thus if your host is on the same network segment of the virtual machines you can simply use:
 
-```
+```bash
 ssh root@suma32pg.tf.local
 ```
 
@@ -139,7 +139,7 @@ Web access is on standard ports, so `firefox server.tf.local` will work as expec
 
 Finally, the images come with serial console support, so you can use
 
-```
+```bash
 virsh console suma32pg
 ```
 
@@ -182,8 +182,8 @@ module "base" {
 
 If you are using the `default`virtual network in the 192.168.122.1 network, you will have this interface:
 
-```
-$ sudo virsh net-list --all
+```bash
+$ sudo virsh net-list--all
  Name                 State      Autostart     Persistent
 ----------------------------------------------------------
  default              active     yes           yes
@@ -191,7 +191,7 @@ $ sudo virsh net-list --all
 
 You can edit the XML with virt-manager (do not forget to stop the interface before making changes, or they will be lost!) or with virsh:
 
-```
+```bash
 $ sudo virsh net-edit default
 ```
 
@@ -273,7 +273,7 @@ module "base" {
 
 Now edit `/etc/hosts` on the host machine and add your guests:
 
-```
+```config
 192.168.122.2 uyuniserver.suse.lab
 192.168.122.3 leap151.suse.lab
 192.168.122.4 win10.suse.lab
@@ -281,7 +281,7 @@ Now edit `/etc/hosts` on the host machine and add your guests:
 
 Finally, destroy and start again your libvirt network:
 
-```
+```bash
 $ sudo virsh net-destroy default && sudo virsh net-start default
 ```
 
@@ -293,7 +293,7 @@ These days most Linux distributions are using Network Manager for configuration 
 
 In case you want to double check whether you are using Network Manager or something else (e. g. wicked, networkd, etc), check for the service status:
 
-```
+```bash
 $ sudo systemctl status NetworkManager
 ● NetworkManager.service - Network Manager
 Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: disabled)
@@ -304,7 +304,7 @@ Active: active (running)
 
 or in case you are not running systemd:
 
-```
+```bash
 $ sudo service NetworkManager status
 * NetworkManager.service - Network Manager
 Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: disabled)
@@ -319,7 +319,7 @@ Some other query command may be required if you are running another operating sy
 
 If you are using NetworkManager on the host machine, tell it to control dnsmasq:
 
-```
+```bash
 $ sudo vi /etc/NetworkManager/conf.d/localdns.conf
 [main]
 plugins=keyfile
@@ -328,7 +328,7 @@ dns=dnsmasq
 
 But only for the `suse.lab` domain:
 
-```
+```bash
 $ sudo vi /etc/NetworkManager/dnsmasq.d/libvirt_dnsmasq.conf
 server=/suse.lab/192.168.122.1
 ```
@@ -337,7 +337,7 @@ server=/suse.lab/192.168.122.1
 
 If you are not using NetworkManager or do not want dnsmasq to be controlled by NetworkManager, use this configuration:
 
-```
+```bash
 $ sudo vi /etc/NetworkManager/NetworkManager.conf
 [main]
 plugins=keyfile
@@ -346,7 +346,7 @@ dns=none
 
 Tell your local dnsmasq to manage only `suse.lab`:
 
-```
+```bash
 $ sudo vi /etc/dnsmasq.conf
 listen-address=127.0.0.1
 interface=lo
@@ -360,7 +360,7 @@ local=/suse.lab/
 
 And add localhost to your /etc/resolv.conf:
 
-```
+```bash
 $ sudo vi /etc/resolv.conf
 # This should be the first nameserver entry in resolv.conf!
 nameserver 127.0.0.1
@@ -371,13 +371,13 @@ nameserver 127.0.0.1
 
 Finally, restart all services: libvirtd, dnsmasq and NetworkManager:
 
-```
+```bash
 $ sudo systemctl restart NetworkManager.service NetworkManager-dispatcher.service dnsmasq.service libvirtd.service libvirt-guests.service
 ```
 
 And test name resolution from the host:
 
-```
+```bash
 $ nslookup uyuniserver.suse.lab 127.0.0.1
 Server:         127.0.0.1
 Address:        127.0.0.1#53
@@ -398,7 +398,7 @@ $ nslookup 192.168.122.2 192.168.122.1
 
 and from the guests:
 
-```
+```bash
 $ nslookup uyuniserver.suse.lab 192.168.122.1
 Server:         192.168.122.1
 Address:        192.168.122.1#53
