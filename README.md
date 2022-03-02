@@ -5,7 +5,6 @@
 [![Travis CI build status](https://travis-ci.org/uyuni-project/sumaform.svg?branch=master)](https://travis-ci.org/uyuni-project/sumaform)
 [![Join the chat at https://gitter.im/sumaform/Lobby](https://badges.gitter.im/sumaform/Lobby.svg)](https://gitter.im/sumaform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-
 ## Installation
 
 **Terraform version**: 1.0.10
@@ -13,7 +12,8 @@
 **Libvirt provider version**: 0.6.3
 
 openSUSE and SUSE Linux Enterprise Server:
-```
+
+```bash
 # Uncomment one of the following lines depending on your distro
 
 #sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/systemsmanagement:sumaform.repo
@@ -28,7 +28,8 @@ git clone https://github.com/uyuni-project/sumaform.git
 ```
 
 Ubuntu and Debian:
-```
+
+```bash
 sudo apt install alien
 wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform.rpm
 sudo alien -i terraform.rpm
@@ -44,47 +45,52 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 ## Backend choice
 
 `sumaform` can deploy virtual machines to:
- - single libvirt hosts
- - Amazon Web Services
- - null backend
+
+- single libvirt hosts
+- Amazon Web Services
+- null backend
 
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
-If you need a lot of VMs or lack hardware you probably want using an external libvirt host with bridged networking is also possible.
+If you need a lot of VMs or lack hardware you probably want to use an external libvirt host with bridged networking.
 
-The Amazon Web Services backend is currently under maintainance and is not immediately usable as-is. We plan to restore it soon.
+The Amazon Web Services backend is currently under maintenance and is not immediately usable as-is. We plan to restore it soon.
 
 The null backend can be useful in a wide variety of scenarios, for example:
- - Test configurations before going live in another supported backend
- - Cases in which the virtual infrastructure is outside of the Terraform user's control
- - Cover architectures that will maybe never be covered by any other Terraform plugin
+
+- Test configurations before going live in another supported backend
+- Cases in which the virtual infrastructure is outside of the Terraform user's control
+- Cover architectures that will maybe never be covered by any other Terraform plugin
 
 ## Basic `main.tf` configuration
 
 In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
-To choose the backend in use one should create a symbolic link to a `backend_module` module. Refer to specific READMEs to get started:
- * [libvirt README](backend_modules/libvirt/README.md)
- * [AWS README](backend_modules/aws/README.md)
- * [AZURE README](backend_modules/azure/README.md)
- * [SSH README](backend_modules/ssh/README.md)
- * [NULL README](backend_modules/null/README.md)
+To choose the backend in use one should create a symbolic link to a `backend_module` module. Refer to the specific READMEs to get started:
+
+- [libvirt README](backend_modules/libvirt/README.md)
+- [AWS README](backend_modules/aws/README.md)
+- [AZURE README](backend_modules/azure/README.md)
+- [SSH README](backend_modules/ssh/README.md)
+- [NULL README](backend_modules/null/README.md)
 
 ## Typical use
 
 Refer to the [official guides](https://www.terraform.io/docs/index.html) for a general understanding of Terraform and full commands.
 
 For a very quick start:
-```
+
+```bash
 vim main.tf     # change your VM setup
 terraform init  # populate modules
+terraform validate # check if the configuration is valid
 terraform apply # prepare and apply a plan to create your systems (after manual confirmation)
 ```
 
 ## Advanced use
 
- - To run the Cucumber testsuite for Uyuni or SUSE Manager, see [README_TESTING.md](README_TESTING.md)
- - For any other use, please see [README_ADVANCED.md](README_ADVANCED.md)
+- To run the Cucumber testsuite for Uyuni or SUSE Manager, see [README_TESTING.md](README_TESTING.md)
+- For any other use, please see [README_ADVANCED.md](README_ADVANCED.md)
 
-### I have a problem!
+## I have a problem!
 
 Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to [join the Gitter chat](https://gitter.im/sumaform/Lobby) or directly drop a line to moio at suse dot de!

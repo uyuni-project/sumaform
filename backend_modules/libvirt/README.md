@@ -2,30 +2,30 @@
 
 ## First-time configuration
 
- - copy `main.tf.libvirt.example` to `main.tf`
- - if your VMs are to be deployed on an external libvirt host:
-   - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
-   - set up bridged networking:
-     - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([NetworkManager instructions](https://www.xmodulo.com/configure-linux-bridge-network-manager-ubuntu.html), refer to distro-specific instructions if you are not using NetworkManager)
-     - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
-     - set the `network_name` variable declaration to `null` or remove it
-     - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
-     - if configuration does not work, double check your firewall rules
-   - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
- - complete the `cc_password` variable in the `base` module
- - make sure that:
-   - either your target libvirt host has a storage pool named `default`
-   - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-storage.html#sec-libvirt-storage-vmm-addpool)
-   - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
- - if you are not using bridged networking, make sure that:
-   - either your target libvirt host has a NAT network which is named `default`
-   - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-networks.html#libvirt-networks-virtual-vmm-define)
-     - Note: ipv6 is configured by default on all VMs created by sumaform, so make sure to enable ipv6 too (DHCPv6 is not necessary)
-   - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
- - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
- - Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `cd modules && ln -sfn ../backend_modules/libvirt backend`
- - run `terraform init` to make sure Terraform has detected all modules
- - run `terraform apply` to actually have the VMs set up!
+- copy `main.tf.libvirt.example` to `main.tf`
+- if your VMs are to be deployed on an external libvirt host:
+  - change the libvirt connection URI in the `provider` section. Typically it has the form `qemu+ssh://<USER>@<HOST>/system` assuming that `<USER>` has passwordless SSH access to `<HOST>`
+  - set up bridged networking:
+    - ensure your target libvirt host has a bridge device on the network you want to expose your machines on ([NetworkManager instructions](https://www.xmodulo.com/configure-linux-bridge-network-manager-ubuntu.html), refer to distro-specific instructions if you are not using NetworkManager)
+    - uncomment the `bridge` variable declaration in the `base` module and add proper device name (eg. `br1`)
+    - set the `network_name` variable declaration to `null` or remove it
+    - optionally specify fixed MAC addresses by adding `mac = "CA:FE:BA:BE:00:01"` lines to VM modules
+    - if configuration does not work, double check your firewall rules
+  - if other sumaform users deploy to the same host, or different bridged hosts in the same network, uncomment the `name_prefix` variable declaration in the `base` module to specify a unique prefix for your VMs
+- complete the `cc_password` variable in the `base` module
+- make sure that:
+  - either your target libvirt host has a storage pool named `default`
+  - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-storage.html#sec-libvirt-storage-vmm-addpool)
+  - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
+- if you are not using bridged networking, make sure that:
+  - either your target libvirt host has a NAT network which is named `default`
+  - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-networks.html#libvirt-networks-virtual-vmm-define)
+    - Note: ipv6 is configured by default on all VMs created by sumaform, so make sure to enable ipv6 too (DHCPv6 is not necessary)
+  - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
+- decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
+- Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `cd modules && ln-sfn ../backend_modules/libvirt backend`
+- run `terraform init` to make sure Terraform has detected all modules
+- run `terraform apply` to actually have the VMs set up!
 
 ## libvirt backend specific variables
 
@@ -43,6 +43,7 @@ Available provider settings for the base module:
 | additional_network | string | `null`        | A network mask for PXE tests                                             |
 
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -68,6 +69,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                                               |
 
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -86,6 +88,7 @@ provider_settings = {
  * `pool = <String>` storage were the volume should be created (default value `default`)
 
  An example follows:
+
  ``` hcl-terraform
 volume_provider_settings = {
   pool = "ssd"
@@ -122,7 +125,7 @@ module "base" {
 
 By default, the machines use Avahi (mDNS), and are configured on the `.tf.local` domain. Thus if your host is on the same network segment of the virtual machines you can simply use:
 
-```
+```bash
 ssh root@suma32pg.tf.local
 ```
 
@@ -136,9 +139,10 @@ Web access is on standard ports, so `firefox server.tf.local` will work as expec
 
 Finally, the images come with serial console support, so you can use
 
-```
+```bash
 virsh console suma32pg
 ```
+
 especially in the case the network is not working and you need to debug it, or if the images have difficulties booting.
 
 ## Only upload a subset of available images
@@ -178,8 +182,8 @@ module "base" {
 
 If you are using the `default`virtual network in the 192.168.122.1 network, you will have this interface:
 
-```
-$ sudo virsh net-list --all
+```bash
+$ sudo virsh net-list--all
  Name                 State      Autostart     Persistent
 ----------------------------------------------------------
  default              active     yes           yes
@@ -187,7 +191,7 @@ $ sudo virsh net-list --all
 
 You can edit the XML with virt-manager (do not forget to stop the interface before making changes, or they will be lost!) or with virsh:
 
-```
+```bash
 $ sudo virsh net-edit default
 ```
 
@@ -269,7 +273,7 @@ module "base" {
 
 Now edit `/etc/hosts` on the host machine and add your guests:
 
-```
+```config
 192.168.122.2 uyuniserver.suse.lab
 192.168.122.3 leap151.suse.lab
 192.168.122.4 win10.suse.lab
@@ -277,7 +281,7 @@ Now edit `/etc/hosts` on the host machine and add your guests:
 
 Finally, destroy and start again your libvirt network:
 
-```
+```bash
 $ sudo virsh net-destroy default && sudo virsh net-start default
 ```
 
@@ -289,7 +293,7 @@ These days most Linux distributions are using Network Manager for configuration 
 
 In case you want to double check whether you are using Network Manager or something else (e. g. wicked, networkd, etc), check for the service status:
 
-```
+```bash
 $ sudo systemctl status NetworkManager
 ● NetworkManager.service - Network Manager
 Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: disabled)
@@ -300,7 +304,7 @@ Active: active (running)
 
 or in case you are not running systemd:
 
-```
+```bash
 $ sudo service NetworkManager status
 * NetworkManager.service - Network Manager
 Loaded: loaded (/usr/lib/systemd/system/NetworkManager.service; enabled; vendor preset: disabled)
@@ -315,7 +319,7 @@ Some other query command may be required if you are running another operating sy
 
 If you are using NetworkManager on the host machine, tell it to control dnsmasq:
 
-```
+```bash
 $ sudo vi /etc/NetworkManager/conf.d/localdns.conf
 [main]
 plugins=keyfile
@@ -324,7 +328,7 @@ dns=dnsmasq
 
 But only for the `suse.lab` domain:
 
-```
+```bash
 $ sudo vi /etc/NetworkManager/dnsmasq.d/libvirt_dnsmasq.conf
 server=/suse.lab/192.168.122.1
 ```
@@ -333,7 +337,7 @@ server=/suse.lab/192.168.122.1
 
 If you are not using NetworkManager or do not want dnsmasq to be controlled by NetworkManager, use this configuration:
 
-```
+```bash
 $ sudo vi /etc/NetworkManager/NetworkManager.conf
 [main]
 plugins=keyfile
@@ -342,7 +346,7 @@ dns=none
 
 Tell your local dnsmasq to manage only `suse.lab`:
 
-```
+```bash
 $ sudo vi /etc/dnsmasq.conf
 listen-address=127.0.0.1
 interface=lo
@@ -356,7 +360,7 @@ local=/suse.lab/
 
 And add localhost to your /etc/resolv.conf:
 
-```
+```bash
 $ sudo vi /etc/resolv.conf
 # This should be the first nameserver entry in resolv.conf!
 nameserver 127.0.0.1
@@ -367,13 +371,13 @@ nameserver 127.0.0.1
 
 Finally, restart all services: libvirtd, dnsmasq and NetworkManager:
 
-```
+```bash
 $ sudo systemctl restart NetworkManager.service NetworkManager-dispatcher.service dnsmasq.service libvirtd.service libvirt-guests.service
 ```
 
 And test name resolution from the host:
 
-```
+```bash
 $ nslookup uyuniserver.suse.lab 127.0.0.1
 Server:         127.0.0.1
 Address:        127.0.0.1#53
@@ -394,7 +398,7 @@ $ nslookup 192.168.122.2 192.168.122.1
 
 and from the guests:
 
-```
+```bash
 $ nslookup uyuniserver.suse.lab 192.168.122.1
 Server:         192.168.122.1
 Address:        192.168.122.1#53

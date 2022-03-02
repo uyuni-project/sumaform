@@ -1,15 +1,16 @@
- # AWS-specific configuration
+# AWS-specific configuration
 
 ## Overview
 
 Base Module will create:
- - a VPC
- - three subnets
-   - one private, that can only access other hosts in the VPC and outbound connection to internet
-   - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
-   - one public, that can also access the Internet and accepts connections from an IP whitelist
- - security groups, routing tables, Internet gateways, NAT gateway as appropriate
- - one `bastion` host is also created in the public network
+
+- a VPC
+- three subnets
+  - one private, that can only access other hosts in the VPC and outbound connection to internet
+  - one additional network, private too, that only allows communications between hosts inside the subnet and no outbound connections allowed
+  - one public, that can also access the Internet and accepts connections from an IP whitelist
+- security groups, routing tables, Internet gateways, NAT gateway as appropriate
+- one `bastion` host is also created in the public network
 
 This architecture is based on [AWS VPC with Public and Private Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html).
 
@@ -21,9 +22,10 @@ AWS backend don't have support for pxe_boot hosts. It's implementation will be c
 ## Prerequisites
 
 You will need:
- - an AWS account, specifically an Access Key ID and a Secret Access Key
- - [an SSH key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) valid for that account
- - the name of the region and availability zone you want to use.
+
+- an AWS account, specifically an Access Key ID and a Secret Access Key
+- [an SSH key pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair) valid for that account
+- the name of the region and availability zone you want to use.
 
 ## Select AWS backend to be used
 
@@ -34,6 +36,7 @@ Create a symbolic link to the `aws` backend module directory inside the `modules
 Most modules have configuration settings specific to the AWS backend, those are set via the `provider_settings` map variable. They are all described below.
 
 ### Base Module
+
 Available provider settings for the base module:
 
 | Variable name            | Type   | Default value   | Description                                                                                                    |
@@ -48,8 +51,8 @@ Available provider settings for the base module:
 | server_registration_code | string | `null`          | SUMA SCC server registration code to use SCC repositories and disable internal repositories                    |
 | proxy_registration_code  | string | `null`          | SUMA SCC proxy registration code to use SCC repositories and disable internal repositories                     |
 
-
 An example follows:
+
 ```hcl-terraform
 ...
 provider_settings = {
@@ -77,6 +80,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | instance_type   | string   | `t2.micro`([apart from specific roles](Default-values-by-role))  | [AWS instance type](https://aws.amazon.com/pt/ec2/instance-types/)  |
 
 An example follows:
+
 ```hcl
 ...
   provider_settings = {
@@ -88,10 +92,11 @@ An example follows:
 
 `server`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
 
- * `volume_snapshot_id`: data volume snapshot id to be used as base for the new disk (default value: `null`)
- * `type`: volume type that should be used (default value `sc1`). See the list at the [AWS EBS Volume Type documentation page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
+- `volume_snapshot_id`: data volume snapshot id to be used as base for the new disk (default value: `null`)
+- `type`: volume type that should be used (default value `sc1`). See the list at the [AWS EBS Volume Type documentation page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
 
  An example follows:
+
  ``` hcl
 volume_provider_settings = {
   volume_snapshot_id = "snap-0123abcd"
@@ -114,7 +119,7 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 
 `bastion` is accessible through SSH at the public name noted in outputs.
 
-```
+```bash
 $ terraform apply
 ...
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
@@ -131,7 +136,7 @@ Other hosts are accessible via SSH from the `bastion` itself.
 
 This project provides a utility script, `configure_aws_tunnels.rb`, which will add `Host` definitions in your SSH config file so that you don't have to input tunneling flags manually.
 
-```
+```bash
 $ terraform apply
 ...
 $ ./configure_aws_tunnels.rb

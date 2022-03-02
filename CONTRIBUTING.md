@@ -3,13 +3,15 @@
 ### Base OS images
 
 openSUSE images are built and tracked in the [Open Build Service](https://build.opensuse.org/):
- - [libvirt project](https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:libvirt)
+
+- [libvirt project](https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:libvirt)
 
 [Submit Requests](https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.request_and_review_ystem.html) can be created with a free account, project maintainership is given to meritable community members.
 
 SUSE Linux Enterprise images are built and tracked in [SUSE's internal OBS instance](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images):
- - [libvirt project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images)
- - [AWS project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images:AmazonEC2)
+
+- [libvirt project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images)
+- [AWS project](https://build.suse.de/project/show/Devel:Galaxy:Terraform:Images:AmazonEC2)
 
 Access is limited to SUSE employees at this time.
 
@@ -20,14 +22,16 @@ Non-SUSE images are built and tracked in the [sumaform-images](https://github.co
 ### Software Packages
 
 sumaform requires a specific Terraform version and provides several special-purpose RPM packages as well. Those are built and tracked inthe [Open Build Service](https://build.opensuse.org/):
- - the [systemsmanagement:sumaform](https://build.opensuse.org/project/show/systemsmanagement:sumaform) project builds `terraform` and `terraform-provider-libvirt` with some dependencies
- - the [systemsmanagement:sumaform:tools](https://build.opensuse.org/project/show/systemsmanagement:sumaform:tools) project builds other software meant to be installed in sumaformed machines
+
+- the [systemsmanagement:sumaform](https://build.opensuse.org/project/show/systemsmanagement:sumaform) project builds `terraform` and `terraform-provider-libvirt` with some dependencies
+- the [systemsmanagement:sumaform:tools](https://build.opensuse.org/project/show/systemsmanagement:sumaform:tools) project builds other software meant to be installed in sumaformed machines
 
 [Submit Requests](https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.request_and_review_ystem.html) can be created with a free account, project maintainership is given to meritable community members.
 
 #### Terraform and terraform-provider libvirt upgrade instructions
 
 Terraform:
+
 ```bash
 osc checkout systemsmanagement:sumaform
 osc up systemsmanagement:sumaform
@@ -42,6 +46,7 @@ osc commit
 ```
 
 terraform-provider-libvirt:
+
 ```bash
 osc checkout systemsmanagement:sumaform
 osc up systemsmanagement:sumaform

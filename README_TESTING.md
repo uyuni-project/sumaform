@@ -2,7 +2,7 @@
 
 ## Basic deployment
 
-It is possible to run [the Cucumber testsuite for SUSE Manager and Uyuni](https://github.com/uyuni-project/uyuni/tree/master/testsuite) by using the `cucumber_testsuite` module. A libvirt example follows:
+It is possible to run [the Cucumber testsuite](https://github.com/uyuni-project/uyuni/tree/master/testsuite)  for SUSE Manager and Uyuni by using the `cucumber_testsuite` module. A libvirt example follows:
 
 ```hcl
 provider "libvirt" {
@@ -38,44 +38,46 @@ The example will have to be completed with SCC credentials and GitHub credential
 
 By default, the `cucumber_testsuite` module will not produce any outputs for the resources (for example the hostname for the instances).
 
-If you want them, add:
+If you want them, add the following to the end of your `main.tf` file:
 
 ```hcl
 output "configuration" {
   value = module.cucumber_testsuite.configuration
 }
 ```
-At the end of your `main.tf` file.
 
-That will generate the outputs on-screen and will store them at the `terraform.tfstate`.
+That will generate the outputs on-screen and will store them in the `terraform.tfstate` file.
 
 ## Running the testsuite
 
 To start the testsuite, use:
 
-```
+```bash
 ssh -t head-ctl.tf.local run-testsuite
 ```
 
-By default, `run-testsuite` runs over a selection of the YAML files at `run_sets`, i.e.:
+By default, `run-testsuite` runs over a selection of the YAML files in `run_sets`, i.e.:
 `sanity_check.yml`, `core.yml`, `reposync.yml`, `init_clients.yml`, `secondary.yml`, `secondary_parallelizable.yml`, `finishing.yml`.
 
 To enable/disable features, edit these YAML files. Keep in mind that:
- - features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
- - features not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
+
+- features prefixed with `core_` are essential for others to work, cannot be repeated and must be executed in the order given by `testsuite.yml`
+- features not prefixed with `core_` are idempotent, so they can be run multiple times without changing test results.
 
 Once all `core_` features have been executed you can run a non-core Cucumber feature as follows:
-```
-$ ssh root@head-ctl.tf.local
-# cd spacewalk/testsuite
-# cucumber -r features features/secondary/my_feature.feature
+
+```bash
+ssh root@head-ctl.tf.local
+cd spacewalk/testsuite
+cucumber -r features features/secondary/my_feature.feature
 ```
 
 or an individual scenario with:
-```
-$ ssh root@head-ctl.tf.local
-# cd spacewalk/testsuite
-# cucumber -r features "My nice scenario title"
+
+```bash
+ssh root@head-ctl.tf.local
+cd spacewalk/testsuite
+cucumber -n "My nice scenario title"
 ```
 
 Read HTML results at:
@@ -83,17 +85,20 @@ Read HTML results at:
  `head-ctl.tf.local/output.html`. There is an additional running service, enabled during the `highstate`, on the `controller` which is exposing the entire `/root/spacewalk/testsuite` folder: all testsuite files, including results saved under this folder, are readable through the `http` protocol at the port `80`.
 
 Get HTML results with:
-```
+
+```bash
 scp head-ctl.tf.local://root/spacewalk-testsuite-base/output.html .
 ```
 
 To keep the testsuite running after ending the ssh session using `screen` tool:
-```
+
+```bash
 ssh -t head-ctl.tf.local screen run-testsuite
 ```
 
 You can detach from the session at anytime using the key sequence `^A d`. To re-attach to the existing session:
-```
+
+```bash
 ssh -t head-ctl.tf.local screen -r
 ```
 
@@ -101,7 +106,7 @@ ssh -t head-ctl.tf.local screen -r
 
 ### Adding hosts to the testsuite
 
-Several test hosts are optional and can be activated via a host_settings block like the following:
+Several test hosts are optional and can be activated via a `host_settings` block like the following:
 
 ```hcl
 host_settings = {
@@ -128,7 +133,7 @@ host_settings = {
 }
 ```
 
-The default value for host_settings block has a SUSE family traditional client and SUSE family minion present:
+The default value for `host_settings` block has a SUSE family traditional client and SUSE family minion present:
 
 ```hcl
 host_settings = {
@@ -140,11 +145,12 @@ host_settings = {
 ```
 
 Each of the hosts (including `server` and `controller` which are always present) accepts the following parameters:
- - `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
- - `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
- - `additional_packages` to add software packages (see [README_ADVANCED.md](README_ADVANCED.md))
- - `additional_grains` to add or overwrite salt grains on salt minions. Map of key value
- - `image` to use a different base image
+
+- `provider_settings`: Map of provider-specific settings for the host, see the backend-specific README file
+- `additional_repos` to add software repositories (see [README_ADVANCED.md](README_ADVANCED.md))
+- `additional_packages` to add software packages (see [README_ADVANCED.md](README_ADVANCED.md))
+- `additional_grains` to add or overwrite salt grains on salt minions. Map of key value
+- `image` to use a different base image
 
 A libvirt example follows:
 
@@ -158,7 +164,7 @@ server = {
   }
   additional_packages = [ "vim" ]
 }
-````
+```
 
 The `cucumber_testsuite` module also offers the `use_avahi` and `avahi_reflector` variables, see [README_ADVANCED.md](README_ADVANCED.md) for their meaning.
 
@@ -169,8 +175,9 @@ You can configure a `mirror` host for the testsuite and that will be beneficial 
 ## Alternative testsuite version
 
 You can also select an alternative fork or branch for the Cucumber testsuite code:
- - the `git_repo` variable in the `cucumber_testsuite` module overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
- - the `branch` variable in the `cucumber_testsuite` module overrides the branch (by default an automatic selection is made).
+
+- the `git_repo` variable in the `cucumber_testsuite` module overrides the fork URL (by default either the Uyuni or the SUSE Manager repository is used)
+- the `branch` variable in the `cucumber_testsuite` module overrides the branch (by default an automatic selection is made).
 
 As an example:
 
@@ -188,7 +195,7 @@ module "cucumber_testsuite" {
 
 ## Alternative Docker and Kiwi profiles
 
-By default, the Docker and Kiwi profiles used by the testsuite (all branches) are picked up from [the public uyuni branch](https://github.com/uyuni-project/uyuni/tree/master/testsuite/features/profiles). If you want to experiment with alternative Docker or Kiwi profiles, you can do that with the `git_profiles_repo` variable.
+By default, the Docker and Kiwi profiles used by the testsuite (all branches) are picked up from [the public Uyuni branch](https://github.com/uyuni-project/uyuni/tree/master/testsuite/features/profiles). If you want to experiment with alternative Docker or Kiwi profiles, you can do that with the `git_profiles_repo` variable.
 
 Example:
 
@@ -243,10 +250,12 @@ module "cucumber_testsuite" {
    ...
 }
 ```
+
 ## Virtual host
 
-User may need to change the kvm/xem image download. To do it, one can use the `additional_grains` property:
+User may need to change the KVM/Xen image download. To do it, one can use the `additional_grains` property:
 
+```hcl
 host_settings = {
     kvm-host = {
         additional_grains = {
@@ -265,4 +274,4 @@ host_settings = {
         }
     }
 }
-    ```
+```

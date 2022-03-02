@@ -3,24 +3,27 @@
 ## Changing product versions
 
 Some modules have a `product_version` variable that determines the software product version. Specifically:
- * in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
- * in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
+
+- in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
+- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
 
 Legal values for released software are:
- * `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
- * `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
- * `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
- * `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
- * `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
+
+- `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
+- `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
+- `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
+- `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
+- `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
- * `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
- * `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
- * `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
- * `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
- * `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
- * `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
- * `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
+
+- `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
+- `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
+- `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
+- `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
+- `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
+- `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
 Legal values for CI:
 
@@ -57,7 +60,7 @@ module "server" {
 
 ## Changing Operating Systems
 
-You can specifiy a base OS in most modules specifying an `image` variable.
+You can specify a base OS in most modules specifying an `image` variable.
 
 For some modules like `minion`, `image` is mandatory and Terraform will refuse to apply plans if it is missing. Please refer to `modules/<backend>/base/main.tf` for the exact list of supported OSs.
 
@@ -85,14 +88,15 @@ Many projects/vendors provide official OS images for the various backends, and s
 Changing the backend normally means destroying the current one (see "Working on multiple configuration sets" to maintain multiple).
 
 The following steps need to be performed:
- * Clean the current Terraform state
-   * Consider run `terraform destroy`
-   * Remove the `terraform.tfstate` file
- * Adapt the `main.tf` file to the new provider specific properties
- * remove folder `.terraform`
- * Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
 
-```
+- Clean the current Terraform state
+  - Consider run `terraform destroy`
+  - Remove the `terraform.tfstate` file
+- Adapt the `main.tf` file to the new provider specific properties
+- remove folder `.terraform`
+- Create a new backend symbolic link to point to the new backend. From the `modules` folder run:
+
+```bash
 ln -sfn ../backend_modules/<BACKEND> modules/backend
 ```
 
@@ -134,7 +138,7 @@ For now, the module provides Jenkins with the following plugins enabled:
 
 Authentication is enabled, and a user `admin` is created. The password can be found at `/var/lib/jenkins/secrets/initialAdminPassword` at the Jenkins instance.
 
-To enable Jenkins, use the following definition.
+To enable Jenkins, use the following definition:
 
 ```hcl
 module "jenkins" {
@@ -145,7 +149,6 @@ module "jenkins" {
 
 Usually you will want to use this on public clouds, but if you want to use this in libvirt, you are encouraged to use a separate pool, as explained for the mirror below.
 
-
 ## Mirror
 
 If you are using `sumaform` outside of the SUSE Nuremberg network you should use a special extra virtual machine named `mirror` that will cache packages downloaded from the SUSE engineering network for faster access and lower bandwidth consumption.
@@ -153,6 +156,7 @@ If you are using `sumaform` outside of the SUSE Nuremberg network you should use
 It will be be used exclusively by other VMs to download SUSE content - that means your SUSE Manager servers, clients, minions and proxies will be "fully disconnected", not requiring Internet access to operate.
 
 To enable `mirror`, add `mirror = "mirror.tf.local"` to the `base` section in `main.tf` and add the following module definition:
+
 ```hcl
 module "mirror" {
   source = "./modules/mirror"
@@ -184,12 +188,10 @@ module "mirror" {
 
 Note that `mirror` must be populated before any host can be deployed. By default, its cache is refreshed nightly via `cron`, as configured in `/etc/cron.daily`. You can also schedule a one-time refresh by running manually some of the scripts that reside in `/usr/local/bin` directory.
 
-
 ## Mirror only for Server (products synchronization)
 
-In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products syncronization, but not for the repositories used by sumaform during the deployment of your environment.
+In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products synchronization, but not for the repositories used by sumaform during the deployment of your environment.
 For that use case, instead of `mirror` use `server_mounted_mirror` parameter inside the server module definition.
-
 
 ## Virtual hosts
 
@@ -219,7 +221,7 @@ This means that in order for virtual hosts to host virtual machines, nested virt
 For this, the `kvm_intel` or `kvm_amd` kernel modules need to have `nested` parameter set to `1`.
 To check if nested virtualization is enabled on the physical machine, the following command needs to return either `1` or `Y`:
 
-```
+```bash
 # For intel CPU:
 cat /sys/module/kvm_intel/parameters/nested
 
@@ -229,9 +231,9 @@ cat /sys/module/kvm_amd/parameters/nested
 
 The generated virtual host will be setup with:
 
-* a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
-* a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
-* and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
+- a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
+- a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
+- and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
 
 The template disk image is the `opensuse153` image used by sumaform and is downloaded when applying the highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
@@ -247,48 +249,47 @@ Note that the Xen virtualization host will be rebooted when applying the highsta
 
 By default, sumaform deploys hosts with a range of tweaked settings for convenience reasons. If in your use case this is not wanted, you can turn those off via the following variables.
 
- * `client` module:
-   * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `minion` module:
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `sshminion` module:
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `host` module:
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `proxy` module:
-   * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
-   * `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
-   * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
-   * `install_proxy_pattern`: install proxy pattern with all proxy-related software. Set to `false` to install manually
-   * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register`, `download_private_ssl_key`, and `install_proxy_pattern`
-   * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
-   * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `server` module:
-   * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
-   * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
-     * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
-   * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
-   * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
-   * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
-   * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
-   * `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
-   * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
-   * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
-   * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
-   * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
-   * `forward_registration`: enable forwarding of registrations to SCC (default off)
-
+- `client` module:
+  - `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `minion` module:
+  - `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `sshminion` module:
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `host` module:
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `proxy` module:
+  - `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
+  - `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
+  - `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
+  - `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
+  - `install_proxy_pattern`: install proxy pattern with all proxy-related software. Set to `false` to install manually
+  - `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register`, `download_private_ssl_key`, and `install_proxy_pattern`
+  - `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
+  - `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+- `server` module:
+  - `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
+  - `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
+    - `server_username` and `server_password`: define credentials for the first user, admin/admin by default
+  - `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+  - `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
+  - `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
+  - `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
+  - `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
+  - `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
+  - `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
+  - `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
+  - `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
+  - `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
+  - `forward_registration`: enable forwarding of registrations to SCC (default off)
 
 ## Adding channels to SUSE Manager Servers
 
-You can specifiy a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
+You can specify a set of SUSE official channels to be added at deploy time of a SUSE Manager Server. This operation is typically time-intensive, thus it is disabled by default. In order to add a channel, first get the label name from an existing SUSE Manager Server:
 
-```
+```bash
 # mgr-sync list channels --compact
 Available Channels:
 ...
@@ -345,15 +346,14 @@ At deploy time the `spacewalk-clone-by-date` will be used for each channel set. 
 
 Activation keys are also automatically created for each clone with the name `1-<CLONE_PREFIX>`.
 
-
 ## Shared resources, prefixing, sharing virtual hardware
 
 Whenever multiple sumaform users deploy to the same virtualization hardware (eg. libvirt host) it is recommended to set the `name_prefix` variable in the `base` module in order to have a unique per-user prefix for all resource names. This will prevent conflicting names.
 
 Additionally, it is possible to have only one user to upload images and other shared infrastructure such as mirrors, having all other users re-use them. In order to accomplish this:
- * add a `use_shared_resources = true` variable to the `base` module of all users but one
- * make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
 
+- add a `use_shared_resources = true` variable to the `base` module of all users but one
+- make sure there is exactly one user that does not have the variable set, make sure this user has no `name_prefix` set. This user will deploy shared infrastructure for all users
 
 ## Disabling Avahi and Avahi reflectors
 
@@ -423,7 +423,6 @@ When there is only one connection, the card is always `eth0`, no matter to which
 
 Some modules have preset defaults: SUSE Manager/Uyuni Servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni Proxies and clients or minions connect to both networks.
 
-
 ## Custom SSH keys
 
 If you want to use another key for all VMs, specify the path of the public key with `ssh_key_path` into the `base` config. Example:
@@ -440,18 +439,16 @@ The `ssh_key_path` option can also be specified on a per-host basis. In this cas
 
 If you don't want to copy any ssh key at all (and use passwords instead), just supply an empty file (eg. `ssh_key_path = "/dev/null"`).
 
-
 ## SSH access without specifying a username
 
 You can add the following lines to `~/.ssh/config` to avoid checking hosts and specifying a username:
 
-```
+```config
 Host *.tf.local
 StrictHostKeyChecking no
 UserKnownHostsFile=/dev/null
 User root
 ```
-
 
 ## Activation Keys for minions
 
@@ -468,7 +465,6 @@ module "suse-minion" {
   activation_key = "1-DEFAULT"
 }
 ```
-
 
 ## Proxies
 
@@ -520,7 +516,6 @@ module "proxy" {
 }
 ```
 
-
 ## Inter-Server Sync (ISS)
 
 Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
@@ -549,14 +544,13 @@ Please note that `iss_master` is set from `master`'s module output variable `hos
 
 Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
-
 ## Working on multiple configuration sets (workspaces) locally
 
 Terraform supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://www.terraform.io/docs/state/workspaces.html). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.
 
 As a workaround, you can create a `local_workspaces` directory with a subdirectory per workspace, each containing main.tf and terraform.tfstate files, then use symlinks to the sumaform root:
 
-```
+```bash
 ~/sumaform$ find local_workspaces/
 local_workspaces/
 local_workspaces/aws-demo
@@ -570,7 +564,6 @@ local_workspaces/libvirt-testsuite/terraform.tfstate
 ~/sumaform$ ls -l terraform.tfstate
 ... -> local_workspaces/libvirt-testsuite/terraform.tfstate
 ```
-
 
 ## Plain hosts
 
@@ -587,7 +580,6 @@ module "vanilla" {
   image = "sles12sp5o"
 }
 ```
-
 
 ## Build hosts
 
@@ -608,12 +600,11 @@ module "build-host"
 }
 ```
 
-
 ## PXE boot hosts
 
 PXE boot hosts are unprovisioned hosts that are capable of booting from their networking card. Additionally, they have a hardware type of "Genuine Intel" to make provisioning via SUSE Manager for Retail easier.
 
-"unprovisioned" means that they are completly unprepared: no SSH keys, no initialization at all.
+"unprovisioned" means that they are completely unprepared: no SSH keys, no initialization at all.
 
 SUSE Manager makes use of PXE booting in two use cases: cobbler, and Retail.
 
@@ -630,7 +621,6 @@ module "pxeboot-minion"
 }
 ```
 
-
 ## SMT
 
 You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
@@ -645,7 +635,6 @@ module "server" {
   smt = "http://smt.suse.de"
 }
 ```
-
 
 ## Custom repos and packages
 
@@ -695,11 +684,9 @@ module "suse-sshminion" {
 }
 ```
 
-
 ## Prometheus/Grafana monitoring
 
 It is possible to install Prometheus exporters on a SUSE Manager Server instance via the `monitored` flag. Those can be consumed by Prometheus and Grafana server to analyze visually. A libvirt example follows:
-
 
 ```hcl
 module "server" {
@@ -718,7 +705,7 @@ module "grafana" {
 }
 ```
 
-Grafana is accessible at http://grafana.tf.local with username and password `admin`.
+Grafana is accessible at [http://grafana.tf.local](http://grafana.tf.local) with username and password `admin`.
 
 Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `server` module (it is by default).
 
@@ -737,7 +724,6 @@ module "registry" {
 
 The registry will be available on port 80 (unencrypted http) and without authentication.
 
-
 ## [evil-minions](https://github.com/moio/evil-minions) load generator
 
 `evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.
@@ -746,12 +732,12 @@ In order to create an `evil-minions` load generator, you have to define a regula
 
 It is also possible to set up a delay on the response time of the replicas. By default, the replicas will respond as fast as possible, which might not be appropriate depending on the objectives of your simulation. To reproduce delays observed by the original minion, use the `evil_minion_slowdown_factor` variable, as follows:
 
- - `0.0`, the default value, makes evil minions respond as fast as possible
- - `1.0` makes `evil-minion` introduce delays to match the response times of the original minion
- - `2.0` makes `evil-minion` react twice as slow as the original minion
- - `0.5` makes `evil-minion` react twice as fast as the original minion
+- `0.0`, the default value, makes evil minions respond as fast as possible
+- `1.0` makes `evil-minion` introduce delays to match the response times of the original minion
+- `2.0` makes `evil-minion` react twice as slow as the original minion
+- `0.5` makes `evil-minion` react twice as fast as the original minion
 
-For more information, visit the `evil-minions` project page at https://github.com/moio/evil-minions/ .
+For more information, visit the `evil-minions` project page at [here](https://github.com/moio/evil-minions).
 
 A libvirt example follows:
 
@@ -767,7 +753,6 @@ module "minion" {
   evil_minion_slowdown_factor = 1
 }
 ```
-
 
 ## Use Locust for http load testing
 
@@ -808,7 +793,6 @@ module "locust" {
 }
 ```
 
-
 ## Use Operating System updates (released and unreleased)
 
 It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones, including updates currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` (respectively `use_os_unreleased_updates`) flag. Libvirt example:
@@ -824,8 +808,7 @@ module "server" {
 }
 ```
 
-
-## E-mail configuration
+## Email configuration
 
 With the default configuration, whenever SUSE Manager server hosts are configured to use root@`hostname -d` as the email sender. The recipient's SMTP server may discard those emails since they come from a non-existent domain name.
 
@@ -857,7 +840,6 @@ module "sumamail3" {
   traceback_email = "michele.bologna@chameleon-mail.com"
 }
 ```
-
 
 ## Swap file configuration
 
@@ -897,9 +879,9 @@ module "server" {
 }
 ```
 
-# Debugging facilities
+## Debugging facilities
 
 The `server` module has options to automatically capture more diagnostic information, off by default:
 
-* `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
-* `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
+- `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+- `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
