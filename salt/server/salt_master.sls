@@ -3,7 +3,7 @@ include:
 
 custom_salt_master_configuration:
   file.managed:
-    - name: /etc/salt/master.d/custom.conf
+    - name: /etc/salt/master.d/zz-custom.conf
     - source: salt://server/master-custom.conf
     - template: jinja
     - require:
