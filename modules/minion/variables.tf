@@ -81,6 +81,11 @@ variable "install_salt_bundle" {
   default     = false
 }
 
+variable "install_salt_minion" {
+  description = "use true to install the salt-minion package in the hosts"
+  default     = true
+}
+
 variable "quantity" {
   description = "number of hosts like this one"
   default     = 1

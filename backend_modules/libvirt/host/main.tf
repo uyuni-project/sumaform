@@ -31,6 +31,7 @@ data "template_file" "user_data" {
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
+    install_salt_minion = var.install_salt_minion
   }
 }
 
@@ -166,6 +167,7 @@ resource "null_resource" "provisioning" {
         use_os_released_updates   = var.use_os_released_updates
         use_os_unreleased_updates = var.use_os_unreleased_updates
         install_salt_bundle       = var.install_salt_bundle
+        install_salt_minion       = var.install_salt_minion
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
@@ -210,6 +212,7 @@ resource "null_resource" "provisioning" {
         use_os_released_updates   = var.use_os_released_updates
         use_os_unreleased_updates = var.use_os_unreleased_updates
         install_salt_bundle       = var.install_salt_bundle
+        install_salt_minion       = var.install_salt_minion
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs

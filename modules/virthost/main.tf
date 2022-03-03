@@ -10,6 +10,7 @@ module "virthost" {
   use_os_released_updates   = var.use_os_released_updates
   use_os_unreleased_updates = var.use_os_unreleased_updates
   install_salt_bundle       = var.install_salt_bundle
+  install_salt_minion       = var.install_salt_minion
   additional_repos          = var.additional_repos
   additional_repos_only         = var.additional_repos_only
   additional_packages       = var.additional_packages

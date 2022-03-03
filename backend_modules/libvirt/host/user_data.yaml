@@ -49,8 +49,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
 runcmd:
@@ -84,8 +86,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
@@ -132,8 +136,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
@@ -348,8 +354,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
@@ -362,8 +370,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
@@ -404,8 +414,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 %{ if image == "debian11o" }
@@ -417,8 +429,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+%{ else }
+packages: ["avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
 %{ endif }
 %{ endif }
 %{ if image == "debian10o" }
@@ -430,8 +444,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
+%{ else }
+packages: ["avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 %{ endif }
 %{ if image == "debian9o" }
@@ -442,8 +458,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
+%{ else }
+packages: ["avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 %{ endif }
 
@@ -470,8 +488,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 
 %{ endif }
@@ -507,7 +527,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 %{ if image == "opensuse153armo" }
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion"]
-%{ else }
+%{ elif install_salt_minion }
 packages: ["salt-minion"]
 %{ endif }
 

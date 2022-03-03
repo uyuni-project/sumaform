@@ -36,6 +36,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "name", null) if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "name") : false }
   install_salt_bundle       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "install_salt_bundle", false) if var.host_settings[host_key] != null }
+  install_salt_minion       = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "install_salt_minion", true) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -90,6 +92,7 @@ module "proxy" {
   use_os_released_updates   = true
   ssh_key_path              = "./salt/controller/id_rsa.pub"
   install_salt_bundle = lookup(local.install_salt_bundle, "proxy", false)
+  install_salt_minion = lookup(local.install_salt_minion, "proxy", true)
 
   additional_repos  = lookup(local.additional_repos, "proxy", {})
   additional_repos_only  = lookup(local.additional_repos_only, "proxy", {})
@@ -117,6 +120,7 @@ module "suse-client" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse-client", false)
+  install_salt_minion     = lookup(local.install_salt_minion, "suse-client", false)
 
   additional_repos  = lookup(local.additional_repos, "suse-client", {})
   additional_repos_only  = lookup(local.additional_repos_only, "suse-client", {})
@@ -139,6 +143,7 @@ module "suse-minion" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse-minion", false)
+  install_salt_minion     = lookup(local.install_salt_minion, "suse-minion", true)
 
   additional_repos  = lookup(local.additional_repos, "suse-minion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "suse-minion", {})
@@ -161,6 +166,7 @@ module "suse-sshminion" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse-sshminion", false)
+  install_salt_minion     = lookup(local.install_salt_minion, "suse-sshminion", false)
 
   additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "suse-sshminion", {})
@@ -183,6 +189,7 @@ module "redhat-minion" {
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
   install_salt_bundle    = lookup(local.install_salt_bundle, "redhat-minion", false)
+  install_salt_minion    = lookup(local.install_salt_minion, "redhat-minion", true)
 
   additional_repos  = lookup(local.additional_repos, "redhat-minion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "redhat-minion", {})
@@ -206,6 +213,7 @@ module "debian-minion" {
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
   install_salt_bundle    = lookup(local.install_salt_bundle, "debian-minion", false)
+  install_salt_minion    = lookup(local.install_salt_minion, "debian-minion", true)
 
   additional_repos  = lookup(local.additional_repos, "debian-minion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "debian-minion", {})
@@ -230,6 +238,7 @@ module "build-host" {
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   avahi_reflector         = var.avahi_reflector
   install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
+  install_salt_minion     = lookup(local.install_salt_minion, "build-host", true)
 
   additional_repos  = lookup(local.additional_repos, "build-host", {})
   additional_repos_only  = lookup(local.additional_repos_only, "build-host", {})
@@ -264,6 +273,7 @@ module "kvm-host" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "kvm-host", false)
+  install_salt_minion     = lookup(local.install_salt_minion, "kvm-host", true)
 
   additional_repos  = lookup(local.additional_repos, "kvm-host", {})
   additional_repos_only  = lookup(local.additional_repos_only, "kvm-host", {})
@@ -289,6 +299,7 @@ module "xen-host" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "xen-host", false)
+  install_salt_minion     = lookup(local.install_salt_minion, "xen-host", true)
 
   additional_repos  = lookup(local.additional_repos, "xen-host", {})
   additional_repos_only  = lookup(local.additional_repos_only, "xen-host", {})
