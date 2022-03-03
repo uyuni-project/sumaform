@@ -36,6 +36,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "name", null) if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "name") : false }
   install_salt_bundle       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "install_salt_bundle", false) if var.host_settings[host_key] != null }
+  server_mounted_mirror     = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "server_mounted_mirror", {}) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -67,6 +69,7 @@ module "server" {
 
   saltapi_tcpdump   = var.saltapi_tcpdump
   provider_settings = lookup(local.provider_settings_by_host, "server", {})
+  server_mounted_mirror         = lookup(local.server_mounted_mirror, "server", {})
 }
 
 module "proxy" {
