@@ -77,7 +77,7 @@ testsuite_salt_packages:
     - require:
       - sls: repos
 
-{% set products_to_use_salt_bundle = ["uyuni", "head", "4.3-released", "4.3-nightly"] %}
+{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,
