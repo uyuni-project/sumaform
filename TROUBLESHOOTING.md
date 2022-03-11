@@ -216,3 +216,37 @@ rm -r .terraform/
 Sumaform uses JeOS and, by default, `zypper` is configured to not install docs.
 To change that behavior, edit `/etc/zypp/zypp.conf` and change the property `rpm.install.excludedocs = no`
 and re-install the package.
+
+## Q: How do I workaround a "doesn't match any of the checksums previously recorded in the dependency lock file" error?
+
+This error can occur during a `terraform init` execution:
+
+```bash
+$ terraform init
+Initializing modules...
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Reusing previous version of dmacvicar/libvirt from the dependency lock file
+- Reusing previous version of hashicorp/null from the dependency lock file
+- Reusing previous version of hashicorp/template from the dependency lock file
+- Using previously-installed hashicorp/template v2.2.0
+- Installing dmacvicar/libvirt v0.6.3...
+- Using previously-installed hashicorp/null v3.1.0
+╷
+│ Error: Failed to install provider
+│ 
+│ Error while installing dmacvicar/libvirt v0.6.3: the local package for registry.terraform.io/dmacvicar/libvirt 0.6.3 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
+│ targeting different platforms)
+```
+
+Just delete the `.terraform.lock.hcl` file inside your sumaform folder and do another `terraform init` after that:
+
+```bash
+rm .terraform.lock.hcl
+terraform init
+```
+
+See the terraform [docs](https://www.terraform.io/language/files/dependency-lock) for more information on the dependency
+lock file.
