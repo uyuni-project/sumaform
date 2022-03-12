@@ -6,8 +6,8 @@ include:
 minima:
   archive.extracted:
     - name: /usr/bin
-    - source: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz.sha512
+    - source: https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz
+    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz.sha512
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
@@ -18,11 +18,8 @@ test_repo_rpm_updates:
     - name: minima sync
     - env:
       - MINIMA_CONFIG: |
-          storage:
-            type: file
-          http:
-            - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-              path: /srv/www/htdocs/pub/TestRepoRpmUpdates
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
     - require:
       - archive: minima
 
