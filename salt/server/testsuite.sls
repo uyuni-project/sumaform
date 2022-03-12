@@ -18,8 +18,11 @@ test_repo_rpm_updates:
     - name: minima sync
     - env:
       - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
+          storage:
+            type: file
+          http:
+            - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+              path: /srv/www/htdocs/pub/TestRepoRpmUpdates
     - require:
       - archive: minima
 
