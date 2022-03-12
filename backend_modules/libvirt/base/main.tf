@@ -4,7 +4,7 @@ locals {
   image_urls = {
     almalinux8o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://repo.almalinux.org"}/almalinux/8/cloud/x86_64/images/AlmaLinux-8-GenericCloud-latest.x86_64.qcow2"
     centos6o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/6/images/CentOS-6-x86_64-GenericCloud.qcow2"
-    centos7         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.3.0/centos7.qcow2"
+    centos7         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/uyuni-project/sumaform-images/releases/download/4.3.0/centos7.qcow2"
     centos7o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
     centos8o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/8/x86_64/images/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2"
     amazonlinux2o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cdn.amazonlinux.com"}/os-images/2.0.20210721.2/kvm/amzn2-kvm-2.0.20210721.2-x86_64.xfs.gpt.qcow2"
@@ -25,7 +25,7 @@ locals {
     sles12sp4o      = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/install/SLE-12-SP4-JeOS-GM/SLES12-SP4-JeOS.x86_64-12.4-OpenStack-Cloud-GM.qcow2"
     sles12sp5o      = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/install/SLE-12-SP5-JeOS-GM/SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
     ubuntu1604o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud-images.ubuntu.com"}/xenial/current/xenial-server-cloudimg-amd64-disk1.img"
-    ubuntu1804      = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/moio/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
+    ubuntu1804      = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/uyuni-project/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2
     ubuntu1804o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud-images.ubuntu.com"}/bionic/current/bionic-server-cloudimg-amd64.img"
     ubuntu2004o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
     debian9o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.debian.org"}/images/cloud/OpenStack/current-9/debian-9-openstack-amd64.qcow2"

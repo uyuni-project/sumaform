@@ -724,7 +724,7 @@ module "registry" {
 
 The registry will be available on port 80 (unencrypted http) and without authentication.
 
-## [evil-minions](https://github.com/moio/evil-minions) load generator
+## [evil-minions](https://github.com/uyuni-project/evil-minions) load generator
 
 `evil-minions` is a Salt load generator useful for performance tests and demoing. It contains tools to "record" behavior of a Salt minion and to "play it back" multiple times in parallel in order to test the Salt Master or SUSE Manager Server.
 
@@ -737,7 +737,7 @@ It is also possible to set up a delay on the response time of the replicas. By d
 - `2.0` makes `evil-minion` react twice as slow as the original minion
 - `0.5` makes `evil-minion` react twice as fast as the original minion
 
-For more information, visit the `evil-minions` project page at [here](https://github.com/moio/evil-minions).
+For more information, visit the `evil-minions` project page at [here](https://github.com/uyuni-project/evil-minions).
 
 A libvirt example follows:
 
