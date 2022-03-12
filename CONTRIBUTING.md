@@ -17,7 +17,7 @@ Access is limited to SUSE employees at this time.
 
 Please note that all of the above projects have the build flag disabled unless some change is ongoing to prevent spontaneous rebuilds. Please click on *Repositories* -> *Build Flag* -> hover the gear icon in the top-left corner of the table (*All*, *All*) -> *Enable* until all images are rebuilt.
 
-Non-SUSE images are built and tracked in the [sumaform-images](https://github.com/moio/sumaform-images) GitHub project. [Pull Requests](https://help.github.com/articles/about-pull-requests/) can be created with a free account, write access is given to meritable community members.
+Non-SUSE images are built and tracked in the [sumaform-images](https://github.com/uyuni-project/sumaform-images) GitHub project. [Pull Requests](https://help.github.com/articles/about-pull-requests/) can be created with a free account, write access is given to meritable community members.
 
 ### Software Packages
 
