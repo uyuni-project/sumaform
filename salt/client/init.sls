@@ -1,4 +1,5 @@
 include:
+  - scc.client
   - client.testsuite
 
 wget:

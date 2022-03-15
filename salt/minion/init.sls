@@ -1,4 +1,5 @@
 include:
+  - scc.minion
   - repos
   - minion.testsuite
   - minion.reflector

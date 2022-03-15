@@ -104,3 +104,8 @@ variable "provider_settings" {
   description = "Map of provider-specific settings, see the modules/libvirt/README.md"
   default     = {}
 }
+
+variable "sles_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES server"
+  default     = null
+}

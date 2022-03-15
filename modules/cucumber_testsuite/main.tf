@@ -38,6 +38,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "install_salt_bundle", false) if var.host_settings[host_key] != null }
   server_mounted_mirror     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "server_mounted_mirror", {}) if var.host_settings[host_key] != null }
+  sles_registration_code    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "sles_registration_code", null) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -115,6 +117,7 @@ module "suse-client" {
   name               = lookup(local.names, "suse-client", "cli-sles15")
 
   server_configuration = local.minimal_configuration
+  sles_registration_code = lookup(local.sles_registration_code, "suse-client", null)
 
   auto_register           = false
   use_os_released_updates = true
@@ -137,6 +140,7 @@ module "suse-minion" {
   name               = lookup(local.names, "suse-minion", "min-sles15")
 
   server_configuration = local.minimal_configuration
+  sles_registration_code = lookup(local.sles_registration_code, "suse-minion", null)
 
   auto_connect_to_master  = false
   use_os_released_updates = true
@@ -159,6 +163,7 @@ module "suse-sshminion" {
   product_version    = var.product_version
   image              = lookup(local.images, "suse-sshminion", "sles15sp2o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
+ sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
@@ -262,6 +267,7 @@ module "kvm-host" {
   name               = lookup(local.names, "kvm-host", "min-kvm")
 
   server_configuration = local.minimal_configuration
+  sles_registration_code = lookup(local.sles_registration_code, "kvm-host", null)
 
   auto_connect_to_master  = false
   use_os_released_updates = true
@@ -287,6 +293,7 @@ module "xen-host" {
   hypervisor         = "xen"
 
   server_configuration = local.minimal_configuration
+  sles_registration_code = lookup(local.sles_registration_code, "xen-host", null)
 
   auto_connect_to_master  = false
   use_os_released_updates = true

@@ -23,6 +23,7 @@ module "client" {
     mirror          = var.base_configuration["mirror"]
     server          = var.server_configuration["hostname"]
     auto_register   = var.auto_register
+    sles_registration_code = var.sles_registration_code
   }
 
   image             = var.image
