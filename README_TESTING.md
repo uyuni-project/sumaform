@@ -102,6 +102,26 @@ You can detach from the session at anytime using the key sequence `^A d`. To re-
 ssh -t head-ctl.tf.local screen -r
 ```
 
+## Using Salt Bundle (venv-salt-minion) in "Head" and "Uyuni"
+
+Currently, our `head` and `uyuni-master` testing deployments require the Salt Bundle (`venv-salt-minion` package) to be installed on each client instance and some other tunings, before the testsuite is started. To be sure that all necessary adjustments are in place for the testsuite to run for HEAD or Uyuni, you need to set some flags on each of your instances (except for the server instance) in your `main.tf` file:
+
+```hcl
+host_settings = {
+  proxy = {
+    additional_packages = [ "venv-salt-minion" ]
+    install_salt_bundle = true
+  }
+  suse-client = {
+    additional_packages = [ "venv-salt-minion" ]
+    install_salt_bundle = true
+  }
+  suse-minion = {
+    additional_packages = [ "venv-salt-minion" ]
+    install_salt_bundle = true
+  }
+```
+
 ## Advanced deployments
 
 ### Adding hosts to the testsuite
