@@ -291,6 +291,30 @@ testing_overlay_devel_repo:
     - priority: 96
 {% endif %}
 
+# repositories needed for containerized proxy
+{% if grains.get('proxy_containerized') | default('false', true) or grains.get('testsuite') | default(false, true)%}
+
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+hexagon_tools_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST:/Hexagon/SLE_15_SP4/
+    - refresh: True
+
+{% endif %}
+{% if 'head' in grains.get('product_version') %}
+containers_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP4/x86_64/product/
+    - refresh: True
+
+containers_updates_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP4/x86_64/update/
+    - refresh: True
+{% endif %}
+
+{% endif %}
+
 {% endif %}
 
 # WORKAROUND: see github:saltstack/salt#10852

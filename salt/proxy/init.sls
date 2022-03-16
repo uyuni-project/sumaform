@@ -6,6 +6,7 @@ include:
   - minion
 {% endif %}
 
+
 proxy-packages:
   pkg.installed:
     - pkgs:
@@ -20,6 +21,13 @@ proxy-packages:
       - firewalld
 {% else %}
       - SuSEfirewall2
+{% endif %}
+{% if grains.get('proxy_containerized') | default('false', true) or grains.get('testsuite') | default(false, true)%}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+      - podman
+      - unzip
+      - uyuni-proxy-systemd-services
+{% endif %}
 {% endif %}
     - require:
       - sls: repos
