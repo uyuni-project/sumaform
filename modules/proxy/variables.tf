@@ -148,3 +148,8 @@ variable "accept_all_ssl_protocols" {
   description = "Turn to true to force Apache to accept a greater range of protocol versions"
   default     = false
 }
+
+variable "proxy_containerized" {
+  description = "Proxy should be prepared to be a containerized proxy"
+  default     = false
+}
