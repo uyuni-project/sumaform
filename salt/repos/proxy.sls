@@ -254,6 +254,20 @@ hexagon_tools_repo:
     - baseurl: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST:/Hexagon/SLE_15_SP4/
     - refresh: True
 
+{% if grains['osfullname'] == 'SLES' %}
+ca_certificates_suse_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.suse.de/ibs/SUSE:/CA/grains.get('osrelease')/
+    - refresh: True
+{% elif grains['osfullname'] == 'Leap' %}
+ca_certificates_suse_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.3/
+    - refresh: True
+
+{% endif %}
+
+
 {% endif %}
 {% if 'head' in grains.get('product_version') %}
 containers_pool_repo:

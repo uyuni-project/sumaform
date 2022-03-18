@@ -26,6 +26,7 @@ proxy-packages:
 {% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
       - podman
       - unzip
+      - ca-certificates-suse
       - uyuni-proxy-systemd-services
 {% endif %}
 {% endif %}
