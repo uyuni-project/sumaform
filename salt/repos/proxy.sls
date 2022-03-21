@@ -292,29 +292,21 @@ testing_overlay_devel_repo:
 {% endif %}
 
 # repositories needed for containerized proxy
-{% if grains.get('proxy_containerized') | default('false', true) or grains.get('testsuite') | default(false, true)%}
+{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
 
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
-hexagon_tools_repo:
-  pkgrepo.managed:
-    - baseurl: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST:/Hexagon/SLE_15_SP4/
-    - refresh: True
 
 {% if grains['osfullname'] == 'SLES' %}
 ca_certificates_suse_repo:
   pkgrepo.managed:
-    - baseurl: http://download.suse.de/ibs/SUSE:/CA/grains.get('osrelease')/
+    - baseurl: http://download.suse.de/ibs/SUSE:/CA/{{grains.get('osrelease')}}/
     - refresh: True
 {% elif grains['osfullname'] == 'Leap' %}
 ca_certificates_suse_repo:
   pkgrepo.managed:
     - baseurl: http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.3/
     - refresh: True
-
 {% endif %}
 
-
-{% endif %}
 {% if 'head' in grains.get('product_version') %}
 containers_pool_repo:
   pkgrepo.managed:
