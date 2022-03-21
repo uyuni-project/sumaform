@@ -6,6 +6,12 @@ include:
   - minion
 {% endif %}
 
+{% set install_proxy_container_packages = false %}
+{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+    {% set install_proxy_container_packages = true %}
+{% endif %}
+{% endif %}
 
 proxy-packages:
   pkg.installed:
@@ -22,16 +28,27 @@ proxy-packages:
 {% else %}
       - SuSEfirewall2
 {% endif %}
-{% if grains.get('proxy_containerized') | default('false', true) or grains.get('testsuite') | default(false, true)%}
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+{% if install_proxy_container_packages %}
       - podman
       - unzip
       - ca-certificates-suse
-      - uyuni-proxy-systemd-services
-{% endif %}
 {% endif %}
     - require:
       - sls: repos
+
+{% if install_proxy_container_packages %}
+
+{% if 'head' in grains.get('product_version') %}
+    {% set proxy_rpm_download = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP4/noarch' %}
+{% else %}
+    {% set proxy_rpm_download = 'http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/noarch' %}
+{% endif %}
+
+proxy-container-packages:
+  pkg.installed:
+    - sources:
+      - uyuni-proxy-systemd-services: {{proxy_rpm_download}}/uyuni-proxy-systemd-services.rpm
+{% endif %}
 
 {% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
 product_package_installed:
