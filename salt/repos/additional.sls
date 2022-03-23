@@ -7,7 +7,6 @@
     - name: deb [trusted=yes] {{ url }} /
     - file: /etc/apt/sources.list.d/sumaform_additional_repos.list
     - key_url: {{ url }}/Release.key
-  {%- endif %}
   {%- else %}
     - baseurl: {{ url }}
     - refresh: True
