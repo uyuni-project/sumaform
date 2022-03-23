@@ -4,11 +4,7 @@
   pkgrepo.managed:
     - humanname: {{ label }}
   {%- if grains['os_family'] == 'Debian' %}
-  {%- if 'uyuni-pr' in grains.get('product_version', '') %}
     - name: deb [trusted=yes] {{ url }} /
-    - file: /etc/apt/sources.list.d/sumaform_additional_repos.list
-  {%- else %}
-    - name: deb {{ url }} /
     - file: /etc/apt/sources.list.d/sumaform_additional_repos.list
     - key_url: {{ url }}/Release.key
   {%- endif %}
