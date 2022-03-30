@@ -248,18 +248,29 @@ testing_overlay_devel_repo:
 # repositories needed for containerized proxy
 {% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
 
+# temporary hack since for now we only want to add this on head and uyuni
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
 
-{% if grains['osfullname'] == 'SLES' %}
-ca_certificates_suse_repo:
-  pkgrepo.managed:
-    - baseurl: http://download.suse.de/ibs/SUSE:/CA/{{grains.get('osrelease')}}/
-    - refresh: True
-{% elif grains['osfullname'] == 'Leap' %}
-ca_certificates_suse_repo:
-  pkgrepo.managed:
-    - baseurl: http://download.suse.de/ibs/SUSE:/CA/openSUSE_Leap_15.3/
-    - refresh: True
+{% if grains['osfullname'] == 'Leap' %}
+{% set ca_path = 'openSUSE_Leap_' + grains['osrelease'] %}
 {% endif %}
+
+{% if grains['osfullname'] != 'Leap' %}
+{% if grains['osrelease'] == '15.1' %}
+{% set ca_path = 'SLE_15_SP1' %}
+{% elif grains['osrelease'] == '15.2' %}
+{% set ca_path = 'SLE_15_SP2' %}
+{% elif grains['osrelease'] == '15.3' %}
+{% set ca_path = 'SLE_15_SP3' %}
+{% elif grains['osrelease'] == '15.4' %}
+{% set ca_path = 'SLE_15_SP4' %}
+{% endif %}
+{% endif %}
+
+ca_certificates_suse_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/CA/{{ca_path}}/
+    - refresh: True
 
 {% if 'head' in grains.get('product_version') %}
 containers_pool_repo:
@@ -273,6 +284,7 @@ containers_updates_repo:
     - refresh: True
 {% endif %}
 
+{% endif %}
 {% endif %}
 
 {% endif %}
