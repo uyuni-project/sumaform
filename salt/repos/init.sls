@@ -1,4 +1,5 @@
 include:
+  - repos.vendor
   {% if not grains.get('additional_repos_only') %}
   - repos.default
   - repos.minion
