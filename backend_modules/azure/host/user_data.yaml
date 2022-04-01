@@ -10,44 +10,244 @@ chpasswd:
     root:linux
 %{ endif }
 
-%{ if image == "opensuse152" "}
-
-zypper:
-    repos:
-      - id: opensuse_pool_repo
-        name: opensuse_pool_repo
-        baseurl: http://download.opensuse.org/distribution/leap/15.2/repo/oss/
-        enabled: 1
-        autorefresh: 1
-
+%{ if image == "opensuse152o" }
 packages: ["salt-minion"]
 
-  # runcmd:
-  # HACK this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
-  # - zypper rm -y gettext-runtime-mini
-  # HACK: instance might already have some repos that end up conflicting with the ones we want to install.
+runcmd:
+  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
+  - zypper rm -y gettext-runtime-mini
+  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
-  # - zypper removerepo --all
+  - zypper removerepo --all
 
 %{ endif }
 
-%{ if image == "opensuse153" "}
+%{ if image == "opensuse153o" }
+packages: ["salt-minion"]
 
+runcmd:
+  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
+  - zypper rm -y gettext-runtime-mini
+  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
+  # Possible bug in zypper's Salt module
+  - zypper removerepo --all
+
+%{ endif }
+
+%{ if image == "sles15"}
 zypper:
-    repos:
-      - id: opensuse_pool_repo
-        name: opensuse_pool_repo
-        baseurl: http://download.opensuse.org/distribution/leap/15.3/repo/oss/
-        enabled: 1
-        autorefresh: 1
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+%{ endif }
+
+%{ if image == "sles15sp1o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP1/
+      enabled: 1
+      autorefresh: 1
 
 packages: ["salt-minion"]
 
-  # runcmd:
-  # HACK this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
-  # - zypper rm -y gettext-runtime-mini
-  # HACK: instance might already have some repos that end up conflicting with the ones we want to install.
-  # Possible bug in zypper's Salt module
-  # - zypper removerepo --all
+%{ endif }
 
+%{ if image == "sles15sp2o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP2/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
+%{ endif }
+
+%{ if image == "sles15sp3o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP3/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
+%{ endif }
+
+%{ if image == "sles15sp4o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
+%{ endif }
+
+%{ if image == "sles12sp3"}
+zypper:
+  repos:
+    - id: os_manager_tools
+      name: os_manager_tools
+      baseurl: http://${mirror_url}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
+      enabled: 1
+      autorefresh: 1
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${mirror_url}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "sles11sp4"}
+# WORKAROUND: SLES 11 SP4 does not ship with Salt installed
+runcmd:
+  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ tools_pool_repo
+  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-Pool/sle-11-x86_64/ os_pool_repo
+  - zypper ref
+  - zypper in -y salt-minion
+  - zypper removerepo --all
+  - rm /etc/modprobe.d/50-ipv6.conf
+%{ endif }
+%{ if image == "rhel8"}
+yum_repos:
+  # repo for salt
+  temp_tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: temp_tools_pool_repo
+    priority: 98
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "centos7" || image == "rhel7"}
+yum_repos:
+  # repo for salt
+  temp_tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: temp_tools_pool_repo
+    priority: 98
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "centos6" }
+yum_repos:
+  # repo for salt
+  temp_tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
+    enabled: true
+    gpgcheck: false
+    name: temp_tools_pool_repo
+    priority: 98
+
+packages: ["salt-minion"]
+
+runcmd:
+  # WORKAROUND: CentOS 6 changes the root password with a random one after cloud-init. Disable the mechanism
+  - "rm -f /root/firstrun"
+  # WORKAROUND: cloud-init in CentOS 6 does not take care of the following
+  - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
+  - "service sshd restart"
+  # WORKAROUND: needed because onboard traditional clients
+  - "/usr/bin/update-ca-trust force-enable"
+%{ endif }
+%{ if image == "ubuntu2004" }
+
+apt:
+  sources:
+    tools_pool_repo:
+      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /"
+      key: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v1.4.5 (GNU/Linux)
+
+        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
+        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
+        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
+        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
+        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
+        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
+        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJfM/XhAhsDBQkIKuuMBgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqQnB/wMkQdu3FtPd+Jppc9G
+        TLbSZC2CDLfGpciuBYU4yiUY6F8Gt2KASRQe9lHiKtJKeKpRXsXu1tEUuTr8xp2R
+        PbP+TKT2u7HFIEfrQUl5poSXSrEqtQyzaciTYxV343EWr+kn3Ry4M3Cj1uiMOYGd
+        UIT61uye1TUxbvnGLbl6NUl+KOgtH3DQZf6xLr+yCD/y97FHpLCGQtMMwQdcJ25z
+        9fmJlBb8SEOe0blfOQP2RTZe6pIuLvR+rbA+fj5fGI9m5VV1gznVXjY6PFlEwW9k
+        UaJlMJ4ximis8qO/8SMLI5y9AQC8gSy4qKc6oYe3TEnaK/GjRrEXNbKBkEKw3z0m
+        tbC0iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
+        =H9dm
+        -----END PGP PUBLIC KEY BLOCK-----
+
+runcmd:
+  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "ubuntu1804" }
+
+runcmd:
+  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+packages: ["salt-minion"]
+%{ endif }
+%{ if image == "ubuntu1604" }
+apt:
+  sources:
+    tools_pool_repo:
+      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
+      key: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v1.4.5 (GNU/Linux)
+
+        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
+        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
+        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
+        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
+        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
+        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
+        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJfM/XhAhsDBQkIKuuMBgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqQnB/wMkQdu3FtPd+Jppc9G
+        TLbSZC2CDLfGpciuBYU4yiUY6F8Gt2KASRQe9lHiKtJKeKpRXsXu1tEUuTr8xp2R
+        PbP+TKT2u7HFIEfrQUl5poSXSrEqtQyzaciTYxV343EWr+kn3Ry4M3Cj1uiMOYGd
+        UIT61uye1TUxbvnGLbl6NUl+KOgtH3DQZf6xLr+yCD/y97FHpLCGQtMMwQdcJ25z
+        9fmJlBb8SEOe0blfOQP2RTZe6pIuLvR+rbA+fj5fGI9m5VV1gznVXjY6PFlEwW9k
+        UaJlMJ4ximis8qO/8SMLI5y9AQC8gSy4qKc6oYe3TEnaK/GjRrEXNbKBkEKw3z0m
+        tbC0iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
+        =H9dm
+        -----END PGP PUBLIC KEY BLOCK-----
+
+runcmd:
+  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
+  - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
+  - systemctl restart sshd
+
+packages: ["salt-minion"]
 %{ endif }
