@@ -1,6 +1,7 @@
 include:
   - default
   - mirror.configuration
+  - repos
   {% if not grains.get('disable_cron') %}
   - mirror.cron
   {% endif %}
