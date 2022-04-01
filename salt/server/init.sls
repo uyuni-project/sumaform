@@ -1,6 +1,8 @@
 include:
   - scc.server
+  {% if grains['product_version'] != 'build_image' %}
   - repos
+  {% endif %}
   - server.additional_disk
   - server.firewall
   - server.postgres

@@ -13,6 +13,7 @@ variable "images" {
     "uyuni-master"   = "opensuse153o"
     "uyuni-released" = "opensuse153o"
     "uyuni-pr"       = "opensuse153o"
+    "build_image"    = ""
   }
 }
 
@@ -82,6 +83,7 @@ module "server" {
 
 
   image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  ami_image                = var.ami_image
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings

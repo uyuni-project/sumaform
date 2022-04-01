@@ -1,5 +1,6 @@
 include:
   - default
+  - repos
 
 mozilla_certificates:
   pkg.installed:

@@ -1,8 +1,5 @@
 {% if grains.get('monitored') | default(false, true) %}
 
-include:
-  - repos
-
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter

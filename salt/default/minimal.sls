@@ -6,7 +6,6 @@ include:
   - default.firewall
   - default.avahi
   - default.time
-  - repos
 
 minimal_package_update:
   pkg.latest:

@@ -49,3 +49,7 @@ base:
   'roles:registry':
     - match: grain
     - registry
+
+  'roles:bastion':
+    - match: grain
+    - bastion

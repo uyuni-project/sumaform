@@ -3,3 +3,4 @@ include:
   - jenkins.configuration
   - jenkins.podman
   - jenkins.http_proxy
+  - repos

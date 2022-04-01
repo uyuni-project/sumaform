@@ -269,3 +269,8 @@ variable "login_timeout" {
   description = "How long the webUI login session cookie is valid"
   default     = null
 }
+
+variable "ami_image" {
+  description = "An ami image to overwrite the default value"
+  default     = null
+}
