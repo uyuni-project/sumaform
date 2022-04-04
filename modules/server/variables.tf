@@ -259,3 +259,8 @@ variable "accept_all_ssl_protocols" {
   description = "Turn to true to force Apache to accept a greater range of protocol versions"
   default     = false
 }
+
+variable "login_timeout" {
+  description = "How long the webUI login session cookie is valid"
+  default     = null
+}

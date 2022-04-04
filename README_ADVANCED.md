@@ -288,6 +288,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
    * `forward_registration`: enable forwarding of registrations to SCC (default off)
    *  `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
+   * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
 
 
 ## Adding channels to SUSE Manager Servers

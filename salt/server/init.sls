@@ -89,3 +89,14 @@ substitute_email_traceback_address:
     - require:
         - cmd: server_setup
 {% endif %}
+
+{% if grains.get('login_timeout') %}
+extend_login_timeout:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: web.session_database_lifetime.*
+    - repl: web.session_database_lifetime = {{ grains['login_timeout'] }}
+    - append_if_not_found: True
+    - require:
+        - cmd: server_setup
+{% endif %}

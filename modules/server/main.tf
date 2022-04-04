@@ -76,6 +76,7 @@ module "server" {
     forward_registration           = var.forward_registration
     server_registration_code       = var.server_registration_code
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
+    login_timeout                  = var.login_timeout
   }
 
 
