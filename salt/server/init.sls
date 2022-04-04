@@ -27,7 +27,7 @@ server_packages:
       - sls: repos
       - sls: server.firewall
 
-{% if grains.get('download_private_ssl_key') and grains.get('server') %}
+{% if 'minion' in grains.get('roles') and grains.get('server') and grains.get('download_private_ssl_key') %}
 
 ssl-build-directory:
   file.directory:
