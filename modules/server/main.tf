@@ -52,6 +52,7 @@ module "server" {
     susemanager = {
       activation_key = var.activation_key
     }
+    download_private_ssl_key       = var.download_private_ssl_key
     smt                            = var.smt
     server_username                = var.server_username
     server_password                = var.server_password

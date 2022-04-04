@@ -52,6 +52,11 @@ variable "auto_register" {
   default     = true
 }
 
+variable "download_private_ssl_key" {
+  description = "copy SSL certificates from the hub server upon deployment"
+  default     = true
+}
+
 variable "activation_key" {
   description = "an Activation Key to be used when registering to another Server"
   default     = null
