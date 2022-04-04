@@ -49,6 +49,7 @@ module "server" {
   image                          = lookup(local.images, "server", "default")
   name                           = lookup(local.names, "server", "srv")
   auto_accept                    = false
+  download_private_ssl_key       = false
   disable_firewall               = false
   allow_postgres_connections     = false
   skip_changelog_import          = false
