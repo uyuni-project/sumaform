@@ -53,7 +53,7 @@ variable "auto_register" {
 }
 
 variable "download_private_ssl_key" {
-  description = "copy SSL certificates from the server upon deployment"
+  description = "copy SSL certificates from the hub server upon deployment"
   default     = true
 }
 
