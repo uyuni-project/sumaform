@@ -116,7 +116,7 @@ module "controller" {
   }
 
 
-  image   = "opensuse152o"
+  image   = "opensuse154o"
   provider_settings = var.provider_settings
 }
 
