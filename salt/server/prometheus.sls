@@ -3,8 +3,6 @@
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter
-    - require:
-      - sls: repos
 
 node_exporter_service:
   service.running:
@@ -17,8 +15,6 @@ postgres_exporter:
   pkg.installed:
     - name: golang-github-wrouesnel-postgres_exporter
     - resolve_capabilities: True
-    - require:
-      - sls: repos
 
 postgres_exporter_configuration:
   file.managed:
@@ -98,8 +94,6 @@ jmx_exporter:
     - pkgs:
       - prometheus-jmx_exporter
       - prometheus-jmx_exporter-tomcat
-    - require:
-      - sls: repos
 
 jmx_exporter_tomcat_service:
   service.running:

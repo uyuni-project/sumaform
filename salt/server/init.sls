@@ -26,7 +26,6 @@ server_packages:
     - name: patterns-suma_server
     {% endif %}
     - require:
-      - sls: repos
       - sls: server.firewall
 
 {% if 'minion' in grains.get('roles') and grains.get('server') and grains.get('download_private_ssl_key') %}
