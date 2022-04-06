@@ -110,20 +110,13 @@ tools_pool_repo:
     {% endif %}
     - refresh: True
 
+# SLE11 will not get Head/4.3 client tools. Submissions to be done from 4.2 until it's EoL from a SUSE Manager POV, and removed completely from sumaform
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
     - refresh: True
     - priority: 98
-
-{% elif 'head' in grains.get('product_version') | default('', true) %}
-tools_additional_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
-    - refresh: True
-    - priority: 98
-
 {% endif %}
 
 {% endif %} {# grains['osrelease'] == '11.4' #}
@@ -234,7 +227,8 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
 
@@ -288,7 +282,8 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
 
@@ -524,21 +519,22 @@ tools_pool_repo:
       - cmd: uyuni_key
 {% endif %}
 
-{% if 'head' in grains.get('product_version') | default('', true) %}
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
+# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - refresh: True
-    - priority: 98
     - require:
       - cmd: galaxy_key
-{% elif 'nightly' in grains.get('product_version') | default('', true) %}
+{% elif 'head' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - refresh: True
+    - priority: 98
     - require:
       - cmd: galaxy_key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
@@ -597,15 +593,16 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
-{% if 'head' in grains.get('product_version') | default('', true) %}
+# We only have one shared Client Tools repository, so we are using 4.3 for 4.2 annd 4.1
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
+# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+{% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
 {% elif 'released' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-# We only have one shared Client Tools repository, so we are using 4.2 for 4.1
-{% elif 'nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
 {% else %}
@@ -623,20 +620,16 @@ tools_update_repo_raised_priority:
             Package: *
             Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
-{% elif '4.2-nightly' in grains.get('product_version') | default('', true) %}
+{% elif 'nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:4.2:Ubuntu{{ release }}-SUSE-Manager-Tools
+# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.2-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
-            Pin-Priority: 800
-{% elif '4.1-nightly' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=Devel:Galaxy:Manager:4.2:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.1-released' in grains.get('product_version') | default('', true) %}
     - contents: |
