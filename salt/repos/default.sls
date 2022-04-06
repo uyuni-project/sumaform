@@ -626,12 +626,7 @@ tools_update_repo_raised_priority:
 # WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
             Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
-{% elif '4.2-released' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
-            Pin-Priority: 800
-{% elif '4.1-released' in grains.get('product_version') | default('', true) %}
+{% elif 'released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
