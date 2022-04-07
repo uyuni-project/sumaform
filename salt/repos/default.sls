@@ -601,7 +601,9 @@ tools_update_repo:
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
-{% elif 'released' in grains.get('product_version') | default('', true) %}
+{% elif '4.1-released' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
+{% elif '4.2-released' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
@@ -626,7 +628,12 @@ tools_update_repo_raised_priority:
             {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
             Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
-{% elif 'released' in grains.get('product_version') | default('', true) %}
+{% elif '4.1-released' in grains.get('product_version') | default('', true) %}
+    - contents: |
+            Package: *
+            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
+            Pin-Priority: 800
+{% elif '4.2-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
@@ -636,7 +643,7 @@ tools_update_repo_raised_priority:
             Package: *
             Pin: release l=systemsmanagement:Uyuni:Master:Ubuntu{{ short_release }}-Uyuni-Client-Tools
             Pin-Priority: 800
-{% elif 'released' in grains.get('product_version') | default('', true) %}
+{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
             Pin: release l=systemsmanagement:Uyuni:Stable:Ubuntu{{ short_release }}-Uyuni-Client-Tools
