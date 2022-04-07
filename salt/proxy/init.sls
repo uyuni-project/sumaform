@@ -1,6 +1,8 @@
 include:
   - scc.proxy
+  {% if grains['product_version'] != 'build_image' %}
   - repos
+  {% endif %}
   - proxy.additional_disk
 {% if grains['minion'] %}
   - minion

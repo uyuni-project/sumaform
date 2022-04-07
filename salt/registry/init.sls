@@ -1,6 +1,5 @@
 include:
   - default
-  - repos
 
 podman:
   pkg.installed:
