@@ -512,3 +512,8 @@ variable "no_mirror" {
   description = "Ignore mirror even if base configuration has one set"
   default     = false
 }
+
+variable "server_build_image" {
+description = "Specify to controller that server image is a build image"
+default     = false
+}
