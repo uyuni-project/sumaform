@@ -227,7 +227,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+    {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
@@ -282,7 +282,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+  {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
   - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
@@ -386,14 +386,14 @@ os_update_repo:
 
 {% if '15.4' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') ) %}
 
-# WORKAROUND: Moving target, only until SLE15SP4 GA is ready. Remove this block when we start using GA.
+{# WORKAROUND: Moving target, only until SLE15SP4 GA is ready. Remove this block when we start using GA #}
 {% if not 'beta' in grains['product_version'] %}
 os_movingtarget_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP4:/GA:/TEST/images/repo/SLE-15-SP4-Module-Basesystem-POOL-x86_64-Media1/
     - refresh: True
 {% endif %}
-# WORKAROUND: Moving target, only until SLE15SP4 GA is ready
+{# WORKAROUND: Moving target, only until SLE15SP4 GA is ready #}
 
 os_pool_repo:
   pkgrepo.managed:
@@ -523,7 +523,7 @@ tools_pool_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+    {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - refresh: True
     - require:
@@ -595,7 +595,7 @@ tools_update_repo:
     - file: /etc/apt/sources.list.d/tools_update_repo.list
 # We only have one shared Client Tools repository, so we are using 4.3 for 4.2 annd 4.1
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
-# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+{# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
@@ -623,7 +623,7 @@ tools_update_repo_raised_priority:
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready
+            {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
             Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif 'released' in grains.get('product_version') | default('', true) %}
@@ -650,6 +650,6 @@ remove_no_install_recommends:
     - name: /etc/apt/apt.conf.d/00InstallRecommends
 {% endif %}
 
-# WORKAROUND: see github:saltstack/salt#10852
+{# WORKAROUND: see github:saltstack/salt#10852 #}
 {{ sls }}_nop:
   test.nop: []
