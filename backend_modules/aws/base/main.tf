@@ -444,7 +444,6 @@ module "bastion" {
   base_configuration            = local.configuration_output
   image                         = "opensuse152o"
   name                          = "bastion"
-  roles                         = ["bastion"]
   connect_to_additional_network = true
   provider_settings = {
     instance_type   = "t2.micro"

@@ -1,6 +1,3 @@
-include:
-  - repos
-
 certificate_authority_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/ca.cert.pem
