@@ -22,7 +22,7 @@ extend_login_timeout:
   file.replace:
     - name: /srv/tomcat/webapps/rhn/WEB-INF/web.xml
     - pattern: <session-timeout>*
-    - repl: <session-timeout>{{ grains['login_timeout_minutes'] }}</session-timeout>
+    - repl: <session-timeout>{{ grains['login_timeout'] / 60 }}</session-timeout>
     - append_if_not_found: True
     - require:
         - cmd: server_setup

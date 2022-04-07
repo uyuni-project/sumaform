@@ -78,7 +78,6 @@ module "server" {
     server_registration_code       = var.server_registration_code
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
     login_timeout                  = var.login_timeout
-    login_timeout_minutes          = var.login_timeout / 60
   }
 
 
