@@ -69,6 +69,7 @@ module "server" {
   additional_repos               = lookup(local.additional_repos, "server", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server", {})
   additional_packages            = lookup(local.additional_packages, "server", [])
+  login_timeout                  = var.login_timeout
 
   saltapi_tcpdump   = var.saltapi_tcpdump
   provider_settings = lookup(local.provider_settings_by_host, "server", {})
