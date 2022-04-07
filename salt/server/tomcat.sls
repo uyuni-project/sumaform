@@ -17,6 +17,17 @@ tomcat_config:
 
 {% endif %}
 
+{% if grains.get('login_timeout') %}
+extend_login_timeout:
+  file.replace:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/web.xml
+    - pattern: <session-timeout>*
+    - repl: <session-timeout>{{ grains['login_timeout_minutes'] }}</session-timeout>
+    - append_if_not_found: True
+    - require:
+        - cmd: server_setup
+{% endif %}
+
 tomcat_service:
   service.running:
     - name: tomcat
