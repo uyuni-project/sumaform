@@ -137,3 +137,8 @@ variable "provider_settings" {
   description = "Settings specific to the provider, see README_TESTING.md"
   default     = {}
 }
+
+variable "login_timeout" {
+  description = "How long the webUI login session cookie is valid"
+  default     = null
+}
