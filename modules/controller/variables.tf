@@ -513,7 +513,7 @@ variable "no_mirror" {
   default     = false
 }
 
-variable "server_build_image" {
+variable "is_using_build_image" {
 description = "Specify to controller that server image is a build image"
 default     = false
 }

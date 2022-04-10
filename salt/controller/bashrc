@@ -78,7 +78,7 @@ export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ 
 {% if grains.get('server_http_proxy') | default(false, true) %}export SERVER_HTTP_PROXY="{{ grains.get('server_http_proxy') }}" {% else %}# no server HTTP proxy defined {% endif %}
 {% if grains.get('pxeboot_image') | default(false, true) %}export PXEBOOT_IMAGE="{{ grains.get('pxeboot_image') }}" {% else %}# no PXE boot image defined {% endif %}
 export PROVIDER="{{ grains.get('provider') }}"
-export SERVER_BUILD_IMAGE="{{ grains.get('server_build_image') }}"
+export IS_USING_BUILD_IMAGE="{{ grains.get('is_using_build_image') }}"
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
