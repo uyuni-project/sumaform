@@ -82,16 +82,9 @@ install_npm:
     - name: npm8
 
 # https://github.com/gkushang/cucumber-html-reporter
-#install_cucumber_html_reporter_via_npm:
-#  cmd.run:
-#    - name: npm install cucumber-html-reporter@5.2.0 --save-dev
-#    - require:
-#      - pkg: install_npm
-
-# Temporary using a personal fork until this commit is publicly released
-install_cucumber_html_reporter_via_git:
+install_cucumber_html_reporter_via_npm:
   cmd.run:
-    - name: npm install github:srbarrios/cucumber-html-reporter#788ef843796aa76bfa33bb4dc4de04eb7c00c0ed
+    - name: npm install cucumber-html-reporter@5.5.0 --save-dev
     - require:
       - pkg: install_npm
 
