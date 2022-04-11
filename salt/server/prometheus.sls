@@ -3,6 +3,10 @@
 node_exporter:
   pkg.installed:
     - name: golang-github-prometheus-node_exporter
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    - require:
+      - sls: repos
+    {% endif %}
 
 node_exporter_service:
   service.running:
@@ -15,6 +19,10 @@ postgres_exporter:
   pkg.installed:
     - name: golang-github-wrouesnel-postgres_exporter
     - resolve_capabilities: True
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    - require:
+      - sls: repos
+    {% endif %}
 
 postgres_exporter_configuration:
   file.managed:
@@ -94,6 +102,10 @@ jmx_exporter:
     - pkgs:
       - prometheus-jmx_exporter
       - prometheus-jmx_exporter-tomcat
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    - require:
+      - sls: repos
+    {% endif %}
 
 jmx_exporter_tomcat_service:
   service.running:

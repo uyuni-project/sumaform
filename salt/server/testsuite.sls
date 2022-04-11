@@ -64,6 +64,10 @@ testsuite_packages:
       - aaa_base-extras
       - wget
       - OpenIPMI
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    - require:
+      - sls: repos
+    {% endif %}
 
 testsuite_salt_packages:
   pkg.installed:
@@ -72,6 +76,10 @@ testsuite_salt_packages:
 {% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') %}
     - fromrepo: testing_overlay_devel_repo
 {% endif %}
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    - require:
+      - sls: repos
+    {% endif %}
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
