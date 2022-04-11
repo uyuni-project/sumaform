@@ -96,7 +96,7 @@ fix_cucumber_html_reporter_style:
             width: 100%;
         }
     - require:
-      - cmd: install_cucumber_html_reporter_via_git
+      - cmd: install_cucumber_html_reporter_via_npm
 
 git_config:
   file.append:
