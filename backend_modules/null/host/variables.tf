@@ -120,9 +120,3 @@ variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
 }
-
-variable "ami_image" {
-  description = "An ami image to overwrite the default value"
-  type        = string
-  default     = null
-}

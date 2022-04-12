@@ -153,8 +153,3 @@ variable "proxy_containerized" {
   description = "Proxy should be prepared to be a containerized proxy"
   default     = false
 }
-
-variable "ami_image" {
-  description = "An ami image to overwrite the default value"
-  default     = null
-}
