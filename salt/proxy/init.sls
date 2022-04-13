@@ -1,6 +1,6 @@
 include:
   - scc.proxy
-  {% if grains['product_version'] != 'build_image' %}
+  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
   - repos
   {% endif %}
   - proxy.additional_disk

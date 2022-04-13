@@ -37,7 +37,9 @@ test_repo_debian_updates:
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
+      {% if 'build_image' not in grains.get('product_version') | default('', true) %}
       - pkg: testsuite_salt_packages
+      {% endif %}
 
 # modify cobbler to be executed from remote-machines..
 
@@ -69,6 +71,7 @@ testsuite_packages:
       - sls: repos
     {% endif %}
 
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
 testsuite_salt_packages:
   pkg.installed:
     - pkgs:
@@ -79,7 +82,7 @@ testsuite_salt_packages:
     {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
-    {% endif %}
+{% endif %}
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}

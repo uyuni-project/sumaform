@@ -1,6 +1,6 @@
 include:
   - scc.server
-  {% if grains['product_version'] != 'build_image' %}
+  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
   - repos
   {% endif %}
   - server.additional_disk
@@ -26,7 +26,7 @@ server_packages:
     - name: patterns-suma_server
     {% endif %}
     - require:
-      {% if grains['product_version'] != 'build_image' %}
+      {% if 'build_image' not in grains.get('product_version') | default('', true) %}
       - sls: repos
       {% endif %}
       - sls: server.firewall
