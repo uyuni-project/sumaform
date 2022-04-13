@@ -79,7 +79,6 @@ testsuite_salt_packages:
 {% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') %}
     - fromrepo: testing_overlay_devel_repo
 {% endif %}
-    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
 {% endif %}
