@@ -35,8 +35,10 @@ proxy-packages:
       - unzip
       - ca-certificates-suse
 {% endif %}
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
+    {% endif %}
 
 {% if install_proxy_container_packages %}
 
@@ -52,7 +54,7 @@ proxy-container-packages:
       - uyuni-proxy-systemd-services: {{proxy_rpm_download}}/uyuni-proxy-systemd-services.rpm
 {% endif %}
 
-{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' %}
+{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and 'build_image' not in grains.get('product_version') %}
 product_package_installed:
    cmd.run:
      - name: zypper --non-interactive install --auto-agree-with-licenses --force-resolution -t product SUSE-Manager-Proxy
@@ -60,8 +62,12 @@ product_package_installed:
 
 wget:
   pkg.installed:
+    - pkgs:
+      - wget
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
+    {% endif %}
 
 {% if grains['use_avahi'] and grains.get('install_proxy_pattern') %}
 

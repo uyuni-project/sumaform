@@ -64,7 +64,7 @@ ssl-building-ca-configuration:
 {% endif %}
 
 
-{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and not grains.get('server_registration_code') %}
+{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and not grains.get('server_registration_code') and 'build_image' not in grains.get('product_version') %}
 product_package_installed:
    cmd.run:
      - name: zypper --non-interactive install --auto-agree-with-licenses --force-resolution -t product SUSE-Manager-Server
