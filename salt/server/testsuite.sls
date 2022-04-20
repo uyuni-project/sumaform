@@ -81,7 +81,7 @@ testsuite_salt_packages:
 {% endif %}
     - require:
       - sls: repos
-{% endif %} {# 'build_image' not in grains.get('product_version') | default('', true) #}
+{% endif %}
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
