@@ -112,10 +112,6 @@ host_settings = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
   }
-  suse-client = {
-    additional_packages = [ "venv-salt-minion" ]
-    install_salt_bundle = true
-  }
   suse-minion = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
