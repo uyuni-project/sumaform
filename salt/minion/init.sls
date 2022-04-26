@@ -1,6 +1,8 @@
 include:
   - scc.minion
+  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
   - repos
+  {% endif %}
   - minion.testsuite
   - minion.reflector
 

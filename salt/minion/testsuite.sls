@@ -1,9 +1,5 @@
 {% if grains.get('testsuite') | default(false, true) %}
 
-include:
-  - repos
-  - minion
-
 minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -20,8 +16,10 @@ suse_minion_cucumber_requisites:
     - pkgs:
       - aaa_base-extras
       - ca-certificates
+    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
+    {% endif %}
 
 suse_certificate:
   file.managed:

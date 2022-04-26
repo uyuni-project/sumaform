@@ -5,8 +5,10 @@ include:
   - default.network
   - default.firewall
   - default.avahi
-  - default.time
+  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
   - repos
+  {% endif %}
+  - default.time
 
 minimal_package_update:
   pkg.latest:
