@@ -144,18 +144,21 @@ resource "null_resource" "host_salt_configuration" {
     domain_id      = length(aws_instance.instance) == var.quantity ? aws_instance.instance[count.index].id : null
     grains_subset = yamlencode(
       {
-        timezone              = var.base_configuration["timezone"]
-        use_ntp               = var.base_configuration["use_ntp"]
-        testsuite             = var.base_configuration["testsuite"]
-        roles                 = var.roles
-        additional_repos      = var.additional_repos
-        additional_repos_only = var.additional_repos_only
-        additional_certs      = var.additional_certs
-        additional_packages   = var.additional_packages
-        swap_file_size        = var.swap_file_size
-        authorized_keys       = var.ssh_key_path
-        gpg_keys              = var.gpg_keys
-        ipv6                  = var.ipv6
+        timezone                  = var.base_configuration["timezone"]
+        use_ntp                   = var.base_configuration["use_ntp"]
+        testsuite                 = var.base_configuration["testsuite"]
+        roles                     = var.roles
+        use_os_released_updates   = var.use_os_released_updates
+        use_os_unreleased_updates = var.use_os_unreleased_updates
+        install_salt_bundle       = var.install_salt_bundle
+        additional_repos          = var.additional_repos
+        additional_repos_only     = var.additional_repos_only
+        additional_certs          = var.additional_certs
+        additional_packages       = var.additional_packages
+        swap_file_size            = var.swap_file_size
+        authorized_keys           = var.ssh_key_path
+        gpg_keys                  = var.gpg_keys
+        ipv6                      = var.ipv6
     })
   }
 

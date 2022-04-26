@@ -58,6 +58,7 @@ module "controller" {
     auth_registry_password = var.auth_registry_password
     server_http_proxy      = var.server_http_proxy
     pxeboot_image          = var.pxeboot_configuration["image"]
+    is_using_build_image     = var.is_using_build_image
 
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
