@@ -44,6 +44,15 @@ tools_pool_repo:
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/repodata/repomd.xml.key
     - priority: 98
+
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
+# Needed because in sles15SP3 and opensuse 15.3 and higher firewalld will replace this package.
+# But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
+lock_firewalld_prometheus_config_leap_cmd:
+   cmd.run:
+     - name: zypper addlock -r tools_pool_repo firewalld-prometheus-config
+{% endif %}
+
 {% elif not grains.get('product_version') or not 'uyuni-pr' in grains.get('product_version') | default('', true) %}
 tools_pool_repo:
   pkgrepo.managed:
@@ -287,19 +296,46 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
+# Needed because in sles15SP3 and opensuse 15.3 and higher firewalld will replace this package.
+# But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
+lock_firewalld_prometheus_config_cmd:
+   cmd.run:
+     - name: zypper addlock -r tools_additional_repo firewalld-prometheus-config
+{% endif %}
+
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
+
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
+# Needed because in sles15SP3 and opensuse 15.3 and higher firewalld will replace this package.
+# But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
+lock_firewalld_prometheus_config_cmd:
+   cmd.run:
+     - name: zypper addlock -r tools_additional_repo firewalld-prometheus-config
+{% endif %}
+
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
     - refresh: True
     - priority: 98
+
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
+# Needed because in sles15SP3 and opensuse 15.3 and higher firewalld will replace this package.
+# But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
+lock_firewalld_prometheus_config_cmd:
+   cmd.run:
+     - name: zypper addlock -r tools_additional_repo firewalld-prometheus-config
 {% endif %}
+
+{% endif %}
+
 
 {% endif %} {# not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) #}
 {% endif %} {# '15' in grains['osrelease'] #}
