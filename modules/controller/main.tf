@@ -81,6 +81,9 @@ module "controller" {
     sle15sp3_minion      = length(var.sle15sp3_minion_configuration["hostnames"]) > 0 ? var.sle15sp3_minion_configuration["hostnames"][0] : null
     sle15sp3_sshminion   = length(var.sle15sp3_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp3_sshminion_configuration["hostnames"][0] : null
     sle15sp3_client      = length(var.sle15sp3_client_configuration["hostnames"]) > 0 ? var.sle15sp3_client_configuration["hostnames"][0] : null
+    sle15sp4_minion      = length(var.sle15sp4_minion_configuration["hostnames"]) > 0 ? var.sle15sp4_minion_configuration["hostnames"][0] : null
+    sle15sp4_sshminion   = length(var.sle15sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp4_sshminion_configuration["hostnames"][0] : null
+    sle15sp4_client      = length(var.sle15sp4_client_configuration["hostnames"]) > 0 ? var.sle15sp4_client_configuration["hostnames"][0] : null
     centos6_minion       = length(var.centos6_minion_configuration["hostnames"]) > 0 ? var.centos6_minion_configuration["hostnames"][0] : null
     centos6_sshminion    = length(var.centos6_sshminion_configuration["hostnames"]) > 0 ? var.centos6_sshminion_configuration["hostnames"][0] : null
     centos6_client       = length(var.centos6_client_configuration["hostnames"]) > 0 ? var.centos6_client_configuration["hostnames"][0] : null
