@@ -50,7 +50,7 @@ tools_pool_repo:
 # But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
 lock_firewalld_prometheus_config_leap_cmd:
    cmd.run:
-     - name: zypper addlock -r tools_pool_repo firewalld-prometheus-config
+     - name: zypper addlock firewalld-prometheus-config
 {% endif %}
 
 {% elif not grains.get('product_version') or not 'uyuni-pr' in grains.get('product_version') | default('', true) %}
@@ -301,7 +301,7 @@ tools_additional_repo:
 # But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
 lock_firewalld_prometheus_config_cmd:
    cmd.run:
-     - name: zypper addlock -r tools_additional_repo firewalld-prometheus-config
+     - name: zypper addlock firewalld-prometheus-config
 {% endif %}
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
@@ -316,7 +316,7 @@ tools_additional_repo:
 # But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
 lock_firewalld_prometheus_config_cmd:
    cmd.run:
-     - name: zypper addlock -r tools_additional_repo firewalld-prometheus-config
+     - name: zypper addlock firewalld-prometheus-config
 {% endif %}
 
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
@@ -331,7 +331,7 @@ tools_update_repo:
 # But the tools_update_repo priority don't allow to cope with the Obsoletes option from firewalld
 lock_firewalld_prometheus_config_cmd:
    cmd.run:
-     - name: zypper addlock -r tools_additional_repo firewalld-prometheus-config
+     - name: zypper addlock firewalld-prometheus-config
 {% endif %}
 
 {% endif %}
