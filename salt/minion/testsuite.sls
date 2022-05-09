@@ -16,6 +16,9 @@ suse_minion_cucumber_requisites:
     - pkgs:
       - aaa_base-extras
       - ca-certificates
+{%- if 'sshminion' in grains.get('roles') %}
+      - iptables
+{%- endif %}
     {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
