@@ -43,9 +43,9 @@ proxy-packages:
 {% if install_proxy_container_packages %}
 
 {% if 'head' in grains.get('product_version') %}
-    {% set proxy_rpm_download = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP4/noarch' %}
+    {% set proxy_rpm_download = 'http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/noarch/' %}
 {% else %}
-    {% set proxy_rpm_download = 'http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.3/noarch' %}
+    {% set proxy_rpm_download = 'http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/noarch/' %}
 {% endif %}
 
 proxy-container-packages:
