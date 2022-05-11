@@ -22,9 +22,9 @@ jobs:
             echo "IMAGES_CHANGED=true" >> $GITHUB_ENV
           fi
         done
-    - uses: peter-evans/commit-comment@v1
     - name: PR Comment
-    - if: env.IMAGES_CHANGED == 'true'
+      if: env.IMAGES_CHANGED == 'true'
+      uses: peter-evans/commit-comment@v1
       with:
         body: |
           Before merging this PR, keep in mind we must have updated CI and BV Mirror YAML files.
