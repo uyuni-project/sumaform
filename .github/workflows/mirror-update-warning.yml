@@ -1,0 +1,31 @@
+name: mirror-update-warning
+
+on: push
+
+jobs:
+  Check-changed-files:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get Changed Files
+      id: get_file_changes
+      uses: dorner/file-changes-action@v1.2.0
+      with:
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
+        plaintext: true
+    - name: RESULTS
+      run: |
+        for directory in ${{ steps.get_file_changes.outputs.files }}
+        do
+          if [ ${directory} == "backend_modules/libvirt/base/main.tf" ]
+          then
+            echo "IMAGES_CHANGED=true" >> $GITHUB_ENV
+          fi
+        done
+    - name: PR Comment
+      if: env.IMAGES_CHANGED == 'true'
+      uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          Before merging this PR, keep in mind we must have updated CI and BV Mirror YAML files.
+          Thank you for your collaboration.
