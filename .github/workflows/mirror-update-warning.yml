@@ -2,6 +2,9 @@ name: mirror-update-warning
 
 on: push
 
+env:
+  IMAGES_CHANGED: false
+
 jobs:
   Check-changed-files:
     runs-on: ubuntu-latest
@@ -19,6 +22,15 @@ jobs:
         do
           if [ ${directory} == "backend_modules/libvirt/base/main.tf" ]
           then
-            echo "Before merging this PR, keep in mind we must have updated CI and BV Mirror YAML files. Thank you for your collaboration."
+            echo "IMAGES_CHANGED=true" >> $GITHUB_ENV
           fi
         done
+  PR-comment:
+    if: env.IMAGES_CHANGED == true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: peter-evans/commit-comment@v1
+      with:
+        body: |
+          Before merging this PR, keep in mind we must have updated CI and BV Mirror YAML files.
+          Thank you for your collaboration.
