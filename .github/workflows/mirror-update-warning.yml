@@ -2,9 +2,6 @@ name: mirror-update-warning
 
 on: push
 
-env:
-  IMAGES_CHANGED: false
-
 jobs:
   Check-changed-files:
     runs-on: ubuntu-latest
@@ -25,11 +22,9 @@ jobs:
             echo "IMAGES_CHANGED=true" >> $GITHUB_ENV
           fi
         done
-  PR-comment:
-    if: env.IMAGES_CHANGED == true
-    runs-on: ubuntu-latest
-    steps:
     - uses: peter-evans/commit-comment@v1
+    - name: PR Comment
+    - if: env.IMAGES_CHANGED == 'true'
       with:
         body: |
           Before merging this PR, keep in mind we must have updated CI and BV Mirror YAML files.
