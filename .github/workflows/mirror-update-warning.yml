@@ -3,13 +3,10 @@ name: mirror-update-warning
 on: push
 
 jobs:
-  Flake8:
+  Check-changed-files:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
     - name: Get Changed Files
       id: get_file_changes
       uses: dorner/file-changes-action@v1.2.0
