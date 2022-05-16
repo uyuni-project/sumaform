@@ -11,7 +11,9 @@ if grep -q "cpe:/o:suse:suse-microos" /etc/os-release; then
 MODULE_EXEC="--module-executors=[direct_call]"
 fi
 
-salt-call --local --file-root=$FILE_ROOT/ --log-level=quiet --output=quiet $MODULE_EXEC state.sls default.minimal ||:
+echo "starting first call to update salt and do minimal configuration"
+
+salt-call --local --file-root=$FILE_ROOT/ --log-level=info $MODULE_EXEC state.sls default.minimal ||:
 
 NEXT_TRY=0
 until [ $NEXT_TRY -eq 10 ] || salt-call --local test.ping
@@ -25,6 +27,8 @@ if [ $NEXT_TRY -eq 10 ]
 then
         echo "ERROR: salt-call is not available after 10 retries";
 fi
+
+echo "apply highstate"
 
 salt-call --local --file-root=$FILE_ROOT/ --log-level=info --retcode-passthrough --force-color $MODULE_EXEC state.highstate || exit 1
 
