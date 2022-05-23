@@ -58,7 +58,7 @@ module "controller" {
     auth_registry_password = var.auth_registry_password
     server_http_proxy      = var.server_http_proxy
     pxeboot_image          = var.pxeboot_configuration["image"]
-    is_using_build_image     = var.is_using_build_image
+    is_using_build_image   = var.is_using_build_image
 
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
@@ -105,11 +105,11 @@ module "controller" {
     debian11_minion      = length(var.debian11_minion_configuration["hostnames"]) > 0 ? var.debian11_minion_configuration["hostnames"][0] : null
     debian11_sshminion   = length(var.debian11_sshminion_configuration["hostnames"]) > 0 ? var.debian11_sshminion_configuration["hostnames"][0] : null
     sle11sp4_buildhost    = length(var.sle11sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle11sp4_buildhost_configuration["hostnames"][0] : null
-    sle11sp3_terminal_mac = length(var.sle11sp3_terminal_configuration["macaddrs"]) > 0 ? var.sle11sp3_terminal_configuration["macaddrs"][0] : null
+    sle11sp3_terminal_mac = var.sle11sp3_terminal_configuration["macaddr"]
     sle12sp5_buildhost    = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
-    sle12sp5_terminal_mac = length(var.sle12sp5_terminal_configuration["macaddrs"]) > 0 ? var.sle12sp5_terminal_configuration["macaddrs"][0] : null
+    sle12sp5_terminal_mac = var.sle12sp5_terminal_configuration["macaddr"]
     sle15sp3_buildhost    = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
-    sle15sp3_terminal_mac = length(var.sle15sp3_terminal_configuration["macaddrs"]) > 0 ? var.sle15sp3_terminal_configuration["macaddrs"][0] : null
+    sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["macaddr"]
     opensuse153arm_minion = length(var.opensuse153arm_minion_configuration["hostnames"]) > 0 ? var.opensuse153arm_minion_configuration["hostnames"][0] : null
   }
 
