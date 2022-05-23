@@ -422,7 +422,8 @@ variable "sle15sp3_buildhost_configuration" {
 variable "sle15sp3_terminal_configuration" {
   description = "use module.<SLE15SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddrs = []
+    macaddr = null
+    image = null
   }
 }
 
@@ -436,7 +437,8 @@ variable "sle12sp5_buildhost_configuration" {
 variable "sle12sp5_terminal_configuration" {
   description = "use module.<SLE12SP5_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddrs = []
+    macaddr = null
+    image = null
   }
 }
 
@@ -450,7 +452,8 @@ variable "sle11sp4_buildhost_configuration" {
 variable "sle11sp3_terminal_configuration" {
   description = "use module.<SLE11SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddrs = []
+    macaddr = null
+    image = null
   }
 }
 
