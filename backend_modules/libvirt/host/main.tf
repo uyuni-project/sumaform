@@ -19,8 +19,8 @@ locals {
     contains(var.roles, "virthost") ? { memory = 3072, vcpu = 3 } : {},
     contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
     var.provider_settings,
-    contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/sysinfos.xsl") } : {},
-    contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe.xsl") } : {})
+    contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
+    contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe_boot.xsl") } : {})
   cloud_init = length(regexall("o$", var.image)) > 0
   ignition = length(regexall("-ign$", var.image)) > 0
 }
