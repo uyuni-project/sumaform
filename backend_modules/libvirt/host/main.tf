@@ -1,5 +1,7 @@
 locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
+  manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
+  product      = lookup(var.provider_settings, "product", "Genuine")
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -20,7 +22,7 @@ locals {
     contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
-    contains(var.roles, "pxe_boot") ? { xslt = file("${path.module}/pxe_boot.xsl") } : {})
+    contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
   cloud_init = length(regexall("o$", var.image)) > 0
   ignition = length(regexall("-ign$", var.image)) > 0
 }
