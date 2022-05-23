@@ -66,6 +66,8 @@ Following settings apply to all modules that create one or more hosts of the sam
 | running         | bool           | `true`                                                       | Whether this host should be turned on or off                |
 | mac             | string         | `null`                                                       | A MAC address in the form AA:BB:CC:11:22:33                 |
 | cpu_model       | string         | `custom`                                                     | The CPU model (host-model, host-passthrough or the default) |
+| manufacturer    | string         | `Intel`                                                      | The System Management BIOS manufacturer                     |
+| product         | string         | `Genuine`                                                    | The System Management BIOS product                          |
 | xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                |
 
 An example follows:
@@ -99,15 +101,15 @@ volume_provider_settings = {
 
 Some roles such as `suse_manager` or `mirror` have specific defaults that override those in the table above. Those are:
 
-| Role         | Default values                                                                                  |
-|--------------|-------------------------------------------------------------------------------------------------|
-| suse_manager | `{memory=4096, vcpu=2}`                                                                         |
-| mirror       | `{memory=512}`                                                                                  |
-| controller   | `{memory=2048}`                                                                                 |
-| grafana      | `{memory=4096}`                                                                                 |
-| build_host   | `{vcpu=2}`                                                                                      |
-| pxe_boot     | `{xslt=file("${path.module}/pxe_boot.xsl")}`                                                    |
-| virthost     | `{memory=3072, vcpu=3, cpu_model="host-passthrough", xslt=file("${path.module}/virthost.xsl")}` |
+| Role         | Default values                                                                                                 |
+|--------------|----------------------------------------------------------------------------------------------------------------|
+| suse_manager | `{memory=4096, vcpu=2}`                                                                                        |
+| mirror       | `{memory=512}`                                                                                                 |
+| controller   | `{memory=2048}`                                                                                                |
+| grafana      | `{memory=4096}`                                                                                                |
+| build_host   | `{vcpu=2}`                                                                                                     |
+| pxe_boot     | `{xslt=templatefile("${path.module}/pxe_boot.xsl", {manufacturer=local.manufacturer, product=local.product})}` |
+| virthost     | `{memory=3072, vcpu=3, cpu_model = "host-passthrough", xslt=file("${path.module}/virthost.xsl")}`              |
 
 ## Accessing VMs
 

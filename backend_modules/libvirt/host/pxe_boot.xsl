@@ -14,12 +14,12 @@
         <xsl:text>&#x0A;      </xsl:text>
         <xsl:element name="entry">
           <xsl:attribute name="name">manufacturer</xsl:attribute>
-          <xsl:text>Intel</xsl:text>
+          <xsl:text>${manufacturer}</xsl:text>
         </xsl:element>
         <xsl:text>&#x0A;      </xsl:text>
         <xsl:element name="entry">
           <xsl:attribute name="name">product</xsl:attribute>
-          <xsl:text>Genuine</xsl:text>
+          <xsl:text>${product}</xsl:text>
         </xsl:element>
         <xsl:text>&#x0A;    </xsl:text>
       </xsl:element>
