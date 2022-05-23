@@ -137,3 +137,14 @@ extend_login_timeout:
     - require:
         - cmd: server_setup
 {% endif %}
+
+{% if 'head' in grains.get('product_version') %}
+change_product_tree_to_beta:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: java.product_tree_tag = .*\n
+    - repl: java.product_tree_tag = Beta
+    - append_if_not_found: True
+    - require:
+      - cmd: server_setup
+{% endif %}
