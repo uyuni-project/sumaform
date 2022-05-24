@@ -43,30 +43,25 @@ proxy-packages:
 {% if install_proxy_container_packages %}
 
 {% if 'head' in grains.get('product_version') %}
-    {% set client_tools_repo =  http://{{grains.get("mirror") | default("download.suse.de/ibs", true)}}'/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.suse.de/ibs", true) ~ '/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
 {% else %}
-    {% set client_tools_repo =  http://{{grains.get("mirror") | default("download.opensuse.org", true)}}'/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
 {% endif %}
 
 proxy_client_tools_repo:
   pkgrepo.managed:
-    - baseurl: {{ client_tools_repo }}
+    - baseurl: http://{{client_tools_repo}}
     - refresh: True
 
 proxy-container-packages:
   pkg.installed:
     - pkgs:
       - uyuni-proxy-systemd-services
-    - require:
-      - pkgrepo: proxy_client_tools_repo
-      - sls: repos
 
 # Remove the client tools repo as it would lead to conflicts on a proxy
 proxy_client_tools_repo_removed:
   pkgrepo.absent:
     - name: proxy_client_tools_repo
-    - require:
-      - pkg: proxy-container-packages
 {% endif %}
 
 {% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and 'build_image' not in grains.get('product_version') %}
