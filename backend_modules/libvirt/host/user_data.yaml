@@ -148,7 +148,7 @@ runcmd:
   - zypper removerepo --all
 %{ endif }
 
-%{ if image == "opensuse153o" || image == "opensuse153-ci-pr" || image == "opensuse153-ci-pr-client" }
+%{ if image == "opensuse153o" || image == "opensuse153-ci-pr" || image == "opensuse153-ci-pr-client" || image == "opensuse154o" || image == "opensuse154-ci-pr" || image == "opensuse154-ci-pr-client" }
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns"]
 %{ else }
