@@ -13,7 +13,7 @@ variable "images" {
     "4.3-beta"       = "sles15sp4o"
     "4.3-build_image"= "sles15sp4o"
     "head"           = "sles15sp4o"
-    "uyuni-master"   = "opensuse153o"
+    "uyuni-master"   = "opensuse154o"
     "uyuni-released" = "opensuse153o"
     "uyuni-pr"       = "opensuse153o"
   }
