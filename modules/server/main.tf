@@ -15,7 +15,7 @@ variable "images" {
     "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse154o"
     "uyuni-released" = "opensuse153o"
-    "uyuni-pr"       = "opensuse153o"
+    "uyuni-pr"       = "opensuse154o"
   }
 }
 
