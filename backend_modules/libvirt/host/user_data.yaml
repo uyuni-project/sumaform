@@ -99,7 +99,6 @@ yum_repos:
   # repo for salt
   tools_pool_repo:
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -108,7 +107,6 @@ yum_repos:
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
@@ -116,7 +114,6 @@ yum_repos:
   # repo for Centos-Base backup
   CentOS-Base_backup:
     baseurl: http://vault.centos.org/$contentdir/$releasever/BaseOS/$basearch/os/
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
@@ -124,7 +121,6 @@ yum_repos:
   # repo for Centos-Appstream backup
   CentOS-Appstream_backup:
     baseurl: http://vault.centos.org/$contentdir/$releasever/AppStream/$basearch/os/
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
