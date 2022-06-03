@@ -3,6 +3,7 @@ locals {
   images_used = var.use_shared_resources ? [] : var.images
   image_urls = {
     almalinux8o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://repo.almalinux.org"}/almalinux/8/cloud/x86_64/images/AlmaLinux-8-GenericCloud-latest.x86_64.qcow2"
+    rocky8o         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.rockylinux.org"}/pub/rocky/8.6/images/Rocky-8-GenericCloud.latest.x86_64.qcow2"
     oraclelinux8o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://yum.oracle.com"}/templates/OracleLinux/OL8/u6/x86_64/OL8U6_x86_64-kvm-b126.qcow"
     centos6o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/6/images/CentOS-6-x86_64-GenericCloud.qcow2"
     centos7         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/uyuni-project/sumaform-images/releases/download/4.3.0/centos7.qcow2"
