@@ -544,10 +544,16 @@ suse_res6_key:
     - watch:
       - file: suse_res6_key
 {% else %}
+
+{% set centos_client_tool_prefix = 'EL' %}
+{% if release < 8 %}
+{% set centos_client_tool_prefix = 'CentOS' %}
+{% endif %}
+
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS{{ release }}-Uyuni-Client-Tools/CentOS_{{ release }}/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/{{centos_client_tool_prefix}}{{ release }}-Uyuni-Client-Tools/{{centos_client_tool_prefix}}_{{ release }}/
     - refresh: True
     - priority: 98
     - require:
@@ -573,13 +579,19 @@ tools_update_repo:
     - require:
       - cmd: galaxy_key
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
+
+{% set centos_client_tool_prefix = 'EL' %}
+{% if release < 8 %}
+{% set centos_client_tool_prefix = 'CentOS' %}
+{% endif %}
+
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/CentOS{{ release }}-Uyuni-Client-Tools/CentOS_{{ release }}/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{centos_client_tool_prefix}}{{ release }}-Uyuni-Client-Tools/{{centos_client_tool_prefix}}_{{ release }}/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/CentOS{{ release }}-Uyuni-Client-Tools/CentOS_{{ release }}/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{centos_client_tool_prefix}}{{ release }}-Uyuni-Client-Tools/{{centos_client_tool_prefix}}_{{ release }}/repodata/repomd.xml.key
     - priority: 98
     - require:
       - cmd: uyuni_key
