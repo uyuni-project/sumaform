@@ -98,7 +98,7 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -476,7 +476,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     failovermethod: priority
     enabled: true
     gpgcheck: false
