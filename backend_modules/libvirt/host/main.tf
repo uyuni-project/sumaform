@@ -60,7 +60,7 @@ resource "libvirt_volume" "data_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-data-disk"
   // needs to be converted to bytes
   size  = (var.additional_disk_size == null? 0: var.additional_disk_size) * 1024 * 1024 * 1024
-  pool  = lookup(var.volume_provider_settings, "pool", "default")
+  pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
   count = var.additional_disk_size == null? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 }
 

@@ -87,7 +87,7 @@ provider_settings = {
 
 `suse_manager`, `proxy` and `mirror` modules have configuration settings specific for extra data volumes, those are set via the `volume_provider_settings` map variable. They are described below.
 
- * `pool = <String>` storage were the volume should be created (default value `default`)
+ * `pool = <String>` storage were the volume should be created (default value inherits from base module provider settings pool)
 
  An example follows:
 
