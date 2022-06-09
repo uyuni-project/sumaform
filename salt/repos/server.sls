@@ -139,19 +139,6 @@ server_module_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-SUSE-Manager-Server/4.3/x86_64/update/
     - refresh: True
 
-# WORKAROUND: Moving target, only until SLE15SP4 GA is ready. Remove this block when we start using GA.
-server_os_movingtarget_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP4:/GA:/TEST/images/repo/SLE-15-SP4-Module-Server-Applications-POOL-x86_64-Media1/
-    - refresh: True
-# WORKAROUND: Moving target, only until SLE15SP4 GA is ready
-
-# WORKAROUND: Moving target, only until SLE15SP4 GA is ready. Remove this block when we start using GA.
-web_scripting_os_movingtarget_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP4:/GA:/TEST/images/repo/SLE-15-SP4-Module-Web-Scripting-POOL-x86_64-Media1/
-    - refresh: True
-# WORKAROUND: Moving target, only until SLE15SP4 GA is ready
 {% endif %}
 
 module_server_applications_pool_repo:
