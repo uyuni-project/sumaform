@@ -75,3 +75,19 @@ mdns_iptables:
     - protocol: udp
     - save: True
 {% endif %}
+
+{% if grains['os'] == 'Debian' %}
+comment_hosts_fqdn:
+  file.replace:
+    - name: /etc/hosts
+    - pattern: "^127.0.1.1 "
+    - repl: "#127.0.1.1 "
+    - count: 1
+
+cloud_init_disable_manage_hosts:
+  file.replace:
+    - name: /etc/cloud/cloud.cfg
+    - pattern: "^manage_etc_hosts: true$"
+    - repl: "manage_etc_hosts: false"
+    - append_if_not_found: true
+{% endif %}
