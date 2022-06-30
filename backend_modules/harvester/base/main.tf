@@ -37,7 +37,6 @@ locals {
     slemicro51-ign  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_51/SUSE-MicroOS.x86_64-sumaform.qcow2"
     slemicro51o-ign = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/install/SLE-Micro-5.1-GM/SUSE-MicroOS.x86_64-5.1.0-Default-GM.raw.xz"
   }
-  pool               = lookup(var.provider_settings, "pool", "default")
   network_name       = lookup(var.provider_settings, "network_name", "default")
   bridge             = lookup(var.provider_settings, "bridge", null)
   additional_network = lookup(var.provider_settings, "additional_network", null)
@@ -47,11 +46,11 @@ locals {
 resource "harvester_image" "images" {
   for_each = local.images_used
 
-  name   = "${var.name_prefix}${each.value}"
-  display_name   = "${var.name_prefix}${each.value}"
-  namespace = local.namespace
-  source_type = "download"
-  url = local.image_urls[each.value]
+  name         = "${var.name_prefix}${each.value}"
+  display_name = "${var.name_prefix}${each.value}"
+  namespace    = local.namespace
+  source_type  = "download"
+  url          = local.image_urls[each.value]
 }
 
 resource "harvester_network" "additional_network" {
@@ -59,9 +58,9 @@ resource "harvester_network" "additional_network" {
   name      = "${var.name_prefix}private"
   namespace = local.namespace
 
-  route_mode = "manual"
-  route_cidr = local.additional_network
-  route_gateway = "192.168.40.255"
+  route_mode    = "manual"
+  route_cidr    = local.additional_network
+  route_gateway = cidrhost(local.additional_network, 1)
   vlan_id = 4000
 }
 
@@ -71,10 +70,9 @@ output "configuration" {
     harvester_network.additional_network,
   ]
   value = {
-    additional_network    = local.additional_network
+    additional_network      = local.additional_network
     additional_network_name = join(",", harvester_network.additional_network.*.name)
 
-    network_name = local.bridge == null ? local.network_name : null
-    bridge       = local.bridge
+    network_name = local.network_name
   }
 }

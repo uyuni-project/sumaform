@@ -10,7 +10,7 @@ locals {
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "pxe_boot")? { memory = 2048} : {},
+    contains(var.roles, "pxe_boot")? { memory = 2048 } : {},
     contains(var.roles, "mirror") ? { memory = 1024 } : {},
     contains(var.roles, "build_host") ? { vcpu = 2 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},
@@ -20,8 +20,6 @@ locals {
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough" } : {},
   )
-  cloud_init = length(regexall("o$", var.image)) > 0
-  ignition = length(regexall("-ign$", var.image)) > 0
 }
 
 data "template_file" "user_data" {
@@ -41,10 +39,6 @@ data "template_file" "network_config" {
   }
 }
 
-data "template_file" "ignition" {
-  template = file("${path.module}/config.ign")
-}
-
 resource "harvester_volume" "main_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
   image = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
@@ -59,21 +53,14 @@ resource "harvester_volume" "data_disk" {
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 }
 
-# resource "libvirt_ignition" "ignition_disk" {
-#   name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
-#   pool             = var.base_configuration["pool"]
-#   content          = data.template_file.ignition.rendered
-#   count            = local.ignition ? var.quantity : 0
-# }
-
 resource "harvester_virtualmachine" "domain" {
   name         = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-  memory       = local.provider_settings["memory"]
+  # libvirt provider takes memory in megabytes, harvester in bytes. Assume when user do not specify suffix then it is in megabytes
+  memory       = length(regex("[kmgKMG]$", local.provider_settings["memory"])) > 0 ? local.provider_settings["memory"] : local.provider_settings["memory"] * 1024 * 1024
   cpu          = local.provider_settings["vcpu"]
   run_strategy = local.provider_settings["running"] ? "Always" : "Halted"
   count        = var.quantity
 
-    // base disk + additional disks if any
   dynamic "disk" {
     for_each = concat(
       length(harvester_volume.main_disk) == var.quantity ? [{"volume_name" : harvester_volume.main_disk[count.index].name}] : [],
@@ -86,59 +73,36 @@ resource "harvester_virtualmachine" "domain" {
   }
 
   cloudinit {
-    user_data = data.template_file.user_data.rendered
+    user_data    = data.template_file.user_data.rendered
     network_data = data.template_file.network_config.rendered
   }
-
-
-  # coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : null
 
   dynamic "network_interface" {
     for_each = slice(
       [
         {
-          "network_name" = var.base_configuration["network_name"]
-          "mac"          = local.provider_settings["mac"]
-          "name"         = "base"
+          "wait_for_lease" = true
+          "network_name"   = var.base_configuration["network_name"]
+          "mac"            = local.provider_settings["mac"]
+          "name"           = "base"
         },
         {
-          "network_name" = var.base_configuration["additional_network_name"]
-          "mac"          = null
-          "name"         = "additional"
+          "wait_for_lease" = false
+          "network_name"   = var.base_configuration["additional_network_name"]
+          "mac"            = null
+          "name"           = "additional"
         },
       ],
       var.connect_to_base_network ? 0 : 1,
       var.base_configuration["additional_network"] != null && var.connect_to_additional_network ? 2 : 1,
     )
     content {
-      name   = network_interface.value.name
-      network_name = network_interface.value.network_name
+      wait_for_lease = network_interface.value.wait_for_lease
+      name           = network_interface.value.name
+      network_name   = network_interface.value.network_name
       mac_address    = network_interface.value.mac
     }
   }
-
-  # console {
-  #   type           = "pty"
-  #   target_port    = "0"
-  #   target_type    = "serial"
-  #   source_host    = null
-  #   source_service = null
-  # }
-
-  # console {
-  #   type           = "pty"
-  #   target_port    = "1"
-  #   target_type    = "virtio"
-  #   source_host    = null
-  #   source_service = null
-  # }
-
-  # graphics {
-  #   type        = "spice"
-  #   listen_type = "address"
-  #   listen_address = "0.0.0.0"
-  #   autoport    = true
-  # }
 }
 
 resource "null_resource" "provisioning" {
@@ -172,7 +136,7 @@ resource "null_resource" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    host     = harvester_virtualmachine.domain[count.index].network_interface[0].ip_address
+    host     = [ for ni in harvester_virtualmachine.domain[count.index].network_interface : ni.ip_address if length(ni.ip_address) > 0 ][0]
     user     = "root"
     password = "linux"
   }
@@ -183,9 +147,9 @@ resource "null_resource" "provisioning" {
   }
 
   provisioner "remote-exec" {
-    inline = local.cloud_init ? [
+    inline = [
       "bash /root/salt/wait_for_salt.sh",
-    ] : ["bash -c \"echo 'no cloud init, nothing to do'\""]
+      ]
   }
 
   provisioner "file" {
@@ -241,7 +205,7 @@ output "configuration" {
   value = {
     ids       = harvester_virtualmachine.domain[*].id
     hostnames = [for value_used in harvester_virtualmachine.domain : "${value_used.name}.${var.base_configuration["domain"]}"]
-    macaddrs  = [for value_used in harvester_virtualmachine.domain : value_used.network_interface[0].mac_address if length(value_used.network_interface) > 0]
-    ipaddrs  = [for value_used in harvester_virtualmachine.domain : value_used.network_interface[0].ip_address if length(value_used.network_interface) > 0]
+    macaddrs  = [for value_used in harvester_virtualmachine.domain :
+      [ for ni in value_used.network_interface : ni.mac_address ] if length(value_used.network_interface) > 0]
   }
 }
