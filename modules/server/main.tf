@@ -50,7 +50,7 @@ module "server" {
     server_mounted_mirror  = var.server_mounted_mirror
     iss_master             = var.iss_master
     iss_slave              = var.iss_slave
-    server                 = var.register_to_server
+    server                 = var.register_to_server != null? lookup(var.register_to_server, "hostname", null): null
     auto_connect_to_master = var.auto_register
     susemanager = {
       activation_key = var.activation_key
