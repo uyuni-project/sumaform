@@ -578,7 +578,7 @@ tools_update_repo:
     - priority: 98
     - require:
       - cmd: galaxy_key
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
+{% elif 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 
 {% set centos_client_tool_prefix = 'EL' %}
 {% if release < 8 %}
