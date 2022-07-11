@@ -203,6 +203,7 @@ resource "null_resource" "host_salt_configuration" {
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
         additional_packages       = var.additional_packages
+        install_salt_bundle       = var.install_salt_bundle
         swap_file_size            = var.swap_file_size
         authorized_keys = concat(
           var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
