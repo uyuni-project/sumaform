@@ -1,3 +1,6 @@
+include:
+  - scc.build_host
+
 certificate_authority_certificate:
   file.managed:
     - name: /etc/pki/trust/anchors/ca.cert.pem
