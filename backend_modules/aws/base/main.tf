@@ -145,6 +145,27 @@ data "aws_ami" "sles15sp3o" {
   }
 }
 
+data "aws_ami" "sles15sp4o" {
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp4-byos-v"
+  owners      = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles12sp5" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp5-byos-v"
