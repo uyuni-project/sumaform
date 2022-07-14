@@ -138,7 +138,9 @@ extend_login_timeout:
         - cmd: server_setup
 {% endif %}
 
-{% if 'head' in grains.get('product_version') %}
+# WORKAROUND: 4.3 is needed only until the branching of Manager-4.3 is completed and
+# the testsuite can be addapted
+{% if 'head' in grains.get('product_version') or '4.3' in grains.get('product_version') %}
 change_product_tree_to_beta:
   file.replace:
     - name: /etc/rhn/rhn.conf
