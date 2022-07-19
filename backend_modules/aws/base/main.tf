@@ -436,6 +436,7 @@ locals {
       sles15sp1o   = { ami = data.aws_ami.sles15sp1o.image_id },
       sles15sp2o   = { ami = data.aws_ami.sles15sp2o.image_id },
       sles15sp3o   = { ami = data.aws_ami.sles15sp3o.image_id },
+      sles15sp4o   = { ami = data.aws_ami.sles15sp4o.image_id },
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
