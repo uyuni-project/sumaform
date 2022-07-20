@@ -3,6 +3,7 @@
 
 include:
   - repos
+  - scc
 
 {% if grains['os'] == 'SUSE' %}
 
