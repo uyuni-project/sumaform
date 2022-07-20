@@ -160,12 +160,6 @@ testing_overlay_devel_repo:
 {% endif %}
 
 {% if grains['osfullname'] != 'Leap' %}
-# Moving target, only until SLE15SP3 GA is ready
-module_server_applications_movingtarget_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP4:/GA:/TEST/images/repo/SLE-15-SP4-Module-Server-Applications-POOL-x86_64-Media1/
-    - refresh: True
-
 module_server_applications_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Server-Applications/15-SP4/x86_64/product/
