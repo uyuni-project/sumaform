@@ -1,4 +1,4 @@
-{% if 'build_host' in grains.get('roles') and grains.get('testsuite') | default(false, true) and grains['osfullname'] == 'SLES' %}
+{% if 'build_host' in grains.get('roles') and grains.get('testsuite') | default(false, true) and grains['osfullname'] == 'SLES' and not grains.get('sles_registration_code')%}
 
 {% if '12' in grains['osrelease'] %}
 containers_pool_repo:

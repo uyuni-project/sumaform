@@ -24,6 +24,7 @@ module "build_host" {
     server                 = var.server_configuration["hostname"]
     auto_connect_to_master = var.auto_connect_to_master
     avahi_reflector        = var.avahi_reflector
+    sles_registration_code = var.sles_registration_code
   }
 
 

@@ -2,6 +2,7 @@
 {% if 'client' in grains.get('roles') or 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') %}
 
 include:
+  - scc
   - repos
 
 {% if grains['os'] == 'SUSE' %}
