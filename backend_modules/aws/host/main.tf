@@ -47,7 +47,7 @@ resource "aws_instance" "instance" {
   ami                    = local.ami
   instance_type          = local.provider_settings["instance_type"]
   count                  = var.quantity
-  availability_zone      = local.availability_zone
+  availability_zone      = local.availability_zone[0]
   key_name               = local.provider_settings["key_name"]
   subnet_id              = var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
@@ -103,7 +103,7 @@ resource "aws_network_interface" "additional_network" {
 resource "aws_ebs_volume" "data_disk" {
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 
-  availability_zone = local.availability_zone
+  availability_zone = local.availability_zone[0]
   size              = var.additional_disk_size == null ? 0 : var.additional_disk_size
   type              = lookup(var.volume_provider_settings, "type", "sc1")
   snapshot_id       = lookup(var.volume_provider_settings, "volume_snapshot_id", null)
