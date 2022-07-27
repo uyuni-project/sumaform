@@ -40,6 +40,7 @@ locals {
     opensuse154-ci-pr        = "http://minima-mirror.mgr.prv.suse.net/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse154-ci-pr.x86_64.qcow2"
     opensuse154-ci-pr-client = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse154-ci-pr-client.x86_64.qcow2"
     slemicro51-ign  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_51/SUSE-MicroOS.x86_64-sumaform.qcow2"
+    slemicro52-ign  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_52/SUSE-MicroOS.x86_64-sumaform.qcow2"
   }
   pool               = lookup(var.provider_settings, "pool", "default")
   network_name       = lookup(var.provider_settings, "network_name", "default")
