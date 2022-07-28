@@ -20,27 +20,25 @@ locals {
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
 
-  resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
+  resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.identifier}"
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
 }
 
 resource "aws_db_instance" "instance" {
-  instance_class          = local.provider_settings["instance_class"]
+  instance_class         = local.provider_settings["instance_class"]
   count                  = var.quantity
+  identifier             = var.identifier
   db_subnet_group_name   = local.db_private_subnet_name
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
-
-  engine                 = "postgres"
-  engine_version         = "13.4"
-  name                   = "spacewalk"
-  username               = "edu"
+  engine                 = var.engine
+  engine_version         = var.engine_version
+  username               = var.db_username
   password               = var.db_password
-  multi_az               = false
 
-  publicly_accessible    = false
-  skip_final_snapshot    = true
+  publicly_accessible    = var.publicly_accessible
+  skip_final_snapshot    = var.skip_final_snapshot
 
   allocated_storage = local.provider_settings["volume_size"]
 
@@ -58,7 +56,6 @@ output "configuration" {
   value = {
     ids          = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance[*].id : []
     hostnames    = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.address : []
-//    public_names = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.public_dns : []
-//    macaddrs     = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.private_ip : []
+    ca           = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.ca_cert_identifier : []
   }
 }

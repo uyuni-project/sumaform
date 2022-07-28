@@ -2,54 +2,9 @@ variable "base_configuration" {
   description = "use module.base.configuration, see the main.tf example file"
 }
 
-variable "name" {
+variable "identifier" {
   description = "hostname, without the domain part"
   type        = string
-}
-
-variable "roles" {
-  description = "List of the host roles"
-  default     = []
-}
-
-variable "use_os_released_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise repos"
-  default     = false
-}
-
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
-variable "disable_firewall" {
-  description = "whether to disable the built-in firewall, opening up all ports"
-  default     = true
-}
-
-variable "additional_repos" {
-  description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
-  default     = {}
-}
-
-variable "additional_repos_only" {
-  description = "whether to exclusively use additional repos"
-  default     = false
-}
-
-variable "additional_certs" {
-  description = "extra SSL certficates in the form {name = url}, see README_ADVANCED.md"
-  default     = {}
-}
-
-variable "additional_packages" {
-  description = "extra packages to install, see README_ADVANCED.md"
-  default     = []
-}
-
-variable "install_salt_bundle" {
-  description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
 }
 
 variable "quantity" {
@@ -57,32 +12,9 @@ variable "quantity" {
   default     = 1
 }
 
-variable "grains" {
-  description = "custom grain map to be added to this host's configuration"
+variable "provider_settings" {
+  description = "Map of provider-specific settings, see the modules/libvirt/README.md"
   default     = {}
-}
-
-variable "swap_file_size" {
-  description = "Swap file size in MiB, or 0 for none"
-  default     = 0
-}
-
-variable "ssh_key_path" {
-  description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
-  default     = null
-}
-
-variable "gpg_keys" {
-  description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
-  default     = []
-}
-
-variable "ipv6" {
-  description = "IPv6 tuning: enable it, accept the RAs"
-  default = {
-    enable    = true
-    accept_ra = true
-  }
 }
 
 variable "connect_to_base_network" {
@@ -95,27 +27,28 @@ variable "connect_to_additional_network" {
   default     = false
 }
 
-variable "provision" {
-  description = "Indicates whether servers should be provisioned or not"
-  type        = bool
-  default     = true
+variable "publicly_accessible" {
+  description = "true if you want the RDS to have a public address"
+  default = false
 }
 
-variable "provider_settings" {
-  description = "Map of provider-specific settings, see the modules/libvirt/README.md"
-  default     = {}
+variable "skip_final_snapshot" {
+  description = "Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created."
+  default = true
 }
 
-variable "additional_disk_size" {
-  description = "Size of an aditional disk, defined in GiB"
-  default     = null
+variable "engine" {
+  description = "RDS engine, by default postgres"
 }
 
-variable "volume_provider_settings" {
-  description = "Map of volume-provider-specific settings, see the backend-specific README file"
-  default     = {}
+variable "engine_version" {
+  description = "RDS engine version"
 }
 
+variable "db_username" {
+  description = "RDS root user name"
+  default = "username"
+}
 
 variable "db_password" {
   description = "RDS root user password"
