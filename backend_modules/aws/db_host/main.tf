@@ -29,7 +29,7 @@ locals {
 resource "aws_db_instance" "instance" {
   instance_class         = local.provider_settings["instance_class"]
   count                  = var.quantity
-  identifier             = var.identifier
+  identifier             = "${var.base_configuration["name_prefix"]}${var.name}"
   db_subnet_group_name   = local.db_private_subnet_name
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
   engine                 = var.engine
