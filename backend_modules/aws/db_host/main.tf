@@ -20,7 +20,7 @@ locals {
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
 
-  resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.identifier}"
+  resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
@@ -29,7 +29,7 @@ locals {
 resource "aws_db_instance" "instance" {
   instance_class         = local.provider_settings["instance_class"]
   count                  = var.quantity
-  identifier             = "${var.base_configuration["name_prefix"]}${var.name}"
+  identifier             = local.resource_name_prefix
   db_subnet_group_name   = local.db_private_subnet_name
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
   engine                 = var.engine
