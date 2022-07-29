@@ -47,3 +47,8 @@ variable "db_password" {
   description = "RDS root user password"
   sensitive   = true
 }
+
+variable "db_certificate" {
+  description = "Certificate needed to connect to remote AWS database. https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-download-ssl-certificate-for-managed-database "
+  default = "/root/aws.crt"
+}

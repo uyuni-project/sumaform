@@ -18,8 +18,13 @@ module "rds" {
 
 output "configuration" {
   value = {
-    id              = length(module.rds.configuration["ids"]) > 0 ? module.rds.configuration["ids"][0] : null
-    hostname        = length(module.rds.configuration["hostnames"]) > 0 ? module.rds.configuration["hostnames"][0] : null
-    ca              = length(module.rds.configuration["ca"]) > 0 ? module.rds.configuration["ca"][0] : null
+    id                 = length(module.rds.configuration["ids"]) > 0 ? module.rds.configuration["ids"][0] : null
+    hostname           = length(module.rds.configuration["hostnames"]) > 0 ? module.rds.configuration["hostnames"][0] : null
+    ca                 = length(module.rds.configuration["ca"]) > 0 ? module.rds.configuration["ca"][0] : null
+    superuser          = length(module.rds.configuration["username"]) > 0 ? module.rds.configuration["username"][0] : null
+    port               = length(module.rds.configuration["port"]) > 0 ? module.rds.configuration["port"][0] : null
+    superuser_password = var.db_password
+    certificate        = var.db_certificate
+    local              = false
   }
 }
