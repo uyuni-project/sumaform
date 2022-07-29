@@ -108,7 +108,7 @@ resource "aws_route_table" "private" {
 resource "aws_subnet" "public" {
   count = var.create_network ? 1 : 0
 
-  availability_zone       = var.availability_zone[0]
+  availability_zone       = var.availability_zone
   vpc_id                  = local.vpc_id
   cidr_block              = "172.16.0.0/24"
   map_public_ip_on_launch = true
@@ -121,7 +121,7 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "additional-public" {
   count = var.create_network ? 1 : 0
 
-  availability_zone       = var.availability_zone[1]
+  availability_zone       = var.availability_zone == "${var.region}b" ? "${var.region}a" : "${var.region}b"
   vpc_id                  = local.vpc_id
   cidr_block              = "172.16.3.0/24"
   map_public_ip_on_launch = true
@@ -148,7 +148,7 @@ resource "aws_route_table_association" "additional-public" {
 resource "aws_subnet" "private" {
   count = var.create_network ? 1 : 0
 
-  availability_zone       = var.availability_zone[0]
+  availability_zone       = var.availability_zone
   vpc_id                  = local.vpc_id
   cidr_block              = "172.16.1.0/24"
   map_public_ip_on_launch = false
@@ -168,7 +168,7 @@ resource "aws_route_table_association" "private" {
 resource "aws_subnet" "private_additional" {
   count = var.create_network? 1: 0
 
-  availability_zone       = var.availability_zone[0]
+  availability_zone       = var.availability_zone
   vpc_id                  = local.vpc_id
   cidr_block              = var.additional_network
   map_public_ip_on_launch = false

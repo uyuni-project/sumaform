@@ -48,7 +48,6 @@ output "configuration" {
   value = {
     ids          = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance[*].id : []
     hostnames    = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.address : []
-    ca           = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.ca_cert_identifier : []
     username     = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.username : []
     port         = length(aws_db_instance.instance) > 0 ? aws_db_instance.instance.*.port : []
   }
