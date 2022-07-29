@@ -47,6 +47,7 @@ export VIRTHOST_XEN_PASSWORD="linux" {% else %}# no Xen host defined {% endif %}
 {% if grains.get('sle15sp4_minion') | default(false, true) %}export SLE15SP4_MINION="{{ grains.get('sle15sp4_minion') }}" {% else %}# no SLE15SP4 minion defined {% endif %}
 {% if grains.get('sle15sp4_sshminion') | default(false, true) %}export SLE15SP4_SSHMINION="{{ grains.get('sle15sp4_sshminion') }}" {% else %}# no SLE15SP4 ssh minion defined {% endif %}
 {% if grains.get('slemicro52_minion') | default(false, true) %}export SLEMICRO52_MINION="{{ grains.get('slemicro52_minion') }}" {% else %}# no SLEMICRO52 minion defined {% endif %}
+{% if grains.get('slemicro52_sshminion') | default(false, true) %}export SLEMICRO52_SSHMINION="{{ grains.get('slemicro52_sshminion') }}" {% else %}# no SLEMICRO52 ssh minion defined {% endif %}
 {% if grains.get('sle15sp4_client') | default(false, true) %}export SLE15SP4_CLIENT="{{ grains.get('sle15sp4_client') }}" {% else %}# no SLE15SP4 client defined {% endif %}
 {% if grains.get('centos6_minion') | default(false, true) %}export CENTOS6_MINION="{{ grains.get('centos6_minion') }}" {% else %}# no CENTOS6 minion defined {% endif %}
 {% if grains.get('centos6_sshminion') | default(false, true) %}export CENTOS6_SSHMINION="{{ grains.get('centos6_sshminion') }}" {% else %}# no CENTOS6 ssh minion defined {% endif %}
