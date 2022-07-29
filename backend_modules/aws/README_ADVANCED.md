@@ -161,3 +161,30 @@ module "server" {
   image           = "AMI-123456789"
 }
 ```
+
+## RDS
+
+Create RDS postgres database usable by SUMA server
+
+| Variable name       | Type      | Default value   | Description                                                                         |
+|---------------------|-----------|-----------------|-------------------------------------------------------------------------------------|
+| name                | string    | `rds`           | hostname, without the domain part                                                   |
+| publicly_accessible | boolean   | `false`         | true if you want the RDS to have a public address                                   |
+| skip_final_snapshot | boolean   | `false`         | Determines whether a final DB snapshot is created before the DB instance is deleted |
+| engine              | string    | `postgres`      | RDS engine                                                                          |
+| engine_version      | string    | `14.3`          | RDS engine version                                                                  |
+| db_username         | string    | `postgres`      | RDS super user name ( different than DB_USERNAME)                                   |
+| db_password         | string    | `spacewalk`     | RDS super user password                                                             |
+| db_certificate      | string    | `/root/aws.crt` | Certificate needed to connect to remote AWS database                                |
+
+Example:
+
+```hcl
+module "rds" {
+  source             = "./modules/rds"
+  name               = ...
+  base_configuration = module.base.configuration
+  db_username        = ...
+  db_password        = ...
+}
+```
