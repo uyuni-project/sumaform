@@ -76,6 +76,14 @@ environment_setup_script:
     - source: salt://server/setup_env.sh
     - template: jinja
 
+{% if not grains.get('db_configuration')['local'] and grains.get('provider') == 'aws' %}
+aws_db-certificate:
+  file.managed:
+    - name: /root/aws.crt
+    - source: salt://server/aws.crt
+    - template: jinja
+{% endif %}
+
 server_setup:
   cmd.run:
     - name: /usr/lib/susemanager/bin/mgr-setup -l /var/log/susemanager_setup.log -s
