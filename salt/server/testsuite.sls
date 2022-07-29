@@ -42,6 +42,8 @@ test_repo_debian_updates:
       {% endif %}
 
 # modify cobbler to be executed from remote-machines..
+{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
+{% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
 
 cobbler_configuration:
     service:
@@ -49,13 +51,23 @@ cobbler_configuration:
     - running
     - enable: True
     - watch :
+{% if cobbler_use_settings_yaml %}
+      - file : /etc/cobbler/settings.yaml
+{% else %}
       - file : /etc/cobbler/settings
+{% endif %}
     - require:
       - sls: server
     file.replace:
+{% if cobbler_use_settings_yaml %}
+    - name: /etc/cobbler/settings.yaml
+    - pattern: "redhat_management_permissive: false"
+    - repl: "redhat_management_permissive: true"
+{% else %}
     - name: /etc/cobbler/settings
     - pattern: "redhat_management_permissive: 0"
     - repl: "redhat_management_permissive: 1"
+{% endif %}
     - require:
       - sls: server
 
