@@ -1,4 +1,4 @@
-{% if grains['additional_packages'] %}
+{% if grains.get('additional_packages') %}
 install_additional_packages:
   pkg.latest:
     - pkgs:

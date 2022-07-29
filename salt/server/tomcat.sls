@@ -7,7 +7,7 @@ tomcat_config:
   file.replace:
     - name: /etc/sysconfig/tomcat
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
-    {% if grains['hostname'] and grains['domain'] %}
+    {% if grains.get('hostname') and grains.get('domain') %}
     - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['hostname'] }}.{{ grains['domain'] }}:8000,server=y,suspend=n \1"'
     {% else %}
     - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['fqdn'] }}:8000,server=y,suspend=n \1"'
@@ -18,7 +18,7 @@ tomcat_config:
 tomcat_config_jmx:
   file.append:
     - name: /etc/sysconfig/tomcat
-    {% if grains['hostname'] and grains['domain'] %}
+    {% if grains.get('hostname') and grains.get('domain') %}
     - text: |
 
         # Add these options and restart tomcat for remote monitoring via Java Managent Extensions (JMX)

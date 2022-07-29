@@ -20,7 +20,7 @@ bootstrap_script:
   file.replace:
     - name: /root/bootstrap.sh
     - pattern: ^PROFILENAME="".*$
-    {% if grains['hostname'] and grains['domain'] %}
+    {% if grains.get('hostname') and grains.get('domain') %}
     - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
     {% else %}
     - repl: PROFILENAME="{{grains['fqdn']}}"

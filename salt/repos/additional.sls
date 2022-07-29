@@ -1,4 +1,4 @@
-{% if grains['additional_repos'] %}
+{% if grains.get('additional_repos') %}
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}_repo:
   pkgrepo.managed:
@@ -38,7 +38,7 @@
 {% endfor %}
 {% endif %}
 
-{% if grains['additional_certs'] %}
+{% if grains.get('additional_certs') %}
 {% for label, url in grains['additional_certs'].items() %}
 {{ label }}_cert:
   file.managed:

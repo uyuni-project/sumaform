@@ -30,7 +30,7 @@ file_swap:
       - cmd: file_swap
 {% endif %}
 
-{% if grains['authorized_keys'] %}
+{% if grains.get('authorized_keys') %}
 authorized_keys:
   file.append:
     - name: /root/.ssh/authorized_keys

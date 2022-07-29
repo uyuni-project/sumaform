@@ -18,7 +18,7 @@ taskomatic_config:
 taskomatic_config_jmx:
   file.append:
     - name: /etc/rhn/taskomatic.conf
-    {% if grains['hostname'] and grains['domain'] %}
+    {% if grains.get('hostname') and grains.get('domain') %}
     - text: |
 
         # Add these options and restart taskomatic for remote monitoring via Java Managent Extensions (JMX)

@@ -21,7 +21,7 @@ timezone_setting:
     - require:
       - file: timezone_symlink
 
-{% if grains['use_ntp'] %}
+{% if grains.get('use_ntp') %}
 
 {% if grains['osfullname'] == 'SLES' %}
 

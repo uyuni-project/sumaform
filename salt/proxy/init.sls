@@ -79,7 +79,7 @@ wget:
       - sls: repos
     {% endif %}
 
-{% if grains['use_avahi'] and grains.get('install_proxy_pattern') %}
+{% if grains.get('use_avahi') and grains.get('install_proxy_pattern') %}
 
 squid-configuration-dns-multicast:
   file.replace:
@@ -124,7 +124,7 @@ bootstrap_script:
   file.replace:
     - name: /root/bootstrap.sh
     - pattern: ^PROFILENAME="".*$
-    {% if grains['hostname'] and grains['domain'] %}
+    {% if grains.get('hostname') and grains.get('domain') %}
     - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
     {% else %}
     - repl: PROFILENAME="{{grains['fqdn']}}"

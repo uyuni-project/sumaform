@@ -1,5 +1,5 @@
 include:
-  {% if grains['hostname'] and grains['domain'] %}
+  {% if grains.get('hostname') and grains.get('domain') %}
   - default.hostname
   {% endif %}
   - default.network

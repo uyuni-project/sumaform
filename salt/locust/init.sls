@@ -61,7 +61,7 @@ locust_service:
         ExecStart=/usr/bin/locust --host=https://{{ grains['server'] }} \
                                   --locustfile=/root/locustfile.py \
                                   --logfile=/var/log/locust.log \
-                                  {% if not grains['locust_master_host'] and grains['locust_slave_count'] > 0 -%}
+                                  {% if not grains.get('locust_master_host') and grains.get('locust_slave_count', 0) > 0 -%}
                                   --master \
                                   --expect-slaves={{ grains['locust_slave_count'] }} \
                                   --port 80

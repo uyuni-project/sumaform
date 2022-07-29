@@ -1,7 +1,7 @@
 include:
   - server.initial_content
 
-{% if grains['iss_slave'] %}
+{% if grains.get('iss_slave']) %}
 
 register_slave:
   cmd.script:
@@ -11,7 +11,7 @@ register_slave:
     - require:
       - sls: server.initial_content
 
-{% elif grains['iss_master'] %}
+{% elif grains.get('iss_master') %}
 
 register_master:
   cmd.script:
