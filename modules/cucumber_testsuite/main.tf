@@ -115,7 +115,7 @@ module "suse-client" {
   quantity = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-client", "sles15sp2o")
+  image              = lookup(local.images, "suse-client", "sles15sp4o")
   name               = lookup(local.names, "suse-client", "cli-sles15")
 
   server_configuration = local.minimal_configuration
@@ -138,7 +138,7 @@ module "suse-minion" {
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-minion", "sles15sp2o")
+  image              = lookup(local.images, "suse-minion", "sles15sp3o")
   name               = lookup(local.names, "suse-minion", "min-sles15")
 
   server_configuration = local.minimal_configuration
@@ -163,7 +163,7 @@ module "suse-sshminion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-sshminion", "sles15sp2o")
+  image              = lookup(local.images, "suse-sshminion", "sles15sp3o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
  sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
 
@@ -230,7 +230,7 @@ module "build-host" {
   quantity           = contains(local.hosts, "build-host") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "build-host", "sles15sp2o")
+  image              = lookup(local.images, "build-host", "sles15sp4o")
   name               = lookup(local.names, "build-host", "min-build")
 
   server_configuration = local.minimal_configuration
@@ -252,7 +252,7 @@ module "pxeboot-minion" {
 
   quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "pxeboot-minion", "sles15sp3o")
+  image              = lookup(local.images, "pxeboot-minion", "sles15sp4o")
   name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
 
   provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
@@ -265,7 +265,7 @@ module "kvm-host" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "kvm-host", "sles15sp3o")
+  image              = lookup(local.images, "kvm-host", "sles15sp4o")
   name               = lookup(local.names, "kvm-host", "min-kvm")
 
   server_configuration = local.minimal_configuration
@@ -290,7 +290,7 @@ module "xen-host" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "xen-host", "sles15sp3o")
+  image              = lookup(local.images, "xen-host", "sles15sp4o")
   name               = lookup(local.names, "xen-host", "min-xen")
   hypervisor         = "xen"
 
