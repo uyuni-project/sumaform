@@ -17,7 +17,7 @@ node_exporter_service:
 
 postgres_exporter:
   pkg.installed:
-    - name: golang-github-wrouesnel-postgres_exporter
+    - name: prometheus-postgres_exporter
     - resolve_capabilities: True
     {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
@@ -26,66 +26,15 @@ postgres_exporter:
 
 postgres_exporter_configuration:
   file.managed:
-    - name: /etc/prometheus-postgres_exporter/postgres_exporter_queries.yaml
+    - name: /etc/postgres_exporter/postgres_exporter_queries.yaml
     - makedirs: True
-    - contents: |
-        mgr_serveractions:
-          query: |
-            SELECT (
-              SELECT COUNT(*)
-                FROM rhnServerAction
-                WHERE status = (
-                  SELECT id FROM rhnActionStatus WHERE name = 'Queued'
-               )
-            ) AS queued,
-            (
-              SELECT COUNT(*)
-                FROM rhnServerAction
-                WHERE status = (
-                  SELECT id FROM rhnActionStatus WHERE name = 'Picked Up'
-               )
-            ) AS picked_up,
-            (
-              SELECT COUNT(*)
-                FROM rhnServerAction
-                WHERE status = (
-                  SELECT id FROM rhnActionStatus WHERE name IN ('Completed')
-               )
-            ) AS completed,
-            (
-              SELECT COUNT(*)
-                FROM rhnServerAction
-                WHERE status = (
-                  SELECT id FROM rhnActionStatus WHERE name IN ('Failed')
-               )
-            ) AS failed;
-          metrics:
-            - queued:
-                usage: "GAUGE"
-                description: "Count of queued Actions"
-            - picked_up:
-                usage: "GAUGE"
-                description: "Count of picked up Actions"
-            - completed:
-                usage: "COUNTER"
-                description: "Count of completed Actions"
-            - failed:
-                usage: "COUNTER"
-                description: "Count of failed Actions"
-        salt_events:
-          query: |
-              SELECT COUNT(*)
-                FROM suseSaltEvent
-                AS salt_events_count;
-          metrics:
-            - salt_events_count:
-                usage: "GAUGE"
-                description: "Count of suse salt events"
+    - source: salt://server/postgres_exporter_queries.yaml
 
 postgres_exporter_service:
   file.managed:
     - name: /etc/sysconfig/prometheus-postgres_exporter
     - source: salt://server/postgres-exporter
+    - template: jinja
     - require:
       - pkg: postgres_exporter
       - file: postgres_exporter_configuration
@@ -99,51 +48,42 @@ postgres_exporter_service:
 
 jmx_exporter:
   pkg.installed:
-    - pkgs:
-      - prometheus-jmx_exporter
-      - prometheus-jmx_exporter-tomcat
+    - name: prometheus-jmx_exporter
     {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
     {% endif %}
 
-jmx_exporter_tomcat_service:
-  service.running:
-    - name: prometheus-jmx_exporter@tomcat
-    - enable: True
+jmx_exporter_tomcat_yaml_config:
+  file.managed:
+    - name: /etc/prometheus-jmx_exporter/tomcat/java_agent.yml
+    - makedirs: True
+    - source: salt://server/java_agent.yaml
+
+jmx_tomcat_config:
+  file.managed:
+    - name: /usr/lib/systemd/system/tomcat.service.d/jmx.conf
+    - makedirs: True
+    - source: salt://server/tomcat_jmx.conf
     - require:
       - pkg: jmx_exporter
-
-jmx_exporter_taskomatic_systemd_config:
-  file.managed:
-    - name: /etc/prometheus-jmx_exporter/taskomatic/environment
-    - makedirs: True
-    - contents: |
-        PORT="5557"
-        EXP_PARAMS=""
+  module.run:
+    - name: service.systemctl_reload
 
 jmx_exporter_taskomatic_yaml_config:
   file.managed:
-    - name: /etc/prometheus-jmx_exporter/taskomatic/prometheus-jmx_exporter.yml
+    - name: /etc/prometheus-jmx_exporter/taskomatic/java_agent.yml
     - makedirs: True
-    - contents: |
-        hostPort: localhost:3334
-        username:
-        password:
-        whitelistObjectNames:
-          - java.lang:type=Threading,*
-          - java.lang:type=Memory,*
-          - Catalina:type=ThreadPool,name=*
-        rules:
-        - pattern: ".*"
+    - source: salt://server/java_agent.yaml
 
-jmx_exporter_taskomatic_service:
-  service.running:
-    - name: prometheus-jmx_exporter@taskomatic
-    - enable: True
+jmx_taskomatic_config:
+  file.managed:
+    - name: /usr/lib/systemd/system/taskomatic.service.d/jmx.conf
+    - makedirs: True
+    - source: salt://server/taskomatic_jmx.conf
     - require:
       - pkg: jmx_exporter
-      - file: jmx_exporter_taskomatic_systemd_config
-      - file: jmx_exporter_taskomatic_yaml_config
+  module.run:
+    - name: service.systemctl_reload
 
 {% endif %}

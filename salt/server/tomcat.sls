@@ -15,23 +15,6 @@ tomcat_config:
     - require:
       - sls: server.rhn
 
-tomcat_config_jmx:
-  file.append:
-    - name: /etc/sysconfig/tomcat
-    {% if grains['hostname'] and grains['domain'] %}
-    - text: |
-
-        # Add these options and restart tomcat for remote monitoring via Java Managent Extensions (JMX)
-        # -Dcom.sun.management.jmxremote.port=3333 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{ grains['hostname'] }}.{{ grains['domain'] }}
-    {% else %}
-    - text: |
-
-        # Add these options and restart tomcat for remote monitoring via Java Managent Extensions (JMX)
-        # -Dcom.sun.management.jmxremote.port=3333 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{ grains['fqdn'] }}
-    {% endif %}
-    - require:
-      - sls: server.rhn
-
 {% endif %}
 
 {% if grains.get('login_timeout') %}
@@ -53,3 +36,4 @@ tomcat_service:
       - file: tomcat_config
       {% endif %}
       - file: /etc/rhn/rhn.conf
+      - file: /usr/lib/systemd/system/tomcat.service.d/*

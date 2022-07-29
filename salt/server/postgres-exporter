@@ -16,4 +16,4 @@ DATA_SOURCE_NAME="postgresql://spacewalk:spacewalk@localhost:5432/susemanager?ss
 #
 # Extra options for postgres-exporter
 #
-POSTGRES_EXPORTER_PARAMS="--extend.query-path /etc/prometheus-postgres_exporter/postgres_exporter_queries.yaml"
+POSTGRES_EXPORTER_PARAMS="--extend.query-path /etc/postgres_exporter/postgres_exporter_queries.yaml"

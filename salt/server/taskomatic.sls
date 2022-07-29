@@ -38,3 +38,4 @@ taskomatic:
   service.running:
     - watch:
       - file: /etc/rhn/rhn.conf
+      - file: /usr/lib/systemd/system/taskomatic.service.d/*
