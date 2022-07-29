@@ -16,7 +16,6 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
   availability_zone = var.base_configuration["availability_zone"]
-  region            = var.base_configuration["region"]
 }
 
 resource "aws_db_instance" "instance" {
@@ -29,7 +28,7 @@ resource "aws_db_instance" "instance" {
   engine_version         = var.engine_version
   username               = var.db_username
   password               = var.db_password
-
+  availability_zone      = local.availability_zone
   publicly_accessible    = var.publicly_accessible
   skip_final_snapshot    = var.skip_final_snapshot
 
