@@ -15,23 +15,6 @@ taskomatic_config:
     - require:
       - sls: server.rhn
 
-taskomatic_config_jmx:
-  file.append:
-    - name: /etc/rhn/taskomatic.conf
-    {% if grains['hostname'] and grains['domain'] %}
-    - text: |
-
-        # Add these options and restart taskomatic for remote monitoring via Java Managent Extensions (JMX)
-        # -Dcom.sun.management.jmxremote.port=3334 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{ grains['hostname'] }}.{{ grains['domain'] }}
-    {% else %}
-    - text: |
-
-        # Add these options and restart taskomatic for remote monitoring via Java Managent Extensions (JMX)
-        # -Dcom.sun.management.jmxremote.port=3334 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname={{ grains['fqdn'] }}
-    {% endif %}
-    - require:
-      - sls: server.rhn
-
 {% endif %}
 
 taskomatic:
