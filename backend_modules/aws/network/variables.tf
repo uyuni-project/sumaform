@@ -5,8 +5,7 @@ variable "region" {
 
 variable "availability_zone" {
   description = "Availability zone where the instance is created"
-  default     = []
-//  type        = string
+  type        = string
 }
 
 variable "ssh_allowed_ips" {
