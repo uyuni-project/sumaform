@@ -5,7 +5,9 @@ include:
   {% endif %}
   - server.additional_disk
   - server.firewall
+  {% if not grains.get('db_configuration')['local']
   - server.postgres
+  {% endif %}
   - server.tomcat
   - server.taskomatic
   - server.spacewalk-search
