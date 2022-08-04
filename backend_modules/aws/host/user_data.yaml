@@ -63,13 +63,18 @@ packages: ["salt-minion"]
 %{ if image == "sles15sp3o" }
 zypper:
   repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP3/
+    - id: salt_stack
+      name: salt_stack
+      baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15_SP3/
       enabled: 1
       autorefresh: 1
+      gpgcheck: 0
 
-packages: ["salt-minion"]
+repo_update: true
+repo_upgrade: all
+
+runcmd:
+  - zypper in --quiet --non-interactive --force --force-resolution salt-minion
 
 %{ endif }
 
