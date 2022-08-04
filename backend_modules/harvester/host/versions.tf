@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.1.5"
+  required_version = ">= 1.1.5"
   required_providers {
     null = {
       source  = "hashicorp/null"
@@ -7,7 +7,7 @@ terraform {
     }
     harvester = {
       source = "harvester/harvester"
-      version = "0.4.0"
+      version = ">= 0.5.0"
     }
   }
 }
