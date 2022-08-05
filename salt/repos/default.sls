@@ -236,8 +236,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
 
@@ -291,8 +290,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-  {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
 
@@ -554,8 +552,7 @@ tools_pool_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
     - refresh: True
     - require:
       - cmd: galaxy_key
@@ -632,8 +629,7 @@ tools_update_repo:
     - file: /etc/apt/sources.list.d/tools_update_repo.list
 # We only have one shared Client Tools repository, so we are using 4.3 for 4.2 annd 4.1
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
-{# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
@@ -662,7 +658,7 @@ tools_update_repo_raised_priority:
 {% elif 'nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools {# WORKAROUND: Change Head to 4.3 when Devel:Galaxy:Manager:4.3 is ready #}
+            Pin: release l=Devel:Galaxy:Manager:4.3:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 {% elif '4.1-released' in grains.get('product_version') | default('', true) %}
     - contents: |
