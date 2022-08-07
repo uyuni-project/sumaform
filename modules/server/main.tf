@@ -81,6 +81,7 @@ module "server" {
     server_registration_code       = var.server_registration_code
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
     login_timeout                  = var.login_timeout
+    db_configuration               = var.db_configuration
   }
 
 
