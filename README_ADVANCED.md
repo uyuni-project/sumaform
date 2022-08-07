@@ -287,9 +287,8 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
    * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
    * `forward_registration`: enable forwarding of registrations to SCC (default off)
-   * `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
+   *  `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
    * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
-   * `db_configuration` : pass external database configuration to change `setup_env.sh` file. See more in `Using external database` section
 
 
 ## Adding channels to SUSE Manager Servers
@@ -892,37 +891,3 @@ The `server` module has options to automatically capture more diagnostic informa
 
 - `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
 - `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
-
-## Using external database
-
-Currently, sumaform only support RDS database. The server need to be created in public cloud ( by default AWS). It's possible to get RDS in private network shared by server in aws.
-RDS module return automatically the parameters needed to configure rhn.conf throught setup_env.sh . 
-
-
-| Output variable    | Type    | Description                                                                                 |
-|--------------------|---------|---------------------------------------------------------------------------------------------|
-| hostname           | string  | RDS hostname that will be use for MANAGER_DB_HOST and REPORT_DB_HOST                        |
-| superuser          | string  | superuser to connect database, it will be use to create MANAGER_USER user and both database |
-| superuser_password | string  | superuser password                                                                          |
-| port               | string  | RDS port ( by default 5432)                                                                 |
-| certificate        | string  | Certificate use to connect RDS database. Certificate is provided by AWS                     |
-| local              | boolean | Set to `false` to use external database                                                     |
-
-
-Example :
-```hcl
-module "rds" {
-   source             = "./modules/rds"
-   name               = ...
-   base_configuration = module.base.configuration
-   db_username        = ...
-   db_password        = ...
-}
-
-module "server" {
-  source = "./modules/server"
-  base_configuration = module.base.configuration
-  db_configuration = module.db.configuration
-
-}
-```

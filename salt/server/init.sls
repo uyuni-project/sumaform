@@ -5,9 +5,7 @@ include:
   {% endif %}
   - server.additional_disk
   - server.firewall
-  {% if grains.get('db_configuration')['local'] %}
   - server.postgres
-  {% endif %}
   - server.tomcat
   - server.taskomatic
   - server.spacewalk-search
@@ -77,14 +75,6 @@ environment_setup_script:
     - name: /root/setup_env.sh
     - source: salt://server/setup_env.sh
     - template: jinja
-
-{% if not grains.get('db_configuration')['local'] and grains.get('provider') == 'aws' %}
-aws_db-certificate:
-  file.managed:
-    - name: /root/aws.crt
-    - source: salt://server/aws.crt
-    - template: jinja
-{% endif %}
 
 server_setup:
   cmd.run:
