@@ -1,6 +1,7 @@
 #cloud-config
 
 %{ if public_instance == "false" }
+#disable_root: false
 disable_root: false
 ssh_pwauth: true
 chpasswd:
@@ -60,12 +61,15 @@ packages: ["salt-minion"]
 %{ endif }
 
 %{ if image == "sles15sp3o" }
-runcmd:
-  - echo 'Hello, World!' > /var/tmp/hello-world.txt
-  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15_SP3/ salt_test
-  - zypper ref
-  - zypper in --allow-vendor-change --no-confirm salt-minion
-  - zypper removerepo --all
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP3/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
 
 %{ endif }
 
