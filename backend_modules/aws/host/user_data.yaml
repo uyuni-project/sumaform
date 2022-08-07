@@ -1,7 +1,6 @@
 #cloud-config
 
 %{ if public_instance == "false" }
-#disable_root: false
 disable_root: false
 ssh_pwauth: true
 chpasswd:
@@ -61,20 +60,12 @@ packages: ["salt-minion"]
 %{ endif }
 
 %{ if image == "sles15sp3o" }
-zypper:
-  repos:
-    - id: salt_stack
-      name: salt_stack
-      baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15_SP3/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: 0
-
-repo_update: true
-repo_upgrade: all
-
 runcmd:
-  - zypper in --quiet --non-interactive --force --force-resolution salt-minion
+  - echo 'Hello, World!' > /var/tmp/hello-world.txt
+  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15_SP3/ salt_test
+  - zypper ref
+  - zypper in --allow-vendor-change --no-confirm salt-minion
+  - zypper removerepo --all
 
 %{ endif }
 
