@@ -1,6 +1,5 @@
 include:
   - scc.server
-  - default.pkgs
   {% if 'build_image' not in grains.get('product_version') | default('', true) %}
   - repos
   {% endif %}
