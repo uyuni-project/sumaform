@@ -1,3 +1,6 @@
+include:
+  - scc
+
 {% if grains['additional_packages'] %}
 install_additional_packages:
   pkg.latest:
