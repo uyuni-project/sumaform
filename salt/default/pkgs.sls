@@ -10,5 +10,7 @@ install_additional_packages:
 {% endfor %}
     - require:
       - sls: repos
+      {% if grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') %}
       - sls: scc
+      {% endif %}
 {% endif %}
