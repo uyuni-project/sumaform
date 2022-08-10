@@ -8,9 +8,11 @@ locals {
   key_file = lookup(var.provider_settings, "key_file", null)
 
   create_network                       = lookup(var.provider_settings, "create_network", true)
+  create_db_network                    = lookup(var.provider_settings, "create_db_network", false)
   public_subnet_id                     = lookup(var.provider_settings, "public_subnet_id", null)
   private_subnet_id                    = lookup(var.provider_settings, "private_subnet_id", null)
   private_additional_subnet_id         = lookup(var.provider_settings, "private_additional_subnet_id", null)
+  db_private_subnet_name               = lookup(var.provider_settings, "db_private_subnet_name", null)
   public_security_group_id             = lookup(var.provider_settings, "public_security_group_id", null)
   private_security_group_id            = lookup(var.provider_settings, "private_security_group_id", null)
   private_additional_security_group_id = lookup(var.provider_settings, "private_additional_security_group_id", null)
@@ -27,6 +29,7 @@ module "network" {
   ssh_allowed_ips    = local.ssh_allowed_ips
   name_prefix        = local.name_prefix
   create_network     = local.create_network
+  create_db_network  = local.create_db_network
   additional_network = local.additional_network
 }
 
@@ -76,6 +79,7 @@ locals {
       public_subnet_id                     = local.public_subnet_id
       private_subnet_id                    = local.private_subnet_id
       private_additional_subnet_id         = local.private_additional_subnet_id
+      db_private_subnet_name               = local.db_private_subnet_name
       public_security_group_id             = local.public_security_group_id
       private_security_group_id            = local.private_security_group_id
       private_additional_security_group_id = local.private_additional_security_group_id

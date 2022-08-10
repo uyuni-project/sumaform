@@ -27,3 +27,8 @@ variable "create_network" {
   description = "defined if a new network should be created"
   default     = true
 }
+
+variable "create_db_network" {
+  description = "defined if a new network should be created"
+  default     = false
+}
