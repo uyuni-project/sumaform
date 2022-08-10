@@ -1,13 +1,5 @@
 {% if 'server' in grains.get('roles') and grains.get('server_registration_code') %}
 
-clean_sles_release_package:
-   cmd.run:
-     - name: rpm -e --nodeps sles-release; exit 0
-
-clean_suseconnect_registration :
-   cmd.run:
-     - name: SUSEConnect --cleanup
-
 {% if '4.1' in grains['product_version'] %}
 register_suse_manager_server_with_scc:
    cmd.run:
