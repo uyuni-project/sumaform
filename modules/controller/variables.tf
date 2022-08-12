@@ -328,15 +328,15 @@ variable "centos7_client_configuration" {
   }
 }
 
-variable "centos8_minion_configuration" {
-  description = "use module.<CENTOS8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "rocky8_minion_configuration" {
+  description = "use module.<ROCKY8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "centos8_sshminion_configuration" {
-  description = "use module.<CENTOS8_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "rocky8_sshminion_configuration" {
+  description = "use module.<ROCKY8_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
