@@ -433,8 +433,8 @@ variable "sle15sp4_buildhost_configuration" {
   }
 }
 
-variable "sle15sp3_terminal_configuration" {
-  description = "use module.<SLE15SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp4_terminal_configuration" {
+  description = "use module.<SLE15SP4_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     macaddr = null
     image = null
