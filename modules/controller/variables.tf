@@ -426,8 +426,8 @@ variable "debian11_sshminion_configuration" {
   }
 }
 
-variable "sle15sp3_buildhost_configuration" {
-  description = "use module.<SLE15SP3_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp4_buildhost_configuration" {
+  description = "use module.<SLE15SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
