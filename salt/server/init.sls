@@ -8,11 +8,11 @@ include:
   {% if grains.get('db_configuration')['local'] %}
   - server.postgres
   {% endif %}
+  - server.prometheus
   - server.tomcat
   - server.taskomatic
   - server.spacewalk-search
   - server.rhn
-  - server.prometheus
   - server.initial_content
   - server.iss
   - server.testsuite
