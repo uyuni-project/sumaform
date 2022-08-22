@@ -2,7 +2,7 @@
 
 register_sles_server:
    cmd.run:
-     - name: SUSEConnect --url https://scc.suse.com -r {{ grains.get("sles_registration_code") }}
+     - name: SUSEConnect --url https://scc.suse.com -r {{ grains.get("sles_registration_code") }} -p SLES/{{ grains['osrelease'] }}/x86_64
 
 basesystem_activation:
    cmd.run:
