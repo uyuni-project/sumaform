@@ -185,8 +185,8 @@ module "redhat-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "redhat-minion", "centos7o")
-  name               = lookup(local.names, "redhat-minion", "min-centos7")
+  image              = lookup(local.images, "redhat-minion", "rocky8o")
+  name               = lookup(local.names, "redhat-minion", "min-rocky8")
 
   server_configuration   = local.minimal_configuration
 
