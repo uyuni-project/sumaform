@@ -404,6 +404,47 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
+%{ if image == "ubuntu2204o" }
+
+apt:
+  sources:
+    tools_pool_repo:
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/ /
+      key: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v1.4.5 (GNU/Linux)
+
+        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
+        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
+        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
+        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
+        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
+        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
+        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJfM/XhAhsDBQkIKuuMBgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqQnB/wMkQdu3FtPd+Jppc9G
+        TLbSZC2CDLfGpciuBYU4yiUY6F8Gt2KASRQe9lHiKtJKeKpRXsXu1tEUuTr8xp2R
+        PbP+TKT2u7HFIEfrQUl5poSXSrEqtQyzaciTYxV343EWr+kn3Ry4M3Cj1uiMOYGd
+        UIT61uye1TUxbvnGLbl6NUl+KOgtH3DQZf6xLr+yCD/y97FHpLCGQtMMwQdcJ25z
+        9fmJlBb8SEOe0blfOQP2RTZe6pIuLvR+rbA+fj5fGI9m5VV1gznVXjY6PFlEwW9k
+        UaJlMJ4ximis8qO/8SMLI5y9AQC8gSy4qKc6oYe3TEnaK/GjRrEXNbKBkEKw3z0m
+        tbC0iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
+        =H9dm
+        -----END PGP PUBLIC KEY BLOCK-----
+
+runcmd:
+  # WORKAROUND: cloud-init in Ubuntu 22.04 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - systemctl start qemu-guest-agent
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ else }
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }
+%{ endif }
 %{ if image == "debian11o" }
 runcmd:
 #   HACK: cloud-init in Debian 11 does not take care of the following

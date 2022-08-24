@@ -31,6 +31,7 @@ locals {
     ubuntu1804      = "${var.use_mirror_images ? "http://${var.mirror}" : "https://github.com"}/uyuni-project/sumaform-images/releases/download/4.4.0/ubuntu1804.qcow2"
     ubuntu1804o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud-images.ubuntu.com"}/bionic/current/bionic-server-cloudimg-amd64.img"
     ubuntu2004o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
+    ubuntu2204o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
     debian9o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.debian.org"}/images/cloud/OpenStack/current-9/debian-9-openstack-amd64.qcow2"
     debian10o       = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.debian.org"}/images/cloud/OpenStack/current-10/debian-10-openstack-amd64.qcow2"
     debian11o       = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.debian.org"}/cdimage/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2"
