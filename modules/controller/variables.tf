@@ -384,6 +384,20 @@ variable "ubuntu2004_sshminion_configuration" {
   }
 }
 
+variable "ubuntu2204_minion_configuration" {
+  description = "use module.<UBUNTU2204_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "ubuntu2204_sshminion_configuration" {
+  description = "use module.<UBUNTU2204_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "debian9_minion_configuration" {
   description = "use module.<DEBIAN9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
