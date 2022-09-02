@@ -148,9 +148,8 @@ extend_login_timeout:
         - cmd: server_setup
 {% endif %}
 
-# WORKAROUND: 4.3 is needed only until the branching of Manager-4.3 is completed and
-# the testsuite can be addapted
-{% if 'head' in grains.get('product_version') or '4.3' in grains.get('product_version') %}
+# WORKAROUND: 4.4 is needed only until the branching of SUSE Manager 4.4 is completed
+{% if 'head' in grains.get('product_version') or '4.4' in grains.get('product_version') %}
 change_product_tree_to_beta:
   file.replace:
     - name: /etc/rhn/rhn.conf
