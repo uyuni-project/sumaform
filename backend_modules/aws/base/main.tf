@@ -90,7 +90,7 @@ module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = "opensuse152o"
+  image                         = lookup(var.provider_settings, "bastion_image", "opensuse152o")
   name                          = "bastion"
   connect_to_additional_network = true
   provider_settings = {

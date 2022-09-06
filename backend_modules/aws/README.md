@@ -51,6 +51,7 @@ Available provider settings for the base module:
 | server_registration_code | string | `null`          | SUMA SCC server registration code to use SCC repositories and disable internal repositories                             |
 | proxy_registration_code  | string | `null`          | SUMA SCC proxy registration code to use SCC repositories and disable internal repositories                              |
 | sles_registration_code   | string | `null`          | SLE registration code to use SCC repositories and disable internal repositories ( use for minion, sshminion and client) |
+| bastion_image            | string | `opensuse152o`  | Image name to be used when deploying the bastion host                                                                   |
 
 An example follows:
 
