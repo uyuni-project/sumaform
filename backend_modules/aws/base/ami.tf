@@ -208,7 +208,7 @@ data "aws_ami" "sles12sp3" {
     values = ["ebs"]
   }
 }
-
+/*
 data "aws_ami" "sles11sp4" {
   most_recent = true
   name_regex  = "^suse-sles-11-sp4-byos-v"
@@ -228,7 +228,7 @@ data "aws_ami" "sles11sp4" {
     name   = "root-device-type"
     values = ["ebs"]
   }
-}
+}*/
 
 data "aws_ami" "centos7" {
   most_recent = true
@@ -355,7 +355,7 @@ data "aws_ami" "rhel8" {
     values = ["ebs"]
   }
 }
-
+/*
 data "aws_ami" "rhel7" {
   most_recent = true
   name_regex  = "^RHEL-7.7_HVM-"
@@ -375,4 +375,4 @@ data "aws_ami" "rhel7" {
     name   = "root-device-type"
     values = ["ebs"]
   }
-}
+}*/
