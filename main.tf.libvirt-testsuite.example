@@ -1,0 +1,142 @@
+terraform {
+ required_version = "1.0.10"
+ required_providers {
+   libvirt = {
+     source = "dmacvicar/libvirt"
+     version = "0.6.3"
+   }
+ }
+}
+
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+
+module "cucumber_testsuite" {
+  source = "./sumaform/modules/cucumber_testsuite"
+
+  # see https://github.com/uyuni-project/sumaform/blob/master/README_ADVANCED.md
+  # for more information on product_version values
+  # you should use the same version here as in git_repo below
+  # if you work on Uyuni you should use e.g. uyuni-master here and uyuni as git_repo below
+  # if you work on SUMA you should use e.g. 4.3-nightly, 4.3-released or head and spacewalk as git_repo below
+  product_version = "uyuni-master"
+
+  # SUSE SCC credentials
+  cc_username = ""
+  cc_password = ""
+
+  # define what images should be used and uploaded
+  # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
+  # the following images are e.g. available:
+  # "opensuse152o", "opensuse154o",
+  # "sles12sp5o", "sles15sp3o", "sles15sp4o",
+  # "ubuntu1804o", "ubuntu2004o", "ubuntu2204o",
+  # "centos7o", "centos8o",
+  # "rocky8o",
+  # "almalinux8o",
+  # "amazonlinux2o"
+  # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
+  # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
+  # images = ["centos7o", "opensuse152o", "opensuse154o", "sles15sp4o", "ubuntu2004o"]
+
+  use_avahi = true
+  name_prefix = "prefix-"
+  domain = "tf.local"
+  from_email = "email@domain.com"
+
+  # git credentials and repository that will be checked out on the controller
+  # you have to use a personal access token as password and not your actual GitHub password
+  # see https://github.com/settings/tokens
+  # here you can specify a branch where you e.g. develop a new test
+  # be aware to use the same version (e.g. Uyuni or SUMA) as git_repo as set in product_version above
+  git_repo = "https://github.com/uyuni-project/uyuni.git"
+  git_username = "nogit"
+  git_password = "nogit"
+  branch = "master"
+
+  # In case you use an authentication registry
+  auth_registry = "registry.mgr.suse.de:5000/cucutest"
+  auth_registry_username = ""
+  auth_registry_password = ""
+  git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/internal_prv"
+
+  # define which VMs should be created and adjust their settings.
+  # if you do not need a minion just comment it out.
+  # example:
+  # suse-minion = {
+  #    image = "sles15sp4o"
+  #    name = "minion"
+  #    provider_settings = {
+  #      mac = "aa:bb:cc:dd:ee:ff"
+  #      memory = 1024
+  #      vcpu = 2
+  #    }
+  #    additional_repos = {
+  #      Test_repo = "http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP4/"
+  #    }
+  #    additional_packages = [ "vim" ]
+  # }
+  # also have a look at the image matrix that is used in our test suite:
+  # https://github.com/SUSE/susemanager-ci#used-image-versions-in-the-ci-test-suite
+  host_settings = {
+    controller = {
+      name = "controller"
+    }
+    server = {
+      name = "server"
+    }
+    proxy = {
+      name = "proxy"
+    }
+    suse-client = {
+      image = "sles15sp4o"
+    }
+    suse-minion = {
+      image = "sles15sp4o"
+      name = "minion"
+    }
+    suse-sshminion = {
+      image = "sles15sp4o"
+      name = "sshminion"
+    }
+    redhat-minion = {
+      image = "centos7o"
+      name = "centos"
+    }
+    debian-minion = {
+      image = "ubuntu2004o"
+      name = "ubuntu"
+    }
+    build-host = {
+      image = "sles15sp4o"
+      name = "build"
+    }
+    pxeboot-minion = {
+      image = "sles15sp4o"
+      name = "pxeboot"
+    }
+    kvm-host = {
+      image = "opensuse154o"
+      name = "kvmhost"
+    }
+    xen-host = {
+      image = "opensuse154o"
+      name = "xenhost"
+    }
+  }
+
+  # special settings for adjusting e.g. the pool name or defining another IP range
+  #provider_settings = {
+  #  uri = "qemu:///system"
+  #  pool = "username_disks"
+  #  bridge = "br0"
+  #  additional_network = "xxx.xxx.xxx.xxx/24"
+  #}
+}
+
+# This will generate the outputs on-screen and will store them in the terraform.tfstate file
+output "configuration" {
+  value = module.cucumber_testsuite.configuration
+}
