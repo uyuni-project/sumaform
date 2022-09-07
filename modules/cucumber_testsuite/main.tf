@@ -138,7 +138,7 @@ module "suse-minion" {
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-minion", "sles15sp3o")
+  image              = lookup(local.images, "suse-minion", "sles15sp4o")
   name               = lookup(local.names, "suse-minion", "min-sles15")
 
   server_configuration = local.minimal_configuration
@@ -163,7 +163,7 @@ module "suse-sshminion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-sshminion", "sles15sp3o")
+  image              = lookup(local.images, "suse-sshminion", "sles15sp4o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
  sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
 
