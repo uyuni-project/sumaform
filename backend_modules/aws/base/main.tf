@@ -97,6 +97,7 @@ module "bastion" {
   provider_settings = {
     instance_type   = "t2.micro"
     public_instance = true
+    instance_with_eip = true
   }
 }
 
