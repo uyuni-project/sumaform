@@ -571,17 +571,17 @@ tools_update_repo:
       - cmd: uyuni_key
 {% else %}
 {% if release >= 8 %}
- tools_update_repo:
-   pkgrepo.managed:
-     - humanname: tools_update_repo
-     {% if 'beta' in grains.get('product_version') | default('', true) %}
-     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
-     {% else %}
-     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
-     {% endif %}
-     - refresh: True
-     - require:
-       - cmd: galaxy_key
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    {% if 'beta' in grains.get('product_version') | default('', true) %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
+    {% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
+    {% endif %}
+    - refresh: True
+    - require:
+      - cmd: galaxy_key
 {% endif %}
 {% endif %}
 
