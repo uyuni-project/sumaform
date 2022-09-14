@@ -127,11 +127,6 @@ variable "server_http_proxy" {
   default     = null
 }
 
-variable "custom_download_endpoint" {
-  description = "URL (protocol, domain name and port) of custom download endpoint for packages"
-  default     = null
-}
-
 variable "saltapi_tcpdump" {
   description = "If set to true, all network operations of salt-api on the Server are logged to /tmp/ with tcpdump."
   default     = false

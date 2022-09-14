@@ -271,19 +271,6 @@ module "cucumber_testsuite" {
 }
 ```
 
-## Custom download endpoint
-
-By default, packages are downloaded from the SUSE Manager server via HTTP. However, we also test that they can be downloaded from a custom endpoint. You may set this up by using `custom_download_endpoint` variable.
-
-For example:
-```hcl
-module "cucumber_testsuite" {
-   ...
-   custom_download_endpoint = "ftp://name.of.endpoint:445"
-   ...
-}
-```
-
 ## Virtual host
 
 User may need to change the KVM/Xen image download. To do it, one can use the `additional_grains` property:
