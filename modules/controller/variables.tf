@@ -570,6 +570,11 @@ variable "server_http_proxy" {
   default     = null
 }
 
+variable "custom_download_endpoint" {
+  description = "URL (protocol, domain name and port) of custom download endpoint for packages"
+  default     = null
+}
+
 variable "provider_settings" {
   description = "Map of provider-specific settings, see the backend-specific README file"
   default     = {}
