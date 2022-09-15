@@ -36,4 +36,6 @@ tomcat_service:
       - file: tomcat_config
       {% endif %}
       - file: /etc/rhn/rhn.conf
-      - file: /usr/lib/systemd/system/tomcat.service.d/*
+      {% if grains.get('monitored') | default(false, true) %}
+      - file: jmx_tomcat_config
+      {% endif %}
