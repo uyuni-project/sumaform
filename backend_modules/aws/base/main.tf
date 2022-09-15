@@ -73,6 +73,7 @@ locals {
       ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
       ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
       rhel8       = { ami = data.aws_ami.rhel8.image_id},
+      rhel9       = { ami = data.aws_ami.rhel9.image_id},
       //rhel7       = { ami = data.aws_ami.rhel7.image_id},
     }
     },

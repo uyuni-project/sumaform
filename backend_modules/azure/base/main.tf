@@ -108,6 +108,13 @@ data "azurerm_platform_image" "rhel8" {
   sku       = "8-LVM"
 }
 
+data "azurerm_platform_image" "rhel9" {
+  location  = local.location
+  publisher = "RedHat"
+  offer     = "RHEL"
+  sku       = "9-LVM"
+}
+
 data "azurerm_platform_image" "ubuntu1604" {
   location  = local.location
   publisher = "cognosys"
@@ -190,6 +197,7 @@ locals {
       ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
       ubuntu1804   = { platform_image = data.azurerm_platform_image.ubuntu1804 },
       ubuntu1604   = { platform_image = data.azurerm_platform_image.ubuntu1604 },
+      rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },
       rhel8        = { platform_image = data.azurerm_platform_image.rhel8 },
       rhel7        = { platform_image = data.azurerm_platform_image.rhel7 },
       suma41       = { platform_image = data.azurerm_platform_image.suma41 },
