@@ -21,4 +21,6 @@ taskomatic:
   service.running:
     - watch:
       - file: /etc/rhn/rhn.conf
-      - file: /usr/lib/systemd/system/taskomatic.service.d/*
+     {% if grains.get('monitored') | default(false, true) %}
+      - file: jmx_taskomatic_config
+     {% endif %}
