@@ -3,6 +3,7 @@ include:
   - default.minimal
   - default.pkgs
   - default.grub
+  - default.sshd
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
