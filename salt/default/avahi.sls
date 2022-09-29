@@ -39,7 +39,12 @@ dbus_enable_service:
 
 # TODO: replace 'pkg.latest' with 'pkg.installed' when fix to bsc#1163683 is applied to all the SLES versions we use
 avahi_pkg:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SLE Micro'  %}
+# WORKAROUND for sle micro we should not ask for the latest by just check that is installed. We are building our image for sumaform.
+  pkg.installed:
+{% else %}
   pkg.latest:
+{% endif %}
     - pkgs:
       {% if grains['os_family'] == 'Debian' %}
       - avahi-daemon
