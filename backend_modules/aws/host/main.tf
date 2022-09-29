@@ -47,7 +47,7 @@ data "template_file" "user_data" {
 }
 
 resource "aws_eip" "host_eip" {
-  count = local.host_eip ? 1 : 0
+  count = local.host_eip ? var.quantity : 0
 
   vpc = true
   tags = {
@@ -57,7 +57,7 @@ resource "aws_eip" "host_eip" {
 }
 
 resource "aws_eip_association" "eip_assoc" {
-  count = local.host_eip ? 1 : 0
+  count = local.host_eip ? var.quantity : 0
   allocation_id = aws_eip.host_eip[count.index].id
   #instance_id   = aws_instance.instance[count.index].id
   network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
