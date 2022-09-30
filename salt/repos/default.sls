@@ -54,11 +54,33 @@ lock_firewalld_prometheus_config_leap_cmd:
 {% endif %}
 
 {% elif not grains.get('product_version') or not 'uyuni-pr' in grains.get('product_version') | default('', true) %}
+
+{% if not grains.get('product_version') or grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     - refresh: True
     - priority: 98
+{% else%}
+tools_pool_repo:
+  pkgrepo.managed:
+    {% if 'beta' in grains.get('product_version') | default('', true) %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/
+    {% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
+    {% endif %}
+    - refresh: True
+
+tools_update_repo:
+  pkgrepo.managed:
+    {% if 'beta' in grains.get('product_version') | default('', true) %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15-BETA/x86_64/update/
+    {% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
+    {% endif %}
+    - refresh: True
+{% endif %}
+
 {% endif %}
 {% endif %} {# not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) #}
 
