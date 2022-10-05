@@ -208,8 +208,8 @@ module "debian-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "debian-minion", "ubuntu2004o")
-  name               = lookup(local.names, "debian-minion", "min-ubuntu2004")
+  image              = lookup(local.images, "debian-minion", "ubuntu2204o")
+  name               = lookup(local.names, "debian-minion", "min-ubuntu2204")
 
   server_configuration   = local.minimal_configuration
 

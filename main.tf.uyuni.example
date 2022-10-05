@@ -33,7 +33,7 @@ module "base" {
 //  }
 
   // Required images
-  images = ["centos7", "opensuse153o", "ubuntu1804"]
+  images = ["centos7", "opensuse153o", "ubuntu2204"]
 }
 
 module "server" {
@@ -70,8 +70,8 @@ module "debian-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
-  name = "min-ubuntu1804"
-  image = "ubuntu1804"
+  name = "min-ubuntu2204"
+  image = "ubuntu2204"
   server_configuration = module.server.configuration
   provider_settings = {
     memory = 1024
