@@ -106,7 +106,7 @@ module "cucumber_testsuite" {
       name = "centos"
     }
     debian-minion = {
-      image = "ubuntu2004o"
+      image = "ubuntu2204o"
       name = "ubuntu"
     }
     build-host = {
