@@ -12,9 +12,9 @@ locals {
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
     contains(var.roles, "server") ? { instance_type = "t3.medium" } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "m5.xlarge" } : {},
+    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "t2.xlarge" } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "t3.medium" } : {},
-    contains(var.roles, "mirror") ? { instance_type = "t3.micro" } : {},
+    contains(var.roles, "mirror") ? { instance_type = "t2.micro" } : {},
     contains(var.roles, "controller") ? { instance_type = "m5.large" } : {},
     contains(var.roles, "grafana") ? { instance_type = "t3.medium" } : {},
     contains(var.roles, "virthost") ? { instance_type = "t3.medium" } : {},
