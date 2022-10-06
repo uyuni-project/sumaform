@@ -33,7 +33,7 @@ locals {
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
 
-  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
+//  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
 
 data "template_file" "user_data" {
@@ -45,23 +45,23 @@ data "template_file" "user_data" {
     mirror_url               = var.base_configuration["mirror"]
   }
 }
-
-resource "aws_eip" "host_eip" {
-  count = local.host_eip ? var.quantity : 0
-
-  vpc = true
-  tags = {
-    Name = "${local.resource_name_prefix}-host-eip${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-
-  }
-}
-
-resource "aws_eip_association" "eip_assoc" {
-  count = local.host_eip ? var.quantity : 0
-  allocation_id = aws_eip.host_eip[count.index].id
-  #instance_id   = aws_instance.instance[count.index].id
-  network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
-}
+//
+//resource "aws_eip" "host_eip" {
+//  count = local.host_eip ? var.quantity : 0
+//
+//  vpc = true
+//  tags = {
+//    Name = "${local.resource_name_prefix}-host-eip${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+//
+//  }
+//}
+//
+//resource "aws_eip_association" "eip_assoc" {
+//  count = local.host_eip ? var.quantity : 0
+//  allocation_id = aws_eip.host_eip[count.index].id
+//  #instance_id   = aws_instance.instance[count.index].id
+//  network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
+//}
 
 resource "aws_instance" "instance" {
   ami                    = local.ami
