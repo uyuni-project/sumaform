@@ -7,7 +7,7 @@ locals {
     key_file        = var.base_configuration["key_file"]
     ssh_user        = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ssh_user", "ec2-user")
     public_instance = false
-    instance_with_eip = false
+//    instance_with_eip = false
     volume_size     = 50
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
