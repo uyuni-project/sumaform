@@ -190,7 +190,7 @@ resource "null_resource" "host_salt_configuration" {
     bastion_host        = aws_instance.instance[count.index].associate_public_ip_address ? null : local.provider_settings["bastion_host"]
     bastion_user        = "ec2-user"
     bastion_private_key = file(local.provider_settings["key_file"])
-    timeout             = "480s"
+    timeout             = "120s"
   }
 
   provisioner "file" {
