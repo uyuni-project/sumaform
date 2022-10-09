@@ -66,7 +66,7 @@ locals {
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
       centos7     = { ami = data.aws_ami.centos7.image_id, ssh_user = "centos" },
-      centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
+//      centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
       ubuntu2004  = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
       ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
       ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
