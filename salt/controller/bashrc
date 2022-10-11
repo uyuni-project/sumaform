@@ -76,7 +76,7 @@ export VIRTHOST_XEN_PASSWORD="linux" {% else %}# no Xen host defined {% endif %}
 {% if grains.get('sle12sp5_terminal_mac') | default(false, true) %}export SLE12SP5_TERMINAL_MAC="{{ grains.get('sle12sp5_terminal_mac') }}" {% else %}# no SLE12SP5 terminal MAC defined {% endif %}
 {% if grains.get('sle11sp4_buildhost') | default(false, true) %}export SLE11SP4_BUILDHOST="{{ grains.get('sle11sp4_buildhost') }}" {% else %}# no SLE11SP4 buildhost defined {% endif %}
 {% if grains.get('sle11sp3_terminal_mac') | default(false, true) %}export SLE11SP3_TERMINAL_MAC="{{ grains.get('sle11sp3_terminal_mac') }}" {% else %}# no SLE11SP3 terminal MAC defined {% endif %}
-{% if grains.get('opensuse153arm_minion') | default(false, true) %}export OPENSUSE153ARM_MINION="{{ grains.get('opensuse153arm_minion') }}" {% else %}# no OPENSUSE153ARM minion defined {% endif %}
+{% if grains.get('opensuse154arm_minion') | default(false, true) %}export OPENSUSE154ARM_MINION="{{ grains.get('opensuse154arm_minion') }}" {% else %}# no OPENSUSE154ARM minion defined {% endif %}
 
 # various test suite settings
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
