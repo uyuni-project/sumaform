@@ -500,8 +500,8 @@ variable "sle11sp3_terminal_configuration" {
   }
 }
 
-variable "opensuse153arm_minion_configuration" {
-  description = "use module.<OPENSUSE153ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse154arm_minion_configuration" {
+  description = "use module.<OPENSUSE154ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
