@@ -200,6 +200,7 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
 packages: ["salt-minion"]
