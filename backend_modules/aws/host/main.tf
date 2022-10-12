@@ -145,7 +145,7 @@ resource "aws_volume_attachment" "data_disk_attachment" {
 
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 
-  device_name = "/dev/xvdf"
+  device_name = split('.', local.provider_settings["instance_type"])[0] == "t2" ? "/dev/xvdf" : "nvme1n1"
   volume_id   = aws_ebs_volume.data_disk[count.index].id
   instance_id = aws_instance.instance[count.index].id
   // volume tends not to detach, breaking terraform destroy, so skip destroying
