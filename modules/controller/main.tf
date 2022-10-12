@@ -117,7 +117,7 @@ module "controller" {
     sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["macaddr"]
     sle15sp4_buildhost    = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
     sle15sp4_terminal_mac = var.sle15sp4_terminal_configuration["macaddr"]
-    opensuse153arm_minion = length(var.opensuse153arm_minion_configuration["hostnames"]) > 0 ? var.opensuse153arm_minion_configuration["hostnames"][0] : null
+    opensuse154arm_minion = length(var.opensuse154arm_minion_configuration["hostnames"]) > 0 ? var.opensuse154arm_minion_configuration["hostnames"][0] : null
   }
 
 
