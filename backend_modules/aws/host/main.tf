@@ -32,7 +32,7 @@ locals {
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
-  instance_type_tier = split(".", local.provider_settings["instance_type"])
+  data_disk_device = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
 
 //  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
@@ -145,7 +145,7 @@ resource "aws_volume_attachment" "data_disk_attachment" {
   depends_on = [aws_instance.instance, aws_ebs_volume.data_disk]
 
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
-  device_name = local.instance_type_tier[0] == "t2" ? "/dev/xvdf" : "/dev/sdf"
+  device_name = "/dev/xvdf"
   volume_id   = aws_ebs_volume.data_disk[count.index].id
   instance_id = aws_instance.instance[count.index].id
   // volume tends not to detach, breaking terraform destroy, so skip destroying
@@ -234,8 +234,7 @@ resource "null_resource" "host_salt_configuration" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "xvdf" : null
-      },
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null      },
     var.grains))
     destination = "/tmp/grains"
   }
