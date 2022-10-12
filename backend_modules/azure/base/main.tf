@@ -108,6 +108,13 @@ data "azurerm_platform_image" "rhel8" {
   sku       = "8-LVM"
 }
 
+data "azurerm_platform_image" "rhel9" {
+  location  = local.location
+  publisher = "RedHat"
+  offer     = "RHEL"
+  sku       = "9-LVM"
+}
+
 data "azurerm_platform_image" "ubuntu1604" {
   location  = local.location
   publisher = "cognosys"

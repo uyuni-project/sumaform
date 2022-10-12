@@ -108,6 +108,19 @@ runcmd:
   - zypper removerepo --all
   - rm /etc/modprobe.d/50-ipv6.conf
 %{ endif }
+%{ if image == "rhel9"}
+yum_repos:
+  # repo for salt
+  temp_tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: temp_tools_pool_repo
+    priority: 98
+
+packages: ["salt-minion"]
+%{ endif }
 %{ if image == "rhel8"}
 yum_repos:
   # repo for salt

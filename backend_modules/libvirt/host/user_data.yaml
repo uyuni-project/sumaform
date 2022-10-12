@@ -133,6 +133,50 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
+%{ if image == "centos9o" }
+bootcmd:
+  # WORKAROUND: yum_repos state cant replace a repo, so we need to delete it,
+  # otherwise the workaround for archived repo doesn't work
+  - [rm, -f, /etc/yum.repos.d/CentOS-Base.repo, /etc/yum.repos.d/CentOS-AppStream.repo]
+
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+  # repo for Centos-Base backup
+  CentOS-Base_backup:
+    baseurl: http://vault.centos.org/$contentdir/$releasever/BaseOS/$basearch/os/
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: CentOS-Base_backup
+  # repo for Centos-Appstream backup
+  CentOS-Appstream_backup:
+    baseurl: http://vault.centos.org/$contentdir/$releasever/AppStream/$basearch/os/
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: CentOS-AppStream_backup
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+%{ endif }
+
 %{ if image == "opensuse152o" }
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "qemu-guest-agent"]

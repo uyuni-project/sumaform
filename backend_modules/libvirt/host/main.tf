@@ -2,6 +2,7 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
+  x86_64_v2_images = ["almalinux9o", "rocky9o", "oraclelinux9o", "centos9o"]
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -10,6 +11,7 @@ locals {
     cpu_model       = "custom"
     xslt            = null
     },
+    contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
