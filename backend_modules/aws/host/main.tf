@@ -32,6 +32,7 @@ locals {
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
+  instance_type_tier = split(".", local.provider_settings["instance_type"])
 
 //  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
@@ -144,8 +145,7 @@ resource "aws_volume_attachment" "data_disk_attachment" {
   depends_on = [aws_instance.instance, aws_ebs_volume.data_disk]
 
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
-  instance_type_tier = split(".", local.provider_settings["instance_type"])
-  device_name = instance_type_tier[0] == "t2" ? "/dev/xvdf" : "nvme1n1"
+  device_name = local.instance_type_tier[0] == "t2" ? "/dev/xvdf" : "nvme1n1"
   volume_id   = aws_ebs_volume.data_disk[count.index].id
   instance_id = aws_instance.instance[count.index].id
   // volume tends not to detach, breaking terraform destroy, so skip destroying
