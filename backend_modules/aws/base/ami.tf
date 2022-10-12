@@ -255,8 +255,8 @@ data "aws_ami" "centos7" {
 
 data "aws_ami" "ubuntu2204" {
 most_recent = true
-name_regex  = "^Ubuntu-22.04-with-GUI"
-owners      = ["679593333241"]
+name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
+owners      = ["099720109477"]
 
 filter {
 name   = "architecture"
