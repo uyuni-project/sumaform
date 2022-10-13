@@ -26,7 +26,7 @@ spacewalk_directory:
     - makedirs: True
   mount.mounted:
     - name: /var/spacewalk
-    - device: /dev/{{grains['data_disk_device']}}1
+    - device: {{partition_name}}
     - fstype: ext4
     - mkmnt: True
     - persist: True
