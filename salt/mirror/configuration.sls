@@ -146,9 +146,9 @@ scc-data_script:
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
-{% set partition_name = "/dev/{{grains['data_disk_device']}}p1" %}
+{% set partition_name = '/dev/' + grains['data_disk_device'] + 'p1' %}
 {% else %}
-{% set partition_name = "/dev/{{grains['data_disk_device']}}1" %}
+{% set partition_name = '/dev/' + grains['data_disk_device'] + '1' %}
 {% endif %}
 
 mirror_partition:
@@ -172,7 +172,7 @@ mirror_directory:
       - pkg: apache2
   mount.mounted:
     - name: /srv/mirror
-    - device: /dev/{{grains['data_disk_device']}}1
+    - device: {{partition_name}}
     - fstype: {{fstype}}
     - mkmnt: True
     - persist: True
