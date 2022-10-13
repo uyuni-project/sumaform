@@ -146,7 +146,7 @@ scc-data_script:
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
-{% set partition_name = "/dev/{{grains['data_disk_device']}}p1"
+{% set partition_name = "/dev/{{grains['data_disk_device']}}p1" %}
 {% else %}
 {% set partition_name = "/dev/{{grains['data_disk_device']}}1" %}
 {% endif %}
