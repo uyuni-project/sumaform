@@ -30,6 +30,8 @@ locals {
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
+  additional_device_name = substr(local.provider_settings["instance_type"], 0, 3) == "t2." ? "xvdf" : "nvme1n1"
+
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
 
@@ -234,7 +236,7 @@ resource "null_resource" "host_salt_configuration" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "xvdf" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.additional_device_name : null
       },
     var.grains))
     destination = "/tmp/grains"
