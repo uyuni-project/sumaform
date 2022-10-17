@@ -32,8 +32,6 @@ proxy-packages:
 {% endif %}
 {% if install_proxy_container_packages %}
       - podman
-      - unzip
-      - ca-certificates-suse
 {% endif %}
     {% if 'build_image' not in grains.get('product_version') | default('', true) %}
     - require:
