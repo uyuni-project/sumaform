@@ -116,7 +116,7 @@ variable "additional_grains" {
 
 
 variable "image" {
-  description = "An image name, e.g. sles11sp4 or opensuse152o"
+  description = "An image name, e.g. sles12sp4 or opensuse154o"
   type        = string
 }
 

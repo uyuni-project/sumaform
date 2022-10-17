@@ -17,13 +17,6 @@ locals {
   key_file = lookup(var.provider_settings, "key_file", null)
 }
 
-data "azurerm_platform_image" "opensuse152o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "opensuse-leap"
-  sku       = "15-2-gen2"
-}
-
 data "azurerm_platform_image" "opensuse153o" {
   location  = local.location
   publisher = "suse"
@@ -184,7 +177,6 @@ locals {
     resource_group_name = module.network.configuration.resource_group_name
     platform_image_info = {
       opensuse153o = { platform_image = data.azurerm_platform_image.opensuse153o },
-      opensuse152o = { platform_image = data.azurerm_platform_image.opensuse152o },
       sles15       = { platform_image = data.azurerm_platform_image.sles15 },
       sles15sp1o   = { platform_image = data.azurerm_platform_image.sles15sp1o },
       sles15sp2o   = { platform_image = data.azurerm_platform_image.sles15sp2o },
@@ -197,6 +189,7 @@ locals {
       ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
       ubuntu1804   = { platform_image = data.azurerm_platform_image.ubuntu1804 },
       ubuntu1604   = { platform_image = data.azurerm_platform_image.ubuntu1604 },
+      rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },
       rhel8        = { platform_image = data.azurerm_platform_image.rhel8 },
       rhel7        = { platform_image = data.azurerm_platform_image.rhel7 },
       suma41       = { platform_image = data.azurerm_platform_image.suma41 },
@@ -219,7 +212,7 @@ locals {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = "opensuse152o"
+  image                         = "opensuse154o"
   name                          = "bastion"
   connect_to_additional_network = true
   provider_settings = {

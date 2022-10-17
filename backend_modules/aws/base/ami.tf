@@ -378,3 +378,24 @@ data "aws_ami" "rhel8" {
     values = ["ebs"]
   }
 }
+/*
+data "aws_ami" "rhel7" {
+  most_recent = true
+  name_regex  = "^RHEL-7.7_HVM-"
+  owners      = ["309956199498"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}*/

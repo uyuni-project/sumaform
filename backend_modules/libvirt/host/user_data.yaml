@@ -584,6 +584,35 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 %{ endif }
 
 %{ endif }
+
+%{ if image == "almalinux9o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
+%{ endif }
+
+%{ endif }
+
 %{ if image == "rocky8o" }
 yum_repos:
   # repo for salt
@@ -609,6 +638,32 @@ packages: ["avahi", "nss-mdns", "salt-minion"]
 %{ endif }
 
 %{ endif }
+
+%{ if image == "rocky9o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns"]
+%{ else }
+packages: ["avahi", "nss-mdns", "salt-minion"]
+%{ endif }
+%{ endif }
+
 %{ if image == "oraclelinux8o" }
 yum_repos:
   # repo for salt
@@ -634,7 +689,34 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
   %{ endif }
   
   %{ endif }
-%{ if image == "opensuse153armo" }
+
+%{ if image == "oraclelinux9o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+  %{ if install_salt_bundle }
+packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+  %{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
+  %{ endif }
+  
+%{ endif }
+
+%{ if image == "opensuse154armo" }
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion"]
 %{ else }

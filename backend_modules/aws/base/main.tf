@@ -72,6 +72,8 @@ locals {
       ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
       ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
       rhel8       = { ami = data.aws_ami.rhel8.image_id},
+      rhel9       = { ami = data.aws_ami.rhel9.image_id},
+      //rhel7       = { ami = data.aws_ami.rhel7.image_id},
     }
     },
     local.create_network ? module.network.configuration : {
@@ -93,7 +95,7 @@ module "bastion" {
   name                          = "bastion"
   connect_to_additional_network = true
   provider_settings = {
-    instance_type   = "t2.micro"
+    instance_type   = "t3a.micro"
     public_instance = true
 //    instance_with_eip = false
   }

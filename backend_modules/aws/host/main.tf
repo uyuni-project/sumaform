@@ -145,6 +145,7 @@ resource "aws_volume_attachment" "data_disk_attachment" {
   depends_on = [aws_instance.instance, aws_ebs_volume.data_disk]
 
   count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+
   device_name = "/dev/xvdf"
   volume_id   = aws_ebs_volume.data_disk[count.index].id
   instance_id = aws_instance.instance[count.index].id
@@ -234,7 +235,8 @@ resource "null_resource" "host_salt_configuration" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null      },
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null
+      },
     var.grains))
     destination = "/tmp/grains"
   }
