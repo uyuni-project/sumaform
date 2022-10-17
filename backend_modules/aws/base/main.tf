@@ -95,7 +95,7 @@ module "bastion" {
   name                          = "bastion"
   connect_to_additional_network = true
   provider_settings = {
-    instance_type   = "t2.micro"
+    instance_type   = "t3a.micro"
     public_instance = true
     instance_with_eip = true
   }
