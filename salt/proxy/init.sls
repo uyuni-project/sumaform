@@ -10,7 +10,7 @@ include:
 
 {% set install_proxy_container_packages = false %}
 {% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
-{% if grains.get('product_version') | regex_match('(head|uyuni|4\.3).*') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
     {% set install_proxy_container_packages = true %}
 {% endif %}
 {% endif %}
