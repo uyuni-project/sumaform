@@ -37,6 +37,9 @@ register_suse_manager_server_with_scc:
 add_sle_module_basesystem:
    cmd.run:
      - name: SUSEConnect -p sle-module-basesystem/15.4/x86_64
+add_sle_module_container:
+   cmd.run:
+     - name: SUSEConnect -p sle-module-containers/15.4/x86_64
 add_sle_module_server_application:
    cmd.run:
      - name: SUSEConnect -p sle-module-server-applications/15.4/x86_64
