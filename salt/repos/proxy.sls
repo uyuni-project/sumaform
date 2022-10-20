@@ -122,7 +122,7 @@ proxy_pool_repo:
     - priority: 97
 {% endif %}
 
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') %}
 {% if grains['osfullname'] == 'Leap' %}
 proxy_pool_repo:
   pkgrepo.managed:
@@ -235,9 +235,7 @@ testing_overlay_devel_repo:
 
 # repositories needed for containerized proxy
 {% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
-
-# temporary hack since for now we only want to add this on head and uyuni
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+{% if grains.get('product_version') | regex_match('(head|uyuni|4\.3).*') %}
 
 {% if grains['osfullname'] == 'Leap' %}
 {% set ca_path = 'openSUSE_Leap_' + grains['osrelease'] %}
@@ -260,7 +258,7 @@ ca_certificates_suse_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/CA/{{ca_path}}/
     - refresh: True
 
-{% if 'head' in grains.get('product_version') %}
+{% if grains.get('product_version') | regex_match('(head|4\.3).*') %}
 containers_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP4/x86_64/product/

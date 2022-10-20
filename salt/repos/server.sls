@@ -172,7 +172,7 @@ server_pool_repo:
     - priority: 97
 {% endif %}
 
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') %}
 {% if grains['osfullname'] == 'Leap' %}
 server_pool_repo:
   pkgrepo.managed:
