@@ -10,7 +10,7 @@ include:
 
 {% set install_proxy_container_packages = false %}
 {% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
-{% if grains.get('product_version') | regex_match('(head|uyuni|4\.3).*') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
     {% set install_proxy_container_packages = true %}
 {% endif %}
 {% endif %}
@@ -40,10 +40,10 @@ proxy-packages:
 
 {% if install_proxy_container_packages %}
 
-{% if 'uyuni' in grains.get('product_version') %}
-    {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
-{% else %}
+{% if 'head' in grains.get('product_version') %}
     {% set client_tools_repo =  grains.get("mirror") | default("download.suse.de/ibs", true) ~ '/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
+{% else %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
 {% endif %}
 
 proxy_client_tools_repo:
