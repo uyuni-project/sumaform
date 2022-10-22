@@ -161,6 +161,10 @@ resource "libvirt_domain" "domain" {
     autoport    = true
   }
 
+  timeouts {
+    create = "10m"
+  }
+
   xml {
     xslt = local.provider_settings["xslt"]
   }
