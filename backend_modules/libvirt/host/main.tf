@@ -200,6 +200,7 @@ resource "null_resource" "provisioning" {
     host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
     user     = "root"
     password = "linux"
+    timeout  = "10m"
   }
 
   provisioner "file" {
