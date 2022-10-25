@@ -1,4 +1,3 @@
-
 data "aws_ami" "opensuse153o" {
   most_recent = true
   name_regex  = "^openSUSE-Leap-15-3-v"
@@ -210,27 +209,7 @@ data "aws_ami" "sles12sp3" {
     values = ["ebs"]
   }
 }
-/*
-data "aws_ami" "sles11sp4" {
-  most_recent = true
-  name_regex  = "^suse-sles-11-sp4-byos-v"
-  owners      = ["013907871322"]
 
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}*/
 
 data "aws_ami" "centos7" {
   most_recent = true
@@ -253,25 +232,46 @@ data "aws_ami" "centos7" {
   }
 }
 
+//data "aws_ami" "centos6" {
+//  most_recent = true
+//  name_regex  = "^CentOS Linux 6 x86_64 HVM EBS"
+//  owners      = ["679593333241"]
+//
+//  filter {
+//    name   = "architecture"
+//    values = ["x86_64"]
+//  }
+//
+//  filter {
+//    name   = "virtualization-type"
+//    values = ["hvm"]
+//  }
+//
+//  filter {
+//    name   = "root-device-type"
+//    values = ["ebs"]
+//  }
+//}
+
 data "aws_ami" "ubuntu2204" {
-  most_recent = true
-  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
-  owners      = ["679593333241"]
+most_recent = true
+name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
+owners      = ["099720109477"]
 
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
+filter {
+name   = "architecture"
+values = ["x86_64"]
+}
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
+filter {
+name   = "virtualization-type"
+values = ["hvm"]
+}
 
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
+filter {
+name   = "root-device-type"
+values = ["ebs"]
+}
 }
 
 data "aws_ami" "ubuntu2004" {

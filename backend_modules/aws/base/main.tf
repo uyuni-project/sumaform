@@ -65,8 +65,8 @@ locals {
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
-      //sles11sp4   = { ami = data.aws_ami.sles11sp4.image_id },
       centos7     = { ami = data.aws_ami.centos7.image_id, ssh_user = "centos" },
+//      centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
       ubuntu2204  = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
       ubuntu2004  = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
       ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
@@ -97,7 +97,7 @@ module "bastion" {
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true
-    instance_with_eip = true
+//    instance_with_eip = false
   }
 }
 
