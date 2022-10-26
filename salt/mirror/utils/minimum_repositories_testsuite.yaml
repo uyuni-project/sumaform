@@ -34,7 +34,7 @@ http:
   - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
 
-  - url:  http://minima-mirror.mgr.prv.suse.net/repo/$RCE/RES7-SUSE-Manager-Tools/x86_64/
+  - url:  http://download.suse.de/download/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
   - url:  http://download.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/
