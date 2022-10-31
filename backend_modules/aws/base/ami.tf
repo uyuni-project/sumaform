@@ -211,6 +211,27 @@ data "aws_ami" "sles12sp3" {
   }
 }
 
+data "aws_ami" "rocky8" {
+  most_recent = true
+  name_regex  = "^Rocky-8-ec2-8"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 
 data "aws_ami" "centos7" {
   most_recent = true
