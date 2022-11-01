@@ -18,6 +18,7 @@ locals {
     contains(var.roles, "controller") ? { instance_type = "m5.large" } : {},
     contains(var.roles, "grafana") ? { instance_type = "t3.medium" } : {},
     contains(var.roles, "virthost") ? { instance_type = "t3.medium" } : {},
+    contains(var.roles, "build_host") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "m5.large" } : {},
     contains(var.roles, "jenkins") ? { instance_type = "t3.xlarge" } : {},
   var.provider_settings)
 
