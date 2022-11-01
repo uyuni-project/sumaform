@@ -134,6 +134,19 @@ yum_repos:
 
 packages: ["salt-minion"]
 %{ endif }
+%{ if image == "rocky8"}
+yum_repos:
+  # repo for salt
+  temp_tools_pool_repo:
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: temp_tools_pool_repo
+    priority: 98
+
+packages: ["salt-minion"]
+%{ endif }
 %{ if image == "centos7" || image == "rhel7"}
 yum_repos:
   # repo for salt
