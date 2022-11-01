@@ -232,28 +232,6 @@ data "aws_ami" "rocky8" {
   }
 }
 
-
-data "aws_ami" "centos7" {
-  most_recent = true
-  name_regex  = "^CentOS Linux 7 x86_64 HVM EBS"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "ubuntu2204" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
