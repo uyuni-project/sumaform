@@ -589,3 +589,8 @@ variable "is_using_build_image" {
 description = "Specify to controller that server image is a build image"
 default     = false
 }
+
+variable "is_using_scc_repositories" {
+  description = "Specify to controller that server and proxy are using SCC repository and not internal repositories"
+  default     = false
+}
