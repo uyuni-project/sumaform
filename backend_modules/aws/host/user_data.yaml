@@ -82,6 +82,19 @@ packages: ["salt-minion"]
 
 %{ endif }
 
+%{ if image == "sles15sp5o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP5/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
+%{ endif }
+
 %{ if image == "sles12sp3"}
 zypper:
   repos:

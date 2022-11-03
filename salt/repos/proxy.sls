@@ -113,6 +113,53 @@ module_server_applications_update_repo:
 
 {% endif %}
 
+{% if '4.4' in grains['product_version'] and not grains.get('proxy_registration_code') %}
+proxy_product_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Product-SUSE-Manager-Proxy/4.4/x86_64/product/
+    - refresh: True
+
+proxy_product_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SUSE-Manager-Proxy/4.4/x86_64/update/
+    - refresh: True
+
+{% if 'beta' in grains['product_version'] %}
+proxy_module_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager44/images/repo/SLE-Module-SUSE-Manager-Proxy-4.4-POOL-x86_64-Media1/
+    - refresh: True
+{% else %}
+proxy_module_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-SUSE-Manager-Proxy/4.4/x86_64/product/
+    - refresh: True
+
+proxy_module_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-SUSE-Manager-Proxy/4.4/x86_64/update/
+    - refresh: True
+
+{% endif %}
+
+# WORKAROUND: Moving target, only until SLE15SP5 GA is ready. Remove this block when we start using GA.
+os_movingtarget_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/SLE-15-SP5:/GA:/TEST/images/repo/SLE-15-SP5-Module-Server-Applications-POOL-x86_64-Media1/
+# WORKAROUND: Moving target, only until SLE15SP4 G5 is ready
+
+module_server_applications_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Server-Applications/15-SP5/x86_64/product/
+    - refresh: True
+
+module_server_applications_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP5/x86_64/update/
+    - refresh: True
+
+{% endif %}
+
 
 {% if 'uyuni-released' in grains['product_version'] %}
 proxy_pool_repo:
@@ -229,6 +276,26 @@ server_devel_releasenotes_repo:
 testing_overlay_devel_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.3-POOL-x86_64-Media1/
+    - refresh: True
+    - priority: 96
+{% endif %}
+
+{% if '4.4-nightly' in grains['product_version'] %}
+server_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.4/images/repo/SLE-Module-SUSE-Manager-Proxy-4.4-POOL-x86_64-Media1/
+    - refresh: True
+    - priority: 96
+
+server_devel_releasenotes_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.4:/ToSLE/SLE_15_SP5/
+    - refresh: True
+    - priority: 96
+
+testing_overlay_devel_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.4/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.4-POOL-x86_64-Media1/
     - refresh: True
     - priority: 96
 {% endif %}

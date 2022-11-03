@@ -52,6 +52,18 @@ module_server_applications_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP4/x86_64/update/
     - refresh: True
 {% endif %}
+
+{% elif grains['osrelease'] == '15.5' %}
+module_server_applications_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Server-Applications/15-SP5/x86_64/product/
+    - refresh: True
+
+module_server_applications_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP5/x86_64/update/
+    - refresh: True
+{% endif %}
 {% endif %}
 
 {% endif %}

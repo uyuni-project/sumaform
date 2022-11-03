@@ -21,6 +21,9 @@ scc:
     - SLE-15-GA-Desktop-NVIDIA-Driver
     - SLE-15-SP1-Desktop-NVIDIA-Driver
     - SLE-15-SP2-Desktop-NVIDIA-Driver
+    - SLE-15-SP3-Desktop-NVIDIA-Driver
+    - SLE-15-SP4-Desktop-NVIDIA-Driver
+    - SLE-15-SP5-Desktop-NVIDIA-Driver
 
     # SLES
     - SLES11-SP4-Pool
@@ -73,7 +76,7 @@ scc:
     - SLE-Product-SLES15-SP2-Pool
     - SLE-Product-SLES15-SP2-Updates
     # uncomment when it goes LTSS
-    # - SLE-Product-SLES15-SP2-LTSS-Updates
+     - SLE-Product-SLES15-SP2-LTSS-Updates
     - SLE-Product-SLED15-SP2-Pool
     - SLE-Product-SLED15-SP2-Updates
     # SLE 15-SP2 Basic Modules
@@ -110,6 +113,8 @@ scc:
     # SLE 15-SP4 Products
     - SLE-Product-SLES15-SP4-Pool
     - SLE-Product-SLES15-SP4-Updates
+    # uncomment when it goes LTSS
+    # - SLE-Product-SLES15-SP4-LTSS-Updates
     # SLE 15-SP4 Basic Modules
     - SLE-Module-Basesystem15-SP4-Pool
     - SLE-Module-Basesystem15-SP4-Updates
@@ -121,6 +126,22 @@ scc:
     - SLE-Module-Desktop-Applications15-SP4-Updates
     - SLE-Module-DevTools15-SP4-Pool
     - SLE-Module-DevTools15-SP4-Updates
+    # SLE 15-SP5 Products
+    - SLE-Product-SLES15-SP5-Pool
+    - SLE-Product-SLES15-SP5-Updates
+    # uncomment when it goes LTSS
+    # - SLE-Product-SLES15-SP5-LTSS-Updates
+    # SLE 15-SP5 Basic Modules
+    - SLE-Module-Basesystem15-SP5-Pool
+    - SLE-Module-Basesystem15-SP5-Updates
+    - SLE-Module-Server-Applications15-SP5-Pool
+    - SLE-Module-Server-Applications15-SP5-Updates
+    - SLE-Module-Web-Scripting15-SP5-Pool
+    - SLE-Module-Web-Scripting15-SP5-Updates
+    - SLE-Module-Desktop-Applications15-SP5-Pool
+    - SLE-Module-Desktop-Applications15-SP5-Updates
+    - SLE-Module-DevTools15-SP5-Pool
+    - SLE-Module-DevTools15-SP5-Updates
     # SLE Legacy Module
     - SLE-Module-Legacy12-Pool
     - SLE-Module-Legacy12-Updates
@@ -137,6 +158,8 @@ scc:
     - SLE-Module-Containers15-SP3-Updates
     - SLE-Module-Containers15-SP4-Pool
     - SLE-Module-Containers15-SP4-Updates
+    - SLE-Module-Containers15-SP5-Pool
+    - SLE-Module-Containers15-SP5-Updates
     # SUSE Manager Server
     - SLE-Product-SUSE-Manager-Server-4.0-Pool
     - SLE-Product-SUSE-Manager-Server-4.0-Updates
@@ -154,6 +177,8 @@ scc:
     - SLE-Product-SUSE-Manager-Server-4.3-Updates
     - SLE-Module-SUSE-Manager-Server-4.3-Pool
     - SLE-Module-SUSE-Manager-Server-4.3-Updates
+    #- SLE-Module-SUSE-Manager-Server-4.4-Pool
+    #- SLE-Module-SUSE-Manager-Server-4.4-Updates
     # SUSE Manager Proxy
     - SLE-Product-SUSE-Manager-Proxy-4.0-Pool
     - SLE-Product-SUSE-Manager-Proxy-4.0-Updates
@@ -171,6 +196,8 @@ scc:
     - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
     - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
     - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
+    #- SLE-Module-SUSE-Manager-Proxy-4.4-Pool
+    #- SLE-Module-SUSE-Manager-Proxy-4.4-Updates
     # Retail Branch Server
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Pool
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Updates
@@ -188,6 +215,8 @@ scc:
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
     - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
     - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
+    #- SLE-Module-SUSE-Manager-Retail-Branch-Server-4.4-Pool
+    #- SLE-Module-SUSE-Manager-Retail-Branch-Server-4.4-Updates
     # SUSE Manager Tools
     - SLES11-SP4-SUSE-Manager-Tools
     - SLE-Manager-Tools12-Pool
@@ -292,33 +321,49 @@ http:
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP3:/x86_64/update
     archs: [x86_64]
 
-  # SLES 15 SP4 Test (not available until GM)
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP4:/x86_64/update
+  # SLES 15 SP4 Test
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP4:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP4:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP4:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP4:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP4:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP4:/x86_64/update
+    archs: [x86_64]
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP4:/x86_64/update
+    archs: [x86_64]
+
+  # SLES 15 SP5 Test (not available until GM)
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP5:/x86_64/update
   #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP4:/x86_64/update
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP5:/x86_64/update
   #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP4:/x86_64/update
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP5:/x86_64/update
   #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP4:/x86_64/update
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP5:/x86_64/update
   #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP4:/x86_64/update
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP5:/x86_64/update
   #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP4:/x86_64/update
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP5:/x86_64/update
   #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP4:/x86_64/update
+  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP5:/x86_64/update
   #  archs: [x86_64]
 
 
-  # SUSE Manager Head (SLE15-SP3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.2-POOL-x86_64-Media1
+  # SUSE Manager Head (SLE15-SP5)
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.4-POOL-x86_64-Media1
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP3/
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP4/
     archs: [x86_64]
 
-  # SUSE Manager Head Proxy (SLE15-SP3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.2-POOL-x86_64-Media1
+  # SUSE Manager Head Proxy (SLE15-SP5)
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.4-POOL-x86_64-Media1
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP3/
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP5/
     archs: [x86_64]
 
   # SUSE Manager 4.0 devel
@@ -411,10 +456,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu20.04-SUSE-Manager-Tools/SaltBundle/xUbuntu_20.04/
     archs: [amd64]
 
-  # Debian 9 Manager Tools 4.3 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian9-SUSE-Manager-Tools/Debian_9
-  #  archs: [amd64]
-
   # Debian 10 Manager Tools 4.3 devel
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian10-SUSE-Manager-Tools/SaltBundle/Debian_10/
     archs: [amd64]
@@ -423,10 +464,50 @@ http:
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian11-SUSE-Manager-Tools/SaltBundle/Debian_11/
     archs: [amd64]
 
+  # SUSE Manager 4.4 devel (not available yet)
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4/SLE_15_SP5
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/ToSLE/SLE_15_SP5/
+  #  archs: [x86_64]
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.4-POOL-x86_64-Media1/
+  #  archs: [x86_64]
+
+  # SLE 12 (GA and all SPs) Manager Tools 4.4 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/SLE12-SUSE-Manager-Tools/SLE_12/
+  #  archs: [x86_64]
+
+  # SLE 15 Manager Tools 4.4 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/SLE15-SUSE-Manager-Tools/SLE_15/
+  #  archs: [x86_64]
+
+  # RES 7 Manager Tools 4.4 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
+  #  archs: [x86_64]
+
+  # RES 8 Manager Tools 4.4 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
+  #  archs: [x86_64]
+
+  # Ubuntu 18.04 Manager Tools 4.4 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/Ubuntu18.04-SUSE-Manager-Tools/SaltBundle/xUbuntu_18.04
+  #  archs: [amd64]
+
+  # Ubuntu 20.04 Manager Tools 4.4 devel
+  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/Ubuntu20.04-SUSE-Manager-Tools/SaltBundle/xUbuntu_20.04/
+  #  archs: [amd64]
+
+  # Debian 10 Manager Tools 4.4 devel
+  #- url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.4:/Debian10-SUSE-Manager-Tools/SaltBundle/Debian_10/
+  #  archs: [amd64]
+
+  # Debian 11 Manager Tools 4.4 devel
+  #- url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.4:/Debian11-SUSE-Manager-Tools/SaltBundle/Debian_11/
+  #  archs: [amd64]
+
   # SUSE Manager Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP3
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP5
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.2-POOL-x86_64-Media1/
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.4-POOL-x86_64-Media1/
     archs: [x86_64]
 
   # SLE 12 (GA and all SPs) Manager Tools Head devel
@@ -461,6 +542,10 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Debian10-SUSE-Manager-Tools/Debian_10
     archs: [amd64]
 
+  # Debian 11 Manager Tools Head devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Debian11-SUSE-Manager-Tools/Debian_11
+    archs: [amd64]
+
   # openSUSE Leap
   - url: http://download.opensuse.org/distribution/leap/15.2/repo/oss
     archs: [x86_64]
@@ -473,6 +558,12 @@ http:
   - url: http://download.opensuse.org/update/leap/15.3/backports
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.3/sle
+    archs: [x86_64]
+  - url: http://download.opensuse.org/distribution/leap/15.4/repo/oss
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.4/oss
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.4/backports
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.4/sle
     archs: [x86_64]
@@ -497,6 +588,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP4
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP5
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
     archs: [x86_64]
@@ -537,6 +630,8 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
@@ -544,6 +639,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian9-Uyuni-Client-Tools/Debian_9/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian10-Uyuni-Client-Tools/Debian_10/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian11-Uyuni-Client-Tools/Debian_11/
     archs: [x86_64]
 
   # Uyuni Stable
@@ -563,6 +660,8 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
@@ -570,4 +669,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian9-Uyuni-Client-Tools/Debian_9/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian10-Uyuni-Client-Tools/Debian_10/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian11-Uyuni-Client-Tools/Debian_11/
     archs: [x86_64]

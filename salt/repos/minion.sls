@@ -12,6 +12,8 @@
 {% set sle_version_path = '15-SP3' %}
 {% elif grains['osrelease'] == '15.4' %}
 {% set sle_version_path = '15-SP4' %}
+{% elif grains['osrelease'] == '15.5' %}
+{% set sle_version_path = '15-SP5' %}
 {% endif %}
 
 {% endif %}
