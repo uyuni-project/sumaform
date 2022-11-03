@@ -53,14 +53,15 @@ module "controller" {
     kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
     xen_host      = length(var.xenhost_configuration["hostnames"]) > 0 ? var.xenhost_configuration["hostnames"][0] : null
 
-    git_profiles_repo      = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
-    no_auth_registry       = var.no_auth_registry
-    auth_registry          = var.auth_registry
-    auth_registry_username = var.auth_registry_username
-    auth_registry_password = var.auth_registry_password
-    server_http_proxy      = var.server_http_proxy
-    pxeboot_image          = var.pxeboot_configuration["image"]
-    is_using_build_image   = var.is_using_build_image
+    git_profiles_repo        = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
+    no_auth_registry         = var.no_auth_registry
+    auth_registry            = var.auth_registry
+    auth_registry_username   = var.auth_registry_username
+    auth_registry_password   = var.auth_registry_password
+    server_http_proxy        = var.server_http_proxy
+    custom_download_endpoint = var.custom_download_endpoint
+    pxeboot_image            = var.pxeboot_configuration["image"]
+    is_using_build_image     = var.is_using_build_image
 
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
@@ -102,6 +103,8 @@ module "controller" {
     ubuntu1804_sshminion = length(var.ubuntu1804_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1804_sshminion_configuration["hostnames"][0] : null
     ubuntu2004_minion    = length(var.ubuntu2004_minion_configuration["hostnames"]) > 0 ? var.ubuntu2004_minion_configuration["hostnames"][0] : null
     ubuntu2004_sshminion = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
+    ubuntu2204_minion    = length(var.ubuntu2204_minion_configuration["hostnames"]) > 0 ? var.ubuntu2204_minion_configuration["hostnames"][0] : null
+    ubuntu2204_sshminion = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
     debian9_minion       = length(var.debian9_minion_configuration["hostnames"]) > 0 ? var.debian9_minion_configuration["hostnames"][0] : null
     debian9_sshminion    = length(var.debian9_sshminion_configuration["hostnames"]) > 0 ? var.debian9_sshminion_configuration["hostnames"][0] : null
     debian10_minion      = length(var.debian10_minion_configuration["hostnames"]) > 0 ? var.debian10_minion_configuration["hostnames"][0] : null
@@ -112,13 +115,15 @@ module "controller" {
     sle11sp3_terminal_mac = var.sle11sp3_terminal_configuration["macaddr"]
     sle12sp5_buildhost    = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
     sle12sp5_terminal_mac = var.sle12sp5_terminal_configuration["macaddr"]
+    sle15sp3_buildhost    = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
+    sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["macaddr"]
     sle15sp4_buildhost    = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
     sle15sp4_terminal_mac = var.sle15sp4_terminal_configuration["macaddr"]
-    opensuse153arm_minion = length(var.opensuse153arm_minion_configuration["hostnames"]) > 0 ? var.opensuse153arm_minion_configuration["hostnames"][0] : null
+    opensuse154arm_minion = length(var.opensuse154arm_minion_configuration["hostnames"]) > 0 ? var.opensuse154arm_minion_configuration["hostnames"][0] : null
   }
 
 
-  image   = "opensuse152o"
+  image   = "opensuse154o"
   provider_settings = var.provider_settings
 }
 

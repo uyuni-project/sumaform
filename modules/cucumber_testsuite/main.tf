@@ -138,7 +138,7 @@ module "suse-minion" {
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-minion", "sles15sp3o")
+  image              = lookup(local.images, "suse-minion", "sles15sp4o")
   name               = lookup(local.names, "suse-minion", "min-sles15")
 
   server_configuration = local.minimal_configuration
@@ -163,7 +163,7 @@ module "suse-sshminion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "suse-sshminion", "sles15sp3o")
+  image              = lookup(local.images, "suse-sshminion", "sles15sp4o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
  sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
 
@@ -185,8 +185,8 @@ module "redhat-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "redhat-minion", "centos7o")
-  name               = lookup(local.names, "redhat-minion", "min-centos7")
+  image              = lookup(local.images, "redhat-minion", "rocky8o")
+  name               = lookup(local.names, "redhat-minion", "min-rocky8")
 
   server_configuration   = local.minimal_configuration
 
@@ -208,8 +208,8 @@ module "debian-minion" {
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "debian-minion", "ubuntu2004o")
-  name               = lookup(local.names, "debian-minion", "min-ubuntu2004")
+  image              = lookup(local.images, "debian-minion", "ubuntu2204o")
+  name               = lookup(local.names, "debian-minion", "min-ubuntu2204")
 
   server_configuration   = local.minimal_configuration
 
@@ -326,17 +326,18 @@ module "controller" {
   kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
 
-  branch                 = var.branch
-  git_username           = var.git_username
-  git_password           = var.git_password
-  git_repo               = var.git_repo
-  git_profiles_repo      = var.git_profiles_repo
-  no_auth_registry       = var.no_auth_registry
-  auth_registry          = var.auth_registry
-  auth_registry_username = var.auth_registry_username
-  auth_registry_password = var.auth_registry_password
-  server_http_proxy      = var.server_http_proxy
-  swap_file_size         = null
+  branch                   = var.branch
+  git_username             = var.git_username
+  git_password             = var.git_password
+  git_repo                 = var.git_repo
+  git_profiles_repo        = var.git_profiles_repo
+  no_auth_registry         = var.no_auth_registry
+  auth_registry            = var.auth_registry
+  auth_registry_username   = var.auth_registry_username
+  auth_registry_password   = var.auth_registry_password
+  server_http_proxy        = var.server_http_proxy
+  custom_download_endpoint = var.custom_download_endpoint
+  swap_file_size           = null
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", {})

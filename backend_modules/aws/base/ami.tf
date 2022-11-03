@@ -1,7 +1,7 @@
 
-data "aws_ami" "opensuse152o" {
+data "aws_ami" "opensuse153o" {
   most_recent = true
-  name_regex  = "^openSUSE-Leap-15-2-v"
+  name_regex  = "^openSUSE-Leap-15-3-v"
   owners      = ["679593333241"]
 
   filter {
@@ -20,9 +20,10 @@ data "aws_ami" "opensuse152o" {
   }
 }
 
-data "aws_ami" "opensuse153o" {
+
+data "aws_ami" "opensuse154o" {
   most_recent = true
-  name_regex  = "^openSUSE-Leap-15-3-v"
+  name_regex  = "^openSUSE-Leap-15-4-v"
   owners      = ["679593333241"]
 
   filter {
@@ -251,30 +252,9 @@ data "aws_ami" "sles12sp3" {
   }
 }
 
-data "aws_ami" "sles11sp4" {
+data "aws_ami" "rocky8" {
   most_recent = true
-  name_regex  = "^suse-sles-11-sp4-byos-v"
-  owners      = ["013907871322"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-data "aws_ami" "centos7" {
-  most_recent = true
-  name_regex  = "^CentOS Linux 7 x86_64 HVM EBS"
+  name_regex  = "^Rocky-8-ec2-8"
   owners      = ["679593333241"]
 
   filter {
@@ -293,9 +273,9 @@ data "aws_ami" "centos7" {
   }
 }
 
-data "aws_ami" "centos6" {
+data "aws_ami" "ubuntu2204" {
   most_recent = true
-  name_regex  = "^CentOS Linux 6 x86_64 HVM EBS"
+  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
   owners      = ["679593333241"]
 
   filter {
@@ -377,9 +357,9 @@ data "aws_ami" "ubuntu1604" {
   }
 }
 
-data "aws_ami" "rhel8" {
+data "aws_ami" "rhel9" {
   most_recent = true
-  name_regex  = "^RHEL-8.2.0_HVM-"
+  name_regex  = "^RHEL-9.0.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
@@ -398,9 +378,9 @@ data "aws_ami" "rhel8" {
   }
 }
 
-data "aws_ami" "rhel7" {
+data "aws_ami" "rhel8" {
   most_recent = true
-  name_regex  = "^RHEL-7.7_HVM-"
+  name_regex  = "^RHEL-8.2.0_HVM-"
   owners      = ["309956199498"]
 
   filter {

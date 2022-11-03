@@ -7,16 +7,18 @@ locals {
     key_file        = var.base_configuration["key_file"]
     ssh_user        = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ssh_user", "ec2-user")
     public_instance = false
+    instance_with_eip = false
     volume_size     = 50
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
-    instance_type = "t2.micro" },
-    contains(var.roles, "server") ? { instance_type = "t2.medium" } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "t2.xlarge" } : {},
-    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "t2.medium" } : {},
-    contains(var.roles, "mirror") ? { instance_type = "t2.micro" } : {},
-    contains(var.roles, "controller") ? { instance_type = "t2.medium" } : {},
-    contains(var.roles, "grafana") ? { instance_type = "t2.medium" } : {},
-    contains(var.roles, "virthost") ? { instance_type = "t2.medium" } : {},
+    instance_type = "t3.micro" },
+    contains(var.roles, "server") ? { instance_type = "t3.medium" } : {},
+    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "m5.xlarge" } : {},
+    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "t3.medium" } : {},
+    contains(var.roles, "mirror") ? { instance_type = "t3.micro" } : {},
+    contains(var.roles, "controller") ? { instance_type = "m5.large" } : {},
+    contains(var.roles, "grafana") ? { instance_type = "t3.medium" } : {},
+    contains(var.roles, "virthost") ? { instance_type = "t3.medium" } : {},
+    contains(var.roles, "build_host") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "m5.large" } : {},
     contains(var.roles, "jenkins") ? { instance_type = "t3.xlarge" } : {},
   var.provider_settings)
 
@@ -31,6 +33,9 @@ locals {
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
+  data_disk_device = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
+
+  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
 
 data "template_file" "user_data" {
@@ -41,6 +46,23 @@ data "template_file" "user_data" {
     public_instance          = local.provider_settings["public_instance"]
     mirror_url               = var.base_configuration["mirror"]
   }
+}
+
+resource "aws_eip" "host_eip" {
+  count = local.host_eip ? var.quantity : 0
+
+  vpc = true
+  tags = {
+    Name = "${local.resource_name_prefix}-host-eip${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+
+  }
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  count = local.host_eip ? var.quantity : 0
+  allocation_id = aws_eip.host_eip[count.index].id
+  #instance_id   = aws_instance.instance[count.index].id
+  network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
 }
 
 resource "aws_instance" "instance" {
@@ -214,7 +236,7 @@ resource "null_resource" "host_salt_configuration" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "xvdf" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null
       },
     var.grains))
     destination = "/tmp/grains"

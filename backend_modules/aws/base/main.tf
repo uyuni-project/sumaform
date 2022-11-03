@@ -55,7 +55,6 @@ locals {
     key_name = local.key_name
     key_file = local.key_file
     ami_info = {
-      opensuse152o = { ami = data.aws_ami.opensuse152o.image_id },
       opensuse153o = { ami = data.aws_ami.opensuse153o.image_id },
       opensuse154o = { ami = data.aws_ami.opensuse154o.image_id },
       sles15      = { ami = data.aws_ami.sles15.image_id },
@@ -67,14 +66,13 @@ locals {
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
-      sles11sp4   = { ami = data.aws_ami.sles11sp4.image_id },
-      centos7     = { ami = data.aws_ami.centos7.image_id, ssh_user = "centos" },
-      centos6     = { ami = data.aws_ami.centos6.image_id, ssh_user = "centos" },
+      rocky8      = { ami = data.aws_ami.rocky8.image_id, ssh_user = "rocky" },
+      ubuntu2204  = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
       ubuntu2004  = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
       ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
       ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
       rhel8       = { ami = data.aws_ami.rhel8.image_id},
-      rhel7       = { ami = data.aws_ami.rhel7.image_id},
+      rhel9       = { ami = data.aws_ami.rhel9.image_id},
     }
     },
     local.create_network ? module.network.configuration : {
@@ -92,12 +90,13 @@ module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = "opensuse152o"
+  image                         = lookup(var.provider_settings, "bastion_image", "opensuse154o")
   name                          = "bastion"
   connect_to_additional_network = true
   provider_settings = {
-    instance_type   = "t2.micro"
+    instance_type   = "t3a.micro"
     public_instance = true
+    instance_with_eip = true
   }
 }
 

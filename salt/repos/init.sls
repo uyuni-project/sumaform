@@ -1,4 +1,5 @@
 include:
+  - repos.disable_local
   - repos.vendor
   {% if not grains.get('additional_repos_only') %}
   - repos.default

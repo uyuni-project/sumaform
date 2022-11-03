@@ -49,7 +49,7 @@ module "client" {
   base_configuration = module.base.configuration
 
   name = "client"
-  image = "sles12sp3"
+  image = "sles15sp4o"
   server_configuration = module.server.configuration
   // see modules/client/variables.tf for possible values
 }
@@ -59,7 +59,7 @@ module "minion" {
   base_configuration = module.base.configuration
 
   name = "minion"
-  image = "sles12sp3"
+  image = "sles15sp4o"
   server_configuration = module.server.configuration
   // see modules/minion/variables.tf for possible values
 }

@@ -51,6 +51,7 @@ Available provider settings for the base module:
 | server_registration_code | string | `null`          | SUMA SCC server registration code to use SCC repositories and disable internal repositories                             |
 | proxy_registration_code  | string | `null`          | SUMA SCC proxy registration code to use SCC repositories and disable internal repositories                              |
 | sles_registration_code   | string | `null`          | SLE registration code to use SCC repositories and disable internal repositories ( use for minion, sshminion and client) |
+| bastion_image            | string | `opensuse154o`  | Image name to be used when deploying the bastion host                                                                   |
 
 An example follows:
 
@@ -78,7 +79,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | bastion_host    | string   | [from base Module](base-module)                                  | bastion host used to connect to machines in the private network             |
 | public_instance | boolean  | `false`                                                          | boolean to connect host either to the private or the public network                    |
 | volume_size     | number   | `50`                                                             | main volume size in GB                                              |
-| instance_type   | string   | `t2.micro`([apart from specific roles](Default-values-by-role))  | [AWS instance type](https://aws.amazon.com/pt/ec2/instance-types/)  |
+| instance_type   | string   | `t3.micro`([apart from specific roles](Default-values-by-role))  | [AWS instance type](https://aws.amazon.com/pt/ec2/instance-types/)  |
 
 An example follows:
 
@@ -86,7 +87,7 @@ An example follows:
 ...
   provider_settings = {
     public_instance = true
-    instance_type   = "t2.small"
+    instance_type   = "t3.small"
   }
 ...
 ```
@@ -108,13 +109,14 @@ volume_provider_settings = {
 
 Some roles such as `server` or `mirror` have specific defaults that override those in the table above. Those are:
 
-| Role         | Default values                |
-|--------------|-------------------------------|
-| server       | `{instance_type="t2.medium"}` |
-| mirror       | `{instance_type="t2.micro"}`  |
-| controller   | `{instance_type="t2.medium"}` |
-| grafana      | `{instance_type="t2.medium"}` |
-| virthost     | `{instance_type="t2.small"}`  |
+| Role         | Default values                | Testuite                      |
+|--------------|-------------------------------|-------------------------------|
+| server       | `{instance_type="t3.medium"}` | `{instance_type="m5.xlarge"}` |
+| proxy        | `{instance_type="t3.micro"}`  | `{instance_type="t3.medium"}` |
+| mirror       | `{instance_type="t3.micro"}`  | `{instance_type="t3.micro"}`  |
+| controller   | `{instance_type="m5.large"}`  | `{instance_type="m5.large"}`  |
+| grafana      | `{instance_type="t3.medium"}` | `{instance_type="t3.medium"}` |
+| virthost     | `{instance_type="t3.medium"}` | `{instance_type="t3.medium"}` |
 
 ## Accessing instances
 

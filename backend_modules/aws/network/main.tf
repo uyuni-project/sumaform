@@ -69,7 +69,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table" "additional-public" {
-  count = var.create_network ? 1 : 0
+  count = var.create_db_network ? 1 : 0
 
   vpc_id = local.vpc_id
 
@@ -119,7 +119,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "additional-public" {
-  count = var.create_network ? 1 : 0
+  count = var.create_db_network ? 1 : 0
 
   availability_zone       = var.availability_zone == "${var.region}b" ? "${var.region}a" : "${var.region}b"
   vpc_id                  = local.vpc_id

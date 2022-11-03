@@ -66,7 +66,7 @@ module "server" {
   base_configuration = local.base_configuration
 
   name            = "server"
-  image           = "opensuse153o"
+  image           = "opensuse154o"
   product_version = "uyuni-release"
 
   provider_settings = {  }

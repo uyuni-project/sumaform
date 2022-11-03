@@ -384,6 +384,20 @@ variable "ubuntu2004_sshminion_configuration" {
   }
 }
 
+variable "ubuntu2204_minion_configuration" {
+  description = "use module.<UBUNTU2204_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "ubuntu2204_sshminion_configuration" {
+  description = "use module.<UBUNTU2204_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "debian9_minion_configuration" {
   description = "use module.<DEBIAN9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -441,6 +455,21 @@ variable "sle15sp4_terminal_configuration" {
   }
 }
 
+variable "sle15sp3_buildhost_configuration" {
+  description = "use module.<SLE15SP3_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp3_terminal_configuration" {
+  description = "use module.<SLE15SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    macaddr = null
+    image = null
+  }
+}
+
 variable "sle12sp5_buildhost_configuration" {
   description = "use module.<SLE12SP5_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -471,8 +500,8 @@ variable "sle11sp3_terminal_configuration" {
   }
 }
 
-variable "opensuse153arm_minion_configuration" {
-  description = "use module.<OPENSUSE153ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse154arm_minion_configuration" {
+  description = "use module.<OPENSUSE154ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -538,6 +567,11 @@ variable "auth_registry_password" {
 
 variable "server_http_proxy" {
   description = "Hostname and port used by the server as the HTTP proxy to reach the outside network"
+  default     = null
+}
+
+variable "custom_download_endpoint" {
+  description = "URL (protocol, domain name and port) of custom download endpoint for packages"
   default     = null
 }
 
