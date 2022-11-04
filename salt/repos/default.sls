@@ -61,7 +61,7 @@ tools_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     - refresh: True
     - priority: 98
-{% else%}
+{% else %}
 tools_pool_repo:
   pkgrepo.managed:
     {% if 'beta' in grains.get('product_version') | default('', true) %}
