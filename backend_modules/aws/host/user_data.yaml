@@ -87,7 +87,7 @@ zypper:
   repos:
     - id: salt_qubes_build
       name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP5/
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/15.5/
       enabled: 1
       autorefresh: 1
 
