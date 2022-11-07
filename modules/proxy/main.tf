@@ -14,7 +14,7 @@ variable "images" {
     "4.4-released"   = "sles15sp5o"
     "4.4-nightly"    = "sles15sp5o"
     "4.4-beta"       = "sles15sp5o"
-    "4.4-build_image"= "sles15sp5o
+    "4.4-build_image"= "sles15sp5o"
     "head"           = "sles15sp5o"
     "uyuni-master"   = "opensuse154o"
     "uyuni-released" = "opensuse154o"

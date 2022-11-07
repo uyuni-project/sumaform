@@ -8,7 +8,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 4.0-released, 4.0-nightly, 4.1-released, 4.1-nightly, 4.2-released, 4.2-nightly, 4.3-released, 4.3-nightly, 4.4-released, 4.4-nigtly, 4.4-beta, head, test, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 4.0-released, 4.0-nightly, 4.1-released, 4.1-nightly, 4.2-released, 4.2-nightly, 4.3-released, 4.3-nightly, 4.4-released, 4.4-nightly, 4.4-beta, head, test, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
