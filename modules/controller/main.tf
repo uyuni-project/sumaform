@@ -94,8 +94,8 @@ module "controller" {
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null
-    rocky8_minion       = length(var.rocky8_minion_configuration["hostnames"]) > 0 ? var.rocky8_minion_configuration["hostnames"][0] : null
-    rocky8_sshminion    = length(var.rocky8_sshminion_configuration["hostnames"]) > 0 ? var.rocky8_sshminion_configuration["hostnames"][0] : null
+    rocky8_minion        = length(var.rocky8_minion_configuration["hostnames"]) > 0 ? var.rocky8_minion_configuration["hostnames"][0] : null
+    rocky8_sshminion     = length(var.rocky8_sshminion_configuration["hostnames"]) > 0 ? var.rocky8_sshminion_configuration["hostnames"][0] : null
     ubuntu1604_minion    = length(var.ubuntu1604_minion_configuration["hostnames"]) > 0 ? var.ubuntu1604_minion_configuration["hostnames"][0] : null
     ubuntu1604_sshminion = length(var.ubuntu1604_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1604_sshminion_configuration["hostnames"][0] : null
     ubuntu1804_minion    = length(var.ubuntu1804_minion_configuration["hostnames"]) > 0 ? var.ubuntu1804_minion_configuration["hostnames"][0] : null
@@ -118,7 +118,8 @@ module "controller" {
     sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["macaddr"]
     sle15sp4_buildhost    = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
     sle15sp4_terminal_mac = var.sle15sp4_terminal_configuration["macaddr"]
-    opensuse154arm_minion = length(var.opensuse154arm_minion_configuration["hostnames"]) > 0 ? var.opensuse154arm_minion_configuration["hostnames"][0] : null
+    opensuse154arm_minion    = length(var.opensuse154arm_minion_configuration["hostnames"]) > 0 ? var.opensuse154arm_minion_configuration["hostnames"][0] : null
+    opensuse154arm_sshminion = length(var.opensuse154arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse154arm_sshminion_configuration["hostnames"][0] : null
   }
 
 
