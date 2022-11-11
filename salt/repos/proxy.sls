@@ -111,19 +111,6 @@ module_server_applications_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP4/x86_64/update/
     - refresh: True
 
-# repositories needed for containerized proxy
-{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true) %}
-containers_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP4/x86_64/product/
-    - refresh: True
-
-containers_updates_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP4/x86_64/update/
-    - refresh: True
-{% endif %}
-
 {% endif %}
 
 
@@ -135,7 +122,7 @@ proxy_pool_repo:
     - priority: 97
 {% endif %}
 
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
 {% if grains['osfullname'] == 'Leap' %}
 proxy_pool_repo:
   pkgrepo.managed:
@@ -182,19 +169,6 @@ module_server_applications_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/15-SP4/x86_64/update/
     - refresh: True
-
-# repositories needed for containerized proxy
-{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true) %}
-containers_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP4/x86_64/product/
-    - refresh: True
-
-containers_updates_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP4/x86_64/update/
-    - refresh: True
-{% endif %}
 
 {% endif %}
 {% endif %}
@@ -257,6 +231,48 @@ testing_overlay_devel_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.3-POOL-x86_64-Media1/
     - refresh: True
     - priority: 96
+{% endif %}
+
+# repositories needed for containerized proxy
+{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
+
+# temporary hack since for now we only want to add this on head and uyuni
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') %}
+
+{% if grains['osfullname'] == 'Leap' %}
+{% set ca_path = 'openSUSE_Leap_' + grains['osrelease'] %}
+{% endif %}
+
+{% if grains['osfullname'] != 'Leap' %}
+{% if grains['osrelease'] == '15.1' %}
+{% set ca_path = 'SLE_15_SP1' %}
+{% elif grains['osrelease'] == '15.2' %}
+{% set ca_path = 'SLE_15_SP2' %}
+{% elif grains['osrelease'] == '15.3' %}
+{% set ca_path = 'SLE_15_SP3' %}
+{% elif grains['osrelease'] == '15.4' %}
+{% set ca_path = 'SLE_15_SP4' %}
+{% endif %}
+{% endif %}
+
+ca_certificates_suse_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE:/CA/{{ca_path}}/
+    - refresh: True
+
+{% if 'head' in grains.get('product_version') %}
+containers_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP4/x86_64/product/
+    - refresh: True
+
+containers_updates_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP4/x86_64/update/
+    - refresh: True
+{% endif %}
+
+{% endif %}
 {% endif %}
 
 {% endif %}
