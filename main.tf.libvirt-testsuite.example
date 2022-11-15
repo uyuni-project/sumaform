@@ -34,12 +34,12 @@ module "cucumber_testsuite" {
   # "sles12sp5o", "sles15sp3o", "sles15sp4o",
   # "ubuntu1804o", "ubuntu2004o", "ubuntu2204o",
   # "centos7o", "centos8o",
-  # "rocky8o",
+  # "rocky8o", "rocky9o",
   # "almalinux8o",
   # "amazonlinux2o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
-  # images = ["centos7o", "opensuse152o", "opensuse154o", "sles15sp4o", "ubuntu2004o"]
+  # images = ["rocky8o", "opensuse152o", "opensuse154o", "sles15sp4o", "ubuntu2004o"]
 
   use_avahi = true
   name_prefix = "prefix-"

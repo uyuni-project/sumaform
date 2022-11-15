@@ -342,6 +342,20 @@ variable "rocky8_sshminion_configuration" {
   }
 }
 
+variable "rocky9_minion_configuration" {
+  description = "use module.<ROCKY9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rocky9_sshminion_configuration" {
+  description = "use module.<ROCKY9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "ubuntu1604_minion_configuration" {
   description = "use module.<UBUNTU1604_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
