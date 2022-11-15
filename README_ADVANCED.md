@@ -9,7 +9,6 @@ Some modules have a `product_version` variable that determines the software prod
 
 Legal values for released software are:
 
-- `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
 - `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
 - `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
 - `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
@@ -17,7 +16,6 @@ Legal values for released software are:
 
 Legal values for work-in-progress software are:
 
-- `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
 - `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
 - `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
@@ -46,7 +44,7 @@ module "suse-minion" {
   name = "min-sles15sp1"
   image = "sles15sp1o"
   server_configuration = module.proxy.configuration
-  product_version = "4.0-nightly"
+  product_version = "4.2-nightly"
 }
 
 module "server" {
@@ -54,7 +52,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.0-released"
+  product_version = "4.2-released"
 }
 ```
 
@@ -877,7 +875,7 @@ An example follows:
 module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
-  product_version = "4.0-nightly"
+  product_version = "4.2-nightly"
   name = "server"
   repository_disk_size = 500
   volume_provider_settings = {
