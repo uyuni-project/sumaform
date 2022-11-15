@@ -9,16 +9,12 @@ Some modules have a `product_version` variable that determines the software prod
 
 Legal values for released software are:
 
-- `4.0-released`   (latest released Maintenance Update for SUSE Manager 4.0 and Tools)
-- `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
 - `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
 - `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
 
-- `4.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.0)
-- `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
 - `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
@@ -483,7 +479,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.1-nightly"
+  product_version = "4.3-nightly"
 }
 
 module "proxy" {
@@ -491,7 +487,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "4.1-nightly"
+  product_version = "4.3-nightly"
   server_configuration = module.server.configuration
 }
 
@@ -499,8 +495,8 @@ module "suse-client" {
   source = "./modules/client"
   base_configuration = module.base.configuration
 
-  name = "cli-sles12sp5"
-  image = "sles12sp5o"
+  name = "cli-sles15sp4"
+  image = "sles15sp4o"
   server_configuration = module.proxy.configuration
   quantity = 3
 }
