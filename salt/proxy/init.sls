@@ -42,6 +42,16 @@ proxy-packages:
 
 {% if 'uyuni' in grains.get('product_version') %}
     {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
+
+galaxy_key:
+  file.managed:
+    - name: /tmp/galaxy.key
+    - source: salt://default/gpg_keys/galaxy.key
+  cmd.wait:
+    - name: rpm --import /tmp/galaxy.key
+    - watch:
+      - file: galaxy_key
+
 {% elif '4.3' in grains.get('product_version') %}
   {% if '-released' in grains.get('product_version') %}
     {% set client_tools_repo = grains.get("mirror") | default("download.suse.de/ibs", true) ~ '/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/' %}
