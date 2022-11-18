@@ -657,6 +657,11 @@ yum_repos:
     priority: 99
     name: epel
 
+runcmd:
+  # WORKAROUND: cloud-init in Rocky 9 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns"]
 %{ else }
