@@ -339,7 +339,7 @@ lock_firewalld_prometheus_config_cmd:
      - name: zypper addlock firewalld-prometheus-config
 {% endif %}
 
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
+{% elif 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
