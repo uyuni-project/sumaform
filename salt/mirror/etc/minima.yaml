@@ -387,6 +387,10 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
     archs: [x86_64]
 
+  # EL 9 Manager Tools 4.3 devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
+    archs: [x86_64]
+
   # Ubuntu 18.04 Manager Tools 4.3 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
     archs: [amd64]
@@ -431,6 +435,10 @@ http:
 
   # RES 8 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
+    archs: [x86_64]
+
+  # EL 9 Manager Tools Head devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
     archs: [x86_64]
 
   # Ubuntu 18.04 Manager Tools Head devel
