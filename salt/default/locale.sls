@@ -19,6 +19,15 @@ manually_set_locale_installed_languages:
     - pattern: ^INSTALLED_LANGUAGES=".*"
     - repl: INSTALLED_LANGUAGES=""
     - onlyif: test ! -f /usr/bin/localectl
+
+{% elif grains['os_family'] == 'Rocky Linux' %}
+
+{% if grains.get('osmajorrelease', None)|int() == 9 %}
+langpack_package:
+  pkg.installed:
+    - name: glibc-langpack-en
+{% endif %}
+
 {% endif %}
 
 fix_en_US_UTF8_as_system_locale_with_localectl:
