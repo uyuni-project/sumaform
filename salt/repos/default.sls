@@ -491,14 +491,20 @@ uyuni_key:
 {% endif %}
 
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
+
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 9 %}
+{% set rhlike_client_tools_prefix = 'RES' %}
+{% endif %}
+
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
     {% if release >= 8 %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/product/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/{{ release }}-CLIENT-TOOLS/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/product/
     {% endif %}
     {% elif grains.get('mirror') %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
@@ -542,15 +548,15 @@ suse_res6_key:
       - file: suse_res6_key
 {% else %}
 
-{% set centos_client_tool_prefix = 'EL' %}
+{% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 8 %}
-{% set centos_client_tool_prefix = 'CentOS' %}
+{% set rhlike_client_tools_prefix = 'CentOS' %}
 {% endif %}
 
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/{{centos_client_tool_prefix}}{{ release }}-Uyuni-Client-Tools/{{centos_client_tool_prefix}}_{{ release }}/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
     - refresh: True
     - priority: 98
     - require:
@@ -558,48 +564,68 @@ tools_pool_repo:
 {% endif %}
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-{% elif 'head' in grains.get('product_version') | default('', true) %}
-tools_update_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/RES{{ release }}-SUSE-Manager-Tools/SUSE_RES-{{ release }}_Update_standard/
-    - refresh: True
-    - priority: 98
-    - require:
-      - cmd: galaxy_key
-{% elif 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 
-{% set centos_client_tool_prefix = 'EL' %}
-{% if release < 8 %}
-{% set centos_client_tool_prefix = 'CentOS' %}
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 9 %}
+{% set rhlike_client_tools_prefix = 'RES' %}
 {% endif %}
 
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{centos_client_tool_prefix}}{{ release }}-Uyuni-Client-Tools/{{centos_client_tool_prefix}}_{{ release }}/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
+    - refresh: True
+    - require:
+      - cmd: galaxy_key
+
+{% elif 'head' in grains.get('product_version') | default('', true) %}
+
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 9 %}
+{% set rhlike_client_tools_prefix = 'RES' %}
+{% endif %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
+    - refresh: True
+    - priority: 98
+    - require:
+      - cmd: galaxy_key
+
+{% elif 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
+
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 8 %}
+{% set rhlike_client_tools_prefix = 'CentOS' %}
+{% endif %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{centos_client_tool_prefix}}{{ release }}-Uyuni-Client-Tools/{{centos_client_tool_prefix}}_{{ release }}/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
     - priority: 98
     - require:
       - cmd: uyuni_key
 {% else %}
 {% if release >= 8 %}
+
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 9 %}
+{% set rhlike_client_tools_prefix = 'RES' %}
+{% endif %}
+
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     - refresh: True
     - require:
