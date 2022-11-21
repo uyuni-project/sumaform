@@ -20,7 +20,7 @@ manually_set_locale_installed_languages:
     - repl: INSTALLED_LANGUAGES=""
     - onlyif: test ! -f /usr/bin/localectl
 
-{% elif grains['os_family'] == 'Rocky Linux' %}
+{% elif grains['os_family'] == 'RedHat' %}
 
 {% if grains.get('osmajorrelease', None)|int() == 9 %}
 langpack_package:
