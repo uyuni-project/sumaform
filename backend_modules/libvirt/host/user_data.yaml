@@ -105,7 +105,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
     enabled: true
     gpgcheck: false
@@ -149,7 +149,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
     enabled: true
     gpgcheck: false
@@ -624,7 +624,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
     enabled: true
     gpgcheck: false
@@ -650,7 +650,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
     enabled: true
     gpgcheck: false
