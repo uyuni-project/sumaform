@@ -60,6 +60,10 @@ runcmd:
   - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
   - "service sshd restart"
   - "service qemu-ga start"
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Base_backup.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Updates_backup.repo"
 %{ endif }
 
 %{ if image == "centos7o" }
@@ -87,6 +91,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "centos8o" }
@@ -131,6 +138,11 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Base_backup.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Appstream_backup.repo"
 %{ endif }
 
 %{ if image == "centos9o" }
@@ -175,6 +187,11 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Base_backup.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Appstream_backup.repo"
 %{ endif }
 
 %{ if image == "opensuse152o" }
@@ -213,6 +230,8 @@ packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles12sp5o" }
@@ -229,6 +248,8 @@ packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15o" }
@@ -255,6 +276,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp1o" }
@@ -280,6 +302,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP1 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp2o" }
@@ -305,6 +328,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp3o" }
@@ -325,6 +349,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP3 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp4o" }
@@ -345,6 +370,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP4 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "ubuntu1604o" }
@@ -391,6 +417,8 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+ - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
 %{ endif }
 
 %{ if image == "ubuntu1804o" }
@@ -447,7 +475,10 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+ - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
 %{ endif }
+
 %{ if image == "ubuntu2204o" }
 
 apt:
@@ -488,7 +519,10 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
+runcmd:
+ - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
 %{ endif }
+
 %{ if image == "debian11o" }
 runcmd:
 #   HACK: cloud-init in Debian 11 does not take care of the following
@@ -502,6 +536,7 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
 %{ endif }
 %{ endif }
+
 %{ if image == "debian10o" }
 runcmd:
 #   HACK: cloud-init in Debian 10 does not take care of the following
@@ -515,6 +550,7 @@ packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 %{ endif }
+
 %{ if image == "debian9o" }
 runcmd:
 #   HACK: cloud-init in Debian 9 does not take care of the following
@@ -554,7 +590,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
-
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "almalinux8o" }
@@ -582,7 +620,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 %{ endif }
-
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "almalinux9o" }
@@ -610,7 +650,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 %{ endif }
-
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "rocky8o" }
@@ -636,7 +678,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns"]
 %{ else }
 packages: ["avahi", "nss-mdns", "salt-minion"]
 %{ endif }
-
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "rocky9o" }
@@ -667,6 +711,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns"]
 %{ else }
 packages: ["avahi", "nss-mdns", "salt-minion"]
 %{ endif }
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "oraclelinux8o" }
@@ -693,6 +740,9 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
   %{ endif }
   
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
   %{ endif }
 
 %{ if image == "oraclelinux9o" }
@@ -718,7 +768,10 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
   %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
   %{ endif }
-  
+
+runcmd:
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "opensuse154armo" }
