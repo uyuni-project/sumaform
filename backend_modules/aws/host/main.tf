@@ -9,6 +9,7 @@ locals {
     public_instance = false
     instance_with_eip = false
     volume_size     = 50
+    private_ip      = null
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
     contains(var.roles, "server") ? { instance_type = "t3.medium" } : {},
@@ -28,12 +29,13 @@ locals {
   public_security_group_id             = var.base_configuration.public_security_group_id
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
+  private_ip                           = local.provider_settings["private_ip"]
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
-  data_disk_device = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
+  data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
@@ -73,6 +75,7 @@ resource "aws_instance" "instance" {
   key_name               = local.provider_settings["key_name"]
   subnet_id              = var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
+  private_ip             = local.private_ip
 
   root_block_device {
     volume_size = local.provider_settings["volume_size"]
