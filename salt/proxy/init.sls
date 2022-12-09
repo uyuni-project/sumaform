@@ -206,7 +206,7 @@ ssl-building-ca-configuration:
 
 configure-proxy:
   cmd.run:
-    - name: configure-proxy.sh --non-interactive --rhn-user={{ grains.get('server_username') | default('admin', true) }} --rhn-password={{ grains.get('server_password') | default('admin', true) }} --answer-file=/root/config-answers.txt ; true
+    - name: configure-proxy.sh --non-interactive --rhn-user={{ grains.get('server_username') | default('admin', true) }} --rhn-password={{ grains.get('server_password') | default('admin', true) }} --answer-file=/root/config-answers.txt
     - env:
       - SSL_PASSWORD: spacewalk
     - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT
