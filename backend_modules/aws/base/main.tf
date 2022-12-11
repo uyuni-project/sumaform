@@ -28,16 +28,18 @@ locals {
 module "network" {
   source = "../network"
 
-  availability_zone  = local.availability_zone
-  region             = local.region
-  ssh_allowed_ips    = local.ssh_allowed_ips
-  name_prefix        = local.name_prefix
-  create_network     = local.create_network
-  create_db_network  = local.create_db_network
-  private_network    = local.private_network
-  additional_network = local.additional_network
-  public_subnet_id   = local.public_subnet_id
-  vpc_id             = local.vpc_id
+  availability_zone         = local.availability_zone
+  region                    = local.region
+  ssh_allowed_ips           = local.ssh_allowed_ips
+  name_prefix               = local.name_prefix
+  create_network            = local.create_network
+  create_private_network    = local.create_private_network
+  create_additional_network = local.create_additional_network
+  create_db_network         = local.create_db_network
+  private_network           = local.private_network
+  additional_network        = local.additional_network
+  public_subnet_id          = local.public_subnet_id
+  vpc_id                    = local.vpc_id
 }
 
 locals {
@@ -103,7 +105,7 @@ module "bastion" {
   base_configuration            = local.configuration_output
   image                         = lookup(var.provider_settings, "bastion_image", "opensuse154o")
   name                          = "bastion"
-  connect_to_additional_network = true
+  //connect_to_additional_network = true
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true
