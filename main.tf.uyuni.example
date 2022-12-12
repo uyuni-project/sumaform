@@ -88,13 +88,3 @@ module "kvm-host" {
   server_configuration = module.server.configuration
   // see modules/virthost/variables.tf for possible values
 }
-
-module "xen-host" {
-  source = "./modules/virthost"
-  base_configuration = module.base.configuration
-  product_version = "uyuni-master"
-  name = "min-xen"
-  image = "opensuse153o"
-  server_configuration = module.server.configuration
-  // see modules/virthost/variables.tf for possible values
-}

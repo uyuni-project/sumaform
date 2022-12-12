@@ -97,13 +97,6 @@ variable "kvmhost_configuration" {
   }
 }
 
-variable "xenhost_configuration" {
-  description = "use module.<VIRTHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "sle11sp4_minion_configuration" {
   description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {

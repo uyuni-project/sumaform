@@ -11,7 +11,7 @@ module "virthost" {
   use_os_unreleased_updates = var.use_os_unreleased_updates
   install_salt_bundle       = var.install_salt_bundle
   additional_repos          = var.additional_repos
-  additional_repos_only         = var.additional_repos_only
+  additional_repos_only     = var.additional_repos_only
   additional_packages       = var.additional_packages
   quantity                  = var.quantity
   gpg_keys                  = var.gpg_keys
@@ -21,9 +21,6 @@ module "virthost" {
   additional_grains = merge({
     hvm_disk_image      = var.hvm_disk_image
     hvm_disk_image_hash = var.hvm_disk_image_hash
-    xen_disk_image      = var.xen_disk_image
-    xen_disk_image_hash = var.xen_disk_image_hash
-    hypervisor = var.hypervisor
     sles_registration_code = var.sles_registration_code
   },var.additional_grains)
 

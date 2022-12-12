@@ -89,21 +89,6 @@ variable "hvm_disk_image_hash" {
   default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
 }
 
-variable "xen_disk_image" {
-  description = "URL to the disk image to use for Xen PV guests"
-  default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-15.3-kvm-and-xen-Current.qcow2"
-}
-
-variable "xen_disk_image_hash" {
-  description = "Hash of the Xen PV disk image, either a URL or the hash itself. See salt's file.managed source_hash documentations"
-  default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-15.3-kvm-and-xen-Current.qcow2.sha256"
-}
-
-variable "hypervisor" {
-  description = "Hypervisor to use on the virtual host. Either kvm or xen"
-  default     = "kvm"
-}
-
 variable "image" {
   description = "One of: sles15, sles15sp1, sles15sp2, sles15sp2o, sles15sp3o, sles15sp4o or opensuse154o"
   type        = string

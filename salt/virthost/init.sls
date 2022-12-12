@@ -1,11 +1,7 @@
 include:
   - repos
 
-no-xen-tools:
-  pkg.removed:
-    - name: xen-tools-domU
-
-# SLES JeOS doesn't ship the KVM and Xen modules
+# SLES JeOS doesn't ship the KVM modules
 no_kernel_default_base:
   pkg.removed:
     - name: kernel-default-base
@@ -14,13 +10,13 @@ virthost_packages:
   pkg.installed:
     - pkgs:
         {% if '15' in grains['osrelease'] %}
-        - patterns-server-{{ grains['hypervisor']|lower() }}_server
+        - patterns-server-kvm_server
         - python3-six  # WORKAROUND: missing virt-manager-common dependency
         - libvirt-daemon-qemu
         {% elif grains['osfullname'] == 'Leap' %}
-        - patterns-openSUSE-{{ grains['hypervisor']|lower() }}_server
+        - patterns-openSUSE-kvm_server
         {% else %}
-        - patterns-sles-{{ grains['hypervisor']|lower() }}_server
+        - patterns-sles-kvm_server
         {% endif %}
         - libvirt-client
         - qemu-tools
@@ -31,7 +27,6 @@ virthost_packages:
         - irqbalance
     - require:
       - sls: repos
-      - pkg: no-xen-tools
       - pkg: no_kernel_default_base
 
 {% if grains['osrelease'] == '12.4' %}
@@ -92,41 +87,6 @@ ifcfg-br0:
         BOOTPROTO=dhcp
         BRIDGE=yes
         BRIDGE_PORTS=eth0
-
-{% if grains['hypervisor']|lower() == 'xen' %}
-{% if grains['xen_disk_image'] %}
-disk-image-template-xenpv.qcow2:
-  file.managed:
-    - name: /var/testsuite-data/disk-image-template-xenpv.qcow2
-    - source: {{ grains['hvm_disk_image'] }}
-    {% if grains['hvm_disk_image_hash'] %}
-    - source_hash: {{ grains['hvm_disk_image_hash'] }}
-    {% else %}
-    - skip_verify: True
-    {% endif %}
-    - mode: 655
-    - makedirs: True
-{% endif %}
-
-set_xen_default:
-  bootloader.grub_set_default:
-    - name: Xen
-    - onchanges:
-        - pkg: virthost_packages
-
-lower_dom0_memory:
-  file.replace:
-    - name: /etc/default/grub
-    - pattern: ^GRUB_CMDLINE_XEN="[^"]*"
-    - repl: GRUB_CMDLINE_XEN="dom0_mem=1024000"
-
-rebuild_grub_cfg:
-  cmd.run:
-    - name: grub2-mkconfig -o /boot/grub2/grub.cfg
-    - onchanges:
-        - bootloader: set_xen_default
-        - file: lower_dom0_memory
-{% endif %}
 
 reboot:
   module.run:

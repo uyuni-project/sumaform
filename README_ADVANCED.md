@@ -193,7 +193,7 @@ For that use case, instead of `mirror` use `server_mounted_mirror` parameter ins
 
 ## Virtual hosts
 
-Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM or Xen hypervisor.
+Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM hypervisor.
 
 An example follows:
 
@@ -205,7 +205,6 @@ module "virthost" {
   ...
   name = "min-kvm"
   image = "sles15sp1o"
-  hypervisor = "kvm"
   ...
   provider_settings = {
     vcpu = 3
@@ -237,11 +236,6 @@ The template disk image is the `opensuse153` image used by sumaform and is downl
 In order to use another or a cached image, use the `hvm_disk_image` variable.
 If the `hvm_disk_image` is set to the empty string, no image will be copied in `/var/testsuite-data/`.
 For example, to use a local image copy it in `salt/virthost/` folder and set `hvm_disk_image = "salt://virthost/imagename.qcow2"`
-
-The template disk image for Xen paravirtualized virtual machines is the openSUSE 15.1 JeOS image and is downloaded when applying the highstate on the Xen virtual host.
-As for the other image template, in order to use another or a cached image, use the `xen_disk_image` variable.
-
-Note that the Xen virtualization host will be rebooted when applying the highstate in order to use the newly installed Xen kernel.
 
 ## Turning convenience features off
 
