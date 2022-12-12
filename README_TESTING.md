@@ -148,6 +148,8 @@ host_settings = {
   }
   kvm-host = {
   }
+  monitoring-server = {
+  }
 }
 ```
 
@@ -284,7 +286,7 @@ module "cucumber_testsuite" {
 
 ## Virtual host
 
-User may need to change the KVM image download. To do it, one can use the `additional_grains` property:
+You may need to change the KVM image download. To do it, use the `additional_grains` property:
 
 ```hcl
 host_settings = {

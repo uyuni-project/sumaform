@@ -121,6 +121,10 @@ module "cucumber_testsuite" {
       image = "opensuse154o"
       name = "kvmhost"
     }
+    monitoring-server = {
+      image = "sles15sp4o"
+      name = "monitoring"
+    }
   }
 
   # special settings for adjusting e.g. the pool name or defining another IP range
