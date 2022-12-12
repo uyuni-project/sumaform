@@ -47,7 +47,6 @@ module "controller" {
     ssh_minion    = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
     pxeboot_mac   = var.pxeboot_configuration["macaddr"]
     kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
-    xen_host      = length(var.xenhost_configuration["hostnames"]) > 0 ? var.xenhost_configuration["hostnames"][0] : null
 
     git_profiles_repo         = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
     no_auth_registry          = var.no_auth_registry

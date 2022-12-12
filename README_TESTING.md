@@ -148,8 +148,6 @@ host_settings = {
   }
   kvm-host = {
   }
-  xen-host = {
-  }
 }
 ```
 
@@ -286,7 +284,7 @@ module "cucumber_testsuite" {
 
 ## Virtual host
 
-User may need to change the KVM/Xen image download. To do it, one can use the `additional_grains` property:
+User may need to change the KVM image download. To do it, one can use the `additional_grains` property:
 
 ```hcl
 host_settings = {
@@ -294,16 +292,6 @@ host_settings = {
         additional_grains = {
             hvm_disk_image = ".."
             hvm_disk_image_hash = "..."
-            xen_disk_image = "..."
-            xen_disk_image_hash = "..."
-        }
-    }
-    xen-host = {
-        additional_grains = {
-            hvm_disk_image = ".."
-            hvm_disk_image_hash = "..."
-            xen_disk_image = "..."
-            xen_disk_image_hash = "..."
         }
     }
 }

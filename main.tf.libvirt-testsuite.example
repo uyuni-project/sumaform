@@ -121,10 +121,6 @@ module "cucumber_testsuite" {
       image = "opensuse154o"
       name = "kvmhost"
     }
-    xen-host = {
-      image = "opensuse154o"
-      name = "xenhost"
-    }
   }
 
   # special settings for adjusting e.g. the pool name or defining another IP range

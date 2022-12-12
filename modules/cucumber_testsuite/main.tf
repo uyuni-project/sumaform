@@ -283,32 +283,6 @@ module "kvm-host" {
   provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
 }
 
-module "xen-host" {
-  source = "../virthost"
-
-  quantity = contains(local.hosts, "xen-host") ? 1 : 0
-
-  base_configuration = module.base.configuration
-  product_version    = var.product_version
-  image              = lookup(local.images, "xen-host", "sles15sp4o")
-  name               = lookup(local.names, "xen-host", "min-xen")
-  hypervisor         = "xen"
-
-  server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "xen-host", null)
-
-  auto_connect_to_master  = false
-  use_os_released_updates = true
-  ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "xen-host", false)
-
-  additional_repos  = lookup(local.additional_repos, "xen-host", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "xen-host", {})
-  additional_packages = lookup(local.additional_packages, "xen-host", [])
-  additional_grains = lookup(local.additional_grains, "xen-host", {})
-  provider_settings = lookup(local.provider_settings_by_host, "xen-host", {})
-}
-
 module "controller" {
   source = "../controller"
   name   = lookup(local.names, "controller", "ctl")
@@ -324,7 +298,6 @@ module "controller" {
   buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   pxeboot_configuration   = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
   kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  xenhost_configuration   = contains(local.hosts, "xen-host") ? module.xen-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
 
   branch                   = var.branch
   git_username             = var.git_username
@@ -358,7 +331,6 @@ output "configuration" {
     build-host = module.build-host.configuration
     pxeboot-minion = module.pxeboot-minion.configuration
     kvm-host = module.kvm-host.configuration
-    xen-host = module.xen-host.configuration
     controller = module.controller.configuration
   }
 }
