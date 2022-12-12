@@ -12,6 +12,7 @@ export SERVER="{{ grains.get('server') }}"
 {% if grains.get('pxeboot_mac') | default(false, true) %}export PXEBOOT_MAC="{{ grains.get('pxeboot_mac') }}" {% else %}# no PXE boot MAC defined {% endif %}
 {% if grains.get('kvm_host') | default(false, true) %}export VIRTHOST_KVM_URL="{{ grains.get('kvm_host') }}"
 export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
+{% if grains.get('monitoring_server') | default(false, true) %}export MONITORING_SERVER="{{ grains.get('monitoring_server') }}"{% else %}# no monitoring server defined {% endif %}
 
 # base goodies
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}

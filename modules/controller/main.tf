@@ -37,16 +37,17 @@ module "controller" {
     branch       = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
     mirror       = var.no_mirror == true ? null :  var.base_configuration["mirror"]
 
-    server        = var.server_configuration["hostname"]
-    proxy         = var.proxy_configuration["hostname"]
-    client        = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
-    minion        = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
-    build_host    = length(var.buildhost_configuration["hostnames"]) > 0 ? var.buildhost_configuration["hostnames"][0] : null
-    redhat_minion = length(var.redhat_configuration["hostnames"]) > 0 ? var.redhat_configuration["hostnames"][0] : null
-    debian_minion = length(var.debian_configuration["hostnames"]) > 0 ? var.debian_configuration["hostnames"][0] : null
-    ssh_minion    = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
-    pxeboot_mac   = var.pxeboot_configuration["macaddr"]
-    kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
+    server            = var.server_configuration["hostname"]
+    proxy             = var.proxy_configuration["hostname"]
+    client            = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
+    minion            = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
+    build_host        = length(var.buildhost_configuration["hostnames"]) > 0 ? var.buildhost_configuration["hostnames"][0] : null
+    redhat_minion     = length(var.redhat_configuration["hostnames"]) > 0 ? var.redhat_configuration["hostnames"][0] : null
+    debian_minion     = length(var.debian_configuration["hostnames"]) > 0 ? var.debian_configuration["hostnames"][0] : null
+    ssh_minion        = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
+    pxeboot_mac       = var.pxeboot_configuration["macaddr"]
+    kvm_host          = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
+    monitoring_server = length(var.monitoringserver_configuration["hostnames"]) > 0 ? var.monitoringserver_configuration["hostnames"][0] : null
 
     git_profiles_repo         = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
     no_auth_registry          = var.no_auth_registry

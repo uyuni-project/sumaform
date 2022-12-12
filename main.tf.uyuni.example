@@ -84,7 +84,17 @@ module "kvm-host" {
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "min-kvm"
-  image = "opensuse153o"
+  image = "opensuse154o"
   server_configuration = module.server.configuration
   // see modules/virthost/variables.tf for possible values
+}
+
+module "monitoring-server" {
+  source = "./modules/minion"
+  base_configuration = module.base.configuration
+  product_version = "uyuni-master"
+  name = "min-monitoring"
+  image = "sles15sp4o"
+  server_configuration = module.server.configuration
+  // see modules/minion/variables.tf for possible values
 }

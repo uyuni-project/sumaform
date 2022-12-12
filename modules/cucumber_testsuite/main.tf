@@ -283,21 +283,47 @@ module "kvm-host" {
   provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
 }
 
+module "monitoring-server" {
+  source = "../minion"
+
+  quantity = contains(local.hosts, "monitoring-server") ? 1 : 0
+
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "monitoring-server", "sles15sp4o")
+  name               = lookup(local.names, "monitoring-server", "min-monitoring")
+
+  server_configuration = local.minimal_configuration
+  sles_registration_code = lookup(local.sles_registration_code, "monitoring-server", null)
+
+  auto_connect_to_master  = false
+  use_os_released_updates = true
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "monitoring-server", false)
+
+  additional_repos  = lookup(local.additional_repos, "monitoring-server", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "monitoring-server", {})
+  additional_packages = lookup(local.additional_packages, "monitoring-server", [])
+  additional_grains = lookup(local.additional_grains, "monitoring-server", {})
+  provider_settings = lookup(local.provider_settings_by_host, "monitoring-server", {})
+}
+
 module "controller" {
   source = "../controller"
   name   = lookup(local.names, "controller", "ctl")
 
-  base_configuration      = module.base.configuration
-  server_configuration    = module.server.configuration
-  proxy_configuration     = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
-  client_configuration    = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  minion_configuration    = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  sshminion_configuration = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  redhat_configuration    = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  debian_configuration    = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  buildhost_configuration = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  pxeboot_configuration   = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
-  kvmhost_configuration   = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  base_configuration             = module.base.configuration
+  server_configuration           = module.server.configuration
+  proxy_configuration            = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
+  client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  redhat_configuration           = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  debian_configuration           = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  buildhost_configuration        = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  pxeboot_configuration          = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
+  kvmhost_configuration          = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  monitoringserver_configuration = contains(local.hosts, "monitoring-server") ? module.monitoring-server.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
 
   branch                   = var.branch
   git_username             = var.git_username
@@ -331,6 +357,7 @@ output "configuration" {
     build-host = module.build-host.configuration
     pxeboot-minion = module.pxeboot-minion.configuration
     kvm-host = module.kvm-host.configuration
+    monitoring-server = module.monitoring-server.configuration
     controller = module.controller.configuration
   }
 }
