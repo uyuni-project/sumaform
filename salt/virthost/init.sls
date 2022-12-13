@@ -40,7 +40,7 @@ guestfs-fix:
 {% endif %}
 
 # WORKAROUND for bsc#1181264
-{% if grains['osrelease'] == '15.3' and grains['hypervisor'] == 'kvm' %}
+{% if grains['osrelease'] == '15.3' %}
 no-50-xen-hvm-x86_64.json:
   file.absent:
     - name: /usr/share/qemu/firmware/50-xen-hvm-x86_64.json
