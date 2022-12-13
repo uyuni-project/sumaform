@@ -108,6 +108,7 @@ runcmd:
   - zypper removerepo --all
   - rm /etc/modprobe.d/50-ipv6.conf
 %{ endif }
+
 %{ if image == "rhel9"}
 yum_repos:
   # repo for salt
@@ -120,6 +121,12 @@ yum_repos:
     priority: 98
 
 packages: ["salt-minion"]
+runcmd:
+  # WORKAROUND: cloud-init in Rhel 9 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
 %{ endif }
 %{ if image == "rhel8"}
 yum_repos:
