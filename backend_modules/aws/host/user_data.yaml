@@ -119,12 +119,19 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
     priority: 98
+  epel:
+    baseurl: http://download-cc-rdu01.fedoraproject.org/pub/epel/9/Everything/x86_64/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: epel
+    priority: 98
 
 packages: ["salt-minion"]
 runcmd:
   # WORKAROUND: cloud-init in Rhel 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+  - update-crypto-policies --set LEGACY
   - systemctl restart sshd
 
 %{ endif }
