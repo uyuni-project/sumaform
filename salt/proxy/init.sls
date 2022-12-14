@@ -10,7 +10,7 @@ include:
 
 {% set install_proxy_container_packages = false %}
 {% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
-{% if grains.get('product_version') | regex_match('(head|uyuni|4\.3).*') and grains.get('provider') != 'aws'%}
+{% if grains.get('product_version') | regex_match('(head|uyuni|4\.3).*') %}
     {% set install_proxy_container_packages = true %}
 {% endif %}
 {% endif %}
