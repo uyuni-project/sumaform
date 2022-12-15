@@ -129,7 +129,7 @@ yum_repos:
 
 packages: ["salt-minion"]
 runcmd:
-  # WORKAROUND: cloud-init in Rhel 9 does not take care of the following
+  # WORKAROUND: rhel9 change ssh security for ssh key
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - update-crypto-policies --set LEGACY
   - systemctl restart sshd
