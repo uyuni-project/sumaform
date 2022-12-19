@@ -290,11 +290,16 @@ You may need to change the KVM image download. To do it, use the `additional_gra
 
 ```hcl
 host_settings = {
-    kvm-host = {
-        additional_grains = {
-            hvm_disk_image = ".."
-            hvm_disk_image_hash = "..."
+  kvm-host = {
+    additional_grains = {
+      hvm_disk_image = {
+        leap = {
+          hostname = "..."
+          image = "..."
+          hash = "..."
         }
+      }
     }
+  }
 }
 ```

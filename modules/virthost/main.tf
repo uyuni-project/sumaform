@@ -20,7 +20,6 @@ module "virthost" {
   roles                     = ["minion", "virthost"]
   additional_grains = merge({
     hvm_disk_image      = var.hvm_disk_image
-    hvm_disk_image_hash = var.hvm_disk_image_hash
     sles_registration_code = var.sles_registration_code
   },var.additional_grains)
 
