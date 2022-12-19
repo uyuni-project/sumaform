@@ -108,6 +108,7 @@ runcmd:
   - zypper removerepo --all
   - rm /etc/modprobe.d/50-ipv6.conf
 %{ endif }
+
 %{ if image == "rhel9"}
 yum_repos:
   # repo for salt
@@ -118,8 +119,20 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
     priority: 98
+  epel:
+    baseurl: http://download-cc-rdu01.fedoraproject.org/pub/epel/9/Everything/x86_64/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: epel
+    priority: 98
 
 packages: ["salt-minion"]
+runcmd:
+  # WORKAROUND: rhel9 change ssh security for ssh key
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
 %{ endif }
 %{ if image == "rhel8"}
 yum_repos:
