@@ -131,7 +131,6 @@ packages: ["salt-minion"]
 runcmd:
   # WORKAROUND: rhel9 change ssh security for ssh key
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - update-crypto-policies --set LEGACY
   - systemctl restart sshd
 
 %{ endif }
