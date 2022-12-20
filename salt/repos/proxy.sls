@@ -232,26 +232,6 @@ testing_overlay_devel_repo:
     - priority: 96
 {% endif %}
 
-{% if '4.4-nightly' in grains['product_version'] %}
-server_devel_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.4/images/repo/SLE-Module-SUSE-Manager-Proxy-4.4-POOL-x86_64-Media1/
-    - refresh: True
-    - priority: 96
-
-server_devel_releasenotes_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.4:/ToSLE/SLE_15_SP5/
-    - refresh: True
-    - priority: 96
-
-testing_overlay_devel_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.4/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.4-POOL-x86_64-Media1/
-    - refresh: True
-    - priority: 96
-{% endif %}
-
 # repositories needed for containerized proxy
 {% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
 
