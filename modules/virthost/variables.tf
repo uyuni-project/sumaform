@@ -80,13 +80,15 @@ variable "ipv6" {
 }
 
 variable "hvm_disk_image" {
-  description = "URL to the disk image to use for KVM guests"
-  default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2"
-}
-
-variable "hvm_disk_image_hash" {
-  description = "Hash of the HVM disk image, either a URL or the hash itself. See salt's file.managed source_hash documentations"
-  default     = "https://download.opensuse.org/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
+  description = "Definition of the HVM disk images"
+  type = map(map(string))
+  default = {
+    leap = {
+      hostname = "leap154"
+      image = "https://download.opensuse.org/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-JeOS.x86_64-OpenStack-Cloud.qcow2"
+      hash = "https://download.opensuse.org/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
+    }
+  }
 }
 
 variable "image" {

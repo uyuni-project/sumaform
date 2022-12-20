@@ -230,12 +230,14 @@ The generated virtual host will be setup with:
 
 - a `default` virtual network or `nat` type with `192.168.42.1/24` IP addresses,
 - a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
-- and a VM template disk image located in `/var/testsuite-data/disk-image-template.qcow2`.
+- and a VM template disk image located in `/var/testsuite-data/`.
 
-The template disk image is the `opensuse153` image used by sumaform and is downloaded when applying the highstate on the virtual host.
+The openSUSE Leap template (`leap`) disk image is `opensuse154o` used by sumaform and is downloaded when applying the
+highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
-If the `hvm_disk_image` is set to the empty string, no image will be copied in `/var/testsuite-data/`.
-For example, to use a local image copy it in `salt/virthost/` folder and set `hvm_disk_image = "salt://virthost/imagename.qcow2"`
+If the values inside the `hvm_disk_image` map are set to an empty map, no image will be copied to `/var/testsuite-data/`.
+For example, to use a local image, copy it to the `salt/virthost/` folder and set the `image` key inside the `leap`
+hashmap of `hvm_disk_image` to `"leap = salt://virthost/imagename.qcow2"`. See the [Virtual host](https://github.com/uyuni-project/sumaform/blob/master/README_TESTING.md#virtual-host) section inside of README_TESTING for an example
 
 ## Turning convenience features off
 
