@@ -177,8 +177,6 @@ scc:
     - SLE-Product-SUSE-Manager-Server-4.3-Updates
     - SLE-Module-SUSE-Manager-Server-4.3-Pool
     - SLE-Module-SUSE-Manager-Server-4.3-Updates
-    #- SLE-Module-SUSE-Manager-Server-4.4-Pool
-    #- SLE-Module-SUSE-Manager-Server-4.4-Updates
     # SUSE Manager Proxy
     - SLE-Product-SUSE-Manager-Proxy-4.0-Pool
     - SLE-Product-SUSE-Manager-Proxy-4.0-Updates
@@ -196,8 +194,6 @@ scc:
     - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
     - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
     - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
-    #- SLE-Module-SUSE-Manager-Proxy-4.4-Pool
-    #- SLE-Module-SUSE-Manager-Proxy-4.4-Updates
     # Retail Branch Server
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Pool
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.0-Updates
@@ -215,8 +211,6 @@ scc:
     - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
     - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
     - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
-    #- SLE-Module-SUSE-Manager-Retail-Branch-Server-4.4-Pool
-    #- SLE-Module-SUSE-Manager-Retail-Branch-Server-4.4-Updates
     # SUSE Manager Tools
     - SLES11-SP4-SUSE-Manager-Tools
     - SLE-Manager-Tools12-Pool
@@ -355,13 +349,13 @@ http:
 
 
   # SUSE Manager Head (SLE15-SP5)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.4-POOL-x86_64-Media1
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.3-POOL-x86_64-Media1
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP5/
     archs: [x86_64]
 
   # SUSE Manager Head Proxy (SLE15-SP5)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.4-POOL-x86_64-Media1
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.3-POOL-x86_64-Media1
     archs: [x86_64]
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP5/
     archs: [x86_64]
@@ -467,46 +461,6 @@ http:
   # Debian 11 Manager Tools 4.3 devel
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian11-SUSE-Manager-Tools/Debian_11/
     archs: [amd64]
-
-  # SUSE Manager 4.4 devel (not available yet)
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4/SLE_15_SP5
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/ToSLE/SLE_15_SP5/
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.4-POOL-x86_64-Media1/
-  #  archs: [x86_64]
-
-  # SLE 12 (GA and all SPs) Manager Tools 4.4 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/SLE12-SUSE-Manager-Tools/SLE_12/
-  #  archs: [x86_64]
-
-  # SLE 15 Manager Tools 4.4 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/SLE15-SUSE-Manager-Tools/SLE_15/
-  #  archs: [x86_64]
-
-  # RES 7 Manager Tools 4.4 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
-  #  archs: [x86_64]
-
-  # RES 8 Manager Tools 4.4 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
-  #  archs: [x86_64]
-
-  # Ubuntu 18.04 Manager Tools 4.4 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/Ubuntu18.04-SUSE-Manager-Tools/SaltBundle/xUbuntu_18.04
-  #  archs: [amd64]
-
-  # Ubuntu 20.04 Manager Tools 4.4 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.4:/Ubuntu20.04-SUSE-Manager-Tools/SaltBundle/xUbuntu_20.04/
-  #  archs: [amd64]
-
-  # Debian 10 Manager Tools 4.4 devel
-  #- url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.4:/Debian10-SUSE-Manager-Tools/SaltBundle/Debian_10/
-  #  archs: [amd64]
-
-  # Debian 11 Manager Tools 4.4 devel
-  #- url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.4:/Debian11-SUSE-Manager-Tools/SaltBundle/Debian_11/
-  #  archs: [amd64]
 
   # SUSE Manager Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP5
