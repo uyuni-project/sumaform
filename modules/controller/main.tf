@@ -1,7 +1,5 @@
 variable "testsuite-branch" {
   default = {
-    "4.0-released"   = "Manager-4.0"
-    "4.0-nightly"    = "Manager-4.0"
     "4.1-released"   = "Manager-4.1"
     "4.1-nightly"    = "Manager-4.1"
     "4.2-released"   = "Manager-4.2"
@@ -39,26 +37,28 @@ module "controller" {
     branch       = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
     mirror       = var.no_mirror == true ? null :  var.base_configuration["mirror"]
 
-    server        = var.server_configuration["hostname"]
-    proxy         = var.proxy_configuration["hostname"]
-    client        = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
-    minion        = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
-    build_host    = length(var.buildhost_configuration["hostnames"]) > 0 ? var.buildhost_configuration["hostnames"][0] : null
-    redhat_minion = length(var.redhat_configuration["hostnames"]) > 0 ? var.redhat_configuration["hostnames"][0] : null
-    debian_minion = length(var.debian_configuration["hostnames"]) > 0 ? var.debian_configuration["hostnames"][0] : null
-    ssh_minion    = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
-    pxeboot_mac   = var.pxeboot_configuration["macaddr"]
-    kvm_host      = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
-    xen_host      = length(var.xenhost_configuration["hostnames"]) > 0 ? var.xenhost_configuration["hostnames"][0] : null
+    server            = var.server_configuration["hostname"]
+    proxy             = var.proxy_configuration["hostname"]
+    client            = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
+    minion            = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
+    build_host        = length(var.buildhost_configuration["hostnames"]) > 0 ? var.buildhost_configuration["hostnames"][0] : null
+    redhat_minion     = length(var.redhat_configuration["hostnames"]) > 0 ? var.redhat_configuration["hostnames"][0] : null
+    debian_minion     = length(var.debian_configuration["hostnames"]) > 0 ? var.debian_configuration["hostnames"][0] : null
+    ssh_minion        = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
+    pxeboot_mac       = var.pxeboot_configuration["macaddr"]
+    kvm_host          = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
+    monitoring_server = length(var.monitoringserver_configuration["hostnames"]) > 0 ? var.monitoringserver_configuration["hostnames"][0] : null
 
-    git_profiles_repo      = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
-    no_auth_registry       = var.no_auth_registry
-    auth_registry          = var.auth_registry
-    auth_registry_username = var.auth_registry_username
-    auth_registry_password = var.auth_registry_password
-    server_http_proxy      = var.server_http_proxy
-    pxeboot_image          = var.pxeboot_configuration["image"]
-    is_using_build_image   = var.is_using_build_image
+    git_profiles_repo         = var.git_profiles_repo == "default" ? "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles" : var.git_profiles_repo
+    no_auth_registry          = var.no_auth_registry
+    auth_registry             = var.auth_registry
+    auth_registry_username    = var.auth_registry_username
+    auth_registry_password    = var.auth_registry_password
+    server_http_proxy         = var.server_http_proxy
+    custom_download_endpoint  = var.custom_download_endpoint
+    pxeboot_image             = var.pxeboot_configuration["image"]
+    is_using_build_image      = var.is_using_build_image
+    is_using_scc_repositories = var.is_using_scc_repositories
 
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
@@ -92,14 +92,20 @@ module "controller" {
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null
-    rocky8_minion       = length(var.rocky8_minion_configuration["hostnames"]) > 0 ? var.rocky8_minion_configuration["hostnames"][0] : null
-    rocky8_sshminion    = length(var.rocky8_sshminion_configuration["hostnames"]) > 0 ? var.rocky8_sshminion_configuration["hostnames"][0] : null
+    rocky8_minion        = length(var.rocky8_minion_configuration["hostnames"]) > 0 ? var.rocky8_minion_configuration["hostnames"][0] : null
+    rocky8_sshminion     = length(var.rocky8_sshminion_configuration["hostnames"]) > 0 ? var.rocky8_sshminion_configuration["hostnames"][0] : null
+    rocky9_minion        = length(var.rocky9_minion_configuration["hostnames"]) > 0 ? var.rocky9_minion_configuration["hostnames"][0] : null
+    rocky9_sshminion     = length(var.rocky9_sshminion_configuration["hostnames"]) > 0 ? var.rocky9_sshminion_configuration["hostnames"][0] : null
+    rhel9_minion        = length(var.rhel9_minion_configuration["hostnames"]) > 0 ? var.rhel9_minion_configuration["hostnames"][0] : null
+    rhel9_sshminion     = length(var.rhel9_sshminion_configuration["hostnames"]) > 0 ? var.rhel9_sshminion_configuration["hostnames"][0] : null
     ubuntu1604_minion    = length(var.ubuntu1604_minion_configuration["hostnames"]) > 0 ? var.ubuntu1604_minion_configuration["hostnames"][0] : null
     ubuntu1604_sshminion = length(var.ubuntu1604_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1604_sshminion_configuration["hostnames"][0] : null
     ubuntu1804_minion    = length(var.ubuntu1804_minion_configuration["hostnames"]) > 0 ? var.ubuntu1804_minion_configuration["hostnames"][0] : null
     ubuntu1804_sshminion = length(var.ubuntu1804_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu1804_sshminion_configuration["hostnames"][0] : null
     ubuntu2004_minion    = length(var.ubuntu2004_minion_configuration["hostnames"]) > 0 ? var.ubuntu2004_minion_configuration["hostnames"][0] : null
     ubuntu2004_sshminion = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
+    ubuntu2204_minion    = length(var.ubuntu2204_minion_configuration["hostnames"]) > 0 ? var.ubuntu2204_minion_configuration["hostnames"][0] : null
+    ubuntu2204_sshminion = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
     debian9_minion       = length(var.debian9_minion_configuration["hostnames"]) > 0 ? var.debian9_minion_configuration["hostnames"][0] : null
     debian9_sshminion    = length(var.debian9_sshminion_configuration["hostnames"]) > 0 ? var.debian9_sshminion_configuration["hostnames"][0] : null
     debian10_minion      = length(var.debian10_minion_configuration["hostnames"]) > 0 ? var.debian10_minion_configuration["hostnames"][0] : null
@@ -110,13 +116,16 @@ module "controller" {
     sle11sp3_terminal_mac = var.sle11sp3_terminal_configuration["macaddr"]
     sle12sp5_buildhost    = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
     sle12sp5_terminal_mac = var.sle12sp5_terminal_configuration["macaddr"]
+    sle15sp3_buildhost    = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
+    sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["macaddr"]
     sle15sp4_buildhost    = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
     sle15sp4_terminal_mac = var.sle15sp4_terminal_configuration["macaddr"]
-    opensuse153arm_minion = length(var.opensuse153arm_minion_configuration["hostnames"]) > 0 ? var.opensuse153arm_minion_configuration["hostnames"][0] : null
+    opensuse154arm_minion    = length(var.opensuse154arm_minion_configuration["hostnames"]) > 0 ? var.opensuse154arm_minion_configuration["hostnames"][0] : null
+    opensuse154arm_sshminion = length(var.opensuse154arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse154arm_sshminion_configuration["hostnames"][0] : null
   }
 
 
-  image   = "opensuse152o"
+  image   = "opensuse154o"
   provider_settings = var.provider_settings
 }
 
