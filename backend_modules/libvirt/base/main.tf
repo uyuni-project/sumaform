@@ -4,8 +4,8 @@ locals {
   image_urls = {
     almalinux8o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://repo.almalinux.org"}/almalinux/8/cloud/x86_64/images/AlmaLinux-8-GenericCloud-latest.x86_64.qcow2"
     almalinux9o     = "${var.use_mirror_images ? "http://${var.mirror}" : "https://repo.almalinux.org"}/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2"
-    rocky8o         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.rockylinux.org"}/pub/rocky/8.6/images/Rocky-8-GenericCloud.latest.x86_64.qcow2"
-    rocky9o         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.rockylinux.org"}/pub/rocky/9.1/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
+    rocky8o         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.rockylinux.org"}/pub/rocky/8/images/Rocky-8-GenericCloud.latest.x86_64.qcow2"
+    rocky9o         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
     oraclelinux8o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://yum.oracle.com"}/templates/OracleLinux/OL8/u6/x86_64/OL8U6_x86_64-kvm-b126.qcow"
     oraclelinux9o   = "${var.use_mirror_images ? "http://${var.mirror}" : "https://yum.oracle.com"}/templates/OracleLinux/OL9/u0/x86_64/OL9U0_x86_64-kvm-b142.qcow"
     centos6o        = "${var.use_mirror_images ? "http://${var.mirror}" : "https://cloud.centos.org"}/centos/6/images/CentOS-6-x86_64-GenericCloud.qcow2"
