@@ -109,7 +109,7 @@ Some roles such as `suse_manager` or `mirror` have specific defaults that overri
 | grafana      | `{memory=4096}`                                                                                                |
 | build_host   | `{vcpu=2}`                                                                                                     |
 | pxe_boot     | `{xslt=templatefile("${path.module}/pxe_boot.xsl", {manufacturer=local.manufacturer, product=local.product})}` |
-| virthost     | `{memory=3072, vcpu=3, cpu_model = "host-passthrough", xslt=file("${path.module}/virthost.xsl")}`              |
+| virthost     | `{memory=4096, vcpu=3, cpu_model = "host-passthrough", xslt=file("${path.module}/virthost.xsl")}`              |
 
 ## Accessing VMs
 
