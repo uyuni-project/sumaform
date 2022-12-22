@@ -105,7 +105,6 @@ module "bastion" {
   base_configuration            = local.configuration_output
   image                         = lookup(var.provider_settings, "bastion_image", "opensuse154o")
   name                          = "bastion"
-  //connect_to_additional_network = true
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true
