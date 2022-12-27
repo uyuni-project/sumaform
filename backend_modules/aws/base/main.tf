@@ -8,6 +8,8 @@ locals {
   key_file = lookup(var.provider_settings, "key_file", null)
 
   create_network                       = lookup(var.provider_settings, "create_network", true)
+  create_private_network               = lookup(var.provider_settings, "create_private_network", true)
+  create_additional_network            = lookup(var.provider_settings, "create_additional_network", true)
   create_db_network                    = lookup(var.provider_settings, "create_db_network", false)
   public_subnet_id                     = lookup(var.provider_settings, "public_subnet_id", null)
   private_subnet_id                    = lookup(var.provider_settings, "private_subnet_id", null)
@@ -16,21 +18,28 @@ locals {
   public_security_group_id             = lookup(var.provider_settings, "public_security_group_id", null)
   private_security_group_id            = lookup(var.provider_settings, "private_security_group_id", null)
   private_additional_security_group_id = lookup(var.provider_settings, "private_additional_security_group_id", null)
+  vpc_id                               = lookup(var.provider_settings, "vpc_id", null)
   bastion_host                         = lookup(var.provider_settings, "bastion_host", null)
 
   additional_network = lookup(var.provider_settings, "additional_network", "172.16.2.0/24")
+  private_network    = lookup(var.provider_settings, "private_network", "172.16.1.0/24")
 }
 
 module "network" {
   source = "../network"
 
-  availability_zone  = local.availability_zone
-  region             = local.region
-  ssh_allowed_ips    = local.ssh_allowed_ips
-  name_prefix        = local.name_prefix
-  create_network     = local.create_network
-  create_db_network  = local.create_db_network
-  additional_network = local.additional_network
+  availability_zone         = local.availability_zone
+  region                    = local.region
+  ssh_allowed_ips           = local.ssh_allowed_ips
+  name_prefix               = local.name_prefix
+  create_network            = local.create_network
+  create_private_network    = local.create_private_network
+  create_additional_network = local.create_additional_network
+  create_db_network         = local.create_db_network
+  private_network           = local.private_network
+  additional_network        = local.additional_network
+  public_subnet_id          = local.public_subnet_id
+  vpc_id                    = local.vpc_id
 }
 
 locals {
@@ -47,7 +56,7 @@ locals {
     name_prefix              = var.name_prefix
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
-    additional_network = local.additional_network
+    additional_network       = local.additional_network
 
     region            = local.region
     availability_zone = local.availability_zone
@@ -74,15 +83,20 @@ locals {
       rhel9       = { ami = data.aws_ami.rhel9.image_id},
     }
     },
-    local.create_network ? module.network.configuration : {
+    module.network.configuration,
+    !local.create_network ? {
       public_subnet_id                     = local.public_subnet_id
-      private_subnet_id                    = local.private_subnet_id
-      private_additional_subnet_id         = local.private_additional_subnet_id
       db_private_subnet_name               = local.db_private_subnet_name
       public_security_group_id             = local.public_security_group_id
+    } : {},
+    !local.create_private_network ? {
+      private_subnet_id                    = local.private_subnet_id
       private_security_group_id            = local.private_security_group_id
+    } : {},
+    !local.create_additional_network ? {
+      private_additional_subnet_id         = local.private_additional_subnet_id
       private_additional_security_group_id = local.private_additional_security_group_id
-  })
+    } : {})
 }
 
 module "bastion" {
@@ -91,7 +105,6 @@ module "bastion" {
   base_configuration            = local.configuration_output
   image                         = lookup(var.provider_settings, "bastion_image", "opensuse154o")
   name                          = "bastion"
-  connect_to_additional_network = true
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true

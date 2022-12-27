@@ -16,20 +16,27 @@ resource "aws_vpc" "main" {
   }
 }
 
+data "aws_vpc" "selected" {
+  count = var.create_network ? 0 : 1
+
+  id = var.vpc_id
+}
+
+locals {
+  l_vpc_id         = var.create_network ? aws_vpc.main[0].id : data.aws_vpc.selected[0].id
+  l_vpc_cidr_block = var.create_network ? aws_vpc.main[0].cidr_block : data.aws_vpc.selected[0].cidr_block
+}
+
 resource "aws_internet_gateway" "main" {
   count = var.create_network ? 1 : 0
 
-  vpc_id = local.vpc_id
+  vpc_id = local.l_vpc_id
 
   tags = {
     Name = "${var.name_prefix}internet-gateway"
   }
 }
 
-locals {
-  vpc_id         = var.create_network ? aws_vpc.main[0].id : null
-  vpc_cidr_block = var.create_network ? aws_vpc.main[0].cidr_block : null
-}
 
 resource "aws_eip" "nat_eip" {
   count = var.create_network ? 1 : 0
@@ -53,10 +60,15 @@ resource "aws_nat_gateway" "nat" {
   }
 }
 
+data "aws_nat_gateway" "default" {
+  count = var.create_network ? 0 : 1
+  subnet_id = var.public_subnet_id
+}
+
 resource "aws_route_table" "public" {
   count = var.create_network ? 1 : 0
 
-  vpc_id = local.vpc_id
+  vpc_id = local.l_vpc_id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -71,7 +83,7 @@ resource "aws_route_table" "public" {
 resource "aws_route_table" "additional-public" {
   count = var.create_db_network ? 1 : 0
 
-  vpc_id = local.vpc_id
+  vpc_id = local.l_vpc_id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -86,18 +98,18 @@ resource "aws_route_table" "additional-public" {
 resource "aws_main_route_table_association" "vpc_internet" {
   count = var.create_network ? 1 : 0
 
-  vpc_id         = local.vpc_id
+  vpc_id         = local.l_vpc_id
   route_table_id = aws_route_table.public[0].id
 }
 
 resource "aws_route_table" "private" {
-  count = var.create_network ? 1 : 0
+  count = var.create_private_network ? 1 : 0
 
-  vpc_id = local.vpc_id
+  vpc_id = local.l_vpc_id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat[0].id
+    nat_gateway_id = var.create_network ? aws_nat_gateway.nat[0].id : data.aws_nat_gateway.default[0].id
   }
 
   tags = {
@@ -109,7 +121,7 @@ resource "aws_subnet" "public" {
   count = var.create_network ? 1 : 0
 
   availability_zone       = var.availability_zone
-  vpc_id                  = local.vpc_id
+  vpc_id                  = local.l_vpc_id
   cidr_block              = "172.16.0.0/24"
   map_public_ip_on_launch = true
 
@@ -122,7 +134,7 @@ resource "aws_subnet" "additional-public" {
   count = var.create_db_network ? 1 : 0
 
   availability_zone       = var.availability_zone == "${var.region}b" ? "${var.region}a" : "${var.region}b"
-  vpc_id                  = local.vpc_id
+  vpc_id                  = local.l_vpc_id
   cidr_block              = "172.16.3.0/24"
   map_public_ip_on_launch = true
 
@@ -146,11 +158,11 @@ resource "aws_route_table_association" "additional-public" {
 }
 
 resource "aws_subnet" "private" {
-  count = var.create_network ? 1 : 0
+  count = var.create_private_network ? 1 : 0
 
   availability_zone       = var.availability_zone
-  vpc_id                  = local.vpc_id
-  cidr_block              = "172.16.1.0/24"
+  vpc_id                  = local.l_vpc_id
+  cidr_block              = var.private_network
   map_public_ip_on_launch = false
 
   tags = {
@@ -159,17 +171,17 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  count = var.create_network ? 1 : 0
+  count = var.create_private_network ? 1 : 0
 
   subnet_id      = aws_subnet.private[0].id
   route_table_id = aws_route_table.private[0].id
 }
 
 resource "aws_subnet" "private_additional" {
-  count = var.create_network? 1: 0
+  count = var.create_additional_network ? 1 : 0
 
   availability_zone       = var.availability_zone
-  vpc_id                  = local.vpc_id
+  vpc_id                  = local.l_vpc_id
   cidr_block              = var.additional_network
   map_public_ip_on_launch = false
 
@@ -181,7 +193,7 @@ resource "aws_subnet" "private_additional" {
 resource "aws_security_group" "rds" {
   count = var.create_db_network? 1: 0
   name   = "rds-security-id"
-  vpc_id = local.vpc_id
+  vpc_id = local.l_vpc_id
 
   ingress {
     from_port   = 5432
@@ -213,7 +225,7 @@ resource "aws_db_subnet_group" "private" {
 }
 
 resource "aws_route_table_association" "private_additional" {
-  count = var.create_network? 1: 0
+  count = var.create_additional_network? 1 : 0
 
   subnet_id      = aws_subnet.private_additional[0].id
   route_table_id = aws_route_table.private[0].id
@@ -233,7 +245,7 @@ resource "aws_vpc_dhcp_options" "dhcp_options" {
 resource "aws_vpc_dhcp_options_association" "vpc_dhcp_options" {
   count = var.create_network ? 1 : 0
 
-  vpc_id          = local.vpc_id
+  vpc_id          = local.l_vpc_id
   dhcp_options_id = aws_vpc_dhcp_options.dhcp_options[0].id
 }
 
@@ -242,7 +254,7 @@ resource "aws_security_group" "public" {
 
   name        = "${var.name_prefix}-public-security-group"
   description = "Allow inbound connections from the private subnet; allow SSH connections from whitelisted IPs; allow all outbound connections"
-  vpc_id      = local.vpc_id
+  vpc_id      = local.l_vpc_id
 
   ingress {
     from_port   = 22
@@ -275,17 +287,17 @@ resource "aws_security_group" "public" {
 }
 
 resource "aws_security_group" "private" {
-  count = var.create_network ? 1 : 0
+  count = var.create_private_network ? 1 : 0
 
   name        = "${var.name_prefix}-private-security-group"
   description = "Allow all inbound and outbound connections within the VPC"
-  vpc_id      = local.vpc_id
+  vpc_id      = local.l_vpc_id
 
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [local.vpc_cidr_block]
+    cidr_blocks = [local.l_vpc_cidr_block]
   }
 
   egress {
@@ -305,11 +317,11 @@ resource "aws_security_group" "private" {
 }
 
 resource "aws_security_group" "private_additional" {
-  count = var.create_network? 1: 0
+  count = var.create_additional_network? 1 : 0
 
   name        = "${var.name_prefix}-private-additional-security-group"
   description = "Allow only internal connections"
-  vpc_id      = local.vpc_id
+  vpc_id      = local.l_vpc_id
 
   ingress {
     from_port   = 0
@@ -336,15 +348,19 @@ resource "aws_security_group" "private_additional" {
 
 output "configuration" {
   depends_on = [aws_route_table_association.private, aws_route_table_association.private_additional , aws_route_table_association.public]
-  value = var.create_network ? {
-    public_subnet_id             = length(aws_subnet.public) > 0? aws_subnet.public[0].id: null
-    private_subnet_id            = length(aws_subnet.private) > 0? aws_subnet.private[0].id: null
-    private_additional_subnet_id = length(aws_subnet.private_additional) > 0? aws_subnet.private_additional[0].id: null
-    db_private_subnet_name       = length(aws_db_subnet_group.private) > 0? aws_db_subnet_group.private[0].name: null
+  value = merge(var.create_network ? {
+    public_subnet_id             = length(aws_subnet.public) > 0 ? aws_subnet.public[0].id: null
+    db_private_subnet_name       = length(aws_db_subnet_group.private) > 0 ? aws_db_subnet_group.private[0].name: null
 
-    public_security_group_id             = length(aws_security_group.public) > 0? aws_security_group.public[0].id: null
-    private_security_group_id            = length(aws_security_group.private) > 0? aws_security_group.private[0].id: null
-    private_additional_security_group_id = length(aws_security_group.private_additional) > 0? aws_security_group.private_additional[0].id: null
-    private_db_security_group_id         = length(aws_security_group.rds) > 0? aws_security_group.rds[0].id: null
-  } : {}
+    public_security_group_id     = length(aws_security_group.public) > 0 ? aws_security_group.public[0].id: null
+    private_db_security_group_id = length(aws_security_group.rds) > 0 ? aws_security_group.rds[0].id: null
+  } : {},
+  var.create_private_network ? {
+    private_subnet_id            = length(aws_subnet.private) > 0 ? aws_subnet.private[0].id: null
+    private_security_group_id    = length(aws_security_group.private) > 0 ? aws_security_group.private[0].id: null
+  } : {},
+  var.create_additional_network ? {
+    private_additional_subnet_id         = length(aws_subnet.private_additional) > 0 ? aws_subnet.private_additional[0].id: null
+    private_additional_security_group_id = length(aws_security_group.private_additional) > 0 ? aws_security_group.private_additional[0].id: null
+  } : {})
 }
