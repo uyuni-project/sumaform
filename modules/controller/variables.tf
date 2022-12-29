@@ -363,6 +363,34 @@ variable "rhel9_minion_configuration" {
   }
 }
 
+variable "alma9_minion_configuration" {
+  description = "use module.<ALMA9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "alma9_sshminion_configuration" {
+  description = "use module.<ALMA9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "oracle9_minion_configuration" {
+  description = "use module.<ORACLE9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "oracle9_sshminion_configuration" {
+  description = "use module.<ORACLE9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "rhel9_sshminion_configuration" {
   description = "use module.<RHEL9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
