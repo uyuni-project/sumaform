@@ -10,6 +10,7 @@ locals {
     instance_with_eip = false
     volume_size     = 50
     private_ip      = null
+    overwrite_fqdn  = null
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
     contains(var.roles, "server") ? { instance_type = "t3.medium" } : {},
@@ -30,6 +31,7 @@ locals {
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
   private_ip                           = local.provider_settings["private_ip"]
+  overwrite_fqdn                       = local.provider_settings["overwrite_fqdn"]
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
@@ -261,7 +263,7 @@ output "configuration" {
   depends_on = [aws_instance.instance, null_resource.host_salt_configuration]
   value = {
     ids          = length(aws_instance.instance) > 0 ? aws_instance.instance[*].id : []
-    hostnames    = length(aws_instance.instance) > 0 ? aws_instance.instance.*.private_dns : []
+    hostnames    = length(aws_instance.instance) > 0 ? (local.overwrite_fqdn != null ? concat([local.overwrite_fqdn], aws_instance.instance.*.private_dns) : aws_instance.instance.*.private_dns) : []
     public_names = length(aws_instance.instance) > 0 ? aws_instance.instance.*.public_dns : []
     macaddrs     = length(aws_instance.instance) > 0 ? aws_instance.instance.*.private_ip : []
   }
