@@ -161,6 +161,11 @@ resource "aws_volume_attachment" "data_disk_attachment" {
 }
 /** END: Set up an extra data disk */
 
+locals {
+  hname = (local.overwrite_fqdn != null ? split(".", local.overwrite_fqdn)[0] :
+	 (length(aws_instance.instance) > 0 ? replace(aws_instance.instance[0].private_dns, ".${local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"}", "") : ""))
+}
+
 /** START: provisioning */
 resource "null_resource" "host_salt_configuration" {
   depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment]
@@ -215,8 +220,8 @@ resource "null_resource" "host_salt_configuration" {
 
     content = yamlencode(merge(
       {
-        hostname : replace(aws_instance.instance[count.index].private_dns, ".${local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"}", "")
-        domain : local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"
+        hostname : local.hname
+        domain : (local.overwrite_fqdn != null ? replace(local.overwrite_fqdn, "${local.hname}.", "") : (local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"))
         use_avahi : false
         provider                  = "aws"
 
