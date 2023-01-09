@@ -45,7 +45,7 @@ add_sle_module_suse_manager_proxy:
      - name: SUSEConnect -p sle-module-suse-manager-proxy/4.3/x86_64
 add_sle_module_suse_container:
    cmd.run:
-     - name:SUSEConnect -p sle-module-containers/15.4/x86_64
+     - name: SUSEConnect -p sle-module-containers/15.4/x86_64
 {% endif %}
 
 {% endif %}
