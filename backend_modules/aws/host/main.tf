@@ -162,8 +162,12 @@ resource "aws_volume_attachment" "data_disk_attachment" {
 /** END: Set up an extra data disk */
 
 locals {
-  hname = (local.overwrite_fqdn != null ? split(".", local.overwrite_fqdn)[0] :
-	 (length(aws_instance.instance) > 0 ? replace(aws_instance.instance[0].private_dns, ".${local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"}", "") : ""))
+  hnames = [for index, instance in aws_instance.instance:
+    (local.overwrite_fqdn != null ? "${split(".", local.overwrite_fqdn)[0]}${var.quantity > 1 ? "-${index + 1}" : ""}":
+    replace(instance.private_dns, ".${local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"}", ""))]
+  domain = (local.overwrite_fqdn != null ?
+    replace(local.overwrite_fqdn, "${split(".", local.overwrite_fqdn)[0]}.", "") :
+    (local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"))
 }
 
 /** START: provisioning */
@@ -220,8 +224,8 @@ resource "null_resource" "host_salt_configuration" {
 
     content = yamlencode(merge(
       {
-        hostname : local.hname
-        domain : (local.overwrite_fqdn != null ? replace(local.overwrite_fqdn, "${local.hname}.", "") : (local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"))
+        hostname : local.hnames[count.index]
+        domain : local.domain
         use_avahi : false
         provider                  = "aws"
 
@@ -268,7 +272,7 @@ output "configuration" {
   depends_on = [aws_instance.instance, null_resource.host_salt_configuration]
   value = {
     ids          = length(aws_instance.instance) > 0 ? aws_instance.instance[*].id : []
-    hostnames    = length(aws_instance.instance) > 0 ? (local.overwrite_fqdn != null ? concat([local.overwrite_fqdn], aws_instance.instance.*.private_dns) : aws_instance.instance.*.private_dns) : []
+    hostnames    = [for index, value_used in aws_instance.instance : (local.overwrite_fqdn != null ? "${local.hnames[index]}.${local.domain}" : value_used.private_dns)]
     public_names = length(aws_instance.instance) > 0 ? aws_instance.instance.*.public_dns : []
     macaddrs     = length(aws_instance.instance) > 0 ? aws_instance.instance.*.private_ip : []
   }
