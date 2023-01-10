@@ -20,7 +20,6 @@ roles: [client]
 mirror: null
 auto_connect_to_master: false
 testsuite: true
-use_os_unreleased_updates: 0
 ipv6: {'accept_ra': true, 'enable': true}
 EOF
 

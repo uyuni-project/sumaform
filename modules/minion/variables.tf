@@ -46,11 +46,6 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
 variable "avahi_reflector" {
   description = "if using avahi, let the daemon be a reflector"
   default     = false

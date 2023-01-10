@@ -28,7 +28,6 @@ resource "null_resource" "provisioning" {
         hostname                  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
-        use_os_unreleased_updates = var.use_os_unreleased_updates
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
@@ -81,7 +80,6 @@ resource "null_resource" "provisioning" {
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
-        use_os_unreleased_updates = var.use_os_unreleased_updates
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
