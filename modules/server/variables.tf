@@ -142,11 +142,6 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
 variable "from_email" {
   description = "email address used as sender for emails"
   default     = null

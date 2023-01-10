@@ -22,11 +22,6 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
 variable "disable_firewall" {
   description = "whether to disable the built-in firewall, opening up all ports"
   default     = true

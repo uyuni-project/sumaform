@@ -794,9 +794,9 @@ module "locust" {
 }
 ```
 
-## Use Operating System updates (released and unreleased)
+## Use Operating System released updates
 
-It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones, including updates currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` (respectively `use_os_unreleased_updates`) flag. Libvirt example:
+It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` flag. Libvirt example:
 
 ```hcl
 module "server" {
@@ -805,7 +805,7 @@ module "server" {
 
   name = "server"
   product_version = "head"
-  use_os_unreleased_updates = true
+  use_os_released_updates = true
 }
 ```
 

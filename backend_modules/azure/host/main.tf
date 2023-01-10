@@ -186,7 +186,6 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
-        use_os_unreleased_updates = var.use_os_unreleased_updates
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
