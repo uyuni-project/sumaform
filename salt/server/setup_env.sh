@@ -8,6 +8,9 @@ CERT_STATE="Bayern"
 CERT_COUNTRY="DE"
 CERT_EMAIL="galaxy-noise@suse.de"
 CERT_PASS="spacewalk"
+{%- if grains.get('provider') == 'aws' %}
+CERT_CNAMES="{{ grains.get('hostname') }}.{{ grains.get('domain') }}"
+{%- endif %}
 USE_EXISTING_CERTS="N"
 MANAGER_DB_NAME="susemanager"
 MANAGER_DB_HOST="{{ grains.get('db_configuration')['hostname'] }}"

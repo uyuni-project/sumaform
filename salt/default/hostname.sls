@@ -30,6 +30,25 @@ legacy_permanent_hostname:
     - follow_symlinks: False
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
+{% if grains['os_family'] == 'Suse' %}
+change_searchlist:
+  file.replace:
+    - name: /etc/sysconfig/network/config
+    - pattern: NETCONFIG_DNS_STATIC_SEARCHLIST=.*
+    - repl: NETCONFIG_DNS_STATIC_SEARCHLIST="{{ grains['domain'] }}"
+
+netconfig_update:
+  cmd.run:
+    - name: netconfig update
+    - require:
+      - file: change_searchlist
+{% else %}
+change_searchlist:
+  file.append:
+    - name: /etc/resolv.conf
+    - text: search {{ grains['domain'] }}
+{% endif %}
+
 # set the hostname and FQDN name in /etc/hosts
 # this is not needed if a proper DNS server is in place, but when using avahi this
 # might not be the case. The script tries to to use real IP addresses in order not
