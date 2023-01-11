@@ -611,9 +611,9 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools"]
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
+packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools"]
 %{ endif }
 
 %{ endif }
@@ -724,9 +724,9 @@ runcmd:
   - systemctl restart sshd
 
   %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools"]
   %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
+packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools"]
   %{ endif }
 
 %{ endif }
