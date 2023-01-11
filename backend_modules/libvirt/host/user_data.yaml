@@ -605,6 +605,11 @@ yum_repos:
     priority: 99
     name: epel
 
+runcmd:
+  # WORKAROUND: cloud-init in Alma 9 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
@@ -692,7 +697,7 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
   %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
   %{ endif }
-  
+
   %{ endif }
 
 %{ if image == "oraclelinux9o" }
@@ -713,12 +718,17 @@ yum_repos:
     priority: 99
     name: epel
 
+runcmd:
+  # WORKAROUND: cloud-init in Oracle 9 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
   %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
   %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
   %{ endif }
-  
+
 %{ endif }
 
 %{ if image == "opensuse154armo" }
