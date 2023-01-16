@@ -232,6 +232,27 @@ data "aws_ami" "rocky8" {
   }
 }
 
+data "aws_ami" "debian11" {
+  most_recent = true
+  name_regex  = "^debian-11-amd64"
+  owners      = ["136693071363"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "ubuntu2204" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
