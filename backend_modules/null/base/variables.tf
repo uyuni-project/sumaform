@@ -68,3 +68,9 @@ variable "images" {
   default     = [ "almalinux8o", "amazonlinux2o", "centos7o", "opensuse153o", "opensuse154o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o" ]
   type        = set(string)
 }
+
+variable "use_eip_bastion" {
+  description = "Use eip feature for bastion on AWS"
+  default     = true
+  type        = boolean
+}
