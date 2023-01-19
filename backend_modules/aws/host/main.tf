@@ -7,7 +7,6 @@ locals {
     key_file        = var.base_configuration["key_file"]
     ssh_user        = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ssh_user", "ec2-user")
     public_instance = false
-//    instance_with_eip = false
     volume_size     = 50
     private_ip      = null
     overwrite_fqdn  = null
@@ -39,7 +38,7 @@ locals {
   region            = var.base_configuration["region"]
   data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
 
-//  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
+  host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
 
 data "template_file" "user_data" {
@@ -52,22 +51,22 @@ data "template_file" "user_data" {
   }
 }
 
-//resource "aws_eip" "host_eip" {
-//  count = local.host_eip ? var.quantity : 0
-//
-//  vpc = true
-//  tags = {
-//    Name = "${local.resource_name_prefix}-host-eip${var.quantity > 1 ? "-${count.index + 1}" : ""}"
-//
-//  }
-//}
-//
-//resource "aws_eip_association" "eip_assoc" {
-//  count = local.host_eip ? var.quantity : 0
-//  allocation_id = aws_eip.host_eip[count.index].id
-//  #instance_id   = aws_instance.instance[count.index].id
-//  network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
-//}
+resource "aws_eip" "host_eip" {
+  count = local.host_eip ? var.quantity : 0
+
+  vpc = true
+  tags = {
+    Name = "${local.resource_name_prefix}-host-eip${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+
+  }
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  count = local.host_eip ? var.quantity : 0
+  allocation_id = aws_eip.host_eip[count.index].id
+  #instance_id   = aws_instance.instance[count.index].id
+  network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
+}
 
 resource "aws_instance" "instance" {
   ami                    = local.ami
