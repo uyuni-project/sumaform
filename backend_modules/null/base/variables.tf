@@ -72,5 +72,5 @@ variable "images" {
 variable "use_eip_bastion" {
   description = "Use eip feature for bastion on AWS"
   default     = true
-  type        = boolean
+  type        = bool
 }
