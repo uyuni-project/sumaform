@@ -67,7 +67,7 @@ data "aws_ami" "sles15" {
 data "aws_ami" "sles15sp1o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp1-byos-v"
-  owners      = ["013907871322"]
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -88,7 +88,7 @@ data "aws_ami" "sles15sp1o" {
 data "aws_ami" "sles15sp2o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp2-byos-v"
-  owners      = ["013907871322"]
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -109,7 +109,7 @@ data "aws_ami" "sles15sp2o" {
 data "aws_ami" "sles15sp3o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp3-byos-v"
-  owners      = ["013907871322"]
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -130,7 +130,7 @@ data "aws_ami" "sles15sp3o" {
 data "aws_ami" "sles15sp4o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp4-byos-v"
-  owners      = ["013907871322"]
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -151,7 +151,7 @@ data "aws_ami" "sles15sp4o" {
 data "aws_ami" "sles12sp5" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp5-byos-v"
-  owners      = ["013907871322"]
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
@@ -172,7 +172,7 @@ data "aws_ami" "sles12sp5" {
 data "aws_ami" "sles12sp4" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp4-byos-v"
-  owners      = ["013907871322"]
+  owners      = ["679593333241"]
 
   filter {
     name   = "architecture"
