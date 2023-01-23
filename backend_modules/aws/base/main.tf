@@ -109,8 +109,7 @@ module "bastion" {
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true
-    instance_with_eip = false
-//    instance_with_eip = var.use_eip_bastion
+    instance_with_eip = var.use_eip_bastion
   }
 }
 
