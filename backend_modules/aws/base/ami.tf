@@ -130,7 +130,7 @@ data "aws_ami" "sles15sp3o" {
 data "aws_ami" "sles15sp4o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp4-byos-v"
-  owners      = ["679593333241"]
+  owners      = ["013907871322"]
 
   filter {
     name   = "architecture"
