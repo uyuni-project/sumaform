@@ -130,6 +130,7 @@ export IS_USING_SCC_REPOSITORIES="{{ grains.get('is_using_scc_repositories') }}"
 export CATCH_TIMEOUT_MESSAGE="{{ grains.get('catch_timeout_message') }}"
 export SERVER_INSTANCE_ID="{{ grains.get('server_instance_id') }}"
 export BETA_ENABLED="{{ grains.get('beta_enabled') }}"
+export GEM_PATH="/usr/lib64/ruby/gems/2.7.0"
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then

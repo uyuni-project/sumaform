@@ -13,6 +13,7 @@ include:
   - repos.jenkins
   - repos.server_containerized
   - repos.proxy_containerized
+  - repos.ruby
   {% endif %}
   - repos.additional
 

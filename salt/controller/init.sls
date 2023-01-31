@@ -31,8 +31,10 @@ cucumber_requisites:
       - gcc
       - make
       - wget
-      - ruby
-      - ruby-devel
+      - libssh-devel
+      - ruby2.7
+      - ruby2.7-devel
+      - ruby2.7-rubygem-bundler
       - autoconf
       - ca-certificates-mozilla
       - automake
@@ -46,16 +48,41 @@ cucumber_requisites:
       - mozilla-nss-tools
       - postgresql-devel
       - unzip
-      # packaged ruby gems
-      - ruby2.5-rubygem-bundler
-      - twopence
-      - python-twopence
-      - twopence-devel
-      - twopence-shell-client
-      - twopence-test-server
-      - rubygem-twopence
+      #- twopence
+      #- python-twopence
+      - python-devel
+      #- twopence-devel
+      #- twopence-shell-client
+      #- twopence-test-server
+      #- rubygem-twopence
     - require:
       - sls: repos
+
+/usr/bin/gem:
+  file.symlink:
+    - target: /usr/bin/gem.ruby2.7
+    - force: True
+
+ruby_set_rake_version:
+  cmd.run:
+    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby2.7
+
+ruby_set_bundle_version:
+  cmd.run:
+    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby2.7
+
+# workaround until twopence is adjusted for Ruby 3.x
+twopence_install_from_source:
+  cmd.run:
+    - name: |
+        git clone https://github.com/nodeg/twopence.git /root/twopence
+        cd /root/twopence
+        git checkout update-ruby27
+        make
+        make install
+    - creates: /root/twopence
+    - require:
+      - pkg: cucumber_requisites
 
 install_chromium:
   pkg.installed:
@@ -77,10 +104,11 @@ create_syslink_for_chromedriver:
 
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby2.5 install --gemfile Gemfile
+    - name: bundle.ruby2.7 install --gemfile Gemfile
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
+      - cmd: twopence_install_from_source
       - cmd: spacewalk_git_repository
 
 install_npm:
