@@ -11,6 +11,7 @@ include:
   - repos.testsuite
   - repos.tools
   - repos.jenkins
+  - repos.ruby
   {% endif %}
   - repos.additional
 
