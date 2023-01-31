@@ -755,3 +755,8 @@ variable "server_instance_id" {
   description = "Server instance ID"
   default     = null
 }
+
+variable "product_version" {
+  description = "A valid SUSE Manager version (eg. 4.2-nightly, head) see README_ADVANCED.md"
+  default     = "released"
+}

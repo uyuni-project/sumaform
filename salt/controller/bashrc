@@ -115,6 +115,11 @@ export CATCH_TIMEOUT_MESSAGE="{{ grains.get('catch_timeout_message') }}"
 export SERVER_INSTANCE_ID="{{ grains.get('server_instance_id') }}"
 export BETA_ENABLED="{{ grains.get('beta_enabled') }}"
 
+# Ruby specific settings
+{% if '4.3' not in grains.get('product_version') %}
+export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
+{% endif %}
+
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
   wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
