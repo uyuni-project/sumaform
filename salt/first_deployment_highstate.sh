@@ -7,7 +7,7 @@ FILE_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 # Force direct call module executors on MicroOS images
 MODULE_EXEC=""
-if grep -q "cpe:/o:suse:suse-microos" /etc/os-release; then
+if grep -q "cpe:/o:suse:.*micro" /etc/os-release; then
 MODULE_EXEC="--module-executors=[direct_call]"
 fi
 
