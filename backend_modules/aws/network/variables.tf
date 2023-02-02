@@ -57,3 +57,11 @@ variable "vpc_id" {
   description = "ID of the VPC where networks should be created in (optional)"
   default     = null
 }
+
+variable "route53_zone_id"{
+
+}
+
+variable "route53_domain"{
+
+}

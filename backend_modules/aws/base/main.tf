@@ -20,6 +20,8 @@ locals {
   private_additional_security_group_id = lookup(var.provider_settings, "private_additional_security_group_id", null)
   vpc_id                               = lookup(var.provider_settings, "vpc_id", null)
   bastion_host                         = lookup(var.provider_settings, "bastion_host", null)
+  route53_zone_id                      = lookup(var.provider_settings, "route53_zone_id", null)
+  route53_domain                       = lookup(var.provider_settings, "route53_domain", null)
 
   additional_network = lookup(var.provider_settings, "additional_network", "172.16.2.0/24")
   private_network    = lookup(var.provider_settings, "private_network", "172.16.1.0/24")
@@ -40,6 +42,8 @@ module "network" {
   additional_network        = local.additional_network
   public_subnet_id          = local.public_subnet_id
   vpc_id                    = local.vpc_id
+  route53_zone_id           = local.route53_zone_id
+  route53_domain            = local.route53_domain
 }
 
 locals {
@@ -107,6 +111,7 @@ module "bastion" {
     instance_type   = "t3a.micro"
     public_instance = true
     instance_with_eip = var.use_eip_bastion
+    overwrite_fqdn    = local.bastion_host
   }
 }
 
