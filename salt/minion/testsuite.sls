@@ -1,5 +1,5 @@
 {% if grains.get('testsuite') | default(false, true) %}
-
+{% if not grains['osfullname'] == 'SLE Micro' %}  #  Read-only file system: '/var/lib/rpm/.rpm.lock
 minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -7,6 +7,7 @@ minion_cucumber_requisites:
       - wget
     - require:
       - sls: default
+{% endif %}
 
 {% if grains['os'] == 'SUSE' %}
 {% if '12' in grains['osrelease'] or '15' in grains['osrelease']%}

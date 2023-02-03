@@ -54,6 +54,14 @@ variable "minion_configuration" {
   }
 }
 
+variable "slemicro_minion_configuration" {
+  description = "use module.<SLE_MICRO_MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    ids       = []
+    hostnames = []
+  }
+}
+
 variable "buildhost_configuration" {
   description = "use module.<BUILDHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
