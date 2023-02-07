@@ -58,10 +58,6 @@ variable "vpc_id" {
   default     = null
 }
 
-variable "route53_zone_id"{
-
-}
-
 variable "route53_domain"{
 
 }
