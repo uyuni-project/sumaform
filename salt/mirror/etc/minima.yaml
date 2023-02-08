@@ -73,7 +73,7 @@ scc:
     - SLE-Product-SLES15-SP2-Pool
     - SLE-Product-SLES15-SP2-Updates
     # uncomment when it goes LTSS
-    # - SLE-Product-SLES15-SP2-LTSS-Updates
+    - SLE-Product-SLES15-SP2-LTSS-Updates
     - SLE-Product-SLED15-SP2-Pool
     - SLE-Product-SLED15-SP2-Updates
     # SLE 15-SP2 Basic Modules
@@ -93,7 +93,7 @@ scc:
     - SLE-Product-SLES15-SP3-Pool
     - SLE-Product-SLES15-SP3-Updates
     # uncomment when it goes LTSS
-    # - SLE-Product-SLES15-SP3-LTSS-Updates
+    - SLE-Product-SLES15-SP3-LTSS-Updates
     # SLE 15-SP3 Basic Modules
     - SLE-Module-Basesystem15-SP3-Pool
     - SLE-Module-Basesystem15-SP3-Updates
