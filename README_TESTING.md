@@ -294,7 +294,7 @@ host_settings = {
     additional_grains = {
       hvm_disk_image = {
         leap = {
-          hostname = "..."
+          hostname = "hostname1"
           image = "..."
           hash = "..."
         }
@@ -303,3 +303,12 @@ host_settings = {
   }
 }
 ```
+
+Furthermore you have to specify another variable inside your `main.tf` that defines the hostname of the images you use:
+
+```hcl
+nested_vm_hosts = ["hostname1"]
+```
+
+It should contain the same hostnames as the ones defined in the `hvm_disk_image` section you see above. This is a
+workaround to not have to refactor parts of the current sumaform code.

@@ -237,7 +237,7 @@ highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
 If the values inside the `hvm_disk_image` map are set to an empty map, no image will be copied to `/var/testsuite-data/`.
 For example, to use a local image, copy it to the `salt/virthost/` folder and set the `image` key inside the `leap`
-hashmap of `hvm_disk_image` to `"leap = salt://virthost/imagename.qcow2"`. See the [Virtual host](https://github.com/uyuni-project/sumaform/blob/master/README_TESTING.md#virtual-host) section inside of README_TESTING for an example
+hashmap of `hvm_disk_image` to `"leap = salt://virthost/imagename.qcow2"`. See the [Virtual host](https://github.com/uyuni-project/sumaform/blob/master/README_TESTING.md#virtual-host) section inside of README_TESTING for an example.
 
 ## Turning convenience features off
 

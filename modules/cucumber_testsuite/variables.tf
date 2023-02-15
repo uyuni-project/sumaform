@@ -147,3 +147,8 @@ variable "login_timeout" {
   description = "How long the webUI login session cookie is valid"
   default     = null
 }
+
+variable "nested_vm_hosts" {
+  description = "Hostnames for nested VMs if they are used, see README_TESTING.md"
+  type        = list(string)
+}

@@ -14,6 +14,16 @@ export SERVER="{{ grains.get('server') }}"
 export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('monitoring_server') | default(false, true) %}export MONITORING_SERVER="{{ grains.get('monitoring_server') }}"{% else %}# no monitoring server defined {% endif %}
 
+# Salt bundle test specific hosts
+{%- if grains.get('nested_vm_hosts') %}
+{%- for name in grains['nested_vm_hosts'] %}
+{% set hostname = name.upper() | replace("-","_") -%}
+export {{ hostname }}="{{ name }}.{{ grains.get('domain') }}"
+{%- endfor %}
+{% else %}
+# no nested VMs defined
+{%- endif %}
+
 # base goodies
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
