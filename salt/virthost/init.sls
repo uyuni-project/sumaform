@@ -187,7 +187,7 @@ cloudinit-user-data-{{ os_type }}:
            netmasks:       files
           path: /etc/nsswitch.conf
         runcmd:
-{% if salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') == 'sles' %}
+{% if 'sles' in os_type %}
         # add SLES 15 SP4 base repository
         - zypper --non-interactive ar "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
 {% endif %}
