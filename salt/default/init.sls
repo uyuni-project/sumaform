@@ -1,6 +1,8 @@
 include:
   - default.locale
-  {% if not grains['osfullname'] == 'SLE Micro' %}  #  Read-only file system: '/var/lib/rpm/.rpm.lock
+  {% if not grains['osfullname'] == 'SLE Micro' %}
+  # Dependencies already satisfied by the images
+  # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.minimal
   {% endif %}
   - default.pkgs
@@ -9,7 +11,9 @@ include:
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
-  {% if not grains['osfullname'] == 'SLE Micro' %}  #  Read-only file system: '/var/lib/rpm/.rpm.lock
+  {% if not grains['osfullname'] == 'SLE Micro' %}
+  # Dependencies already satisfied by the images
+  # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.testsuite
   {% endif %}
 
