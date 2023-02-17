@@ -138,7 +138,6 @@ cloudinit-user-data-{{ os_type }}:
           {% for key in grains.get('authorized_keys') %}
           - {{ key }}
           {% endfor %}
-
         # adjust configuration files
         write_files:
         - content: |
@@ -147,9 +146,6 @@ cloudinit-user-data-{{ os_type }}:
            enable_legacy_startup_events: False
            enable_fqdns_grains: False
           path: /etc/salt/minion
-        - content: |
-           {{ salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') }}.{{ grains.get('domain') }}
-          path: /etc/hostname
         - content: |
            [server]
            domain-name={{ grains.get('domain') }}
@@ -187,6 +183,7 @@ cloudinit-user-data-{{ os_type }}:
            netmasks:       files
           path: /etc/nsswitch.conf
         runcmd:
+        - hostnamectl hostname {{ salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') }}.{{ grains.get('domain') }}
 {% if 'sles' in os_type %}
         # add SLES 15 SP4 base repository
         - zypper --non-interactive ar "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
