@@ -23,7 +23,10 @@ timezone_setting:
 
 {% if grains['use_ntp'] %}
 
-{% if ((grains['osfullname'] == 'SLES') and (grains['osrelease'] == '11.4')) or ((grains['os_family'] == 'Debian') and (grains['osrelease'] == '10')) or (grains['osfullname'] == 'Leap') %}
+{% if ((grains['osfullname'] == 'SLES') and (grains['osrelease'] == '11.4'))
+   or ((grains['os_family'] == 'Debian') and (grains['osrelease'] == '10'))
+   or (grains['osfullname'] == 'Leap')
+%}
 
 ntp_pkg:
   pkg.installed:
