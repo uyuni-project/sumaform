@@ -6,10 +6,10 @@
   <xsl:output omit-xml-declaration="yes" indent="yes"/>
 
   <!-- Features for x86-64 v2 -->
-  <xsl:template match="/domain/cpu[@mode = 'host-model']">
+  <xsl:template match="/domain/cpu[@mode = 'host-model' or @mode = 'custom']">
     <xsl:element name="cpu">
-      <xsl:apply-templates select="node()|@*"/>
-      <xsl:text>  </xsl:text>
+      <xsl:attribute name="mode">host-model</xsl:attribute>
+      <xsl:text>&#x0A;    </xsl:text>
       <feature policy='require' name='lahf_lm'/>
       <xsl:text>&#x0A;    </xsl:text>
       <feature policy='require' name='popcnt'/>
@@ -19,7 +19,7 @@
       <feature policy='require' name='sse4.2'/>
       <xsl:text>&#x0A;    </xsl:text>
       <feature policy='require' name='ssse3'/>
-      <xsl:text>&#x0A;    </xsl:text>
+      <xsl:text>&#x0A;  </xsl:text>
     </xsl:element>
   </xsl:template>
 
