@@ -573,7 +573,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
     failovermethod: priority
     enabled: true
@@ -601,7 +601,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
     failovermethod: priority
     enabled: true
@@ -619,6 +619,44 @@ packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-a
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools"]
 %{ endif }
+
+%{ endif }
+
+%{ if image == "libertylinux9o" }
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+    priority: 98
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    priority: 99
+    name: epel
+
+runcmd:
+  # Registration with SUSEConnect
+  - curl http://rmt.scc.suse.de/tools/rmt-client-setup-res --output rmt-client-setup-res
+  - yes | sh rmt-client-setup-res https://rmt.scc.suse.de
+  # Packages installation after registration
+  - dnf config-manager --set-enabled epel
+%{ if install_salt_bundle }
+  - dnf -y install venv-salt-minion salt-minion avahi nss-mdns
+%{ else }
+  - dnf -y install avahi nss-mdns salt-minion
+%{ endif }
+  # WORKAROUND: cloud-init in Liberty 9 does not take care of the following
+  - dnf -y install dbus-tools
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
 
 %{ endif }
 
@@ -689,7 +727,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/8/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
     enabled: true
     gpgcheck: false
@@ -715,7 +753,7 @@ yum_repos:
     priority: 98
   # repo for nss-mdns
   epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/9/$basearch
+    baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
     enabled: true
     gpgcheck: false

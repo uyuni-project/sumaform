@@ -422,7 +422,7 @@ install_recommends:
     - name: /etc/zypp/zypp.conf
     - regex: solver.onlyRequires =
 
-{% endif %}
+{% endif %} {# grains['os'] == 'SUSE' #}
 
 {% if grains['os_family'] == 'RedHat' %}
 
@@ -446,6 +446,36 @@ uyuni_key:
     - watch:
       - file: uyuni_key
 {% endif %}
+
+{% if release == 9 %}
+{% if salt['file.search']('/etc/os-release', 'Liberty') %}
+
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://rmt.scc.suse.de/repo/SUSE/Updates/SLL/9/x86_64/update
+    - refresh: True
+
+os_as_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://rmt.scc.suse.de/repo/SUSE/Updates/SLL-AS/9/x86_64/update
+    - refresh: True
+
+os_updates_repo:
+  pkgrepo.managed:
+    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL/9/x86_64/update/?credentials=SUSE_Liberty_Linux_x86_64
+    - refresh: True
+
+os_as_updates_repo:
+  pkgrepo.managed:
+    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL-AS/9/x86_64/update/?credentials=SUSE_Liberty_Linux_x86_64
+    - refresh: True
+
+os_cb_updates_repo:
+  pkgrepo.managed:
+    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL-CB/9/x86_64/update/?credentials=SUSE_Liberty_Linux_x86_64
+    - refresh: True
+{% endif %} {# salt['file.search']('/etc/os-release', 'Liberty') #}
+{% endif %} {# release == 9 #}
 
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 

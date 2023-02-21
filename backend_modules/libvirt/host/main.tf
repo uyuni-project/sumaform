@@ -2,7 +2,7 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
-  x86_64_v2_images = ["almalinux9o", "rocky9o", "oraclelinux9o", "centos9o"]
+  x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o"]
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1

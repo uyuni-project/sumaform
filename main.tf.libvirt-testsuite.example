@@ -30,16 +30,18 @@ module "cucumber_testsuite" {
   # define what images should be used and uploaded
   # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
   # the following images are e.g. available:
+  # "almalinux8o", "almalinux9o",
+  # "amazonlinux2o",
+  # "centos6o", "centos7o",
+  # "libertylinux9o",
   # "opensuse152o", "opensuse154o",
-  # "sles12sp5o", "sles15sp3o", "sles15sp4o",
-  # "ubuntu1804o", "ubuntu2004o", "ubuntu2204o",
-  # "centos7o", "centos8o",
+  # "oraclelinux9o",
   # "rocky8o", "rocky9o",
-  # "almalinux8o",
-  # "amazonlinux2o"
+  # "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "sles15sp4o",
+  # "ubuntu1604o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
-  # images = ["rocky8o", "opensuse152o", "opensuse154o", "sles15sp4o", "ubuntu2004o"]
+  # images = ["rocky9o", "opensuse152o", "opensuse154o", "sles15sp4o", "ubuntu2204o"]
 
   use_avahi = true
   name_prefix = "prefix-"

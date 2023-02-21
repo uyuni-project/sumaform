@@ -342,6 +342,20 @@ variable "centos7_client_configuration" {
   }
 }
 
+variable "liberty9_minion_configuration" {
+  description = "use module.<LIBERTY9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "liberty9_sshminion_configuration" {
+  description = "use module.<LIBERTY9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "rocky8_minion_configuration" {
   description = "use module.<ROCKY8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
