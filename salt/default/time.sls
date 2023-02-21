@@ -52,7 +52,7 @@ ntp_conf_file:
     - name: /etc/ntp.conf
     - source: salt://default/ntp.conf
 
-ntp_enable_service:
+ntpd_enable_service:
   service.running:
     - name: ntpd
     - enable: true
