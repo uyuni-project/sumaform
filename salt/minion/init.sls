@@ -6,11 +6,15 @@ include:
   - minion.testsuite
   - minion.reflector
 
+{% if not grains['osfullname'] == 'SLE Micro' %}
+# Dependencies already satisfied by the images
+# https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
 minion_package:
   pkg.installed:
     - name: salt-minion
     - require:
       - sls: default
+{% endif %}
 
 {% if grains.get('evil_minion_count') %}
 evil_minions_package:

@@ -1,13 +1,21 @@
 include:
   - default.locale
+  {% if not grains['osfullname'] == 'SLE Micro' %}
+  # Dependencies already satisfied by the images
+  # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.minimal
+  {% endif %}
   - default.pkgs
   - default.grub
   - default.sshd
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
+  {% if not grains['osfullname'] == 'SLE Micro' %}
+  # Dependencies already satisfied by the images
+  # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.testsuite
+  {% endif %}
 
 {% if grains.get('use_os_released_updates') | default(False, true) %}
 update_packages:

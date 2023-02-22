@@ -165,7 +165,7 @@ module "suse-sshminion" {
   product_version    = var.product_version
   image              = lookup(local.images, "suse-sshminion", "sles15sp4o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
- sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
+  sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
@@ -176,6 +176,29 @@ module "suse-sshminion" {
   additional_repos_only  = lookup(local.additional_repos_only, "suse-sshminion", {})
   additional_packages = lookup(local.additional_packages, "suse-sshminion", [])
   provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
+}
+
+module "slemicro-minion" {
+  source = "../minion"
+
+  quantity = contains(local.hosts, "slemicro-minion") ? 1 : 0
+  base_configuration = module.base.configuration
+  product_version    = var.product_version
+  image              = lookup(local.images, "slemicro-minion", "slemicro53-ign")
+  name               = lookup(local.names, "slemicro-minion", "min-slemicro5")
+
+  server_configuration = local.minimal_configuration
+  sles_registration_code = lookup(local.sles_registration_code, "slemicro-minion", null)
+
+  use_os_released_updates = true
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "slemicro-minion", false)
+
+  additional_repos  = lookup(local.additional_repos, "slemicro-minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "slemicro-minion", {})
+  additional_packages = lookup(local.additional_packages, "slemicro-minion", ["avahi", "avahi-lang", "libavahi-common3", "libavahi-core7"])
+  additional_grains = lookup(local.additional_grains, "slemicro-minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "slemicro-minion", {})
 }
 
 module "redhat-minion" {
@@ -318,6 +341,7 @@ module "controller" {
   client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  slemicro_minion_configuration  = contains(local.hosts, "slemicro-minion") ? module.slemicro-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }  
   redhat_configuration           = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   debian_configuration           = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   buildhost_configuration        = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
@@ -351,6 +375,7 @@ output "configuration" {
     server = module.server.configuration
     proxy = module.proxy.configuration
     suse-client = module.suse-client.configuration
+    slemicro-minion = module.slemicro-minion.configuration
     suse-minion = module.suse-minion.configuration
     suse-sshminion = module.suse-sshminion.configuration
     redhat-minion = module.redhat-minion.configuration

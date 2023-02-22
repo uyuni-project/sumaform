@@ -107,6 +107,11 @@ scc:
     - SLE-Module-DevTools15-SP3-Updates
     - SLE-Module-Python2-15-SP3-Pool
     - SLE-Module-Python2-15-SP3-Update
+    # SLE Micro
+    - SLE-Micro-5.2-Pool
+    - SLE-Micro-5.2-Updates
+    - SLE-Micro-5.3-Pool
+    - SLE-Micro-5.3-Updates
     # SLE 15-SP4 Products
     - SLE-Product-SLES15-SP4-Pool
     - SLE-Product-SLES15-SP4-Updates
