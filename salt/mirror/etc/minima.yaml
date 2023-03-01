@@ -360,10 +360,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04
     archs: [amd64]
 
-  # Debian 9 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Debian9-SUSE-Manager-Tools/Debian_9
-    archs: [amd64]
-
   # Debian 10 Manager Tools 4.2 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Debian10-SUSE-Manager-Tools/Debian_10
     archs: [amd64]
@@ -407,10 +403,6 @@ http:
   # Ubuntu 22.04 Manager Tools 4.3 devel
   - url: https://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04/
     archs: [amd64]
-
-  # Debian 9 Manager Tools 4.3 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian9-SUSE-Manager-Tools/Debian_9
-  #  archs: [amd64]
 
   # Debian 10 Manager Tools 4.3 devel
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian10-SUSE-Manager-Tools/Debian_10/
@@ -456,10 +448,6 @@ http:
 
   # Ubuntu 22.04 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04
-    archs: [amd64]
-
-  # Debian 9 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Debian9-SUSE-Manager-Tools/Debian_9
     archs: [amd64]
 
   # Debian 10 Manager Tools Head devel
@@ -542,15 +530,19 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian9-Uyuni-Client-Tools/Debian_9/
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian10-Uyuni-Client-Tools/Debian_10/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian11-Uyuni-Client-Tools/Debian_11/
     archs: [x86_64]
 
   # Uyuni Stable
@@ -570,13 +562,17 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian9-Uyuni-Client-Tools/Debian_9/
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian10-Uyuni-Client-Tools/Debian_10/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian11-Uyuni-Client-Tools/Debian_11/
     archs: [x86_64]
