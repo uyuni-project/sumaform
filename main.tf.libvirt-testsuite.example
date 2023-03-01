@@ -32,7 +32,7 @@ module "cucumber_testsuite" {
   # the following images are e.g. available:
   # "almalinux8o", "almalinux9o",
   # "amazonlinux2o",
-  # "centos6o", "centos7o",
+  # "centos7o", "centos8o", "centos9o",
   # "libertylinux9o",
   # "opensuse152o", "opensuse154o",
   # "oraclelinux9o",

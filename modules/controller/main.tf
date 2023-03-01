@@ -89,9 +89,6 @@ module "controller" {
     slemicro53_minion    = length(var.slemicro53_minion_configuration["hostnames"]) > 0 ? var.slemicro53_minion_configuration["hostnames"][0] : null
     slemicro53_sshminion = length(var.slemicro53_sshminion_configuration["hostnames"]) > 0 ? var.slemicro53_sshminion_configuration["hostnames"][0] : null
     sle15sp4_client      = length(var.sle15sp4_client_configuration["hostnames"]) > 0 ? var.sle15sp4_client_configuration["hostnames"][0] : null
-    centos6_minion       = length(var.centos6_minion_configuration["hostnames"]) > 0 ? var.centos6_minion_configuration["hostnames"][0] : null
-    centos6_sshminion    = length(var.centos6_sshminion_configuration["hostnames"]) > 0 ? var.centos6_sshminion_configuration["hostnames"][0] : null
-    centos6_client       = length(var.centos6_client_configuration["hostnames"]) > 0 ? var.centos6_client_configuration["hostnames"][0] : null
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null
@@ -115,8 +112,6 @@ module "controller" {
     ubuntu2004_sshminion = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
     ubuntu2204_minion    = length(var.ubuntu2204_minion_configuration["hostnames"]) > 0 ? var.ubuntu2204_minion_configuration["hostnames"][0] : null
     ubuntu2204_sshminion = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
-    debian9_minion       = length(var.debian9_minion_configuration["hostnames"]) > 0 ? var.debian9_minion_configuration["hostnames"][0] : null
-    debian9_sshminion    = length(var.debian9_sshminion_configuration["hostnames"]) > 0 ? var.debian9_sshminion_configuration["hostnames"][0] : null
     debian10_minion      = length(var.debian10_minion_configuration["hostnames"]) > 0 ? var.debian10_minion_configuration["hostnames"][0] : null
     debian10_sshminion   = length(var.debian10_sshminion_configuration["hostnames"]) > 0 ? var.debian10_sshminion_configuration["hostnames"][0] : null
     debian11_minion      = length(var.debian11_minion_configuration["hostnames"]) > 0 ? var.debian11_minion_configuration["hostnames"][0] : null

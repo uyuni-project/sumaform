@@ -308,27 +308,6 @@ variable "slemicro53_sshminion_configuration" {
   }
 }
 
-variable "centos6_minion_configuration" {
-  description = "use module.<CENTOS6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "centos6_sshminion_configuration" {
-  description = "use module.<CENTOS6_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "centos6_client_configuration" {
-  description = "use module.<CENTOS6_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "centos7_minion_configuration" {
   description = "use module.<CENTOS7_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -485,20 +464,6 @@ variable "ubuntu2204_minion_configuration" {
 
 variable "ubuntu2204_sshminion_configuration" {
   description = "use module.<UBUNTU2204_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "debian9_minion_configuration" {
-  description = "use module.<DEBIAN9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "debian9_sshminion_configuration" {
-  description = "use module.<DEBIAN9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

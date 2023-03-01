@@ -141,7 +141,7 @@ packages: ["salt-minion"]
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -163,27 +163,7 @@ yum_repos:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "centos6" }
-yum_repos:
-  # repo for salt
-  temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
-    enabled: true
-    gpgcheck: false
-    name: temp_tools_pool_repo
-    priority: 98
 
-packages: ["salt-minion"]
-
-runcmd:
-  # WORKAROUND: CentOS 6 changes the root password with a random one after cloud-init. Disable the mechanism
-  - "rm -f /root/firstrun"
-  # WORKAROUND: cloud-init in CentOS 6 does not take care of the following
-  - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
-  - "service sshd restart"
-  # WORKAROUND: needed because onboard traditional clients
-  - "/usr/bin/update-ca-trust force-enable"
-%{ endif }
 %{ if image == "ubuntu2004" }
 
 apt:

@@ -73,13 +73,6 @@ data "azurerm_platform_image" "sles15sp3o" {
   sku       = "gen1"
 }
 
-data "azurerm_platform_image" "centos6" {
-  location  = local.location
-  publisher = "OpenLogic"
-  offer     = "CentOS"
-  sku       = "6.10"
-}
-
 data "azurerm_platform_image" "centos7" {
   location  = local.location
   publisher = "OpenLogic"
@@ -184,7 +177,6 @@ locals {
       sles12sp4    = { platform_image = data.azurerm_platform_image.sles12sp4 },
       sles12sp3    = { platform_image = data.azurerm_platform_image.sles12sp3 },
       sles11sp4    = { platform_image = data.azurerm_platform_image.sles11sp4 },
-      centos6      = { platform_image = data.azurerm_platform_image.centos6 },
       centos7      = { platform_image = data.azurerm_platform_image.centos7 },
       ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
       ubuntu1804   = { platform_image = data.azurerm_platform_image.ubuntu1804 },
