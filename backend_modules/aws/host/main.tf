@@ -213,12 +213,6 @@ resource "null_resource" "host_salt_configuration" {
     destination = "/tmp"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "bash /tmp/salt/wait_for_salt.sh",
-    ]
-  }
-
   provisioner "file" {
 
     content = yamlencode(merge(
@@ -256,7 +250,12 @@ resource "null_resource" "host_salt_configuration" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo mv /tmp/grains /etc/salt/grains",
+      "bash /tmp/salt/wait_for_salt.sh",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       "sudo rm -rf /root/salt",
       "sudo mv /tmp/salt /root",
       "sudo bash /root/salt/first_deployment_highstate.sh"

@@ -68,6 +68,12 @@ resource "null_resource" "provisioning" {
     destination = "/opt"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "bash /opt/salt/wait_for_salt.sh",
+    ]
+  }
+
   provisioner "file" {
     content = yamlencode(merge(
       {
@@ -97,7 +103,7 @@ resource "null_resource" "provisioning" {
         data_disk_device              = contains(var.roles, "suse_manager_server") || contains(var.roles, "suse_manager_proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
       },
     var.grains))
-    destination = "/etc/salt/grains"
+    destination = "/tmp/grains"
   }
 
   provisioner "remote-exec" {
