@@ -5,6 +5,27 @@
 
 FILE_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
+# Force direct call module executors on MicroOS images
+MODULE_EXEC=""
+if grep -q "cpe:/o:.*suse:.*micro" /etc/os-release; then
+MODULE_EXEC="--module-executors=[direct_call]"
+fi
+
+# Wait for cloud-init to finish
+NEXT_TRY=0
+until [ $NEXT_TRY -eq 10 ] || ! cloud-init status | grep running
+do
+        echo "cloud-init is still running. Retrying... [$NEXT_TRY]";
+        sleep 5;
+        ((NEXT_TRY++));
+done
+
+if [ $NEXT_TRY -eq 10 ]
+then
+        echo "cloud-init is still running after 10 retries";
+	exit 1;
+fi
+
 if [ -x /usr/bin/venv-salt-call ]; then
     echo "Salt Bundle detected! We use it for running sumaform deployment"
     echo "Copying /etc/salt/grains to /etc/venv-salt-minion"
@@ -15,12 +36,6 @@ elif [ -x /usr/bin/salt-call ]; then
 else
     echo "Error: Cannot find venv-salt-call or salt-call on the system"
     exit 1
-fi
-
-# Force direct call module executors on MicroOS images
-MODULE_EXEC=""
-if grep -q "cpe:/o:.*suse:.*micro" /etc/os-release; then
-MODULE_EXEC="--module-executors=[direct_call]"
 fi
 
 echo "starting first call to update salt and do minimal configuration"
