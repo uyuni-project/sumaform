@@ -28,7 +28,7 @@ fi
 
 if [ -x /usr/bin/venv-salt-call ]; then
     echo "Salt Bundle detected! We use it for running sumaform deployment"
-    echo "Copying /etc/salt/grains to /etc/venv-salt-minion"
+    echo "Copying /etc/salt/grains to /etc/venv-salt-minion/grains"
     cp /etc/salt/grains /etc/venv-salt-minion/grains
     SALT_CALL=venv-salt-call
 elif [ -x /usr/bin/salt-call ]; then
