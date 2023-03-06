@@ -16,7 +16,7 @@ NEXT_TRY=0
 until [ $NEXT_TRY -eq 10 ] || ! cloud-init status | grep running
 do
         echo "cloud-init is still running. Retrying... [$NEXT_TRY]";
-        sleep 5;
+        sleep 10;
         ((NEXT_TRY++));
 done
 
