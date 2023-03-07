@@ -12,4 +12,4 @@ else
     exit 1
 fi
 
-$SALT_CALL --local --file-root=$FILE_ROOT/ --log-level=info --retcode-passthrough --force-color state.highstate
+${SALT_CALL} --local --file-root=$FILE_ROOT/ --log-level=info --retcode-passthrough --force-color state.highstate

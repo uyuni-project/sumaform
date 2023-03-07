@@ -13,13 +13,13 @@ else
 fi
 
 # Nothing to do in case "install_salt_bundle" grain is not true
-INSTALL_SALT_BUNDLE=$($SALT_CALL --local --log-level=quiet --output=txt grains.get install_salt_bundle)
+INSTALL_SALT_BUNDLE=$(${SALT_CALL} --local --log-level=quiet --output=txt grains.get install_salt_bundle)
 
 if [[ "$INSTALL_SALT_BUNDLE" != "local: True" ]]; then
     exit 0
 fi
 
-echo "This instance is configured to use Salt Bundle in /etc/salt/grains !"
+echo "This instance is configured to use Salt Bundle in grains !"
 
 if [ -x /usr/bin/dnf ]; then
     INSTALLER=yum

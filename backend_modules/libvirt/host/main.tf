@@ -206,12 +206,6 @@ resource "null_resource" "provisioning" {
     destination = "/root"
   }
 
-  provisioner "remote-exec" {
-    inline = local.cloud_init ? [
-      "bash /root/salt/wait_for_salt.sh",
-    ] : ["bash -c \"echo 'no cloud init, nothing to do'\""]
-  }
-
   provisioner "file" {
     content = yamlencode(merge(
       {
@@ -243,7 +237,13 @@ resource "null_resource" "provisioning" {
         provider                      = "libvirt"
       },
     var.grains))
-    destination = "/etc/salt/grains"
+    destination = "/tmp/grains"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash /root/salt/wait_for_salt.sh",
+    ]
   }
 
   provisioner "remote-exec" {
