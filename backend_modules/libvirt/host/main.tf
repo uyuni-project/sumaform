@@ -241,9 +241,9 @@ resource "null_resource" "provisioning" {
   }
 
   provisioner "remote-exec" {
-    inline = local.cloud_init ? [
+    inline = [
       "bash /root/salt/wait_for_salt.sh",
-    ] : ["bash -c \"echo 'no cloud init, nothing to do'\""]
+    ]
   }
 
   provisioner "remote-exec" {
