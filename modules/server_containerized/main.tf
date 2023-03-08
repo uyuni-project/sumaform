@@ -1,9 +1,9 @@
-module "containerizer_uyuni" {
+module "server_containerized" {
   source = "../host"
 
   base_configuration            = var.base_configuration
   name                          = var.name
-  roles                         = ["containerized_uyuni"]
+  roles                         = ["server", "container"]
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
@@ -41,8 +41,8 @@ module "containerizer_uyuni" {
 
 output "configuration" {
   value = {
-    id              = length(module.containerizer_uyuni.configuration["ids"]) > 0 ? module.containerizer_uyuni.configuration["ids"][0] : null
-    hostname        = length(module.containerizer_uyuni.configuration["hostnames"]) > 0 ? module.containerizer_uyuni.configuration["hostnames"][0] : null
+    id              = length(module.server_containerized.configuration["ids"]) > 0 ? module.server_containerized.configuration["ids"][0] : null
+    hostname        = length(module.server_containerized.configuration["hostnames"]) > 0 ? module.server_containerized.configuration["hostnames"][0] : null
     username        = var.server_username
     password        = var.server_password
   }
