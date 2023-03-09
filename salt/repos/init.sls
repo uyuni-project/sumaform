@@ -11,7 +11,7 @@ include:
   - repos.testsuite
   - repos.tools
   - repos.jenkins
-  - repos.salt/server_containerized
+  - repos.server_containerized
   {% endif %}
   - repos.additional
 

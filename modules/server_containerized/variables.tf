@@ -164,9 +164,7 @@ variable "monitored" {
 
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
-  default     = {
-    server_container_repo = "https://download.opensuse.org/repositories/home:/mbussolotto:/branches:/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.4"
-  }
+  default     = {}
 }
 
 variable "additional_repos_only" {
@@ -181,7 +179,7 @@ variable "additional_certs" {
 
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
-  default     = ["uyuni-server-systemd-services"]
+  default     = []
 }
 
 variable "install_salt_bundle" {

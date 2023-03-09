@@ -3,7 +3,7 @@ module "server_containerized" {
 
   base_configuration            = var.base_configuration
   name                          = var.name
-  roles                         = ["server", "container"]
+  roles                         = ["server_containerized"]
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
