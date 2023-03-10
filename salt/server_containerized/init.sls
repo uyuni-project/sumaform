@@ -3,6 +3,7 @@ include:
   - repos
   {% endif %}
   #- server.salt_master #required by sumaform monitoring
+  - server.initial_content
 
 server_packages:
   pkg.installed:
