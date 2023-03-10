@@ -3,7 +3,7 @@ include:
   - repos
   {% endif %}
   #- server.salt_master #required by sumaform monitoring
-  - server.initial_content
+  - server_containerized.initial_content
 
 server_packages:
   pkg.installed:
@@ -21,7 +21,7 @@ uyuni-server_service_file:
 
 uyuni-server-services_config:
   file.managed:
-    - name: /etc/sysconfig/container-server-services.config
+    - name: /etc/sysconfig/uyuni-server-systemd-services
     - makedir: True
   #TODO it should be installed by default. In case of any changes, add the file here
   #    - source:
