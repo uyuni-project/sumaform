@@ -250,7 +250,7 @@ resource "null_resource" "host_salt_configuration" {
 
   provisioner "remote-exec" {
     inline = [
-      "bash /tmp/salt/wait_for_salt.sh",
+      "sudo bash /tmp/salt/wait_for_salt.sh",
     ]
   }
 
