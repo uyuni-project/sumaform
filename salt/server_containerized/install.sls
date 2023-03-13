@@ -7,11 +7,6 @@ server_packages:
       - sls: repos
       {% endif %}
 
-uyuni-server_service_file:
-  file.managed: 
-    - name: /usr/lib/systemd/system/uyuni-server.service
-    - makedir: True
-
 uyuni-server-services_config:
   file.managed:
     - name: /etc/sysconfig/uyuni-server-systemd-services
@@ -24,7 +19,6 @@ uyuni-server_service:
     - name: uyuni-server
     - enable: True
     - require:
-      - file: uyuni-server_service_file
       - file: uyuni-server-services_config
       - pkg: uyuni-server-systemd-services
     - watch:
