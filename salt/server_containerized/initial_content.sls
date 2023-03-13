@@ -1,5 +1,3 @@
-include:
-  - server.rhn
 
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
@@ -12,8 +10,6 @@ wait_for_tomcat:
     - name: https://localhost/
     - verify_ssl: False
     - status: 200
-    - require:
-      - sls: server.rhn
 
 create_first_user:
   http.wait_for_successful_query:
@@ -143,8 +139,6 @@ private_ssl_key:
     - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
     - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - mode: 644
-    - require:
-      - sls: server.rhn
 
 private_ssl_key_checksum:
   cmd.run:
@@ -158,8 +152,6 @@ ca_configuration:
     - name: /srv/www/htdocs/pub/rhn-ca-openssl.cnf
     - source: /root/ssl-build/rhn-ca-openssl.cnf
     - mode: 644
-    - require:
-      - sls: server.rhn
 
 ca_configuration_checksum:
   cmd.run:
