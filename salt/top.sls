@@ -6,6 +6,10 @@ base:
     - match: grain
     - server
 
+  'roles:server_containerized':
+    - match: grain
+    - server_containerized
+
   'roles:client':
     - match: grain
     - client
