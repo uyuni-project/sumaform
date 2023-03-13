@@ -662,5 +662,5 @@ variable "is_using_scc_repositories" {
 variable "nested_vm_hosts" {
   description = "Hostnames for nested VMs if they are used, see README_TESTING.md"
   type        = list(string)
-  default     = ["leap-salt-migration", "sles-salt-migration"]
+  default     = ["min-nested"]
 }

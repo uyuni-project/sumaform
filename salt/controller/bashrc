@@ -17,8 +17,7 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 # Salt bundle test specific hosts
 {%- if grains.get('nested_vm_hosts') %}
 {%- for name in grains['nested_vm_hosts'] %}
-{% set hostname = name.upper() | replace("-","_") -%}
-export {{ hostname }}="{{ name }}.{{ grains.get('domain') }}"
+export MIN_NESTED="{{ name }}.{{ grains.get('domain') }}"
 {%- endfor %}
 {% else %}
 # no nested VMs defined
