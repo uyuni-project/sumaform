@@ -11,6 +11,7 @@ include:
   - repos.testsuite
   - repos.tools
   - repos.jenkins
+  - repos.server_containerized
   {% endif %}
   - repos.additional
 
