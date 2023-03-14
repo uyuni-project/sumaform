@@ -106,6 +106,7 @@ export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ 
 export PROVIDER="{{ grains.get('provider') }}"
 {% if 'build_image' not in grains.get('product_version') | default('', true) %}export IS_USING_BUILD_IMAGE="{{ grains.get('is_using_build_image') }}" {% endif %}
 export IS_USING_SCC_REPOSITORIES="{{ grains.get('is_using_scc_repositories') }}"
+export GEM_PATH="/usr/lib64/ruby/gems/3.2.0"
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
