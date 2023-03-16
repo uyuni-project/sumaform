@@ -34,6 +34,9 @@ module "server_containerized" {
     skip_changelog_import          = var.skip_changelog_import
     create_first_user              = var.create_first_user
     mgr_sync_autologin             = var.mgr_sync_autologin
+    create_sample_channel          = var.create_sample_channel
+    create_sample_activation_key   = var.create_sample_activation_key
+    create_sample_bootstrap_script = var.create_sample_bootstrap_script
     publish_private_ssl_key        = var.publish_private_ssl_key
     auto_accept                    = var.auto_accept
   }

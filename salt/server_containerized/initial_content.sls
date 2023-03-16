@@ -5,7 +5,7 @@
 
 wait_for_setup_end:
   cmd.script:
-    - name: salt://server_containerized/wait_for_setup_end.py 
+    - name: salt://server_containerized/wait_for_setup_end.py
     - args: "podman"
     - use_vt: True
     - template: jinja
@@ -62,8 +62,8 @@ mgr_sync_automatic_authentication:
     - name: /root/.mgr-sync
     - pattern: mgrsync.user =.*\nmgrsync.password =.*\n
     - repl: |
-        mgrsync.user = {{ grains.get('server_username') | default('admin', true) }}
-        mgrsync.password = {{ grains.get('server_password') | default('admin', true) }}
+        mgrsync.user = {{ server_username }}
+        mgrsync.password = {{ server_password }}
     - append_if_not_found: true
     - require:
       - file: mgr_sync_configuration_file
@@ -81,9 +81,9 @@ wait_for_mgr_sync:
 
 scc_data_refresh:
   cmd.run:
-    - name: mgr-sync refresh
+    - name: {{ run_in_container("mgr-sync refresh") }}
     - use_vt: True
-    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} --quiet api sync.content.listProducts | grep name
+    - unless: {{ run_in_container("spacecmd -u {} -p {} --quiet api sync.content.listProducts | grep name".format(server_username, server_password)) }}
     - require:
       - cmd: wait_for_mgr_sync
 {% endif %}
@@ -91,7 +91,7 @@ scc_data_refresh:
 {% if grains.get('channels') %}
 add_channels:
   cmd.run:
-    - name: mgr-sync add channels {{ ' '.join(grains['channels']) }}
+    - name: {{ run_in_container("mgr-sync add channels {}".format(' '.join(grains['channels']))) }}
     - require:
       - cmd: scc_data_refresh
 
@@ -101,7 +101,7 @@ reposync_{{ channel }}:
   cmd.script:
     - name: salt://server/wait_for_reposync.py
     - template: jinja
-    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains.get('fqdn') | default('localhost', true) }} {{ channel }}"
+    - args: "{{ server_username }} {{ server_password }} {{ grains.get('fqdn') | default('localhost', true) }} {{ channel }}"
     - use_vt: True
     - require:
       - cmd: add_channels
@@ -112,8 +112,8 @@ reposync_{{ channel }}:
 {% if grains.get('create_sample_channel') %}
 create_empty_channel:
   cmd.run:
-    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64
-    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} softwarechannel_list | grep -x testchannel
+    - name: {{ run_in_container("sh -c \"spacecmd -u {} -p {} -- softwarechannel_create --name testchannel -l testchannel -a x86_64\"".format(server_username, server_password) ) }}
+    - unless: {{ run_in_container("spacecmd -u {} -p {} softwarechannel_list | grep -x testchannel".format(server_username, server_password)) }}
     - require:
       - http: create_first_user
 {% endif %}
@@ -121,8 +121,8 @@ create_empty_channel:
 {% if grains.get('create_sample_activation_key') %}
 create_empty_activation_key:
   cmd.run:
-    - name: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} -- activationkey_create -n DEFAULT {% if grains.get('create_sample_channel') %} -b testchannel {% endif %}
-    - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} activationkey_list | grep -x 1-DEFAULT
+    - name: {{ run_in_container("sh -c \"spacecmd -u {} -p {} -- activationkey_create -n DEFAULT {}\"".format(server_username, server_password, "-b testchannel" if grains.get('create_sample_channel') else "")) }}
+    - unless: {{ run_in_container("spacecmd -u {} -p {} activationkey_list | grep -x 1-DEFAULT".format(server_username, server_password)) }}
     - require:
       - cmd: create_empty_channel
 {% endif %}
@@ -130,15 +130,13 @@ create_empty_activation_key:
 {% if grains.get('create_sample_bootstrap_script') %}
 create_empty_bootstrap_script:
   cmd.run:
-    - name: rhn-bootstrap --activation-keys=1-DEFAULT --hostname {{ grains['hostname'] }}.{{ grains['domain'] }}
-    - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh
+    - name: {{ run_in_container("rhn-bootstrap --activation-keys=1-DEFAULT --hostname {}.{}".format(grains['hostname'], grains['domain'])) }}
     - require:
       - cmd: create_empty_activation_key
 
 create_empty_bootstrap_script_md5:
   cmd.run:
-    - name: sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
-    - creates: /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512
+    - name: {{ run_in_container("sh -c \"sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512\"") }}
     - require:
       - cmd: create_empty_bootstrap_script
 {% endif %}
