@@ -1,6 +1,14 @@
+{% from 'server_containerized/macros.sls' import run_in_container with context %}
 
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
+
+wait_for_setup_end:
+  cmd.script:
+    - name: salt://server_containerized/wait_for_setup_end.py 
+    - args: "podman"
+    - use_vt: True
+    - template: jinja
 
 {% if grains.get('create_first_user') %}
 
@@ -10,6 +18,8 @@ wait_for_tomcat:
     - name: https://localhost/
     - verify_ssl: False
     - status: 200
+    - require:
+      - cmd: wait_for_setup_end
 
 create_first_user:
   http.wait_for_successful_query:
@@ -25,14 +35,14 @@ create_first_user:
              firstNames=Administrator&\
              lastName=Administrator"
     - verify_ssl: False
-    - unless: satwho | grep -x {{ server_username }}
+    - unless: {{ run_in_container("satwho | grep -x " + server_username) }}
     - require:
       - http: wait_for_tomcat
 
 # set password in case user already existed with a different password
 first_user_set_password:
   cmd.run:
-    - name: echo -e "{{ server_password }}\n{{ server_password }}" | satpasswd -s {{ server_username }}
+    - name: {{ run_in_container('sh -c "echo -e \\"{}\\n{}\\" | satpasswd -s {}"'.format(server_password, server_password, server_username)) }}
     - require:
       - http: create_first_user
 
@@ -135,30 +145,24 @@ create_empty_bootstrap_script_md5:
 
 {% if grains.get('publish_private_ssl_key') %}
 private_ssl_key:
-  file.copy:
-    - name: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY
-    - source: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
-    - mode: 644
+  cmd.run:
+    - name: {{ run_in_container("sh -c 'cp /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY; chmod 644 /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY'") }}
 
 private_ssl_key_checksum:
   cmd.run:
-    - name: sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
-    - creates: /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
+    - name: {{ run_in_container("sh -c 'sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512'") }}
     - require:
-      - file: private_ssl_key
+      - cmd: private_ssl_key
 
 ca_configuration:
-  file.copy:
-    - name: /srv/www/htdocs/pub/rhn-ca-openssl.cnf
-    - source: /root/ssl-build/rhn-ca-openssl.cnf
-    - mode: 644
+  cmd.run:
+    - name: {{ run_in_container("sh -c 'cp /root/ssl-build/rhn-ca-openssl.cnf /srv/www/htdocs/pub/rhn-ca-openssl.cnf; chmod 644 /srv/www/htdocs/pub/rhn-ca-openssl.cnf'") }}
 
 ca_configuration_checksum:
   cmd.run:
-    - name: sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
-    - creates: /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512
+    - name: {{ run_in_container("sh -c 'sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512'") }}
     - require:
-      - file: ca_configuration
+      - cmd: ca_configuration
 {% endif %}
 
 {% if grains.get('cloned_channels') %}
