@@ -1,0 +1,44 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: uyuni-issuer
+  namespace: default
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uyuni-ca
+  namespace: default
+spec:
+  isCA: true
+  subject:
+    countries: ["DE"]
+    provinces: ["Bayern"]
+    localities: ["Nuernberg"]
+    organizations: ["SUSE"]
+    organizationalUnits: ["SUSE"]
+  emailAddresses:
+    - galaxy-noise@suse.de
+  commonName: {{ grains.get('fqdn') }}
+  dnsNames:
+    - {{ grains.get('fqdn') }}
+  secretName: uyuni-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: uyuni-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: uyuni-ca-issuer
+  namespace: default
+spec:
+  ca:
+    secretName:
+      uyuni-ca

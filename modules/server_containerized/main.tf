@@ -24,6 +24,7 @@ module "server_containerized" {
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
+    container_runtime      = var.runtime
     cc_username            = var.base_configuration["cc_username"]
     cc_password            = var.base_configuration["cc_password"]
     mirror                 = var.base_configuration["mirror"]

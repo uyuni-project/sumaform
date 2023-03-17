@@ -3,6 +3,6 @@ include:
   - repos
   {% endif %}
   #- server.salt_master #required by sumaform monitoring
-  - server_containerized.install
+  - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
   - server_containerized.initial_content
 

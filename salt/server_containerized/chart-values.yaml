@@ -1,0 +1,8 @@
+ingressSslAnnotations:
+  cert-manager.io/issuer: uyuni-ca-issuer
+repository: registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/containers/uyuni
+exposeJavaDebug: {{ grains.get("java_debugging") }}
+uyuniMailFrom: notifications@{{ grains.get("fqdn") }}
+fqdn: {{ grains.get("fqdn") }}
+sccUser: {{ grains.get("cc_username") }}
+sccPass: {{ grains.get("cc_password") }}
