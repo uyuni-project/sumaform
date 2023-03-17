@@ -6,16 +6,22 @@
 wait_for_setup_end:
   cmd.script:
     - name: salt://server_containerized/wait_for_setup_end.py
-    - args: "podman"
+    - args: {{ grains.get('container_runtime') }}
     - use_vt: True
     - template: jinja
+    - require:
+{%- if grains.get('container_runtime') == 'podman' -%}
+      - service: uyuni-server_service
+{%- elif grains.get('container_runtime') == 'k3s' -%}
+      - cmd: wait_pod_running
+{%- endif -%}
 
 {% if grains.get('create_first_user') %}
 
 wait_for_tomcat:
   http.wait_for_successful_query:
     - method: GET
-    - name: https://localhost/
+    - name: https://{{ grains.get("fqdn") }}/
     - verify_ssl: False
     - status: 200
     - require:
@@ -24,7 +30,7 @@ wait_for_tomcat:
 create_first_user:
   http.wait_for_successful_query:
     - method: POST
-    - name: https://localhost/rhn/newlogin/CreateFirstUser.do
+    - name: https://{{ grains.get("fqdn") }}/rhn/newlogin/CreateFirstUser.do
     - status: 200
     - data: "submitted=true&\
              orgName=SUSE&\
@@ -141,7 +147,7 @@ create_empty_bootstrap_script_md5:
       - cmd: create_empty_bootstrap_script
 {% endif %}
 
-{% if grains.get('publish_private_ssl_key') %}
+{% if grains.get('container_runtime') == 'podman' and grains.get('publish_private_ssl_key') %}
 private_ssl_key:
   cmd.run:
     - name: {{ run_in_container("sh -c 'cp /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY; chmod 644 /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY'") }}

@@ -12,6 +12,11 @@ variable "roles" {
   default     = []
 }
 
+variable "runtime" {
+  description = "Where to run the containers. One of podman or k3s"
+  default = "podman"
+}
+
 variable "channels" {
   description = "a list of SUSE channel labels to add"
   default     = []
