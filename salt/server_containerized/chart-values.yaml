@@ -4,7 +4,7 @@ ingressSslAnnotations:
 repository: {{ grains.get("container_repository") }}
 {%- endif %}
 exposeJavaDebug: {{ grains.get("java_debugging") }}
-uyuniMailFrom: notifications@{{ grains.get("fqdn") }}
+uyuniMailFrom: {{ grains.get("from_email") }}
 fqdn: {{ grains.get("fqdn") }}
 sccUser: {{ grains.get("cc_username") }}
 sccPass: {{ grains.get("cc_password") }}

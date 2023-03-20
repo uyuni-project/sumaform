@@ -52,7 +52,7 @@ ssl-building-trusted-cert:
     - name: /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
     - source: http://{{grains['server']}}/pub/RHN-ORG-TRUSTED-SSL-CERT
     - source_hash: http://{{grains['server']}}/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
-    - requires:
+    - require:
       - file: ssl-build-directory
 
 ssl-building-private-ssl-key:
@@ -60,7 +60,7 @@ ssl-building-private-ssl-key:
     - name: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
     - source: http://{{grains['server']}}/pub/RHN-ORG-PRIVATE-SSL-KEY
     - source_hash: http://{{grains['server']}}/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
-    - requires:
+    - require:
       - file: ssl-build-directory
 
 ssl-building-ca-configuration:
@@ -68,7 +68,7 @@ ssl-building-ca-configuration:
     - name: /root/ssl-build/rhn-ca-openssl.cnf
     - source: http://{{grains['server']}}/pub/rhn-ca-openssl.cnf
     - source_hash: http://{{grains['server']}}/pub/rhn-ca-openssl.cnf.sha512
-    - requires:
+    - require:
       - file: ssl-build-directory
 
 {% endif %}

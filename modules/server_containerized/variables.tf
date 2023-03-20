@@ -22,6 +22,11 @@ variable "container_repository" {
   default = ""
 }
 
+variable "product_version" {
+  description = "One of: uyuni-master, uyuni-released"
+  type        = string
+}
+
 variable "channels" {
   description = "a list of SUSE channel labels to add"
   default     = []

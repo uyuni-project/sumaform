@@ -24,6 +24,7 @@ module "server" {
 
   base_configuration            = var.base_configuration
   name                          = var.name
+  quantity                      = var.quantity
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
