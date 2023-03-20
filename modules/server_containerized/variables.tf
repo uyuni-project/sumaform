@@ -17,6 +17,11 @@ variable "runtime" {
   default = "podman"
 }
 
+variable "container_repository" {
+  description = "Where to find the server container images. Uses the released ones per default."
+  default = ""
+}
+
 variable "channels" {
   description = "a list of SUSE channel labels to add"
   default     = []

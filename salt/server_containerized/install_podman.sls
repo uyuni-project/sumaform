@@ -7,19 +7,23 @@ server_packages:
       - sls: repos
       {% endif %}
 
+{% if grains.get("container_repository") -%}
 uyuni-server-services_config:
-  file.managed:
+  file.replace:
     - name: /etc/sysconfig/uyuni-server-systemd-services
-    - makedir: True
-  #TODO it should be installed by default. In case of any changes, add the file here
-  #    - source:
+    - pattern: ^NAMESPACE=/.*$
+    - repl: NAMESPACE={{ grains.get("container_repository") }}
+    - append_if_not_found: True
+{%- endif %}
 
 uyuni-server_service:
   service.running:
     - name: uyuni-server
     - enable: True
     - require:
-      - file: uyuni-server-services_config
       - pkg: uyuni-server-systemd-services
+{% if grains.get("container_repository") %}
+      - file: uyuni-server-services_config
     - watch:
       - file: uyuni-server-services_config
+{% endif %}
