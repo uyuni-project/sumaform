@@ -1,3 +1,12 @@
+variable "images" {
+  default = {
+    "head"           = "sles15sp4o"
+    "uyuni-master"   = "opensuse154o"
+    "uyuni-released" = "opensuse154o"
+    "uyuni-pr"       = "opensuse154o"
+  }
+}
+
 module "server_containerized" {
   source = "../host"
 
@@ -17,7 +26,7 @@ module "server_containerized" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
-  image                         = var.image 
+  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
   additional_disk_size          = var.additional_disk_size
@@ -48,6 +57,7 @@ output "configuration" {
   value = {
     id              = length(module.server_containerized.configuration["ids"]) > 0 ? module.server_containerized.configuration["ids"][0] : null
     hostname        = length(module.server_containerized.configuration["hostnames"]) > 0 ? module.server_containerized.configuration["hostnames"][0] : null
+    product_version = var.product_version
     username        = var.server_username
     password        = var.server_password
   }

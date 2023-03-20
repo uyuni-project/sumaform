@@ -284,3 +284,8 @@ variable "c3p0_connection_debug" {
   description = "log additional info regarding leaked c3p0 connections"
   default     = false
 }
+
+variable "quantity" {
+  description = "number of hosts like this one"
+  default     = 1
+}

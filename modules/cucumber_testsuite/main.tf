@@ -40,10 +40,17 @@ locals {
     host_key => lookup(var.host_settings[host_key], "server_mounted_mirror", {}) if var.host_settings[host_key] != null }
   sles_registration_code    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "sles_registration_code", null) if var.host_settings[host_key] != null }
+  runtimes    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
+  container_repositories    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
 }
 
 module "server" {
   source                         = "../server"
+
+  quantity = contains(local.hosts, "server") ? 1 : 0
+
   base_configuration             = module.base.configuration
   product_version                = var.product_version
   image                          = lookup(local.images, "server", "default")
@@ -74,6 +81,44 @@ module "server" {
   saltapi_tcpdump   = var.saltapi_tcpdump
   provider_settings = lookup(local.provider_settings_by_host, "server", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server", {})
+}
+
+module "server_containerized" {
+  source                         = "../server_containerized"
+
+  quantity = contains(local.hosts, "server_containerized") ? 1 : 0
+
+  base_configuration             = module.base.configuration
+  product_version                = var.product_version
+  image                          = lookup(local.images, "server_containerized", "default")
+  name                           = lookup(local.names, "server_containerized", "srv")
+  runtime                        = lookup(local.runtimes, "server_containerized", "podman")
+  container_repository           = lookup(local.container_repositories, "server_containerized", "")
+  auto_accept                    = false
+  download_private_ssl_key       = false
+  disable_firewall               = false
+  allow_postgres_connections     = false
+  skip_changelog_import          = false
+  create_first_user              = false
+  mgr_sync_autologin             = false
+  create_sample_channel          = false
+  create_sample_activation_key   = false
+  create_sample_bootstrap_script = false
+  publish_private_ssl_key        = false
+  disable_download_tokens        = false
+  //forward_registration           = false
+  use_os_released_updates        = true
+  install_salt_bundle            = lookup(local.install_salt_bundle, "server_containerized", false)
+  ssh_key_path                   = "./salt/controller/id_rsa.pub"
+  from_email                     = var.from_email
+  additional_repos               = lookup(local.additional_repos, "server_containerized", {})
+  additional_repos_only          = lookup(local.additional_repos_only, "server_containerized", {})
+  additional_packages            = lookup(local.additional_packages, "server_containerized", [])
+  //login_timeout                  = var.login_timeout
+
+  //saltapi_tcpdump   = var.saltapi_tcpdump
+  provider_settings = lookup(local.provider_settings_by_host, "server_containerized", {})
+  server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
 }
 
 module "proxy" {
@@ -336,7 +381,7 @@ module "controller" {
   name   = lookup(local.names, "controller", "ctl")
 
   base_configuration             = module.base.configuration
-  server_configuration           = module.server.configuration
+  server_configuration           = contains(local.hosts, "server") ? module.server.configuration : module.server_containerized.configuration
   proxy_configuration            = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
   client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
@@ -374,6 +419,7 @@ output "configuration" {
   value = {
     base = module.base.configuration
     server = module.server.configuration
+    server = contains(local.hosts, "server") ? module.server.configuration : module.server_containerized.configuration
     proxy = module.proxy.configuration
     suse-client = module.suse-client.configuration
     slemicro-minion = module.slemicro-minion.configuration
