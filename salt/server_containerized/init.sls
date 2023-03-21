@@ -6,3 +6,9 @@ include:
   - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
   - server_containerized.initial_content
 
+# Uyunictl fake while waiting for a real one
+uyunictl:
+  file.managed:
+    - source: salt://server_containerized/uyunictl
+    - name: /usr/bin/uyunictl
+    - mode: 655
