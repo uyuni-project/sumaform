@@ -280,6 +280,20 @@ variable "sle15sp4_client_configuration" {
   }
 }
 
+variable "slemicro51_minion_configuration" {
+  description = "use module.<SLEMICRO51_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro51_sshminion_configuration" {
+  description = "use module.<SLEMICRO51_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "slemicro52_minion_configuration" {
   description = "use module.<SLEMICRO52_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
