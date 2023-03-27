@@ -90,6 +90,7 @@ ifcfg-br0:
 
 ### adjustments for cloud init and the test suite ---
 # https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+# We use openSUSE Leap 15.4 and SLES 15 SP4 as nested VMs
 rezise-{{ os_type }}-disk-image-template:
   cmd.run:
     - name: qemu-img resize /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2 3G
@@ -187,9 +188,20 @@ cloudinit-user-data-{{ os_type }}:
 {% if os_type == 'sles' %}
         # add SLES 15 SP4 base repository
         - zypper --non-interactive ar "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
+{% elif os_type == 'leap' %}
+        # add Leap 15.4 repositories
+        - zypper --non-interactive ar "http://download.opensuse.org/distribution/leap/15.4/repo/oss/" os_pool_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/oss/" os_update_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/sle/" sle_update_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/backports/" backports_update_repo
+        - zypper --non-interactive ar -p 98 "http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/" tools_pool_repo
+        - zypper --non-interactive --gpg-auto-import-keys ref
+        - zypper --non-interactive install venv-salt-minion
+        - systemctl enable venv-salt-minion.service
+        - systemctl enable venv-salt-minion.service
 {% endif %}
-        - zypper --non-interactive ref
-        - zypper --non-interactive install avahi
+        - zypper --non-interactive --gpg-auto-import-keys ref
+        - zypper --non-interactive install avahi nss-mdns qemu-guest-agent
         - rm /etc/avahi/avahi-daemon.conf
         - mv /etc/avahi/avahi-daemon.conf.rpmorig /etc/avahi/avahi-daemon.conf
         - rm /etc/nsswitch.conf
