@@ -88,7 +88,7 @@ ifcfg-br0:
     - mode: 655
     - makedirs: True
 
-### adjustments for cloud init and the test suite ---
+### adjustments for cloud init and the Salt bundle migration tests in the test suite ---
 # https://cloudinit.readthedocs.io/en/latest/topics/examples.html
 # We use openSUSE Leap 15.4 and SLES 15 SP4 as nested VMs
 rezise-{{ os_type }}-disk-image-template:
@@ -148,28 +148,10 @@ cloudinit-user-data-{{ os_type }}:
            enable_fqdns_grains: False
           path: /etc/salt/minion
         - content: |
-           [server]
-           domain-name={{ grains.get('domain') }}
-           use-ipv4=yes
-           use-ipv6=no
-           ratelimit-interval-usec=1000000
-           ratelimit-burst=1000
-           [wide-area]
-           enable-wide-area=yes
-           [publish]
-           publish-hinfo=no
-           publish-workstation=no
-          path: /etc/avahi/avahi-daemon.conf
-        - content: |
-           .local
-           .tf.local
-           .{{ grains.get('domain') }}
-          path: /etc/mdns.allow
-        - content: |
            passwd:         compat
            group:          compat
            shadow:         compat
-           hosts:          files mdns [NOTFOUND=return] dns
+           hosts:          files dns
            networks:       files dns
            aliases:        files usrfiles
            ethers:         files usrfiles
@@ -189,7 +171,8 @@ cloudinit-user-data-{{ os_type }}:
         # add SLES 15 SP4 base repository
         - zypper --non-interactive ar "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
 {% elif os_type == 'leap' %}
-        # add Leap 15.4 repositories
+        # add Leap 15.4 repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Leap 15.4
+        # on the server to be able to onboard the nested VM
         - zypper --non-interactive ar "http://download.opensuse.org/distribution/leap/15.4/repo/oss/" os_pool_repo
         - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/oss/" os_update_repo
         - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/sle/" sle_update_repo
@@ -197,17 +180,15 @@ cloudinit-user-data-{{ os_type }}:
         - zypper --non-interactive ar -p 98 "http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/" tools_pool_repo
         - zypper --non-interactive --gpg-auto-import-keys ref
         - zypper --non-interactive install venv-salt-minion
+        - rm /etc/venv-salt-minion/minion
+        - cp -f /etc/salt/minion /etc/venv-salt-minion/minion
         - systemctl enable venv-salt-minion.service
-        - systemctl enable venv-salt-minion.service
+        - systemctl start venv-salt-minion.service
 {% endif %}
         - zypper --non-interactive --gpg-auto-import-keys ref
-        - zypper --non-interactive install avahi nss-mdns qemu-guest-agent
-        - rm /etc/avahi/avahi-daemon.conf
-        - mv /etc/avahi/avahi-daemon.conf.rpmorig /etc/avahi/avahi-daemon.conf
+        - zypper --non-interactive install nss-mdns qemu-guest-agent
         - rm /etc/nsswitch.conf
         - mv /etc/nsswitch.confbak /etc/nsswitch.conf
-        - systemctl enable avahi-daemon.service
-        - systemctl start avahi-daemon.service
         - systemctl restart salt-minion.service
 
 create-vm-cloudinit-disk-{{ os_type }}:
