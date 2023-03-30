@@ -25,7 +25,6 @@ cmd = "kubectl get --no-headers -n {} {} {} | {}".format(namespace, kind, name, 
 while True:
 
     process = subprocess.run(cmd, shell=True)
-    print("Run {}, return: {}".format(cmd, process.returncode))
     if process.returncode == 0:
         break
 

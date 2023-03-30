@@ -6,3 +6,4 @@ include:
   - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
   - server_containerized.initial_content
   - server_containerized.tools
+  - server_containerized.testsuite

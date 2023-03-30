@@ -3,19 +3,6 @@
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
 
-wait_for_setup_end:
-  cmd.script:
-    - name: salt://server_containerized/wait_for_setup_end.py
-    - args: {{ grains.get('container_runtime') }}
-    - use_vt: True
-    - template: jinja
-    - require:
-{%- if grains.get('container_runtime') == 'podman' -%}
-      - service: uyuni-server_service
-{%- elif grains.get('container_runtime') == 'k3s' -%}
-      - cmd: wait_pod_running
-{%- endif -%}
-
 {% if grains.get('create_first_user') %}
 
 wait_for_tomcat:
@@ -25,7 +12,7 @@ wait_for_tomcat:
     - verify_ssl: False
     - status: 200
     - require:
-      - cmd: wait_for_setup_end
+      - sls: install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 create_first_user:
   http.wait_for_successful_query:

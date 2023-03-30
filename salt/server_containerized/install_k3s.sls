@@ -100,6 +100,15 @@ wait_pod_running:
     - require:
       - cmd: chart_install
 
+wait_for_setup_end:
+  cmd.script:
+    - name: salt://server_containerized/wait_for_setup_end.py
+    - args: {{ grains.get('container_runtime') }}
+    - use_vt: True
+    - template: jinja
+    - require:
+      - cmd: wait_pod_running
+
 spacecmd_config:
   cmd.run:
     - name: {{ run_in_container("sh -c 'mkdir -p /root/.spacecmd; echo -e \"[spacecmd]\\nserver={}\" >/root/.spacecmd/config'".format(grains.get('fqdn'))) }}

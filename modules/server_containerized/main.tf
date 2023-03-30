@@ -33,6 +33,7 @@ module "server_containerized" {
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
+    product_version        = var.product_version
     container_runtime      = var.runtime
     container_repository   = var.container_repository
     cc_username            = var.base_configuration["cc_username"]
