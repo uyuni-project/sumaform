@@ -14,7 +14,7 @@ tools_repo_clone:
 
 tools_built:
   cmd.run:
-    - name: go build -o . ./...
+    - name: go build -o ./bin ./...
     - cwd: /root/uyuni-tools
     - require:
       - cmd: tools_repo_clone
@@ -22,6 +22,6 @@ tools_built:
 uyunictl_symlink:
   file.symlink:
     - name: /usr/bin/uyunictl
-    - target: /root/uyuni-tools/uyunictl
+    - target: /root/uyuni-tools/bin/uyunictl
     - require:
       - cmd: tools_built

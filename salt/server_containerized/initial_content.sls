@@ -1,4 +1,8 @@
-{% from 'server_containerized/macros.sls' import run_in_container with context %}
+{% set container_runtime = grains.get('container_runtime') | default('podman', true) %}
+
+include:
+  - server_containerized.install_{{ container_runtime }}
+  - server_containerized.tools
 
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
@@ -12,7 +16,7 @@ wait_for_tomcat:
     - verify_ssl: False
     - status: 200
     - require:
-      - sls: install_{{ grains.get('container_runtime') | default('podman', true) }}
+      - sls: server_containerized.install_{{ container_runtime }}
 
 create_first_user:
   http.wait_for_successful_query:
@@ -28,16 +32,18 @@ create_first_user:
              firstNames=Administrator&\
              lastName=Administrator"
     - verify_ssl: False
-    - unless: {{ run_in_container("satwho | grep -x " + server_username) }}
+    - unless: uyunictl exec "satwho | grep -x {{ server_username }} server_username"
     - require:
       - http: wait_for_tomcat
+      - sls: server_containerized.tools
 
 # set password in case user already existed with a different password
 first_user_set_password:
   cmd.run:
-    - name: {{ run_in_container('sh -c "echo -e \\"{}\\n{}\\" | satpasswd -s {}"'.format(server_password, server_password, server_username)) }}
+    - name: uyunictl exec 'echo -e "{{ server_password }}\\n{{ server_password }}" | satpasswd -s {{ server_username }}'
     - require:
       - http: create_first_user
+      - sls: server_containerized.tools
 
 {% endif %}
 
@@ -74,17 +80,15 @@ wait_for_mgr_sync:
 
 scc_data_refresh:
   cmd.run:
-    - name: {{ run_in_container("mgr-sync refresh") }}
+    - name: uyunictl mgr-sync refresh
     - use_vt: True
-    - unless: {{ run_in_container("spacecmd -u {} -p {} --quiet api sync.content.listProducts | grep name".format(server_username, server_password)) }}
+    - unless: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} --quiet api sync.content.listProducts | grep name"
     - require:
       - cmd: wait_for_mgr_sync
-{% endif %}
 
-{% if grains.get('channels') %}
 add_channels:
   cmd.run:
-    - name: {{ run_in_container("mgr-sync add channels {}".format(' '.join(grains['channels']))) }}
+    - name: uyunictl exec mgr-sync add channels {{ ' '.join(grains['channels']) }}
     - require:
       - cmd: scc_data_refresh
 
@@ -105,8 +109,8 @@ reposync_{{ channel }}:
 {% if grains.get('create_sample_channel') %}
 create_empty_channel:
   cmd.run:
-    - name: {{ run_in_container("sh -c \"spacecmd -u {} -p {} -- softwarechannel_create --name testchannel -l testchannel -a x86_64\"".format(server_username, server_password) ) }}
-    - unless: {{ run_in_container("spacecmd -u {} -p {} softwarechannel_list | grep -x testchannel".format(server_username, server_password)) }}
+    - name: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64"
+    - unless: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} softwarechannel_list | grep -x testchannel"
     - require:
       - http: create_first_user
 {% endif %}
@@ -114,8 +118,8 @@ create_empty_channel:
 {% if grains.get('create_sample_activation_key') %}
 create_empty_activation_key:
   cmd.run:
-    - name: {{ run_in_container("sh -c \"spacecmd -u {} -p {} -- activationkey_create -n DEFAULT {}\"".format(server_username, server_password, "-b testchannel" if grains.get('create_sample_channel') else "")) }}
-    - unless: {{ run_in_container("spacecmd -u {} -p {} activationkey_list | grep -x 1-DEFAULT".format(server_username, server_password)) }}
+    - name: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} -- activationkey_create -n DEFAULT {{ '-b testchannel' if grains.get('create_sample_channel') else '' }}"
+    - unless: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} activationkey_list | grep -x 1-DEFAULT"
     - require:
       - cmd: create_empty_channel
 {% endif %}
@@ -123,13 +127,13 @@ create_empty_activation_key:
 {% if grains.get('create_sample_bootstrap_script') %}
 create_empty_bootstrap_script:
   cmd.run:
-    - name: {{ run_in_container("rhn-bootstrap --activation-keys=1-DEFAULT --hostname {}.{}".format(grains['hostname'], grains['domain'])) }}
+    - name: uyunictl exec "rhn-bootstrap --activation-keys=1-DEFAULT --hostname {{ grains['hostname'] }}.{{ grains['domain'] }}"
     - require:
       - cmd: create_empty_activation_key
 
 create_empty_bootstrap_script_md5:
   cmd.run:
-    - name: {{ run_in_container("sh -c \"sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512\"") }}
+    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512"
     - require:
       - cmd: create_empty_bootstrap_script
 {% endif %}
@@ -137,21 +141,21 @@ create_empty_bootstrap_script_md5:
 {% if grains.get('container_runtime') == 'podman' and grains.get('publish_private_ssl_key') %}
 private_ssl_key:
   cmd.run:
-    - name: {{ run_in_container("sh -c 'cp /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY; chmod 644 /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY'") }}
+    - name: uyunictl exec "cp /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY; chmod 644 /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY"
 
 private_ssl_key_checksum:
   cmd.run:
-    - name: {{ run_in_container("sh -c 'sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512'") }}
+    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512"
     - require:
       - cmd: private_ssl_key
 
 ca_configuration:
   cmd.run:
-    - name: {{ run_in_container("sh -c 'cp /root/ssl-build/rhn-ca-openssl.cnf /srv/www/htdocs/pub/rhn-ca-openssl.cnf; chmod 644 /srv/www/htdocs/pub/rhn-ca-openssl.cnf'") }}
+    - name: uyunictl exec "cp /root/ssl-build/rhn-ca-openssl.cnf /srv/www/htdocs/pub/rhn-ca-openssl.cnf; chmod 644 /srv/www/htdocs/pub/rhn-ca-openssl.cnf"
 
 ca_configuration_checksum:
   cmd.run:
-    - name: {{ run_in_container("sh -c 'sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512'") }}
+    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512"
     - require:
       - cmd: ca_configuration
 {% endif %}
