@@ -22,7 +22,7 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "opensuse153o" }
+%{ if image == "opensuse154o" }
 packages: ["salt-minion"]
 
 runcmd:
