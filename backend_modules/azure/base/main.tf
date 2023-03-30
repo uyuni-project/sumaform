@@ -17,10 +17,10 @@ locals {
   key_file = lookup(var.provider_settings, "key_file", null)
 }
 
-data "azurerm_platform_image" "opensuse153o" {
+data "azurerm_platform_image" "opensuse154o" {
   location  = local.location
   publisher = "suse"
-  offer     = "opensuse-leap-15-3"
+  offer     = "opensuse-leap-15-4"
   sku       = "gen1"
 }
 
@@ -169,7 +169,7 @@ locals {
     key_file = local.key_file
     resource_group_name = module.network.configuration.resource_group_name
     platform_image_info = {
-      opensuse153o = { platform_image = data.azurerm_platform_image.opensuse153o },
+      opensuse154o = { platform_image = data.azurerm_platform_image.opensuse154o },
       sles15       = { platform_image = data.azurerm_platform_image.sles15 },
       sles15sp1o   = { platform_image = data.azurerm_platform_image.sles15sp1o },
       sles15sp2o   = { platform_image = data.azurerm_platform_image.sles15sp2o },
