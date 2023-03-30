@@ -1,4 +1,5 @@
-{% from 'server_containerized/macros.sls' import run_in_container with context %}
+include:
+  - server_containerized.tools
 
 k3s_install:
   cmd.run:
@@ -111,8 +112,6 @@ wait_for_setup_end:
 
 spacecmd_config:
   cmd.run:
-    - name: {{ run_in_container("sh -c 'mkdir -p /root/.spacecmd; echo -e \"[spacecmd]\\nserver={}\" >/root/.spacecmd/config'".format(grains.get('fqdn'))) }}
-    - mkdirs: true
-    - contents: |
-        [spacecmd]
-        server={{ grains.get('fqdn') }}
+    - name: uyunictl exec 'mkdir -p /root/.spacecmd; echo -e "[spacecmd]\\nserver={{ grains.get('fqdn') }}" >/root/.spacecmd/config'
+    - require:
+      - sls: server_containerized.tools
