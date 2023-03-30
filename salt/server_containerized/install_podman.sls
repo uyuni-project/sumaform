@@ -27,3 +27,13 @@ uyuni-server_service:
     - watch:
       - file: uyuni-server-services_config
 {% endif %}
+
+wait_for_setup_end:
+  cmd.script:
+    - name: salt://server_containerized/wait_for_setup_end.py
+    - args: {{ grains.get('container_runtime') }}
+    - use_vt: True
+    - template: jinja
+    - require:
+      - service: uyuni-server_service
+

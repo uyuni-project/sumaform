@@ -18,13 +18,18 @@ if runtime == "podman":
 elif runtime == "k3s":
     cmd = "kubectl exec $(kubectl get pod -lapp=uyuni -o jsonpath={.items[0].metadata.name}) -- "
 
-cmd += "systemctl is-enabled uyuni-setup"
+enabled_cmd = cmd + "systemctl is-enabled uyuni-setup"
+failed_cmd = cmd + "systemctl is-failed uyuni-setup"
 
 while True:
-    process = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    print("Run {}, return {}".format(cmd, process.returncode))
-    if process.returncode == 1 and b"Failed to connect to bus" not in process.stdout:
+    enabled_process = subprocess.run(enabled_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if enabled_process.returncode == 1 and b"Failed to connect to bus" not in enabled_process.stdout:
         break
+
+    failed_process = subprocess.run(failed_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if failed_process.returncode == 0:
+        print("Failed")
+        sys.exit(1)
 
     print("... not finished yet...")
     time.sleep(10)
