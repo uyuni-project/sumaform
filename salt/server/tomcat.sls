@@ -3,17 +3,13 @@
 include:
   - server.rhn
 
-tomcat_config:
-  file.replace:
-    - name: /etc/sysconfig/tomcat
-    - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
+/etc/tomcat/conf.d/remote_debug.conf:
+  file.append:
     {% if grains['hostname'] and grains['domain'] %}
-    - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['hostname'] }}.{{ grains['domain'] }}:8000,server=y,suspend=n \1"'
+    - text: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['hostname'] }}.{{ grains['domain'] }}:8000,server=y,suspend=n "'
     {% else %}
-    - repl: 'JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['fqdn'] }}:8000,server=y,suspend=n \1"'
+    - text: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['fqdn'] }}:8000,server=y,suspend=n "'
     {% endif %}
-    - require:
-      - sls: server.rhn
 
 {% endif %}
 
@@ -33,7 +29,7 @@ tomcat_service:
     - name: tomcat
     - watch:
       {% if grains.get('java_debugging') %}
-      - file: tomcat_config
+      - file: /etc/tomcat/conf.d/remote_debug.conf
       {% endif %}
       - file: /etc/rhn/rhn.conf
       {% if grains.get('monitored') | default(false, true) %}
