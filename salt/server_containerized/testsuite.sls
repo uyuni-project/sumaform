@@ -48,6 +48,7 @@ test_repo_debian_updates_script_copy:
 test_repo_debian_updates:
   cmd.run:
     - name: uyunictl exec /root/download_ubuntu_repo.sh "TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
+    - unless: uyunictl exec "ls -d /srv/www/htdocs/pub/TestRepoDebUpdates"
     - require:
       - cmd: test_repo_debian_updates_script_copy
       - file: uyunictl_symlink

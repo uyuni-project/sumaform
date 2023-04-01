@@ -11,10 +11,12 @@ ipv6_enable_all:
 {% if grains.get('ipv6')['accept_ra'] %}
 
 {% for iface in ifaces %}
+{% if not iface.startswith("flannel") %}
 ipv6_accept_ra_{{ iface }}:
   sysctl.present:
     - name: net.ipv6.conf.{{ iface }}.accept_ra
     - value: 2
+{% endif %}
 {% endfor %}
 
 {% else %}
