@@ -17,8 +17,12 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 # Salt bundle test specific hosts
 # At the moment we only need/support one nested VM in the test suite
 {%- if grains.get('nested_vm_hosts') %}
-export MIN_NESTED="{{ grains.get('nested_vm_hosts') }}.{{ grains.get('domain') }}"
-export MAC_MIN_NESTED="{{ grains.get('nested_vm_macs') }}"
+{%- for name in grains['nested_vm_hosts'] %}
+export MIN_NESTED="{{ name }}.{{ grains.get('domain') }}"
+{%- endfor %}
+{%- for mac in grains['nested_vm_macs'] %}
+export MAC_MIN_NESTED="{{ mac }}"
+{%- endfor %}
 {% else %}
 # no nested VMs defined
 {%- endif %}
