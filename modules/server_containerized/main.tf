@@ -36,6 +36,7 @@ module "server_containerized" {
     product_version        = var.product_version
     container_runtime      = var.runtime
     container_repository   = var.container_repository
+    helm_chart_url         = var.helm_chart_url
     cc_username            = var.base_configuration["cc_username"]
     cc_password            = var.base_configuration["cc_password"]
     mirror                 = var.base_configuration["mirror"]

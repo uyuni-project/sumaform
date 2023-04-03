@@ -22,6 +22,11 @@ variable "container_repository" {
   default = ""
 }
 
+variable "helm_chart_url" {
+  description = "Where to get the helm chart from. Uses the released one by default."
+  default = ""
+}
+
 variable "product_version" {
   description = "One of: uyuni-master, uyuni-released"
   type        = string
