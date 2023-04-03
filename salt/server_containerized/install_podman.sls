@@ -1,3 +1,6 @@
+include:
+  - server_containerized.install_common
+
 server_packages:
   pkg.installed:
     - refresh: True
@@ -16,12 +19,26 @@ uyuni-server-services_config:
     - append_if_not_found: True
 {%- endif %}
 
+{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+{% if mirror_hostname -%}
+uyuni_server_services_config_mirror:
+  file.replace:
+    - name: /etc/sysconfig/uyuni-server-systemd-services
+    - pattern: ^EXTRA_POD_ARGS='([^']*)'$
+    - repl: EXTRA_POD_ARGS='-v=/srv/mirror:/mirror -e MIRROR_PATH=/mirror \1'
+    - append_if_not_found: True
+{%- endif %}
+
 uyuni-server_service:
   service.running:
     - name: uyuni-server
     - enable: True
     - require:
       - pkg: uyuni-server-systemd-services
+      - sls: server_containerized.install_common
+{% if mirror_hostname %}
+      - file: uyuni_server_services_config_mirror
+{% endif %}
 {% if grains.get("container_repository") %}
       - file: uyuni-server-services_config
     - watch:

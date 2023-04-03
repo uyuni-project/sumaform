@@ -1,5 +1,6 @@
 include:
   - server_containerized.tools
+  - server_containerized.install_common
 
 k3s_install:
   cmd.run:
@@ -93,6 +94,7 @@ chart_install:
     - require:
       - file: chart_values_file
       - cmd: ca_configmap
+      - sls: server_containerized.install_common
 
 wait_pod_running:
   cmd.script:
