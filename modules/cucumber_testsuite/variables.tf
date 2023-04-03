@@ -153,3 +153,9 @@ variable "nested_vm_hosts" {
   type        = list(string)
   default     = ["min-nested"]
 }
+
+variable "nested_vm_macs" {
+  description = "MAC addresses for nested VMs if they are used, see README_TESTING.md"
+  type        = list(string)
+  default     = [""]
+}
