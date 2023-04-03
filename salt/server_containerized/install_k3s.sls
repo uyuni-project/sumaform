@@ -82,9 +82,11 @@ chart_values_file:
     - source: salt://server_containerized/chart-values.yaml
     - template: jinja
 
+{% set helm_chart_default = 'oci://registry.opensuse.org/uyuni/server' %}
+
 chart_install:
   cmd.run:
-    - name: helm upgrade --install uyuni oci://registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/charts/uyuni/server -f /root/chart-values.yaml
+    - name: helm upgrade --install uyuni {{ grains.get("helm_chart_url") | default(helm_chart_default, true) }} -f /root/chart-values.yaml
     - env:
       - KUBECONFIG: /etc/rancher/k3s/k3s.yaml
     - unless: helm --kubeconfig /etc/rancher/k3s/k3s.yaml list | grep uyuni
