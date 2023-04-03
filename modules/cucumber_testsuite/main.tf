@@ -352,6 +352,7 @@ module "controller" {
   branch                   = var.branch
   git_username             = var.git_username
   nested_vm_hosts          = var.nested_vm_hosts
+  nested_vm_macs           = var.nested_vm_macs
   git_password             = var.git_password
   git_repo                 = var.git_repo
   git_profiles_repo        = var.git_profiles_repo

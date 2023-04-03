@@ -304,10 +304,12 @@ host_settings = {
 }
 ```
 
-Furthermore you have to specify another variable inside your `main.tf` that defines the hostname of the images you use:
+Furthermore you have to specify 2 other variable inside your `main.tf` that defines the hostname and the MAC addresses
+of the images you use, if needed:
 
 ```hcl
 nested_vm_hosts = ["hostname1"]
+nested_vm_macs  = ["aa:bb:cc:dd:ee:ff"]
 ```
 
 It should contain the same hostnames as the ones defined in the `hvm_disk_image` section you see above. This is a
