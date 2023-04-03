@@ -148,14 +148,14 @@ variable "login_timeout" {
   default     = null
 }
 
-variable "nested_vm_hosts" {
-  description = "Hostnames for nested VMs if they are used, see README_TESTING.md"
-  type        = list(string)
-  default     = ["min-nested"]
+variable "nested_vm_host" {
+  description = "Hostname for a nested VM if it is used, see README_TESTING.md"
+  type        = string
+  default     = "min-nested"
 }
 
-variable "nested_vm_macs" {
-  description = "MAC addresses for nested VMs if they are used, see README_TESTING.md"
-  type        = list(string)
-  default     = [""]
+variable "nested_vm_mac" {
+  description = "MAC address for a nested VM if it is used, see README_TESTING.md"
+  type        = string
+  default     = ""
 }
