@@ -8,3 +8,8 @@ uyuniMailFrom: {{ grains.get("from_email") }}
 fqdn: {{ grains.get("fqdn") }}
 sccUser: {{ grains.get("cc_username") }}
 sccPass: {{ grains.get("cc_password") }}
+{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+{%- if mirror_hostname %}
+mirror:
+  hostPath: /srv/mirror
+{%- endif %}
