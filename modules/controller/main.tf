@@ -32,8 +32,8 @@ module "controller" {
     cc_username  = var.base_configuration["cc_username"]
     cc_password  = var.base_configuration["cc_password"]
     git_username = var.git_username
-    nested_vm_hosts = var.nested_vm_hosts
-    nested_vm_macs = var.nested_vm_macs
+    nested_vm_host = var.nested_vm_host
+    nested_vm_mac = var.nested_vm_mac
     git_password = var.git_password
     git_repo     = var.git_repo
     branch       = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
