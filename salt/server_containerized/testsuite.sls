@@ -119,7 +119,7 @@ testing_overlay_devel_repo:
 
 testsuite_packages:
   cmd.run:
-    - name: uyunictl exec "zypper -n in expect wget OpenIPMI {% if 'build_image' not in grains.get('product_version') | default('', true) %}salt-ssh{% endif %}"
+    - name: uyunictl exec "zypper -n in iputils expect wget OpenIPMI {% if 'build_image' not in grains.get('product_version') | default('', true) %}salt-ssh{% endif %}"
     - require:
       - file: uyunictl_symlink
       - cmd: testing_overlay_devel_repo
