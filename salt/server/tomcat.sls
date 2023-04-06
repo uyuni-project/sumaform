@@ -4,10 +4,8 @@ include:
   - server.rhn
 
 tomcat_config_create:
-  file.managed:
+  file.touch:
     - name: /etc/tomcat/conf.d/remote_debug.conf
-    - contents: ''
-    - contents_newline: False
     - makedirs: True
 
 tomcat_config:
