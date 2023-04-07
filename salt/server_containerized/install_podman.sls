@@ -13,14 +13,14 @@ server_packages:
 uyuni_server_services_config_sccuser:
   file.replace:
     - name: /etc/sysconfig/uyuni-server-systemd-services
-    - pattern: ^SCC_USER=/.*$
+    - pattern: ^SCC_USER=.*$
     - repl: SCC_USER="{{ grains.get('cc_username') }}"
     - append_if_not_found: True
 
 uyuni_server_services_config_sccpass:
   file.replace:
     - name: /etc/sysconfig/uyuni-server-systemd-services
-    - pattern: ^SCC_PASS=/.*$
+    - pattern: ^SCC_PASS=.*$
     - repl: SCC_PASS="{{ grains.get('cc_password') }}"
     - append_if_not_found: True
 
@@ -35,8 +35,8 @@ uyuni_server_services_config_fqdn:
 uyuni_server_services_config_debug:
   file.replace:
     - name: /etc/sysconfig/uyuni-server-systemd-services
-    - pattern: ^#?EXTRA_POD_ARGS+=' -p 8000:8000 -p 8001:8001'$
-    - repl: EXTRA_POD_ARGS+=' -p 8000:8000 -p 8001:8001'
+    - pattern: ^EXTRA_POD_ARGS='([^']*)'$
+    - repl: EXTRA_POD_ARGS='-p 8000:8000 -p 8001:8001 \1'
     - append_if_not_found: True
 {% endif %}
 
@@ -44,7 +44,7 @@ uyuni_server_services_config_debug:
 uyuni-server-services_config:
   file.replace:
     - name: /etc/sysconfig/uyuni-server-systemd-services
-    - pattern: ^NAMESPACE=/.*$
+    - pattern: ^NAMESPACE=.*$
     - repl: NAMESPACE="{{ grains.get('container_repository') }}"
     - append_if_not_found: True
 {%- endif %}

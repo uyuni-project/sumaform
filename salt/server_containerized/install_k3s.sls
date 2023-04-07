@@ -113,9 +113,3 @@ wait_for_setup_end:
     - template: jinja
     - require:
       - cmd: wait_pod_running
-
-spacecmd_config:
-  cmd.run:
-    - name: uyunictl exec 'mkdir -p /root/.spacecmd; echo -e "[spacecmd]\\nserver={{ grains.get('fqdn') }}" >/root/.spacecmd/config'
-    - require:
-      - sls: server_containerized.tools
