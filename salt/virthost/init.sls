@@ -177,7 +177,7 @@ cloudinit-user-data-{{ os_type }}:
         - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/oss/" os_update_repo
         - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/sle/" sle_update_repo
         - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/backports/" backports_update_repo
-        - zypper --non-interactive ar -p 98 "http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/" tools_pool_repo
+        - zypper --non-interactive ar -p 98 "http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/" tools_pool_repo
         - zypper --non-interactive --gpg-auto-import-keys ref
         - zypper --non-interactive install venv-salt-minion
         - rm /etc/venv-salt-minion/minion

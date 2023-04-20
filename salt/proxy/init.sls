@@ -41,7 +41,11 @@ proxy-packages:
 {% if install_proxy_container_packages %}
 
 {% if 'uyuni' in grains.get('product_version') %}
+  {% if '-released' in grains.get('product_version') %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
+  {% else %}
     {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
+  {% endif %}
 
 galaxy_key:
   file.managed:
