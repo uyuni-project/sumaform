@@ -190,7 +190,7 @@ data "aws_ami" "debian11" {
 data "aws_ami" "ubuntu2204" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
-  owners      = ["679593333241"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "architecture"
@@ -211,7 +211,7 @@ data "aws_ami" "ubuntu2204" {
 data "aws_ami" "ubuntu2004" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-focal-20.04"
-  owners      = ["679593333241"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "architecture"
@@ -232,7 +232,7 @@ data "aws_ami" "ubuntu2004" {
 data "aws_ami" "ubuntu1804" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-bionic-18.04"
-  owners      = ["679593333241"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "architecture"
@@ -253,7 +253,7 @@ data "aws_ami" "ubuntu1804" {
 data "aws_ami" "ubuntu1604" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-xenial-16.04"
-  owners      = ["679593333241"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "architecture"
