@@ -875,7 +875,7 @@ module "server" {
   name = "server"
   repository_disk_size = 500
   volume_provider_settings = {
-    pool = "default"
+    data_pool = "default"
   }
 }
 ```
