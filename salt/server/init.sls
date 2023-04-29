@@ -19,6 +19,14 @@ include:
   - server.salt_master
   - server.tcpdump
 
+{% if 'uyuni' not in grains.get('product_version') %}
+server-switch-product:
+  cmd.run:
+    - name: zypper --non-interactive in -t product --force-resolution --auto-agree-with-product-licenses SUSE-Manager-Server
+    - require:
+      - sls: repos
+{% endif %}
+
 server_packages:
   pkg.installed:
     - refresh: True

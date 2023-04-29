@@ -15,6 +15,14 @@ include:
 {% endif %}
 {% endif %}
 
+{% if 'uyuni' not in grains.get('product_version') %}
+proxy-switch-product:
+  cmd.run:
+    - name: zypper --non-interactive in -t product --force-resolution --auto-agree-with-product-licenses SUSE-Manager-Proxy
+    - require:
+      - sls: repos
+{% endif %}
+
 proxy-packages:
   pkg.installed:
     - pkgs:
