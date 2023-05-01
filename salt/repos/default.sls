@@ -513,9 +513,9 @@ tools_pool_repo:
     {% if release == 2 %}
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/product/
     {% elif 'beta' in grains.get('product_version') | default('', true) %}
-        - baseurl: http://download.suse.de/ibs/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/ibs/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
-    - baseurl: http://download.suse.de/ibs/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/ibs/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     - refresh: True
     - require:
