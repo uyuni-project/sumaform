@@ -59,5 +59,6 @@ variable "vpc_id" {
 }
 
 variable "route53_domain"{
-
+  description = "Domain name for route53"
+  default     = null
 }

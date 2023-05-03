@@ -10,7 +10,6 @@ locals {
     instance_with_eip = false
     volume_size     = 50
     private_ip      = null
-//    overwrite_fqdn  = null
     overwrite_fqdn  = length(var.base_configuration.route53_domain) > 0 ? "${var.base_configuration["name_prefix"]}-${var.name}.${var.base_configuration["route53_domain"]}" : null
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
