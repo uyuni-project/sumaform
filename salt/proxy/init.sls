@@ -313,3 +313,14 @@ preload_conntrack_modules_and_enable_them_at_boottime:
 {% endif %}
     - require:
       - pkg: proxy-packages
+
+{% if grains.get('testsuite') | default(false, true) %}
+testsuite_packages:
+  pkg.installed:
+    - pkgs:
+      - expect
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+  - require:
+    - sls: repos
+{% endif %}
+{% endif %}
