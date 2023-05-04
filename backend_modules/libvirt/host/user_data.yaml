@@ -499,7 +499,6 @@ yum_repos:
   # repo for salt
   tools_pool_repo:
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -508,7 +507,6 @@ yum_repos:
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-8&arch=$basearch
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
@@ -527,7 +525,6 @@ yum_repos:
   # repo for salt
   tools_pool_repo:
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -536,7 +533,6 @@ yum_repos:
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
@@ -560,7 +556,6 @@ yum_repos:
   # repo for salt
   tools_pool_repo:
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -569,7 +564,6 @@ yum_repos:
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
     mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-9&arch=$basearch
-    failovermethod: priority
     enabled: true
     gpgcheck: false
     priority: 99
@@ -578,6 +572,8 @@ yum_repos:
 runcmd:
   # Registration with SUSEConnect
   - curl http://rmt.scc.suse.de/tools/rmt-client-setup-res --output rmt-client-setup-res
+  # WORKARAOUND for https://github.com/SUSE/rmt/issues/994
+  - sed -i -e's/REGURL=$1;;/REGURL="http:\/\/\$\{RMTNAME\}";;/' rmt-client-setup-res
   - yes | sh rmt-client-setup-res https://rmt.scc.suse.de
   # Packages installation after registration
   - dnf config-manager --set-enabled epel
