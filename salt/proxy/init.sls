@@ -320,7 +320,7 @@ testsuite_packages:
     - pkgs:
       - expect
 {% if 'build_image' not in grains.get('product_version') | default('', true) %}
-  - require:
-    - sls: repos
+    - require:
+      - sls: repos
 {% endif %}
 {% endif %}
