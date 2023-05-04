@@ -41,8 +41,8 @@ test_repo_debian_updates:
       - pkg: testsuite_salt_packages
       {% endif %}
 
-# modify cobbler to be executed from remote-machines..
-{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
+# modify Cobbler to be executed from remote-machines..
+{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
 {% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
 
 cobbler_configuration:
