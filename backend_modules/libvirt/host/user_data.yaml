@@ -578,6 +578,8 @@ yum_repos:
 runcmd:
   # Registration with SUSEConnect
   - curl http://rmt.scc.suse.de/tools/rmt-client-setup-res --output rmt-client-setup-res
+  # WORKARAOUND for https://github.com/SUSE/rmt/issues/994
+  - sed -i -e's/REGURL=$1;;/REGURL="http:\/\/\$\{RMTNAME\}";;/' rmt-client-setup-res
   - yes | sh rmt-client-setup-res https://rmt.scc.suse.de
   # Packages installation after registration
   - dnf config-manager --set-enabled epel
