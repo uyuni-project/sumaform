@@ -6,11 +6,7 @@
 minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
-{% if grains['install_salt_bundle'] %}
-      - venv-salt-minion
-{% else %}
       - salt-minion
-{% endif %}
       - wget
     - require:
       - sls: default
