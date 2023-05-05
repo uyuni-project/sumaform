@@ -4,7 +4,6 @@
 {% if (grains['os'] == 'SUSE') or (grains['os_family'] == 'RedHat') %}
 
 uyuni_key_for_fake_packages:
-{% if not grains['osfullname'] == 'SLE Micro' %}
   file.managed:
     - name: /tmp/uyuni.key
     - source: salt://default/gpg_keys/uyuni.key
@@ -12,11 +11,6 @@ uyuni_key_for_fake_packages:
     - name: rpm --import /tmp/uyuni.key
     - watch:
       - file: uyuni_key_for_fake_packages
-{% else %}
-# See https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.transactional_update.html#command-execution-inside-a-new-transaction
-  cmd.run:
-    - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror.mgr.prv.suse.net", true) }}/uyuni.key
-{% endif %}
 
 test_repo_rpm_pool:
   pkgrepo.managed:

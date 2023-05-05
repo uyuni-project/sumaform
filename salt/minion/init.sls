@@ -11,11 +11,7 @@ include:
 # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
 minion_package:
   pkg.installed:
-{% if grains['install_salt_bundle'] %}
-    - name: venv-salt-minion
-{% else %}
     - name: salt-minion
-{% endif %}
     - require:
       - sls: default
 {% endif %}
@@ -40,11 +36,7 @@ reload_systemd_modules:
 
 minion_id:
   file.managed:
-{% if grains['install_salt_bundle'] %}
-    - name: /etc/venv-salt-minion/minion_id
-{% else %}
     - name: /etc/salt/minion_id
-{% endif %}
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 {% if grains.get('auto_connect_to_master') %}
@@ -64,19 +56,9 @@ master_configuration:
 
 minion_service:
   service.running:
-{% if grains['install_salt_bundle'] %}
-    - name: venv-salt-minion
-{% else %}
     - name: salt-minion
-{% endif %}
     - enable: True
 {% if grains.get('auto_connect_to_master') %}
     - watch:
       - file: master_configuration
 {% endif %}
-
-#{% if grains['osfullname'] == 'SLE Micro' %}
-#reboot:
-#  cmd.run:
-#    - name: sleep 10; shutdown -r now > /dev/null 2>&1 &
-#{% endif %}
