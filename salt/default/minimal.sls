@@ -1,3 +1,7 @@
+# WORKAROUND
+# This file should already be excluded from SLE Micro with the 
+# first few lines in salt/default/init.sls
+{% if not grains['osfullname'] == 'SLE Micro' %}
 include:
   {% if grains['hostname'] and grains['domain'] %}
   - default.hostname
@@ -26,3 +30,4 @@ minimal_package_update:
       {% endif %}
 {% endif %}
     - order: last
+{% endif %}
