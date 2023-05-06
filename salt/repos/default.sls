@@ -420,7 +420,10 @@ os_update_repo:
 install_recommends:
   file.comment:
     - name: /etc/zypp/zypp.conf
-    - regex: solver.onlyRequires =
+    - regex: ^solver.onlyRequires =.*
+{%- if grains['saltversioninfo'][0] >= 3005 %}
+    - ignore_missing: True
+{% endif %}
 
 {% endif %} {# grains['os'] == 'SUSE' #}
 
