@@ -424,6 +424,7 @@ install_recommends:
 {%- if grains['saltversioninfo'][0] >= 3005 %}
     - ignore_missing: True
 {% endif %}
+    - onlyif: grep ^solver.onlyRequires /etc/zypp/zypp.conf
 
 {% endif %} {# grains['os'] == 'SUSE' #}
 
