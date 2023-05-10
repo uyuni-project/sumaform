@@ -407,13 +407,31 @@ os_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP4/x86_64/update/
     - refresh: True
 
+os_ltss_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP4-LTSS/x86_64/update/
+    - refresh: True
+
+{% endif %} {# '15.4' == grains['osrelease'] #}
+
+{% if '15.5' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') ) %}
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product/
+    - refresh: True
+
+os_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP5/x86_64/update/
+    - refresh: True
+
 # uncomment when it goes LTSS
 #os_ltss_repo:
 #  pkgrepo.managed:
-#    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP4-LTSS/x86_64/update/
+#    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP5-LTSS/x86_64/update/
 #    - refresh: True
 
-{% endif %} {# '15.4' == grains['osrelease'] #}
+{% endif %} {# '15.5' == grains['osrelease'] #}
 
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 
