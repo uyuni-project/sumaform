@@ -10,7 +10,7 @@ locals {
     instance_with_eip = false
     volume_size     = 50
     private_ip      = null
-    overwrite_fqdn  = length(var.base_configuration.route53_domain) > 0 ? "${var.base_configuration["name_prefix"]}-${var.name}.${var.base_configuration["route53_domain"]}" : null
+    overwrite_fqdn  = null
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
     contains(var.roles, "server") ? { instance_type = "t3.medium" } : {},
@@ -31,7 +31,7 @@ locals {
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
   private_ip                           = local.provider_settings["private_ip"]
-  overwrite_fqdn                       = local.provider_settings["overwrite_fqdn"]
+  overwrite_fqdn                       = length(var.base_configuration.route53_domain) > 0 ? "${var.base_configuration["name_prefix"]}-${var.name}.${var.base_configuration["route53_domain"]}" : local.provider_settings["overwrite_fqdn"]
   route53_zone_id                      = var.base_configuration.route53_zone_id
   route53_domain                       = var.base_configuration.route53_domain
 
