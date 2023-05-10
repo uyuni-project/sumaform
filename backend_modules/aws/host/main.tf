@@ -33,7 +33,7 @@ locals {
   private_ip                           = local.provider_settings["private_ip"]
   overwrite_fqdn                       = length(var.base_configuration.route53_domain) > 0 ? "${var.base_configuration["name_prefix"]}-${var.name}.${var.base_configuration["route53_domain"]}" : local.provider_settings["overwrite_fqdn"]
   route53_zone_id                      = var.base_configuration.route53_zone_id
-  route53_domain                       = var.base_configuration.route53_domain
+  route53_domain                       = lookup(var.base_configuration, "route53_domain", null)
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
