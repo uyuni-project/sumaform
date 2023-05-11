@@ -242,6 +242,17 @@ resource "aws_vpc_dhcp_options" "dhcp_options" {
   }
 }
 
+resource "aws_route53_zone" "main" {
+  count = var.route53_domain == null ? 0 : 1
+  name = "${var.route53_domain}"
+  vpc {
+    vpc_id = local.l_vpc_id
+  }
+  tags = {
+    Name = "${var.name_prefix}route53-zone"
+  }
+}
+
 resource "aws_vpc_dhcp_options_association" "vpc_dhcp_options" {
   count = var.create_network ? 1 : 0
 
@@ -354,6 +365,8 @@ output "configuration" {
 
     public_security_group_id     = length(aws_security_group.public) > 0 ? aws_security_group.public[0].id: null
     private_db_security_group_id = length(aws_security_group.rds) > 0 ? aws_security_group.rds[0].id: null
+    route53_zone_id              = length(aws_route53_zone.main) > 0 ? aws_route53_zone.main[0].zone_id: null
+    route53_domain               = length(aws_route53_zone.main) > 0 ?  var.route53_domain : null
   } : {},
   var.create_private_network ? {
     private_subnet_id            = length(aws_subnet.private) > 0 ? aws_subnet.private[0].id: null

@@ -31,7 +31,9 @@ locals {
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
   private_ip                           = local.provider_settings["private_ip"]
-  overwrite_fqdn                       = local.provider_settings["overwrite_fqdn"]
+  overwrite_fqdn                       = local.route53_domain == null ? local.provider_settings["overwrite_fqdn"] : "${var.base_configuration["name_prefix"]}-${var.name}.${var.base_configuration["route53_domain"]}"
+  route53_zone_id                      = lookup(var.base_configuration, "route53_zone_id", null)
+  route53_domain                       = lookup(var.base_configuration, "route53_domain", null)
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
@@ -101,6 +103,10 @@ resource "aws_instance" "instance" {
     Name = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
   }
 
+  connection {
+    private_ip = self.private_ip
+  }
+
   # WORKAROUND
   # SUSE internal openbare AWS accounts add special tags to identify the instance owner ("PrincipalId", "Owner").
   # After the first `apply`, terraform removes those tags. The following block avoids this behavior.
@@ -109,6 +115,18 @@ resource "aws_instance" "instance" {
   lifecycle {
     ignore_changes = [tags]
   }
+}
+
+resource "aws_route53_record" "dns_record" {
+  count = local.route53_domain == null ? 0 : 1
+
+  name = local.overwrite_fqdn
+  type = "A"
+  ttl  = "300"
+  zone_id = local.route53_zone_id
+  records = [
+    aws_instance.instance[count.index].private_ip
+  ]
 }
 
 resource "aws_network_interface" "additional_network" {
