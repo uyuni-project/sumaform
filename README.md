@@ -9,7 +9,7 @@
 
 **Terraform version**: 1.4.6
 
-**Libvirt provider version**: 0.6.3
+**Libvirt provider version**: 0.7.1
 
 openSUSE and SUSE Linux Enterprise Server:
 
