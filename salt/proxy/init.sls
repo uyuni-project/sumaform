@@ -93,7 +93,7 @@ proxy_substitute_uyuni_registry:
     - pattern: registry.opensuse.org/uyuni
     - repl: registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni
     - require:
-      - uyuni-proxy-systemd-services
+      - proxy-container-packages
   {% elif '4.3' in grains.get('product_version') %}
 proxy_substitute_suma_registry:
   file.replace:
@@ -101,7 +101,7 @@ proxy_substitute_suma_registry:
     - pattern: registry.suse.com/suse/manager/4.3
     - repl: registry.suse.de/devel/galaxy/manager/4.3/containers/suse/manager/4.3
     - require:
-      - uyuni-proxy-systemd-services
+      - proxy-container-packages
   {% endif %}
 {% endif %}
 
