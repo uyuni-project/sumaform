@@ -84,6 +84,27 @@ proxy-container-packages:
     - pkgs:
       - uyuni-proxy-systemd-services
 
+# Set up the Docker/Podman registry for development
+{% if not '-released' in grains.get('product_version') %}
+  {% if 'uyuni' in grains.get('product_version') %}
+proxy_substitute_uyuni_registry:
+  file.replace:
+    - name: /etc/sysconfig/uyuni-proxy-systemd-services
+    - pattern: registry.opensuse.org/uyuni
+    - repl: registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni
+    - require:
+      - uyuni-proxy-systemd-services
+  {% elif '4.3' in grains.get('product_version') %}
+proxy_substitute_suma_registry:
+  file.replace:
+    - name: /etc/sysconfig/uyuni-proxy-systemd-services
+    - pattern: registry.suse.com/suse/manager/4.3
+    - repl: registry.suse.de/devel/galaxy/manager/4.3/containers/suse/manager/4.3
+    - require:
+      - uyuni-proxy-systemd-services
+  {% endif %}
+{% endif %}
+
 # Remove the client tools repo as it would lead to conflicts on a proxy
 proxy_client_tools_repo_removed:
   pkgrepo.absent:
