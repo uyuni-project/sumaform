@@ -28,7 +28,7 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
@@ -72,7 +72,7 @@ yum_repos:
     name: CentOS-AppStream_backup
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
@@ -116,7 +116,7 @@ yum_repos:
     name: CentOS-AppStream_backup
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
@@ -353,7 +353,7 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
@@ -367,7 +367,7 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
@@ -411,7 +411,7 @@ runcmd:
   - systemctl start qemu-guest-agent
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
@@ -454,7 +454,7 @@ runcmd:
   - systemctl start qemu-guest-agent
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
@@ -467,7 +467,7 @@ runcmd:
   - systemctl start qemu-guest-agent
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
 %{ endif }
@@ -480,7 +480,7 @@ runcmd:
   - systemctl start qemu-guest-agent
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
@@ -508,7 +508,7 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
@@ -534,7 +534,7 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
 %{ endif }
@@ -565,7 +565,7 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools"]
 %{ endif }
@@ -599,7 +599,7 @@ runcmd:
   # Packages installation after registration
   - dnf config-manager --set-enabled epel
 %{ if install_salt_bundle }
-  - dnf -y install venv-salt-minion salt-minion avahi nss-mdns
+  - dnf -y install venv-salt-minion avahi nss-mdns
 %{ else }
   - dnf -y install avahi nss-mdns salt-minion
 %{ endif }
@@ -629,7 +629,7 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns"]
 %{ else }
 packages: ["avahi", "nss-mdns", "salt-minion"]
 %{ endif }
@@ -660,7 +660,7 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns"]
 %{ else }
 packages: ["avahi", "nss-mdns", "salt-minion"]
 %{ endif }
@@ -685,7 +685,7 @@ yum_repos:
     name: epel
 
   %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
   %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
   %{ endif }
@@ -716,7 +716,7 @@ runcmd:
   - systemctl restart sshd
 
   %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools", "tar"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools", "tar"]
   %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools", "tar"]
   %{ endif }
@@ -725,7 +725,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools",
 
 %{ if image == "opensuse154armo" }
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "salt-minion"]
+packages: ["venv-salt-minion"]
 %{ else }
 packages: ["salt-minion"]
 %{ endif }
