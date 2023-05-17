@@ -88,5 +88,6 @@ wait_for_setup_end:
     - use_vt: True
     - template: jinja
     - require:
+      - sls: server_containerized.install_common
       - service: uyuni-server_service
 

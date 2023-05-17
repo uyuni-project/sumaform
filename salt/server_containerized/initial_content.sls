@@ -1,8 +1,8 @@
 {% set container_runtime = grains.get('container_runtime') | default('podman', true) %}
 
 include:
-  - server_containerized.install_{{ container_runtime }}
   - server_containerized.tools
+  - server_containerized.install_{{ container_runtime }}
 
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
