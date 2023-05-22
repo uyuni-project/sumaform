@@ -2,7 +2,7 @@
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}_repo:
   pkgrepo.managed:
-    - humanname: {{ label }}
+    - humanname: {{ label }}_repo
   {%- if grains['os_family'] == 'Debian' %}
   {%- if 'uyuni-pr' in grains.get('product_version', '') %}
     - name: deb [trusted=yes] {{ url }} /
