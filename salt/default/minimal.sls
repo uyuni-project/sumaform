@@ -17,9 +17,10 @@ include:
 minimal_package_update:
   pkg.latest:
     - pkgs:
-      - salt-minion
 {% if grains['install_salt_bundle'] %}
       - venv-salt-minion
+{% else %}
+      - salt-minion
 {% endif %}
 {% if grains['os_family'] == 'Suse' %}
       - zypper
