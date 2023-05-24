@@ -458,6 +458,11 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
+bootcmd:
+  # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq update
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
+
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ else }
@@ -585,6 +590,11 @@ runcmd:
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
 
+bootcmd:
+  # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq update
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
+
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
 %{ else }
@@ -624,6 +634,11 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
+
+bootcmd:
+  # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq update
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
