@@ -62,5 +62,6 @@ output "configuration" {
     product_version = var.product_version
     username        = var.server_username
     password        = var.server_password
+    runtime         = var.runtime
   }
 }

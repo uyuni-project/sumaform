@@ -109,6 +109,7 @@ export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ 
 {% if grains.get('custom_download_endpoint') | default(false, true) %}export CUSTOM_DOWNLOAD_ENDPOINT="{{ grains.get('custom_download_endpoint') }}" {% else %}# no custom download endpoint defined {% endif %}
 {% if grains.get('pxeboot_image') | default(false, true) %}export PXEBOOT_IMAGE="{{ grains.get('pxeboot_image') }}" {% else %}# no PXE boot image defined {% endif %}
 export PROVIDER="{{ grains.get('provider') }}"
+{% if grains.get('container_runtime') | default(false, true) %}export CONTAINER_RUNTIME="{{ grains.get('container_runtime') }}" {% else %}# no CONTAINER_RUNTIME used {% endif %}
 {% if 'build_image' not in grains.get('product_version') | default('', true) %}export IS_USING_BUILD_IMAGE="{{ grains.get('is_using_build_image') }}" {% endif %}
 export IS_USING_SCC_REPOSITORIES="{{ grains.get('is_using_scc_repositories') }}"
 
