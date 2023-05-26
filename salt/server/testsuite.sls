@@ -103,19 +103,12 @@ testsuite_salt_packages:
 # Once bootstrap repository contains the venv-salt-minion before running bootstrap
 # then these states can be removed
 
-# For 4.2 version, only RHEL 7 and clones will use the Salt Bundle.
-
 create_pillar_top_sls_to_assign_salt_bundle_config:
   file.managed:
     - name: /srv/pillar/top.sls
     - contents: |
         base:
-{%- if "4.2" in grains.get('product_version') | default('', true) %}
-          'G@os_family:RedHat and G@osmajorrelease:7':
-            - match: compound
-{%- else %}
           '*':
-{%- endif %}
             - salt_bundle_config
     - require:
         - sls: server
