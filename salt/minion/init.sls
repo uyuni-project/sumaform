@@ -50,7 +50,11 @@ minion_id:
 {% if grains.get('auto_connect_to_master') %}
 master_configuration:
   file.managed:
+    {% if grains.get('install_salt_bundle') %}
+    - name: /etc/venv-salt-minion/minion.d/master.conf
+    {% else %}
     - name: /etc/salt/minion.d/master.conf
+    {% endif %}
     - contents: |
         master: {{grains['server']}}
         server_id_use_crc: adler32
