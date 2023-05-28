@@ -16,7 +16,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
@@ -47,7 +47,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
@@ -91,7 +91,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -130,7 +130,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "qemu-guest-agent"]
@@ -150,7 +150,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns"]
@@ -175,7 +175,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -197,7 +197,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -225,7 +225,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -256,7 +256,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -287,7 +287,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -313,7 +313,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -339,7 +339,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -365,7 +365,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
@@ -657,7 +657,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
@@ -684,7 +684,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
@@ -710,7 +710,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -741,7 +741,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -779,7 +779,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
@@ -805,7 +805,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -835,7 +835,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/8/Everything/$basearch
@@ -861,7 +861,7 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-    priority: 98
+    priority: 99
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -892,7 +892,7 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-      priority: 98
+      priority: 99
 
 %{ if install_salt_bundle }
 packages: ["venv-salt-minion"]
