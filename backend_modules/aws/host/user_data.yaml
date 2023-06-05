@@ -326,7 +326,7 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-  # Work around security release/updates does not have a Release file
+  # WORKAROUND: security release/updates does not have a Release file
   - sed -i "s|bullseye/updates|bullseye-security|" /etc/apt/sources.list
 
 packages: ["salt-minion"]
