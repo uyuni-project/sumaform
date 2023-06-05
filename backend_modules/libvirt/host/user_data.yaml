@@ -565,10 +565,12 @@ apt:
         -----END PGP PUBLIC KEY BLOCK-----
 
 runcmd:
-#   HACK: cloud-init in Debian 11 does not take care of the following
+  # HACK: cloud-init in Debian 11 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
+  # WORKAROUND: security release/updates does not have a Release file
+  - sed -i "s|bullseye/updates|bullseye-security|" /etc/apt/sources.list
 
 bootcmd:
   # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
