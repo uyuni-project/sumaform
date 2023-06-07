@@ -1,4 +1,4 @@
-{% if ( 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') ) and grains.get('sles_registration_code') and grains['os'] == 'SUSE' %}
+{% if ( 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') ) and grains.get('sles_registration_code') %}
 
 register_sles_server:
    cmd.run:
