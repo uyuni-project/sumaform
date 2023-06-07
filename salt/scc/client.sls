@@ -1,4 +1,4 @@
-{% if 'client' in grains.get('roles') and grains.get('sles_registration_code') and '15' in grains['osrelease'] %}
+{% if 'client' in grains.get('roles') and grains.get('sles_registration_code') grains['os'] == 'SUSE' %}
 
 register_sles_server:
    cmd.run:
