@@ -98,6 +98,31 @@ zypper:
 
 packages: ["salt-minion"]
 %{ endif }
+
+%{ if image == "sles12sp4"}
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+packages: ["venv-salt-minion"]
+%{ endif }
+
+%{ if image == "sles12sp5"}
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+packages: ["venv-salt-minion"]
+%{ endif }
+
 %{ if image == "sles11sp4"}
 # WORKAROUND: SLES 11 SP4 does not ship with Salt installed
 runcmd:
@@ -127,7 +152,7 @@ yum_repos:
     name: epel
     priority: 98
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 runcmd:
   # WORKAROUND: rhel9 change ssh security for ssh key
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
@@ -158,7 +183,7 @@ yum_repos:
     name: temp_tools_pool_repo
     priority: 98
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 %{ endif }
 %{ if image == "centos7" || image == "rhel7"}
 yum_repos:
@@ -171,7 +196,7 @@ yum_repos:
     name: temp_tools_pool_repo
     priority: 98
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 %{ endif }
 
 %{ if image == "ubuntu2204" }
@@ -209,7 +234,7 @@ runcmd:
   - echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 %{ endif }
 %{ if image == "ubuntu2004" }
 
@@ -245,17 +270,52 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 %{ endif }
+
 %{ if image == "ubuntu1804" }
 
+apt:
+  sources:
+    tools_pool_repo:
+      source: deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04 /
+      key: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v1.4.5 (GNU/Linux)
+
+        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
+        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
+        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
+        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
+        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
+        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
+        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
+        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJjQDEEAhsDBQkMNyavBgsJCAcD
+        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPjsSCAC1v9YHwuP0kRt8VPlq
+        /RLgADb5TsUPOaDcZ/maKVxhL5EgY2mX1ViCO4Bm+VFL2ZSJEXth8/Zp/dZe80e9
+        tlZgag5uPQe9FV0IAHXYt91DYJlE7VuxvdhADIt9RcDmS4OrSAfQoroyh5OW3ZRW
+        Kqa68L6RBhiyuvBTaRCUdIhqDBjVCgMlLJxC5soOIVCEvMRzOxHqO0+gvKomvM1P
+        iK4cio2OcIqZb8vCyMIXtYniHqA0rUZD4U+EB9enmYcj9ZhWO9oQXZ0qCQN6ve/K
+        1Q7NjImT5oEHWGFeLmwWZMe2+djFcHiCQM1bFN1gC+2ASz5XPC7OKdrIi+E85gMo
+        cYu+iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
+        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
+        =8MsV
+        -----END PGP PUBLIC KEY BLOCK-----
+
 runcmd:
-  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
+  # WORKAROUND: cloud-init in Ubuntu 18.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-packages: ["salt-minion"]
+bootcmd:
+  # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq update
+  - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
+
+
+packages: ["venv-salt-minion"]
 %{ endif }
+
 %{ if image == "ubuntu1604" }
 apt:
   sources:
@@ -329,5 +389,5 @@ runcmd:
   # Work around security release/updates does not have a Release file
   - sed -i "s|bullseye/updates|bullseye-security|" /etc/apt/sources.list
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 %{ endif }
