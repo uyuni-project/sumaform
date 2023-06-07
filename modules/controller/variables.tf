@@ -620,6 +620,20 @@ variable "opensuse154arm_sshminion_configuration" {
   }
 }
 
+variable "opensuse155arm_minion_configuration" {
+  description = "use module.<OPENSUSE155ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "opensuse155arm_sshminion_configuration" {
+  description = "use module.<OPENSUSE155ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}

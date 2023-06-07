@@ -868,3 +868,22 @@ packages: ["salt-minion"]
 runcmd:
   - zypper removerepo --all
 %{ endif }
+
+%{ if image == "opensuse155armo" }
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion"]
+%{ else }
+packages: ["salt-minion"]
+%{ endif }
+
+runcmd:
+  - zypper removerepo --all
+%{ endif }
