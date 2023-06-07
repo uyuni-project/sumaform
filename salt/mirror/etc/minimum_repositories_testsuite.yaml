@@ -28,6 +28,12 @@ http:
   - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
     archs: [x86_64]
 
+  - url:  http://download.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
+    archs: [x86_64]
+
+  - url:  http://download.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/12/x86_64/update/
+    archs: [x86_64]
+
   - url:  http://download.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 

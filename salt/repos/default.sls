@@ -142,7 +142,7 @@ tools_additional_repo:
 {% endif %} {# grains['osrelease'] == '11.4' #}
 
 
-{% if '12' in grains['osrelease'] %}
+{% if '12' in grains['osrelease'] and not grains.get('sles_registration_code')%}
 {% if grains['osrelease'] == '12.3' %}
 
 os_pool_repo:
