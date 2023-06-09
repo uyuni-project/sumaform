@@ -85,6 +85,37 @@ rhn_conf_forward_reg:
 
 {% endif %}
 
+{% if grains.get('c3p0_connection_timeout') | default(true, true) %}
+
+rhn_conf_c3p0_connection_timeout:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: hibernate.c3p0.unreturnedConnectionTimeout = {{ grains.get('c3p0_connection_timeout') | default(900, true) }}
+    - require:
+      - sls: server
+
+{% endif %}
+
+{% if grains.get('c3p0_connection_debug') | default(false, true) %}
+
+rhn_conf_c3p0_connection_debug:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: hibernate.c3p0.debugUnreturnedConnectionStackTraces = true
+    - require:
+      - sls: server
+
+rhn_conf_c3p0_connection_debug_log:
+  file.line:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
+    - content: '    <Logger name="com.mchange.v2.resourcepool.BasicResourcePool" level="info" />'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server
+
+{% endif %}
+
 # catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
 rhn_conf_present:
   file.touch:

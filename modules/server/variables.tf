@@ -273,3 +273,13 @@ variable "db_configuration" {
     port               = "5432"
   }
 }
+
+variable "c3p0_connection_timeout" {
+  description = "c3p0 connections will be closed after this timeout"
+  default     = 900
+}
+
+variable "c3p0_connection_debug" {
+  description = "log additional info regarding leaked c3p0 connections"
+  default     = false
+}
