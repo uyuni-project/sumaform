@@ -81,6 +81,8 @@ module "server" {
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
     login_timeout                  = var.login_timeout
     db_configuration               = var.db_configuration
+    c3p0_connection_timeout        = var.c3p0_connection_timeout
+    c3p0_connection_debug          = var.c3p0_connection_debug
   }
 
 
