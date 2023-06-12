@@ -276,7 +276,8 @@ variable "db_configuration" {
 
 variable "c3p0_connection_timeout" {
   description = "c3p0 connections will be closed after this timeout"
-  default     = 900
+  # WORKAROUND: this is causing problems in the testsuite, disable it for now
+  default     = false
 }
 
 variable "c3p0_connection_debug" {
