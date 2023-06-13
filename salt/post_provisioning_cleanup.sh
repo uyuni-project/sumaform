@@ -33,7 +33,7 @@ fi
 
 echo "Removing Salt packages, except Salt Bundle (venv-salt-minion) ..."
 if [[ "$INSTALLER" == "zypper" ]]; then
-zypper -q --non-interactive remove salt salt-minion python3-salt python2-salt > /dev/null 2>&1 ||:
+zypper -q --non-interactive remove salt-minion > /dev/null 2>&1 ||:
 elif [[ "$INSTALLER" == "yum" ]]; then
 yum -y remove salt salt-minion python3-salt python2-salt > /dev/null 2>&1 ||:
 elif [[ "$INSTALLER" == "apt" ]]; then
