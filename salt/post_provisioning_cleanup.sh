@@ -14,6 +14,17 @@ fi
 
 # Nothing to do in case "install_salt_bundle" grain is not true
 INSTALL_SALT_BUNDLE=$(${SALT_CALL} --local --log-level=quiet --output=txt grains.get install_salt_bundle)
+SERVER=false
+ROLES=$(${SALT_CALL} --local --log-level=quiet --output=txt grains.get roles)
+if [[ "${ROLES}" == "local: ['server']" ]];then
+    echo "This is a server"
+    SERVER=true
+    PKGS="Salt minion"
+else
+    echo "This is not a server"
+    PKGS="Salt"
+fi
+
 
 if [[ "$INSTALL_SALT_BUNDLE" != "local: True" ]]; then
     exit 0
@@ -31,13 +42,25 @@ elif [ -x /usr/bin/apt ]; then
     INSTALLER=apt
 fi
 
-echo "Removing Salt packages, except Salt Bundle (venv-salt-minion) ..."
+echo "Removing ${PKGS} packages, except Salt Bundle (venv-salt-minion) ..."
 if [[ "$INSTALLER" == "zypper" ]]; then
-zypper -q --non-interactive remove salt-minion > /dev/null 2>&1 ||:
+    if [[ "$SERVER" == "true" ]];then
+        zypper -q --non-interactive remove salt-minion > /dev/null 2>&1 ||:
+    else
+        zypper -q --non-interactive remove salt salt-minion python3-salt python2-salt > /dev/null 2>&1 ||:
+    fi
 elif [[ "$INSTALLER" == "yum" ]]; then
-yum -y remove salt salt-minion python3-salt python2-salt > /dev/null 2>&1 ||:
+    if [[ "$SERVER" == "true" ]];then
+        yum -y remove salt-minion > /dev/null 2>&1 ||:
+    else
+        yum -y remove salt salt-minion python3-salt python2-salt > /dev/null 2>&1 ||:
+    fi
 elif [[ "$INSTALLER" == "apt" ]]; then
-apt-get --yes purge salt-common > /dev/null 2>&1 ||:
+    if [[ "$SERVER" == "true" ]];then
+        apt-get --yes purge salt-client > /dev/null 2>&1 ||:
+    else
+        apt-get --yes purge salt-common > /dev/null 2>&1 ||:
+    fi
 fi
 
 echo "Done!"
