@@ -143,6 +143,7 @@ tools_additional_repo:
 
 
 {% if '12' in grains['osrelease'] %}
+{% if not grains.get('sles_registration_code') %} ## Skip if SCC support
 {% if grains['osrelease'] == '12.3' %}
 
 os_pool_repo:
@@ -190,8 +191,9 @@ os_update_repo:
 #           - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5-LTSS/x86_64/update/
 
 {% endif %}
+{% endif %} ## End skip if SCC support
 
-{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) and not grains.get('sles_registration_code') %}
+{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %}
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %}
 tools_pool_repo:
   pkgrepo.managed:
