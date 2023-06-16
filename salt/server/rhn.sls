@@ -85,12 +85,12 @@ rhn_conf_forward_reg:
 
 {% endif %}
 
-{% if grains.get('c3p0_connection_timeout') | default(true, true) %}
+{% if grains.get('c3p0_connection_timeout') | default(false, true) %}
 
 rhn_conf_c3p0_connection_timeout:
   file.append:
     - name: /etc/rhn/rhn.conf
-    - text: hibernate.c3p0.unreturnedConnectionTimeout = {{ grains.get('c3p0_connection_timeout') | default(900, true) }}
+    - text: hibernate.c3p0.unreturnedConnectionTimeout = {{ grains.get('c3p0_connection_timeout') | default(10800, true) }}
     - require:
       - sls: server
 

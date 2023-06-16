@@ -276,8 +276,8 @@ variable "db_configuration" {
 
 variable "c3p0_connection_timeout" {
   description = "c3p0 connections will be closed after this timeout"
-  # WORKAROUND: this is causing problems in the testsuite, disable it for now
-  default     = false
+  # 3 hours - this should be enough for repo metadata generation
+  default     = 10800
 }
 
 variable "c3p0_connection_debug" {
