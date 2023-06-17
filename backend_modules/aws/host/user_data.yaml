@@ -23,11 +23,11 @@ runcmd:
 %{ endif }
 
 %{ if image == "opensuse154o" }
-# WORKAROUND: install latest venv-salt-minion to prevent version change on setup
+# WORKAROUND: install latest libzypp to prevent signature verification errors
 runcmd:
-  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ salt_test
+  - zypper addrepo -G -e http://download.opensuse.org/update/leap/15.4/oss/ os_update
   - zypper ref
-  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+  - zypper up --allow-vendor-change --no-confirm libzypp
   - zypper removerepo --all
 
 %{ endif }
