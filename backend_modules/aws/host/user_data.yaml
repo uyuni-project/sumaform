@@ -22,6 +22,16 @@ runcmd:
 
 %{ endif }
 
+%{ if image == "opensuse154o" }
+# WORKAROUND: install latest venv-salt-minion to prevent version change on setup
+runcmd:
+  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ salt_test
+  - zypper ref
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+  - zypper removerepo --all
+
+%{ endif }
+
 %{ if image == "sles15"}
 zypper:
   repos:
