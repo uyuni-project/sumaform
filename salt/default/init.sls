@@ -1,10 +1,6 @@
 include:
   - default.locale
-  {% if not grains['osfullname'] == 'SLE Micro' %}
-  # Dependencies already satisfied by the images
-  # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.minimal
-  {% endif %}
   - default.pkgs
   - default.grub
   - default.sshd
