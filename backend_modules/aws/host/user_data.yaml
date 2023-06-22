@@ -159,7 +159,6 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: temp_tools_pool_repo
-    priority: 98
 
 packages: ["venv-salt-minion"]
 runcmd:
@@ -177,7 +176,6 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: temp_tools_pool_repo
-    priority: 98
 
 packages: ["salt-minion"]
 %{ endif }
@@ -190,7 +188,6 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: temp_tools_pool_repo
-    priority: 98
 
 packages: ["venv-salt-minion"]
 %{ endif }
@@ -203,7 +200,6 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: temp_tools_pool_repo
-    priority: 98
 
 packages: ["venv-salt-minion"]
 %{ endif }
