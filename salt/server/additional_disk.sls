@@ -16,7 +16,7 @@ parted:
 spacewalk_partition:
   cmd.run:
     - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mkpart primary 0% 100% && sleep 1 && /sbin/mkfs.{{fstype}} {{partition_name}}
-    - unless: ls /dev/{{grains['data_disk_device']}}1
+    - unless: ls {{partition_name}}
     - require:
       - pkg: parted
 
