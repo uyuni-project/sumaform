@@ -51,7 +51,7 @@ locals {
 module "server" {
   source                         = "../server"
 
-  quantity = contains(local.hosts, "server") ? 1 : 0
+  count = var.containerized_server ? 0 : 1
 
   base_configuration             = module.base.configuration
   product_version                = var.product_version
@@ -88,7 +88,7 @@ module "server" {
 module "server_containerized" {
   source                         = "../server_containerized"
 
-  quantity = contains(local.hosts, "server_containerized") ? 1 : 0
+  count = var.containerized_server ? 1 : 0
 
   base_configuration             = module.base.configuration
   product_version                = var.product_version
@@ -127,7 +127,8 @@ module "server_containerized" {
 module "proxy" {
   source = "../proxy"
 
-  quantity = contains(local.hosts, "proxy") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "proxy") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
@@ -160,7 +161,8 @@ locals {
 module "suse-client" {
   source             = "../client"
 
-  quantity = contains(local.hosts, "suse-client") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
   image              = lookup(local.images, "suse-client", "sles15sp4o")
@@ -183,7 +185,8 @@ module "suse-client" {
 module "suse-minion" {
   source             = "../minion"
 
-  quantity = contains(local.hosts, "suse-minion") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
   image              = lookup(local.images, "suse-minion", "sles15sp4o")
@@ -207,7 +210,8 @@ module "suse-minion" {
 module "suse-sshminion" {
   source = "../sshminion"
 
-  quantity = contains(local.hosts, "suse-sshminion") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "suse-sshminion") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
@@ -229,7 +233,8 @@ module "suse-sshminion" {
 module "slemicro-minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "slemicro-minion") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "slemicro-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
   image              = lookup(local.images, "slemicro-minion", "slemicro53-ign")
@@ -252,7 +257,8 @@ module "slemicro-minion" {
 module "redhat-minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "redhat-minion") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "redhat-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
@@ -275,7 +281,8 @@ module "redhat-minion" {
 module "debian-minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "debian-minion") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "debian-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
@@ -321,7 +328,8 @@ module "build-host" {
 module "pxeboot-minion" {
   source = "../pxe_boot"
 
-  quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "pxeboot-minion") ? 1 : 0
   base_configuration = module.base.configuration
   image              = lookup(local.images, "pxeboot-minion", "sles15sp4o")
   name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
@@ -332,7 +340,8 @@ module "pxeboot-minion" {
 module "kvm-host" {
   source = "../virthost"
 
-  quantity = contains(local.hosts, "kvm-host") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "kvm-host") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
@@ -357,7 +366,8 @@ module "kvm-host" {
 module "monitoring-server" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "monitoring-server") ? 1 : 0
+  // count is used to enable / disable the module. Use quantity to change the number of instances
+  count = contains(local.hosts, "monitoring-server") ? 1 : 0
 
   base_configuration = module.base.configuration
   product_version    = var.product_version
