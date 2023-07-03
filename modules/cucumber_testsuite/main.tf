@@ -384,7 +384,7 @@ module "controller" {
   name   = lookup(local.names, "controller", "ctl")
 
   base_configuration             = module.base.configuration
-  server_configuration           = contains(local.hosts, "server") ? module.server.configuration : module.server_containerized.configuration
+  server_configuration           = contains(local.hosts, "server_containerized") ? module.server_containerized.configuration : module.server.configuration
   proxy_configuration            = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
   client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
