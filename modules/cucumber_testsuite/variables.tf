@@ -159,3 +159,8 @@ variable "nested_vm_mac" {
   type        = string
   default     = ""
 }
+
+variable "containerized_server" {
+  description = "true to run the server in a container"
+  default = false
+}
