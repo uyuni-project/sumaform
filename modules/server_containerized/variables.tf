@@ -209,7 +209,7 @@ variable "install_salt_bundle" {
 
 variable "quantity" {
   description = "number of hosts like this one"
-  default     = 1
+  default     = 0
 }
 
 variable "grains" {
