@@ -421,8 +421,7 @@ module "controller" {
 output "configuration" {
   value = {
     base = module.base.configuration
-    server = module.server.configuration
-    server = contains(local.hosts, "server") ? module.server.configuration : module.server_containerized.configuration
+    server = contains(local.hosts, "server_containerized") ? module.server_containerized.configuration : module.server.configuration
     proxy = module.proxy.configuration
     suse-client = module.suse-client.configuration
     slemicro-minion = module.slemicro-minion.configuration
