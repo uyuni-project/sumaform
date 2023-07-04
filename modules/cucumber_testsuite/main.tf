@@ -51,7 +51,7 @@ locals {
 module "server" {
   source                         = "../server"
 
-  count = var.containerized_server ? 0 : 1
+  count = var.container_server ? 0 : 1
 
   base_configuration             = module.base.configuration
   product_version                = var.product_version
@@ -88,7 +88,7 @@ module "server" {
 module "server_containerized" {
   source                         = "../server_containerized"
 
-  count = var.containerized_server ? 1 : 0
+  count = var.container_server ? 1 : 0
 
   base_configuration             = module.base.configuration
   product_version                = var.product_version
