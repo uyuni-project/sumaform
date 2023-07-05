@@ -86,6 +86,12 @@ runcmd:
 %{ endif }
 
 %{ if image == "sles15sp4o" }
+runcmd:
+  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
+  - zypper ref
+  - zypper in --allow-vendor-change --no-confirm salt-minion
+  - zypper removerepo --all
+
 zypper:
   repos:
     - id: salt_qubes_build
