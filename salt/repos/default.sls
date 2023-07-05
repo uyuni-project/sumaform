@@ -535,6 +535,14 @@ tools_pool_repo:
     - require:
       - cmd: galaxy_key
 
+suse_el9_key:
+  file.managed:
+    - name: /tmp/suse_el9.key
+    - source: salt://default/gpg_keys/suse_el9.key
+  cmd.wait:
+    - name: rpm --import /tmp/suse_el9.key
+    - watch:
+      - file: suse_el9_key
 
 suse_res7_key:
   file.managed:
@@ -634,6 +642,9 @@ tools_update_repo:
     - refresh: True
     - require:
       - cmd: galaxy_key
+    {% if release >= 9 %}
+      - cmd: suse_el9_key
+    {% endif %}
 {% endif %}
 {% endif %}
 
