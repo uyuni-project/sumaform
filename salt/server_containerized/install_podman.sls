@@ -31,6 +31,15 @@ uyuni_server_services_config_fqdn:
     - repl: \1="{{ grains.get('fqdn') }}"
     - append_if_not_found: True
 
+
+uyuni_server_services_config_timezone:
+  file.replace:
+    - name: /etc/sysconfig/uyuni-server-systemd-services
+    - pattern: ^TZ=.*$
+    - repl: TZ="{{ grains.get('timezone.get_zone') }}"
+    - append_if_not_found: True
+
+
 {% if grains.get("java_debugging") %}
 uyuni_server_services_config_debug:
   file.replace:
