@@ -14,7 +14,7 @@ tools_repo_clone:
 
 tools_built:
   cmd.run:
-    - name: go build -o ./bin ./...
+    - name: mkdir -p bin && go build -o ./bin ./...
     - cwd: /root/uyuni-tools
     - require:
       - cmd: tools_repo_clone
