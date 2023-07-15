@@ -1,21 +1,22 @@
 #! /bin/bash
-set -xe
+set -x
 
-cat >grains <<EOF
-init: systemd
-hostname: suma-refhead-srv
+mkdir -p testconfig
+
+cat > testconfig/grains <<EOF
+hostname: sumaform-test-server
 gpg_keys: []
-domain: travis
+domain: tf.local
 use_avahi: 0
 timezone: Europe/Berlin
 use_ntp: true
 additional_repos: {}
 additional_certs: {}
 additional_packages: []
-authorized_keys: [ssh-rsa 1233= root@travis.git]
+authorized_keys: [ssh-rsa 1233= root@sumaform.git]
 reset_ids: true
 product_version: head
-cc_username: UC7
+cc_username: github
 cc_password: passme
 mirror: null
 server_mounted_mirror: null
@@ -39,11 +40,17 @@ monitored: 0
 from_email: null
 traceback_email: null
 ipv6: {'accept_ra': true, 'enable': true}
+install_salt_bundle: true
+db_configuration: {'local': true, 'hostname': 'localhost', 'port': '5432'}
+repository_disk_size: 0
 EOF
 
-cat >minion <<EOF
+cat > testconfig/minion <<EOF
 root_dir: $PWD
-id: travis
+id: sumaform-test-server
 EOF
 
-salt-call state.show_highstate --local --file-root=salt/ --config-dir=. --retcode-passthrough
+cat testconfig/grains
+echo
+
+salt-call state.show_highstate --local --file-root=salt/ --config-dir=testconfig --retcode-passthrough
