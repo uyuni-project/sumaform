@@ -74,3 +74,13 @@ variable "use_eip_bastion" {
   default     = true
   type        = bool
 }
+
+variable "server_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES server"
+  default = null
+}
+
+variable "proxy_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
+  default = null
+}
