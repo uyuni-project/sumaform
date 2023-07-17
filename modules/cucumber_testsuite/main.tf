@@ -25,7 +25,7 @@ locals {
   additional_repos          = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_repos", {}) if var.host_settings[host_key] != null }
   additional_repos_only     = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "additional_repos_only", {}) if var.host_settings[host_key] != null }
+    host_key => lookup(var.host_settings[host_key], "additional_repos_only", false) if var.host_settings[host_key] != null }
   additional_packages       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_packages", []) if var.host_settings[host_key] != null }
   additional_grains       = { for host_key in local.hosts :
@@ -76,7 +76,7 @@ module "server" {
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
   additional_repos               = lookup(local.additional_repos, "server", {})
-  additional_repos_only          = lookup(local.additional_repos_only, "server", {})
+  additional_repos_only          = lookup(local.additional_repos_only, "server", false)
   additional_packages            = lookup(local.additional_packages, "server", [])
   login_timeout                  = var.login_timeout
 
@@ -115,7 +115,7 @@ module "server_containerized" {
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
   additional_repos               = lookup(local.additional_repos, "server_containerized", {})
-  additional_repos_only          = lookup(local.additional_repos_only, "server_containerized", {})
+  additional_repos_only          = lookup(local.additional_repos_only, "server_containerized", false)
   additional_packages            = lookup(local.additional_packages, "server_containerized", [])
   //login_timeout                  = var.login_timeout
 
@@ -147,7 +147,7 @@ module "proxy" {
   install_salt_bundle = lookup(local.install_salt_bundle, "proxy", false)
 
   additional_repos  = lookup(local.additional_repos, "proxy", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "proxy", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "proxy", false)
   additional_packages = lookup(local.additional_packages, "proxy", [])
   provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
 }
@@ -175,7 +175,7 @@ module "suse-client" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse-client", false)
 
   additional_repos  = lookup(local.additional_repos, "suse-client", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse-client", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "suse-client", false)
   additional_packages = lookup(local.additional_packages, "suse-client", [])
   provider_settings = lookup(local.provider_settings_by_host, "suse-client", {})
 }
@@ -198,7 +198,7 @@ module "suse-minion" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse-minion", false)
 
   additional_repos  = lookup(local.additional_repos, "suse-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse-minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "suse-minion", false)
   additional_packages = lookup(local.additional_packages, "suse-minion", [])
   additional_grains = lookup(local.additional_grains, "suse-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
@@ -221,7 +221,7 @@ module "suse-sshminion" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse-sshminion", false)
 
   additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse-sshminion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "suse-sshminion", false)
   additional_packages = lookup(local.additional_packages, "suse-sshminion", [])
   provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
 }
@@ -243,7 +243,7 @@ module "slemicro-minion" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "slemicro-minion", false)
 
   additional_repos  = lookup(local.additional_repos, "slemicro-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "slemicro-minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "slemicro-minion", false)
   additional_packages = lookup(local.additional_packages, "slemicro-minion", ["avahi", "avahi-lang", "libavahi-common3", "libavahi-core7"])
   additional_grains = lookup(local.additional_grains, "slemicro-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "slemicro-minion", {})
@@ -266,7 +266,7 @@ module "redhat-minion" {
   install_salt_bundle    = lookup(local.install_salt_bundle, "redhat-minion", false)
 
   additional_repos  = lookup(local.additional_repos, "redhat-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "redhat-minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "redhat-minion", false)
   additional_packages = lookup(local.additional_packages, "redhat-minion", [])
   additional_grains = lookup(local.additional_grains, "redhat-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "redhat-minion", {})
@@ -289,7 +289,7 @@ module "debian-minion" {
   install_salt_bundle    = lookup(local.install_salt_bundle, "debian-minion", false)
 
   additional_repos  = lookup(local.additional_repos, "debian-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "debian-minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "debian-minion", false)
   additional_packages = lookup(local.additional_packages, "debian-minion", [])
   additional_grains = lookup(local.additional_grains, "debian-minion", {})
   provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
@@ -313,7 +313,7 @@ module "build-host" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
 
   additional_repos  = lookup(local.additional_repos, "build-host", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "build-host", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "build-host", false)
   additional_packages = lookup(local.additional_packages, "build-host", [])
   provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
 }
@@ -348,7 +348,7 @@ module "kvm-host" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "kvm-host", false)
 
   additional_repos  = lookup(local.additional_repos, "kvm-host", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "kvm-host", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "kvm-host", false)
   additional_packages = lookup(local.additional_packages, "kvm-host", [])
   additional_grains = lookup(local.additional_grains, "kvm-host", {})
   provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
@@ -373,7 +373,7 @@ module "monitoring-server" {
   install_salt_bundle     = lookup(local.install_salt_bundle, "monitoring-server", false)
 
   additional_repos  = lookup(local.additional_repos, "monitoring-server", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "monitoring-server", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "monitoring-server", false)
   additional_packages = lookup(local.additional_packages, "monitoring-server", [])
   additional_grains = lookup(local.additional_grains, "monitoring-server", {})
   provider_settings = lookup(local.provider_settings_by_host, "monitoring-server", {})
@@ -389,7 +389,7 @@ module "controller" {
   client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  slemicro_minion_configuration  = contains(local.hosts, "slemicro-minion") ? module.slemicro-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }  
+  slemicro_minion_configuration  = contains(local.hosts, "slemicro-minion") ? module.slemicro-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   redhat_configuration           = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   debian_configuration           = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   buildhost_configuration        = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
@@ -413,7 +413,7 @@ module "controller" {
   swap_file_size           = null
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "controller", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "controller", false)
   additional_packages = lookup(local.additional_packages, "controller", [])
   provider_settings = lookup(local.provider_settings_by_host, "controller", {})
 }
