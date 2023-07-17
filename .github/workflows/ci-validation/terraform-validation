@@ -1,0 +1,25 @@
+#! /bin/bash
+set -xe
+# Hack for azure example
+sed -i '/feature */d' main.tf.azure.example
+# Complete missing passwords in example files
+sed -i 's/\.\.\./"not used"/g' main.tf.*.example
+# Remove providers to use the 'null' provider
+sed -i '/provider *"/,/\}/d' main.tf.*.example
+# Remove libvirt provider dependency
+sed -i '/libvirt = {/,/\}/d' main.tf.*.example
+
+ln -sfn ../backend_modules/null modules/backend
+
+# validate examples
+for tf_file in main.tf.*.example; do
+  echo "::notice::Validating $tf_file..."
+  cp $tf_file main.tf
+  # Uncomment for Terraform detailed logging
+  # export TF_LOG=TRACE
+  terraform init
+  terraform validate
+  terraform apply -auto-approve
+  terraform destroy -auto-approve
+  echo
+done

@@ -26,3 +26,16 @@ jobs:
     - name: Validate controller states
       run: bash .github/workflows/ci-validation/salt-controller-validation
     # TODO: Test more roles
+
+  validate_terraform_config:
+    name: Validate terraform configuration
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.0.10
+    - name: Validate configuration using example files
+      run: .github/workflows/ci-validation/terraform-validation
