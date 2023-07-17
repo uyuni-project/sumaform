@@ -14,7 +14,7 @@ provider "libvirt" {
 
 
 module "cucumber_testsuite" {
-  source = "./sumaform/modules/cucumber_testsuite"
+  source = "./modules/cucumber_testsuite"
 
   # see https://github.com/uyuni-project/sumaform/blob/master/README_ADVANCED.md
   # for more information on product_version values
