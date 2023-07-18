@@ -18,16 +18,22 @@ jobs:
         packages: salt-common
         version: 1.0
     - name: Validate server states
+      if: always()
       run: bash .github/workflows/ci-validation/salt-server-validation
     - name: Validate client states
+      if: always()
       run: bash .github/workflows/ci-validation/salt-client-validation
     - name: Validate minion states
+      if: always()
       run: bash .github/workflows/ci-validation/salt-minion-validation
     - name: Validate controller states
+      if: always()
       run: bash .github/workflows/ci-validation/salt-controller-validation
     - name: Validate mirror states
+      if: always()
       run: bash .github/workflows/ci-validation/salt-mirror-validation
     - name: Validate containerized server states
+      if: always()
       run: bash .github/workflows/ci-validation/salt-server-containerized-validation
 
   validate_terraform_config:
