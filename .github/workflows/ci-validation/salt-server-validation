@@ -4,43 +4,53 @@ set -x
 mkdir -p testconfig
 
 cat > testconfig/grains <<EOF
+roles: [server]
+
+# Override OS information for testing
+os: 'SUSE'
+os_family: 'Suse'
+osarch: 'x86_64'
+oscodename: 'SUSE Linux Enterprise Server 15 SP5'
+osfinger: 'SLES-15'
+osfullname: 'SLES'
+osmajorrelease: 15
+osrelease: '15.5'
+osrelease_info: [15, 5]
+
+# Set grain values in such a way that covers as many conditions as possible
 hostname: sumaform-test-server
-gpg_keys: []
+product_version: head
+install_salt_bundle: true
+gpg_keys: ['testkey.pub']
 domain: tf.local
 use_avahi: 0
 timezone: Europe/Berlin
 use_ntp: true
-additional_repos: {}
-additional_certs: {}
-additional_packages: []
+ipv6: {'accept_ra': true, 'enable': true}
+additional_repos: {'testrepo': 'http://example.com/testrepo'}
+additional_certs: {'testcert': 'http://example.com/testcert'}
+additional_packages: ['testpkg']
 authorized_keys: [ssh-rsa 1233= root@sumaform.git]
 reset_ids: true
-product_version: head
-cc_username: github
-cc_password: passme
-mirror: null
-server_mounted_mirror: null
+use_os_released_updates: true
+swap_file_size: 1024
+mirror: mirror.tf.local
+skip_changelog_import: true
+disable_download_tokens: true
+create_first_user: true
+mgr_sync_autologin: true
+monitored: true
+forward_registration: true
+wait_for_reposync: true
+channels: ['test-channel']
+cloned_channels: [{'prefix': 'clone', 'date': '1970-01-01', 'channels': ['test-channel']}]
+create_sample_channel: true
+create_sample_activation_key: true
+create_sample_bootstrap_script: true
+publish_private_ssl_key: true
+testsuite: true
 iss_master: null
 iss_slave: null
-smt: null
-roles: [server]
-disable_firewall: 0
-allow_postgres_connections: 0
-unsafe_postgres: 1
-java_debugging: 0
-skip_changelog_import: 0
-create_first_user: 0
-mgr_sync_autologin: 0
-create_sample_channel: 0
-create_sample_activation_key: 0
-create_sample_bootstrap_script: 0
-publish_private_ssl_key: 0
-testsuite: true
-monitored: 0
-from_email: null
-traceback_email: null
-ipv6: {'accept_ra': true, 'enable': true}
-install_salt_bundle: true
 db_configuration: {'local': true, 'hostname': 'localhost', 'port': '5432'}
 repository_disk_size: 0
 EOF

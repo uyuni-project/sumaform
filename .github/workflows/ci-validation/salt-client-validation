@@ -4,25 +4,37 @@ set -x
 mkdir -p testconfig
 
 cat > testconfig/grains <<EOF
+roles: [client]
+
+# Override OS information for testing
+os: 'SUSE'
+os_family: 'Suse'
+osarch: 'x86_64'
+oscodename: 'SUSE Linux Enterprise Server 15 SP5'
+osfinger: 'SLES-15'
+osfullname: 'SLES'
+osmajorrelease: 15
+osrelease: '15.5'
+osrelease_info: [15, 5]
+
+# Set grain values in such a way that covers as many conditions as possible
 hostname: sumaform-test-client
-gpg_keys: []
+install_salt_bundle: true
+gpg_keys: ['testkey.pub']
 domain: tf.local
 use_avahi: 0
 timezone: Europe/Berlin
 use_ntp: true
-additional_repos: {}
-additional_certs: {}
-additional_packages: []
+ipv6: {'accept_ra': true, 'enable': true}
+additional_repos: {'testrepo': 'http://example.com/testrepo'}
+additional_certs: {'testcert': 'http://example.com/testcert'}
+additional_packages: ['testpkg']
 authorized_keys: [ssh-rsa 1233= root@sumaform.git]
 reset_ids: true
-product_version: head
-server: sumaform-test-server.tf.local
-roles: [client]
-mirror: null
-auto_register: false
+use_os_released_updates: true
+swap_file_size: 1024
+mirror: mirror.tf.local
 testsuite: true
-ipv6: {'accept_ra': true, 'enable': true}
-install_salt_bundle: true
 EOF
 
 cat > testconfig/minion <<EOF
