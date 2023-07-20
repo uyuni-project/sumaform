@@ -18,6 +18,7 @@ include:
   - server.testsuite
   - server.salt_master
   - server.tcpdump
+  - doesnot.exist
 
 {% if 'uyuni' not in grains.get('product_version') %}
 server-switch-product:
