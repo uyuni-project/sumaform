@@ -1,0 +1,50 @@
+name: CI validation tests
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  validate_salt:
+    name: Validate Salt states
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: salt-common
+        version: 1.0
+    - name: Validate server states
+      if: always()
+      run: bash .github/workflows/ci-validation/salt-server-validation
+    - name: Validate client states
+      if: always()
+      run: bash .github/workflows/ci-validation/salt-client-validation
+    - name: Validate minion states
+      if: always()
+      run: bash .github/workflows/ci-validation/salt-minion-validation
+    - name: Validate controller states
+      if: always()
+      run: bash .github/workflows/ci-validation/salt-controller-validation
+    - name: Validate mirror states
+      if: always()
+      run: bash .github/workflows/ci-validation/salt-mirror-validation
+    - name: Validate containerized server states
+      if: always()
+      run: bash .github/workflows/ci-validation/salt-server-containerized-validation
+
+  validate_terraform_config:
+    name: Validate terraform configuration
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.0.10
+    - name: Validate configuration using example files
+      run: .github/workflows/ci-validation/terraform-validation

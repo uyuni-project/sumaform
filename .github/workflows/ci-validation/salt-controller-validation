@@ -1,0 +1,48 @@
+#! /bin/bash
+set -x
+
+mkdir -p testconfig
+
+cat > testconfig/grains <<EOF
+roles: [controller]
+
+# Override OS information for testing
+os: 'SUSE'
+os_family: 'Suse'
+osarch: 'x86_64'
+oscodename: 'openSUSE Leap 15.5'
+osfinger: 'Leap-15'
+osfullname: 'Leap'
+osmajorrelease: 15
+osrelease: '15.5'
+osrelease_info: [15, 5]
+
+# Set grain values in such a way that covers as many conditions as possible
+hostname: sumaform-test-ctl
+install_salt_bundle: true
+gpg_keys: ['testkey.pub']
+domain: tf.local
+use_avahi: 0
+timezone: Europe/Berlin
+use_ntp: true
+ipv6: {'accept_ra': true, 'enable': true}
+additional_repos: {'testrepo': 'http://example.com/testrepo'}
+additional_certs: {'testcert': 'http://example.com/testcert'}
+additional_packages: ['testpkg']
+authorized_keys: [ssh-rsa 1233= root@travis.git]
+reset_ids: true
+use_os_released_updates: true
+swap_file_size: 1024
+mirror: mirror.tf.local
+testsuite: true
+EOF
+
+cat > testconfig/minion <<EOF
+root_dir: $PWD
+id: sumaform-test-ctl
+EOF
+
+cat testconfig/grains
+echo
+
+salt-call state.show_highstate --local --file-root=salt/ --config-dir=testconfig --retcode-passthrough
