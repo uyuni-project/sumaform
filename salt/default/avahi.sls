@@ -1,5 +1,6 @@
 include:
   - default.hostname
+  - repos
 
 {% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
@@ -67,6 +68,8 @@ avahi_pkg:
       - libavahi-core7
       {% endif %}
       {% endif %}
+    - require:
+      - sls: repos
 {% endif %}
 
 # WORKAROUND: watch does not really work with Salt 2016.11
