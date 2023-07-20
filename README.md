@@ -2,7 +2,7 @@
 
 `sumaform` is a way to quickly configure test Uyuni and SUSE Manager infrastructures with clients and servers.
 
-[![Travis CI build status](https://travis-ci.org/uyuni-project/sumaform.svg?branch=master)](https://travis-ci.org/uyuni-project/sumaform)
+[![CI validation tests](https://github.com/uyuni-project/sumaform/actions/workflows/ci-validation.yml/badge.svg?branch=master)](https://github.com/uyuni-project/sumaform/actions/workflows/ci-validation.yml)
 [![Join the chat at https://gitter.im/sumaform/Lobby](https://badges.gitter.im/sumaform/Lobby.svg)](https://gitter.im/sumaform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Installation
