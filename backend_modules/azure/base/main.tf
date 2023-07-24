@@ -21,120 +21,120 @@ data "azurerm_platform_image" "opensuse154o" {
   location  = local.location
   publisher = "suse"
   offer     = "opensuse-leap-15-4"
-  sku       = "gen1"
+  sku       = "gen2"
 }
+#
+#data "azurerm_platform_image" "sles15" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "SLES-BYOS"
+#  sku       = "15"
+#}
+#
+#data "azurerm_platform_image" "sles12sp3" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "SLES-BYOS"
+#  sku       = "12-SP3"
+#}
+#
+#data "azurerm_platform_image" "sles12sp4" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "SLES-BYOS"
+#  sku       = "12-SP4"
+#}
+#
+#data "azurerm_platform_image" "sles11sp4" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "SLES-BYOS"
+#  sku       = "11-SP4"
+#}
+#
+#data "azurerm_platform_image" "sles15sp1o" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "sles-15-sp1-byos"
+#  sku       = "gen1"
+#}
+#
+#data "azurerm_platform_image" "sles15sp2o" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "sles-15-sp2-byos"
+#  sku       = "gen1"
+#}
+#
+#data "azurerm_platform_image" "sles15sp3o" {
+#  location  = local.location
+#  publisher = "SUSE"
+#  offer     = "sles-15-sp3"
+#  sku       = "gen2"
+#}
+#
+#data "azurerm_platform_image" "centos7" {
+#  location  = local.location
+#  publisher = "OpenLogic"
+#  offer     = "CentOS-LVM"
+#  sku       = "7-LVM"
+#}
+#
+#data "azurerm_platform_image" "rhel7" {
+#  location  = local.location
+#  publisher = "RedHat"
+#  offer     = "RHEL"
+#  sku       = "7-LVM"
+#}
+#
+#data "azurerm_platform_image" "rhel8" {
+#  location  = local.location
+#  publisher = "RedHat"
+#  offer     = "RHEL"
+#  sku       = "8-LVM"
+#}
+#
+#data "azurerm_platform_image" "rhel9" {
+#  location  = local.location
+#  publisher = "RedHat"
+#  offer     = "RHEL"
+#  sku       = "9-LVM"
+#}
+#
+#data "azurerm_platform_image" "ubuntu1604" {
+#  location  = local.location
+#  publisher = "cognosys"
+#  offer     = "ubuntu-1604-lts"
+#  sku       = "ubuntu-16-04-lts"
+#}
+#
+#data "azurerm_platform_image" "ubuntu1804" {
+#  location  = local.location
+#  publisher = "cognosys"
+#  offer     = "ubuntu-1804-lts"
+#  sku       = "ubuntu-18-04-lts"
+#}
+#
+#data "azurerm_platform_image" "ubuntu2004" {
+#  location  = local.location
+#  publisher = "cognosys"
+#  offer     = "ubuntu-20-04-lts"
+#  sku       = "ubuntu-20-04-lts"
+#}
 
-data "azurerm_platform_image" "sles15" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "15"
-}
-
-data "azurerm_platform_image" "sles12sp3" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "12-SP3"
-}
-
-data "azurerm_platform_image" "sles12sp4" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "12-SP4"
-}
-
-data "azurerm_platform_image" "sles11sp4" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "11-SP4"
-}
-
-data "azurerm_platform_image" "sles15sp1o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "sles-15-sp1-byos"
-  sku       = "gen1"
-}
-
-data "azurerm_platform_image" "sles15sp2o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "sles-15-sp2-byos"
-  sku       = "gen1"
-}
-
-data "azurerm_platform_image" "sles15sp3o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "sles-15-sp3-byos"
-  sku       = "gen1"
-}
-
-data "azurerm_platform_image" "centos7" {
-  location  = local.location
-  publisher = "OpenLogic"
-  offer     = "CentOS-LVM"
-  sku       = "7-LVM"
-}
-
-data "azurerm_platform_image" "rhel7" {
-  location  = local.location
-  publisher = "RedHat"
-  offer     = "RHEL"
-  sku       = "7-LVM"
-}
-
-data "azurerm_platform_image" "rhel8" {
-  location  = local.location
-  publisher = "RedHat"
-  offer     = "RHEL"
-  sku       = "8-LVM"
-}
-
-data "azurerm_platform_image" "rhel9" {
-  location  = local.location
-  publisher = "RedHat"
-  offer     = "RHEL"
-  sku       = "9-LVM"
-}
-
-data "azurerm_platform_image" "ubuntu1604" {
-  location  = local.location
-  publisher = "cognosys"
-  offer     = "ubuntu-1604-lts"
-  sku       = "ubuntu-16-04-lts"
-}
-
-data "azurerm_platform_image" "ubuntu1804" {
-  location  = local.location
-  publisher = "cognosys"
-  offer     = "ubuntu-1804-lts"
-  sku       = "ubuntu-18-04-lts"
-}
-
-data "azurerm_platform_image" "ubuntu2004" {
-  location  = local.location
-  publisher = "cognosys"
-  offer     = "ubuntu-20-04-lts"
-  sku       = "ubuntu-20-04-lts"
-}
-
-data "azurerm_platform_image" "suma41" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "manager-server-4-1-byos"
-  sku       = "gen1"
-}
-
-data "azurerm_platform_image" "suma42" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "manager-server-4-2-byos"
-  sku       = "gen1"
-}
+#data "azurerm_platform_image" "suma41" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "manager-server-4-1-byos"
+#  sku       = "gen1"
+#}
+#
+#data "azurerm_platform_image" "suma42" {
+#  location  = local.location
+#  publisher = "suse"
+#  offer     = "manager-server-4-2-byos"
+#  sku       = "gen1"
+#}
 
 module "network" {
   source = "../network"
@@ -170,22 +170,22 @@ locals {
     resource_group_name = module.network.configuration.resource_group_name
     platform_image_info = {
       opensuse154o = { platform_image = data.azurerm_platform_image.opensuse154o },
-      sles15       = { platform_image = data.azurerm_platform_image.sles15 },
-      sles15sp1o   = { platform_image = data.azurerm_platform_image.sles15sp1o },
-      sles15sp2o   = { platform_image = data.azurerm_platform_image.sles15sp2o },
-      sles15sp3o   = { platform_image = data.azurerm_platform_image.sles15sp3o },
-      sles12sp4    = { platform_image = data.azurerm_platform_image.sles12sp4 },
-      sles12sp3    = { platform_image = data.azurerm_platform_image.sles12sp3 },
-      sles11sp4    = { platform_image = data.azurerm_platform_image.sles11sp4 },
-      centos7      = { platform_image = data.azurerm_platform_image.centos7 },
-      ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
-      ubuntu1804   = { platform_image = data.azurerm_platform_image.ubuntu1804 },
-      ubuntu1604   = { platform_image = data.azurerm_platform_image.ubuntu1604 },
-      rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },
-      rhel8        = { platform_image = data.azurerm_platform_image.rhel8 },
-      rhel7        = { platform_image = data.azurerm_platform_image.rhel7 },
-      suma41       = { platform_image = data.azurerm_platform_image.suma41 },
-      suma42       = { platform_image = data.azurerm_platform_image.suma42 }
+#      sles15       = { platform_image = data.azurerm_platform_image.sles15 },
+#      sles15sp1o   = { platform_image = data.azurerm_platform_image.sles15sp1o },
+#      sles15sp2o   = { platform_image = data.azurerm_platform_image.sles15sp2o },
+#      sles15sp3o   = { platform_image = data.azurerm_platform_image.sles15sp3o },
+#      sles12sp4    = { platform_image = data.azurerm_platform_image.sles12sp4 },
+#      sles12sp3    = { platform_image = data.azurerm_platform_image.sles12sp3 },
+#      sles11sp4    = { platform_image = data.azurerm_platform_image.sles11sp4 },
+#      centos7      = { platform_image = data.azurerm_platform_image.centos7 },
+#      ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
+#      ubuntu1804   = { platform_image = data.azurerm_platform_image.ubuntu1804 },
+#      ubuntu1604   = { platform_image = data.azurerm_platform_image.ubuntu1604 },
+#      rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },
+#      rhel8        = { platform_image = data.azurerm_platform_image.rhel8 },
+#      rhel7        = { platform_image = data.azurerm_platform_image.rhel7 },
+#      suma41       = { platform_image = data.azurerm_platform_image.suma41 },
+#      suma42       = { platform_image = data.azurerm_platform_image.suma42 }
 
     }
     },
@@ -215,6 +215,6 @@ locals {
 
 output "configuration" {
      value = merge(local.configuration_output, {
-    bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null) : local.bastion_host
+#    bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null) : local.bastion_host
   })
 }
