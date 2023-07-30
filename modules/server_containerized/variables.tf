@@ -158,7 +158,7 @@ variable "disable_download_tokens" {
 }
 
 variable "disable_auto_bootstrap" {
-  description = "disable the default bootstrap mgr-create-bootstrap-repo call after repo sync"
+  description = "disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
   default     = false
 }
 
