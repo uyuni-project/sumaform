@@ -85,6 +85,17 @@ rhn_conf_forward_reg:
 
 {% endif %}
 
+{% if grains.get('disable_auto_bootstrap') | default(false, true) %}
+
+rhn_conf_disable_auto_generate_bootstrap_repo :
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: server.susemanager.auto_generate_bootstrap_repo = 0
+    - require:
+      - sls: server
+
+{% endif %}
+
 # catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
 rhn_conf_present:
   file.touch:

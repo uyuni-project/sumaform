@@ -157,6 +157,11 @@ variable "disable_download_tokens" {
   default     = true
 }
 
+variable "disable_auto_bootstrap" {
+  description = "disable the default bootstrap mgr-create-bootstrap-repo call after repo sync"
+  default     = false
+}
+
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default     = false

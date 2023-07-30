@@ -71,6 +71,7 @@ module "server" {
     create_sample_bootstrap_script = var.create_sample_bootstrap_script
     publish_private_ssl_key        = var.publish_private_ssl_key
     disable_download_tokens        = var.disable_download_tokens
+    disable_auto_bootstrap         = var.disable_auto_bootstrap
     auto_accept                    = var.auto_accept
     monitored                      = var.monitored
     from_email                     = var.from_email
