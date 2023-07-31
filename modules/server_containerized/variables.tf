@@ -172,6 +172,11 @@ variable "from_email" {
   default     = null
 }
 
+variable "traceback_email" {
+  description = "recipient email address that will receive errors during usage"
+  default     = null
+}
+
 variable "smt" {
   description = "URL to an SMT server to get packages from"
   default     = null
