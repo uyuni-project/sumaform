@@ -47,6 +47,11 @@ variable "register_to_server" {
   default     = null
 }
 
+variable "disable_auto_bootstrap" {
+  description = "disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
+  default     = false
+}
+
 variable "auto_register" {
   description = "whether this Server should automatically register to another Server"
   default     = true

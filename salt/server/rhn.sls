@@ -116,7 +116,7 @@ rhn_conf_c3p0_connection_debug_log:
 
 {% endif %}
 
-{% if grains.get('testsuite') | default(false, true) %}
+{% if grains.get('disable_auto_bootstrap') | default(false, true) %}
 
 rhn_conf_disable_auto_generate_bootstrap_repo :
   file.append:
