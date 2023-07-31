@@ -1,3 +1,5 @@
+// TODO: This module is a copy/paste of the server module and some variables are not yet implemented, some could also be dropped, work in-progress.
+
 variable "images" {
   default = {
     "head"           = "sles15sp4o"
