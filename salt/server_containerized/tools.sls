@@ -25,3 +25,10 @@ uyunictl_symlink:
     - target: /root/uyuni-tools/bin/uyunictl
     - require:
       - cmd: tools_built
+
+uyuniadm_symlink:
+  file.symlink:
+    - name: /usr/bin/uyuniadm
+    - target: /root/uyuni-tools/bin/uyuniadm
+    - require:
+      - cmd: tools_built

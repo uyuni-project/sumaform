@@ -46,6 +46,8 @@ module "server_containerized" {
     server_username                = var.server_username
     server_password                = var.server_password
     java_debugging                 = var.java_debugging
+    from_email                     = var.from_email
+    traceback_email                = var.traceback_email
     skip_changelog_import          = var.skip_changelog_import
     create_first_user              = var.create_first_user
     mgr_sync_autologin             = var.mgr_sync_autologin
