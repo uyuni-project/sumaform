@@ -16,7 +16,7 @@ locals {
     rocky9o         = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
     opensuse152o    = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.2/appliances/openSUSE-Leap-15.2-JeOS.x86_64-OpenStack-Cloud.qcow2"
     opensuse153o    = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.3/appliances/openSUSE-Leap-15.3-JeOS.x86_64-OpenStack-Cloud.qcow2"
-    opensuse154o    = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-JeOS.x86_64-OpenStack-Cloud.qcow2"
+    opensuse154o    = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-Minimal-VM.x86_64-OpenStack-Cloud.qcow2"
     opensuse155o    = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse154armo = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-ARM-JeOS-efi.aarch64.qcow2"
     opensuse155armo = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.aarch64-Cloud.qcow2"
