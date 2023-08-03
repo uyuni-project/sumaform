@@ -77,7 +77,7 @@ module "minion" {
   base_configuration = local.base_configuration
 
   name                 = "minion"
-  image                = "opensuse153o"
+  image                = "opensuse155o"
   server_configuration = module.server.configuration
   product_version      = "uyuni-release"
 }

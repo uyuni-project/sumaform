@@ -10,18 +10,6 @@ chpasswd:
     root:linux
 %{ endif }
 
-%{ if image == "opensuse152o" }
-packages: ["salt-minion"]
-
-runcmd:
-  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
-  - zypper rm -y gettext-runtime-mini
-  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
-  # Possible bug in zypper's Salt module
-  - zypper removerepo --all
-
-%{ endif }
-
 %{ if image == "opensuse154o" }
 packages: ["salt-minion"]
 
