@@ -32,16 +32,16 @@ module "cucumber_testsuite" {
     server = {}
     proxy = {}
     suse-client = {
-      image = "opensuse155"
-      name = "cli-opensuse155"
+      image = "opensuse154"
+      name = "cli-opensuse154"
     }
     suse-minion = {
-      image = "opensuse155"
-      name = "min-opensuse155"
+      image = "opensuse154"
+      name = "min-opensuse154"
     }
     suse-sshminion = {
-      image = "opensuse155"
-      name = "minssh-opensuse155"
+      image = "opensuse154"
+      name = "minssh-opensuse154"
     }
   }
 

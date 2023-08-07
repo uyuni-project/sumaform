@@ -33,7 +33,7 @@ module "base" {
 //  }
 
   // Required images
-  images = ["centos7", "opensuse155o", "ubuntu2204"]
+  images = ["centos7", "opensuse154o", "ubuntu2204"]
 }
 
 module "server" {
