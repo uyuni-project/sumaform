@@ -25,6 +25,7 @@ virthost_packages:
         - kernel-default
         - tuned
         - irqbalance
+        - mkisofs
     - require:
       - sls: repos
       - pkg: no_kernel_default_base
