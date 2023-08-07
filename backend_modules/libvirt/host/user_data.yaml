@@ -112,26 +112,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
-%{ if image == "opensuse152o" }
-zypper:
-  repos:
-    - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
-      enabled: true
-      gpgcheck: false
-      name: tools_pool_repo
-
-%{ if install_salt_bundle }
-packages: ["venv-salt-minion", "qemu-guest-agent"]
-%{ else }
-packages: ["qemu-guest-agent"]
-%{ endif }
-
-runcmd:
-  - zypper removerepo --all
-%{ endif }
-
-%{ if image == "opensuse153o" || image == "opensuse153-ci-pr" || image == "opensuse153-ci-pr-client" || image == "opensuse154o" || image == "opensuse154-ci-pro" || image == "opensuse154-ci-pr-client" }
+%{ if image == "opensuse154o" || image == "opensuse154-ci-pro" || image == "opensuse154-ci-pr-client" }
 zypper:
   repos:
     - id: tools_pool_repo

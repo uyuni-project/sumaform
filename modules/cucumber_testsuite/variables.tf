@@ -36,7 +36,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos7o", "opensuse153o", "opensuse154o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o"]
+  default     = ["centos7o", "opensuse154o", "opensuse155o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o"]
 }
 
 variable "mirror" {
