@@ -41,7 +41,7 @@ module "server" {
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "srv"
-  image = "opensuse155o"
+  image = "opensuse154o"
   use_os_released_updates = true
   // see modules/server/variables.tf for possible values
 
