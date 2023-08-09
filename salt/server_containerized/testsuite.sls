@@ -2,7 +2,6 @@
 
 include:
   - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-  - server_containerized.tools
 
 minima_download:
   cmd.run:

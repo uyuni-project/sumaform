@@ -4,5 +4,4 @@ include:
   {% endif %}
   - server_containerized.install_uyuniadm
   - server_containerized.initial_content
-  - server_containerized.tools
   - server_containerized.testsuite
