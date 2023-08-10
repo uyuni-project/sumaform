@@ -12,6 +12,15 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
+limit_changelog_entries:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: java.max_changelog_entries.*
+    - repl: java.max_changelog_entries = 3
+    - append_if_not_found: true
+    - require:
+      - sls: server
+
 {% if grains.get('disable_download_tokens') %}
 disable_download_tokens:
   file.append:
