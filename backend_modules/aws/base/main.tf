@@ -76,8 +76,6 @@ locals {
       debian11    = { ami = data.aws_ami.debian11.image_id, ssh_user= "admin" },
       ubuntu2204  = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
       ubuntu2004  = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
-      ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
-      ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
       rhel8       = { ami = data.aws_ami.rhel8.image_id},
       rhel9       = { ami = data.aws_ami.rhel9.image_id},
     }

@@ -192,7 +192,6 @@ scc:
     - RES-7-SUSE-Manager-Tools
     - RES8-Manager-Tools-Pool
     - RES8-Manager-Tools-Updates
-    - Ubuntu-18.04-SUSE-Manager-Tools
     - Ubuntu-20.04-SUSE-Manager-Tools
     - Ubuntu-22.04-SUSE-Manager-Tools
     # SUSE Manager Beta Tools
@@ -204,7 +203,6 @@ scc:
     - RES-7-SUSE-Manager-Tools-Beta
     - RES8-Manager-Tools-Pool-Beta
     - RES8-Manager-Tools-Updates-Beta
-    - Ubuntu-18.04-SUSE-Manager-Tools-Beta
     - Ubuntu-20.04-SUSE-Manager-Tools-Beta
     - Ubuntu-22.04-SUSE-Manager-Tools-Beta
   archs: [x86_64, amd64]
@@ -354,10 +352,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
     archs: [x86_64]
 
-  # Ubuntu 18.04 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
-    archs: [amd64]
-
   # Ubuntu 20.04 Manager Tools 4.2 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04
     archs: [amd64]
@@ -393,10 +387,6 @@ http:
   # EL 9 Manager Tools 4.3 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
     archs: [x86_64]
-
-  # Ubuntu 18.04 Manager Tools 4.3 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
-    archs: [amd64]
 
   # Ubuntu 20.04 Manager Tools 4.3 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04/
@@ -439,10 +429,6 @@ http:
   # EL 9 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
     archs: [x86_64]
-
-  # Ubuntu 18.04 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
-    archs: [amd64]
 
   # Ubuntu 20.04 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04
@@ -536,8 +522,6 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
@@ -567,8 +551,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [x86_64]

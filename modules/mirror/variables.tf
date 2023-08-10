@@ -38,7 +38,7 @@ variable "ssh_key_path" {
 }
 
 variable "ubuntu_distros" {
-  description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
+  description = "List of Ubuntu versions to mirror among 20.04, 22.04"
   default     = []
 }
 

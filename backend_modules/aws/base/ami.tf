@@ -208,48 +208,6 @@ data "aws_ami" "ubuntu2004" {
   }
 }
 
-data "aws_ami" "ubuntu1804" {
-  most_recent = true
-  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-bionic-18.04"
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-data "aws_ami" "ubuntu1604" {
-  most_recent = true
-  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-xenial-16.04"
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "rhel9" {
   most_recent = true
   name_regex  = "^RHEL-9.0.0_HVM-"
