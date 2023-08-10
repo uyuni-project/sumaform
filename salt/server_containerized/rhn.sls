@@ -12,6 +12,17 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
+{% if 'uyuni' in grains['product_version'] %}
+
+limit_changelog_entries:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: java.max_changelog_entries = 3
+    - require:
+      - sls: server
+
+{% endif %}
+
 {% if grains.get('disable_download_tokens') %}
 disable_download_tokens:
   file.append:
