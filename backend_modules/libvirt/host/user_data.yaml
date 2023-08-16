@@ -112,7 +112,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
-%{ if image == "opensuse154o" || image == "opensuse154-ci-pro" || image == "opensuse154-ci-pr-client" }
+%{ if image == "opensuse154o" || image == "opensuse154-ci-pro" || image == "opensuse154-ci-pr-client" || image == "opensuse155-ci-pro"}
 zypper:
   repos:
     - id: tools_pool_repo
