@@ -214,6 +214,7 @@ resource "null_resource" "host_salt_configuration" {
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
     })
+    custom_grains_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
   }
 
   connection {
@@ -279,6 +280,11 @@ resource "null_resource" "host_salt_configuration" {
       "sudo mv /tmp/salt /root",
       "sudo bash /root/salt/first_deployment_highstate.sh"
     ]
+  }
+
+  provisioner "file" {
+    source      = "_grains"
+    destination = "/srv/salt"
   }
 }
 

@@ -193,6 +193,7 @@ resource "null_resource" "provisioning" {
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
     })
+    custom_grains_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
   }
 
   count = var.provision ? var.quantity : 0
@@ -258,6 +259,11 @@ resource "null_resource" "provisioning" {
     inline = [
       "bash /root/salt/post_provisioning_cleanup.sh",
     ]
+  }
+
+  provisioner "file" {
+    source      = "_grains"
+    destination = "/srv/salt"
   }
 }
 

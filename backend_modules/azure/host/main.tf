@@ -150,6 +150,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         gpg_keys              = var.gpg_keys
         ipv6                  = var.ipv6
     })
+    custom_grains_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
   }
   connection {
     host        = local.public_instance ? azurerm_public_ip.suma-pubIP[count.index].ip_address : azurerm_network_interface.suma-main-nic[count.index].private_ip_address
@@ -213,6 +214,11 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
       "sudo bash /root/salt/first_deployment_highstate.sh"
     ]
   }
+
+   provisioner "file" {
+     source      = "_grains"
+     destination = "/srv/salt"
+   }
 }
 
 /** END: provisioning */

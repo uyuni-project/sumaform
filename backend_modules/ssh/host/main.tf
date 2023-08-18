@@ -37,6 +37,7 @@ resource "null_resource" "provisioning" {
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
     })
+    custom_grains_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
   }
 
   count = var.provision ? 1 : 0
@@ -110,6 +111,11 @@ resource "null_resource" "provisioning" {
     inline = [
       "sudo bash /opt/salt/first_deployment_highstate.sh"
     ]
+  }
+
+  provisioner "file" {
+    source      = "_grains"
+    destination = "/srv/salt"
   }
 }
 
