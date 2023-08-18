@@ -214,7 +214,7 @@ resource "null_resource" "host_salt_configuration" {
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
     })
-    custom_grains_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
+    custom_grain_modules_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
   }
 
   connection {

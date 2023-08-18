@@ -37,7 +37,7 @@ resource "null_resource" "provisioning" {
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
     })
-    custom_grains_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
+    custom_grain_modules_hash = sha1(join("", [for f in fileset("_grains", "*"): filesha1("_grains/${f}")]))
   }
 
   count = var.provision ? 1 : 0
