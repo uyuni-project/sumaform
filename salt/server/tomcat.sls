@@ -12,11 +12,7 @@ tomcat_config:
   file.replace:
     - name: /etc/tomcat/conf.d/remote_debug.conf
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
-    {% if grains['hostname'] and grains['domain'] %}
-    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['hostname'] }}.{{ grains['domain'] }}:8000,server=y,suspend=n "'
-    {% else %}
-    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['fqdn'] }}:8000,server=y,suspend=n "'
-    {% endif %}
+    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=*:8000,server=y,suspend=n "'
     - append_if_not_found: True
     - ignore_if_missing: True
     - require:
