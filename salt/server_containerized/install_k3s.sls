@@ -1,5 +1,4 @@
 include:
-  - server_containerized.tools
   - server_containerized.install_common
 
 k3s_install:

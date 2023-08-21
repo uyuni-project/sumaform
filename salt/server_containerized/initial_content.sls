@@ -1,7 +1,6 @@
 {% set container_runtime = grains.get('container_runtime') | default('podman', true) %}
 
 include:
-  - server_containerized.tools
   - server_containerized.install_{{ container_runtime }}
 
 {% set server_username = grains.get('server_username') | default('admin', true) %}
@@ -11,7 +10,7 @@ spacecmd_config:
   cmd.run:
     - name: uyunictl exec 'mkdir -p /root/.spacecmd; echo -e "[spacecmd]\\nserver={{ grains.get('fqdn') }}" >/root/.spacecmd/config'
     - require:
-      - sls: server_containerized.tools
+      - pkg: uyuni-tools
       - sls: server_containerized.install_{{ container_runtime }}
 
 {% if grains.get('create_first_user') %}
@@ -42,7 +41,7 @@ create_first_user:
     - unless: uyunictl exec "satwho | grep -x {{ server_username }} server_username"
     - require:
       - http: wait_for_tomcat
-      - sls: server_containerized.tools
+      - pkg: uyuni-tools
 
 # set password in case user already existed with a different password
 first_user_set_password:
@@ -50,7 +49,7 @@ first_user_set_password:
     - name: uyunictl exec 'echo -e "{{ server_password }}\\n{{ server_password }}" | satpasswd -s {{ server_username }}'
     - require:
       - http: create_first_user
-      - sls: server_containerized.tools
+      - pkg: uyuni-tools
 
 {% endif %}
 

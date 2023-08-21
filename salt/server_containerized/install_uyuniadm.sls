@@ -18,7 +18,7 @@ uyuniadm_install:
     - unless: helm --kubeconfig /etc/rancher/k3s/k3s.yaml list | grep uyuni
 {%- endif %}
     - require:
-      - sls: server_containerized.tools
+      - pkg: uyuni-tools
       - sls: server_containerized.install_common
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
       - file: uyuniadm_config
