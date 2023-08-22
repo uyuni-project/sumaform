@@ -7,7 +7,7 @@ minima_download:
   cmd.run:
     - name: uyunictl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz'
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
 
 minima_unpack:
   cmd.run:
@@ -50,7 +50,7 @@ test_repo_debian_updates:
     - unless: uyunictl exec "ls -d /srv/www/htdocs/pub/TestRepoDebUpdates"
     - require:
       - cmd: test_repo_debian_updates_script_copy
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - cmd: testsuite_packages
 
 # modify cobbler to be executed from remote-machines..
@@ -59,7 +59,7 @@ cobbler_configuration:
     - name: "uyunictl exec 'sed -i \"s/redhat_management_permissive: false/redhat_management_permissive: true/\" /etc/cobbler/settings.yaml'"
     - require:
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
 
 cobbler_restart:
   cmd.run:
@@ -113,14 +113,14 @@ testing_overlay_devel_repo:
 {%- endif %}
     - unless: uyunictl exec "zypper lr" | grep testing_overlay_devel_repo
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - cmd: repo_key_import
 
 testsuite_packages:
   cmd.run:
     - name: uyunictl exec "zypper -n in iputils expect wget OpenIPMI {% if 'build_image' not in grains.get('product_version') | default('', true) %}salt-ssh{% endif %}"
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - cmd: testing_overlay_devel_repo
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head"] %}
@@ -135,7 +135,7 @@ create_pillar_top_sls_to_assign_salt_bundle_config:
   cmd.run:
     - name: uyunictl exec 'echo -e "base:\n  '"'"'*'"'"':\n    - salt_bundle_config" >/srv/pillar/top.sls'
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 custom_pillar_to_force_salt_bundle:
@@ -149,21 +149,21 @@ enable_salt_content_staging_window:
   cmd.run:
     - name: uyunictl -v exec 'sed '"'"'/java.salt_content_staging_window =/{h;s/= .*/= 0.033/};${x;/^$/{s//java.salt_content_staging_window = 0.033/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 enable_salt_content_staging_advance:
   cmd.run:
     - name: uyunictl -v exec 'sed '"'"'/java.salt_content_staging_advance =/{h;s/= .*/= 0.05/};${x;/^$/{s//java.salt_content_staging_advance = 0.05/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 enable_kiwi_os_image_building:
   cmd.run:
     - name: uyunictl -v exec 'sed '"'"'/java.kiwi_os_image_building_enabled =/{h;s/= .*/= true/};${x;/^$/{s//java.kiwi_os_image_building_enabled = true/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 tomcat_restart:
@@ -183,7 +183,7 @@ dump_salt_event_log:
     - name: uyunictl cp /root/salt-events.service server:/usr/lib/systemd/system/salt-events.service
     - require:
       - file: salt_event_service_file
-      - file: uyunictl_symlink
+      - pkg: uyuni_tools
 
 dump_salt_event_log_start:
   cmd.run:
