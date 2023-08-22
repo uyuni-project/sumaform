@@ -1,4 +1,4 @@
-{% if 'server_containerized' in grains.get('roles') and grains.get('container_runtime') | default('podman', true) == 'podman' %}
+{% if 'server_containerized' in grains.get('roles')  %}
 
 systemsmanagement_Uyuni_Master_ServerContainer:
     pkgrepo.managed:
