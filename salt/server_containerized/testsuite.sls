@@ -116,10 +116,23 @@ testing_overlay_devel_repo:
       - pkg: uyuni_tools
       - cmd: repo_key_import
 
+# Allowing downgrade of salt-ssh as it has sometimes a slightly older version than what is in the image
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+saltssh_package:
+   cmd.run:
+    - name: uyunictl exec "zypper -n in --allow-downgrade salt-ssh"
+    - require:
+      - pkg: uyuni_tools
+      - cmd: testing_overlay_devel_repo
+{% endif %}
+
 testsuite_packages:
   cmd.run:
-    - name: uyunictl exec "zypper -n in iputils expect wget OpenIPMI {% if 'build_image' not in grains.get('product_version') | default('', true) %}salt-ssh{% endif %}"
+    - name: uyunictl exec "zypper -n in iputils expect wget OpenIPMI"
     - require:
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+      - cmd: saltssh_package
+{% endif %}
       - pkg: uyuni_tools
       - cmd: testing_overlay_devel_repo
 
