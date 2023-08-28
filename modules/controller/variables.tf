@@ -462,34 +462,6 @@ variable "rhel9_sshminion_configuration" {
   }
 }
 
-variable "ubuntu1604_minion_configuration" {
-  description = "use module.<UBUNTU1604_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu1604_sshminion_configuration" {
-  description = "use module.<UBUNTU1604_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu1804_minion_configuration" {
-  description = "use module.<UBUNTU1804_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu1804_sshminion_configuration" {
-  description = "use module.<UBUNTU1804_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "ubuntu2004_minion_configuration" {
   description = "use module.<UBUNTU2004_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {

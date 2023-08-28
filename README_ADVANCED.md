@@ -180,7 +180,7 @@ module "mirror" {
   source = "./modules/mirror"
   base_configuration = module.base.configuration
 
-  ubuntu_distros = ['16.04', '18.04', '22.04']
+  ubuntu_distros = ['20.04', '22.04']
 }
 ```
 
