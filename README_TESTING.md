@@ -56,7 +56,7 @@ To start the testsuite, use:
 ssh -t head-ctl.tf.local run-testsuite
 ```
 
-By default, `run-testsuite` runs over a selection of the YAML files in `run_sets`, i.e.:
+By default, `run-testsuite` runs over a selection of the YAML files in `run_sets/continuous_integration`, i.e.:
 `sanity_check.yml`, `core.yml`, `reposync.yml`, `init_clients.yml`, `secondary.yml`, `secondary_parallelizable.yml`, `finishing.yml`.
 
 To enable/disable features, edit these YAML files. Keep in mind that:
@@ -69,7 +69,7 @@ Once all `core_` features have been executed you can run a non-core Cucumber fea
 ```bash
 ssh root@head-ctl.tf.local
 cd spacewalk/testsuite
-cucumber -r features features/secondary/my_feature.feature
+cucumber -r features features/secondary/continuous_integration/my_feature.feature
 ```
 
 or an individual scenario with:
