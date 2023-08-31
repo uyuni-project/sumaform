@@ -11,6 +11,23 @@ taskomatic_config:
     - require:
       - sls: server.rhn
 
+hibernate_debug_log:
+  file.line:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
+    - content: '    <Logger name="org.hibernate" level="debug" additivity="false"><AppenderRef ref="hibernateAppender" /></Logger>'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server.rhn
+
+taskomatic_hibernate_debug_log:
+  file.line:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
+    - content: '    <File name="hibernateAppender" fileName="/var/log/rhn/rhn_taskomatic_hibernate.log"><PatternLayout pattern="[%d] %-5p - %m%n" /></File>'
+    - after: "<Appenders>"
+    - mode: ensure
+    - require:
+      - sls: server.rhn
 {% endif %}
 
 taskomatic:

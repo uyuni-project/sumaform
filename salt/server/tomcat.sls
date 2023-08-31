@@ -19,6 +19,14 @@ tomcat_config:
       - sls: server.rhn
       - file: tomcat_config_create
 
+salt_server_action_service_debug_log:
+  file.line:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
+    - content: '    <Logger name="com.suse.manager.webui.services.SaltServerActionService" level="trace" />'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server.rhn
 {% endif %}
 
 {% if grains.get('login_timeout') %}
