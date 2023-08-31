@@ -22,7 +22,7 @@ tomcat_config:
 salt_server_action_service_debug_log:
   file.line:
     - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
-    - content: '    <Logger name="com.suse.manager.webui.services.SaltServerActionService" level="trace" />'
+    - content: '        <Logger name="com.suse.manager.webui.services.SaltServerActionService" level="trace" />'
     - after: "<Loggers>"
     - mode: ensure
     - require:
