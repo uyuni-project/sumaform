@@ -8,7 +8,7 @@ certificate_authority_certificate:
     - makedirs: True
 
 {% if '4.2' not in grains.get('product_version') %}
-cucumber_requisites:
+kiwi_imager_server_dependency:
   pkg.installed:
     - pkgs:
       - python3-kiwi
