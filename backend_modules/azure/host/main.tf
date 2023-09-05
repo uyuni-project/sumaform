@@ -18,6 +18,7 @@ locals {
     contains(var.roles, "virthost") ? { vm_size = "Standard_B1ms" } : {},
     contains(var.roles, "jenkins") ? { vm_size = "Standard_B4ms" } : {},
   var.provider_settings)
+  additional_network                   = var.base_configuration.additional_network
   public_subnet_id                     = var.base_configuration.public_subnet_id
   private_subnet_id                    = var.base_configuration.private_subnet_id
   private_additional_subnet_id         = var.base_configuration.private_additional_subnet_id
@@ -66,7 +67,7 @@ resource "azurerm_network_interface" "suma-main-nic" {
 }
 
 resource "azurerm_network_interface" "suma-additional-nic" {
-  count = var.connect_to_base_network && var.connect_to_additional_network ? var.quantity : 0
+  count = var.connect_to_base_network && var.connect_to_additional_network && local.additional_network != null ? var.quantity : 0
   name                = "${var.base_configuration["name_prefix"]}${var.name}-additional-nic${count.index}"
   location            = local.location
   resource_group_name = local.resource_group_name
@@ -83,7 +84,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
 
   location                         = local.location
   resource_group_name              = local.resource_group_name
-  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
+  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network && local.additional_network != null ? azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
   size                          = local.provider_settings["vm_size"]
   admin_username      = "azureuser"
   disable_password_authentication = true

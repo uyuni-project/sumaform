@@ -133,14 +133,14 @@ locals {
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
 
-    additional_network = local.additional_network
+    additional_network   = local.additional_network
 
-    location            = local.location
+    location             = local.location
 
-    public_key_location = local.public_key_location
-    key_file = local.key_file
-    resource_group_name = module.network.configuration.resource_group_name
-    platform_image_info = {
+    public_key_location  = local.public_key_location
+    key_file             = local.key_file
+    resource_group_name  = module.network.configuration.resource_group_name
+    platform_image_info  = {
       opensuse154o = { platform_image = data.azurerm_platform_image.opensuse154o },
       opensuse155o = { platform_image = data.azurerm_platform_image.opensuse155o },
       sles15sp4o   = { platform_image = data.azurerm_platform_image.sles15sp4o },
