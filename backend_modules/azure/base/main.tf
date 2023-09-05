@@ -21,84 +21,63 @@ data "azurerm_platform_image" "opensuse154o" {
   location  = local.location
   publisher = "suse"
   offer     = "opensuse-leap-15-4"
-  sku       = "gen1"
+  sku       = "gen2"
 }
 
-data "azurerm_platform_image" "sles15" {
+data "azurerm_platform_image" "opensuse155o" {
   location  = local.location
   publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "15"
+  offer     = "opensuse-leap-15-5"
+  sku       = "gen2"
 }
 
-data "azurerm_platform_image" "sles12sp3" {
+data "azurerm_platform_image" "sles12sp5o" {
   location  = local.location
   publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "12-SP3"
+  offer     = "sles-12-sp5-byos"
+  sku       = "gen2"
 }
 
-data "azurerm_platform_image" "sles12sp4" {
+data "azurerm_platform_image" "sles15sp4o" {
   location  = local.location
   publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "12-SP4"
+  offer     = "sles-15-sp4-byos"
+  sku       = "gen2"
 }
 
-data "azurerm_platform_image" "sles11sp4" {
+data "azurerm_platform_image" "sles15sp5o" {
   location  = local.location
   publisher = "suse"
-  offer     = "SLES-BYOS"
-  sku       = "11-SP4"
-}
-
-data "azurerm_platform_image" "sles15sp1o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "sles-15-sp1-byos"
-  sku       = "gen1"
-}
-
-data "azurerm_platform_image" "sles15sp2o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "sles-15-sp2-byos"
-  sku       = "gen1"
-}
-
-data "azurerm_platform_image" "sles15sp3o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "sles-15-sp3-byos"
-  sku       = "gen1"
+  offer     = "sles-15-sp5-byos"
+  sku       = "gen2"
 }
 
 data "azurerm_platform_image" "centos7" {
   location  = local.location
   publisher = "OpenLogic"
   offer     = "CentOS-LVM"
-  sku       = "7-LVM"
+  sku       = "7-lvm-gen2"
 }
 
 data "azurerm_platform_image" "rhel7" {
   location  = local.location
   publisher = "RedHat"
   offer     = "RHEL"
-  sku       = "7-LVM"
+  sku       = "7lvm-gen2"
 }
 
 data "azurerm_platform_image" "rhel8" {
   location  = local.location
   publisher = "RedHat"
   offer     = "RHEL"
-  sku       = "8-LVM"
+  sku       = "8-lvm-gen2"
 }
 
 data "azurerm_platform_image" "rhel9" {
   location  = local.location
   publisher = "RedHat"
   offer     = "RHEL"
-  sku       = "9-LVM"
+  sku       = "9-lvm-gen2"
 }
 
 data "azurerm_platform_image" "ubuntu2004" {
@@ -108,18 +87,25 @@ data "azurerm_platform_image" "ubuntu2004" {
   sku       = "ubuntu-20-04-lts"
 }
 
-data "azurerm_platform_image" "suma41" {
+data "azurerm_platform_image" "ubuntu2204" {
   location  = local.location
-  publisher = "suse"
-  offer     = "manager-server-4-1-byos"
-  sku       = "gen1"
+  publisher = "cognosys"
+  offer     = "ubuntu-22-04-lts"
+  sku       = "ubuntu-22-04-lts"
 }
 
 data "azurerm_platform_image" "suma42" {
   location  = local.location
   publisher = "suse"
   offer     = "manager-server-4-2-byos"
-  sku       = "gen1"
+  sku       = "gen2"
+}
+
+data "azurerm_platform_image" "suma43" {
+  location  = local.location
+  publisher = "suse"
+  offer     = "manager-server-4-3-byos"
+  sku       = "gen2"
 }
 
 module "network" {
@@ -156,20 +142,18 @@ locals {
     resource_group_name = module.network.configuration.resource_group_name
     platform_image_info = {
       opensuse154o = { platform_image = data.azurerm_platform_image.opensuse154o },
-      sles15       = { platform_image = data.azurerm_platform_image.sles15 },
-      sles15sp1o   = { platform_image = data.azurerm_platform_image.sles15sp1o },
-      sles15sp2o   = { platform_image = data.azurerm_platform_image.sles15sp2o },
-      sles15sp3o   = { platform_image = data.azurerm_platform_image.sles15sp3o },
-      sles12sp4    = { platform_image = data.azurerm_platform_image.sles12sp4 },
-      sles12sp3    = { platform_image = data.azurerm_platform_image.sles12sp3 },
-      sles11sp4    = { platform_image = data.azurerm_platform_image.sles11sp4 },
+      opensuse155o = { platform_image = data.azurerm_platform_image.opensuse155o },
+      sles15sp4o   = { platform_image = data.azurerm_platform_image.sles15sp4o },
+      sles15sp5o   = { platform_image = data.azurerm_platform_image.sles15sp5o },
+      sles12sp5o   = { platform_image = data.azurerm_platform_image.sles12sp5o },
       centos7      = { platform_image = data.azurerm_platform_image.centos7 },
       ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
+      ubuntu2204   = { platform_image = data.azurerm_platform_image.ubuntu2204 },
       rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },
       rhel8        = { platform_image = data.azurerm_platform_image.rhel8 },
       rhel7        = { platform_image = data.azurerm_platform_image.rhel7 },
-      suma41       = { platform_image = data.azurerm_platform_image.suma41 },
-      suma42       = { platform_image = data.azurerm_platform_image.suma42 }
+      suma42       = { platform_image = data.azurerm_platform_image.suma42 },
+      suma43       = { platform_image = data.azurerm_platform_image.suma43 }
 
     }
     },

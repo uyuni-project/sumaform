@@ -160,7 +160,6 @@ resource "azurerm_public_ip" "nat-pubIP" {
   location            = "${azurerm_resource_group.suma-rg.location}"
   allocation_method   = "Static"
   sku                 = "Standard"
-  zones               = ["1"]
 }
 
 resource "azurerm_nat_gateway" "suma-ngw" {
