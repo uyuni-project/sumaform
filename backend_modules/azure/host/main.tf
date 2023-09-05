@@ -18,6 +18,7 @@ locals {
     contains(var.roles, "virthost") ? { vm_size = "Standard_B1ms" } : {},
     contains(var.roles, "jenkins") ? { vm_size = "Standard_B4ms" } : {},
   var.provider_settings)
+  additional_network                   = var.base_configuration.additional_network
   public_subnet_id                     = var.base_configuration.public_subnet_id
   private_subnet_id                    = var.base_configuration.private_subnet_id
   private_additional_subnet_id         = var.base_configuration.private_additional_subnet_id
@@ -37,6 +38,7 @@ data "template_file" "user_data" {
     image           = var.image
     public_instance = local.public_instance
     mirror_url      = var.base_configuration["mirror"]
+    install_salt_bundle      = var.install_salt_bundle
   }
 }
 
@@ -66,7 +68,7 @@ resource "azurerm_network_interface" "suma-main-nic" {
 }
 
 resource "azurerm_network_interface" "suma-additional-nic" {
-  count = var.connect_to_base_network && var.connect_to_additional_network ? var.quantity : 0
+  count = var.connect_to_base_network && var.connect_to_additional_network && local.additional_network != null ? var.quantity : 0
   name                = "${var.base_configuration["name_prefix"]}${var.name}-additional-nic${count.index}"
   location            = local.location
   resource_group_name = local.resource_group_name
@@ -83,7 +85,7 @@ resource "azurerm_linux_virtual_machine" "instance" {
 
   location                         = local.location
   resource_group_name              = local.resource_group_name
-  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network?azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
+  network_interface_ids            = compact(["${azurerm_network_interface.suma-main-nic[count.index].id}","${var.connect_to_additional_network && local.additional_network != null ? azurerm_network_interface.suma-additional-nic[count.index].id:""}"])
   size                          = local.provider_settings["vm_size"]
   admin_username      = "azureuser"
   disable_password_authentication = true
@@ -141,6 +143,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         use_ntp               = var.base_configuration["use_ntp"]
         testsuite             = var.base_configuration["testsuite"]
         roles                 = var.roles
+        install_salt_bundle   = var.install_salt_bundle
         additional_repos      = var.additional_repos
         additional_repos_only = var.additional_repos_only
         additional_certs      = var.additional_certs
@@ -184,6 +187,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
         additional_packages       = var.additional_packages
+        install_salt_bundle       = var.install_salt_bundle
         swap_file_size            = var.swap_file_size
         authorized_keys = concat(
           var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
@@ -194,7 +198,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdc" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdb" : null
       },
     var.grains))
     destination = "/tmp/grains"
@@ -202,7 +206,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
 
   provisioner "remote-exec" {
     inline = [
-      "bash /tmp/salt/wait_for_salt.sh",
+      "sudo bash /tmp/salt/wait_for_salt.sh",
     ]
   }
 
