@@ -38,6 +38,7 @@ data "template_file" "user_data" {
     image           = var.image
     public_instance = local.public_instance
     mirror_url      = var.base_configuration["mirror"]
+    install_salt_bundle      = var.install_salt_bundle
   }
 }
 
@@ -142,6 +143,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         use_ntp               = var.base_configuration["use_ntp"]
         testsuite             = var.base_configuration["testsuite"]
         roles                 = var.roles
+        install_salt_bundle   = var.install_salt_bundle
         additional_repos      = var.additional_repos
         additional_repos_only = var.additional_repos_only
         additional_certs      = var.additional_certs
@@ -185,6 +187,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         additional_repos_only     = var.additional_repos_only
         additional_certs          = var.additional_certs
         additional_packages       = var.additional_packages
+        install_salt_bundle       = var.install_salt_bundle
         swap_file_size            = var.swap_file_size
         authorized_keys = concat(
           var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
