@@ -198,7 +198,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdc" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdb" : null
       },
     var.grains))
     destination = "/tmp/grains"
@@ -206,7 +206,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
 
   provisioner "remote-exec" {
     inline = [
-      "bash /tmp/salt/wait_for_salt.sh",
+      "sudo bash /tmp/salt/wait_for_salt.sh",
     ]
   }
 
