@@ -9,7 +9,7 @@ uyuniadm_config:
 
 uyuniadm_install:
   cmd.run:
-    - name: uyuniadm install --config /root/uyuniadm.yaml {{ grains.get("fqdn") }}
+    - name: uyuniadm install -v --config /root/uyuniadm.yaml {{ grains.get("fqdn") }}
     - env:
       - KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 {%- if grains.get('container_runtime') | default('podman', true) == 'podman' %}
