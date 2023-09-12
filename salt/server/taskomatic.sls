@@ -1,8 +1,9 @@
-{% if grains.get('java_debugging') %}
-
+{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') %}
 include:
   - server.rhn
+{% endif %}
 
+{% if grains.get('java_debugging') %}
 taskomatic_config:
   file.replace:
     - name: /etc/rhn/taskomatic.conf
@@ -10,7 +11,9 @@ taskomatic_config:
     - repl: JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=*:8001,server=y,suspend=n "
     - require:
       - sls: server.rhn
+{% endif %}
 
+{% if grains.get('java_hibernate_debugging') and '4.2' not in grains['product_version'] %}
 hibernate_debug_log:
   file.line:
     - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml

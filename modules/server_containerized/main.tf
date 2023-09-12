@@ -46,6 +46,8 @@ module "server_containerized" {
     server_username                = var.server_username
     server_password                = var.server_password
     java_debugging                 = var.java_debugging
+    java_hibernate_debugging       = var.java_hibernate_debugging
+    java_salt_debugging            = var.java_salt_debugging
     from_email                     = var.from_email
     traceback_email                = var.traceback_email
     skip_changelog_import          = var.skip_changelog_import

@@ -117,6 +117,16 @@ variable "java_debugging" {
   default     = true
 }
 
+variable "java_hibernate_debugging" {
+  description = "enable additional logs for Hibernate in Tomcat and Taskomatic"
+  default     = false
+}
+
+variable "java_salt_debugging" {
+  description = "enable additional logs for Hibernate in Tomcat"
+  default     = false
+}
+
 variable "skip_changelog_import" {
   description = "import RPMs without changelog data, this speeds up spacewalk-repo-sync"
   default     = true
