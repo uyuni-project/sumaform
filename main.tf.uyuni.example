@@ -33,7 +33,7 @@ module "base" {
 //  }
 
   // Required images
-  images = ["centos7", "opensuse154o", "ubuntu2204"]
+  images = ["centos7", "opensuse155o", "ubuntu2204"]
 }
 
 module "server" {
@@ -41,7 +41,7 @@ module "server" {
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "srv"
-  image = "opensuse154o"
+  image = "opensuse155o"
   use_os_released_updates = true
   // see modules/server/variables.tf for possible values
 
@@ -84,7 +84,7 @@ module "kvm-host" {
   base_configuration = module.base.configuration
   product_version = "uyuni-master"
   name = "min-kvm"
-  image = "opensuse154o"
+  image = "opensuse155o"
   server_configuration = module.server.configuration
   // see modules/virthost/variables.tf for possible values
 }
