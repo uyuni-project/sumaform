@@ -180,7 +180,7 @@ module "mirror" {
   source = "./modules/mirror"
   base_configuration = module.base.configuration
 
-  ubuntu_distros = ['16.04', '18.04', '22.04']
+  ubuntu_distros = ['20.04', '22.04']
 }
 ```
 
@@ -885,6 +885,8 @@ module "server" {
 The `server` module has options to automatically capture more diagnostic information, off by default:
 
 - `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+- `java_hibernate_debugging`: enable additional logs for Hibernate in Tomcat and Taskomatic
+- `java_salt_debugging`: enable additional logs for Hibernate in Tomcat
 - `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
 
 ## Using external database

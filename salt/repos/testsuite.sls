@@ -14,7 +14,7 @@ uyuni_key_for_fake_packages:
       - file: uyuni_key_for_fake_packages
 {% else %}
   cmd.run:
-    - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror.mgr.prv.suse.net", true) }}/uyuni.key
+    - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror-ci-bv.mgr.prv.suse.net", true) }}/uyuni.key
 {% endif %}
 
 test_repo_rpm_pool:

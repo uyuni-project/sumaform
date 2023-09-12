@@ -24,6 +24,7 @@ module "server" {
 
   base_configuration            = var.base_configuration
   name                          = var.name
+  quantity                      = var.quantity
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
@@ -62,6 +63,8 @@ module "server" {
     unsafe_postgres                = var.unsafe_postgres
     postgres_log_min_duration      = var.postgres_log_min_duration
     java_debugging                 = var.java_debugging
+    java_hibernate_debugging       = var.java_hibernate_debugging
+    java_salt_debugging            = var.java_salt_debugging
     skip_changelog_import          = var.skip_changelog_import
     create_first_user              = var.create_first_user
     mgr_sync_autologin             = var.mgr_sync_autologin
@@ -70,6 +73,7 @@ module "server" {
     create_sample_bootstrap_script = var.create_sample_bootstrap_script
     publish_private_ssl_key        = var.publish_private_ssl_key
     disable_download_tokens        = var.disable_download_tokens
+    disable_auto_bootstrap         = var.disable_auto_bootstrap
     auto_accept                    = var.auto_accept
     monitored                      = var.monitored
     from_email                     = var.from_email
@@ -81,6 +85,8 @@ module "server" {
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
     login_timeout                  = var.login_timeout
     db_configuration               = var.db_configuration
+    c3p0_connection_timeout        = var.c3p0_connection_timeout
+    c3p0_connection_debug          = var.c3p0_connection_debug
   }
 
 

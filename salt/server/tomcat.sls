@@ -1,8 +1,9 @@
-{% if grains.get('java_debugging') %}
-
+{% if grains.get('java_debugging') or grains.get('java_salt_debugging') %}
 include:
   - server.rhn
+{% endif %}
 
+{% if grains.get('java_debugging') %}
 tomcat_config_create:
   file.touch:
     - name: /etc/tomcat/conf.d/remote_debug.conf
@@ -12,17 +13,23 @@ tomcat_config:
   file.replace:
     - name: /etc/tomcat/conf.d/remote_debug.conf
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
-    {% if grains['hostname'] and grains['domain'] %}
-    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['hostname'] }}.{{ grains['domain'] }}:8000,server=y,suspend=n "'
-    {% else %}
-    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address={{ grains['fqdn'] }}:8000,server=y,suspend=n "'
-    {% endif %}
+    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=*:8000,server=y,suspend=n "'
     - append_if_not_found: True
     - ignore_if_missing: True
     - require:
       - sls: server.rhn
       - file: tomcat_config_create
+{% endif %}
 
+{% if grains.get('java_salt_debugging') and '4.2' not in grains['product_version'] %}
+salt_server_action_service_debug_log:
+  file.line:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
+    - content: '        <Logger name="com.suse.manager.webui.services.SaltServerActionService" level="trace" />'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server.rhn
 {% endif %}
 
 {% if grains.get('login_timeout') %}

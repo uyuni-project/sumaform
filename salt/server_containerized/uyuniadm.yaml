@@ -1,0 +1,35 @@
+db:
+  password: spacewalk
+reportdb:
+  host: localhost
+cert:
+  password: spacewalk
+scc:
+  user: {{ grains.get("cc_username") }}
+  password: {{ grains.get("cc_password") }}
+email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) }}
+emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
+{%- if grains.get('container_repository') %}
+image: {{ grains.get('container_repository') }}/server
+{% endif %}
+{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+{%- if mirror_hostname %}
+mirrorPath: /srv/mirror
+{% endif -%}
+{% set helm_chart_default = 'oci://registry.opensuse.org/uyuni/server' %}
+helm:
+  uyuni:
+    chart: {{ grains.get("helm_chart_url") | default(helm_chart_default, true) }}
+    values: /root/chart-values.yaml
+podman:
+  arg:
+{%- if mirror_hostname %}
+    - -v=/srv/mirror:/mirror
+{%- endif %}
+{%- if grains.get("java_debugging") %}
+    - -p
+    - 8000:8000
+    - -p
+    - 8001:8001
+{%- endif %}
+    - ""

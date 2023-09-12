@@ -25,6 +25,12 @@ http:
   - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
     archs: [x86_64]
 
+  - url:  http://download.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
+    archs: [x86_64]
+
+  - url:  http://download.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
+    archs: [x86_64]
+
   - url:  http://download.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 
@@ -34,13 +40,13 @@ http:
   - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
 
-  - url:  http://download.suse.de/download/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+  - url:  http://download.suse.de/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://download.suse.de/download/ibs/SUSE/Updates/RES/8-CLIENT-TOOLS/x86_64/update/
+  - url:  http://download.suse.de/ibs/SUSE/Updates/RES/8-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://download.suse.de/download/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/update/
+  - url:  http://download.suse.de/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
   - url:  http://download.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/

@@ -38,7 +38,7 @@ variable "ssh_key_path" {
 }
 
 variable "ubuntu_distros" {
-  description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
+  description = "List of Ubuntu versions to mirror among 20.04, 22.04"
   default     = []
 }
 
@@ -80,5 +80,5 @@ variable "disable_cron" {
 variable "image" {
   description = "An image name, e.g. sles12sp4 or opensuse154o"
   type        = string
-  default = "opensuse153o"
+  default = "opensuse154o"
 }

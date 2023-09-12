@@ -10,27 +10,33 @@ chpasswd:
     root:linux
 %{ endif }
 
-%{ if image == "opensuse152o" }
-packages: ["salt-minion"]
-
+%{ if image == "opensuse154o" }
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
+%{ if install_salt_bundle }
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else }
+  - zypper up --allow-vendor-change --no-confirm salt-minion
+%{ endif }
 
 %{ endif }
 
-%{ if image == "opensuse154o" }
-packages: ["salt-minion"]
-
+%{ if image == "opensuse155o" }
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
+%{ if install_salt_bundle }
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else }
+  - zypper up --allow-vendor-change --no-confirm salt-minion
+%{ endif }
 
 %{ endif }
 
@@ -91,6 +97,19 @@ zypper:
     - id: salt_qubes_build
       name: salt_qubes_build
       baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
+%{ endif }
+
+%{ if image == "sles15sp5o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP5/
       enabled: 1
       autorefresh: 1
 
@@ -200,20 +219,13 @@ runcmd:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "ubuntu1804" }
 
-runcmd:
-  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
+%{ if image == "ubuntu2204" }
 
-packages: ["salt-minion"]
-%{ endif }
-%{ if image == "ubuntu1604" }
 apt:
   sources:
     tools_pool_repo:
-      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
+      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_22.04/ /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -239,7 +251,7 @@ apt:
 
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu does not take care of the following
-  - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
 packages: ["salt-minion"]

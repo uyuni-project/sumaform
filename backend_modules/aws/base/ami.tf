@@ -124,27 +124,6 @@ data "aws_ami" "sles12sp5" {
   }
 }
 
-data "aws_ami" "sles12sp4" {
-  most_recent = true
-  name_regex  = "^suse-sles-12-sp4-byos-v"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "rocky8" {
   most_recent = true
   name_regex  = "^Rocky-8-ec2-8"
@@ -211,48 +190,6 @@ data "aws_ami" "ubuntu2204" {
 data "aws_ami" "ubuntu2004" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-focal-20.04"
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-data "aws_ami" "ubuntu1804" {
-  most_recent = true
-  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-bionic-18.04"
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-data "aws_ami" "ubuntu1604" {
-  most_recent = true
-  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-xenial-16.04"
   owners      = ["099720109477"]
 
   filter {

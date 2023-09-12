@@ -51,6 +51,7 @@ data "template_file" "user_data" {
     image                    = var.image
     public_instance          = local.provider_settings["public_instance"]
     mirror_url               = var.base_configuration["mirror"]
+    install_salt_bundle      = var.install_salt_bundle
   }
 }
 

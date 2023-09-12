@@ -47,6 +47,11 @@ variable "register_to_server" {
   default     = null
 }
 
+variable "disable_auto_bootstrap" {
+  description = "disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
+  default     = false
+}
+
 variable "auto_register" {
   description = "whether this Server should automatically register to another Server"
   default     = true
@@ -95,6 +100,16 @@ variable "postgres_log_min_duration" {
 variable "java_debugging" {
   description = "enable Java debugging and profiling support in Tomcat and Taskomatic"
   default     = true
+}
+
+variable "java_hibernate_debugging" {
+  description = "enable additional logs for Hibernate in Tomcat and Taskomatic"
+  default     = false
+}
+
+variable "java_salt_debugging" {
+  description = "enable additional logs for Hibernate in Tomcat"
+  default     = false
 }
 
 variable "skip_changelog_import" {
@@ -272,4 +287,20 @@ variable "db_configuration" {
     hostname           = "localhost"
     port               = "5432"
   }
+}
+
+variable "c3p0_connection_timeout" {
+  description = "c3p0 connections will be closed after this timeout"
+  # WORKAROUND: this is causing problems in the testsuite, disable it for now
+  default     = false
+}
+
+variable "c3p0_connection_debug" {
+  description = "log additional info regarding leaked c3p0 connections"
+  default     = false
+}
+
+variable "quantity" {
+  description = "number of hosts like this one"
+  default     = 1
 }

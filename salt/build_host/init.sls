@@ -7,6 +7,13 @@ certificate_authority_certificate:
     - source: salt://build_host/certs/ca.cert.pem
     - makedirs: True
 
+{% if '4.2' not in grains.get('product_version') %}
+kiwi_imager_server_dependency:
+  pkg.installed:
+    - pkgs:
+      - python3-kiwi
+{% endif %}
+
 {% if '11' in grains['osrelease'] %}
 
 update_ca_truststore_registry_build_host:

@@ -72,13 +72,10 @@ locals {
       sles15sp3o   = { ami = data.aws_ami.sles15sp3o.image_id },
       sles15sp4o   = { ami = data.aws_ami.sles15sp4o.image_id },
       sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
-      sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
       rocky8      = { ami = data.aws_ami.rocky8.image_id, ssh_user = "rocky" },
       debian11    = { ami = data.aws_ami.debian11.image_id, ssh_user= "admin" },
       ubuntu2204  = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
       ubuntu2004  = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
-      ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
-      ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
       rhel8       = { ami = data.aws_ami.rhel8.image_id},
       rhel9       = { ami = data.aws_ami.rhel9.image_id},
     }

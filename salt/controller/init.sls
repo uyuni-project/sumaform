@@ -67,7 +67,8 @@ install_chromedriver:
 create_syslink_for_chromedriver:
   file.symlink:
     - name: /usr/bin/chromedriver
-    - target: /usr/lib64/chromium/chromedriver
+    - target: ../lib64/chromium/chromedriver
+    - force: True
 
 install_gems_via_bundle:
   cmd.run:

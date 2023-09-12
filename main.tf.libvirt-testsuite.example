@@ -14,7 +14,7 @@ provider "libvirt" {
 
 
 module "cucumber_testsuite" {
-  source = "./sumaform/modules/cucumber_testsuite"
+  source = "./modules/cucumber_testsuite"
 
   # see https://github.com/uyuni-project/sumaform/blob/master/README_ADVANCED.md
   # for more information on product_version values
@@ -34,14 +34,14 @@ module "cucumber_testsuite" {
   # "amazonlinux2o",
   # "centos7o", "centos8o", "centos9o",
   # "libertylinux9o",
-  # "opensuse152o", "opensuse154o",
+  # "opensuse154o", "opensuse155o",
   # "oraclelinux9o",
   # "rocky8o", "rocky9o",
   # "sles12sp4o", "sles12sp5o", "sles15o", "sles15sp1o", "sles15sp2o", "sles15sp3o", "sles15sp4o",
-  # "ubuntu1604o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o"
+  # "ubuntu2004o", "ubuntu2204o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
-  # images = ["rocky9o", "opensuse152o", "opensuse154o", "sles15sp4o", "ubuntu2204o"]
+  # images = ["rocky9o", "opensuse154o", "sles15sp4o", "ubuntu2204o"]
 
   use_avahi = true
   name_prefix = "prefix-"

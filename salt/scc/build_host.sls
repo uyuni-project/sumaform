@@ -1,4 +1,4 @@
-{% if 'build_host' in grains.get('roles') and grains.get('sles_registration_code') and '15' in grains['osrelease'] %}
+{% if 'build_host' in grains.get('roles') and grains.get('sles_registration_code') %}
 
 register_sles_server:
    cmd.run:

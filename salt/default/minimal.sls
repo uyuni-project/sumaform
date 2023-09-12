@@ -1,7 +1,3 @@
-# WORKAROUND
-# This file should already be excluded from SLE Micro with the 
-# first few lines in salt/default/init.sls
-{% if not grains['osfullname'] == 'SLE Micro' %}
 include:
   {% if grains['hostname'] and grains['domain'] %}
   - default.hostname
@@ -15,6 +11,14 @@ include:
   - default.time
 
 minimal_package_update:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SLE Micro'  %}
+  cmd.run:
+{% if grains['install_salt_bundle'] %}
+    - name: transactional-update -c package up zypper libzypp venv-salt-minion
+{% else %}
+    - name: transactional-update -c package up zypper libzypp salt-minion
+{% endif %}
+{% else %}
   pkg.latest:
     - pkgs:
 {% if grains['install_salt_bundle'] %}

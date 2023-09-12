@@ -12,6 +12,15 @@ package_import_skip_changelog_reposync:
 
 {% endif %}
 
+limit_changelog_entries:
+  file.replace:
+    - name: /etc/rhn/rhn.conf
+    - pattern: java.max_changelog_entries.*
+    - repl: java.max_changelog_entries = 3
+    - append_if_not_found: true
+    - require:
+      - sls: server
+
 {% if grains.get('disable_download_tokens') %}
 disable_download_tokens:
   file.append:
@@ -80,6 +89,48 @@ rhn_conf_forward_reg:
   file.append:
     - name: /etc/rhn/rhn.conf
     - text: server.susemanager.forward_registration = 0
+    - require:
+      - sls: server
+
+{% endif %}
+
+{% if grains.get('c3p0_connection_timeout') | default(true, false) %}
+
+rhn_conf_c3p0_connection_timeout:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: hibernate.c3p0.unreturnedConnectionTimeout = {{ grains.get('c3p0_connection_timeout') | default(14400, true) }}
+    - require:
+      - sls: server
+
+{% endif %}
+
+{% if grains.get('c3p0_connection_debug') | default(false, true) %}
+
+rhn_conf_c3p0_connection_debug:
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: hibernate.c3p0.debugUnreturnedConnectionStackTraces = true
+    - require:
+      - sls: server
+
+rhn_conf_c3p0_connection_debug_log:
+  file.line:
+    - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
+    - content: '    <Logger name="com.mchange.v2.resourcepool.BasicResourcePool" level="info" />'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server
+
+{% endif %}
+
+{% if grains.get('disable_auto_bootstrap') | default(false, true) %}
+
+rhn_conf_disable_auto_generate_bootstrap_repo :
+  file.append:
+    - name: /etc/rhn/rhn.conf
+    - text: server.susemanager.auto_generate_bootstrap_repo = 0
     - require:
       - sls: server
 

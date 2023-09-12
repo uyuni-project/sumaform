@@ -36,7 +36,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos7o", "opensuse153o", "opensuse154o", "opensuse155o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o"]
+  default     = ["centos7o", "opensuse154o", "opensuse155o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu2004o", "ubuntu2204o"]
 }
 
 variable "mirror" {
@@ -158,4 +158,9 @@ variable "nested_vm_mac" {
   description = "MAC address for a nested VM if it is used, see README_TESTING.md"
   type        = string
   default     = ""
+}
+
+variable "container_server" {
+  description = "true to run the server in containers"
+  default = false
 }
