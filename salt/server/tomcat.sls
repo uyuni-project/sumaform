@@ -1,8 +1,9 @@
-{% if grains.get('java_debugging') %}
-
+{% if grains.get('java_debugging') or grains.get('java_salt_debugging') %}
 include:
   - server.rhn
+{% endif %}
 
+{% if grains.get('java_debugging') %}
 tomcat_config_create:
   file.touch:
     - name: /etc/tomcat/conf.d/remote_debug.conf
@@ -18,7 +19,9 @@ tomcat_config:
     - require:
       - sls: server.rhn
       - file: tomcat_config_create
+{% endif %}
 
+{% if grains.get('java_salt_debugging') and '4.2' not in grains['product_version'] %}
 salt_server_action_service_debug_log:
   file.line:
     - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml

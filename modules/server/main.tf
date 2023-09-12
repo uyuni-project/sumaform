@@ -63,6 +63,8 @@ module "server" {
     unsafe_postgres                = var.unsafe_postgres
     postgres_log_min_duration      = var.postgres_log_min_duration
     java_debugging                 = var.java_debugging
+    java_hibernate_debugging       = var.java_hibernate_debugging
+    java_salt_debugging            = var.java_salt_debugging
     skip_changelog_import          = var.skip_changelog_import
     create_first_user              = var.create_first_user
     mgr_sync_autologin             = var.mgr_sync_autologin
