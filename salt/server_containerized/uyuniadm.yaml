@@ -4,9 +4,11 @@ reportdb:
   host: localhost
 cert:
   password: spacewalk
+{%- if grains.get('cc_username') %}
 scc:
   user: {{ grains.get("cc_username") }}
   password: {{ grains.get("cc_password") }}
+{% endif %}
 email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) }}
 emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
 {%- if grains.get('container_repository') %}
