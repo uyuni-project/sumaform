@@ -231,7 +231,7 @@ data "aws_ami" "rhel9" {
 
 data "aws_ami" "rhel8" {
   most_recent = true
-  name_regex  = "^RHEL-8.2.0_HVM-"
+  name_regex  = "^RHEL-8.8.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
