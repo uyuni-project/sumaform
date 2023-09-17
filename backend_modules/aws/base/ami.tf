@@ -19,6 +19,27 @@ data "aws_ami" "opensuse154o" {
   }
 }
 
+data "aws_ami" "opensuse155o" {
+  most_recent = true
+  name_regex  = "^openSUSE-Leap-15-5-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles15sp1o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp1-byos-v"
@@ -210,7 +231,7 @@ data "aws_ami" "ubuntu2004" {
 
 data "aws_ami" "rhel9" {
   most_recent = true
-  name_regex  = "^RHEL-9.0.0_HVM-"
+  name_regex  = "^RHEL-9.2.0_HVM-"
   owners      = ["309956199498"]
 
   filter {

@@ -26,6 +26,22 @@ runcmd:
 
 %{ endif }
 
+%{ if image == "opensuse155o" }
+# WORKAROUND: install latest libzypp to prevent signature verification errors
+runcmd:
+  - zypper addrepo -G -e http://download.opensuse.org/update/leap/15.5/oss/ os_update
+  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_tmp
+  - zypper ref
+  - zypper up --allow-vendor-change --no-confirm libzypp
+%{ if install_salt_bundle }
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else }
+  - zypper up --allow-vendor-change --no-confirm salt-minion
+%{ endif }
+  - zypper removerepo --all
+
+%{ endif }
+
 %{ if image == "sles15"}
 zypper:
   repos:
