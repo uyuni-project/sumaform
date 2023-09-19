@@ -160,21 +160,21 @@ custom_pillar_to_force_salt_bundle:
 
 enable_salt_content_staging_window:
   cmd.run:
-    - name: uyunictl -v exec 'sed '"'"'/java.salt_content_staging_window =/{h;s/= .*/= 0.033/};${x;/^$/{s//java.salt_content_staging_window = 0.033/;H};x}'"'"' -i /etc/rhn/rhn.conf'
+    - name: uyunictl exec 'sed '"'"'/java.salt_content_staging_window =/{h;s/= .*/= 0.033/};${x;/^$/{s//java.salt_content_staging_window = 0.033/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
       - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 enable_salt_content_staging_advance:
   cmd.run:
-    - name: uyunictl -v exec 'sed '"'"'/java.salt_content_staging_advance =/{h;s/= .*/= 0.05/};${x;/^$/{s//java.salt_content_staging_advance = 0.05/;H};x}'"'"' -i /etc/rhn/rhn.conf'
+    - name: uyunictl exec 'sed '"'"'/java.salt_content_staging_advance =/{h;s/= .*/= 0.05/};${x;/^$/{s//java.salt_content_staging_advance = 0.05/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
       - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 enable_kiwi_os_image_building:
   cmd.run:
-    - name: uyunictl -v exec 'sed '"'"'/java.kiwi_os_image_building_enabled =/{h;s/= .*/= true/};${x;/^$/{s//java.kiwi_os_image_building_enabled = true/;H};x}'"'"' -i /etc/rhn/rhn.conf'
+    - name: uyunictl exec 'sed '"'"'/java.kiwi_os_image_building_enabled =/{h;s/= .*/= true/};${x;/^$/{s//java.kiwi_os_image_building_enabled = true/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
       - pkg: uyuni_tools
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
