@@ -45,6 +45,7 @@ cucumber_requisites:
       - libxslt-devel
       - mozilla-nss-tools
       - postgresql-devel
+      - unzip
       # packaged ruby gems
       - ruby2.5-rubygem-bundler
       - twopence
