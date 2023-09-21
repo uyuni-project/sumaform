@@ -139,7 +139,7 @@ create_empty_bootstrap_script:
 
 create_empty_bootstrap_script_md5:
   cmd.run:
-    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512"
+    - name: uyunictl exec "sha512sum /usr/share/susemanager/www/htdocs/pub/bootstrap/bootstrap.sh > /usr/share/susemanager/www/htdocs/pub/bootstrap/bootstrap.sh.sha512"
     - require:
       - cmd: create_empty_bootstrap_script
 {% endif %}
