@@ -28,10 +28,7 @@ podman:
 {%- if mirror_hostname %}
     - -v=/srv/mirror:/mirror
 {%- endif %}
-{%- if grains.get("java_debugging") %}
-    - -p
-    - 8000:8000
-    - -p
-    - 8001:8001
-{%- endif %}
     - ""
+{%- if grains.get("java_debugging") %}
+debug: true
+{%- endif %}
