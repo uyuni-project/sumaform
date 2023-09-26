@@ -13,7 +13,7 @@ tomcat_config:
   file.replace:
     - name: /etc/tomcat/conf.d/remote_debug.conf
     - pattern: 'JAVA_OPTS="(?!-Xdebug)(.*)"'
-    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=*:8000,server=y,suspend=n "'
+    - repl: 'JAVA_OPTS=" $JAVA_OPTS -Xdebug -Xrunjdwp:transport=dt_socket,address=*:8003,server=y,suspend=n "'
     - append_if_not_found: True
     - ignore_if_missing: True
     - require:
