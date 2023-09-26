@@ -7,9 +7,12 @@ uyuniadm_config:
     - source: salt://server_containerized/uyuniadm.yaml
     - template: jinja
 
+{% set runtime = grains.get('container_runtime') | default('podman', true) %}
+{% set install_cmd = 'kubernetes' if runtime == 'k3s' else 'podman' %}
+
 uyuniadm_install:
   cmd.run:
-    - name: uyuniadm install --logLevel=debug --config /root/uyuniadm.yaml {{ grains.get("fqdn") }}
+    - name: uyuniadm install {{ install_cmd }} --logLevel=debug --config /root/uyuniadm.yaml {{ grains.get("fqdn") }}
     - env:
       - KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 {%- if grains.get('container_runtime') | default('podman', true) == 'podman' %}
