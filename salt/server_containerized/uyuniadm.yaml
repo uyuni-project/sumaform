@@ -30,5 +30,6 @@ podman:
 {%- endif %}
     - ""
 {%- if grains.get("java_debugging") %}
-debug: true
+debug:
+  java: true
 {%- endif %}
