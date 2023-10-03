@@ -2,7 +2,9 @@
 
 uyuni_tools:
   pkg.installed:
-    - name: uyuni-tools
+    - pkgs:
+      - uyuniadm
+      - uyunictl
     
 {% if mirror_hostname %}
 
