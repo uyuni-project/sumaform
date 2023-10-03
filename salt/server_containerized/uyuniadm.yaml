@@ -2,7 +2,7 @@ db:
   password: spacewalk
 reportdb:
   host: localhost
-cert:
+ssl:
   password: spacewalk
 {%- if grains.get('cc_username') %}
 scc:
