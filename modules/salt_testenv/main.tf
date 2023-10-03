@@ -13,6 +13,11 @@ module "salt_testenv" {
   provider_settings             = var.provider_settings
   install_salt_bundle           = true
 
+  grains = {
+    mirror                  = var.base_configuration["mirror"]
+    salt_obs_flavor         = var.salt_obs_flavor
+  }
+
   roles                         = ["salt_testenv"]
 }
 

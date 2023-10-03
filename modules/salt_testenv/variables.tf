@@ -12,6 +12,12 @@ variable "use_os_released_updates" {
   default     = false
 }
 
+variable "salt_obs_flavor" {
+  description = "One of: products, products:testing or products:next"
+  type        = string
+  default     = "products:testing"
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}
