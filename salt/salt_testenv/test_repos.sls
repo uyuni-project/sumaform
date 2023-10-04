@@ -1,8 +1,8 @@
 include:
   - default
 
-{% if grains['os'] == 'SUSE' %}
-{% if grains['osfullname'] == 'SLES' and grains['osrelease_info'][0] == 15 %}
+{% if grains['os'] == 'SUSE' and grains['osrelease_info'][0] == 15 %}
+{% if grains['osfullname'] == 'SLES' %}
 {% set repo_path = "15" if grains["osrelease"] == 15 else "15-SP" + grains["osrelease_info"][1]|string %}
 development_tools_repo_pool:
   pkgrepo.managed:
