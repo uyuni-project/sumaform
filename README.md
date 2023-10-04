@@ -11,7 +11,7 @@
 
 **Libvirt provider version**: 0.6.3
 
-### Libvirt Provider Prerequisites
+### Prerequisites
 
 If you use the `Libvirt` provider, install and enable `libvirt` before you attempt to run the terraform deployment.
 The `virt-manager` package is recommended because it configures default resources that the terraform deployment uses, e.g. the `default` virtual network.
@@ -27,7 +27,7 @@ sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 ```
 
-openSUSE and SUSE Linux Enterprise Server:
+Then, execute the following on openSUSE and SUSE Linux Enterprise Server:
 
 ```bash
 # Uncomment one of the following lines depending on your distro
