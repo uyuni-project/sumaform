@@ -42,7 +42,7 @@ install_salt_testsuite:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
 
-{% else %}
+{% endif %}
 
 {% if grains['os'] == 'Debian' %}
     {% if grains['osrelease'] == '9' %}
@@ -73,6 +73,12 @@ install_salt_testsuite:
 {% elif grains['osfullname'] == 'SLES' %}
     {% if grains['osrelease_info'][0] == 12 %}
         {% set repo_path = 'SLE_12' %}
+    {% elif grains['osrelease_info'][0] == 15 %}
+        {% set repo_path = 'SLE_15' %}
+    {% endif %}
+{% elif grains['osfullname'] == 'Leap' %}
+    {% if grains['osrelease_info'][0] == 15 %}
+        {% set repo_path = 'openSUSE_Leap_15' %}
     {% endif %}
 {% endif %}
 
@@ -96,6 +102,7 @@ salt_bundle_testsuite_repo:
 {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/repodata/repomd.xml.key
+    - gpgcheck: 0
 {% endif %}
     - refresh: True
 
@@ -104,5 +111,3 @@ install_salt_bundle_testsuite:
     - name: venv-salt-minion-testsuite
     - require:
       - pkgrepo: salt_bundle_testsuite_repo
-
-{% endif %}
