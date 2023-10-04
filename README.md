@@ -11,6 +11,22 @@
 
 **Libvirt provider version**: 0.6.3
 
+### Libvirt Provider Prerequisites
+
+If you use the `Libvirt` provider, install and enable `libvirt` before you attempt to run the terraform deployment.
+The `virt-manager` package is recommended because it configures default resources that the terraform deployment uses, e.g. the `default` virtual network.
+
+```bash
+# Download and install libvirt and virt-manager, for example:
+sudo zypper install libvirt virt-manager
+
+# Start libvirt
+sudo systemctl start libvirtd
+
+# Optionally, enable libvirt so that it starts at boot time
+sudo systemctl enable libvirtd
+```
+
 openSUSE and SUSE Linux Enterprise Server:
 
 ```bash
@@ -84,6 +100,37 @@ vim main.tf     # change your VM setup
 terraform init  # populate modules
 terraform validate # check if the configuration is valid
 terraform apply # prepare and apply a plan to create your systems (after manual confirmation)
+```
+
+### Common Variables
+
+**cc_username/cc_password**: Credentials for the [SUSE Customer Center](https://scc.suse.com/).
+Set the credentials if you are deploying SUMA, or synchronizing SUMA repositories.
+
+**images**: In the `base` module, the `images` variable specifies the images that you want to download and use in your installation, for example:
+
+```bash
+# main.tf file contents
+module "base" {
+  source = "./modules/base"
+
+  ssh_key_path = "/home/user/.ssh/id_ed25519.pub"
+
+  cc_username = "..."
+  cc_password = "..."
+  images = [
+    "centos7o",
+    "almalinux8o",
+    "opensuse154o",
+    "opensuse155o",
+    "sles15sp4o",
+    "sles15sp5o",
+    "sles12sp5o",
+    "ubuntu2004o",
+    "ubuntu2204o"
+  ]
+# ...
+}
 ```
 
 ## Advanced use
