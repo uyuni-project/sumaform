@@ -53,3 +53,7 @@ base:
   'roles:registry':
     - match: grain
     - registry
+
+  'roles:salt_testenv':
+    - match: grain
+    - salt_testenv

@@ -22,6 +22,7 @@ locals {
     contains(var.roles, "build_host") ? { vcpu = 2 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
+    contains(var.roles, "salt_testenv") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "virthost") ? { memory = 4096, vcpu = 3 } : {},
     contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
     var.provider_settings,
