@@ -1,3 +1,12 @@
+%{ if image == "debian12o" }
+# Debian 12 cloud images use Netplan by default,
+# which is compatible with version 2 of cloud-inits network config.
+network:
+  version: 2
+  ethernets:
+    ens3:
+      dhcp4: true
+%{ else  }
 network:
   version: 1
   config:
@@ -9,3 +18,4 @@ network:
 %{ endif }
     subnets:
       - type: dhcp
+%{ endif }
