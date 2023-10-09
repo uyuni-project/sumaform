@@ -11,23 +11,13 @@
 
 **Libvirt provider version**: 0.6.3
 
-### Prerequisites
+NOTE: to deploy development versions of SUSE Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
 
-If you use the `libvirt` provider, install and enable `libvirt` before you attempt to run the terraform deployment.
-The `virt-manager` package is recommended because it configures default resources that the terraform deployment uses, e.g. the `default` virtual network.
+You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
 
-```bash
-# Download and install libvirt and virt-manager, for example:
-sudo zypper install libvirt virt-manager
+### Prerequisites for openSUSE and SUSE Linux Enterprise Server
 
-# Start libvirt
-sudo systemctl start libvirtd
-
-# Optionally, enable libvirt so that it starts at boot time
-sudo systemctl enable libvirtd
-```
-
-Then, execute the following on openSUSE and SUSE Linux Enterprise Server:
+Execute the following on openSUSE and SUSE Linux Enterprise Server:
 
 ```bash
 # Uncomment one of the following lines depending on your distro
@@ -43,7 +33,9 @@ sudo zypper install --from systemsmanagement_sumaform terraform terraform-provid
 git clone https://github.com/uyuni-project/sumaform.git
 ```
 
-Ubuntu and Debian:
+### Prerequisites for Ubuntu and Debian
+
+Execute the following commands:
 
 ```bash
 sudo apt install alien
@@ -53,10 +45,6 @@ wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_1
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/uyuni-project/sumaform.git
 ```
-
-NOTE: to deploy development versions of SUSE Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
-
-You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
 
 ## Backend choice
 
@@ -69,6 +57,22 @@ You will need to edit HCL ([HashiCorp Configuration Language](https://github.com
 The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want to use an external libvirt host with bridged networking.
 
+If you use the libvirt provider, install and enable libvirt before you attempt to run the terraform deployment.
+The `virt-manager` package is recommended because it configures default resources that the terraform deployment uses, e.g. the `default` virtual network.
+
+```bash
+# Download and install libvirt and virt-manager, for example:
+sudo zypper install libvirt virt-manager
+# On Ubuntu/Debian:
+sudo apt install virt-manager qemu-kvm libvirt-daemon-system
+
+# Start libvirt
+sudo systemctl start libvirtd
+
+# Optionally, enable libvirt so that it starts at boot time
+sudo systemctl enable libvirtd
+```
+
 The Amazon Web Services backend is currently under maintenance and is not immediately usable as-is. We plan to restore it soon.
 
 The null backend can be useful in a wide variety of scenarios, for example:
@@ -76,6 +80,9 @@ The null backend can be useful in a wide variety of scenarios, for example:
 - Test configurations before going live in another supported backend
 - Cases in which the virtual infrastructure is outside of the Terraform user's control
 - Cover architectures that will maybe never be covered by any other Terraform plugin
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more information about configuring the backend.
+Each backend has a README file with further configuration instructions.
 
 ## Basic `main.tf` configuration
 
