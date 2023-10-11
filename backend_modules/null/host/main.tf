@@ -24,8 +24,9 @@ resource "null_resource" "domain" {
 
 output "configuration" {
   value = {
-    ids       = ["1"]
-    hostnames = ["domain"]
-    macaddrs  = []
+    ids          = ["1"]
+    hostnames    = ["domain"]
+    macaddrs     = []
+    public_names = []
   }
 }
