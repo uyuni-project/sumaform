@@ -7,7 +7,7 @@
 
 ## Installation
 
-**Terraform version**: 1.0.10
+**Terraform version**: 1.5.7
 
 **Libvirt provider version**: 0.6.3
 

@@ -45,6 +45,6 @@ jobs:
         fetch-depth: 1
     - uses: hashicorp/setup-terraform@v2
       with:
-        terraform_version: 1.0.10
+        terraform_version: 1.5.7
     - name: Validate configuration using example files
       run: .github/workflows/ci-validation/terraform-validation
