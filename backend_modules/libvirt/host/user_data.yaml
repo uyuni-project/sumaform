@@ -430,6 +430,7 @@ packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 apt:
   sources:
     tools_pool_repo:
+      # TODO: change to Uyuni:/Stable: once it is published!
       source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -465,11 +466,8 @@ bootcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get -yq update
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
-%{ if install_salt_bundle }
+# Debian 12 is bundle-only
 packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg"]
-%{ else }
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg"]
-%{ endif }
 %{ endif }
 %{ if image == "debian11o" }
 apt:
