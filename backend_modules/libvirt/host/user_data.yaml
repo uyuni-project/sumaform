@@ -466,8 +466,11 @@ bootcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get -yq update
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
-# Debian 12 is bundle-only
+%{ if install_salt_bundle }
 packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg"]
+%{ else }
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg"]
+%{ endif }
 %{ endif }
 %{ if image == "debian11o" }
 apt:
