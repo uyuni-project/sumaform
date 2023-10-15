@@ -29,7 +29,9 @@ locals {
   additional_packages       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_packages", []) if var.host_settings[host_key] != null }
   additional_grains       = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "additional_grains", {}) if var.host_settings[host_key] != null }
+    host_key => lookup(var.host_settings[host_key], "additional_grains", {}) if var.host_settings[host_key] != null }
+  repository_disk_size      = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "repository_disk_size", 0) if var.host_settings[host_key] != null }
   images                    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
   names                     = { for host_key in local.hosts :
@@ -79,6 +81,7 @@ module "server" {
   additional_repos               = lookup(local.additional_repos, "server", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server", false)
   additional_packages            = lookup(local.additional_packages, "server", [])
+  repository_disk_size           = lookup(local.repository_disk_size, "server", 0)
   login_timeout                  = var.login_timeout
 
   saltapi_tcpdump   = var.saltapi_tcpdump
@@ -150,6 +153,7 @@ module "proxy" {
   additional_repos  = lookup(local.additional_repos, "proxy", {})
   additional_repos_only  = lookup(local.additional_repos_only, "proxy", false)
   additional_packages = lookup(local.additional_packages, "proxy", [])
+  repository_disk_size           = lookup(local.repository_disk_size, "proxy", 0)
   provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
 }
 
