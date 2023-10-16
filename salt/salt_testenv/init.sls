@@ -13,6 +13,17 @@ development_tools_repo_updates:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/{{ repo_path }}/x86_64/update/
     - refresh: True
+
+# needed for libhttp_parser_2_7_1, dependency of libgit2
+sle_module_hpc_repo_pool:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-HPC/{{ repo_path }}/x86_64/product/
+    - refresh: True
+
+sle_module_hpc_repo_updates:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-HPC/{{ repo_path }}/x86_64/update/
+    - refresh: True
 {% endif %}
 
 {% if grains['osrelease_info'][1] >= 3 %}
