@@ -28,6 +28,8 @@ Legal values for CI:
 `uyuni-pr` is a special product version used internally to test Pull Requests. Packages are under a subproject in systemsmanagement:Uyuni:Master:TEST and systemsmanagement:Uyuni:Master:PR.
 This is not meant to be used outside the Continous Integration system (CI).
 
+Similarly, `4.3-pr` is used for testing Pull Requests on Manager-4.3.
+
 Because packages are under different subprojects for each CI run and each Pull Request, repositories will be added later as additional repositories.
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.

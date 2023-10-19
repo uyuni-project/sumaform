@@ -4,7 +4,7 @@
   pkgrepo.managed:
     - humanname: {{ label }}_repo
   {%- if grains['os_family'] == 'Debian' %}
-  {%- if 'uyuni-pr' in grains.get('product_version', '') %}
+  {%- if 'uyuni-pr' in grains.get('product_version', '') or '4.3-pr' in grains.get('product_version', '') %}
     - name: deb [trusted=yes] {{ url }} /
     - file: /etc/apt/sources.list.d/sumaform_additional_repos.list
   {%- else %}

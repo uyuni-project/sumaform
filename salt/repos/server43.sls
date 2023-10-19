@@ -51,7 +51,7 @@ module_web_scripting_update_repo:
 
 {% endif %}
 
-{% if '4.3-nightly' in grains['product_version'] %}
+{% if '4.3-nightly' in grains['product_version'] or '4.3-pr' in grains['product_version'] %}
 
 server_devel_repo:
   pkgrepo.managed:

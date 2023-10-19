@@ -23,7 +23,7 @@ postgresql_hba_configuration:
   file.append:
     - name: /var/lib/pgsql/data/pg_hba.conf
     - text: |
-{%- if grains['product_version'] in ['head', 'beta', '4.3-nightly', '4.3-released', '4.3-beta'] %}
+{%- if grains['product_version'] in ['head', 'beta', '4.3-nightly', '4.3-pr', '4.3-released', '4.3-beta'] %}
         host    all     all       0.0.0.0/0      scram-sha-256
         host    all     all       ::/0           scram-sha-256
 {%- else %}
