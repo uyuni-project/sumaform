@@ -42,7 +42,7 @@ test_repo_debian_updates:
       {% endif %}
 
 # modify Cobbler to be executed from remote-machines..
-{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
+{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr"] %}
 {% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
 
 cobbler_configuration:
@@ -88,14 +88,14 @@ testsuite_salt_packages:
   pkg.installed:
     - pkgs:
       - salt-ssh
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') or '4.3-pr' in grains.get('product_version') %}
     - fromrepo: testing_overlay_devel_repo
 {% endif %}
     - require:
       - sls: repos
 {% endif %}
 
-{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.2-nightly", "4.2-released"] %}
+{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.2-nightly", "4.2-released"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,

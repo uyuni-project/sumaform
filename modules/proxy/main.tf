@@ -10,6 +10,7 @@ variable "images" {
     "4.2-build_image"= "sles15sp3o"
     "4.3-released"   = "sles15sp4o"
     "4.3-nightly"    = "sles15sp4o"
+    "4.3-pr"         = "sles15sp4o"
     "4.3-beta"       = "sles15sp4o"
     "4.3-build_image"= "sles15sp4o"
     "head"           = "sles15sp4o"

@@ -8,7 +8,7 @@ proxy_pool_repo:
     - priority: 97
 {% endif %}
 
-{% if 'uyuni-master' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') %}
+{% if 'uyuni-master' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') or '4.3-pr' in grains.get('product_version') %}
 proxy_devel_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/

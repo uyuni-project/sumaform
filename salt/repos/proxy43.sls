@@ -54,7 +54,7 @@ containers_updates_repo:
 
 {% endif %}
 
-{% if '4.3-nightly' in grains['product_version'] %}
+{% if '4.3-nightly' in grains['product_version'] or '4.3-pr' in grains['product_version'] %}
 proxy_devel_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3/images/repo/SLE-Module-SUSE-Manager-Proxy-4.3-POOL-x86_64-Media1/
