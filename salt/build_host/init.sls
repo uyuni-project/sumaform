@@ -30,8 +30,17 @@ update_ca_truststore_registry_build_host:
     - onchanges:
       - file: certificate_authority_certificate
 
+{% elif '15' in grains['osrelease'] %}
+
 {# Do not run update-ca-certificates on SLE 15 because there is    #}
 {# already a systemd unit that watches for changes and runs it:    #}
 {#   /usr/lib/systemd/system/ca-certificates.path                  #}
 
+{% if "opensuse" not in grains['oscodename']|lower %}
+
+cloud_flavor_check:
+  pkg.installed:
+    - name: python-instance-billing-flavor-check
+
+{% endif %}
 {% endif %}

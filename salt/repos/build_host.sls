@@ -29,6 +29,16 @@ containers_updates_repo:
 {% set sle_version_path = '15-SP5' %}
 {% endif %}
 
+cloud_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Public-Cloud/{{ sle_version_path }}/x86_64/product/
+    - refresh: True
+
+cloud_updates_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Public-Cloud/{{ sle_version_path }}/x86_64/update/
+    - refresh: True
+
 containers_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/{{ sle_version_path }}/x86_64/product/
