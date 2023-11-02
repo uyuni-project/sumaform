@@ -124,6 +124,111 @@ data "aws_ami" "sles15sp4o" {
   }
 }
 
+data "aws_ami" "sles15sp5o" {
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp5-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles15sp5-paygo" {
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp5-v"
+  owners      = ["013907871322"] // aws-marketplace
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "suma-server-43-byos" {
+  most_recent = true
+  name_regex  = "^suse-manager-server-4-3-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "suma-server-43-paygo" {
+  most_recent = true
+  name_regex  = "^suse-manager-server-4-3-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "suma-proxy-43-byos" {
+  most_recent = true
+  name_regex  = "^suse-manager-proxy-4-3-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles12sp5" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp5-byos-v"
@@ -229,9 +334,9 @@ data "aws_ami" "ubuntu2004" {
   }
 }
 
-data "aws_ami" "rhel9" {
+data "aws_ami" "rhel8" {
   most_recent = true
-  name_regex  = "^RHEL-9.2.0_HVM-"
+  name_regex  = "^RHEL-8.8.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
@@ -250,9 +355,9 @@ data "aws_ami" "rhel9" {
   }
 }
 
-data "aws_ami" "rhel8" {
+data "aws_ami" "rhel9" {
   most_recent = true
-  name_regex  = "^RHEL-8.8.0_HVM-"
+  name_regex  = "^RHEL-9.2.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
