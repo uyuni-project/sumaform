@@ -357,6 +357,20 @@ variable "slemicro54_sshminion_configuration" {
   }
 }
 
+variable "slemicro55_minion_configuration" {
+  description = "use module.<SLEMICRO55_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro55_sshminion_configuration" {
+  description = "use module.<SLEMICRO55_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "centos7_minion_configuration" {
   description = "use module.<CENTOS7_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
