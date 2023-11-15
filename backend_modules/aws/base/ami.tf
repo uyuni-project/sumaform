@@ -166,6 +166,27 @@ data "aws_ami" "sles15sp5-paygo" {
   }
 }
 
+data "aws_ami" "sap-sles15sp5-paygo" {
+  most_recent = true
+  name_regex  = "^suse-sles-sap-15-sp5-v"
+  owners      = ["679593333241"] // aws-marketplace
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "suma-server-43-byos" {
   most_recent = true
   name_regex  = "^suse-manager-server-4-3-byos-v"
