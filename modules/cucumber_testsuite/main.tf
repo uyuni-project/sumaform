@@ -233,7 +233,7 @@ module "slemicro-minion" {
   quantity = contains(local.hosts, "slemicro-minion") ? 1 : 0
   base_configuration = module.base.configuration
   product_version    = var.product_version
-  image              = lookup(local.images, "slemicro-minion", "slemicro53-ign")
+  image              = lookup(local.images, "slemicro-minion", "slemicro55-ign")
   name               = lookup(local.names, "slemicro-minion", "min-slemicro5")
 
   server_configuration = local.minimal_configuration
