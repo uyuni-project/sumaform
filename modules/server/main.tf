@@ -13,6 +13,7 @@ variable "images" {
     "4.3-pr"         = "sles15sp4o"
     "4.3-beta"       = "sles15sp4o"
     "4.3-build_image"= "sles15sp4o"
+    "paygo"          = "suma-server-43-paygo"
     "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse155o"
     "uyuni-released" = "opensuse154o"
@@ -58,7 +59,7 @@ module "server" {
     }
     download_private_ssl_key       = var.download_private_ssl_key
     smt                            = var.smt
-    server_username                = var.server_username
+    server_username                = var.product_version == "paygo" && length(module.server.configuration["ids"]) > 0 ? module.server.configuration["ids"][0] : var.server_username
     server_password                = var.server_password
     allow_postgres_connections     = var.allow_postgres_connections
     unsafe_postgres                = var.unsafe_postgres
