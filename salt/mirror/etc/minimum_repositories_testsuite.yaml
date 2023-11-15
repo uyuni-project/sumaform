@@ -7,6 +7,9 @@ http:
   - url:  http://download.suse.de/ibs/SUSE/Updates/Ubuntu/20.04-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
+  - url: http://download.suse.de/ibs/SUSE/Updates/Ubuntu/22.04-CLIENT-TOOLS/x86_64/update/
+    archs: [ x86_64 ]
+
   - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [x86_64]
 
@@ -44,9 +47,6 @@ http:
     archs: [x86_64]
 
   - url:  http://download.suse.de/ibs/SUSE/Updates/RES/8-CLIENT-TOOLS/x86_64/update/
-    archs: [x86_64]
-
-  - url:  http://download.suse.de/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
   - url:  http://download.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/
