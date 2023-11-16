@@ -89,7 +89,7 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "sles15sp4o" || image == "sles15sp5o" }
+%{ if image == "sles15sp4o" or image == "sles15sp5o" }
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
   - zypper ref
