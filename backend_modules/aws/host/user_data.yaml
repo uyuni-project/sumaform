@@ -89,20 +89,18 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "sles15sp4o" }
+%{ if image == "sles15sp4o" || image == "sles15sp5o" }
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
   - zypper ref
   - zypper in --allow-vendor-change --no-confirm salt-minion
   - zypper removerepo --all
 
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
-      enabled: 1
-      autorefresh: 1
+packages: ["salt-minion"]
+
+%{ endif }
+
+%{ if "paygo" in image }
 
 packages: ["salt-minion"]
 
