@@ -430,8 +430,7 @@ packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 apt:
   sources:
     tools_pool_repo:
-      # TODO: change to Uyuni:/Stable: once it is published!
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
