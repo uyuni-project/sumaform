@@ -23,7 +23,7 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
 
-# QAM clients
+# BV clients
 {% if grains.get('sle12_paygo_minion') | default(false, true) %}export SLE12_PAYGO_MINION="{{ grains.get('sle12_paygo_minion') }}" {% else %}# no SLE12_PAYGO minion defined {% endif %}
 {% if grains.get('sle15_paygo_minion') | default(false, true) %}export SLE15_PAYGO_MINION="{{ grains.get('sle15_paygo_minion') }}" {% else %}# no SLE15_PAYGO minion defined {% endif %}
 {% if grains.get('sleforsap15_paygo_minion') | default(false, true) %}export SLEFORSAP15_PAYGO_MINION="{{ grains.get('sleforsap15_paygo_minion') }}" {% else %}# no SLEFORSAP15_PAYGO minion defined {% endif %}
@@ -101,6 +101,8 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('opensuse154arm_sshminion') | default(false, true) %}export OPENSUSE154ARM_SSHMINION="{{ grains.get('opensuse154arm_sshminion') }}" {% else %}# no OPENSUSE154ARM ssh minion defined {% endif %}
 {% if grains.get('opensuse155arm_minion') | default(false, true) %}export OPENSUSE155ARM_MINION="{{ grains.get('opensuse155arm_minion') }}" {% else %}# no OPENSUSE155ARM minion defined {% endif %}
 {% if grains.get('opensuse155arm_sshminion') | default(false, true) %}export OPENSUSE155ARM_SSHMINION="{{ grains.get('opensuse155arm_sshminion') }}" {% else %}# no OPENSUSE155ARM ssh minion defined {% endif %}
+{% if grains.get('sle15sp3s390_minion') | default(false, true) %}export SLE15SP3S390_MINION="{{ grains.get('sle15sp3s390_minion') }}" {% else %}# no SLE15SP3S390 minion defined {% endif %}
+{% if grains.get('sle15sp3s390_sshminion') | default(false, true) %}export SLE15SP3S390_SSHMINION="{{ grains.get('sle15sp3s390_sshminion') }}" {% else %}# no SLE15SP3S390 ssh minion defined {% endif %}
 
 # various test suite settings
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"

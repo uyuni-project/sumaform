@@ -656,6 +656,20 @@ variable "opensuse155arm_sshminion_configuration" {
   }
 }
 
+variable "sle15sp3s390_minion_configuration" {
+  description = "use module.<SLE15SP3S390_MINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp3s390_sshminion_configuration" {
+  description = "use module.<SLE15SP3S390_SSHMINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}
