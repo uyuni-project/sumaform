@@ -239,7 +239,7 @@ resource "null_resource" "provisioning" {
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
         provider                      = "libvirt"
       },
-    var.grains))
+      var.grains))
     destination = "/tmp/grains"
   }
 

@@ -102,7 +102,7 @@ resource "null_resource" "provisioning" {
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "suse_manager_server") || contains(var.roles, "suse_manager_proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
       },
-    var.grains))
+      var.grains))
     destination = "/tmp/grains"
   }
 
