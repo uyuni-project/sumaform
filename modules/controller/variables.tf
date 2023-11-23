@@ -112,6 +112,28 @@ variable "monitoringserver_configuration" {
   }
 }
 
+variable "sle12paygo_minion_configuration" {
+  description = "use module.<SLE12PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15paygo_minion_configuration" {
+  description = "use module.<SLE15PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sappaygo_minion_configuration" {
+  description = "use module.<SAPPAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+
 variable "sle11sp4_minion_configuration" {
   description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -712,6 +734,11 @@ variable "no_mirror" {
   default     = false
 }
 
+variable "is_using_paygo_server" {
+  description = "Specify to controller that server image is a paygo image"
+  default     = false
+}
+
 variable "is_using_build_image" {
 description = "Specify to controller that server image is a build image"
 default     = false
@@ -721,6 +748,12 @@ variable "is_using_scc_repositories" {
   description = "Specify to controller that server and proxy are using SCC repository and not internal repositories"
   default     = false
 }
+
+variable "server_instance_id" {
+  description = "Server instance ID"
+  default     = null
+}
+
 
 variable "nested_vm_host" {
   description = "Hostname for a nested VM if it is used, see README_TESTING.md"

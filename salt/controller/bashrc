@@ -24,6 +24,9 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
 
 # QAM clients
+{% if grains.get('sle12paygo_minion') | default(false, true) %}export SLE12PAYGO_MINION="{{ grains.get('sle12paygo_minion') }}" {% else %}# no SLE12PAYGO minion defined {% endif %}
+{% if grains.get('sle15paygo_minion') | default(false, true) %}export SLE15PAYGO_MINION="{{ grains.get('sle15paygo_minion') }}" {% else %}# no SLE15PAYGO minion defined {% endif %}
+{% if grains.get('sap15paygo_minion') | default(false, true) %}export SAP15PAYGO_MINION="{{ grains.get('sap15paygo_minion') }}" {% else %}# no SAP15PAYGO minion defined {% endif %}
 {% if grains.get('sle11sp4_minion') | default(false, true) %}export SLE11SP4_MINION="{{ grains.get('sle11sp4_minion') }}" {% else %}# no SLE11SP4 minion defined {% endif %}
 {% if grains.get('sle11sp4_sshminion') | default(false, true) %}export SLE11SP4_SSHMINION="{{ grains.get('sle11sp4_sshminion') }}" {% else %}# no SLE11SP4 ssh minion defined {% endif %}
 {% if grains.get('sle11sp4_client') | default(false, true) %}export SLE11SP4_CLIENT="{{ grains.get('sle11sp4_client') }}" {% else %}# no SLE11SP4 client defined {% endif %}
@@ -111,7 +114,9 @@ export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ 
 export PROVIDER="{{ grains.get('provider') }}"
 {% if grains.get('container_runtime') | default(false, true) %}export CONTAINER_RUNTIME="{{ grains.get('container_runtime') }}" {% else %}# no CONTAINER_RUNTIME used {% endif %}
 {% if 'build_image' not in grains.get('product_version') | default('', true) %}export IS_USING_BUILD_IMAGE="{{ grains.get('is_using_build_image') }}" {% endif %}
+export IS_USING_PAYGO_SERVER="{{ grains.get('is_using_paygo_server') }}"
 export IS_USING_SCC_REPOSITORIES="{{ grains.get('is_using_scc_repositories') }}"
+export SERVER_INSTANCE_ID="{{ grains.get('server_instance_id') }}"
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then

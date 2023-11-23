@@ -60,10 +60,15 @@ module "controller" {
     server_http_proxy         = var.server_http_proxy
     custom_download_endpoint  = var.custom_download_endpoint
     pxeboot_image             = var.pxeboot_configuration["image"]
+    is_using_paygo_server     = var.is_using_paygo_server
     is_using_build_image      = var.is_using_build_image
     is_using_scc_repositories = var.is_using_scc_repositories
+    server_instance_id        = var.server_instance_id
     container_runtime         = lookup(var.server_configuration, "runtime", null)
 
+    sle12paygo_minion    = length(var.sle12paygo_minion_configuration["hostnames"]) > 0 ? var.sle12paygo_minion_configuration["hostnames"][0] : null
+    sle15paygo_minion    = length(var.sle15paygo_minion_configuration["hostnames"]) > 0 ? var.sle15paygo_minion_configuration["hostnames"][0] : null
+    sappaygo_minion      = length(var.sappaygo_minion_configuration["hostnames"]) > 0 ? var.sappaygo_minion_configuration["hostnames"][0] : null
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
     sle11sp4_client      = length(var.sle11sp4_client_configuration["hostnames"]) > 0 ? var.sle11sp4_client_configuration["hostnames"][0] : null
