@@ -171,7 +171,6 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
   }
 
   provisioner "file" {
-
     content = yamlencode(merge(
       {
         hostname : "${azurerm_linux_virtual_machine.instance[count.index].name}"
@@ -200,7 +199,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdb" : null
       },
-    var.grains))
+      var.grains))
     destination = "/tmp/grains"
   }
 

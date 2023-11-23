@@ -17,7 +17,7 @@ This architecture is based on [AWS VPC with Public and Private Subnets](https://
 A mirror is necessary for SUSE Manager installations and for SLES clients (see README_ADVANCED.md).
 In Uyuni deployments with free OSs a mirror is not mandatory, but will still to speed up machine provisioning.
 
-AWS backend don't have support for pxe_boot hosts. It's implementation will be considered in future releases.
+AWS backend don't have support for pxe_boot hosts. Its implementation will be considered in future releases.
 
 ## Prerequisites
 

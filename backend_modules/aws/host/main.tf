@@ -1,4 +1,3 @@
-
 locals {
   ami = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ami", var.image)
 
@@ -233,7 +232,6 @@ resource "null_resource" "host_salt_configuration" {
   }
 
   provisioner "file" {
-
     content = yamlencode(merge(
       {
         hostname : local.hnames[count.index]
@@ -263,7 +261,7 @@ resource "null_resource" "host_salt_configuration" {
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null
       },
-    var.grains))
+      var.grains))
     destination = "/tmp/grains"
   }
 
