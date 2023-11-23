@@ -89,7 +89,7 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "sles15sp4o" or image == "sles15sp5o" }
+%{ if image == "sles15sp4o" || image == "sles15sp5o" }
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
   - zypper ref
@@ -100,12 +100,11 @@ packages: ["salt-minion"]
 
 %{ endif }
 
-%{ if "paygo" in image }
-
+%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "sap15sp5-paygo" }
 packages: ["salt-minion"]
 
 %{ endif }
-
+ 
 %{ if image == "sles12sp3"}
 zypper:
   repos:
@@ -185,7 +184,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["salt-minion"]
+packages: ["venv-salt-minion"]
 %{ endif }
 %{ if image == "rocky8"}
 yum_repos:
