@@ -112,22 +112,22 @@ variable "monitoringserver_configuration" {
   }
 }
 
-variable "sle12paygo_minion_configuration" {
-  description = "use module.<SLE12PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle12_paygo_minion_configuration" {
+  description = "use module.<SLE12_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sle15paygo_minion_configuration" {
-  description = "use module.<SLE15PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15_paygo_minion_configuration" {
+  description = "use module.<SLE15_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sappaygo_minion_configuration" {
-  description = "use module.<SAPPAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sleforsap15_paygo_minion_configuration" {
+  description = "use module.<SLEFORSAP15_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
