@@ -37,14 +37,14 @@ test_repo_debian_updates:
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
-      {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+      {% if 'build_image' and 'paygo' not in grains.get('product_version') | default('', true) %}
       - pkg: testsuite_salt_packages
       {% endif %}
 
 # modify Cobbler to be executed from remote-machines..
 {% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr"] %}
 {% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
-
+{% if 'build_image' and 'paygo' not in grains.get('product_version') | default('', true) %}
 cobbler_configuration:
     service:
     - name : cobblerd.service
@@ -70,6 +70,7 @@ cobbler_configuration:
 {% endif %}
     - require:
       - sls: server
+{% endif %}
 
 testsuite_packages:
   pkg.installed:
@@ -78,12 +79,12 @@ testsuite_packages:
       - aaa_base-extras
       - wget
       - OpenIPMI
-    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    {% if 'build_image' and 'paygo' not in grains.get('product_version') | default('', true) %}
     - require:
       - sls: repos
     {% endif %}
 
-{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+{% if 'build_image' and 'paygo' not in grains.get('product_version') | default('', true) %}
 testsuite_salt_packages:
   pkg.installed:
     - pkgs:
