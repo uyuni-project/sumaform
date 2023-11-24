@@ -397,7 +397,7 @@ data "aws_ami" "rhel9" {
   }
 }
 
-data "aws_ami" "sap15sp5-paygo" {
+data "aws_ami" "slesforsap15sp5-paygo" {
   most_recent = true
   name_regex  = "^suse-sles-sap-15-sp5-v"
   owners      = ["679593333241"]
