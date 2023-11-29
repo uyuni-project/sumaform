@@ -3,6 +3,7 @@
 
 include:
   - scc
+  - repos.testsuite
 
 {% if grains['os'] == 'SUSE' %}
 
