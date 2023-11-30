@@ -72,7 +72,7 @@ locals {
       sles15sp2o           = { ami = data.aws_ami.sles15sp2o.image_id },
       sles15sp3o           = { ami = data.aws_ami.sles15sp3o.image_id },
       sles15sp4o           = { ami = data.aws_ami.sles15sp4o.image_id },
-      sles15sp5o           = { ami = data.aws_ami.sles15sp4o.image_id },
+      sles15sp5o           = { ami = data.aws_ami.sles15sp5o.image_id },
       sles15sp5-paygo      = { ami = data.aws_ami.sles15sp5-paygo.image_id },
       slesforsap15sp5-paygo= { ami = data.aws_ami.slesforsap15sp5-paygo.image_id },
       suma-server-43-byos  = { ami = data.aws_ami.suma-server-43-byos.image_id },
