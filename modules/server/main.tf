@@ -95,6 +95,7 @@ module "server" {
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings
+  is_paygo_instance        = var.is_paygo_instance
 }
 
 output "configuration" {
