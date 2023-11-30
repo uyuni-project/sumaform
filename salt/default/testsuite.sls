@@ -3,7 +3,7 @@
 
 include:
   - scc
-  - repos.testsuite
+  - repos
 
 {% if grains['os'] == 'SUSE' %}
 
@@ -14,7 +14,7 @@ default_cucumber_requisites:
       - milkyway-dummy
       - virgo-dummy
     - require:
-      - sls: repos.testsuite
+      - sls: repos
 
 {% elif grains['os_family'] == 'RedHat' %}
 
