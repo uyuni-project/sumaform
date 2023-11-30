@@ -252,7 +252,7 @@ data "aws_ami" "sles12sp5" {
 
 data "aws_ami" "sles12sp5-paygo" {
   most_recent = true
-  name_regex  = "^suse-sles-12-sp5-v"
+  name_regex  = "^suse-sles-12-sp5-v(.*[^e][^c][^s].*)?$"
   owners      = ["013907871322"] // aws marketplace
 
   filter {
