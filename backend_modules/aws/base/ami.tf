@@ -147,7 +147,7 @@ data "aws_ami" "sles15sp5o" {
 
 data "aws_ami" "sles15sp5-paygo" {
   most_recent = true
-  name_regex  = "suse-sles-12-sp5-v[0-9]*-hvm"
+  name_regex  = "^suse-sles-15-sp5-v[0-9]*-hvm"
   owners      = ["013907871322"] // aws-marketplace
 
   filter {
@@ -273,7 +273,7 @@ data "aws_ami" "sles12sp5" {
     values = ["ebs"]
   }
 }
-# ^suse-sles-12-sp5-v((?!ecs).)*$
+
 data "aws_ami" "sles12sp5-paygo" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp5-v[0-9]*-hvm"
