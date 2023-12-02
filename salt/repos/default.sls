@@ -430,8 +430,31 @@ os_update_repo:
 #    - refresh: True
 
 {% endif %} {# '15.5' == grains['osrelease'] #}
+{% endif %}{# grains['osfullname'] == 'SLES' #}
 
-{% endif %} {# grains['osfullname'] == 'SLES' #}
+{% if grains['osfullname'] == 'SLE Micro' and (not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles'))) %}
+{% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-released' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
+tools_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/repodata/repomd.xml.key
+{% elif 'head' in grains.get('product_version', '') %}
+tools_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools-For-Micro/5/x86_64/product/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools-For-Micro/5/x86_64/product/repodata/repomd.xml.key
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools-For-Micro/5/x86_64/update/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools-For-Micro/5/x86_64/update/repodata/repomd.xml.key
+{% endif %}
+{% endif %}
 
 install_recommends:
   file.comment:
