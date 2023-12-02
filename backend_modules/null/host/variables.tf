@@ -107,7 +107,7 @@ variable "provider_settings" {
 }
 
 variable "additional_disk_size" {
-  description = "Size of an aditional disk, defined in GiB"
+  description = "Size of an additional disk, defined in GiB"
   default     = null
 }
 
