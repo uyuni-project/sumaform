@@ -304,3 +304,8 @@ variable "quantity" {
   description = "number of hosts like this one"
   default     = 1
 }
+
+variable "is_paygo_instance" {
+  description = "specify if the server instance is a paygo instance"
+  default     = false
+}
