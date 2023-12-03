@@ -1,6 +1,6 @@
 include:
   - scc.server
-  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+  {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
   - repos
   {% endif %}
   - server.additional_disk
@@ -19,6 +19,8 @@ include:
   - server.salt_master
   - server.tcpdump
 
+
+{% if 'paygo' not in grains.get('product_version') | default('', true) %}
 {% if 'uyuni' not in grains.get('product_version') %}
 server-switch-product:
   cmd.run:
@@ -40,6 +42,7 @@ server_packages:
       - sls: repos
       {% endif %}
       - sls: server.firewall
+{% endif %}
 
 {% if 'minion' in grains.get('roles') and grains.get('server') and grains.get('download_private_ssl_key') %}
 
@@ -74,7 +77,7 @@ ssl-building-ca-configuration:
 {% endif %}
 
 
-{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and not grains.get('server_registration_code') and 'build_image' not in grains.get('product_version') %}
+{% if '4' in grains['product_version'] and grains['osfullname'] != 'Leap' and not grains.get('server_registration_code') and 'paygo' not in grains.get('product_version') %}
 product_package_installed:
    cmd.run:
      - name: zypper --non-interactive install --auto-agree-with-licenses --force-resolution -t product SUSE-Manager-Server
@@ -99,7 +102,9 @@ server_setup:
     - name: /usr/lib/susemanager/bin/mgr-setup -l /var/log/susemanager_setup.log -s
     - creates: /root/.MANAGER_SETUP_COMPLETE
     - require:
+      {% if 'paygo' not in grains.get('product_version') %}
       - pkg: server_packages
+      {% endif %}
       - file: environment_setup_script
 
 ca_cert_checksum:

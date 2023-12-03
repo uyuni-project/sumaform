@@ -5,8 +5,10 @@ include:
   - default.network
   - default.firewall
   - default.avahi
-  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+  {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
   - repos
+  {% else %}
+  - repos.testsuite
   {% endif %}
   - default.time
 

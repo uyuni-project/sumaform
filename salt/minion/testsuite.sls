@@ -24,7 +24,7 @@ suse_minion_cucumber_requisites:
     - pkgs:
       - aaa_base-extras
       - ca-certificates
-    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
     - require:
       - sls: repos
     {% endif %}
