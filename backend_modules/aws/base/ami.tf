@@ -147,7 +147,7 @@ data "aws_ami" "sles15sp5o" {
 
 data "aws_ami" "sles15sp5-paygo" {
   most_recent = true
-  name_regex  = "^suse-sles-15-sp5-v"
+  name_regex  = "^suse-sles-15-sp5-v[0-9]*-hvm"
   owners      = ["013907871322"] // aws-marketplace
 
   filter {
@@ -187,9 +187,10 @@ data "aws_ami" "suma-server-43-byos" {
   }
 }
 
-data "aws_ami" "suma-server-43-paygo" {
+// None EMEA offer
+data "aws_ami" "suma-server-43-llc-paygo" {
   most_recent = true
-  name_regex  = "^suse-manager-server-4-3-v"
+  name_regex  = "^suse-manager-server-4-3-v.*(llc).*$"
   owners      = ["679593333241"]
 
   filter {
@@ -207,6 +208,29 @@ data "aws_ami" "suma-server-43-paygo" {
     values = ["ebs"]
   }
 }
+
+// EMEA offer
+data "aws_ami" "suma-server-43-ltd-paygo" {
+  most_recent = true
+  name_regex  = "^suse-manager-server-4-3-v.*(ltd).*$"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 
 data "aws_ami" "suma-proxy-43-byos" {
   most_recent = true
@@ -252,7 +276,7 @@ data "aws_ami" "sles12sp5" {
 
 data "aws_ami" "sles12sp5-paygo" {
   most_recent = true
-  name_regex  = "^suse-sles-12-sp5-v"
+  name_regex  = "^suse-sles-12-sp5-v[0-9]*-hvm"
   owners      = ["013907871322"] // aws marketplace
 
   filter {
