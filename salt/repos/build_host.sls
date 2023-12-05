@@ -71,6 +71,11 @@ desktop_updates_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Desktop-Applications/{{ sle_version_path }}/x86_64/update/
     - refresh: True
 
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/{{ sle_version_path }}/x86_64/product/
+    - refresh: True
+
 {% endif %}
 
 
