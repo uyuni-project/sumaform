@@ -8,7 +8,7 @@ include:
 
 spacecmd_config:
   cmd.run:
-    - name: uyunictl exec 'mkdir -p /root/.spacecmd; echo -e "[spacecmd]\\nserver={{ grains.get('fqdn') }}" >/root/.spacecmd/config'
+    - name: mgrctl exec 'mkdir -p /root/.spacecmd; echo -e "[spacecmd]\\nserver={{ grains.get('fqdn') }}" >/root/.spacecmd/config'
     - require:
       - pkg: uyuni-tools
       - sls: server_containerized.install_{{ container_runtime }}
@@ -38,7 +38,7 @@ create_first_user:
              firstNames=Administrator&\
              lastName=Administrator"
     - verify_ssl: False
-    - unless: uyunictl exec "satwho | grep -x {{ server_username }} server_username"
+    - unless: mgrctl exec "satwho | grep -x {{ server_username }} server_username"
     - require:
       - http: wait_for_tomcat
       - pkg: uyuni-tools
@@ -46,7 +46,7 @@ create_first_user:
 # set password in case user already existed with a different password
 first_user_set_password:
   cmd.run:
-    - name: uyunictl exec 'echo -e "{{ server_password }}\\n{{ server_password }}" | satpasswd -s {{ server_username }}'
+    - name: mgrctl exec 'echo -e "{{ server_password }}\\n{{ server_password }}" | satpasswd -s {{ server_username }}'
     - require:
       - http: create_first_user
       - pkg: uyuni-tools
@@ -86,15 +86,15 @@ wait_for_mgr_sync:
 
 scc_data_refresh:
   cmd.run:
-    - name: uyunictl mgr-sync refresh
+    - name: mgrctl mgr-sync refresh
     - use_vt: True
-    - unless: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} --quiet api sync.content.listProducts | grep name"
+    - unless: mgrctl exec "spacecmd -u {{ server_username }} -p {{ server_password }} --quiet api sync.content.listProducts | grep name"
     - require:
       - cmd: wait_for_mgr_sync
 
 add_channels:
   cmd.run:
-    - name: uyunictl exec mgr-sync add channels {{ ' '.join(grains['channels']) }}
+    - name: mgrctl exec mgr-sync add channels {{ ' '.join(grains['channels']) }}
     - require:
       - cmd: scc_data_refresh
 
@@ -115,8 +115,8 @@ reposync_{{ channel }}:
 {% if grains.get('create_sample_channel') %}
 create_empty_channel:
   cmd.run:
-    - name: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64"
-    - unless: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} softwarechannel_list | grep -x testchannel"
+    - name: mgrctl exec "spacecmd -u {{ server_username }} -p {{ server_password }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64"
+    - unless: mgrctl exec "spacecmd -u {{ server_username }} -p {{ server_password }} softwarechannel_list | grep -x testchannel"
     - require:
       - http: create_first_user
 {% endif %}
@@ -124,8 +124,8 @@ create_empty_channel:
 {% if grains.get('create_sample_activation_key') %}
 create_empty_activation_key:
   cmd.run:
-    - name: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} -- activationkey_create -n DEFAULT {{ '-b testchannel' if grains.get('create_sample_channel') else '' }}"
-    - unless: uyunictl exec "spacecmd -u {{ server_username }} -p {{ server_password }} activationkey_list | grep -x 1-DEFAULT"
+    - name: mgrctl exec "spacecmd -u {{ server_username }} -p {{ server_password }} -- activationkey_create -n DEFAULT {{ '-b testchannel' if grains.get('create_sample_channel') else '' }}"
+    - unless: mgrctl exec "spacecmd -u {{ server_username }} -p {{ server_password }} activationkey_list | grep -x 1-DEFAULT"
     - require:
       - cmd: create_empty_channel
 {% endif %}
@@ -133,13 +133,13 @@ create_empty_activation_key:
 {% if grains.get('create_sample_bootstrap_script') %}
 create_empty_bootstrap_script:
   cmd.run:
-    - name: uyunictl exec "rhn-bootstrap --activation-keys=1-DEFAULT --hostname {{ grains['hostname'] }}.{{ grains['domain'] }}"
+    - name: mgrctl exec "rhn-bootstrap --activation-keys=1-DEFAULT --hostname {{ grains['hostname'] }}.{{ grains['domain'] }}"
     - require:
       - cmd: create_empty_activation_key
 
 create_empty_bootstrap_script_md5:
   cmd.run:
-    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512"
+    - name: mgrctl exec "sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512"
     - require:
       - cmd: create_empty_bootstrap_script
 {% endif %}
@@ -147,21 +147,21 @@ create_empty_bootstrap_script_md5:
 {% if grains.get('container_runtime') == 'podman' and grains.get('publish_private_ssl_key') %}
 private_ssl_key:
   cmd.run:
-    - name: uyunictl exec "cp /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY; chmod 644 /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY"
+    - name: mgrctl exec "cp /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY; chmod 644 /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY"
 
 private_ssl_key_checksum:
   cmd.run:
-    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512"
+    - name: mgrctl exec "sha512sum /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY > /srv/www/htdocs/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512"
     - require:
       - cmd: private_ssl_key
 
 ca_configuration:
   cmd.run:
-    - name: uyunictl exec "cp /root/ssl-build/rhn-ca-openssl.cnf /srv/www/htdocs/pub/rhn-ca-openssl.cnf; chmod 644 /srv/www/htdocs/pub/rhn-ca-openssl.cnf"
+    - name: mgrctl exec "cp /root/ssl-build/rhn-ca-openssl.cnf /srv/www/htdocs/pub/rhn-ca-openssl.cnf; chmod 644 /srv/www/htdocs/pub/rhn-ca-openssl.cnf"
 
 ca_configuration_checksum:
   cmd.run:
-    - name: uyunictl exec "sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512"
+    - name: mgrctl exec "sha512sum /srv/www/htdocs/pub/rhn-ca-openssl.cnf > /srv/www/htdocs/pub/rhn-ca-openssl.cnf.sha512"
     - require:
       - cmd: ca_configuration
 {% endif %}

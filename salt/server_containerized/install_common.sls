@@ -3,8 +3,8 @@
 uyuni-tools:
   pkg.installed:
     - pkgs:
-      - uyuniadm
-      - uyunictl
+      - mgradm
+      - mgrctl
     
 {% if mirror_hostname %}
 
