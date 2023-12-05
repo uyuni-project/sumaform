@@ -1,18 +1,18 @@
 include:
   - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
-uyuniadm_config:
+mgradm_config:
   file.managed:
-    - name: /root/uyuniadm.yaml
-    - source: salt://server_containerized/uyuniadm.yaml
+    - name: /root/mgradm.yaml
+    - source: salt://server_containerized/mgradm.yaml
     - template: jinja
 
 {% set runtime = grains.get('container_runtime') | default('podman', true) %}
 {% set install_cmd = 'kubernetes' if runtime == 'k3s' else 'podman' %}
 
-uyuniadm_install:
+mgradm_install:
   cmd.run:
-    - name: uyuniadm install {{ install_cmd }} --logLevel=debug --config /root/uyuniadm.yaml {{ grains.get("fqdn") }}
+    - name: mgradm install {{ install_cmd }} --logLevel=debug --config /root/mgradm.yaml {{ grains.get("fqdn") }}
     - env:
       - KUBECONFIG: /etc/rancher/k3s/k3s.yaml
 {%- if grains.get('container_runtime') | default('podman', true) == 'podman' %}
@@ -24,5 +24,5 @@ uyuniadm_install:
       - pkg: uyuni-tools
       - sls: server_containerized.install_common
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-      - file: uyuniadm_config
+      - file: mgradm_config
 
