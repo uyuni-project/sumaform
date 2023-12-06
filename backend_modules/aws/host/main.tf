@@ -33,7 +33,6 @@ locals {
   overwrite_fqdn                       = local.route53_domain == null ? local.provider_settings["overwrite_fqdn"] : "${var.base_configuration["name_prefix"]}-${var.name}.${var.base_configuration["route53_domain"]}"
   route53_zone_id                      = lookup(var.base_configuration, "route53_zone_id", null)
   route53_domain                       = lookup(var.base_configuration, "route53_domain", null)
-  iam_instance_profile                 = lookup(var.base_configuration, "iam_instance_profile", null)
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
@@ -81,7 +80,7 @@ resource "aws_instance" "instance" {
   subnet_id              = var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
   private_ip             = local.private_ip
-  iam_instance_profile   = contains(var.roles, "server") ? local.iam_instance_profile : null
+  iam_instance_profile   = contains(var.roles, "server") ? var.base_configuration["iam_instance_profile"] : null
 
   root_block_device {
     volume_size = local.provider_settings["volume_size"]
