@@ -76,3 +76,9 @@ variable "use_eip_bastion" {
   default     = true
   type        = bool
 }
+
+variable "is_server_paygo_instance" {
+  description = "specify if the server instance is a paygo instance"
+  type        = bool
+  default     = false
+}

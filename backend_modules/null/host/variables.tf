@@ -121,8 +121,3 @@ variable "overwrite_fqdn" {
   type        = string
   default     = null
 }
-
-variable "is_paygo_instance" {
-  description = "specify if the server instance is a paygo instance"
-  default     = false
-}

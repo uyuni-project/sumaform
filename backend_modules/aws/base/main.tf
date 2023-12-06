@@ -103,6 +103,7 @@ locals {
       private_additional_subnet_id         = local.private_additional_subnet_id
       private_additional_security_group_id = local.private_additional_security_group_id
     } : {})
+    iam_instance_profile = length(aws_iam_instance_profile.metering_full_access_instance_profile) > 0 ? aws_iam_instance_profile.metering_full_access_instance_profile[0].name : null
 }
 
 module "bastion" {
