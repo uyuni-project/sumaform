@@ -24,9 +24,9 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
 
 # BV clients
-{% if grains.get('sle12_paygo_minion') | default(false, true) %}export SLE12_PAYGO_MINION="{{ grains.get('sle12_paygo_minion') }}" {% else %}# no SLE12_PAYGO minion defined {% endif %}
-{% if grains.get('sle15_paygo_minion') | default(false, true) %}export SLE15_PAYGO_MINION="{{ grains.get('sle15_paygo_minion') }}" {% else %}# no SLE15_PAYGO minion defined {% endif %}
-{% if grains.get('sleforsap15_paygo_minion') | default(false, true) %}export SLEFORSAP15_PAYGO_MINION="{{ grains.get('sleforsap15_paygo_minion') }}" {% else %}# no SLEFORSAP15_PAYGO minion defined {% endif %}
+{% if grains.get('sle12sp5_paygo_minion') | default(false, true) %}export SLE12SP5_PAYGO_MINION="{{ grains.get('sle12sp5_paygo_minion') }}" {% else %}# no SLE12SP5_PAYGO minion defined {% endif %}
+{% if grains.get('sle15sp5_paygo_minion') | default(false, true) %}export SLE15SP5_PAYGO_MINION="{{ grains.get('sle15sp5_paygo_minion') }}" {% else %}# no SLE15SP5_PAYGO minion defined {% endif %}
+{% if grains.get('sleforsap15sp5_paygo_minion') | default(false, true) %}export SLEFORSAP15SP5_PAYGO_MINION="{{ grains.get('sleforsap15sp5_paygo_minion') }}" {% else %}# no SLEFORSAP15SP5_PAYGO minion defined {% endif %}
 {% if grains.get('sle11sp4_minion') | default(false, true) %}export SLE11SP4_MINION="{{ grains.get('sle11sp4_minion') }}" {% else %}# no SLE11SP4 minion defined {% endif %}
 {% if grains.get('sle11sp4_sshminion') | default(false, true) %}export SLE11SP4_SSHMINION="{{ grains.get('sle11sp4_sshminion') }}" {% else %}# no SLE11SP4 ssh minion defined {% endif %}
 {% if grains.get('sle11sp4_client') | default(false, true) %}export SLE11SP4_CLIENT="{{ grains.get('sle11sp4_client') }}" {% else %}# no SLE11SP4 client defined {% endif %}
