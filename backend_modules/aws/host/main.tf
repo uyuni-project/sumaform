@@ -71,49 +71,6 @@ resource "aws_eip_association" "eip_assoc" {
   network_interface_id = aws_instance.instance[count.index].primary_network_interface_id
 }
 
-resource "aws_iam_role" "marketplace_role" {
-  count = contains(var.roles, "server") && var.is_paygo_instance ? 1 : 0
-
-  name = "marketplace_role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = "sts:AssumeRole",
-        Effect = "Allow",
-        Principal = {
-          Service = "metering.marketplace.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
-
-resource "aws_iam_policy" "marketplace_policy" {
-  count = contains(var.roles, "server") && var.is_paygo_instance ? 1 : 0
-
-  name        = "marketplace_policy"
-  description = "Policy for MeterUsage permission"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action   = "aws-marketplace:MeterUsage",
-        Effect   = "Allow",
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "attach_marketplace_policy" {
-  count      = contains(var.roles, "server") && var.is_paygo_instance ? 1 : 0
-  policy_arn = aws_iam_policy.marketplace_policy[0].arn
-  role       = aws_iam_role.marketplace_role[0].name
-}
-
 resource "aws_instance" "instance" {
   ami                    = local.ami
   instance_type          = local.provider_settings["instance_type"]
@@ -123,7 +80,7 @@ resource "aws_instance" "instance" {
   subnet_id              = var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
   private_ip             = local.private_ip
-  iam_instance_profile   = length(aws_iam_role.marketplace_role) > 0 ? aws_iam_role.marketplace_role[0].name : null
+  iam_instance_profile   = contains(var.roles, "server") ? var.base_configuration["iam_instance_profile"] : null
 
   root_block_device {
     volume_size = local.provider_settings["volume_size"]

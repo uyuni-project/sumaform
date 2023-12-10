@@ -16,6 +16,7 @@ module "base_backend" {
   provider_settings        = var.provider_settings
   images                   = var.images
   use_eip_bastion          = var.use_eip_bastion
+  is_server_paygo_instance = var.is_server_paygo_instance
 }
 
 output "configuration" {

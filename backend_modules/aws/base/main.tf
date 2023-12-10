@@ -65,6 +65,7 @@ locals {
 
     key_name = local.key_name
     key_file = local.key_file
+    iam_instance_profile = length(aws_iam_instance_profile.metering_full_access_instance_profile) > 0 ? aws_iam_instance_profile.metering_full_access_instance_profile[0].name : null
     ami_info = {
       opensuse154o         = { ami = data.aws_ami.opensuse154o.image_id },
       opensuse155o         = { ami = data.aws_ami.opensuse155o.image_id },
