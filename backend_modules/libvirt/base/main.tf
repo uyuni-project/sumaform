@@ -46,6 +46,7 @@ locals {
     slemicro53-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_53/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro54-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_54/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro55o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_55/SLE-Micro.x86_64-sumaform.qcow2"
+    suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "https://download.suse.de"}/ibs/home:/oholecek:/SUMA-VM/images/SUSE-Manager-Server.x86_64-KVM.qcow2"
   }
   pool               = lookup(var.provider_settings, "pool", "default")
   network_name       = lookup(var.provider_settings, "network_name", "default")
