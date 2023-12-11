@@ -31,6 +31,7 @@ resource "feilong_guest" "s390_guest" {
   image      = var.image
   userid     = local.provider_settings["userid"]
   mac        = local.provider_settings["mac"]
+  vswitch    = local.provider_settings["vswitch"]
 
   cloudinit_params = feilong_cloudinit_params.s390_params.file
 }
