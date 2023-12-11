@@ -148,6 +148,23 @@ virsh console suma32pg
 
 especially in the case the network is not working and you need to debug it, or if the images have difficulties booting.
 
+### Accessing VMs through bastion host
+
+When deployed VMs are behind NAT and not directly accessible from the machine terraform is running on, it is required for libvirt connection provider to specify a jump host. To do this add
+bastion configuration options to the libvirt `provider_settings`:
+
+```hcl-terraform
+
+provider_settings = {
+    bastion_host        = <jump-host-fqdn>
+    bastion_host_key    = <validation-of-jump-host>
+    bastion_port        = <jump-host-port>
+    bastion_user        = <jump-host-user>
+    bastion_password    = <jump-host-password>
+    bastion_private_key = <jump-host-user-authentication>
+}
+```
+
 ## Only upload a subset of available images
 
 By default all known base OS images are uploaded to the libvirt host (currently several versions of SLES and CentOS). It is possible to limit the OS selection in order to avoid wasting space and bandwidth, if the needed OSs are known a priori.
