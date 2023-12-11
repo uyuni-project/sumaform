@@ -250,6 +250,11 @@ variable "database_disk_size" {
   default     = 0
 }
 
+variable "repository_disk_use_cloud_setup" {
+  description = "Use cloud tool suma-storage to setup additional disk for repository and database data"
+  default = false
+}
+
 variable "saltapi_tcpdump" {
   description = "If set to true, all network operations of salt-api are logged to /tmp/ with tcpdump."
   default     = false

@@ -5,6 +5,18 @@ parted:
   pkg.installed
 
 {% if grains.get('repository_disk_size') > 0 %}
+{% if grains.get('repository_disk_use_cloud_setup') %}
+
+susemanager-cloud-setup-server:
+  pkg.installed
+
+spacewalk_directory:
+  cmd.run:
+    - name: suma-storage /dev/{{grains['data_disk_device']}}
+    - require:
+      - pkg: susemanager-cloud-setup-server
+
+{% else %}
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
@@ -61,7 +73,8 @@ spacewalk_directory:
     - require:
       - cmd: spacewalk_partition
 
-{% endif %}
+{% endif %} # grains.get('repository_disk_use_cloud_setup')
+{% endif %} # grains.get('repository_disk_size')
 
 {% if grains.get('database_disk_size') > 0 %}
 
@@ -115,4 +128,4 @@ pgsql_directory:
     - require:
         - cmd: pgsql_partition
 
-{% endif %}
+{% endif %} # grains.get('database_disk_size')

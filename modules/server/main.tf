@@ -79,6 +79,7 @@ module "server" {
     main_disk_size                 = var.main_disk_size
     repository_disk_size           = var.repository_disk_size
     database_disk_size             = var.database_disk_size
+    repository_disk_use_cloud_setup= var.repository_disk_use_cloud_setup
     forward_registration           = var.forward_registration
     server_registration_code       = var.server_registration_code
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
