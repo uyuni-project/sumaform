@@ -38,7 +38,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos7o", "opensuse155o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu2004o", "ubuntu2204o"]
+  default     = ["centos7o", "opensuse155o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu2004o", "ubuntu2204o", "suma43VM-ign"]
 }
 
 variable "repository_disk_size" {
@@ -79,7 +79,7 @@ variable "host_settings" {
 
 // server
 variable "product_version" {
-  description = "One of: 4.2-nightly, 4.2-released, 4.3-nightly, 4.3-released, 4.3-pr, 4.3-beta, head, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 4.3-nightly, 4.3-released, 4.3-pr, 4.3-beta, 4.3-VM, 4.3-VM-released, head, test, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
