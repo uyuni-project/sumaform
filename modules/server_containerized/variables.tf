@@ -273,7 +273,7 @@ variable "connect_to_additional_network" {
 variable "image" {
   description = "An image name, e.g. sles15sp5 or opensuse155o"
   type        = string
-  default     = "opensuse155o"
+  default     = "default"
 }
 
 variable "provision" {
