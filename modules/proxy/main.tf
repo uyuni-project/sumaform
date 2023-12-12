@@ -15,8 +15,8 @@ variable "images" {
     "4.3-build_image"= "sles15sp4o"
     "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse155o"
-    "uyuni-released" = "opensuse154o"
-    "uyuni-pr"       = "opensuse154o"
+    "uyuni-released" = "opensuse155o"
+    "uyuni-pr"       = "opensuse155o"
   }
 }
 
