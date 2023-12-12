@@ -66,9 +66,9 @@ module "controller" {
     server_instance_id        = var.server_instance_id
     container_runtime         = lookup(var.server_configuration, "runtime", null)
 
-    sle12_paygo_minion    = length(var.sle12_paygo_minion_configuration["hostnames"]) > 0 ? var.sle12_paygo_minion_configuration["hostnames"][0] : null
-    sle15_paygo_minion    = length(var.sle15_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15_paygo_minion_configuration["hostnames"][0] : null
-    sleforsap15_paygo_minion = length(var.sleforsap15_paygo_minion_configuration["hostnames"]) > 0 ? var.sleforsap15_paygo_minion_configuration["hostnames"][0] : null
+    sle12sp5_paygo_minion    = length(var.sle12sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_paygo_minion_configuration["hostnames"][0] : null
+    sle15sp5_paygo_minion    = length(var.sle15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp5_paygo_minion_configuration["hostnames"][0] : null
+    sleforsap15sp5_paygo_minion = length(var.sleforsap15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sleforsap15sp5_paygo_minion_configuration["hostnames"][0] : null
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
     sle11sp4_client      = length(var.sle11sp4_client_configuration["hostnames"]) > 0 ? var.sle11sp4_client_configuration["hostnames"][0] : null
