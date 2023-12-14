@@ -9,6 +9,7 @@ systemsmanagement_Uyuni_Master_ContainerUtils:
 reboot:
   module.run:
     - name: system.reboot
+    - at_time: +2
     - order: last
 
 {% endif %}
