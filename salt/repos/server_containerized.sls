@@ -6,12 +6,6 @@ systemsmanagement_Uyuni_Master_ContainerUtils:
     - refresh: True
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_15.5/repodata/repomd.xml.key
 
-reboot:
-  module.run:
-    - name: system.reboot
-    - at_time: +2
-    - order: last
-
 {% endif %}
 
 
