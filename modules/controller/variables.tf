@@ -677,6 +677,13 @@ variable "sle15sp3s390_sshminion_configuration" {
   }
 }
 
+variable "salt_migration_minion_configuration" {
+  description = "use module.<SALT_MIGRATION_MINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}

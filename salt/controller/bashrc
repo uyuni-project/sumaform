@@ -14,10 +14,12 @@ export SERVER="{{ grains.get('server') }}"
 export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('monitoring_server') | default(false, true) %}export MONITORING_SERVER="{{ grains.get('monitoring_server') }}"{% else %}# no monitoring server defined {% endif %}
 
-# Salt bundle test specific hosts
-# At the moment we only need/support one nested VM in the test suite
+# Nested VM specific host
 {% if grains.get('nested_vm_host') %}export MIN_NESTED="{{ grains.get('nested_vm_host') }}.{{ grains.get('domain') }}"{% else %}# no nested VM hostname defined {%- endif %}
 {% if grains.get('nested_vm_mac') %}export MAC_MIN_NESTED="{{ grains.get('nested_vm_mac') }}"{% else %}# no nested VM MAC address defined {%- endif %}
+
+# Migration to Salt bundle test specific host
+{% if grains.get('salt_migration_minion') | default(false, true) %}export SALT_MIGRATION_MINION="{{ grains.get('salt_migration_minion') }}" {% else %}# no Salt migration minion defined {% endif %}
 
 # base goodies
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
