@@ -67,7 +67,6 @@ locals {
     key_file = local.key_file
     iam_instance_profile = length(aws_iam_instance_profile.metering_full_access_instance_profile) > 0 ? aws_iam_instance_profile.metering_full_access_instance_profile[0].name : null
     ami_info = {
-      opensuse154o         = { ami = data.aws_ami.opensuse154o.image_id },
       opensuse155o         = { ami = data.aws_ami.opensuse155o.image_id },
       sles15sp2o           = { ami = data.aws_ami.sles15sp2o.image_id },
       sles15sp3o           = { ami = data.aws_ami.sles15sp3o.image_id },
@@ -109,7 +108,7 @@ module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = lookup(var.provider_settings, "bastion_image", "opensuse154o")
+  image                         = lookup(var.provider_settings, "bastion_image", "opensuse155o")
   name                          = "bastion"
   provider_settings = {
     instance_type   = "t3a.micro"
