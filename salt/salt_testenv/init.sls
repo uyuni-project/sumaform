@@ -48,7 +48,7 @@ salt_testing_repo:
 
 install_salt_testsuite:
   pkg.installed:
-    - name: python3-salt-testsuite
+    - pkgs: ["python3-salt-testsuite", "python3-salt-test"]
     - require:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
