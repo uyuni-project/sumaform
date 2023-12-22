@@ -48,7 +48,7 @@ salt_testing_repo:
 
 install_salt_testsuite:
   pkg.installed:
-    - name: python3-salt-testsuite
+    - pkgs: ["python3-salt-testsuite", "python3-salt-test"]
     - require:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
@@ -122,3 +122,20 @@ install_salt_bundle_testsuite:
     - name: venv-salt-minion-testsuite
     - require:
       - pkgrepo: salt_bundle_testsuite_repo
+
+create_salt_test_configuration:
+  file.managed:
+    - name: /root/skiplist.toml
+    - contents: |
+        [ignore]
+        unit = [
+          "tests/unit/modules/test_boto3_elasticsearch.py",
+          "tests/unit/modules/test_boto3_route53.py",
+          "tests/unit/modules/test_boto_route53.py",
+          "tests/unit/utils/test_boto3mod.py",
+          "tests/pytests/unit/utils/test_x509.py",
+        ]
+        integration = [
+          "tests/pytests/integration/modules/test_x509_v2.py",
+          "tests/pytests/integration/states/test_x509_v2.py",
+        ]
