@@ -55,5 +55,5 @@ variable "volume_provider_settings" {
 variable "image" {
   description = "An image name, e.g. sles15sp2o or opensuse155o"
   type        = string
-  default = "opensuse154o"
+  default = "opensuse155o"
 }

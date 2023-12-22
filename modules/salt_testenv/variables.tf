@@ -49,7 +49,7 @@ variable "provider_settings" {
 }
 
 variable "image" {
-  description = "An image name, e.g. sles12sp4 or opensuse154o"
+  description = "An image name, e.g. sles12sp4 or opensuse155o"
   type        = string
-  default = "opensuse154o"
+  default = "opensuse155o"
 }
