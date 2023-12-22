@@ -81,7 +81,7 @@ install_gems_via_bundle:
 
 install_npm:
   pkg.installed:
-    - name: npm8
+    - name: npm-default
 
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
