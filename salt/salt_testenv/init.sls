@@ -134,6 +134,7 @@ create_salt_test_configuration:
           "tests/unit/modules/test_boto_route53.py",
           "tests/unit/utils/test_boto3mod.py",
           "tests/pytests/unit/utils/test_x509.py",
+          "tests/unit/states/test_module.py",
         ]
         integration = [
           "tests/pytests/integration/modules/test_x509_v2.py",
