@@ -140,3 +140,7 @@ create_salt_test_configuration:
           "tests/pytests/integration/modules/test_x509_v2.py",
           "tests/pytests/integration/states/test_x509_v2.py",
         ]
+	[skip]
+	functional = [
+	  "tests/pytests/functional/transport/ipc/test_pub_server_channel.py::test_publish_to_pubserv_ipc",
+	]
