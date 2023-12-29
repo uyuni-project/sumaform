@@ -117,8 +117,23 @@ salt_bundle_testsuite_repo:
 {% endif %}
     - refresh: True
 
+TO_REMOVE_PABLO_salt_bundle_testsuite_repo:
+  pkgrepo.managed:
+{% if grains['os'] in ["Debian", "Ubuntu"] %}
+    - humanname: pablo_salt_bundle_testsuite_repo
+    - file: /etc/apt/sources.list.d/pablo_salt_bundle_testsuite_repo.list
+    - name: deb http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/home:/PSuarezHernandez:/branches:/systemsmanagement:/saltstack:/bundle:/next/{{ repo_path}}/ /
+    - key_url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/home:/PSuarezHernandez:/branches:/systemsmanagement:/saltstack:/bundle:/next/{{ repo_path }}/Release.key
+{% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/home:/PSuarezHernandez:/branches:/systemsmanagement:/saltstack:/bundle:/next/{{ repo_path }}/
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/home:/PSuarezHernandez:/branches:/systemsmanagement:/saltstack:/bundle:/next/{{ repo_path }}/repodata/repomd.xml.key
+    - gpgcheck: 0
+{% endif %}
+    - refresh: True
+
 install_salt_bundle_testsuite:
   pkg.installed:
     - name: venv-salt-minion-testsuite
     - require:
       - pkgrepo: salt_bundle_testsuite_repo
+      - pkgrepo: TO_REMOVE_PABLO_salt_bundle_testsuite_repo
