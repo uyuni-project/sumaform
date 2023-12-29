@@ -292,6 +292,11 @@ variable "additional_disk_size" {
   default     = null
 }
 
+variable "second_additional_disk_size" {
+  description = "Size of a second additional disk, defined in GiB"
+  default     = null
+}
+
 variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}

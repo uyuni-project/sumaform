@@ -69,6 +69,14 @@ resource "libvirt_volume" "data_disk" {
   count = var.additional_disk_size == null? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 }
 
+resource "libvirt_volume" "database_disk" {
+  name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-database-disk"
+  // needs to be converted to bytes
+  size  = (var.second_additional_disk_size == null? 0: var.second_additional_disk_size) * 1024 * 1024 * 1024
+  pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
+  count = var.second_additional_disk_size == null? 0 : var.second_additional_disk_size > 0 ? var.quantity : 0
+}
+
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
   user_data      = data.template_file.user_data.rendered
@@ -101,7 +109,8 @@ resource "libvirt_domain" "domain" {
   dynamic "disk" {
     for_each = concat(
       length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
-      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : []
+      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : [],
+      length(libvirt_volume.database_disk) == var.quantity ? [{"volume_id" : libvirt_volume.database_disk[count.index].id}] : []
     )
     content {
       volume_id = disk.value.volume_id
@@ -237,6 +246,7 @@ resource "null_resource" "provisioning" {
         reset_ids                     = true
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
         provider                      = "libvirt"
       },
       var.grains))

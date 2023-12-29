@@ -82,6 +82,7 @@ module "server" {
     traceback_email                = var.traceback_email
     saltapi_tcpdump                = var.saltapi_tcpdump
     repository_disk_size           = var.repository_disk_size
+    database_disk_size             = var.database_disk_size
     forward_registration           = var.forward_registration
     server_registration_code       = var.server_registration_code
     accept_all_ssl_protocols       = var.accept_all_ssl_protocols
@@ -92,10 +93,11 @@ module "server" {
   }
 
 
-  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
-  provider_settings        = var.provider_settings
-  additional_disk_size     = var.repository_disk_size
-  volume_provider_settings = var.volume_provider_settings
+  image                           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  provider_settings               = var.provider_settings
+  additional_disk_size            = var.repository_disk_size
+  second_additional_disk_size     = var.database_disk_size
+  volume_provider_settings        = var.volume_provider_settings
 }
 
 output "configuration" {

@@ -46,6 +46,10 @@ locals {
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
   helm_chart_urls    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
+  repository_disk_size    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "repository_disk_size", null) if var.host_settings[host_key] != null }
+  database_disk_size    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "database_disk_size", null) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -84,6 +88,8 @@ module "server" {
   saltapi_tcpdump   = var.saltapi_tcpdump
   provider_settings = lookup(local.provider_settings_by_host, "server", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server", {})
+  repository_disk_size          = lookup(local.repository_disk_size, "server", {})
+  database_disk_size            = lookup(local.database_disk_size, "server", {})
 }
 
 module "server_containerized" {
