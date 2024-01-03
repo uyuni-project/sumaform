@@ -303,14 +303,3 @@ host_settings = {
   }
 }
 ```
-
-Furthermore you have to specify 2 other variable inside your `main.tf` that defines the hostname and the MAC addresses
-of the image you use, if needed:
-
-```hcl
-nested_vm_host = "hostname1"
-nested_vm_mac  = "aa:bb:cc:dd:ee:ff"
-```
-
-It should contain the same hostname as the one defined in the `hvm_disk_image` section you see above. This is a
-workaround to not have to refactor parts of the current sumaform code.

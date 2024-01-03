@@ -14,10 +14,6 @@ export SERVER="{{ grains.get('server') }}"
 export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('monitoring_server') | default(false, true) %}export MONITORING_SERVER="{{ grains.get('monitoring_server') }}"{% else %}# no monitoring server defined {% endif %}
 
-# Nested VM specific host
-{% if grains.get('nested_vm_host') %}export MIN_NESTED="{{ grains.get('nested_vm_host') }}.{{ grains.get('domain') }}"{% else %}# no nested VM hostname defined {%- endif %}
-{% if grains.get('nested_vm_mac') %}export MAC_MIN_NESTED="{{ grains.get('nested_vm_mac') }}"{% else %}# no nested VM MAC address defined {%- endif %}
-
 # Migration to Salt bundle test specific host
 {% if grains.get('salt_migration_minion') | default(false, true) %}export SALT_MIGRATION_MINION="{{ grains.get('salt_migration_minion') }}" {% else %}# no Salt migration minion defined {% endif %}
 
