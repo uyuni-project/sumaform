@@ -1,10 +1,5 @@
 variable "images" {
   default = {
-    "4.0-released"   = "sles15sp1o"
-    "4.0-nightly"    = "sles15sp1o"
-    "4.1-released"   = "sles15sp2o"
-    "4.1-nightly"    = "sles15sp2o"
-    "4.1-build_image"= "sles15sp2o"
     "4.2-released"   = "sles15sp3o"
     "4.2-nightly"    = "sles15sp3o"
     "4.2-build_image"= "sles15sp3o"
