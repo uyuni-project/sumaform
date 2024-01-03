@@ -28,7 +28,7 @@ module "server_containerized" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
-  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image                    = var.image == "default" ? var.images[var.product_version] : var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
   additional_disk_size          = var.additional_disk_size
