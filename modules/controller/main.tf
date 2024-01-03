@@ -149,7 +149,7 @@ module "controller" {
     salt_migration_minion = length(var.salt_migration_minion_configuration["hostnames"]) > 0 ? var.salt_migration_minion_configuration["hostnames"][0] : null
   }
 
-  image   = "opensuse154o"
+  image   = "opensuse155o"
   provider_settings = var.provider_settings
 }
 

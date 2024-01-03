@@ -1,24 +1,3 @@
-data "aws_ami" "opensuse154o" {
-  most_recent = true
-  name_regex  = "^openSUSE-Leap-15-4-v"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 data "aws_ami" "opensuse155o" {
   most_recent = true
   name_regex  = "^openSUSE-Leap-15-5-v"
