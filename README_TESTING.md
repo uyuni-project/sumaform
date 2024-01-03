@@ -12,7 +12,7 @@ provider "libvirt" {
 module "cucumber_testsuite" {
   source = "./modules/cucumber_testsuite"
 
-  product_version = "4.0-nightly"
+  product_version = "4.3-nightly"
 
   cc_username = ...
   cc_password = ...
@@ -205,7 +205,7 @@ As an example:
 module "cucumber_testsuite" {
   source = "./modules/cucumber_testsuite"
 
-  product_version = "4.0-nightly"
+  product_version = "4.3-nightly"
   ...
   git_repo = "https://url.to.git/repo/to/clone"
   branch = "cool-feature"
