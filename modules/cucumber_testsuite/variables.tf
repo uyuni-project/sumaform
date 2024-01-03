@@ -160,18 +160,6 @@ variable "login_timeout" {
   default     = null
 }
 
-variable "nested_vm_host" {
-  description = "Hostname for a nested VM if it is used, see README_TESTING.md"
-  type        = string
-  default     = "min-nested"
-}
-
-variable "nested_vm_mac" {
-  description = "MAC address for a nested VM if it is used, see README_TESTING.md"
-  type        = string
-  default     = ""
-}
-
 variable "container_server" {
   description = "true to run the server in containers"
   default = false
