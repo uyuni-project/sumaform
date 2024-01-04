@@ -39,6 +39,7 @@ locals {
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
   data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
+  second_data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme2n1"
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 }
@@ -261,6 +262,7 @@ resource "null_resource" "host_salt_configuration" {
         reset_ids                     = true
         ipv6                          = var.ipv6
         data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null
+        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.second_data_disk_device : null
       },
       var.grains))
     destination = "/tmp/grains"

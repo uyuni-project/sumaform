@@ -863,7 +863,7 @@ To disable the swap file, set its size to 0.
 
 ## Additional disk on Server or Proxy
 
-In case the default disk size for those machines is not enough for the amount of products you want to synchronize, you can add an additional disk which will mount the first volume in `/var/spacewalk` with size `repository_disk_size`. This additional disk will be created in the pool specified by `data_pool`.
+In case the default disk size for those machines is not enough for the amount of products you want to synchronize, you can add an additional disk which will mount the first volume in `/var/spacewalk` with size `repository_disk_size` and the second volume in `/var/lib/pgsql` with size `database_disk_size`. This additional disk will be created in the pool specified by `data_pool`.
 
 An example follows:
 
@@ -874,6 +874,7 @@ module "server" {
   product_version = "4.2-nightly"
   name = "server"
   repository_disk_size = 500
+  database_disk_size = 50
   volume_provider_settings = {
     data_pool = "default"
   }

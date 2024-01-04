@@ -53,6 +53,7 @@ iss_master: null
 iss_slave: null
 db_configuration: {'local': true, 'hostname': 'localhost', 'port': '5432'}
 repository_disk_size: 0
+database_disk_size: 0
 EOF
 
 cat > testconfig/minion <<EOF

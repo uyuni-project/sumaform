@@ -240,6 +240,11 @@ variable "repository_disk_size" {
   default     = 0
 }
 
+variable "database_disk_size" {
+  description = "Size of an additional disk for /var/lib/pgsql partition, defined in GiB"
+  default     = 0
+}
+
 variable "saltapi_tcpdump" {
   description = "If set to true, all network operations of salt-api are logged to /tmp/ with tcpdump."
   default     = false
