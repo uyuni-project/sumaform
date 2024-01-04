@@ -140,8 +140,8 @@ module "controller" {
     opensuse154arm_sshminion = length(var.opensuse154arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse154arm_sshminion_configuration["hostnames"][0] : null
     opensuse155arm_minion    = length(var.opensuse155arm_minion_configuration["hostnames"]) > 0 ? var.opensuse155arm_minion_configuration["hostnames"][0] : null
     opensuse155arm_sshminion = length(var.opensuse155arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse155arm_sshminion_configuration["hostnames"][0] : null
-    sle15sp3s390_minion    = length(var.sle15sp3s390_minion_configuration["hostnames"]) > 0 ? var.sle15sp3s390_minion_configuration["hostnames"][0] : null
-    sle15sp3s390_sshminion = length(var.sle15sp3s390_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp3s390_sshminion_configuration["hostnames"][0] : null
+    sle15sp5s390_minion    = length(var.sle15sp5s390_minion_configuration["hostnames"]) > 0 ? var.sle15sp5s390_minion_configuration["hostnames"][0] : null
+    sle15sp5s390_sshminion = length(var.sle15sp5s390_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp5s390_sshminion_configuration["hostnames"][0] : null
     salt_migration_minion = length(var.salt_migration_minion_configuration["hostnames"]) > 0 ? var.salt_migration_minion_configuration["hostnames"][0] : null
   }
 
