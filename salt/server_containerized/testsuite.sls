@@ -101,7 +101,7 @@ repo_key_import:
   cmd.run:
     - name: "mgrctl exec 'rpm --import /tmp/galaxy.key'"
     - onchanges:
-      - file: galaxy_key_copy
+      - cmd: galaxy_key_copy
 {% endif %}
 
 testing_overlay_devel_repo:
