@@ -3,6 +3,9 @@
 include:
   - server
 
+# There products already have salt, prevent version conflicts by not updating/downgrading them
+{% set products_with_preinstalled_salt = [ "build_image", "paygo", "4.3-VM", "4.3-VM-released" ] %}
+
 minima:
   archive.extracted:
     - name: /usr/bin
@@ -37,9 +40,9 @@ test_repo_debian_updates:
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
-      {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
+{% if grains.get('product_version', '') not in products_with_preinstalled_salt %}
       - pkg: testsuite_salt_packages
-      {% endif %}
+{% endif %}
 
 # modify Cobbler to be executed from remote-machines..
 {% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.3-VM", "4.3-VM-released" ] %}
@@ -84,7 +87,7 @@ testsuite_packages:
       - sls: repos
     {% endif %}
 
-{% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
+{% if grains.get('product_version', '') not in products_with_preinstalled_salt %}
 testsuite_salt_packages:
   pkg.installed:
     - pkgs:
