@@ -91,16 +91,15 @@ module "server" {
   additional_repos               = lookup(local.additional_repos, "server", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server", false)
   additional_packages            = lookup(local.additional_packages, "server", [])
-  repository_disk_use_cloud_setup= lookup(local.repository_disk_use_cloud_setup, "server", false)
-  repository_disk_size           = lookup(local.repository_disk_size, "server", null)
   login_timeout                  = var.login_timeout
 
-  saltapi_tcpdump               = var.saltapi_tcpdump
-  provider_settings             = lookup(local.provider_settings_by_host, "server", {})
-  server_mounted_mirror         = lookup(local.server_mounted_mirror, "server", {})
-  repository_disk_size          = lookup(local.repository_disk_size, "server", {})
-  database_disk_size            = lookup(local.database_disk_size, "server", {})
-  large_deployment              = lookup(local.large_deployment, "server", false)
+  saltapi_tcpdump                 = var.saltapi_tcpdump
+  provider_settings               = lookup(local.provider_settings_by_host, "server", {})
+  server_mounted_mirror           = lookup(local.server_mounted_mirror, "server", {})
+  repository_disk_size            = lookup(local.repository_disk_size, "server", {})
+  database_disk_size              = lookup(local.database_disk_size, "server", {})
+  large_deployment                = lookup(local.large_deployment, "server", false)
+  repository_disk_use_cloud_setup = lookup(local.repository_disk_use_cloud_setup, "server", false)
 }
 
 module "server_containerized" {
