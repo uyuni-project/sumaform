@@ -6,13 +6,6 @@ include:
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
 
-spacecmd_config:
-  cmd.run:
-    - name: mgrctl exec 'mkdir -p /root/.spacecmd; echo -e "[spacecmd]\\nserver={{ grains.get('fqdn') }}" >/root/.spacecmd/config'
-    - require:
-      - pkg: uyuni-tools
-      - sls: server_containerized.install_{{ container_runtime }}
-
 {% if grains.get('create_first_user') %}
 
 wait_for_tomcat:
