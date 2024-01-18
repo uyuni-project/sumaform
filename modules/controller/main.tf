@@ -61,6 +61,7 @@ module "controller" {
     is_using_scc_repositories = var.is_using_scc_repositories
     server_instance_id        = var.server_instance_id
     container_runtime         = lookup(var.server_configuration, "runtime", null)
+    catch_timeout_message     = var.catch_timeout_message
 
     sle12sp5_paygo_minion    = length(var.sle12sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_paygo_minion_configuration["hostnames"][0] : null
     sle15sp5_paygo_minion    = length(var.sle15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp5_paygo_minion_configuration["hostnames"][0] : null

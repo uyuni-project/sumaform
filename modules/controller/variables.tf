@@ -762,6 +762,11 @@ variable "no_mirror" {
   default     = false
 }
 
+variable "catch_timeout_message" {
+  description = "Enable the mechanism to catch the timeout message shown by a server overloaded"
+  default     = false
+}
+
 variable "is_using_paygo_server" {
   description = "Specify to controller that server image is a paygo image"
   default     = false

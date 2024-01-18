@@ -117,6 +117,7 @@ export PROVIDER="{{ grains.get('provider') }}"
 {% if 'build_image' not in grains.get('product_version') | default('', true) %}export IS_USING_BUILD_IMAGE="{{ grains.get('is_using_build_image') }}" {% endif %}
 export IS_USING_PAYGO_SERVER="{{ grains.get('is_using_paygo_server') }}"
 export IS_USING_SCC_REPOSITORIES="{{ grains.get('is_using_scc_repositories') }}"
+export CATCH_TIMEOUT_MESSAGE="{{ grains.get('catch_timeout_message') }}"
 export SERVER_INSTANCE_ID="{{ grains.get('server_instance_id') }}"
 
 #### Generate certificates for Google Chrome
