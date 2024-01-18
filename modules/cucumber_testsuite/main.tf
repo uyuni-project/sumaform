@@ -52,6 +52,10 @@ locals {
     host_key => lookup(var.host_settings[host_key], "database_disk_size", 0) if var.host_settings[host_key] != null }
   large_deployment          = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "large_deployment", false) if var.host_settings[host_key] != null }
+  auto_configure       = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "auto_configure", false) if var.host_settings[host_key] != null }
+  create_first_user       = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "create_first_user", false) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -112,7 +116,7 @@ module "server_containerized" {
   disable_firewall               = false
   allow_postgres_connections     = false
   skip_changelog_import          = false
-  create_first_user              = false
+  create_first_user              = lookup(local.create_first_user, "server_containerized", false)
   mgr_sync_autologin             = false
   create_sample_channel          = false
   create_sample_activation_key   = false
@@ -138,6 +142,8 @@ module "server_containerized" {
 module "proxy" {
   source = "../proxy"
 
+  count = var.container_proxy ? 0 : 1
+
   quantity = contains(local.hosts, "proxy") ? 1 : 0
 
   base_configuration = module.base.configuration
@@ -161,6 +167,39 @@ module "proxy" {
   additional_repos_only  = lookup(local.additional_repos_only, "proxy", false)
   additional_packages = lookup(local.additional_packages, "proxy", [])
   provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
+}
+
+module "proxy_containerized" {
+  depends_on = [module.server_containerized]
+  source = "../proxy_containerized"
+
+  count = var.container_proxy ? 1 : 0
+  quantity = contains(local.hosts, "proxy_containerized") ? 1 : 0
+
+  base_configuration     = module.base.configuration
+  product_version        = var.product_version
+  image                  = lookup(local.images, "proxy_containerized", "default")
+  name                   = lookup(local.names, "proxy_containerized", "pxy")
+
+  runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
+  container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
+  helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
+  server_configuration   = { hostname = local.server_full_name,
+                              username = "admin",
+                              password = "admin",
+                              create_first_user = lookup(local.create_first_user, "server_containerized", false) }
+
+  auto_configure         = lookup(local.auto_configure, "proxy_containerized", false)
+
+  ssh_key_path           = "./salt/controller/id_rsa.pub"
+  install_salt_bundle    = lookup(local.install_salt_bundle, "proxy_containerized", false)
+
+  additional_repos       = lookup(local.additional_repos, "proxy_containerized", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "proxy_containerized", false)
+  additional_packages    = lookup(local.additional_packages, "proxy_containerized", [])
+  provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
+  repository_disk_size   = lookup(local.repository_disk_size, "proxy_containerized", {})
+  database_disk_size     = lookup(local.database_disk_size, "proxy_containerized", {})
 }
 
 locals {
@@ -396,7 +435,7 @@ module "controller" {
 
   base_configuration             = module.base.configuration
   server_configuration           = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
-  proxy_configuration            = contains(local.hosts, "proxy") ? module.proxy.configuration : { hostname = null }
+  proxy_configuration            = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
   client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
   sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
@@ -431,7 +470,7 @@ output "configuration" {
   value = {
     base = module.base.configuration
     server = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
-    proxy = module.proxy.configuration
+    proxy = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
     suse-client = module.suse-client.configuration
     slemicro-minion = module.slemicro-minion.configuration
     suse-minion = module.suse-minion.configuration

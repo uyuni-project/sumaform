@@ -68,11 +68,12 @@ module "server_containerized" {
 
 output "configuration" {
   value = {
-    id              = length(module.server_containerized.configuration["ids"]) > 0 ? module.server_containerized.configuration["ids"][0] : null
-    hostname        = length(module.server_containerized.configuration["hostnames"]) > 0 ? module.server_containerized.configuration["hostnames"][0] : null
-    product_version = var.product_version
-    username        = var.server_username
-    password        = var.server_password
-    runtime         = var.runtime
+    id                 = length(module.server_containerized.configuration["ids"]) > 0 ? module.server_containerized.configuration["ids"][0] : null
+    hostname           = length(module.server_containerized.configuration["hostnames"]) > 0 ? module.server_containerized.configuration["hostnames"][0] : null
+    product_version    = var.product_version
+    username           = var.server_username
+    password           = var.server_password
+    runtime            = var.runtime
+    first_user_present = var.create_first_user
   }
 }

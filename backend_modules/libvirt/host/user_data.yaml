@@ -346,13 +346,14 @@ write_files: ${ files }
 
 zypper:
   repos:
-%{ if container_server }
+%{ if container_proxy || container_server }
     - id: container_tools_repo
       name: container_tools_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/SLE_15_SP5/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
+%{ endif }
 %{ if testsuite }
     # Required only for wget
     - id: os_pool_repo
@@ -397,6 +398,9 @@ runcmd:
 %{ endif }
 %{ if container_server }
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
+%{ endif }
+%{ if container_proxy }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
 %{ endif }
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
   - [ reboot ]

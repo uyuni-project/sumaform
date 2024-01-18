@@ -4,9 +4,10 @@ include:
   - repos.proxy42
   {%- elif '4.3' in grains['product_version'] %}
   - repos.proxy43
-  {%- elif 'head' in grains['product_version'] %}
-  - repos.proxyHead
+  {%- elif grains.get('proxy_containerized') %}
+  - repos.proxy_containerized
   {%- else %}
+  # We support both flavours of Uyuni Proxy (RPM and containerized)
   - repos.proxyUyuni
   {%- endif %}
 

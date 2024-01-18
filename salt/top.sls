@@ -18,6 +18,10 @@ base:
     - match: grain
     - proxy
 
+  'roles:proxy_containerized':
+    - match: grain
+    - proxy_containerized
+
   'roles:minion':
     - match: grain
     - minion
