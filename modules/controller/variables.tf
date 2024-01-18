@@ -763,7 +763,7 @@ variable "no_mirror" {
 }
 
 variable "catch_timeout_message" {
-  description = "Specify to controller, enable the mechanism to catch timeout message we have during BV"
+  description = "Enable the mechanism to catch the timeout message shown by a server overloaded"
   default     = false
 }
 
