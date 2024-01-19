@@ -2,10 +2,8 @@
 
 variable "images" {
   default = {
-    "head"           = "sles15sp4o"
-    "uyuni-master"   = "opensuse155o"
-    "uyuni-released" = "opensuse155o"
-    "uyuni-pr"       = "opensuse155o"
+    "2023.12"      = "opensuse155o"
+    "latest"       = "opensuse155o"
   }
 }
 
