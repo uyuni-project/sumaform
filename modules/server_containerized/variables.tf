@@ -288,13 +288,13 @@ variable "provider_settings" {
 }
 
 variable "additional_disk_size" {
-  description = "Size of an additional disk, defined in GiB"
-  default     = 0
+  description = "Size of an aditional disk, defined in GiB"
+  default     = null
 }
 
 variable "second_additional_disk_size" {
   description = "Size of a second additional disk, defined in GiB"
-  default     = 0
+  default     = null
 }
 
 variable "volume_provider_settings" {

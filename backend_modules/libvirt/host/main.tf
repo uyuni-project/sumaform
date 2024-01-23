@@ -64,17 +64,17 @@ resource "libvirt_volume" "main_disk" {
 resource "libvirt_volume" "data_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-data-disk"
   // needs to be converted to bytes
-  size  = var.additional_disk_size * 1024 * 1024 * 1024
+  size  = (var.additional_disk_size == null? 0: var.additional_disk_size) * 1024 * 1024 * 1024
   pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
-  count = var.additional_disk_size > 0 ? var.quantity : 0
+  count = var.additional_disk_size == null? 0 : var.additional_disk_size > 0 ? var.quantity : 0
 }
 
 resource "libvirt_volume" "database_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-database-disk"
   // needs to be converted to bytes
-  size  = var.second_additional_disk_size * 1024 * 1024 * 1024
+  size  = (var.second_additional_disk_size == null? 0: var.second_additional_disk_size) * 1024 * 1024 * 1024
   pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
-  count = var.second_additional_disk_size > 0 ? var.quantity : 0
+  count = var.second_additional_disk_size == null? 0 : var.second_additional_disk_size > 0 ? var.quantity : 0
 }
 
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
