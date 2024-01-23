@@ -55,7 +55,7 @@ containers_updates_repo:
 {% if 'head' in grains['product_version'] %}
 proxy_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.3-POOL-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
     - refresh: True
     - priority: 96
 
