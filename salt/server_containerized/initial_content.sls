@@ -34,7 +34,9 @@ create_first_user:
     - unless: mgrctl exec "satwho | grep -x {{ server_username }} server_username"
     - require:
       - http: wait_for_tomcat
+{% if grains['osfullname'] != 'SLE Micro' %}
       - pkg: uyuni-tools
+{% endif %}
 
 # set password in case user already existed with a different password
 first_user_set_password:
@@ -42,7 +44,9 @@ first_user_set_password:
     - name: mgrctl exec 'echo -e "{{ server_password }}\\n{{ server_password }}" | satpasswd -s {{ server_username }}'
     - require:
       - http: create_first_user
+{% if grains['osfullname'] != 'SLE Micro' %}
       - pkg: uyuni-tools
+{% endif %}
 
 {% endif %}
 
