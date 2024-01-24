@@ -14,6 +14,9 @@ emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }
 {%- if grains.get('container_repository') %}
 image: {{ grains.get('container_repository') }}/server
 {% endif %}
+{%- if grains.get('container_tag') %}
+tag: {{ grains.get('container_tag') }}
+{% endif %}
 {%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 {%- if mirror_hostname %}
 mirrorPath: /srv/mirror
