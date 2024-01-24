@@ -883,7 +883,7 @@ module "server" {
 
 ## Large deployments
 
-In the case of the Build Validation test suite, or when trying to reproduce situations with a large number of clients, it is adviced to use `large_deployment` option. This option is inspired by the documentation at https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
+In the case of the Build Validation test suite, or when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option. This option is inspired by the documentation at https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
 
 ```
 ### /etc/rhn/rhn.conf
