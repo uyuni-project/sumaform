@@ -5,3 +5,4 @@ include:
   - server_containerized.install_mgradm
   - server_containerized.initial_content
   - server_containerized.testsuite
+  - server_containerized.large_deployment

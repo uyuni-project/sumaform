@@ -29,7 +29,7 @@ locals {
   additional_packages       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_packages", []) if var.host_settings[host_key] != null }
   additional_grains       = { for host_key in local.hosts :
-  host_key => lookup(var.host_settings[host_key], "additional_grains", {}) if var.host_settings[host_key] != null }
+    host_key => lookup(var.host_settings[host_key], "additional_grains", {}) if var.host_settings[host_key] != null }
   images                    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
   names                     = { for host_key in local.hosts :
@@ -44,12 +44,14 @@ locals {
     host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
   container_repositories    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
-  helm_chart_urls    = { for host_key in local.hosts :
+  helm_chart_urls           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
-  repository_disk_size    = { for host_key in local.hosts :
+  repository_disk_size      = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "repository_disk_size", 0) if var.host_settings[host_key] != null }
-  database_disk_size    = { for host_key in local.hosts :
+  database_disk_size        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "database_disk_size", 0) if var.host_settings[host_key] != null }
+  large_deployment          = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "large_deployment", false) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -85,11 +87,12 @@ module "server" {
   additional_packages            = lookup(local.additional_packages, "server", [])
   login_timeout                  = var.login_timeout
 
-  saltapi_tcpdump   = var.saltapi_tcpdump
-  provider_settings = lookup(local.provider_settings_by_host, "server", {})
+  saltapi_tcpdump               = var.saltapi_tcpdump
+  provider_settings             = lookup(local.provider_settings_by_host, "server", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server", {})
   repository_disk_size          = lookup(local.repository_disk_size, "server", {})
   database_disk_size            = lookup(local.database_disk_size, "server", {})
+  large_deployment              = lookup(local.large_deployment, "server", false)
 }
 
 module "server_containerized" {
@@ -126,9 +129,10 @@ module "server_containerized" {
   additional_packages            = lookup(local.additional_packages, "server_containerized", [])
   //login_timeout                  = var.login_timeout
 
-  //saltapi_tcpdump   = var.saltapi_tcpdump
-  provider_settings = lookup(local.provider_settings_by_host, "server_containerized", {})
+  //saltapi_tcpdump               = var.saltapi_tcpdump
+  provider_settings             = lookup(local.provider_settings_by_host, "server_containerized", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
+  large_deployment              = lookup(local.large_deployment, "server", false)
 }
 
 module "proxy" {
