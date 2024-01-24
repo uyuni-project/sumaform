@@ -340,6 +340,61 @@ runcmd:
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
+%{ if image == "slemicro55o" }
+%{ if container_server }
+zypper:
+  repos:
+    - id: container_tools_repo
+      name: container_tools_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/SLE_15_SP5/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: ca_suse
+      name: ca_suse
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/SLE_15_SP5/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: micro_pool_repo
+      name: micro_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Micro/5.5/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: micro_update_repo
+      name: micro_update_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SLE-Micro/5.5/x86_64/update/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ if testsuite }
+    # Required only for wget
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: test_packages_pool
+      name: test_packages_pool
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+
+runcmd:
+  - [ transactional-update, --non-interactive, pkg, install, susemanager-build-keys ]
+%{ if testsuite }
+  # Packages needed for the testsuite
+  - [ transactional-update, --continue, --non-interactive, pkg, install, andromeda-dummy, milkyway-dummy, virgo-dummy, wget, timezone, aaa_base-extras, ca-certificates ]
+%{ endif }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse, qemu-guest-agent, salt-minion, avahi ]
+  - [ reboot ]
+%{ endif }
+%{ endif }
+
 %{ if image == "ubuntu2004o" }
 
 apt:

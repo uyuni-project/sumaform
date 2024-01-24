@@ -33,7 +33,7 @@ variable "helm_chart_url" {
 }
 
 variable "product_version" {
-  description = "One of: uyuni-master, uyuni-released"
+  description = "One of: uyuni-master, uyuni-released, head, uyuni-pr"
   type        = string
 }
 

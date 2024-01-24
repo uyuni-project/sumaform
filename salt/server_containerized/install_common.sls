@@ -1,10 +1,12 @@
 {%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 
+{% if grains['osfullname'] != 'SLE Micro' %}
 uyuni-tools:
   pkg.installed:
     - pkgs:
       - mgradm
       - mgrctl
+{% endif %}
     
 {% if mirror_hostname %}
 

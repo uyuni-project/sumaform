@@ -39,6 +39,8 @@ data "template_file" "user_data" {
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
+    container_server    = contains(var.roles, "server_containerized")
+    testsuite           = lookup(var.base_configuration, "testsuite", false)
   }
 }
 
