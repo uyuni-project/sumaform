@@ -155,6 +155,7 @@ tomcat:
     - watch:
       - file: enable_salt_content_staging_window
       - file: enable_salt_content_staging_advance
+      - file: enable_kiwi_os_image_building
 
 dump_salt_event_log:
     cmd.run:

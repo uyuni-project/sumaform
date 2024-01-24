@@ -185,6 +185,7 @@ tomcat_restart:
     - watch:
       - cmd: enable_salt_content_staging_window
       - cmd: enable_salt_content_staging_advance
+      - cmd: enable_kiwi_os_image_building
 
 salt_event_service_file:
   file.managed:
