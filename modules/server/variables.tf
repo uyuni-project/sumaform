@@ -305,6 +305,12 @@ variable "c3p0_connection_debug" {
   default     = false
 }
 
+variable "large_deployment" {
+  description = "set up for a deployment with a great number of clients"
+  type        = bool
+  default     = false
+}
+
 variable "quantity" {
   description = "number of hosts like this one"
   default     = 1

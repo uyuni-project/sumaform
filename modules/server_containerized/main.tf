@@ -28,7 +28,7 @@ module "server_containerized" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
-  image                    = var.image == "default" ? var.images[var.product_version] : var.image
+  image                         = var.image == "default" ? var.images[var.product_version] : var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
   additional_disk_size          = var.repository_disk_size
@@ -62,6 +62,7 @@ module "server_containerized" {
     publish_private_ssl_key        = var.publish_private_ssl_key
     auto_accept                    = var.auto_accept
     disable_auto_bootstrap         = var.disable_auto_bootstrap
+    large_deployment               = var.large_deployment
   }
 }
 

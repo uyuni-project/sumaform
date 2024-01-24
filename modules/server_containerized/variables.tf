@@ -312,3 +312,9 @@ variable "server_mounted_mirror" {
   description = "hostname of a mounted mirror in the server (to get packages from it)"
   default     = null
 }
+
+variable "large_deployment" {
+  description = "set up for a deployment with a great number of clients"
+  type        = bool
+  default     = false
+}
