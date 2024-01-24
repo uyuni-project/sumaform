@@ -22,6 +22,11 @@ variable "container_repository" {
   default = ""
 }
 
+variable "container_tag" {
+  description = "The container image tag to use."
+  default = ""
+}
+
 variable "helm_chart_url" {
   description = "Where to get the helm chart from. Uses the released one by default."
   default = ""
