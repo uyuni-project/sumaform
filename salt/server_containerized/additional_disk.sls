@@ -20,28 +20,9 @@ spacewalk_partition:
     - require:
       - pkg: parted
 
-www:
-  group.present:
-    - gid: 469
-    - system: True
-
-wwwrun:
-  group.present:
-    - gid: 466
-    - system: True
-  user.present:
-    - fullname: WWW daemon apache
-    - shell: /usr/sbin/nologin
-    - home: /var/lib/wwwrun
-    - uid: 466
-    - gid: 466
-    - groups:
-      - wwwrun
-      - www
-
 spacewalk_directory:
   file.directory:
-    - name: /var/lib/containers/storage/overlay-containers/spacewalk
+    - name: /var/lib/containers/storage/volumes/var-spacewalk/_data
     - makedirs: True
     - user: wwwrun
     - group: www
@@ -51,7 +32,7 @@ spacewalk_directory:
       - group
       - mode
   mount.mounted:
-    - name: /var/lib/containers/storage/overlay-containers/spacewalk
+    - name: /var/lib/containers/storage/volumes/var-spacewalk/_data
     - device: {{partition_name}}
     - fstype: ext4
     - mkmnt: True
