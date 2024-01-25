@@ -19,7 +19,7 @@ ipv6_accept_ra_{{ iface }}:
 {% endif %}
 {% endfor %}
 
-{% if grains['osfullname'] == 'SLE Micro' %}
+{% if (grains['osfullname'] == 'SLE Micro') and (grains['osrelease'] != '5.1') and (grains['osrelease'] != '5.2') %}
 avoid_network_manager_messing_up:
   cmd.run:
     - name: nmcli device modify eth0 ipv6.addr-gen-mode eui64
