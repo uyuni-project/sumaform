@@ -41,7 +41,7 @@ wwwrun:
 
 spacewalk_directory:
   file.directory:
-    - name: /var/spacewalk
+    - name: /var/lib/containers/storage/overlay-containers/spacewalk
     - makedirs: True
     - user: wwwrun
     - group: www
@@ -51,7 +51,7 @@ spacewalk_directory:
       - group
       - mode
   mount.mounted:
-    - name: /var/spacewalk
+    - name: /var/lib/containers/storage/overlay-containers/spacewalk
     - device: {{partition_name}}
     - fstype: ext4
     - mkmnt: True
