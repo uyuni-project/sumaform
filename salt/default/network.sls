@@ -17,12 +17,13 @@ ipv6_accept_ra_{{ iface }}:
     - name: net.ipv6.conf.{{ iface }}.accept_ra
     - value: 2
 {% endif %}
-{% if grains['osfullname'] == 'SLE Micro' %}
-avoid_network_manager_messing_up_{{ iface }}:
-  cmd.run:
-    - name: nmcli device modify {{ iface }} ipv6.addr-gen-mode eui64
-{% endif %}
 {% endfor %}
+
+{% if grains['osfullname'] == 'SLE Micro' %}
+avoid_network_manager_messing_up:
+  cmd.run:
+    - name: nmcli device modify eth0 ipv6.addr-gen-mode eui64
+{% endif %}
 
 {% else %}
 
