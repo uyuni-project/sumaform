@@ -12,7 +12,7 @@ large_deployment_increase_tasko_parallel_threads:
       - pkg: uyuni-tools
 
 large_deployment_increase_hibernate_max_connections:
-  cmd_run:
+  cmd.run:
     - name: mgrctl exec 'echo "hibernate.c3p0.max_size = 50" >> /etc/rhn/rhn.conf'
     - require:
       - pkg: uyuni-tools
