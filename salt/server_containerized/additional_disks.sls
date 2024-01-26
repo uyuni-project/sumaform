@@ -4,7 +4,19 @@ include:
 parted:
   pkg.installed
 
-{% if grains.get('repository_disk_size') > 0 %}
+{% if grains.get('repository_disk_size') > 0 or grains.get('database_disk_size') > 0 %}
+
+container_volumes_directory:
+  file.directory:
+    - name: /var/lib/containers/storage/volumes/
+    - makedirs: True
+    - dir_mode: 775
+    - recurse:
+      - user
+      - group
+      - mode
+
+{% endif %}
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
