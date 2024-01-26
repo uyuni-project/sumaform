@@ -62,6 +62,13 @@ spacewalk_symlink:
     - target: /srv/spacewalk_storage/var-spacewalk/
     - makedirs : True
     - force: True
+    - user: wwwrun
+    - group: www
+    - dir_mode: 775
+    - recurse:
+      - user
+      - group
+      - mode
     - require:
       - file: spacewalk_data_directory
 
@@ -136,10 +143,17 @@ pgsql_data_directory:
 
 pgsql_symlink:
   file.symlink:
-    - name: /var/lib/containers/storage/volumes/var-pgsql/
-    - target: /srv/pgsql_storage/var-pgsql
+    - name: /var/lib/containers/storage/volumes/var-pgsql
+    - target: /srv/pgsql_storage/var-pgsql/
     - makedirs: True
     - force: True
+    - user: postgres
+    - group: postgres
+    - dir_mode: 750
+    - recurse:
+      - user
+      - group
+      - mode
     - require:
       - file: pgsql_data_directory
 
