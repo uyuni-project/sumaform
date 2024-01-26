@@ -42,7 +42,6 @@ spacewalk_directory:
     - require:
       - cmd: spacewalk_partition
 
-
 spacewalk_move_data:
   cmd.run:
     - name: 'mv /var/lib/containers/storage/volumes/var-spacewalk /var/spacewalk/'
