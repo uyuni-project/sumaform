@@ -24,13 +24,6 @@ spacewalk_directory:
   file.directory:
     - name: /srv/spacewalk_storage
     - makedirs: True
-    - user: wwwrun
-    - group: www
-    - dir_mode: 775
-    - recurse:
-      - user
-      - group
-      - mode
   mount.mounted:
     - name: /srv/spacewalk_storage
     - device: {{partition_name}}
@@ -46,13 +39,6 @@ spacewalk_data_directory:
   file.directory:
     - name: /srv/spacewalk_storage/var-spacewalk
     - makedirs: True
-    - user: wwwrun
-    - group: www
-    - dir_mode: 775
-    - recurse:
-      - user
-      - group
-      - mode
     - require:
       - mount: spacewalk_directory
 
@@ -62,13 +48,6 @@ spacewalk_symlink:
     - target: /srv/spacewalk_storage/var-spacewalk/
     - makedirs : True
     - force: True
-    - user: wwwrun
-    - group: www
-    - dir_mode: 775
-    - recurse:
-      - user
-      - group
-      - mode
     - require:
       - file: spacewalk_data_directory
 
@@ -91,30 +70,10 @@ pgsql_partition:
     - require:
         - pkg: parted
 
-postgres:
-  group.present:
-    - gid: 464
-    - system: True
-  user.present:
-    - fullname: PostgreSQL Server
-    - shell: /bin/bash
-    - home: /srv/pgsql_storage
-    - uid: 464
-    - gid: 464
-    - groups:
-      - postgres
-
 pgsql_directory:
   file.directory:
     - name: /srv/pgsql_storage
     - makedirs: True
-    - user: postgres
-    - group: postgres
-    - dir_mode: 750
-    - recurse:
-      - user
-      - group
-      - mode
   mount.mounted:
     - name: /srv/pgsql_storage
     - device: {{partition_name}}
@@ -122,23 +81,16 @@ pgsql_directory:
     - mkmnt: True
     - persist: True
     - opts:
-        - defaults
+      - defaults
     - require:
-        - cmd: pgsql_partition
+      - cmd: pgsql_partition
 
 pgsql_data_directory:
   file.directory:
     - name: /srv/pgsql_storage/var-pgsql
     - makedirs: True
-    - user: postgres
-    - group: postgres
-    - dir_mode: 750
-    - recurse:
-      - user
-      - group
-      - mode
     - require:
-        - mount: pgsql_directory
+      - mount: pgsql_directory
 
 
 pgsql_symlink:
@@ -147,13 +99,6 @@ pgsql_symlink:
     - target: /srv/pgsql_storage/var-pgsql/
     - makedirs: True
     - force: True
-    - user: postgres
-    - group: postgres
-    - dir_mode: 750
-    - recurse:
-      - user
-      - group
-      - mode
     - require:
       - file: pgsql_data_directory
 
