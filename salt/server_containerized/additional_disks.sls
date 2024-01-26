@@ -18,6 +18,8 @@ container_volumes_directory:
 
 {% endif %}
 
+{% if grains.get('repository_disk_size') > 0 %}
+
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
 {% set partition_name = '/dev/' + grains['data_disk_device'] + 'p1' %}
