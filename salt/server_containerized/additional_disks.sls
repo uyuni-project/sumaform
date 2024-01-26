@@ -4,20 +4,6 @@ include:
 parted:
   pkg.installed
 
-{% if grains.get('repository_disk_size') > 0 or grains.get('database_disk_size') > 0 %}
-
-container_volumes_directory:
-  file.directory:
-    - name: /var/lib/containers/storage/volumes/
-    - makedirs: True
-    - dir_mode: 775
-    - recurse:
-      - user
-      - group
-      - mode
-
-{% endif %}
-
 {% if grains.get('repository_disk_size') > 0 %}
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
@@ -74,6 +60,7 @@ spacewalk_symlink:
   file.symlink:
     - name: /var/lib/containers/storage/volumes/var-spacewalk/
     - target: /srv/spacewalk_storage/var-spacewalk
+    - makedirs : True
     - force: True
     - require:
       - file: spacewalk_data_directory
@@ -151,6 +138,7 @@ pgsql_symlink:
   file.symlink:
     - name: /var/lib/containers/storage/volumes/var-pgsql/
     - target: /srv/pgsql_storage/var-pgsql
+    - makedirs: True
     - force: True
     - require:
       - file: pgsql_data_directory
