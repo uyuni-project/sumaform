@@ -54,7 +54,7 @@ spacewalk_data_directory:
       - group
       - mode
     - require:
-        - cmd: spacewalk_directory
+      - mount: spacewalk_directory
 
 spacewalk_symlink:
   file.symlink:
@@ -62,7 +62,7 @@ spacewalk_symlink:
     - target: /srv/spacewalk_storage/var-spacewalk
     - force: True
     - require:
-      - cmd: spacewalk_move_data
+      - file: spacewalk_data_directory
 
 {% endif %}
 
@@ -130,7 +130,7 @@ pgsql_data_directory:
       - group
       - mode
     - require:
-        - cmd: pgsql_directory
+        - mount: pgsql_directory
 
 
 pgsql_symlink:
@@ -139,6 +139,6 @@ pgsql_symlink:
     - target: /srv/pgsql_storage/var-pgsql
     - force: True
     - require:
-      - cmd: pgsql_data_directory
+      - file: pgsql_data_directory
 
 {% endif %}
