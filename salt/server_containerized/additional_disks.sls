@@ -76,7 +76,7 @@ postgres:
 
 pgsql_directory:
   file.directory:
-    - name: /var/lib/pgsql
+    - name: /var/lib/containers/storage/volumes/var-pgsql/_data
     - makedirs: True
     - user: postgres
     - group: postgres
@@ -86,7 +86,7 @@ pgsql_directory:
       - group
       - mode
   mount.mounted:
-    - name: /var/lib/pgsql
+    - name: /var/lib/containers/storage/volumes/var-pgsql/_data
     - device: {{partition_name}}
     - fstype: ext4
     - mkmnt: True
