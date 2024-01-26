@@ -58,8 +58,8 @@ spacewalk_data_directory:
 
 spacewalk_symlink:
   file.symlink:
-    - name: /var/lib/containers/storage/volumes/var-spacewalk/
-    - target: /srv/spacewalk_storage/var-spacewalk
+    - name: /var/lib/containers/storage/volumes/var-spacewalk
+    - target: /srv/spacewalk_storage/var-spacewalk/
     - makedirs : True
     - force: True
     - require:
