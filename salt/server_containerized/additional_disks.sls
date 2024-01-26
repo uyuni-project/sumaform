@@ -22,7 +22,7 @@ spacewalk_partition:
 
 spacewalk_directory:
   file.directory:
-    - name: /var/spacewalk
+    - name: /srv/spacewalk_storage
     - makedirs: True
     - user: wwwrun
     - group: www
@@ -32,7 +32,7 @@ spacewalk_directory:
       - group
       - mode
   mount.mounted:
-    - name: /var/spacewalk
+    - name: /srv/spacewalk_storage
     - device: {{partition_name}}
     - fstype: ext4
     - mkmnt: True
@@ -42,16 +42,24 @@ spacewalk_directory:
     - require:
       - cmd: spacewalk_partition
 
-spacewalk_move_data:
-  cmd.run:
-    - name: 'mv /var/lib/containers/storage/volumes/var-spacewalk /var/spacewalk/'
+spacewalk_data_directory:
+  file.directory:
+    - name: /srv/spacewalk_storage/var-spacewalk
+    - makedirs: True
+    - user: postgres
+    - group: postgres
+    - dir_mode: 750
+    - recurse:
+      - user
+      - group
+      - mode
     - require:
-      - file: spacewalk_directory
+        - cmd: spacewalk_directory
 
 spacewalk_symlink:
   file.symlink:
     - name: /var/lib/containers/storage/volumes/var-spacewalk/
-    - target: /var/spacewalk
+    - target: /srv/spacewalk_storage/var-spacewalk
     - force: True
     - require:
       - cmd: spacewalk_move_data
@@ -82,7 +90,7 @@ postgres:
   user.present:
     - fullname: PostgreSQL Server
     - shell: /bin/bash
-    - home: /var/lib/pgsql
+    - home: /srv/pgsql_storage
     - uid: 464
     - gid: 464
     - groups:
@@ -90,7 +98,7 @@ postgres:
 
 pgsql_directory:
   file.directory:
-    - name: /var/lib/pgsql
+    - name: /srv/pgsql_storage
     - makedirs: True
     - user: postgres
     - group: postgres
@@ -100,7 +108,7 @@ pgsql_directory:
       - group
       - mode
   mount.mounted:
-    - name: /var/lib/pgsql
+    - name: /srv/pgsql_storage
     - device: {{partition_name}}
     - fstype: ext4
     - mkmnt: True
@@ -109,5 +117,28 @@ pgsql_directory:
         - defaults
     - require:
         - cmd: pgsql_partition
+
+pgsql_data_directory:
+  file.directory:
+    - name: /srv/pgsql_storage/var-pgsql
+    - makedirs: True
+    - user: postgres
+    - group: postgres
+    - dir_mode: 750
+    - recurse:
+      - user
+      - group
+      - mode
+    - require:
+        - cmd: pgsql_directory
+
+
+pgsql_symlink:
+  file.symlink:
+    - name: /var/lib/containers/storage/volumes/var-pgsql/
+    - target: /srv/pgsql_storage/var-pgsql
+    - force: True
+    - require:
+      - cmd: pgsql_data_directory
 
 {% endif %}
