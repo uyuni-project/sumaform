@@ -18,6 +18,7 @@ osrelease: '15.5'
 osrelease_info: [15, 5]
 
 hostname: sumaform-test-server
+product_version: head
 install_salt_bundle: true
 gpg_keys: ['testkey.pub']
 domain: tf.local
