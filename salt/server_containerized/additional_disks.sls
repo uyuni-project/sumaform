@@ -46,9 +46,9 @@ spacewalk_data_directory:
   file.directory:
     - name: /srv/spacewalk_storage/var-spacewalk
     - makedirs: True
-    - user: postgres
-    - group: postgres
-    - dir_mode: 750
+    - user: wwwrun
+    - group: www
+    - dir_mode: 775
     - recurse:
       - user
       - group
