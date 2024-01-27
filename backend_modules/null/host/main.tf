@@ -19,6 +19,7 @@ resource "null_resource" "domain" {
     connect_to_additional_network = var.connect_to_additional_network
     image                         = var.image
     provider_settings             = yamlencode(var.provider_settings)
+    main_disk_size                = var.main_disk_size
   }
 }
 

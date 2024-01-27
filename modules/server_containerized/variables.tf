@@ -292,6 +292,11 @@ variable "provider_settings" {
   default     = {}
 }
 
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
+}
+
 variable "additional_disk_size" {
   description = "Size of an additional disk, defined in GiB"
   default     = 0
