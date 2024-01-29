@@ -397,7 +397,6 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
   - [ reboot ]
 %{ endif }
-%{ endif }
 
 %{ if image == "ubuntu2004o" }
 
