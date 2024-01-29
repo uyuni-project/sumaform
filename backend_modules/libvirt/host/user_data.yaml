@@ -340,7 +340,7 @@ runcmd:
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
-%{ if image == "slemicro55o" }
+%{ if image == "slemicro55" }
 zypper:
   repos:
 %{ if container_server }

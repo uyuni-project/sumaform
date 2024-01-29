@@ -2,7 +2,7 @@
 
 variable "images" {
   default = {
-    "head"           = "slemicro55o"
+    "head"           = "slemicro55"
     "uyuni-master"   = "opensuse155o"
     "uyuni-released" = "opensuse155o"
     "uyuni-pr"       = "opensuse155o"
