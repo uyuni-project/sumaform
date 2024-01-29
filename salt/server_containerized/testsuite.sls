@@ -6,8 +6,8 @@ include:
 minima_download:
   cmd.run:
     - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz'
-    - require:
 {% if grains['osfullname'] != 'SLE Micro' %}
+    - require:
       - pkg: uyuni-tools
 {% endif %}
 
