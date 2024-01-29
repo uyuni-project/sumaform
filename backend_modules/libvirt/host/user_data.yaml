@@ -341,15 +341,16 @@ runcmd:
 %{ endif }
 
 %{ if image == "slemicro55o" }
-%{ if container_server }
 zypper:
   repos:
+%{ if container_server }
     - id: container_tools_repo
       name: container_tools_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/SLE_15_SP5/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
+%{ endif }
     - id: ca_suse
       name: ca_suse
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/SLE_15_SP5/
@@ -390,7 +391,10 @@ runcmd:
   # Packages needed for the testsuite
   - [ transactional-update, --continue, --non-interactive, pkg, install, andromeda-dummy, milkyway-dummy, virgo-dummy, wget, timezone, aaa_base-extras, ca-certificates ]
 %{ endif }
-  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse, qemu-guest-agent, salt-minion, avahi ]
+%{ if container_server }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
+%{ endif }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
   - [ reboot ]
 %{ endif }
 %{ endif }
