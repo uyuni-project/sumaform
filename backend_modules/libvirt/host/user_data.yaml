@@ -350,6 +350,21 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
+%{ if testsuite }
+    # Required only for wget
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: test_packages_pool
+      name: test_packages_pool
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
 %{ endif }
     - id: ca_suse
       name: ca_suse
@@ -369,21 +384,6 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ if testsuite }
-    # Required only for wget
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-    - id: test_packages_pool
-      name: test_packages_pool
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-%{ endif }
 
 runcmd:
   - [ transactional-update, --non-interactive, pkg, install, susemanager-build-keys ]
