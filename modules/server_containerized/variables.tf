@@ -22,13 +22,18 @@ variable "container_repository" {
   default = ""
 }
 
+variable "container_tag" {
+  description = "The container image tag to use."
+  default = ""
+}
+
 variable "helm_chart_url" {
   description = "Where to get the helm chart from. Uses the released one by default."
   default = ""
 }
 
 variable "product_version" {
-  description = "One of: uyuni-master, uyuni-released"
+  description = "One of: uyuni-master, uyuni-released, head, uyuni-pr"
   type        = string
 }
 
@@ -285,6 +290,11 @@ variable "provision" {
 variable "provider_settings" {
   description = "Map of provider-specific settings, see the modules/libvirt/README.md"
   default     = {}
+}
+
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
 }
 
 variable "repository_disk_size" {

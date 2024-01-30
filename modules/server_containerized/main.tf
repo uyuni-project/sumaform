@@ -2,7 +2,7 @@
 
 variable "images" {
   default = {
-    "head"           = "sles15sp4o"
+    "head"           = "slemicro55o"
     "uyuni-master"   = "opensuse155o"
     "uyuni-released" = "opensuse155o"
     "uyuni-pr"       = "opensuse155o"
@@ -31,14 +31,16 @@ module "server_containerized" {
   image                         = var.image == "default" ? var.images[var.product_version] : var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
-  additional_disk_size          = var.repository_disk_size
-  second_additional_disk_size   = var.database_disk_size
+  main_disk_size                = var.main_disk_size
+  additional_disk_size          = var.additional_disk_size
+  second_additional_disk_size   = var.second_additional_disk_size
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
     product_version        = var.product_version
     container_runtime      = var.runtime
     container_repository   = var.container_repository
+    container_tag          = var.container_tag
     helm_chart_url         = var.helm_chart_url
     cc_username            = var.base_configuration["cc_username"]
     cc_password            = var.base_configuration["cc_password"]

@@ -39,6 +39,8 @@ data "template_file" "user_data" {
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
+    container_server    = contains(var.roles, "server_containerized")
+    testsuite           = lookup(var.base_configuration, "testsuite", false)
   }
 }
 
@@ -57,7 +59,7 @@ resource "libvirt_volume" "main_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
   pool             = var.base_configuration["pool"]
-  size             = 214748364800
+  size             = var.main_disk_size * 1024 * 1024 * 1024
   count            = var.quantity
 }
 
