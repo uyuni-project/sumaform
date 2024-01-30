@@ -3,6 +3,15 @@ locals {
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
   x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o"]
+  gpg_keys = [
+    for key in fileset("salt/default/gpg_keys/", "*.key"): {
+        path = "/etc/gpg_keys/${key}"
+        content = filebase64("salt/default/gpg_keys/${key}")
+        encoding = "b64"
+        owner = "root:root"
+        permissions = "0700"
+    }
+  ]
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -41,6 +50,7 @@ data "template_file" "user_data" {
     install_salt_bundle = var.install_salt_bundle
     container_server    = contains(var.roles, "server_containerized")
     testsuite           = lookup(var.base_configuration, "testsuite", false)
+    files               = jsonencode(local.gpg_keys)
   }
 }
 
