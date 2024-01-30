@@ -4,7 +4,8 @@ include:
 parted:
   pkg.installed
 
-{% if grains.get('repository_disk_size') > 0 %}
+{% set repository_disk_size = grains.get('repository_disk_size') | int %}
+{% if repository_disk_size > 0 %}
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
@@ -53,7 +54,8 @@ spacewalk_symlink:
 
 {% endif %}
 
-{% if grains.get('database_disk_size') > 0 %}
+{% set database_disk_size = grains.get('database_disk_size') | int %}
+{% if database_disk_size > 0 %}
 
 {% set fstype = grains.get('second_data_disk_fstype') | default('ext4', true) %}
 {% if grains['second_data_disk_device'] == "nvme2n1" %}
