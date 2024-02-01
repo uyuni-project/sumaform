@@ -401,7 +401,7 @@ runcmd:
 %{ endif }
 %{ if container_proxy }
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
-%{ endif }
+%{ else }
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
   - [ reboot ]
 %{ endif }
