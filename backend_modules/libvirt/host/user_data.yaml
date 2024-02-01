@@ -341,6 +341,9 @@ runcmd:
 %{ endif }
 
 %{ if image == "slemicro55o" }
+
+write_files: ${ files }
+
 zypper:
   repos:
 %{ if container_server }
@@ -386,7 +389,8 @@ zypper:
       gpgcheck: false
 
 runcmd:
-  - [ transactional-update, --non-interactive, pkg, install, susemanager-build-keys ]
+  - [transactional-update, run, sh, -c, "for key in $(ls /etc/gpg_keys); do rpm --import /etc/gpg_keys/$key; done" ]
+  - [ zypper, mr, -a, -g ]
 %{ if testsuite }
   # Packages needed for the testsuite
   - [ transactional-update, --continue, --non-interactive, pkg, install, andromeda-dummy, milkyway-dummy, virgo-dummy, wget, timezone, aaa_base-extras, ca-certificates ]
