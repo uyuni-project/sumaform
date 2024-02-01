@@ -1,4 +1,4 @@
-{% if 'proxy' in grains.get('roles') and grains.get('proxy_registration_code') %}
+{% if 'proxy' in grains.get('roles') and not 'proxy_containerized' in grains.get('roles') and grains.get('proxy_registration_code') %}
 
 {% if '4.2' in grains['product_version'] %}
 register_suse_manager_proxy_with_scc:

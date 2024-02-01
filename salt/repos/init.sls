@@ -12,6 +12,7 @@ include:
   - repos.tools
   - repos.jenkins
   - repos.server_containerized
+  - repos.proxy_containerized
   {% endif %}
   - repos.additional
 

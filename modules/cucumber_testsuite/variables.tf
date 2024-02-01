@@ -164,3 +164,8 @@ variable "container_server" {
   description = "true to run the server in containers"
   default = false
 }
+
+variable "container_proxy" {
+  description = "true to run the proxy in containers"
+  default = false
+}

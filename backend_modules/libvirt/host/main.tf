@@ -25,7 +25,10 @@ locals {
     contains(var.roles, "server_containerized") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
     contains(var.roles, "server_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
+    contains(var.roles, "proxy") ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "proxy_containerized") ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "proxy_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "pxe_boot")? { memory = 2048} : {},
     contains(var.roles, "mirror") ? { memory = 1024 } : {},
     contains(var.roles, "build_host") ? { vcpu = 2 } : {},
@@ -49,6 +52,7 @@ data "template_file" "user_data" {
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
     container_server    = contains(var.roles, "server_containerized")
+    container_proxy     = contains(var.roles, "proxy_containerized")
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
   }

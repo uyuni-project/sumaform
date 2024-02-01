@@ -1,8 +1,8 @@
-{% if 'server_containerized' in grains.get('roles') %}
+{% if 'proxy_containerized' in grains.get('roles') %}
 
 {%- if 'uyuni' in grains.get('product_version', 'uyuni-master') %}
 include:
-  - repos.server_containerizedUyuni
+  - repos.proxy_containerizedUyuni
 {%- endif %}
 
 {% endif %}
