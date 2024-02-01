@@ -6,3 +6,10 @@ include:
   - server_containerized.initial_content
   - server_containerized.testsuite
   - server_containerized.large_deployment
+
+rhn_symlink:
+  file.symlink:
+    - name: /etc/rhn
+    - target: /var/lib/containers/storage/volumes/etc-rhn/_data/
+    - makedirs : True
+    - force: True
