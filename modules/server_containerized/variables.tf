@@ -297,13 +297,13 @@ variable "main_disk_size" {
   default     = 200
 }
 
-variable "additional_disk_size" {
-  description = "Size of an additional disk, defined in GiB"
+variable "repository_disk_size" {
+  description = "Size of an additional disk for /var/spacewalk partition, defined in GiB"
   default     = 0
 }
 
-variable "second_additional_disk_size" {
-  description = "Size of a second additional disk, defined in GiB"
+variable "database_disk_size" {
+  description = "Size of an additional disk for /var/lib/pgsql partition, defined in GiB"
   default     = 0
 }
 
