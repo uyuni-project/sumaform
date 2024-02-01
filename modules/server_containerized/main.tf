@@ -32,8 +32,8 @@ module "server_containerized" {
   provision                     = var.provision
   provider_settings             = var.provider_settings
   main_disk_size                = var.main_disk_size
-  additional_disk_size          = var.additional_disk_size
-  second_additional_disk_size   = var.second_additional_disk_size
+  additional_disk_size          = var.repository_disk_size
+  second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
