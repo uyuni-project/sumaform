@@ -369,7 +369,6 @@ zypper:
       autorefresh: 1
       gpgcheck: false
 %{ endif }
-%{ endif }
     - id: ca_suse
       name: ca_suse
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/SLE_15_SP5/
@@ -405,6 +404,7 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
   - [ reboot ]
 %{ endif }
+%{ endif } # closes %{ if image == "slemicro55o" }
 
 %{ if image == "ubuntu2004o" }
 
