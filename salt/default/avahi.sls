@@ -41,11 +41,8 @@ dbus_enable_service:
 {% endif %}
 
 # TODO: replace 'pkg.latest' with 'pkg.installed' when fix to bsc#1163683 is applied to all the SLES versions we use
+{% if not (grains['os_family'] == 'Suse' and grains['osfullname'] == 'SLE Micro') %}
 avahi_pkg:
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SLE Micro'  %}
-  cmd.run:
-    - name: transactional-update -c package up avahi avahi-lang libavahi-common3 libavahi-core7
-{% else %}
   pkg.latest:
     - pkgs:
       {% if grains['os_family'] == 'Debian' %}
