@@ -95,6 +95,16 @@ pgsql_partition:
         - pkg: parted
 
 postgres:
+  mount.mounted:
+    - name: /var/lib/pgsql
+    - device: {{partition_name}}
+    - fstype: ext4
+    - mkmnt: True
+    - persist: True
+    - opts:
+        - defaults
+    - require:
+        - cmd: pgsql_partition
   group.present:
     - system: True
   user.present:
@@ -115,16 +125,6 @@ pgsql_directory:
       - user
       - group
       - mode
-  mount.mounted:
-    - name: /var/lib/pgsql
-    - device: {{partition_name}}
-    - fstype: ext4
-    - mkmnt: True
-    - persist: True
-    - opts:
-        - defaults
-    - require:
-        - cmd: pgsql_partition
 
 {% endif %} # grains.get('repository_disk_use_cloud_setup')
 {% endif %} # grains.get('database_disk_size')
