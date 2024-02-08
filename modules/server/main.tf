@@ -9,7 +9,7 @@ variable "images" {
     "4.3-beta"       = "sles15sp4o"
     "4.3-build_image"= "sles15sp4o"
     "4.3-paygo"      = "suma-server-43-paygo"
-    "4.3-VM"         = "suma43VM-ign"
+    "4.3-VM-nightly"         = "suma43VM-ign"
     "4.3-VM-released"= "suma43VM-ign"
     "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse155o"

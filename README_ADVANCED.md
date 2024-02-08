@@ -18,7 +18,7 @@ Legal values for work-in-progress software are:
 
 - `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
-- `4.3-VM`       (corresponds to the Virtual Image in the Build Service project Devel:Galaxy:Manager:4.3)
+- `4.3-VM-nightly`       (corresponds to the Virtual Image in the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
 - `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)

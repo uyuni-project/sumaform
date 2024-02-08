@@ -4,7 +4,7 @@ include:
   - server
 
 # There products already have salt, prevent version conflicts by not updating/downgrading them
-{% set products_with_preinstalled_salt = [ "build_image", "paygo", "4.3-VM", "4.3-VM-released" ] %}
+{% set products_with_preinstalled_salt = [ "build_image", "paygo", "4.3-VM-nightly", "4.3-VM-released" ] %}
 
 minima:
   archive.extracted:
@@ -45,7 +45,7 @@ test_repo_debian_updates:
 {% endif %}
 
 # modify Cobbler to be executed from remote-machines..
-{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.3-VM", "4.3-VM-released" ] %}
+{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.3-VM-nightly", "4.3-VM-released" ] %}
 {% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
 {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
 cobbler_configuration:
@@ -99,7 +99,7 @@ testsuite_salt_packages:
       - sls: repos
 {% endif %}
 
-{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.2-nightly", "4.2-released", "4.3-VM", "4.3-VM-released"] %}
+{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.2-nightly", "4.2-released", "4.3-VM-nightly", "4.3-VM-released"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,

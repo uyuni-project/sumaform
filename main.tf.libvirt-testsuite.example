@@ -20,7 +20,7 @@ module "cucumber_testsuite" {
   # for more information on product_version values
   # you should use the same version here as in git_repo below
   # if you work on Uyuni you should use e.g. uyuni-master here and uyuni as git_repo below
-  # if you work on SUMA you should use e.g. 4.3-nightly, 4.3-released, 4.3-VM, 4.3-VM-released, or head and spacewalk as git_repo below
+  # if you work on SUMA you should use e.g. 4.3-nightly, 4.3-released, 4.3-VM-nightly, 4.3-VM-released, or head and spacewalk as git_repo below
   product_version = "uyuni-master"
 
   # SUSE SCC credentials
