@@ -8,7 +8,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 4.2-released, 4.2-nightly, 4.2-build_image, 4.3-released, 4.3-nightly, 4.3-pr, 4.3-beta, 4.3-build_image, 4.3-paygo, head, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 4.2-released, 4.2-nightly, 4.2-build_image, 4.3-released, 4.3-nightly, 4.3-pr, 4.3-beta, 4.3-build_image, 4.3-paygo, 4.3-VM-nightly, 4.3-VM-released, head, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
@@ -248,6 +248,11 @@ variable "repository_disk_size" {
 variable "database_disk_size" {
   description = "Size of an additional disk for /var/lib/pgsql partition, defined in GiB"
   default     = 0
+}
+
+variable "repository_disk_use_cloud_setup" {
+  description = "Use cloud tool suma-storage to setup additional disk for repository and database data"
+  default = false
 }
 
 variable "saltapi_tcpdump" {

@@ -5,6 +5,22 @@ parted:
   pkg.installed
 
 {% if grains.get('repository_disk_size') > 0 %}
+{% if grains.get('repository_disk_use_cloud_setup') %}
+
+susemanager-cloud-setup-server:
+  pkg.installed
+
+spacewalk_directory:
+  cmd.run:
+{% if grains.get('database_disk_size') > 0 %}
+    - name: suma-storage /dev/{{grains['data_disk_device']}} /dev/{{grains['second_data_disk_device']}}
+{% else %}
+    - name: suma-storage /dev/{{grains['data_disk_device']}}
+{% endif %}
+    - require:
+      - pkg: susemanager-cloud-setup-server
+
+{% else %}
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
@@ -22,19 +38,15 @@ spacewalk_partition:
 
 www:
   group.present:
-    - gid: 469
     - system: True
 
 wwwrun:
   group.present:
-    - gid: 466
     - system: True
   user.present:
     - fullname: WWW daemon apache
     - shell: /usr/sbin/nologin
     - home: /var/lib/wwwrun
-    - uid: 466
-    - gid: 466
     - groups:
       - wwwrun
       - www
@@ -61,9 +73,11 @@ spacewalk_directory:
     - require:
       - cmd: spacewalk_partition
 
-{% endif %}
+{% endif %} # grains.get('repository_disk_use_cloud_setup')
+{% endif %} # grains.get('repository_disk_size')
 
 {% if grains.get('database_disk_size') > 0 %}
+{% if not grains.get('repository_disk_use_cloud_setup') %}
 
 {% set fstype = grains.get('second_data_disk_fstype') | default('ext4', true) %}
 {% if grains['second_data_disk_device'] == "nvme2n1" %}
@@ -81,15 +95,22 @@ pgsql_partition:
         - pkg: parted
 
 postgres:
+  mount.mounted:
+    - name: /var/lib/pgsql
+    - device: {{partition_name}}
+    - fstype: ext4
+    - mkmnt: True
+    - persist: True
+    - opts:
+        - defaults
+    - require:
+        - cmd: pgsql_partition
   group.present:
-    - gid: 464
     - system: True
   user.present:
     - fullname: PostgreSQL Server
     - shell: /bin/bash
     - home: /var/lib/pgsql
-    - uid: 464
-    - gid: 464
     - groups:
       - postgres
 
@@ -104,15 +125,6 @@ pgsql_directory:
       - user
       - group
       - mode
-  mount.mounted:
-    - name: /var/lib/pgsql
-    - device: {{partition_name}}
-    - fstype: ext4
-    - mkmnt: True
-    - persist: True
-    - opts:
-        - defaults
-    - require:
-        - cmd: pgsql_partition
 
-{% endif %}
+{% endif %} # grains.get('repository_disk_use_cloud_setup')
+{% endif %} # grains.get('database_disk_size')

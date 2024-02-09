@@ -8,6 +8,8 @@ variable "images" {
     "4.3-pr"         = "sles15sp4o"
     "4.3-beta"       = "sles15sp4o"
     "4.3-build_image"= "sles15sp4o"
+    "4.3-VM-nightly"         = "sles15sp4o"
+    "4.3-VM-released"= "sles15sp4o"
     "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse155o"
     "uyuni-released" = "opensuse155o"

@@ -5,6 +5,8 @@ variable "testsuite-branch" {
     "4.3-released"   = "Manager-4.3"
     "4.3-nightly"    = "Manager-4.3"
     "4.3-pr"         = "Manager-4.3"
+    "4.3-VM-released"= "Manager-4.3"
+    "4.3-VM-nightly"         = "Manager-4.3"
     "4.3-beta"       = "master"
     "head"           = "master"
     "uyuni-master"   = "master"

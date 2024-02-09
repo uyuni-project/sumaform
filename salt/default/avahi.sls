@@ -65,6 +65,8 @@ avahi_pkg:
       {% endif %}
       {% endif %}
 {% endif %}
+    - requires:
+      - pkgrepo: os_pool_repo
 
 # WORKAROUND: watch does not really work with Salt 2016.11
 avahi_dead_before_config:

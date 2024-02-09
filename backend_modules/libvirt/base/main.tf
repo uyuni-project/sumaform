@@ -46,6 +46,7 @@ locals {
     slemicro53-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_53/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro54-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_54/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro55o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_55/SLE-Micro.x86_64-sumaform.qcow2"
+    suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM.qcow2"
   }
   pool               = lookup(var.provider_settings, "pool", "default")
   network_name       = lookup(var.provider_settings, "network_name", "default")
@@ -84,5 +85,12 @@ output "configuration" {
     pool         = local.pool
     network_name = local.bridge == null ? local.network_name : null
     bridge       = local.bridge
+    bastion_host        = lookup(var.provider_settings, "bastion_host", null)
+    bastion_host_key    = lookup(var.provider_settings, "bastion_host_key", null)
+    bastion_port        = lookup(var.provider_settings, "bastion_port", null)
+    bastion_user        = lookup(var.provider_settings, "bastion_user", null)
+    bastion_password    = lookup(var.provider_settings, "bastion_password", null)
+    bastion_private_key = lookup(var.provider_settings, "bastion_private_key", null)
+    bastion_certificate = lookup(var.provider_settings, "bastion_certificate", null)
   }
 }
