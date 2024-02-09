@@ -36,3 +36,15 @@ podman:
 debug:
   java: true
 {%- endif %}
+
+{% if grains.get('create_first_user') %}
+{% set server_username = grains.get('server_username') | default('admin', true) %}
+{% set server_password = grains.get('server_password') | default('admin', true) %}
+organization: SUSE
+admin:
+  password: {{ server_password }}
+  login: {{ server_username }}
+  firstName: Administrator
+  lastName: Administrator
+  email: galaxy-noise@suse.de
+{% endif %}
