@@ -6,6 +6,7 @@ include:
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
 
+{% if grains.get('create_first_user') %}
 # set password in case user already existed with a different password
 first_user_set_password:
   cmd.run:
@@ -14,6 +15,7 @@ first_user_set_password:
       - cmd: mgradm_install
 {% if grains['osfullname'] != 'SLE Micro' %}
       - pkg: uyuni-tools
+{% endif %}
 {% endif %}
 
 {% if grains.get('mgr_sync_autologin') %}
