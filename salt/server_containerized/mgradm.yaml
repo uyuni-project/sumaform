@@ -21,7 +21,7 @@ tag: {{ grains.get('container_tag') }}
 {%- if mirror_hostname %}
 mirrorPath: /srv/mirror
 {% endif -%}
-{% set helm_chart_default = 'oci://registry.opensuse.org/uyuni/server' %}
+{% set helm_chart_default = 'oci://registry.opensuse.org/uyuni/server-helm' %}
 helm:
   uyuni:
     chart: {{ grains.get("helm_chart_url") | default(helm_chart_default, true) }}
