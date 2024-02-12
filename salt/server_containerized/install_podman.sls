@@ -1,7 +1,7 @@
 include:
   - server_containerized.install_common
 
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
 podman_packages:
   pkg.installed:
     - pkgs:

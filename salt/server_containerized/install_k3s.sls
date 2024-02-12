@@ -1,6 +1,7 @@
 include:
   - server_containerized.install_common
 
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
 k3s_install:
   cmd.run:
     - name: curl -sfL https://get.k3s.io | sh -
@@ -12,6 +13,7 @@ helm_install:
   pkg.installed:
     - refresh: True
     - name: helm
+{% endif %}
 
 chart_values_file:
   file.managed:

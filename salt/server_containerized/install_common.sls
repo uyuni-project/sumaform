@@ -1,6 +1,6 @@
 {%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
 uyuni-tools:
   pkg.installed:
     - pkgs:

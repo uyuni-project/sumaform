@@ -21,7 +21,7 @@ mgradm_install:
     - unless: helm --kubeconfig /etc/rancher/k3s/k3s.yaml list | grep uyuni
 {%- endif %}
     - require:
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
       - sls: server_containerized.install_common

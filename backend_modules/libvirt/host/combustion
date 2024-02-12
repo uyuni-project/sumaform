@@ -1,0 +1,52 @@
+#!/bin/bash
+# combustion: network
+
+# Redirect output to the console
+exec > >(exec tee -a /dev/tty0) 2>&1
+
+# Set linux as password for root
+echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
+
+# Add a public ssh key and enable sshd
+systemctl enable sshd.service
+
+# Add the GPG keys
+${ gpg_keys }
+
+# Add repositories
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
+%{ if container_server || container_proxy }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
+%{ endif }
+
+%{ if testsuite }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
+%{ endif }
+
+# Install packages
+PACKAGES="qemu-guest-agent avahi ca-certificates"
+%{ if container_server }
+PACKAGES="\$PACKAGES bash-completion mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
+%{ endif }
+%{ if container_runtime == "podman" }
+PACKAGES="\$PACKAGES podman netavark"
+%{ endif }
+
+%{ if container_runtime == "k3s" }
+PACKAGES="\$PACKAGES helm"
+%{ endif }
+
+%{ if container_proxy }
+PACKAGES="\$PACKAGES bash-completion mgrpxy"
+%{ else }
+PACKAGES="\$PACKAGES salt-minion"
+%{ endif }
+
+%{ if testsuite }
+PACKAGES="\$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy wget timezone aaa_base-extras"
+%{ endif }
+zypper --non-interactive install \$PACKAGES
+
+# Leave a marker
+echo "Configured with combustion" > /etc/issue.d/combustion
+

@@ -6,7 +6,7 @@ include:
 minima_download:
   cmd.run:
     - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz'
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
     - require:
       - pkg: uyuni-tools
 {% endif %}
@@ -52,7 +52,7 @@ test_repo_debian_updates:
     - unless: mgrctl exec "ls -d /srv/www/htdocs/pub/TestRepoDebUpdates"
     - require:
       - cmd: test_repo_debian_updates_script_copy
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
       - cmd: testsuite_packages
@@ -63,7 +63,7 @@ cobbler_configuration:
     - name: "mgrctl exec 'sed -i \"s/redhat_management_permissive: false/redhat_management_permissive: true/\" /etc/cobbler/settings.yaml'"
     - require:
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
 
@@ -113,7 +113,7 @@ repo_key_import:
 testsuite_packages:
   cmd.run:
     - name: mgrctl exec "zypper -n in iputils expect wget OpenIPMI"
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
     - require:
       - pkg: uyuni-tools
 {% endif %}
@@ -130,7 +130,7 @@ create_pillar_top_sls_to_assign_salt_bundle_config:
   cmd.run:
     - name: mgrctl exec 'echo -e "base:\n  '"'"'*'"'"':\n    - salt_bundle_config" >/srv/pillar/top.sls'
     - require:
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
@@ -146,7 +146,7 @@ enable_salt_content_staging_window:
   cmd.run:
     - name: mgrctl exec 'sed '"'"'/java.salt_content_staging_window =/{h;s/= .*/= 0.033/};${x;/^$/{s//java.salt_content_staging_window = 0.033/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
@@ -155,7 +155,7 @@ enable_salt_content_staging_advance:
   cmd.run:
     - name: mgrctl exec 'sed '"'"'/java.salt_content_staging_advance =/{h;s/= .*/= 0.05/};${x;/^$/{s//java.salt_content_staging_advance = 0.05/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
@@ -164,7 +164,7 @@ enable_kiwi_os_image_building:
   cmd.run:
     - name: mgrctl exec 'sed '"'"'/java.kiwi_os_image_building_enabled =/{h;s/= .*/= true/};${x;/^$/{s//java.kiwi_os_image_building_enabled = true/;H};x}'"'"' -i /etc/rhn/rhn.conf'
     - require:
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
@@ -187,7 +187,7 @@ dump_salt_event_log:
     - name: mgrctl cp /root/salt-events.service server:/usr/lib/systemd/system/salt-events.service
     - require:
       - file: salt_event_service_file
-{% if grains['osfullname'] != 'SLE Micro' %}
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
 

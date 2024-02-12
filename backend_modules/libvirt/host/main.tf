@@ -4,6 +4,7 @@ locals {
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
   x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o"]
+  combustion_images  = ["leapmicro55o"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {
         path = "/etc/gpg_keys/${key}"
@@ -13,6 +14,9 @@ locals {
         permissions = "0700"
     }
   ]
+  container_runtime = lookup(var.grains, "container_runtime", "")
+  
+  combustion = contains(local.combustion_images, var.image)
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -41,8 +45,8 @@ locals {
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
-  cloud_init = length(regexall("o$", var.image)) > 0
-  ignition = length(regexall("-ign$", var.image)) > 0
+    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image)
+    ignition = length(regexall("-ign$", var.image)) > 0
 }
 
 data "template_file" "user_data" {
@@ -64,6 +68,28 @@ data "template_file" "network_config" {
   vars = {
     image = var.image
   }
+}
+
+data "template_file" "combustion" {
+  template = file("${path.module}/combustion")
+  vars = {
+    gpg_keys = join("\n", [for key in local.gpg_keys :
+    "mkdir -p `dirname ${key.path}` && echo ${key.content} | base64 -d >${key.path} && rpm --import ${key.path}"
+  ])
+    use_mirror_images   = var.base_configuration["use_mirror_images"]
+    mirror              = var.base_configuration["mirror"]
+    container_server    = contains(var.roles, "server_containerized")
+    container_proxy     = contains(var.roles, "proxy_containerized")
+    container_runtime   = local.container_runtime
+    testsuite           = lookup(var.base_configuration, "testsuite", false)
+  }
+}
+
+resource "libvirt_combustion" "combustion_disk" {
+  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion-disk"
+  pool             = var.base_configuration["pool"]
+  content          = data.template_file.combustion.rendered
+  count            = local.combustion ? var.quantity : 0
 }
 
 data "template_file" "ignition" {
@@ -135,7 +161,8 @@ resource "libvirt_domain" "domain" {
   }
 
   cloudinit = length(libvirt_cloudinit_disk.cloudinit_disk) == var.quantity ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
-  coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : null
+  coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : length(libvirt_combustion.combustion_disk) == var.quantity ? libvirt_combustion.combustion_disk[count.index].id : null
+  fw_cfg_name = local.combustion ? "opt/org.opensuse.combustion/script" : null 
 
   dynamic "network_interface" {
     for_each = slice(
