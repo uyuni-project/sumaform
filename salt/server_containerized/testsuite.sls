@@ -110,11 +110,40 @@ repo_key_import:
       - cmd: galaxy_key_copy
 {% endif %}
 
+testing_overlay_devel_repo:
+  cmd.run:
+{% if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-pr', 'uyuni-released'] %}
+    - name: 'mgrctl exec "zypper -n ar -f -p 96 http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-x86_64-Media1/ testing_overlay_devel_repo"'
+{% else %}
+    - name: 'mgrctl exec "zypper -n ar -f -p 96 http://{{ grains.get("mirror") | default("download.suse.de", true) }}//ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.3-POOL-x86_64-Media1/ testing_overlay_devel_repo"'
+{% endif %}
+    - unless: mgrctl exec "zypper lr" | grep testing_overlay_devel_repo
+    - require:
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
+      - pkg: uyuni-tools
+{% endif %}
+      - cmd: repo_key_import
+
+# Allowing downgrade of salt-ssh as it has sometimes a slightly older version than what is in the image
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+saltssh_package:
+   cmd.run:
+    - name: mgrctl exec "zypper -n in --allow-downgrade salt-ssh"
+    - require:
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
+      - pkg: uyuni-tools
+{% endif %}
+      - cmd: testing_overlay_devel_repo
+{% endif %}
+
 testsuite_packages:
   cmd.run:
     - name: mgrctl exec "zypper -n in iputils expect wget OpenIPMI"
 {% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
     - require:
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+      - cmd: saltssh_package
+{% endif %}
       - pkg: uyuni-tools
 {% endif %}
 

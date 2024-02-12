@@ -27,6 +27,13 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/sle/ sle_update_repo
 %{ endif }
 
+for i in ${additional_repos};do
+  name=$(echo $i | cut -d= -f1)
+  url=$(echo $i | cut -d= -f2)
+  zypper ar $url $name
+done
+
+
 # Install packages
 PACKAGES="qemu-guest-agent avahi ca-certificates"
 %{ if container_server }

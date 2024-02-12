@@ -86,6 +86,7 @@ data "template_file" "combustion" {
     container_proxy     = contains(var.roles, "proxy_containerized")
     container_runtime   = local.container_runtime
     testsuite           = lookup(var.base_configuration, "testsuite", false)
+    additional_repos    = join(" ", [for key, value in var.additional_repos : "${key}=${value}"])
   }
 }
 
