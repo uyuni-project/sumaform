@@ -121,7 +121,7 @@ resource "azurerm_managed_disk" "addtionaldisks" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" {
-  count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+  count              = var.additional_disk_size > 0 ? var.quantity : 0
   managed_disk_id    = azurerm_managed_disk.addtionaldisks[count.index].id
   virtual_machine_id = azurerm_linux_virtual_machine.instance[count.index].id
   lun                = count.index

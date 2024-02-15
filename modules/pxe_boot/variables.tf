@@ -9,6 +9,7 @@ variable "name" {
 
 variable "quantity" {
   description = "number of hosts like this one"
+  type        = number
   default     = 1
 }
 
