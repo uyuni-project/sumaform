@@ -4,31 +4,37 @@ variable "base_configuration" {
 
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
+  type        = bool
   default     = true
 }
 
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  type        = map(string)
   default     = {}
 }
 
 variable "additional_repos_only" {
   description = "whether to exclusively use additional repos"
+  type        = bool
   default     = false
 }
 
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
+  type        = list(string)
   default     = []
 }
 
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
+  type        = number
   default     = 0
 }
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
@@ -39,11 +45,13 @@ variable "provider_settings" {
 
 variable "data_disk_size" {
   description = "Size of an aditional disk for the /var/lib/jenkins partition, defined in GiB"
+  type        = number
   default     = 1024
 }
 
 variable "data_disk_fstype" {
   description = "Data disk file system type"
+  type        = string
   default     = "ext4"
 }
 
@@ -55,5 +63,5 @@ variable "volume_provider_settings" {
 variable "image" {
   description = "An image name, e.g. sles15sp2o or opensuse155o"
   type        = string
-  default = "opensuse155o"
+  default     = "opensuse155o"
 }

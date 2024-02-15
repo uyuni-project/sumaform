@@ -55,7 +55,7 @@ locals {
 }
 
 resource "libvirt_volume" "volumes" {
-  for_each = local.images_used
+  for_each = toset(local.images_used)
 
   name   = "${var.name_prefix}${each.value}"
   source = local.image_urls[each.value]

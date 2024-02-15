@@ -148,10 +148,10 @@ resource "aws_network_interface" "additional_network" {
 
 /** START: Set up an extra data disk */
 resource "aws_ebs_volume" "data_disk" {
-  count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+  count             = var.additional_disk_size > 0 ? var.quantity : 0
 
   availability_zone = local.availability_zone
-  size              = var.additional_disk_size == null ? 0 : var.additional_disk_size
+  size              = var.additional_disk_size
   type              = lookup(var.volume_provider_settings, "type", "sc1")
   snapshot_id       = lookup(var.volume_provider_settings, "volume_snapshot_id", null)
   tags = {
@@ -170,7 +170,7 @@ resource "aws_ebs_volume" "data_disk" {
 resource "aws_volume_attachment" "data_disk_attachment" {
   depends_on = [aws_instance.instance, aws_ebs_volume.data_disk]
 
-  count = var.additional_disk_size == null ? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+  count       = var.additional_disk_size > 0 ? var.quantity : 0
 
   device_name = "/dev/xvdf"
   volume_id   = aws_ebs_volume.data_disk[count.index].id

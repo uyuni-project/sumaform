@@ -8,21 +8,25 @@ variable "server_configuration" {
 
 variable "name" {
   description = "hostname, without the domain part"
+  type        = string
   default     = "locust"
 }
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "locust_file" {
   description = "path to a locustfile.py"
+  type        = string
   default     = "salt/locust/locustfile.py"
 }
 
 variable "slave_quantity" {
   description = "number of Locust slaves, set to 0 to disable master-slave mode"
+  type        = number
   default     = 0
 }
 

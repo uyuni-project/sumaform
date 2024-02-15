@@ -19,11 +19,13 @@ variable "git_password" {
 
 variable "git_repo" {
   description = "Git repo clone URL"
+  type        = string
   default     = "default"
 }
 
 variable "branch" {
   description = "Leave default for automatic selection or specify an existing branch of spacewalk"
+  type        = string
   default     = "default"
 }
 
@@ -686,31 +688,37 @@ variable "salt_migration_minion_configuration" {
 
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  type        = map(string)
   default     = {}
 }
 
 variable "additional_repos_only" {
   description = "whether to exclusively use additional repos"
+  type        = bool
   default     = false
 }
 
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
+  type        = list(string)
   default     = []
 }
 
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
+  type        = number
   default     = 0
 }
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "ipv6" {
   description = "IPv6 tuning: enable it, accept the RAs"
+  type    = map(bool)
   default = {
     enable    = true
     accept_ra = true
@@ -719,36 +727,43 @@ variable "ipv6" {
 
 variable "git_profiles_repo" {
   description = "URL of git repository with alternate Docker and Kiwi profiles, see README_ADVANCED.md"
+  type        = string
   default     = "default"
 }
 
 variable "no_auth_registry" {
   description = "URI of container registry server, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "auth_registry" {
   description = "URI of authenticated registry, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "auth_registry_username" {
   description = "username on registry, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "auth_registry_password" {
   description = "password on registry, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "server_http_proxy" {
   description = "Hostname and port used by the server as the HTTP proxy to reach the outside network"
+  type        = string
   default     = null
 }
 
 variable "custom_download_endpoint" {
   description = "URL (protocol, domain name and port) of custom download endpoint for packages"
+  type        = string
   default     = null
 }
 
@@ -759,30 +774,36 @@ variable "provider_settings" {
 
 variable "no_mirror" {
   description = "Ignore mirror even if base configuration has one set"
+  type        = bool
   default     = false
 }
 
 variable "catch_timeout_message" {
   description = "Enable the mechanism to catch the timeout message shown by a server overloaded"
+  type        = bool
   default     = false
 }
 
 variable "is_using_paygo_server" {
   description = "Specify to controller that server image is a paygo image"
+  type        = bool
   default     = false
 }
 
 variable "is_using_build_image" {
-description = "Specify to controller that server image is a build image"
-default     = false
+  description = "Specify to controller that server image is a build image"
+  type        = bool
+  default     = false
 }
 
 variable "is_using_scc_repositories" {
   description = "Specify to controller that server and proxy are using SCC repository and not internal repositories"
+  type        = bool
   default     = false
 }
 
 variable "server_instance_id" {
   description = "Server instance ID"
+  type        = string
   default     = null
 }

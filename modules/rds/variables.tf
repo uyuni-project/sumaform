@@ -10,6 +10,7 @@ variable "name" {
 
 variable "quantity" {
   description = "number of hosts like this one"
+  type        = number
   default     = 1
 }
 
@@ -31,28 +32,33 @@ variable "skip_final_snapshot" {
 }
 
 variable "engine" {
-  description = "RDS engine, by default postgres "
+  description = "RDS engine, by default postgres"
+  type        = string
   default     = "postgres"
 }
 
 variable "engine_version" {
   description = "RDS engine version"
+  type        = string
   default     = "14.3"
 }
 
 
 variable "db_username" {
   description = "RDS root user name"
+  type        = string
   default     = "postgres"
 }
 
 variable "db_password" {
   description = "RDS root user password"
+  type        = string
   sensitive   = true
   default     = "spacewalk"
 }
 
 variable "db_certificate" {
   description = "Certificate needed to connect to remote AWS database. https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-download-ssl-certificate-for-managed-database "
+  type        = string
   default     = "/root/aws.crt"
 }

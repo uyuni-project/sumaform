@@ -18,96 +18,115 @@ variable "server_configuration" {
 
 variable "disable_firewall" {
   description = "whether to disable the built-in firewall, opening up all ports"
+  type        = bool
   default     = true
 }
 
 variable "minion" {
   description = "whether this Proxy should be onboarded as a minion"
+  type        = bool
   default     = true
 }
 
 variable "auto_connect_to_master" {
   description = "whether this minion should automatically connect to the Salt Master upon deployment, requires minion to be true"
+  type        = bool
   default     = true
 }
 
 variable "auto_register" {
   description = "whether this proxy should be automatically registered upon deployment (as a traditional client)"
+  type        = bool
   default     = false
 }
 
 variable "download_private_ssl_key" {
   description = "copy SSL certificates from the server upon deployment"
+  type        = bool
   default     = true
 }
 
 variable "install_proxy_pattern" {
   description = "whether to install proxy pattern upon deployment"
+  type        = bool
   default     = true
 }
 
 variable "auto_configure" {
   description = "whether to automatically run configure-proxy.sh upon deployment"
+  type        = bool
   default     = true
 }
 
 variable "generate_bootstrap_script" {
   description = "whether to generate a bootstrap script in /pub upon deployment"
+  type        = bool
   default     = true
 }
 
 variable "publish_private_ssl_key" {
   description = "whether to copy the private SSL key in /pub upon deployment"
+  type        = bool
   default     = true
 }
 
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
+  type        = bool
   default     = false
 }
 
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
+  type        = map(string)
   default     = {}
 }
 
 variable "additional_repos_only" {
   description = "whether to exclusively use additional repos"
+  type        = bool
   default     = false
 }
 
 variable "additional_packages" {
   description = "extra packages to install, see README_ADVANCED.md"
+  type        = list(string)
   default     = []
 }
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
+  type        = bool
   default     = false
 }
 
 variable "quantity" {
   description = "number of hosts like this one"
+  type        = number
   default     = 1
 }
 
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
+  type        = number
   default     = 0
 }
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
 variable "gpg_keys" {
   description = "salt/ relative paths of gpg keys that you want to add to your VMs, see README_ADVANCED.md"
+  type        = list(string)
   default     = []
 }
 
 variable "ipv6" {
   description = "IPv6 tuning: enable it, accept the RAs"
+  type    = map(bool)
   default = {
     enable    = true
     accept_ra = true
@@ -116,11 +135,13 @@ variable "ipv6" {
 
 variable "image" {
   description = "Leave default for automatic selection or specify an OS supported by the specified product version"
+  type        = string
   default     = "default"
 }
 
 variable "repository_disk_size" {
   description = "Size of an aditional disk for /var/spacewalk partition, defined in GiB"
+  type        = number
   default     = 0
 }
 
@@ -136,15 +157,18 @@ variable "volume_provider_settings" {
 
 variable "proxy_registration_code" {
   description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
+  type        = string
   default     = null
 }
 
 variable "accept_all_ssl_protocols" {
   description = "Turn to true to force Apache to accept a greater range of protocol versions"
+  type        = bool
   default     = false
 }
 
 variable "proxy_containerized" {
   description = "Proxy should be prepared to be a containerized proxy"
+  type        = bool
   default     = false
 }

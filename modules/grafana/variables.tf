@@ -4,11 +4,13 @@ variable "base_configuration" {
 
 variable "name" {
   description = "hostname, without the domain part"
+  type        = string
   default     = "grafana"
 }
 
 variable "quantity" {
   description = "number of hosts like this one"
+  type        = number
   default     = 1
 }
 
@@ -25,6 +27,7 @@ variable "locust_configuration" {
 
 variable "ssh_key_path" {
   description = "path of additional pub ssh key you want to use to access VMs, see README_ADVANCED.md"
+  type        = string
   default     = null
 }
 
