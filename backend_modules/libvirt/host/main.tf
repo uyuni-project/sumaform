@@ -1,4 +1,5 @@
 locals {
+  overwrite_fqdn = lookup(var.provider_settings, "overwrite_fqdn", "")
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
@@ -245,7 +246,7 @@ resource "null_resource" "provisioning" {
   provisioner "file" {
     content = yamlencode(merge(
       {
-        hostname                  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+        hostname                  = local.overwrite_fqdn != "" ? split(".", local.overwrite_fqdn)[0] : "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
         domain                    = var.base_configuration["domain"]
         use_avahi                 = var.base_configuration["use_avahi"]
         additional_network        = var.base_configuration["additional_network"]
@@ -300,7 +301,7 @@ output "configuration" {
   depends_on = [libvirt_domain.domain, null_resource.provisioning]
   value = {
     ids       = libvirt_domain.domain[*].id
-    hostnames = [for value_used in libvirt_domain.domain : "${value_used.name}.${var.base_configuration["domain"]}"]
+    hostnames = [for value_used in libvirt_domain.domain : local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${value_used.name}.${var.base_configuration["domain"]}"]
     macaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].mac if length(value_used.network_interface) > 0]
     ipaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].addresses if length(value_used.network_interface) > 0]
   }
