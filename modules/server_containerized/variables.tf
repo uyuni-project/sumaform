@@ -312,12 +312,6 @@ variable "volume_provider_settings" {
   default     = {}
 }
 
-variable "overwrite_fqdn" {
-  description = "use the specified FQDN as hostname for the system"
-  type        = string
-  default     = null
-}
-
 variable "server_mounted_mirror" {
   description = "hostname of a mounted mirror in the server (to get packages from it)"
   default     = null
