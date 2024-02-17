@@ -980,23 +980,24 @@ The `server` module has options to automatically capture more diagnostic informa
 - `java_salt_debugging`: enable additional logs for Hibernate in Tomcat
 - `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
 
-## Using external database
+## Using an external database
 
-Currently, sumaform only support RDS database. The server need to be created in public cloud ( by default AWS). It's possible to get RDS in private network shared by server in aws.
-RDS module return automatically the parameters needed to configure rhn.conf throught setup_env.sh . 
+Currently, sumaform only supports the RDS database as an external database. The server needs to be created in the public cloud (by default AWS). It's possible to get RDS in a private network shared with the server in AWS.
 
+The RDS module returns automatically the parameters needed to configure `rhn.conf` through `setup_env.sh`.
 
-| Output variable    | Type    | Description                                                                                 |
-|--------------------|---------|---------------------------------------------------------------------------------------------|
-| hostname           | string  | RDS hostname that will be use for MANAGER_DB_HOST and REPORT_DB_HOST                        |
-| superuser          | string  | superuser to connect database, it will be use to create MANAGER_USER user and both database |
-| superuser_password | string  | superuser password                                                                          |
-| port               | string  | RDS port ( by default 5432)                                                                 |
-| certificate        | string  | Certificate use to connect RDS database. Certificate is provided by AWS                     |
-| local              | boolean | Set to `false` to use external database                                                     |
+| Output variable      | Type    | Description                                                               |
+|----------------------|---------|---------------------------------------------------------------------------|
+| `hostname`           | string  | RDS hostname that will be used for `MANAGER_DB_HOST` and `REPORT_DB_HOST` |
+| `superuser`          | string  | Superuser to connect database                                             |
+|                      |         | it will be used to create `MANAGER_USER` user and both databases          |
+| `superuser_password` | string  | Superuser password                                                        |
+| `port`               | string  | RDS port (by default `5432`)                                              |
+| `certificate`        | string  | Certificate used to connect RDS database, provided by AWS                 |
+| `local`              | boolean | Set to `false` to use an external database                                |
 
+Example:
 
-Example :
 ```hcl
 module "rds" {
    source             = "./modules/rds"
@@ -1010,6 +1011,6 @@ module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
   db_configuration = module.db.configuration
-
+  ...
 }
 ```
