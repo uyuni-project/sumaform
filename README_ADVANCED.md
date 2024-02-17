@@ -910,6 +910,67 @@ module "server" {
 }
 ```
 
+## Using a different FQDN
+
+Normally, the fully qualified domain name (FQDN) is derived from `name` variable. However, some providers, like AWS cloud provider, impose a naming scheme that does not always match this mechanism. You may also want a name for libvirt that differs from the hostname part of the FQDN. The `overwrite_fqdn` variable allows the FQDN to diverge from the value normally derived from the name.
+
+An AWS example is:
+
+```hcl
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+  ...
+  host_settings = {
+    ...
+    server = {
+      provider_settings = {
+        instance_type = "m6a.xlarge"
+        volume_size = "100"
+        private_ip = "172.16.3.6"
+        overwrite_fqdn = "uyuni-master-srv.sumaci.aws"
+      }
+    }
+    ...
+  }
+  ...
+}
+```
+
+A libvirt example is:
+
+```hcl
+module "opensuse155arm-minion" {
+  source = "./modules/minion"
+  ...
+  name = "nue-min-opensuse155arm"
+  ...
+  provider_settings = {
+    ...
+    overwrite_fqdn   = "suma-bv-43-min-opensuse155arm.mgr.suse.de"
+    ...
+  }
+  ...
+}
+```
+
+Note the extra `nue-` in the name. With those settings, we have in libvirt:
+
+```bash
+suma-arm:~ # virsh list
+ Id   Name                                   State
+----------------------------------------------------
+ ...
+ 11   suma-bv-43-nue-min-opensuse154arm      running
+```
+
+and inside the VM:
+
+```bash
+# hostname -f
+suma-bv-43-min-opensuse154arm.mgr.suse.de
+```
+
+
 ## Debugging facilities
 
 The `server` module has options to automatically capture more diagnostic information, off by default:
