@@ -109,6 +109,8 @@ module "controller" {
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null
+    alma8_minion         = length(var.alma8_minion_configuration["hostnames"]) > 0 ? var.alma8_minion_configuration["hostnames"][0] : null
+    alma8_sshminion      = length(var.alma8_sshminion_configuration["hostnames"]) > 0 ? var.alma8_sshminion_configuration["hostnames"][0] : null
     alma9_minion         = length(var.alma9_minion_configuration["hostnames"]) > 0 ? var.alma9_minion_configuration["hostnames"][0] : null
     alma9_sshminion      = length(var.alma9_sshminion_configuration["hostnames"]) > 0 ? var.alma9_sshminion_configuration["hostnames"][0] : null
     liberty9_minion      = length(var.liberty9_minion_configuration["hostnames"]) > 0 ? var.liberty9_minion_configuration["hostnames"][0] : null
