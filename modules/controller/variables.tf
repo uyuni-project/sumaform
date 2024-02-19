@@ -470,6 +470,20 @@ variable "rhel9_minion_configuration" {
   }
 }
 
+variable "alma8_minion_configuration" {
+  description = "use module.<ALMA8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "alma8_sshminion_configuration" {
+  description = "use module.<ALMA8_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "alma9_minion_configuration" {
   description = "use module.<ALMA9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
