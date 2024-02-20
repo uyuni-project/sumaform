@@ -910,6 +910,67 @@ module "server" {
 }
 ```
 
+## Using a different FQDN
+
+Normally, the fully qualified domain name (FQDN) is derived from `name` variable. However, some providers, like AWS cloud provider, impose a naming scheme that does not always match this mechanism. You may also want a name for libvirt that differs from the hostname part of the FQDN. The `overwrite_fqdn` variable allows the FQDN to diverge from the value normally derived from the name.
+
+An AWS example is:
+
+```hcl
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+  ...
+  host_settings = {
+    ...
+    server = {
+      provider_settings = {
+        instance_type = "m6a.xlarge"
+        volume_size = "100"
+        private_ip = "172.16.3.6"
+        overwrite_fqdn = "uyuni-master-srv.sumaci.aws"
+      }
+    }
+    ...
+  }
+  ...
+}
+```
+
+A libvirt example is:
+
+```hcl
+module "opensuse155arm-minion" {
+  source = "./modules/minion"
+  ...
+  name = "nue-min-opensuse155arm"
+  ...
+  provider_settings = {
+    ...
+    overwrite_fqdn   = "suma-bv-43-min-opensuse155arm.mgr.suse.de"
+    ...
+  }
+  ...
+}
+```
+
+Note the extra `nue-` in the name. With those settings, we have in libvirt:
+
+```bash
+suma-arm:~ # virsh list
+ Id   Name                                   State
+----------------------------------------------------
+ ...
+ 11   suma-bv-43-nue-min-opensuse154arm      running
+```
+
+and inside the VM:
+
+```bash
+# hostname -f
+suma-bv-43-min-opensuse154arm.mgr.suse.de
+```
+
+
 ## Debugging facilities
 
 The `server` module has options to automatically capture more diagnostic information, off by default:
@@ -919,23 +980,24 @@ The `server` module has options to automatically capture more diagnostic informa
 - `java_salt_debugging`: enable additional logs for Hibernate in Tomcat
 - `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
 
-## Using external database
+## Using an external database
 
-Currently, sumaform only support RDS database. The server need to be created in public cloud ( by default AWS). It's possible to get RDS in private network shared by server in aws.
-RDS module return automatically the parameters needed to configure rhn.conf throught setup_env.sh . 
+Currently, sumaform only supports the RDS database as an external database. The server needs to be created in the public cloud (by default AWS). It's possible to get RDS in a private network shared with the server in AWS.
 
+The RDS module returns automatically the parameters needed to configure `rhn.conf` through `setup_env.sh`.
 
-| Output variable    | Type    | Description                                                                                 |
-|--------------------|---------|---------------------------------------------------------------------------------------------|
-| hostname           | string  | RDS hostname that will be use for MANAGER_DB_HOST and REPORT_DB_HOST                        |
-| superuser          | string  | superuser to connect database, it will be use to create MANAGER_USER user and both database |
-| superuser_password | string  | superuser password                                                                          |
-| port               | string  | RDS port ( by default 5432)                                                                 |
-| certificate        | string  | Certificate use to connect RDS database. Certificate is provided by AWS                     |
-| local              | boolean | Set to `false` to use external database                                                     |
+| Output variable      | Type    | Description                                                               |
+|----------------------|---------|---------------------------------------------------------------------------|
+| `hostname`           | string  | RDS hostname that will be used for `MANAGER_DB_HOST` and `REPORT_DB_HOST` |
+| `superuser`          | string  | Superuser to connect database                                             |
+|                      |         | it will be used to create `MANAGER_USER` user and both databases          |
+| `superuser_password` | string  | Superuser password                                                        |
+| `port`               | string  | RDS port (by default `5432`)                                              |
+| `certificate`        | string  | Certificate used to connect RDS database, provided by AWS                 |
+| `local`              | boolean | Set to `false` to use an external database                                |
 
+Example:
 
-Example :
 ```hcl
 module "rds" {
    source             = "./modules/rds"
@@ -949,6 +1011,6 @@ module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
   db_configuration = module.db.configuration
-
+  ...
 }
 ```
