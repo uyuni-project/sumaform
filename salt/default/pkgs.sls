@@ -3,11 +3,18 @@ include:
 
 {% if grains['additional_packages'] %}
 install_additional_packages:
+  {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SLE Micro'  %}
+  cmd.run:
+{% for package in grains['additional_packages'] %}
+    - name: transactional-update -c -n pkg in {{ package }}
+{% endfor %}
+  {% else %}
   pkg.latest:
     - pkgs:
 {% for package in grains['additional_packages'] %}
       - {{ package }}
 {% endfor %}
+  {% endif %}
     {% if 'paygo' not in grains.get('product_version', '') %}
     - require:
       - sls: repos
