@@ -9,13 +9,13 @@ large_deployment_increase_tasko_parallel_threads:
   cmd.run:
     - name: mgrctl exec 'echo "taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads = 3" >> /etc/rhn/rhn.conf'
     - require:
-      - pkg: uyuni-tools
+      - file: /usr/bin/mgrctl
 
 large_deployment_increase_hibernate_max_connections:
   cmd.run:
     - name: mgrctl exec 'echo "hibernate.c3p0.max_size = 50" >> /etc/rhn/rhn.conf'
     - require:
-      - pkg: uyuni-tools
+      - file: /usr/bin/mgrctl
 
 large_deployment_tune_tomcat_stylesheet_host:
   file.managed:
@@ -46,13 +46,13 @@ large_deployment_increase_database_max_connections:
   cmd.run:
     - name: mgrctl exec 'sed -i "s/max_connections = (.*)/max_connections = 450/" /var/lib/pgsql/data/postgresql.conf'
     - require:
-      - pkg: uyuni-tools
+      - file: /usr/bin/mgrctl
 
 large_deployment_increase_database_work_memory:
   cmd.run:
     - name: mgrctl exec 'sed -i "s/work_mem = (.*)/work_mem = 10MB/" /var/lib/pgsql/data/postgresql.conf'
     - require:
-      - pkg: uyuni-tools
+      - file: /usr/bin/mgrctl
 
 large_deployment_postgresql_restart:
   cmd.run:
