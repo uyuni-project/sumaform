@@ -13,7 +13,7 @@ include:
   - default.testsuite
   {% endif %}
 
-{% if grains.get('use_os_released_updates') | default(False, true) %}
+{% if grains.get('use_os_released_updates') | default(false, true) %}
 {% if not grains['osfullname'] == 'SLE Micro' %}
 update_packages:
   pkg.uptodate:
