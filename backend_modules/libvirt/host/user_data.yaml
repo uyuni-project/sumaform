@@ -400,10 +400,9 @@ runcmd:
 %{ endif }
 %{ if container_proxy }
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
-%{ else }
+%{ endif }
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
   - [ reboot ]
-%{ endif }
 %{ endif }
 
 %{ if image == "ubuntu2004o" }
