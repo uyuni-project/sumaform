@@ -61,7 +61,6 @@ install_mgr_tools:
       - podman
       - mgrpxy
       - mgrctl
-      - ca-certificates-suse
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
