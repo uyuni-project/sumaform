@@ -387,7 +387,7 @@ runcmd:
   - [ zypper, mr, -a, -g ]
 %{ if testsuite }
   # Packages needed for the testsuite
-  - [ transactional-update, --continue, --non-interactive, pkg, install, andromeda-dummy, milkyway-dummy, virgo-dummy, wget, timezone, aaa_base-extras, ca-certificates ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, aaa_base-extras, ca-certificates ]
 %{ endif }
 %{ if container_server }
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
