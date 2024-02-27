@@ -393,7 +393,7 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
 %{ endif }
 %{ if container_proxy }
-  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgrpxy, ca-certificates-suse ]
 %{ endif }
 %{ if install_salt_bundle }
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, venv-salt-minion, avahi ]
