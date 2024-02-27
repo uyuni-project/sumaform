@@ -54,6 +54,16 @@ env_var_bashrc_registry_proxy_httpd_image:
         echo "export UYUNI_IMAGES_LOCATION={{ container_repository }}" >> /root/.bashrc
         source /root/.bashrc
 
+{% if 'Micro' not in grains['osfullname'] %}
+install_mgr_tools:
+  pkg.installed:
+    - pkgs:
+      - podman
+      - mgrpxy
+      - mgrctl
+      - ca-certificates-suse
+{% endif %}
+
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
 {% if grains.get('auto_configure') and grains.get('testsuite') and grains.get('first_user_present') %}
 generate_configuration_file_from_server:
