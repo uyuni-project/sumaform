@@ -147,4 +147,4 @@ module "base" {
 
 ## I have a problem!
 
-Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to [join the Gitter chat](https://gitter.im/sumaform/Lobby) or directly drop a line to moio at suse dot de!
+Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to [join the Gitter chat](https://gitter.im/sumaform/Lobby)!
