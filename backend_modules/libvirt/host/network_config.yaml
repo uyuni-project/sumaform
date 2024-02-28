@@ -6,7 +6,7 @@ network:
   ethernets:
     ens3:
       dhcp4: true
-%{ else  }
+%{ else }
 network:
   version: 1
   config:
@@ -17,5 +17,10 @@ network:
     name: eth0
 %{ endif }
     subnets:
+%{ if dhcp_dns }
+      - type: static
+        address: ${dhcp_dns_address}
+%{ else }
       - type: dhcp
+%{ endif }
 %{ endif }

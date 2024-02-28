@@ -28,8 +28,12 @@ locals {
     host_key => lookup(var.host_settings[host_key], "additional_repos_only", false) if var.host_settings[host_key] != null }
   additional_packages       = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_packages", []) if var.host_settings[host_key] != null }
-  additional_grains       = { for host_key in local.hosts :
+  additional_grains         = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "additional_grains", {}) if var.host_settings[host_key] != null }
+  private_ip                = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "private_ip", 4) if var.host_settings[host_key] != null }
+  private_name              = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "private_name", "pxeboot") if var.host_settings[host_key] != null }
   images                    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "image", "default") if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "image") : false }
   names                     = { for host_key in local.hosts :
@@ -40,7 +44,7 @@ locals {
     host_key => lookup(var.host_settings[host_key], "server_mounted_mirror", {}) if var.host_settings[host_key] != null }
   sles_registration_code    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "sles_registration_code", null) if var.host_settings[host_key] != null }
-  runtimes    = { for host_key in local.hosts :
+  runtimes                  = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
   container_repositories    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
@@ -54,13 +58,13 @@ locals {
     host_key => lookup(var.host_settings[host_key], "database_disk_size", 0) if var.host_settings[host_key] != null }
   large_deployment          = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "large_deployment", false) if var.host_settings[host_key] != null }
-  auto_configure       = { for host_key in local.hosts :
+  auto_configure            = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "auto_configure", false) if var.host_settings[host_key] != null }
-  create_first_user       = { for host_key in local.hosts :
+  create_first_user         = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "create_first_user", false) if var.host_settings[host_key] != null }
   repository_disk_use_cloud_setup = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
-  scc_access_logging = { for host_key in local.hosts :
+  scc_access_logging        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
 }
 
@@ -216,6 +220,16 @@ module "proxy_containerized" {
 locals {
   proxy_full_name       = "${var.name_prefix}pxy.${var.domain}"
   minimal_configuration = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
+}
+
+module "dhcp-dns" {
+  source             = "../dhcp_dns"
+
+  quantity           = contains(local.hosts, "dhcp-dns") ? 1 : 0
+  base_configuration = module.base.configuration
+  image              = lookup(local.images, "dhcp-dns", "opensuse155o")
+  name               = lookup(local.names, "dhcp-dns", "dhcp-dns")
+  private_hosts      = [ module.proxy[0].configuration, module.pxeboot-minion.configuration ]
 }
 
 module "suse-client" {
@@ -387,6 +401,9 @@ module "pxeboot-minion" {
   image              = lookup(local.images, "pxeboot-minion", "sles15sp4o")
   name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
 
+  private_ip         = lookup(local.private_ip, "pxeboot-minion", 4)
+  private_name       = lookup(local.private_name, "pxeboot-minion", "pxeboot")
+
   provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
 }
 
@@ -447,16 +464,16 @@ module "controller" {
   base_configuration             = module.base.configuration
   server_configuration           = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
   proxy_configuration            = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
-  client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  slemicro_minion_configuration  = contains(local.hosts, "slemicro-minion") ? module.slemicro-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  redhat_configuration           = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  debian_configuration           = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  buildhost_configuration        = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  pxeboot_configuration          = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { macaddr = null, image = null }
-  kvmhost_configuration          = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
-  monitoringserver_configuration = contains(local.hosts, "monitoring-server") ? module.monitoring-server.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [] }
+  client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  slemicro_minion_configuration  = contains(local.hosts, "slemicro-minion") ? module.slemicro-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  redhat_configuration           = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  debian_configuration           = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  buildhost_configuration        = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  pxeboot_configuration          = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { private_mac = null, private_ip = null, private_name = null, image = null }
+  kvmhost_configuration          = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  monitoringserver_configuration = contains(local.hosts, "monitoring-server") ? module.monitoring-server.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
 
   branch                   = var.branch
   git_username             = var.git_username
