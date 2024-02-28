@@ -46,7 +46,7 @@ module "controller" {
     redhat_minion     = length(var.redhat_configuration["hostnames"]) > 0 ? var.redhat_configuration["hostnames"][0] : null
     debian_minion     = length(var.debian_configuration["hostnames"]) > 0 ? var.debian_configuration["hostnames"][0] : null
     ssh_minion        = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
-    pxeboot_mac       = var.pxeboot_configuration["macaddr"]
+    pxeboot_mac       = var.pxeboot_configuration["private_mac"]
     kvm_host          = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
     monitoring_server = length(var.monitoringserver_configuration["hostnames"]) > 0 ? var.monitoringserver_configuration["hostnames"][0] : null
 
@@ -134,13 +134,13 @@ module "controller" {
     debian12_minion      = length(var.debian12_minion_configuration["hostnames"]) > 0 ? var.debian12_minion_configuration["hostnames"][0] : null
     debian12_sshminion   = length(var.debian12_sshminion_configuration["hostnames"]) > 0 ? var.debian12_sshminion_configuration["hostnames"][0] : null
     sle11sp4_buildhost    = length(var.sle11sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle11sp4_buildhost_configuration["hostnames"][0] : null
-    sle11sp3_terminal_mac = var.sle11sp3_terminal_configuration["macaddr"]
+    sle11sp3_terminal_mac = var.sle11sp3_terminal_configuration["private_mac"]
     sle12sp5_buildhost    = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
-    sle12sp5_terminal_mac = var.sle12sp5_terminal_configuration["macaddr"]
+    sle12sp5_terminal_mac = var.sle12sp5_terminal_configuration["private_mac"]
     sle15sp3_buildhost    = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
-    sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["macaddr"]
+    sle15sp3_terminal_mac = var.sle15sp3_terminal_configuration["private_mac"]
     sle15sp4_buildhost    = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
-    sle15sp4_terminal_mac = var.sle15sp4_terminal_configuration["macaddr"]
+    sle15sp4_terminal_mac = var.sle15sp4_terminal_configuration["private_mac"]
     opensuse154arm_minion    = length(var.opensuse154arm_minion_configuration["hostnames"]) > 0 ? var.opensuse154arm_minion_configuration["hostnames"][0] : null
     opensuse154arm_sshminion = length(var.opensuse154arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse154arm_sshminion_configuration["hostnames"][0] : null
     opensuse155arm_minion    = length(var.opensuse155arm_minion_configuration["hostnames"]) > 0 ? var.opensuse155arm_minion_configuration["hostnames"][0] : null

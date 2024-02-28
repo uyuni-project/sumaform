@@ -67,6 +67,9 @@ output "configuration" {
   value = {
     id              = length(module.proxy.configuration["ids"]) > 0 ? module.proxy.configuration["ids"][0] : null
     hostname        = length(module.proxy.configuration["hostnames"]) > 0 ? module.proxy.configuration["hostnames"][0] : null
+    private_mac     = length(module.proxy.configuration["private_macs"]) > 0 ? module.proxy.configuration["private_macs"][0]: null
+    private_ip      = 254
+    private_name    = "proxy"
     product_version = var.product_version
     username        = var.server_configuration["username"]
     password        = var.server_configuration["password"]

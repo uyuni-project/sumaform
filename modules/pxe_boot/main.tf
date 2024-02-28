@@ -16,9 +16,11 @@ module "pxe_boot" {
 
 output "configuration" {
   value = {
-    id       = length(module.pxe_boot.configuration["ids"]) > 0 ? module.pxe_boot.configuration["ids"][0] : null
-    hostname = length(module.pxe_boot.configuration["hostnames"]) > 0 ? module.pxe_boot.configuration["hostnames"][0] : null
-    macaddr = length(module.pxe_boot.configuration["macaddrs"]) > 0 ? module.pxe_boot.configuration["macaddrs"][0] : null
-    image    = var.image
+    id           = length(module.pxe_boot.configuration["ids"]) > 0 ? module.pxe_boot.configuration["ids"][0] : null
+    hostname     = length(module.pxe_boot.configuration["hostnames"]) > 0 ? module.pxe_boot.configuration["hostnames"][0] : null
+    private_mac  = length(module.pxe_boot.configuration["macaddrs"]) > 0 ? module.pxe_boot.configuration["macaddrs"][0] : null
+    private_ip   = var.private_ip
+    private_name = var.private_name
+    image        = var.image
   }
 }

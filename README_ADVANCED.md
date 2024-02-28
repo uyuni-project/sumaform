@@ -396,9 +396,9 @@ module "minion" {
 
 If you will be adding Windows minions, you should disable Avahi in sumaform, as for historical reasons mDNS and resolution of .local and .lan is broken and will not work. Do not trust any source saying it works on Windows 10 (there are lots of "ifs" and "buts"), or can be fixed with Bonjour Printing Services (not for .local).
 
-## Additional network and SUSE Manager for Retail
+## Additional network
 
-You may get an additional, isolated, network, with neither DHCP nor DNS by specifying for example:
+You may get an additional, isolated, network by specifying for example:
 
 ```hcl
 module "base" {
@@ -412,7 +412,7 @@ module "base" {
 
 This will create a network named `private`, with your prefix in front of the name (e.g. `prefix-private`).
 
-You may use that additional network to test SUSE Manager for Retail with the test suite or manually.
+You may use that additional network to test Cobbler or SUSE Manager for Retail with the test suite or manually.
 
 For each VM, you can decide whether it connects to the base network and/or to the additional network by specifying:
 
@@ -424,7 +424,37 @@ connect_to_additional_network = true
 When there are two connections, the first network interface `eth0` gets connected to base network, and the second interface `eth1` gets connected to the additional network.
 When there is only one connection, the card is always `eth0`, no matter to which network it is connected.
 
-Some modules have preset defaults: SUSE Manager/Uyuni Servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni Proxies and clients or minions connect to both networks.
+Some modules have preset defaults: SUSE Manager/Uyuni servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni proxies and clients or minions connect to both networks.
+
+DHCP and DNS services for the additional network may be ensured by the proxy. Alternatively, you can install a DHCP and DNS server into the additional network by declaring:
+
+```hcl
+module "cucumber_testsuite" {
+  ...
+  host_settings = {
+    ...
+    dhcp-dns = {
+      name = "dhcp-dns"
+      image = "opensuse155o"
+    }
+    ...
+  }
+}
+```
+
+from the test suite module, or:
+
+```hcl
+module "dhcp-dns" {
+  source = "./modules/dhcp_dns"
+
+  name = "dhcp-dns"
+  image = "opensuse155o"
+  private_hosts = [ module.proxy.configuration, module.sles12sp5-terminal.configuration, module.sles15sp4-terminal.configuration ]
+}
+```
+
+in a more direct manner.
 
 ## Custom SSH keys
 
@@ -611,6 +641,8 @@ PXE boot hosts are unprovisioned hosts that are capable of booting from their ne
 
 SUSE Manager makes use of PXE booting in two use cases: cobbler, and Retail.
 
+They are connected only to the private network.
+
 An example follows:
 
 ```hcl
@@ -621,6 +653,9 @@ module "pxeboot-minion"
 
   name = "pxeboot"
   image = "sles12sp5o"
+  # last digit of the IP address and name on the private network:
+  private_ip = 4
+  private_name = "pxeboot"
 }
 ```
 
