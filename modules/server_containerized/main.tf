@@ -57,6 +57,7 @@ module "server_containerized" {
     database_disk_size             = var.database_disk_size
     skip_changelog_import          = var.skip_changelog_import
     create_first_user              = var.create_first_user
+    scc_access_logging             = var.scc_access_logging
     mgr_sync_autologin             = var.mgr_sync_autologin
     create_sample_channel          = var.create_sample_channel
     create_sample_activation_key   = var.create_sample_activation_key

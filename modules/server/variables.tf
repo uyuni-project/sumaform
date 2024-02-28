@@ -207,6 +207,11 @@ variable "traceback_email" {
   default     = null
 }
 
+variable "scc_access_logging" {
+  description = "enable logging for SCC access through taskomatic and tomcat"
+  default     = true
+}
+
 variable "swap_file_size" {
   description = "Swap file size in MiB, or 0 for none"
   default     = 0

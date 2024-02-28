@@ -1,5 +1,6 @@
-{% if grains.get('java_debugging') or grains.get('java_salt_debugging') %}
 include:
+  - server
+{% if grains.get('java_debugging') or grains.get('java_salt_debugging') %}
   - server.rhn
 {% endif %}
 
@@ -30,6 +31,21 @@ salt_server_action_service_debug_log:
     - mode: ensure
     - require:
       - sls: server.rhn
+{% endif %}
+
+{% if grains.get('scc_access_logging') %}
+  {% set tomcat-log4j2-xml-path = "/usr/share/susemanager/www/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml"}
+  {% if __salt__["file.exists"]("/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml") %}
+    set tomcat-log4j2-xml-path = "/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml"
+  {% endif %}
+tomcat_scc_access_logging:
+  file.line:
+    - name: {{tomcat-log4j2-xml-path}}
+    - content: '        <Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server
 {% endif %}
 
 {% if grains.get('login_timeout') %}

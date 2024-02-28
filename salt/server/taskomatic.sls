@@ -1,5 +1,6 @@
-{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') %}
 include:
+  - server
+{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') %}
   - server.rhn
 {% endif %}
 
@@ -31,6 +32,17 @@ taskomatic_hibernate_debug_log:
     - mode: ensure
     - require:
       - sls: server.rhn
+{% endif %}
+
+{% if grains.get('scc_access_logging') %}
+taskomatic_scc_access_logging:
+  file.line:
+    - name: /usr/share/rhn/classes/log4j2.xml
+    - content: '        <Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
+    - after: "<Loggers>"
+    - mode: ensure
+    - require:
+      - sls: server
 {% endif %}
 
 taskomatic:

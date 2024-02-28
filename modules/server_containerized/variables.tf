@@ -192,6 +192,11 @@ variable "traceback_email" {
   default     = null
 }
 
+variable "scc_access_logging" {
+  description = "enable logging for SCC access through taskomatic and tomcat"
+  default     = true
+}
+
 variable "smt" {
   description = "URL to an SMT server to get packages from"
   default     = null
