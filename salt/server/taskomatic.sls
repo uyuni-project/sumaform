@@ -41,7 +41,7 @@ taskomatic_scc_access_logging:
     - after: "<Loggers>"
     - mode: ensure
     - require:
-      - sls: server
+      - sls: server.rhn
 {% endif %}
 
 taskomatic:
