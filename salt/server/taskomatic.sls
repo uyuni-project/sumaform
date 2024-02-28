@@ -1,6 +1,5 @@
+{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') or grains.get('scc_access_logging') %}
 include:
-  - server
-{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') %}
   - server.rhn
 {% endif %}
 
