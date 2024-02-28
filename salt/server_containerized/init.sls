@@ -7,7 +7,3 @@ include:
   - server_containerized.initial_content
   - server_containerized.testsuite
   - server_containerized.large_deployment
-  {% if grains.get('scc_access_logging') %}
-  - server_containerized.taskomatic
-  - server_containerized.tomcat
-  {% endif %}
