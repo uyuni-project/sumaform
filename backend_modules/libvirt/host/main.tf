@@ -43,6 +43,7 @@ locals {
     contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
   cloud_init = length(regexall("o$", var.image)) > 0
   ignition = length(regexall("-ign$", var.image)) > 0
+  add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : [ "192", "168", "0" ]
 }
 
 data "template_file" "user_data" {
@@ -62,7 +63,9 @@ data "template_file" "user_data" {
 data "template_file" "network_config" {
   template = file("${path.module}/network_config.yaml")
   vars = {
-    image = var.image
+    image              = var.image
+    dhcp_dns           = contains(var.roles, "dhcp_dns")
+    dhcp_dns_address   = join(".", concat(local.add_net, [ "53" ]))
   }
 }
 

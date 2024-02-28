@@ -219,6 +219,17 @@ locals {
   minimal_configuration = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
 }
 
+module "dhcp-dns" {
+  source             = "../dhcp_dns"
+
+  quantity           = contains(local.hosts, "dhcp-dns") ? 1 : 0
+  base_configuration = module.base.configuration
+  image              = lookup(local.images, "dhcp-dns", "opensuse155o")
+  name               = lookup(local.names, "dhcp-dns", "dhcp-dns")
+  terminals          = [ module.pxeboot-minion.configuration ]
+  first_terminal_ip  = 4
+}
+
 module "suse-client" {
   source             = "../client"
 

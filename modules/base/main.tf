@@ -34,5 +34,7 @@ output "configuration" {
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
     use_eip_bastion          = var.use_eip_bastion
+    # let "additional_network" be defined even if not using libvirt:
+    additional_network       = null
   }, module.base_backend.configuration)
 }
