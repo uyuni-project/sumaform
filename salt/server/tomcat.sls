@@ -34,10 +34,11 @@ salt_server_action_service_debug_log:
 {% endif %}
 
 {% if grains.get('scc_access_logging') %}
+{% if __salt__["file.exists"]("/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml") %}
+  {% set tomcat_log4j2_xml_path = "/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml" %}
+{% else %}
   {% set tomcat_log4j2_xml_path = "/usr/share/susemanager/www/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml" %}
-  {% if __salt__["file.exists"]("/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml") %}
-    set tomcat_log4j2_xml_path = "/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml"
-  {% endif %}
+{% endif %}
 tomcat_scc_access_logging:
   file.line:
     - name: {{tomcat_log4j2_xml_path}}
