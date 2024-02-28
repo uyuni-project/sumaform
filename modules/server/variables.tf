@@ -209,7 +209,7 @@ variable "traceback_email" {
 
 variable "scc_access_logging" {
   description = "enable logging for SCC access through taskomatic and tomcat"
-  default     = true
+  default     = false
 }
 
 variable "swap_file_size" {
