@@ -41,6 +41,7 @@ module "proxy_containerized" {
     helm_chart_url            = var.helm_chart_url # Not yet implemented in sumaform salt states
     mirror                    = var.base_configuration["mirror"]
     avahi_reflector           = var.avahi_reflector
+    main_disk_size            = var.main_disk_size
     repository_disk_size      = var.repository_disk_size
     database_disk_size        = var.database_disk_size
   }

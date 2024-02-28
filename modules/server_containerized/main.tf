@@ -53,6 +53,7 @@ module "server_containerized" {
     java_salt_debugging            = var.java_salt_debugging
     from_email                     = var.from_email
     traceback_email                = var.traceback_email
+    main_disk_size                 = var.main_disk_size
     repository_disk_size           = var.repository_disk_size
     database_disk_size             = var.database_disk_size
     skip_changelog_import          = var.skip_changelog_import
