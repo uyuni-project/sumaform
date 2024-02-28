@@ -50,6 +50,7 @@ module "proxy" {
     server_password           = var.server_configuration["password"]
     generate_bootstrap_script = var.generate_bootstrap_script
     publish_private_ssl_key   = var.publish_private_ssl_key
+    main_disk_size            = var.main_disk_size
     repository_disk_size      = var.repository_disk_size
     proxy_registration_code   = var.proxy_registration_code
     accept_all_ssl_protocols  = var.accept_all_ssl_protocols
