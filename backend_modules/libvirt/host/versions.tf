@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.0.10"
+  required_version = "1.5.4"
   required_providers {
     null = {
       source  = "hashicorp/null"
@@ -7,7 +7,7 @@ terraform {
     }
     libvirt = {
       source = "dmacvicar/libvirt"
-      version = "0.6.3"
+      version = "0.7.1"
     }
   }
 }
