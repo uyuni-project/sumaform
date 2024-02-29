@@ -47,7 +47,7 @@ locals {
   helm_chart_urls           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "main_disk_size", 0) if var.host_settings[host_key] != null }
+    host_key => lookup(var.host_settings[host_key], "main_disk_size", 200) if var.host_settings[host_key] != null }
   repository_disk_size      = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "repository_disk_size", 0) if var.host_settings[host_key] != null }
   database_disk_size        = { for host_key in local.hosts :
