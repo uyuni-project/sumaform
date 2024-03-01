@@ -37,9 +37,10 @@ taskomatic_hibernate_debug_log:
 taskomatic_scc_access_logging:
   file.line:
     - name: /usr/share/rhn/classes/log4j2.xml
-    - content: '        <Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
-    - after: "<Loggers>"
+    - content: '<Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
+    - before: "</Loggers>"
     - mode: ensure
+    - indent: True
     - require:
       - sls: server.rhn
 {% endif %}

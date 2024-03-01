@@ -33,7 +33,7 @@ salt_server_action_service_debug_log:
 {% endif %}
 
 {% if grains.get('scc_access_logging') %}
-{% if __salt__["file.exists"]("/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml") %}
+{% if '4.3' in grains['product_version'] %}
 {% set tomcat_log4j2_xml_path = "/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml" %}
 {% else %}
 {% set tomcat_log4j2_xml_path = "/usr/share/susemanager/www/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml" %}
@@ -41,9 +41,10 @@ salt_server_action_service_debug_log:
 tomcat_scc_access_logging:
   file.line:
     - name: {{tomcat_log4j2_xml_path}}
-    - content: '        <Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
-    - after: "<Loggers>"
+    - content: '<Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
+    - before: "</Loggers>"
     - mode: ensure
+    - indent: True
     - require:
       - sls: server.rhn
 {% endif %}
