@@ -94,6 +94,11 @@ variable "volume_provider_settings" {
   default     = {}
 }
 
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
+}
+
 variable "repository_disk_size" {
   description = "Size of an aditional disk for /var/spacewalk partition, defined in GiB"
   default     = 0

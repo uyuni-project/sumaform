@@ -21,7 +21,7 @@ module "cucumber_testsuite" {
   # you should use the same version here as in git_repo below
   # if you work on Uyuni you should use e.g. uyuni-master here and uyuni as git_repo below
   # if you work on SUMA you should use e.g. 4.3-nightly, 4.3-released, 4.3-VM-nightly, 4.3-VM-released, or head and spacewalk as git_repo below
-  product_version = "uyuni-master"
+  product_version = "4.3-nightly"
 
   # SUSE SCC credentials
   cc_username = ""
@@ -41,7 +41,7 @@ module "cucumber_testsuite" {
   # "ubuntu2004o", "ubuntu2204o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
-  # images = ["rocky9o", "opensuse154o", "sles15sp4o", "ubuntu2204o"]
+  images = ["rocky9o", "opensuse154o", "sles15sp4o", "ubuntu2204o"]
 
   use_avahi = true
   name_prefix = "prefix-"
@@ -53,13 +53,10 @@ module "cucumber_testsuite" {
   # see https://github.com/settings/tokens
   # here you can specify a branch where you e.g. develop a new test
   # be aware to use the same version (e.g. Uyuni or SUMA) as git_repo as set in product_version above
-  git_repo = "https://github.com/uyuni-project/uyuni.git"
+  git_repo = "https://github.com/SUSE/spacewalk.git"
   git_username = "nogit"
   git_password = "nogit"
-  branch = "master"
-
-  # Required to select a container server in the testsuite
-  container_server = true
+  branch = "Manager-4.3"
 
   # In case you use an authentication registry
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
@@ -89,17 +86,8 @@ module "cucumber_testsuite" {
     controller = {
       name = "controller"
     }
-    server_containerized = {
+    server = {
       name = "server"
-     
-      # Uncomment to run the container on k3s rather than podman
-      # runtime = "k3s"
-
-      # Override where to get the containers from
-      # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
-
-      # Override where to get the helm chart from
-      # helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni/server-helm"
     }
     proxy = {
       name = "proxy"
@@ -116,7 +104,7 @@ module "cucumber_testsuite" {
       name = "sshminion"
     }
     redhat-minion = {
-      image = "centos7o"
+      image = "rocky9o"
       name = "centos"
     }
     debian-minion = {

@@ -32,31 +32,19 @@ module "base" {
   //   pool = "default"
   // }
 
-  images = ["opensuse155o"]
+  images = ["sles15sp4o"]
 }
 
 module "server" {
-  source = "./modules/server_containerized"
+  source = "./modules/server"
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "uyuni-master"
+  product_version = "4.3-nightly"
   // see modules/server_containerized/variables.tf for possible values
 
   // connect_to_additional_network = true
   // if you want to use two networks
-
-  // If you want to run the containers on k3s rather than podman
-  // runtime = "k3s"
-
-  // To override the default container repository containing the images
-  // container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/containers/uyuni"
-
-  // To define a specific container image tag to install
-  // container_tag = 
-
-  // To override the URL to the helm chart to install
-  // helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/charts/uyuni/server"
 }
 
 module "minion" {
@@ -64,7 +52,7 @@ module "minion" {
   base_configuration = module.base.configuration
 
   name = "minion"
-  image = "opensuse155o"
+  image = "sles15sp4o"
   server_configuration = module.server.configuration
   product_version = module.server.configuration.product_version
   // see modules/minion/variables.tf for possible values

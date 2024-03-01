@@ -48,16 +48,37 @@ git clone https://github.com/uyuni-project/sumaform.git
 
 ## Backend choice
 
+### Backends explained
+
 `sumaform` can deploy virtual machines to:
 
 - single libvirt hosts
 - Amazon Web Services
 - null backend
 
-The simplest, recommended setup is to use libvirt on your local host. That needs at least 8 GB of RAM in your machine.
+**The simplest, recommended setup is to use libvirt on your local host.** That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want to use an external libvirt host with bridged networking.
 
-If you use the libvirt provider, install and enable libvirt before you attempt to run the terraform deployment.
+The Amazon Web Services backend is currently under maintenance and is not immediately usable as-is. We plan to restore it soon.
+
+The null backend can be useful in a wide variety of scenarios, for example:
+
+- Test configurations before going live in another supported backend
+- Cases in which the virtual infrastructure is outside of the Terraform user's control
+- Cover architectures that will maybe never be covered by any other Terraform plugin
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more information about configuring the backend.
+Each backend has a README file with further configuration instructions.
+
+To choose the backend in use one should create a symbolic link to a `backend_module` module.
+
+```bash
+ln -s ../backend_modules/<BACKEND>/ modules/backend
+```
+
+### Preparing for the libvirt backend
+
+To use the libvirt provider, install and enable libvirt before you attempt to run the terraform deployment.
 The `virt-manager` package is recommended because it configures default resources that the terraform deployment uses, e.g. the `default` virtual network.
 
 ```bash
@@ -73,22 +94,23 @@ sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 ```
 
-The Amazon Web Services backend is currently under maintenance and is not immediately usable as-is. We plan to restore it soon.
+Create a symbolic link to the `libvirt` backend module:
 
-The null backend can be useful in a wide variety of scenarios, for example:
+```bash
+ln -s ../backend_modules/libvirt/ modules/backend
+```
 
-- Test configurations before going live in another supported backend
-- Cases in which the virtual infrastructure is outside of the Terraform user's control
-- Cover architectures that will maybe never be covered by any other Terraform plugin
+Copy the libvirt example file and adjust it:
 
-See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more information about configuring the backend.
-Each backend has a README file with further configuration instructions.
+```bash
+cp main.tf.libvirt.example main.tf
+```
 
 ## Basic `main.tf` configuration
 
 In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
-To choose the backend in use one should create a symbolic link to a `backend_module` module. Refer to the specific READMEs to get started:
+Refer to the backend-specific READMEs to get started:
 
 - [libvirt README](backend_modules/libvirt/README.md)
 - [AWS README](backend_modules/aws/README.md)
@@ -112,7 +134,8 @@ terraform apply # prepare and apply a plan to create your systems (after manual 
 ### Common Variables
 
 **cc_username/cc_password**: Credentials for the [SUSE Customer Center](https://scc.suse.com/).
-Set the credentials if you are deploying SUMA, or synchronizing SUMA repositories.
+Set these credentials if you are deploying SUMA, or synchronizing SUMA repositories.
+They can be omitted when deploying Uyuni.
 
 **images**: In the `base` module, the `images` variable specifies the images that you want to download and use in your installation, for example:
 
@@ -121,10 +144,6 @@ Set the credentials if you are deploying SUMA, or synchronizing SUMA repositorie
 module "base" {
   source = "./modules/base"
 
-  ssh_key_path = "/home/user/.ssh/id_ed25519.pub"
-
-  cc_username = "..."
-  cc_password = "..."
   images = [
     "centos7o",
     "almalinux8o",
@@ -147,4 +166,4 @@ module "base" {
 
 ## I have a problem!
 
-Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to [join the Gitter chat](https://gitter.im/sumaform/Lobby) or directly drop a line to moio at suse dot de!
+Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) first, if that does not help feel free to [join the Gitter chat](https://gitter.im/sumaform/Lobby)!
