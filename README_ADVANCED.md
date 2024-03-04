@@ -424,7 +424,7 @@ connect_to_additional_network = true
 When there are two connections, the first network interface `eth0` gets connected to base network, and the second interface `eth1` gets connected to the additional network.
 When there is only one connection, the card is always `eth0`, no matter to which network it is connected.
 
-Some modules have preset defaults: SUSE Manager/Uyuni servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni proxies and clients or minions connect to both networks.
+Some modules have preset defaults: SUSE Manager/Uyuni servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni proxies connect to both networks.
 
 DHCP and DNS services for the additional network may be ensured by the proxy. Alternatively, you can install a DHCP and DNS server into the additional network by declaring:
 
