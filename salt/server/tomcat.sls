@@ -40,7 +40,7 @@ salt_server_action_service_debug_log:
 {% endif %}
 tomcat_scc_access_logging:
   file.line:
-    - name: {{tomcat_log4j2_xml_path}}
+    - name: {{ tomcat_log4j2_xml_path }}
     - content: '<Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
     - before: "</Loggers>"
     - mode: ensure
