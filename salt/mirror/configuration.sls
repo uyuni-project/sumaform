@@ -35,8 +35,8 @@ apt-mirror:
 jdupes:
   archive.extracted:
     - name: /usr/local/bin/utils/
-    - source: https://github.com/jbruchon/jdupes/releases/download/v1.18.1/jdupes_1.18.1-x86-64.pkg.tar.xz
-    - source_hash: 7429fa365f63e8ce73c39cf42a3a5e26e8eb49246b3f58fae4ebb353478232a77cc17b4316cb7464bfc685f779bfb690559b24eb60fe61b0b97ea1b3a0ccba48
+    - source: https://codeberg.org/jbruchon/jdupes/releases/download/v1.27.3/jdupes-1.27.3-linux-x86_64.pkg.tar.xz
+    - source_hash: d59159e3ceb263dbff465a7f2115ab9730c90a651b2aba62f95da957ec26891a0f5e83380f5e7629adf9d4b5ab8e64a54698b6f8c023eb0c5f8cf048ada29b07
     - archive_format: tar
     - enforce_toplevel: false
     - options: --strip-components=3 --wildcards */jdupes
