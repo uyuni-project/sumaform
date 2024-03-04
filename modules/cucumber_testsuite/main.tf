@@ -60,6 +60,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "create_first_user", false) if var.host_settings[host_key] != null }
   repository_disk_use_cloud_setup = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
+  scc_access_logging = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
 }
 
 module "server" {
@@ -94,6 +96,7 @@ module "server" {
   additional_repos_only          = lookup(local.additional_repos_only, "server", false)
   additional_packages            = lookup(local.additional_packages, "server", [])
   login_timeout                  = var.login_timeout
+  scc_access_logging             = lookup(local.scc_access_logging, "server", false)
 
   saltapi_tcpdump                 = var.saltapi_tcpdump
   provider_settings               = lookup(local.provider_settings_by_host, "server", {})

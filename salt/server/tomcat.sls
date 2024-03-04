@@ -1,4 +1,4 @@
-{% if grains.get('java_debugging') or grains.get('java_salt_debugging') %}
+{% if grains.get('java_debugging') or grains.get('java_salt_debugging') or grains.get('scc_access_logging') %}
 include:
   - server.rhn
 {% endif %}
@@ -28,6 +28,23 @@ salt_server_action_service_debug_log:
     - content: '        <Logger name="com.suse.manager.webui.services.SaltServerActionService" level="trace" />'
     - after: "<Loggers>"
     - mode: ensure
+    - require:
+      - sls: server.rhn
+{% endif %}
+
+{% if grains.get('scc_access_logging') %}
+{% if '4.3' in grains['product_version'] %}
+{% set tomcat_log4j2_xml_path = "/srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml" %}
+{% else %}
+{% set tomcat_log4j2_xml_path = "/usr/share/susemanager/www/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml" %}
+{% endif %}
+tomcat_scc_access_logging:
+  file.line:
+    - name: {{ tomcat_log4j2_xml_path }}
+    - content: '<Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
+    - before: "</Loggers>"
+    - mode: ensure
+    - indent: True
     - require:
       - sls: server.rhn
 {% endif %}

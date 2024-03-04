@@ -1,4 +1,4 @@
-{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') %}
+{% if grains.get('java_debugging') or grains.get('java_hibernate_debugging') or grains.get('scc_access_logging') %}
 include:
   - server.rhn
 {% endif %}
@@ -29,6 +29,18 @@ taskomatic_hibernate_debug_log:
     - content: '        <File name="hibernateAppender" fileName="/var/log/rhn/rhn_taskomatic_hibernate.log"><PatternLayout pattern="[%d] %-5p - %m%n" /></File>'
     - after: "<Appenders>"
     - mode: ensure
+    - require:
+      - sls: server.rhn
+{% endif %}
+
+{% if grains.get('scc_access_logging') %}
+taskomatic_scc_access_logging:
+  file.line:
+    - name: /usr/share/rhn/classes/log4j2.xml
+    - content: '<Logger name="com.suse.scc.client.SCCWebClient" level="info" />'
+    - before: "</Loggers>"
+    - mode: ensure
+    - indent: True
     - require:
       - sls: server.rhn
 {% endif %}
