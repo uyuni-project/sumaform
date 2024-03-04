@@ -26,12 +26,6 @@ helm:
   uyuni:
     chart: {{ grains.get("helm_chart_url") | default(helm_chart_default, true) }}
     values: /root/chart-values.yaml
-podman:
-  arg:
-{%- if mirror_hostname %}
-    - -v=/srv/mirror:/mirror
-{%- endif %}
-    - ""
 {%- if grains.get("java_debugging") %}
 debug:
   java: true
