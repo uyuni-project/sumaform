@@ -34,5 +34,10 @@ output "configuration" {
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
     use_eip_bastion          = var.use_eip_bastion
+    # WORKAROUND
+    # For some reason, the key "additional_network" from AWS module gets lost
+    # Force it into existence
+    additional_network       = null
+    # END OF WORKAROUND
   }, module.base_backend.configuration)
 }
