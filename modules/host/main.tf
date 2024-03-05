@@ -31,5 +31,5 @@ module "host" {
 }
 
 output "configuration" {
-  value = module.host.configuration
+  value = merge( { private_macs = [] }, module.host.configuration)
 }
