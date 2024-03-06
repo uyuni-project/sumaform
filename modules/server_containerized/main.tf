@@ -57,7 +57,7 @@ module "server_containerized" {
     repository_disk_size           = var.repository_disk_size
     database_disk_size             = var.database_disk_size
     skip_changelog_import          = var.skip_changelog_import
-    create_first_user              = var.create_first_user
+    create_first_user              = true
     mgr_sync_autologin             = var.mgr_sync_autologin
     create_sample_channel          = var.create_sample_channel
     create_sample_activation_key   = var.create_sample_activation_key
@@ -77,6 +77,6 @@ output "configuration" {
     username           = var.server_username
     password           = var.server_password
     runtime            = var.runtime
-    first_user_present = var.create_first_user
+    first_user_present = true
   }
 }
