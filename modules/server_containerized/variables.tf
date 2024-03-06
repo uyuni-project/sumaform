@@ -137,11 +137,6 @@ variable "skip_changelog_import" {
   default     = true
 }
 
-variable "create_first_user" {
-  description = "whether to automatically create the first user"
-  default     = true
-}
-
 variable "mgr_sync_autologin" {
   description = "whether to set mgr-sync credentials in the .mgr-sync file"
   default     = true

@@ -125,7 +125,6 @@ module "server_containerized" {
   disable_firewall               = false
   allow_postgres_connections     = false
   skip_changelog_import          = false
-  create_first_user              = lookup(local.create_first_user, "server_containerized", false)
   mgr_sync_autologin             = false
   create_sample_channel          = false
   create_sample_activation_key   = false
