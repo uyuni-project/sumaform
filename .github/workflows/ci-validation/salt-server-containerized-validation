@@ -35,7 +35,6 @@ swap_file_size: 1024
 mirror: mirror.tf.local
 skip_changelog_import: true
 disable_download_tokens: true
-create_first_user: true
 mgr_sync_autologin: true
 monitored: true
 forward_registration: true
