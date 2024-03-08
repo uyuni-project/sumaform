@@ -64,7 +64,7 @@ install_mgr_tools:
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
-{% if grains.get('auto_configure') and grains.get('testsuite') and grains.get('first_user_present') %}
+{% if grains.get('auto_configure') and grains.get('testsuite') %}
 generate_configuration_file_from_server:
   cmd.run:
     - name: |

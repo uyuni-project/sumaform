@@ -32,7 +32,6 @@ module "proxy_containerized" {
   grains = {
     product_version           = var.product_version
     server                    = var.server_configuration["hostname"]
-    first_user_present        = var.server_configuration["create_first_user"]
     server_username           = var.server_configuration["username"]
     server_password           = var.server_configuration["password"]
     auto_configure            = var.auto_configure
