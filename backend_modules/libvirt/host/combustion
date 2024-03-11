@@ -26,26 +26,26 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 # Install packages
 PACKAGES="qemu-guest-agent avahi ca-certificates"
 %{ if container_server }
-PACKAGES="\$PACKAGES bash-completion mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
+PACKAGES="$PACKAGES bash-completion mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
 %{ endif }
 %{ if container_runtime == "podman" }
-PACKAGES="\$PACKAGES podman netavark"
+PACKAGES="$PACKAGES podman netavark"
 %{ endif }
 
 %{ if container_runtime == "k3s" }
-PACKAGES="\$PACKAGES helm"
+PACKAGES="$PACKAGES helm"
 %{ endif }
 
 %{ if container_proxy }
-PACKAGES="\$PACKAGES bash-completion mgrpxy"
+PACKAGES="$PACKAGES bash-completion mgrpxy"
 %{ else }
-PACKAGES="\$PACKAGES salt-minion"
+PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
 %{ if testsuite }
-PACKAGES="\$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy wget timezone aaa_base-extras"
+PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone" 
 %{ endif }
-zypper --non-interactive install \$PACKAGES
+zypper --non-interactive install $PACKAGES
 
 # Leave a marker
 echo "Configured with combustion" > /etc/issue.d/combustion
