@@ -9,7 +9,7 @@
 {% set repo = 'openSUSE_Leap_Micro_5.5' %}
 {% endif %}
 
-{% if 'Leap_Micro' in repo %} 
+{% if 'Leap_Micro' not in repo %} 
 systemsmanagement_Uyuni_Master_ContainerUtils:
     pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/
