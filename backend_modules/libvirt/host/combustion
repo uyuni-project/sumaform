@@ -23,6 +23,10 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
 %{ endif }
 
+%{ if container_runtime == "k3s" }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/sle/ sle_update_repo
+%{ endif }
+
 # Install packages
 PACKAGES="qemu-guest-agent avahi ca-certificates"
 %{ if container_server }
