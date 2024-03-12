@@ -2,7 +2,7 @@
 # combustion: network
 
 # Redirect output to the console
-exec > >(exec tee -a /dev/tty0) 2>&1
+exec > >(exec tee -a /var/log/combustion) 2>&1
 
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
