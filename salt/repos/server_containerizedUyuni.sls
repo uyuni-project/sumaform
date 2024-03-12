@@ -3,11 +3,6 @@
 {% if grains.get("os") == "SUSE" %}
 {% if grains['osfullname'] == 'Leap' %}
 {% set repo = 'openSUSE_Leap_15.5' %}
-{% elif grains['osfullname'].startswith('SLE') %}
-{% set repo = 'SLE_15' %}
-{% else %}
-{% set repo = 'openSUSE_Leap_Micro_5.5' %}
-{% endif %}
 
 systemsmanagement_Uyuni_Master_ContainerUtils:
     pkgrepo.managed:
@@ -16,7 +11,7 @@ systemsmanagement_Uyuni_Master_ContainerUtils:
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/repodata/repomd.xml.key
 
 {% endif %}
-
+{% endif %}
 {% endif %}
 
 
