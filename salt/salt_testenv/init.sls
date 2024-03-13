@@ -63,6 +63,11 @@ install_salt_testsuite:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
 
+start_docker_service:
+  service.running:
+    - name: docker
+    - requires:
+      - pkg: install_salt_testsuite
 {% endif %}
 
 {% if grains['os'] == 'Debian' %}
