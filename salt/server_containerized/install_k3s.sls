@@ -9,6 +9,15 @@ k3s_install:
       - INSTALL_K3S_EXEC: "--tls-san={{ grains.get('fqdn') }}" 
     - unless: systemctl is-active k3s
 
+wait_for_traefik:
+  cmd.script:
+    - name: salt://server_containerized/wait_for_kube_resource.py
+    - args: kube-system deploy traefik
+    - use_vt: True
+    - template: jinja
+    - require:
+      - cmd: k3s_install
+
 helm_install:
   pkg.installed:
     - refresh: True
