@@ -105,9 +105,9 @@ module "server" {
   saltapi_tcpdump                 = var.saltapi_tcpdump
   provider_settings               = lookup(local.provider_settings_by_host, "server", {})
   server_mounted_mirror           = lookup(local.server_mounted_mirror, "server", {})
-  main_disk_size                  = lookup(local.main_disk_size, "server", {})
-  repository_disk_size            = lookup(local.repository_disk_size, "server", {})
-  database_disk_size              = lookup(local.database_disk_size, "server", {})
+  main_disk_size                  = lookup(local.main_disk_size, "server", 200)
+  repository_disk_size            = lookup(local.repository_disk_size, "server", 0)
+  database_disk_size              = lookup(local.database_disk_size, "server", 0)
   large_deployment                = lookup(local.large_deployment, "server", false)
   repository_disk_use_cloud_setup = lookup(local.repository_disk_use_cloud_setup, "server", false)
 }
@@ -148,7 +148,7 @@ module "server_containerized" {
   //saltapi_tcpdump               = var.saltapi_tcpdump
   provider_settings             = lookup(local.provider_settings_by_host, "server_containerized", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
-  main_disk_size                = lookup(local.main_disk_size, "server_containerized", {})
+  main_disk_size                = lookup(local.main_disk_size, "server_containerized", 200)
   large_deployment              = lookup(local.large_deployment, "server_containerized", false)
 }
 
@@ -179,7 +179,7 @@ module "proxy" {
   additional_repos  = lookup(local.additional_repos, "proxy", {})
   additional_repos_only  = lookup(local.additional_repos_only, "proxy", false)
   additional_packages = lookup(local.additional_packages, "proxy", [])
-  main_disk_size      = lookup(local.main_disk_size, "proxy", {})
+  main_disk_size      = lookup(local.main_disk_size, "proxy", 200)
   provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
 }
 
@@ -211,10 +211,10 @@ module "proxy_containerized" {
   additional_repos       = lookup(local.additional_repos, "proxy_containerized", {})
   additional_repos_only  = lookup(local.additional_repos_only, "proxy_containerized", false)
   additional_packages    = lookup(local.additional_packages, "proxy_containerized", [])
-  main_disk_size         = lookup(local.main_disk_size, "proxy_containerized", {})
+  main_disk_size         = lookup(local.main_disk_size, "proxy_containerized", 200)
   provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
-  repository_disk_size   = lookup(local.repository_disk_size, "proxy_containerized", {})
-  database_disk_size     = lookup(local.database_disk_size, "proxy_containerized", {})
+  repository_disk_size   = lookup(local.repository_disk_size, "proxy_containerized", 0)
+  database_disk_size     = lookup(local.database_disk_size, "proxy_containerized", 0)
 }
 
 locals {
