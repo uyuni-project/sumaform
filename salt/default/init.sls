@@ -1,5 +1,6 @@
 include:
   - default.locale
+  - default.update
   - default.minimal
   - default.pkgs
   - default.grub
@@ -13,14 +14,6 @@ include:
   - default.testsuite
   {% endif %}
 
-{% if grains.get('use_os_released_updates') | default(false, true) %}
-{% if not grains['osfullname'] == 'SLE Micro' %}
-update_packages:
-  pkg.uptodate:
-    - require:
-      - sls: repos
-{% endif %}
-{% endif %}
 
 {% if grains.get('swap_file_size', "0")|int() > 0 %}
 file_swap:
