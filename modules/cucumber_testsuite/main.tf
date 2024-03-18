@@ -19,6 +19,8 @@ module "base" {
 
 locals {
   server_full_name          = "${var.name_prefix}srv.${var.domain}"
+  proxy_full_name           = "${var.name_prefix}pxy.${var.domain}"
+
   hosts                     = keys(var.host_settings)
   provider_settings_by_host = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "provider_settings", {}) if var.host_settings[host_key] != null }
@@ -66,6 +68,10 @@ locals {
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
   scc_access_logging        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
+
+  minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
+  server_configuration      = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
+  proxy_configuration       = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
 }
 
 module "server" {
@@ -217,11 +223,6 @@ module "proxy_containerized" {
   database_disk_size     = lookup(local.database_disk_size, "proxy_containerized", 0)
 }
 
-locals {
-  proxy_full_name       = "${var.name_prefix}pxy.${var.domain}"
-  minimal_configuration = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
-}
-
 module "dhcp-dns" {
   source             = "../dhcp_dns"
 
@@ -229,7 +230,8 @@ module "dhcp-dns" {
   base_configuration = module.base.configuration
   image              = lookup(local.images, "dhcp-dns", "opensuse155o")
   name               = lookup(local.names, "dhcp-dns", "dhcp-dns")
-  private_hosts      = [ module.proxy[0].configuration, module.pxeboot-minion.configuration ]
+
+  private_hosts      = [ local.proxy_configuration, module.pxeboot-minion.configuration ]
 }
 
 module "suse-client" {
@@ -462,8 +464,8 @@ module "controller" {
   name   = lookup(local.names, "controller", "ctl")
 
   base_configuration             = module.base.configuration
-  server_configuration           = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
-  proxy_configuration            = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
+  server_configuration           = local.server_configuration
+  proxy_configuration            = local.proxy_configuration
   client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
