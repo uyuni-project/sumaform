@@ -96,7 +96,7 @@ variable "volume_provider_settings" {
 
 variable "main_disk_size" {
   description = "Size of main disk, defined in GiB"
-  default     = 200
+  default     = 20
 }
 
 variable "repository_disk_size" {
