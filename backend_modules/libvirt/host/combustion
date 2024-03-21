@@ -42,6 +42,9 @@ PACKAGES="$PACKAGES helm"
 
 %{ if container_proxy }
 PACKAGES="$PACKAGES bash-completion mgrpxy"
+%{ endif }
+%{ if install_salt_bundle }
+PACKAGES="$PACKAGES venv-salt-minion"
 %{ else }
 PACKAGES="$PACKAGES salt-minion"
 %{ endif }
