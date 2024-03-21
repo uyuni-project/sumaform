@@ -403,6 +403,62 @@ runcmd:
   - [ reboot ]
 %{ endif }
 
+%{ if image == "slemicro60o" }
+
+write_files: ${ files }
+
+zypper:
+  repos:
+%{ if testsuite }
+    # Required only for wget
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+    - id: ca_suse
+      name: ca_suse
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/SLE_15_SP6/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: micro_pool_repo
+      name: micro_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Micro/6.0/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+# TODO Enable the updates repo when it becomes available
+#    - id: micro_update_repo
+#      name: micro_update_repo
+#      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SLE-Micro/6.0/x86_64/update/
+#      enabled: 1
+#      autorefresh: 1
+#      gpgcheck: false
+
+runcmd:
+  - [transactional-update, run, sh, -c, "for key in $(ls /etc/gpg_keys); do rpm --import /etc/gpg_keys/$key; done" ]
+  - [ zypper, mr, -a, -g ]
+%{ if testsuite }
+  # Packages needed for the testsuite
+  - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, aaa_base-extras, ca-certificates ]
+%{ endif }
+%{ if container_server }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
+%{ endif }
+%{ if container_proxy }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgrpxy, ca-certificates-suse ]
+%{ endif }
+%{ if install_salt_bundle }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, venv-salt-minion, avahi ]
+%{ else }
+  - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
+%{ endif }
+  - [ reboot ]
+%{ endif }
+
 %{ if image == "ubuntu2004o" }
 
 apt:
