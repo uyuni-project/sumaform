@@ -44,7 +44,11 @@ PACKAGES="$PACKAGES helm"
 PACKAGES="$PACKAGES bash-completion mgrpxy"
 %{ endif }
 
+%{ if install_salt_bundle }
+PACKAGES="$PACKAGES venv-salt-minion"
+%{ else }
 PACKAGES="$PACKAGES salt-minion"
+%{ endif }
 
 %{ if testsuite }
 PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone" 
