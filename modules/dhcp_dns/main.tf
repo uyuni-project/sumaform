@@ -68,7 +68,7 @@ option domain-name-servers ${local.prefix}.53;
 subnet ${local.prefix}.0 netmask 255.255.255.0
 {
   range ${local.prefix}.128 ${local.prefix}.253;
-  filename "boot/pxelinux.0";
+  filename "pxelinux.0";
   next-server ${local.prefix}.254;
 }
 
