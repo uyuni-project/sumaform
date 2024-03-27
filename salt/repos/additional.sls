@@ -1,3 +1,5 @@
+# Skip Micro OSes, given the additional repos are set up by combustion/ignition/cloud-init
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
 {% if grains['additional_repos'] %}
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}_repo:
@@ -57,7 +59,7 @@ update-ca-certificates:
 {% endif %}
 {% endfor %}
 {% endif %}
-
+{% endif %}
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
