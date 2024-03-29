@@ -38,6 +38,13 @@ module "server" {
   connect_to_additional_network = false
   roles                         = var.register_to_server == null ? ["server"] : ["server", "minion"]
   disable_firewall              = var.disable_firewall
+  image                         = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  provider_settings             = var.provider_settings
+  main_disk_size                = var.main_disk_size
+  additional_disk_size          = var.repository_disk_size
+  second_additional_disk_size   = var.database_disk_size
+  volume_provider_settings      = var.volume_provider_settings
+
   grains = {
     product_version        = var.product_version
     cc_username            = var.base_configuration["cc_username"]
@@ -92,13 +99,6 @@ module "server" {
     c3p0_connection_debug          = var.c3p0_connection_debug
     large_deployment               = var.large_deployment
   }
-
-
-  image                           = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
-  provider_settings               = var.provider_settings
-  additional_disk_size            = var.repository_disk_size
-  second_additional_disk_size     = var.database_disk_size
-  volume_provider_settings        = var.volume_provider_settings
 }
 
 output "configuration" {
