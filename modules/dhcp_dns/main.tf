@@ -117,7 +117,7 @@ ${join("\n", [ for host in var.private_hosts:
                         host["private_name"])
              ])}
 EOT
-    destination = "/var/lib/named/master/db.1.168.192.in-addr.arpa"
+    destination = "/var/lib/named/master/db.${local.reverse_prefix}.in-addr.arpa"
   }
 
   provisioner "file"  {
