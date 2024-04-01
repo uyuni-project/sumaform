@@ -26,3 +26,13 @@ variable "image" {
   type        = string
   default     = "opensuse155o"
 }
+
+variable "hypervisor" {
+  description = "the hypervisor where the DHCP and DNS VM runs"
+  type        = object({
+                  host = string
+                  user = string
+                  private_key = string
+                })
+  default     = null
+}
