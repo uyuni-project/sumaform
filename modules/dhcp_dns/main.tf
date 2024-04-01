@@ -28,10 +28,13 @@ resource "null_resource" "standalone_provisioning" {
   count = var.base_configuration["additional_network"] != null ? var.quantity : 0
 
   connection {
-    host     = "${local.prefix}.53"
-    user     = "root"
-    password = "linux"
-    timeout  = "3m"
+    host                = "${local.prefix}.53"
+    user                = "root"
+    password            = "linux"
+    timeout             = "3m"
+    bastion_host        = var.hypervisor != null ? var.hypervisor.host : null
+    bastion_user        = var.hypervisor != null ? var.hypervisor.user : null
+    bastion_private_key = var.hypervisor != null ? var.hypervisor.private_key : null
   }
 
   provisioner "local-exec" {
