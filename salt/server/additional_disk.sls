@@ -111,8 +111,8 @@ postgres:
     - fullname: PostgreSQL Server
     - shell: /bin/bash
     - home: /var/lib/pgsql
-    - groups:
-      - postgres
+    - gid: postgres
+    - system: True
 
 pgsql_directory:
   file.directory:
