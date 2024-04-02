@@ -50,6 +50,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
   container_repositories    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
+  container_tags    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "container_tag", null) if var.host_settings[host_key] != null }
   helm_chart_urls           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
@@ -129,6 +131,7 @@ module "server_containerized" {
   name                           = lookup(local.names, "server_containerized", "srv")
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
   container_repository           = lookup(local.container_repositories, "server_containerized", "")
+  container_tag                  = lookup(local.container_tags, "server_containerized", "")
   helm_chart_url                 = lookup(local.helm_chart_urls, "server_containerized", "")
   auto_accept                    = false
   download_private_ssl_key       = false
