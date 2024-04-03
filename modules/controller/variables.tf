@@ -687,6 +687,20 @@ variable "opensuse155arm_sshminion_configuration" {
   }
 }
 
+variable "opensuse156arm_minion_configuration" {
+  description = "use module.<OPENSUSE156ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "opensuse156arm_sshminion_configuration" {
+  description = "use module.<OPENSUSE156ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "sle15sp5s390_minion_configuration" {
   description = "use module.<SLE15SP5S390_MINION>.configuration"
   default = {

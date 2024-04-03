@@ -102,6 +102,8 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('opensuse154arm_sshminion') | default(false, true) %}export OPENSUSE154ARM_SSHMINION="{{ grains.get('opensuse154arm_sshminion') }}" {% else %}# no OPENSUSE154ARM ssh minion defined {% endif %}
 {% if grains.get('opensuse155arm_minion') | default(false, true) %}export OPENSUSE155ARM_MINION="{{ grains.get('opensuse155arm_minion') }}" {% else %}# no OPENSUSE155ARM minion defined {% endif %}
 {% if grains.get('opensuse155arm_sshminion') | default(false, true) %}export OPENSUSE155ARM_SSHMINION="{{ grains.get('opensuse155arm_sshminion') }}" {% else %}# no OPENSUSE155ARM ssh minion defined {% endif %}
+{% if grains.get('opensuse156arm_minion') | default(false, true) %}export OPENSUSE156ARM_MINION="{{ grains.get('opensuse156arm_minion') }}" {% else %}# no OPENSUSE156ARM minion defined {% endif %}
+{% if grains.get('opensuse156arm_sshminion') | default(false, true) %}export OPENSUSE156ARM_SSHMINION="{{ grains.get('opensuse156arm_sshminion') }}" {% else %}# no OPENSUSE156ARM ssh minion defined {% endif %}
 {% if grains.get('sle15sp5s390_minion') | default(false, true) %}export SLE15SP5S390_MINION="{{ grains.get('sle15sp5s390_minion') }}" {% else %}# no SLE15SP5S390 minion defined {% endif %}
 {% if grains.get('sle15sp5s390_sshminion') | default(false, true) %}export SLE15SP5S390_SSHMINION="{{ grains.get('sle15sp5s390_sshminion') }}" {% else %}# no SLE15SP5S390 ssh minion defined {% endif %}
 
