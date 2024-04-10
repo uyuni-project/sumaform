@@ -1,6 +1,6 @@
 {% if 'proxy_containerized' in grains.get('roles') and 'uyuni' in grains.get('product_version') %}
 
-# TODO: Remove this SLS file once we add support for Leap Micro 5.5 images, and we move this repository to cloud-init phase
+# TODO: Remove this SLS file once we add support for Leap Micro 5.5 images in K3s, and we move this repository to cloud-init phase
 #       This only affects Uyuni, as we use slemicro55o image for Head/5.0
 
 {% if grains.get("os") == "SUSE" %}

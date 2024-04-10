@@ -1,11 +1,9 @@
 variable "images" {
   default = {
     "head"           = "slemicro55o"
-    // TODO: Replace Uyuni images with OpenSUSE Leap Micro 15.5 images
-    // (not yet supported in sumaform)
-    "uyuni-master"   = "opensuse155o"
-    "uyuni-released" = "opensuse155o"
-    "uyuni-pr"       = "opensuse155o"
+    "uyuni-master"   = "leapmicro55o"
+    "uyuni-released" = "leapmicro55o"
+    "uyuni-pr"       = "leapmicro55o"
   }
 }
 
