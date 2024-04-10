@@ -61,6 +61,19 @@ install_mgr_tools:
       - podman
       - mgrpxy
       - mgrctl
+{% else %}
+{% if grains.get('testsuite') %}
+install_testsuite_helpers:
+  cmd.run:
+    - name: |
+        transactional-update -c run bash -c "zypper mr -e os_pool_repo && zypper -n install expect && zypper mr -d os_pool_repo"
+
+reboot:
+  module.run:
+    - name: system.reboot
+    - at_time: +2
+    - order: last
+{% endif %}
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
