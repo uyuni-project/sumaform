@@ -124,6 +124,49 @@ data "aws_ami" "sles15sp5-paygo" {
   }
 }
 
+data "aws_ami" "slemicro54-ign" {
+  most_recent = true
+  name_regex  = "^suse-sle-micro-5-4-byos-v"
+  owners      = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "slemicro55-ign" {
+  most_recent = true
+  name_regex  = "^suse-sle-micro-5-5-byos-v"
+  owners      = ["013907871322"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+
 data "aws_ami" "suma-server-43-byos" {
   most_recent = true
   name_regex  = "^suse-manager-server-4-3-byos-v"
