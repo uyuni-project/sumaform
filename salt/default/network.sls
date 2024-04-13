@@ -19,7 +19,7 @@ ipv6_accept_ra_{{ iface }}:
 {% endif %}
 {% endfor %}
 
-{% if (grains['osfullname'] == 'SLE Micro') and (grains['osrelease'] != '5.1') and (grains['osrelease'] != '5.2') %}
+{% if (grains['osfullname'] == 'SLE Micro' or grains['osfullname'] == 'openSUSE Leap Micro') and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
 avoid_network_manager_messing_up:
   cmd.run:
     - name: |
