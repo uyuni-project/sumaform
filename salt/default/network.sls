@@ -20,10 +20,11 @@ ipv6_accept_ra_{{ iface }}:
 {% endfor %}
 
 {% if (grains['osfullname'] == 'SLE Micro' or grains['osfullname'] == 'openSUSE Leap Micro') and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
+{% set conname = salt['cmd.run']('nmcli -g GENERAL.CONNECTION device show eth0') %}
 avoid_network_manager_messing_up:
   cmd.run:
     - name: |
-        nmcli connection modify "Wired connection 1" ipv6.addr-gen-mode eui64
+        nmcli connection modify "{{ conname }}" ipv6.addr-gen-mode eui64
         nmcli device modify eth0 ipv6.addr-gen-mode eui64
 {% endif %}
 
