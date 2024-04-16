@@ -23,6 +23,10 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 
 %{ if testsuite }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
+
+# Leap repos are required to install expect
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.5/repo/oss/ leap_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/oss/ leap_update_repo
 %{ endif }
 
 %{ if container_runtime == "k3s" }
@@ -60,7 +64,7 @@ PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
 %{ if testsuite }
-PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone"
+PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone expect"
 %{ endif }
 zypper --non-interactive install $PACKAGES
 
