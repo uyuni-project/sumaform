@@ -55,7 +55,16 @@ test_repo_debian_updates:
 {% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
-      - cmd: testsuite_packages
+
+test_repo_debian_updates_packages:
+  cmd.run:
+    - name: mgrctl exec /root/download_ubuntu_repo.sh "TestRepoDebUpdates/all {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/all/"
+    - unless: mgrctl exec "ls -d /srv/www/htdocs/pub/TestRepoDebUpdates/all"
+    - require:
+      - cmd: test_repo_debian_updates_script_copy
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
+      - pkg: uyuni-tools
+{% endif %}
 
 # modify cobbler to be executed from remote-machines..
 cobbler_configuration:
@@ -108,14 +117,6 @@ repo_key_import:
     - name: "mgrctl exec 'rpm --import /tmp/galaxy.key'"
     - onchanges:
       - cmd: galaxy_key_copy
-{% endif %}
-
-testsuite_packages:
-  cmd.run:
-    - name: mgrctl exec "zypper -n in iputils expect wget OpenIPMI"
-{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
-    - require:
-      - pkg: uyuni-tools
 {% endif %}
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head"] %}
