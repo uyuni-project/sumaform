@@ -13,9 +13,9 @@ variable "use_os_released_updates" {
 }
 
 variable "salt_obs_flavor" {
-  description = "One of: products, products:testing or products:next"
+  description = "One of: saltstack, saltstack:products, saltstack:products:testing or saltstack:products:next"
   type        = string
-  default     = "products:testing"
+  default     = "saltstack:products:testing"
 }
 
 variable "additional_repos" {
