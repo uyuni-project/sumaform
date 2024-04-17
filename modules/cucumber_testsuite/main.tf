@@ -62,6 +62,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "database_disk_size", 0) if var.host_settings[host_key] != null }
   large_deployment          = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "large_deployment", false) if var.host_settings[host_key] != null }
+  hypervisors               = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "hypervisor", null) if var.host_settings[host_key] != null }
   auto_configure            = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "auto_configure", false) if var.host_settings[host_key] != null }
   create_first_user         = { for host_key in local.hosts :
@@ -235,6 +237,8 @@ module "dhcp-dns" {
   name               = lookup(local.names, "dhcp-dns", "dhcp-dns")
 
   private_hosts      = [ local.proxy_configuration, module.pxeboot-minion.configuration ]
+
+  hypervisor         = lookup(local.hypervisors, "dhcp-dns", null)
 }
 
 module "suse-client" {
