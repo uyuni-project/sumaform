@@ -812,7 +812,6 @@ remove_no_install_recommends:
     - name: /etc/apt/apt.conf.d/00InstallRecommends
 {% endif %}
 
-
 {# WORKAROUND: see github:saltstack/salt#10852 #}
 {{ sls }}_nop:
   test.nop: []
