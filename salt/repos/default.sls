@@ -727,18 +727,6 @@ wait_until_apt_lock_file_unlock:
       - interval: 5
       - until: True
 
-# WORKAROUND : some default repositories from debian10 image are incorrect
-{% if grains['os_family'] == 'Debian' and grains['osmajorrelease']|int() == 10 %}
-debian10_archive_repo:
-  file.replace:
-    - pattern: |
-        deb http://deb.debian.org/debian buster-backports main
-        deb-src http://deb.debian.org/debian buster-backports main
-    - repl: |
-        deb http://archive.debian.org/debian buster-backports main
-        deb-src http://archive.debian.org/debian buster-backports main
-{% endif %}
-
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
