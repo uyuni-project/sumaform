@@ -727,6 +727,7 @@ wait_until_apt_lock_file_unlock:
       - interval: 5
       - until: True
 
+# WORKAROUND : default repository from debian10 image are incorrect
 {% if grains['os_family'] == 'Debian' and grains['osmajorrelease']|int() == 10 %}
 debian10_archive_repo:
   file.replace:
