@@ -694,7 +694,7 @@ clean_repo_metadata:
 
 {% endif %} {# grains['os_family'] == 'RedHat' #}
 
-{% if grains['os_family'] == 'Debian' and grains['os'] == 'Ubuntu' %}
+{% if grains['os_family'] == 'Debian' or grains['os'] == 'Ubuntu' %}
 
 {% set release = grains.get('osrelease', None) %}
 {% set short_release = release | replace('.', '') %}
@@ -726,6 +726,17 @@ wait_until_apt_lock_file_unlock:
       - attempts: 10
       - interval: 5
       - until: True
+
+{% if grains['os_family'] == 'Debian' and grains['osmajorrelease']|int() == 10 %}
+debian10_archive_repo:
+  file.replace:
+    - pattern: |
+        deb http://deb.debian.org/debian buster-backports main
+        deb-src http://deb.debian.org/debian buster-backports main
+    - repl: |
+        deb http://archive.debian.org/debian buster-backports main
+        deb-src http://archive.debian.org/debian buster-backports main
+{% endif %}
 
 tools_update_repo:
   pkgrepo.managed:
@@ -799,6 +810,7 @@ remove_no_install_recommends:
   file.absent:
     - name: /etc/apt/apt.conf.d/00InstallRecommends
 {% endif %}
+
 
 {# WORKAROUND: see github:saltstack/salt#10852 #}
 {{ sls }}_nop:
