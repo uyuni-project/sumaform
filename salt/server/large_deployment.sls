@@ -18,7 +18,7 @@ large_deployment_increase_hibernate_max_connections:
   file.replace:
     - name: /etc/rhn/rhn.conf
     - pattern: 'hibernate.c3p0.max_size = (.*)'
-    - repl: 'hibernate.c3p0.max_size = 50'
+    - repl: 'hibernate.c3p0.max_size = 100'
     - append_if_not_found: True
     - require:
       - cmd: server_setup
@@ -47,7 +47,7 @@ large_deployment_increase_database_max_connections:
   file.replace:
     - name: /var/lib/pgsql/data/postgresql.conf
     - pattern: 'max_connections = (.*)'
-    - repl: 'max_connections = 450'
+    - repl: 'max_connections = 400'
     - append_if_not_found: True
     - require:
       - cmd: server_setup
@@ -56,7 +56,7 @@ large_deployment_increase_database_work_memory:
   file.replace:
     - name: /var/lib/pgsql/data/postgresql.conf
     - pattern: 'work_mem = (.*)'
-    - repl: 'work_mem = 10MB'
+    - repl: 'work_mem = 20MB'
     - append_if_not_found: True
     - require:
       - cmd: server_setup
