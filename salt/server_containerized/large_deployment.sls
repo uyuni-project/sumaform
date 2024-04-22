@@ -15,7 +15,7 @@ large_deployment_increase_tasko_parallel_threads:
 
 large_deployment_increase_hibernate_max_connections:
   cmd.run:
-    - name: mgrctl exec 'echo "hibernate.c3p0.max_size = 50" >> /etc/rhn/rhn.conf'
+    - name: mgrctl exec 'echo "hibernate.c3p0.max_size = 100" >> /etc/rhn/rhn.conf'
 {% if grains['osfullname'] != 'SLE Micro' %}
     - require:
       - pkg: uyuni-tools
@@ -48,7 +48,7 @@ large_deployment_tomcat_restart:
 
 large_deployment_increase_database_max_connections:
   cmd.run:
-    - name: mgrctl exec 'sed -i "s/max_connections = (.*)/max_connections = 450/" /var/lib/pgsql/data/postgresql.conf'
+    - name: mgrctl exec 'sed -i "s/max_connections = (.*)/max_connections = 400/" /var/lib/pgsql/data/postgresql.conf'
 {% if grains['osfullname'] != 'SLE Micro' %}
     - require:
       - pkg: uyuni-tools
@@ -56,7 +56,7 @@ large_deployment_increase_database_max_connections:
 
 large_deployment_increase_database_work_memory:
   cmd.run:
-    - name: mgrctl exec 'sed -i "s/work_mem = (.*)/work_mem = 10MB/" /var/lib/pgsql/data/postgresql.conf'
+    - name: mgrctl exec 'sed -i "s/work_mem = (.*)/work_mem = 20MB/" /var/lib/pgsql/data/postgresql.conf'
 {% if grains['osfullname'] != 'SLE Micro' %}
     - require:
       - pkg: uyuni-tools
