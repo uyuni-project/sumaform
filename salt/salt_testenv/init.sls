@@ -108,11 +108,11 @@ start_docker_service:
     {% endif %}
 {% endif %}
 
-{% if grains["salt_obs_flavor"] == "products" %}
+{% if grains["salt_obs_flavor"] == "saltstack:products" %}
     {% set salt_flavor_path = "bundle" %}
-{% elif grains["salt_obs_flavor"] == "products:testing" %}
+{% elif grains["salt_obs_flavor"] == "saltstack:products:testing" %}
     {% set salt_flavor_path = "bundle:testing" %}
-{% elif grains["salt_obs_flavor"] == "products:next" %}
+{% elif grains["salt_obs_flavor"] == "saltstack:products:next" %}
     {% set salt_flavor_path = "bundle:next" %}
 {% else %}
     {{ raise("Unknown salt_obs_flavor set") }}
