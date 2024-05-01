@@ -248,5 +248,32 @@ rm .terraform.lock.hcl
 terraform init
 ```
 
+## Q: How do I workaround the "The provider dmacvicar/libvirt does not support resource type "libvirt_combustion" error".
+
+At the time of writing, the upstream `dmacvicar/libvirt` terraform provider does not support combustion. However, a [pull request](https://github.com/dmacvicar/terraform-provider-libvirt/pull/1068) was created to resolve this issue and an RPM of `terraform-provider-libvirt` that supports combustion is created and now hosted on the [sumaform repository](https://download.opensuse.org/repositories/systemsmanagement:/sumaform).
+
+1\. Add the sumaform repository
+
+```
+zypper ar -f https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.5 sumaform
+```
+
+Swap out `openSUSE_Leap_15.5` for `openSUSE_Leap_15.4` or `openSUSE_Tumbleweed` if you’re using a different version of openSUSE.
+
+2\. Install `terraform-provider-libvirt` from sumaform
+
+```
+zypper in --repo sumaform terraform-provider-libvirt
+```
+
+3\. Edit your `.terraform.lock.hcl` and remove the following block:
+```
+ provider "registry.terraform.io/dmacvicar/libvirt" {
+  ...
+ }
+```
+
+4\. Finally, run `terraform init`
+
 See the terraform [docs](https://www.terraform.io/language/files/dependency-lock) for more information on the dependency
 lock file.
