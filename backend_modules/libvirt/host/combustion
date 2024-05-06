@@ -1,8 +1,41 @@
 #!/bin/bash
-# combustion: network
+# combustion: network prepare
+set -euxo pipefail
+
+function nm_config() {
+  connectiondir="/etc/NetworkManager/system-connections"
+  connectionfile="$connectiondir/Wired connection $1.nmconnection"
+  mkdir -p "$connectiondir"
+  cat > "$connectionfile" <<EOF
+[connection]
+id=Wired connection $1
+type=ethernet
+interface-name=$2
+
+[ipv4]
+dhcp-timeout=30
+method=auto
+
+[ipv6]
+addr-gen-mode=eui64
+method=auto
+EOF
+  chmod go-r "$connectionfile"
+}
+
+# Name the Network Manager connections (preparation phase in initrd)
+if [ "$${1-}" = "--prepare" ]; then
+  nm_config 1 eth0
+  nm_config 2 eth1
+  exit 0
+fi
 
 # Redirect output to the console
 exec > >(exec tee -a /var/log/combustion) 2>&1
+
+# Name the Network Manager connections (final phase on real filesystem)
+nm_config 1 eth0
+nm_config 2 eth1
 
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
