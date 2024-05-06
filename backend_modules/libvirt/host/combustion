@@ -64,7 +64,7 @@ PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
 %{ if testsuite }
-PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone expect"
+PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone expect bind-utils"
 %{ endif }
 zypper --non-interactive install $PACKAGES
 
