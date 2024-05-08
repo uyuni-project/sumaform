@@ -51,10 +51,10 @@ salt_testsuite_dependencies_repo:
 
 salt_testing_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/
     - refresh: True
     - gpgcheck: 0
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/repodata/repomd.xml.key
 
 install_salt_testsuite:
   pkg.installed:
@@ -108,12 +108,12 @@ start_docker_service:
     {% endif %}
 {% endif %}
 
-{% if grains["salt_obs_flavor"] == "products" %}
-    {% set salt_flavor_path = "bundle" %}
-{% elif grains["salt_obs_flavor"] == "products:testing" %}
-    {% set salt_flavor_path = "bundle:testing" %}
-{% elif grains["salt_obs_flavor"] == "products:next" %}
-    {% set salt_flavor_path = "bundle:next" %}
+{% if grains["salt_obs_flavor"] == "saltstack:products" %}
+    {% set salt_flavor_path = "saltstack:bundle" %}
+{% elif grains["salt_obs_flavor"] == "saltstack:products:testing" %}
+    {% set salt_flavor_path = "saltstack:bundle:testing" %}
+{% elif grains["salt_obs_flavor"] == "saltstack:products:next" %}
+    {% set salt_flavor_path = "saltstack:bundle:next" %}
 {% else %}
     {{ raise("Unknown salt_obs_flavor set") }}
 {% endif %}
@@ -123,11 +123,11 @@ salt_bundle_testsuite_repo:
 {% if grains['os'] in ["Debian", "Ubuntu"] %}
     - humanname: salt_bundle_testsuite_repo
     - file: /etc/apt/sources.list.d/salt_bundle_testsuite_repo.list
-    - name: deb http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/ /
-    - key_url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/Release.key
+    - name: deb http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/ /
+    - key_url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/Release.key
 {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:saltstack:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/repodata/repomd.xml.key
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/repodata/repomd.xml.key
     - gpgcheck: 0
 {% endif %}
     - refresh: True
