@@ -53,7 +53,10 @@ ${ gpg_keys }
 
 # Add repositories
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
+
+%{ if image == "leapmicro55o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
+%{ endif }
 
 %{ if container_server || container_proxy }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
@@ -102,8 +105,22 @@ PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
 %{ if image == "slmicro6o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
-PACKAGES="$PACKAGES venv-salt-minion"
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
+#zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Updates/SL-Micro/6.0/x86_64/update/ os_update_repo
+
+### TODO: Change to proper client tools for SL Micro6
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLMicro6/SLMicro6/ slmicro6_bundle_next
+
+%{ if testsuite }
+# Packages needed for the testsuite
+PACKAGES="$PACKAGES wget, timezone, aaa_base-extras, ca-certificates"
+%{ endif }
+%{ if container_server }
+PACKAGES="$PACKAGES netavark, aardvark-dns, ca-certificates-suse"
+%{ endif }
+%{ if container_proxy }
+PACKAGES="$PACKAGES mgrpxy, ca-certificates-suse"
+%{ endif }
 %{ endif }
 
 %{ if testsuite }
@@ -113,4 +130,3 @@ zypper --non-interactive install $PACKAGES
 
 # Leave a marker
 echo "Configured with combustion" > /etc/issue.d/combustion
-

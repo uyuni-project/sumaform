@@ -152,3 +152,11 @@ install_salt_bundle_testsuite:
 {% endif %}
     - require:
       - pkgrepo: salt_bundle_testsuite_repo
+
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+reboot:
+  module.run:
+    - name: system.reboot
+    - at_time: +1
+    - order: last
+{% endif %}
