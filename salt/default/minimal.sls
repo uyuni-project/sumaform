@@ -13,7 +13,7 @@ include:
   - default.time
 
 minimal_package_update:
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] in['SLE Micro', 'openSUSE Leap Micro']  %}
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
   cmd.run:
 {% if grains['install_salt_bundle'] %}
     - name: transactional-update -c package up zypper libzypp venv-salt-minion

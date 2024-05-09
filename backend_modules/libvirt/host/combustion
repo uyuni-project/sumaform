@@ -40,6 +40,11 @@ nm_config 2 eth1
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
 
+# SL Micro6: Add PermitRootLogin to sshd config
+%{ if image == "slmicro6o" }
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+%{ endif }
+
 # Add a public ssh key and enable sshd
 systemctl enable sshd.service
 
@@ -94,6 +99,11 @@ PACKAGES="$PACKAGES bash-completion mgrpxy"
 PACKAGES="$PACKAGES venv-salt-minion"
 %{ else }
 PACKAGES="$PACKAGES salt-minion"
+%{ endif }
+
+%{ if image == "slmicro6o" }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
+PACKAGES="$PACKAGES venv-salt-minion"
 %{ endif }
 
 %{ if testsuite }

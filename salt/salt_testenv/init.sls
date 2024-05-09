@@ -56,9 +56,15 @@ salt_testing_repo:
     - gpgcheck: 0
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/repodata/repomd.xml.key
 
+
 install_salt_testsuite:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+  cmd.run:
+    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test
+{% else %}
   pkg.installed:
     - pkgs: ["python3-salt-testsuite", "python3-salt-test"]
+{% endif %}
     - require:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
@@ -106,6 +112,10 @@ start_docker_service:
     {% if grains['osrelease_info'][0] == 15 %}
         {% set repo_path = 'openSUSE_Leap_15' %}
     {% endif %}
+{% elif grains['osfullname'] == 'SL-Micro' %}
+    {% if grains['osrelease_info'][0] == 6 %}
+        {% set repo_path = 'SLMicro6' %}
+    {% endif %}
 {% endif %}
 
 {% if grains["salt_obs_flavor"] == "saltstack:products" %}
@@ -133,7 +143,12 @@ salt_bundle_testsuite_repo:
     - refresh: True
 
 install_salt_bundle_testsuite:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+  cmd.run:
+    - name: transactional-update -c -n pkg in venv-salt-minion-testsuite
+{% else %}
   pkg.installed:
     - name: venv-salt-minion-testsuite
+{% endif %}
     - require:
       - pkgrepo: salt_bundle_testsuite_repo

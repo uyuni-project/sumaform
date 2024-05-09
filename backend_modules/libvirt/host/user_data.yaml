@@ -403,7 +403,7 @@ runcmd:
   - [ reboot ]
 %{ endif }
 
-%{ if image == "slemicro60o" }
+%{ if image == "slmicro6o" }
 
 write_files: ${ files }
 
