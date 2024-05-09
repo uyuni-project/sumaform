@@ -78,8 +78,6 @@ packages: ["salt-minion"]
   
 %{ if image == "slemicro55o" || role == "server_containerized" }
 
-write_files: ${ files }
-
 zypper:
   repos:
     - id: micro_pool_repo
