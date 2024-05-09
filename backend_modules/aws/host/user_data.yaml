@@ -76,7 +76,7 @@ packages: ["salt-minion"]
 
 %{ endif }
   
-%{ if image == "slemicro55o" || contains(roles, "server_containerized") }
+%{ if image == "slemicro55o" || role == "server_containerized" }
 
 write_files: ${ files }
 
