@@ -110,6 +110,7 @@ module "bastion" {
   base_configuration            = local.configuration_output
   image                         = lookup(var.provider_settings, "bastion_image", "opensuse155o")
   name                          = "bastion"
+  roles                         = ["bastion"]
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true
