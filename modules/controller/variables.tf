@@ -135,13 +135,19 @@ variable "sle15sp5_paygo_minion_configuration" {
   }
 }
 
+variable "sle15sp6_paygo_minion_configuration" {
+  description = "use module.<SLE15SP6_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "sleforsap15sp5_paygo_minion_configuration" {
   description = "use module.<SLEFORSAP15SP5_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
-
 
 variable "sle11sp4_minion_configuration" {
   description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
@@ -327,6 +333,27 @@ variable "sle15sp5_sshminion_configuration" {
 
 variable "sle15sp5_client_configuration" {
   description = "use module.<SLE15SP5_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_minion_configuration" {
+  description = "use module.<SLE15SP6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_sshminion_configuration" {
+  description = "use module.<SLE15SP6_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_client_configuration" {
+  description = "use module.<SLE15SP6_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

@@ -24,6 +24,7 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 # BV clients
 {% if grains.get('sle12sp5_paygo_minion') | default(false, true) %}export SLE12SP5_PAYGO_MINION="{{ grains.get('sle12sp5_paygo_minion') }}" {% else %}# no SLE12SP5_PAYGO minion defined {% endif %}
 {% if grains.get('sle15sp5_paygo_minion') | default(false, true) %}export SLE15SP5_PAYGO_MINION="{{ grains.get('sle15sp5_paygo_minion') }}" {% else %}# no SLE15SP5_PAYGO minion defined {% endif %}
+{% if grains.get('sle15sp6_paygo_minion') | default(false, true) %}export SLE15SP6_PAYGO_MINION="{{ grains.get('sle15sp6_paygo_minion') }}" {% else %}# no SLE15SP6_PAYGO minion defined {% endif %}
 {% if grains.get('sleforsap15sp5_paygo_minion') | default(false, true) %}export SLEFORSAP15SP5_PAYGO_MINION="{{ grains.get('sleforsap15sp5_paygo_minion') }}" {% else %}# no SLEFORSAP15SP5_PAYGO minion defined {% endif %}
 {% if grains.get('sle11sp4_minion') | default(false, true) %}export SLE11SP4_MINION="{{ grains.get('sle11sp4_minion') }}" {% else %}# no SLE11SP4 minion defined {% endif %}
 {% if grains.get('sle11sp4_sshminion') | default(false, true) %}export SLE11SP4_SSHMINION="{{ grains.get('sle11sp4_sshminion') }}" {% else %}# no SLE11SP4 ssh minion defined {% endif %}
@@ -53,6 +54,9 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 {% if grains.get('sle15sp5_client') | default(false, true) %}export SLE15SP5_CLIENT="{{ grains.get('sle15sp5_client') }}" {% else %}# no SLE15SP5 client defined {% endif %}
 {% if grains.get('sle15sp5_minion') | default(false, true) %}export SLE15SP5_MINION="{{ grains.get('sle15sp5_minion') }}" {% else %}# no SLE15SP5 minion defined {% endif %}
 {% if grains.get('sle15sp5_sshminion') | default(false, true) %}export SLE15SP5_SSHMINION="{{ grains.get('sle15sp5_sshminion') }}" {% else %}# no SLE15SP5 ssh minion defined {% endif %}
+{% if grains.get('sle15sp6_client') | default(false, true) %}export SLE15SP6_CLIENT="{{ grains.get('sle15sp6_client') }}" {% else %}# no SLE15SP6 client defined {% endif %}
+{% if grains.get('sle15sp6_minion') | default(false, true) %}export SLE15SP6_MINION="{{ grains.get('sle15sp6_minion') }}" {% else %}# no SLE15SP6 minion defined {% endif %}
+{% if grains.get('sle15sp6_sshminion') | default(false, true) %}export SLE15SP6_SSHMINION="{{ grains.get('sle15sp6_sshminion') }}" {% else %}# no SLE15SP6 ssh minion defined {% endif %}
 {% if grains.get('slemicro51_minion') | default(false, true) %}export SLEMICRO51_MINION="{{ grains.get('slemicro51_minion') }}" {% else %}# no SLEMICRO51 minion defined {% endif %}
 {% if grains.get('slemicro51_sshminion') | default(false, true) %}export SLEMICRO51_SSHMINION="{{ grains.get('slemicro51_sshminion') }}" {% else %}# no SLEMICRO51 ssh minion defined {% endif %}
 {% if grains.get('slemicro52_minion') | default(false, true) %}export SLEMICRO52_MINION="{{ grains.get('slemicro52_minion') }}" {% else %}# no SLEMICRO52 minion defined {% endif %}

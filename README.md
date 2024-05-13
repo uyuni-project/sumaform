@@ -151,6 +151,7 @@ module "base" {
     "opensuse155o",
     "sles15sp4o",
     "sles15sp5o",
+    "sles15sp6o",
     "sles12sp5o",
     "ubuntu2004o",
     "ubuntu2204o"

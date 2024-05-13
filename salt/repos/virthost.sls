@@ -14,6 +14,8 @@
 {% set sle_version_path = '15-SP4' %}
 {% elif grains['osrelease'] == '15.5' %}
 {% set sle_version_path = '15-SP5' %}
+{% elif grains['osrelease'] == '15.6' %}
+{% set sle_version_path = '15-SP6' %}
 {% endif %}
 
 module_server_applications_pool_repo:

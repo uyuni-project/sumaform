@@ -52,6 +52,13 @@ data "azurerm_platform_image" "sles15sp5o" {
   sku       = "gen2"
 }
 
+data "azurerm_platform_image" "sles15sp6o" {
+  location  = local.location
+  publisher = "suse"
+  offer     = "sles-15-sp6-byos"
+  sku       = "gen2"
+}
+
 data "azurerm_platform_image" "centos7" {
   location  = local.location
   publisher = "OpenLogic"
@@ -145,6 +152,7 @@ locals {
       opensuse155o = { platform_image = data.azurerm_platform_image.opensuse155o },
       sles15sp4o   = { platform_image = data.azurerm_platform_image.sles15sp4o },
       sles15sp5o   = { platform_image = data.azurerm_platform_image.sles15sp5o },
+      sles15sp6o   = { platform_image = data.azurerm_platform_image.sles15sp6o },
       sles12sp5o   = { platform_image = data.azurerm_platform_image.sles12sp5o },
       centos7      = { platform_image = data.azurerm_platform_image.centos7 },
       ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },

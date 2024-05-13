@@ -271,7 +271,7 @@ variable "connect_to_additional_network" {
 }
 
 variable "image" {
-  description = "An image name, e.g. sles15sp5 or opensuse155o"
+  description = "An image name, e.g. slemicro55o or leapmicro55o"
   type        = string
   default     = "default"
 }
