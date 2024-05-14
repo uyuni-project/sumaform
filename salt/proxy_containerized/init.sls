@@ -60,7 +60,6 @@ install_mgr_tools:
     - pkgs:
       - podman
       - mgrpxy
-      - mgrctl
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
