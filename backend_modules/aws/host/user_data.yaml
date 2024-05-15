@@ -98,7 +98,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion"]
+packages: ["venv-salt-minion", "dbus-tools"]
 runcmd:
   # WORKAROUND: rhel9 change ssh security for ssh key
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
@@ -115,7 +115,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion"]
+packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif }
 %{ if image == "rocky8"}
 yum_repos:
@@ -127,7 +127,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion"]
+packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif }
 %{ if image == "centos7" || image == "rhel7"}
 yum_repos:
