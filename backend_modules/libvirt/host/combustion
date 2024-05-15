@@ -41,7 +41,7 @@ nm_config 2 eth1
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
 
 # SL Micro6: Add PermitRootLogin to sshd config
-%{ if image == "slmicro6o" }
+%{ if image == "slmicro60o" }
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
 %{ endif }
 
@@ -104,12 +104,12 @@ PACKAGES="$PACKAGES venv-salt-minion"
 PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
-%{ if image == "slmicro6o" }
+%{ if image == "slmicro60o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 #zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Updates/SL-Micro/6.0/x86_64/update/ os_update_repo
 
-### TODO: Change to proper client tools for SL Micro6
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLMicro6/SLMicro6/ slmicro6_bundle_next
+### TODO: Change to proper client tools for SL Micro60
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLMicro60/SLMicro60/ slmicro60_bundle_next
 
 %{ if testsuite }
 # Packages needed for the testsuite

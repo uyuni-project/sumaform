@@ -43,10 +43,10 @@ containers_updates_repo:
 {% endif %}
 
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
-{% set repo_path = 'SLMicro' + grains['osrelease_info'][0]|string %}
+{% set repo_path = 'SLMicro' + grains['osrelease_info'][0]|string + grains['osrelease_info'][1]|string %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SL-Micro/6.0/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
     - refresh: True
 
 alp_sources_repo:
@@ -130,8 +130,8 @@ start_docker_service:
         {% set repo_path = 'openSUSE_Leap_15' %}
     {% endif %}
 {% elif grains['osfullname'] == 'SL-Micro' %}
-    {% if grains['osrelease_info'][0] == 6 %}
-        {% set repo_path = 'SLMicro6' %}
+    {% if grains['osrelease'] == '6.0' %}
+        {% set repo_path = 'SLMicro60' %}
     {% endif %}
 {% endif %}
 
