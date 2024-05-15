@@ -340,6 +340,32 @@ runcmd:
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
+%{ if image == "sles15sp6o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
+      enabled: 1
+      autorefresh: 1
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+runcmd:
+  # WORKAROUND: cloud-init in SLES 15 SP6 does not take care of the following
+  # TODO: Check!
+  - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+%{ endif }
+
 %{ if image == "slemicro55o" }
 
 write_files: ${ files }
