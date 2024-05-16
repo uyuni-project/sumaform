@@ -114,6 +114,9 @@ scc:
     - SLE-Micro-5.4-Updates
     - SLE-Micro-5.5-Pool
     - SLE-Micro-5.5-Updates
+    # SL Micro
+    - SL-Micro-6.0-Pool
+    - SL-Micro-6.0-Updates
     # SLE 15-SP4 Products
     - SLE-Product-SLES15-SP4-Pool
     - SLE-Product-SLES15-SP4-Updates

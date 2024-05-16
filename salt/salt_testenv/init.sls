@@ -1,7 +1,7 @@
 include:
   - default
 
-{% if grains['os'] == 'SUSE' and grains['osrelease_info'][0] == 15 %}
+{% if (grains['os'] == 'SUSE' and grains['osrelease_info'][0] == 15) or (grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro') %}
 {% if grains['osfullname'] == 'SLES' %}
 {% set repo_path = "15" if grains["osrelease"] == 15 else "15-SP" + grains["osrelease_info"][1]|string %}
 development_tools_repo_pool:
@@ -36,10 +36,23 @@ containers_updates_repo:
     - refresh: True
 {% endif %}
 
-{% if grains['osrelease_info'][1] >= 3 %}
+{% if grains['osfullname'] == 'SLES' and grains['osrelease_info'][1] >= 3 %}
 {% set repo_path = grains["osrelease"] %}
 {% else %}
 {% set repo_path = "SLE_15_SP" + grains["osrelease_info"][1]|string %}
+{% endif %}
+
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+{% set repo_path = 'SLMicro' + grains['osrelease_info'][0]|string + grains['osrelease_info'][1]|string %}
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
+    - refresh: True
+
+alp_sources_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
+    - refresh: True
 {% endif %}
 
 salt_testsuite_dependencies_repo:
@@ -57,15 +70,25 @@ salt_testing_repo:
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/repodata/repomd.xml.key
 
 install_salt_testsuite:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+  cmd.run:
+    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test
+{% else %}
   pkg.installed:
     - pkgs: ["python3-salt-testsuite", "python3-salt-test"]
+{% endif %}
     - require:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
 
 start_docker_service:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+  cmd.run:
+    - name: transactional-update -c run systemctl enable docker
+{% else %}
   service.running:
     - name: docker
+{% endif %}
     - requires:
       - pkg: install_salt_testsuite
 {% endif %}
@@ -106,6 +129,10 @@ start_docker_service:
     {% if grains['osrelease_info'][0] == 15 %}
         {% set repo_path = 'openSUSE_Leap_15' %}
     {% endif %}
+{% elif grains['osfullname'] == 'SL-Micro' %}
+    {% if grains['osrelease'] == '6.0' %}
+        {% set repo_path = 'SLMicro60' %}
+    {% endif %}
 {% endif %}
 
 {% if grains["salt_obs_flavor"] == "saltstack:products" %}
@@ -133,7 +160,28 @@ salt_bundle_testsuite_repo:
     - refresh: True
 
 install_salt_bundle_testsuite:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+  cmd.run:
+    - name: transactional-update -c -n pkg in venv-salt-minion-testsuite
+{% else %}
   pkg.installed:
     - name: venv-salt-minion-testsuite
+{% endif %}
     - require:
       - pkgrepo: salt_bundle_testsuite_repo
+
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+copy_salt_classic_testsuite:
+  cmd.run:
+    - name: transactional-update -c run cp -r /usr/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /var/tmp/salt-testsuite-classic
+
+copy_salt_bundle_testsuite:
+  cmd.run:
+    - name: transactional-update -c run cp -r /usr/lib/venv-salt-minion/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /var/tmp/salt-testsuite-bundle
+
+reboot_transactional_system:
+  module.run:
+    - name: system.reboot
+    - at_time: +1
+    - order: last
+{% endif %}
