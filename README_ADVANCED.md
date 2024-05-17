@@ -5,6 +5,7 @@
 Some modules have a `product_version` variable that determines the software product version. Specifically:
 
 - in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
+- in `server_containerized`, `proxy_containerized` etc. `product_version` determines the SUSE Manager/Uyuni product version - this is currently the recommended setup for head,
 - in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
 
 Legal values for released software are:
@@ -20,7 +21,7 @@ Legal values for work-in-progress software are:
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-VM-nightly`       (corresponds to the Virtual Image in the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
-- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, **must be used with `server_containerized` and `proxy_containerized` modules**, uses SLE Micro as base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
 Legal values for CI:

@@ -104,11 +104,11 @@ ssh -t head-ctl.tf.local screen -r
 
 ## Using Salt Bundle (venv-salt-minion) in "Head" and "Uyuni"
 
-Currently, our `head` and `uyuni-master` testing deployments require the Salt Bundle (`venv-salt-minion` package) to be installed on each client instance and some other tunings, before the testsuite is started. To be sure that all necessary adjustments are in place for the testsuite to run for HEAD or Uyuni, you need to set some flags on each of your instances (except for the server instance) in your `main.tf` file:
+Currently, our `head` and `uyuni-master` testing deployments require the Salt Bundle (`venv-salt-minion` package) to be installed on each client instance and some other tunings, before the testsuite is started. Also, bear in mind that the `head` setup requires a containerized setup - use `server_containerized` and `proxy_containerized` modules (refer to the `main.tf.libvirt-testsuite.example` file to see how to configure this). To be sure that all necessary adjustments are in place for the testsuite to run for HEAD or Uyuni, you need to set some flags on each of your instances (except for the server/ server_containerized instance) in your `main.tf` file:
 
 ```hcl
 host_settings = {
-  proxy = {
+  proxy_containerized = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
   }
