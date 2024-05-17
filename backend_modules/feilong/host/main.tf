@@ -98,6 +98,13 @@ resource "null_resource" "provisioning" {
       "sudo bash /root/salt/first_deployment_highstate.sh"
     ]
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo bash -c 'echo root:linux | chpasswd'",
+      "sudo bash -c 'sed -i \"/Please login as the user ..sles.. rather than the user ..root../d\" /root/.ssh/authorized_keys'"
+    ]
+  }
 }
 
 output "configuration" {
