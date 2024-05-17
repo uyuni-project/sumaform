@@ -173,11 +173,11 @@ install_salt_bundle_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
 copy_salt_classic_testsuite:
   cmd.run:
-    - name: transactional-update -c run cp -r /usr/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /var/tmp/salt-testsuite-classic
+    - name: transactional-update -c run cp -r /usr/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /opt/salt-testsuite-classic
 
 copy_salt_bundle_testsuite:
   cmd.run:
-    - name: transactional-update -c run cp -r /usr/lib/venv-salt-minion/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /var/tmp/salt-testsuite-bundle
+    - name: transactional-update -c run cp -r /usr/lib/venv-salt-minion/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /opt/salt-testsuite-bundle
 
 reboot_transactional_system:
   module.run:
