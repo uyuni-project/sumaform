@@ -53,7 +53,6 @@ data "template_file" "user_data" {
     mirror_url               = var.base_configuration["mirror"]
     install_salt_bundle      = var.install_salt_bundle
     role                    = var.roles[0]
-#     product_version          = var.grains["product_version"] == null ? var.grains["product_version"] : "no_product_version"
   }
 }
 
