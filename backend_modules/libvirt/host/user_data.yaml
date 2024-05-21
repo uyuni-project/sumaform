@@ -7,6 +7,22 @@ chpasswd:
   list: |
      root:linux
 
+%{ if image == "tumbleweedo"}
+runcmd:
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack/openSUSE_Tumbleweed/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+# For openSUSE Tumbleweed venv-salt-minion is not available.
+# The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
+packages: ["salt", "salt-minion", "avahi", "avahi-lang"]
+%{endif}
+
 %{ if image == "centos7o" }
 yum_repos:
   # repo for salt
