@@ -75,6 +75,7 @@ resource "null_resource" "provisioning" {
         gpg_keys                      = var.gpg_keys
         connect_to_base_network       = true
         connect_to_additional_network = false
+        reset_ids                     = true
         ipv6                          = var.ipv6
 
         // These should be defined in a "sumaform module", but we cannot use sumaform modules,
