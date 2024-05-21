@@ -72,10 +72,10 @@ salt_testing_repo:
 install_salt_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test
+    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test python3-salt
 {% else %}
-  pkg.installed:
-    - pkgs: ["python3-salt-testsuite", "python3-salt-test"]
+  pkg.latest:
+    - pkgs: ["python3-salt-testsuite", "python3-salt-test", "python3-salt"]
 {% endif %}
     - require:
       - pkgrepo: salt_testsuite_dependencies_repo
