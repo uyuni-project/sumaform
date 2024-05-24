@@ -557,27 +557,25 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 
 ```hcl
 module "master" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "master"
-  product_version = "4.2-released"
+  product_version = "head"
   iss_slave = "slave.tf.local"
 }
 
 module "slave" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "slave"
-  product_version = "4.2-released"
+  product_version = "head"
   iss_master = module.master.configuration["hostname"]
 }
 ```
 
 Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
-
-Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 ## Working on multiple configuration sets (workspaces) locally
 
