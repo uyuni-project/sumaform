@@ -1,8 +1,9 @@
 include:
   - default
 
-{% if (grains['os'] == 'SUSE' and grains['osrelease_info'][0] == 15) or (grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro') %}
-{% if grains['osfullname'] == 'SLES' %}
+{% if grains['os'] == 'SUSE' %}
+
+{% if grains['osfullname'] == 'SLES' and grains['osrelease_info'][0] == 15  %}
 {% set repo_path = "15" if grains["osrelease"] == 15 else "15-SP" + grains["osrelease_info"][1]|string %}
 development_tools_repo_pool:
   pkgrepo.managed:
@@ -34,15 +35,17 @@ containers_updates_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/{{ repo_path }}/x86_64/update/
     - refresh: True
-{% endif %}
 
-{% if grains['osfullname'] == 'SLES' and grains['osrelease_info'][1] >= 3 %}
+{% if grains['osrelease_info'][1] >= 3 %}
 {% set repo_path = grains["osrelease"] %}
 {% else %}
 {% set repo_path = "SLE_15_SP" + grains["osrelease_info"][1]|string %}
 {% endif %}
 
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+{% endif %}
+
+
+{% if grains['osfullname'] == 'SL-Micro' %}
 {% set repo_path = 'SLMicro' + grains['osrelease_info'][0]|string + grains['osrelease_info'][1]|string %}
 os_pool_repo:
   pkgrepo.managed:
@@ -53,6 +56,15 @@ alp_sources_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
     - refresh: True
+{% endif %}
+
+{% if grains['osfullname'] == 'openSUSE Tumbleweed' %}
+{% set repo_path = 'openSUSE_Tumbleweed' %}
+repo-oss:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/tumbleweed/repo/oss/
+    - refresh: True
+    - gpgcheck: False
 {% endif %}
 
 salt_testsuite_dependencies_repo:
@@ -91,6 +103,7 @@ start_docker_service:
 {% endif %}
     - requires:
       - pkg: install_salt_testsuite
+
 {% endif %}
 
 {% if grains['os'] == 'Debian' %}
@@ -135,6 +148,8 @@ start_docker_service:
     {% endif %}
 {% endif %}
 
+{% if grains['osfullname'] != 'openSUSE Tumbleweed' %}
+
 {% if grains["salt_obs_flavor"] == "saltstack:products" %}
     {% set salt_flavor_path = "saltstack:bundle" %}
 {% elif grains["salt_obs_flavor"] == "saltstack:products:testing" %}
@@ -169,6 +184,8 @@ install_salt_bundle_testsuite:
 {% endif %}
     - require:
       - pkgrepo: salt_bundle_testsuite_repo
+
+{% endif %}
 
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
 copy_salt_classic_testsuite:

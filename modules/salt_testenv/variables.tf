@@ -53,3 +53,8 @@ variable "image" {
   type        = string
   default = "opensuse155o"
 }
+
+variable "install_salt_bundle" {
+  description = "use true to install the venv-salt-minion package in the hosts"
+  default     = true
+}

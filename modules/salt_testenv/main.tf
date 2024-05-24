@@ -11,7 +11,7 @@ module "salt_testenv" {
   ssh_key_path                  = var.ssh_key_path
   image                         = var.image
   provider_settings             = var.provider_settings
-  install_salt_bundle           = true
+  install_salt_bundle           = var.install_salt_bundle
 
   grains = {
     mirror                  = var.base_configuration["mirror"]
