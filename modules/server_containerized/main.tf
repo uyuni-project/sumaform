@@ -66,6 +66,7 @@ module "server_containerized" {
     auto_accept                    = var.auto_accept
     disable_auto_bootstrap         = var.disable_auto_bootstrap
     large_deployment               = var.large_deployment
+    beta_enabled                   = var.beta_enabled
   }
 }
 

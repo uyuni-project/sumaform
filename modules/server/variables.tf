@@ -157,6 +157,12 @@ variable "use_os_released_updates" {
   default     = false
 }
 
+variable "beta_enabled" {
+  description = "enable the mechanism to take into account beta channels"
+  type        = bool
+  default     = false
+}
+
 variable "from_email" {
   description = "email address used as sender for emails"
   default     = null

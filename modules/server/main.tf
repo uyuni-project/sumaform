@@ -98,6 +98,7 @@ module "server" {
     c3p0_connection_timeout        = var.c3p0_connection_timeout
     c3p0_connection_debug          = var.c3p0_connection_debug
     large_deployment               = var.large_deployment
+    beta_enabled                   = var.beta_enabled
   }
 }
 
