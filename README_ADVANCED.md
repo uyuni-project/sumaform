@@ -287,6 +287,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
    * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
    * `db_configuration` : pass external database configuration to change `setup_env.sh` file. See more in `Using external database` section
+   * `beta_enabled`: enable beta channels in rhn configuration. Set to false by default.
 
 
 ## Adding channels to SUSE Manager Servers

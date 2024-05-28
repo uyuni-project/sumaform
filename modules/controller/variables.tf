@@ -846,6 +846,11 @@ variable "catch_timeout_message" {
   default     = false
 }
 
+variable "beta_enabled" {
+  description = "Enable the mechanism to take into account beta channels"
+  default     = false
+}
+
 variable "is_using_paygo_server" {
   description = "Specify to controller that server image is a paygo image"
   default     = false
