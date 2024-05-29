@@ -3,7 +3,7 @@ include:
 
 {% if grains['os'] == 'SUSE' %}
 
-{% if grains['osfullname'] == 'SLES' and grains['osrelease_info'][0] == 15  %}
+{% if grains['osfullname'] == 'SLES' and grains['osrelease_info'][0] == 15 %}
 {% set repo_path = "15" if grains["osrelease"] == 15 else "15-SP" + grains["osrelease_info"][1]|string %}
 development_tools_repo_pool:
   pkgrepo.managed:
@@ -56,6 +56,10 @@ alp_sources_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
     - refresh: True
+{% endif %}
+
+{% if grains['osfullname'] == 'Leap' %}
+{% set repo_path = grains['osrelease'] %}
 {% endif %}
 
 {% if grains['osfullname'] == 'openSUSE Tumbleweed' %}
@@ -148,7 +152,7 @@ start_docker_service:
     {% endif %}
 {% endif %}
 
-{% if grains['osfullname'] != 'openSUSE Tumbleweed' %}
+{% if grains['salt_obs_flavor'] != 'saltstack' %}
 
 {% if grains["salt_obs_flavor"] == "saltstack:products" %}
     {% set salt_flavor_path = "saltstack:bundle" %}
