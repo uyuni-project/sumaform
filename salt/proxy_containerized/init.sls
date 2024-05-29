@@ -51,8 +51,8 @@ ssh_config_proxy_containerized:
 config_proxy_containerized:
   file.managed:
     - name: /etc/uyuni/config.yaml
-    - content: |
-      registry: {{ container_repository }}
+    - contents: |
+        registry: {{ container_repository }}
     - makedirs: True
 
 {% if 'Micro' not in grains['osfullname'] %}
