@@ -50,7 +50,7 @@ ssh_config_proxy_containerized:
 # Useful to setup the proxy through the tests
 config_proxy_containerized:
   file.managed:
-    - name: /etc/uyuni/config.yaml
+    - name: /etc/uyuni/uyuni-tools.yaml
     - contents: |
         registry: {{ container_repository }}
     - makedirs: True
