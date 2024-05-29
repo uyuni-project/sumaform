@@ -36,6 +36,7 @@ module "proxy_containerized" {
     auto_configure            = var.auto_configure
     container_runtime         = var.runtime
     container_repository      = var.container_repository
+    container_tag             = var.container_tag
     helm_chart_url            = var.helm_chart_url # Not yet implemented in sumaform salt states
     mirror                    = var.base_configuration["mirror"]
     avahi_reflector           = var.avahi_reflector
