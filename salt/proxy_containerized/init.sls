@@ -51,7 +51,7 @@ ssh_config_proxy_containerized:
 env_var_bashrc_registry_proxy_httpd_image:
   cmd.run:
     - name: |
-        echo "export UYUNI_IMAGES_LOCATION={{ container_repository }}" >> /root/.bashrc
+        echo "export REGISTRY={{ container_repository }}" >> /root/.bashrc
         source /root/.bashrc
 
 {% if 'Micro' not in grains['osfullname'] %}
