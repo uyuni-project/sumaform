@@ -48,11 +48,12 @@ ssh_config_proxy_containerized:
 {% endif %}
 
 # Useful to setup the proxy through the tests
-env_var_bashrc_registry_proxy_httpd_image:
-  cmd.run:
-    - name: |
-        echo "export REGISTRY={{ container_repository }}" >> /root/.bashrc
-        source /root/.bashrc
+config_proxy_containerized:
+  file.managed:
+    - name: /etc/uyuni/config.yaml
+    - content: |
+      registry: {{ container_repository }}
+    - makedirs: True
 
 {% if 'Micro' not in grains['osfullname'] %}
 install_mgr_tools:
