@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "testing" > /test.txt
 # combustion: network prepare
 set -euxo pipefail
 
