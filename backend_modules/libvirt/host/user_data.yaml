@@ -922,3 +922,14 @@ packages: ["salt-minion"]
 runcmd:
   - zypper removerepo --all
 %{ endif }
+  
+%{ if image == "opensuse156armo" }
+
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+
+runcmd:
+  # WORKAROUND: cloud-init in opensuse156 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+
+%{ endif }
