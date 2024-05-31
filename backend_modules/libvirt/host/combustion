@@ -42,7 +42,7 @@ echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG7
 
 # SL Micro6: Add PermitRootLogin to sshd config
 %{ if image == "slmicro60o" }
-echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config
 %{ endif }
 
 # Add a public ssh key and enable sshd
@@ -56,7 +56,6 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 
 %{ if image == "leapmicro55o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
-%{ endif }
 
 %{ if container_server || container_proxy }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
@@ -73,6 +72,27 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 %{ if container_runtime == "k3s" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/sle/ sle_update_repo
 %{ endif }
+%{ endif } # end of image == "leapmicro55o" block
+
+%{ if image == "slmicro60o" }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product/ basesystem_pool_repo
+
+%{ if product_version == "uyuni-master" || product_version == "uyuni-released"  || product_version == "uyuni-pr"}
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
+%{ endif }
+%{ if product_version == "head" }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de"}/ibs/Devel:/Galaxy:/Manager:/Head:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/ client_tools_repo
+%{ endif }
+%{ if product_version == "4.3-released" || product_version == "4.3-nightly" || product_version == "4.3-pr" || product_version == "4.3-beta" || product_version == "4.3-build_image" || product_version == "4.3-paygo" || product_version == "4.3-VM-nightly" || product_version == "4.3-VM-released"}
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/ client_tools_repo
+%{ endif }
+
+%{ if testsuite }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
+%{ endif }
+%{ endif } # end of image == "slmicro60o" block
+
 
 for i in ${additional_repos};do
   name=$(echo $i | cut -d= -f1)
@@ -83,19 +103,25 @@ done
 
 # Install packages
 PACKAGES="qemu-guest-agent avahi ca-certificates"
-%{ if container_server }
-PACKAGES="$PACKAGES bash-completion mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
-%{ endif }
+
 %{ if container_runtime == "podman" }
-PACKAGES="$PACKAGES podman netavark"
+PACKAGES="$PACKAGES podman netavark aardvark-dns"
 %{ endif }
 
 %{ if container_runtime == "k3s" }
 PACKAGES="$PACKAGES helm"
 %{ endif }
 
+%{ if container_server || container_proxy }
+PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
+%{ endif }
+
+%{ if container_server }
+PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
+%{ endif }
+
 %{ if container_proxy }
-PACKAGES="$PACKAGES bash-completion mgrpxy"
+PACKAGES="$PACKAGES  mgrpxy"
 %{ endif }
 
 %{ if install_salt_bundle }
@@ -104,28 +130,10 @@ PACKAGES="$PACKAGES venv-salt-minion"
 PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
-%{ if image == "slmicro60o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
-#zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Updates/SL-Micro/6.0/x86_64/update/ os_update_repo
-
-### TODO: Change to proper client tools for SL Micro60
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLMicro60/SLMicro60/ slmicro60_bundle_next
-
 %{ if testsuite }
-# Packages needed for the testsuite
-PACKAGES="$PACKAGES wget, timezone, aaa_base-extras, ca-certificates"
-%{ endif }
-%{ if container_server }
-PACKAGES="$PACKAGES netavark, aardvark-dns, ca-certificates-suse"
-%{ endif }
-%{ if container_proxy }
-PACKAGES="$PACKAGES mgrpxy, ca-certificates-suse"
-%{ endif }
+PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone expect bind-utils wget aaa_base-extras"
 %{ endif }
 
-%{ if testsuite }
-PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone expect bind-utils"
-%{ endif }
 zypper --non-interactive install $PACKAGES
 
 # Leave a marker
