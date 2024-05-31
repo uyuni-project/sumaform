@@ -212,6 +212,7 @@ module "proxy_containerized" {
 
   runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
   container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
+  container_tag          = lookup(local.container_tags, "proxy_containerized", "")
   helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
   server_configuration   = { hostname = local.server_full_name,
                               username = "admin",
