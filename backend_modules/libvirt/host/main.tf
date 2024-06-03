@@ -15,7 +15,8 @@ locals {
     }
   ]
   container_runtime = lookup(var.grains, "container_runtime", "")
-  
+  product_version = lookup(var.grains, "product_version", "")
+
   combustion = contains(local.combustion_images, var.image)
   provider_settings = merge({
     memory          = 1024
@@ -88,6 +89,7 @@ data "template_file" "combustion" {
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     additional_repos    = join(" ", [for key, value in var.additional_repos : "${key}=${value}"])
     image               = var.image
+    product_version     = local.product_version
   }
 }
 
