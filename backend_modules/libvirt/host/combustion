@@ -42,7 +42,11 @@ echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG7
 
 # SL Micro6: Add PermitRootLogin to sshd config
 %{ if image == "slmicro60o" }
-echo "PermitRootLogin yes" > /etc/ssh/sshd_config
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
+
+# Workaround: Otherwise sshd.sls will fail, as the file does not exist
+echo "ChallengeResponseAuthentication yes" > /etc/ssh/sshd_config
 %{ endif }
 
 # Add a public ssh key and enable sshd
@@ -76,18 +80,7 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 
 %{ if image == "slmicro60o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product/ basesystem_pool_repo
-
-%{ if product_version == "uyuni-master" || product_version == "uyuni-released"  || product_version == "uyuni-pr"}
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
-%{ endif }
-%{ if product_version == "head" }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de"}/ibs/Devel:/Galaxy:/Manager:/Head:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/ client_tools_repo
-%{ endif }
-%{ if product_version == "4.3-released" || product_version == "4.3-nightly" || product_version == "4.3-pr" || product_version == "4.3-beta" || product_version == "4.3-build_image" || product_version == "4.3-paygo" || product_version == "4.3-VM-nightly" || product_version == "4.3-VM-released"}
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/ client_tools_repo
-%{ endif }
-
 %{ if testsuite }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
 %{ endif }
@@ -114,6 +107,9 @@ PACKAGES="$PACKAGES helm"
 
 %{ if container_server || container_proxy }
 PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
+%{ if testsuite }
+PACKAGES="$PACKAGES expect bind-utils"
+%{ endif }
 %{ endif }
 
 %{ if container_server }
@@ -131,7 +127,7 @@ PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
 %{ if testsuite }
-PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone expect bind-utils wget aaa_base-extras"
+PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
 %{ endif }
 
 zypper --non-interactive install $PACKAGES
