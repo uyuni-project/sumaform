@@ -450,7 +450,7 @@ os_update_repo:
 {% endif %} {# '15.6' == grains['osrelease'] #}
 {% endif %}{# grains['osfullname'] == 'SLES' #}
 
-{% if grains['osfullname'] == 'SLE Micro' and (not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles'))) %}
+{% if grains['osfullname'] in ['SLE Micro', 'SL-Micro'] and (not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles'))) %}
 {% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-released' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 tools_pool_repo:
   pkgrepo.managed:

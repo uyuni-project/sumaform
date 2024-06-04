@@ -44,9 +44,6 @@ echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG7
 %{ if image == "slmicro60o" }
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
 echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
-
-# Workaround: Otherwise sshd.sls will fail, as the file does not exist
-echo "ChallengeResponseAuthentication yes" > /etc/ssh/sshd_config
 %{ endif }
 
 # Add a public ssh key and enable sshd

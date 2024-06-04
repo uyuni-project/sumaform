@@ -8,7 +8,7 @@ include:
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
-  {% if not grains['osfullname'] == 'SLE Micro' %}
+  {% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
   # Dependencies already satisfied by the images
   # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.testsuite
