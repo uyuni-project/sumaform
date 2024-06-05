@@ -19,7 +19,7 @@ ipv6_accept_ra_{{ iface }}:
 {% endif %}
 {% endfor %}
 
-{% if (grains['osfullname'] == 'SLE Micro' or grains['osfullname'] == 'openSUSE Leap Micro') and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
+{% if grains['osfullname'] in ['SLE Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
 {% set conname = salt['cmd.run']('nmcli -g GENERAL.CONNECTION device show eth0') %}
 avoid_network_manager_messing_up:
   cmd.run:
