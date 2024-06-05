@@ -63,7 +63,7 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 %{ endif }
 
 %{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 
 # Leap repos are required to install expect
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.5/repo/oss/ leap_pool_repo
@@ -79,7 +79,7 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_packages_pool
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 %{ endif }
 %{ endif } # end of image == "slmicro60o" block
 
