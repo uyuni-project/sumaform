@@ -298,7 +298,28 @@ data "aws_ami" "sles12sp5-paygo" {
 data "aws_ami" "rocky8" {
   most_recent = true
   name_regex  = "^Rocky-8-ec2-8"
-  owners      = ["679593333241"]
+  owners      = ["792107900819"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "rocky9" {
+  most_recent = true
+  name_regex  = "^Rocky-9-EC2-9"
+  owners      = ["792107900819"]
 
   filter {
     name   = "architecture"
