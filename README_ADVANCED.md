@@ -5,6 +5,7 @@
 Some modules have a `product_version` variable that determines the software product version. Specifically:
 
 - in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
+- in `server_containerized`, `proxy_containerized` etc. `product_version` determines the SUSE Manager/Uyuni product version - this is currently the recommended setup for head,
 - in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
 
 Legal values for released software are:
@@ -20,7 +21,7 @@ Legal values for work-in-progress software are:
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-VM-nightly`       (corresponds to the Virtual Image in the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
-- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, **must be used with `server_containerized` and `proxy_containerized` modules**, uses SLE Micro as base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
 Legal values for CI:
@@ -286,6 +287,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
    * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
    * `db_configuration` : pass external database configuration to change `setup_env.sh` file. See more in `Using external database` section
+   * `beta_enabled`: enable beta channels in rhn configuration. Set to false by default.
 
 
 ## Adding channels to SUSE Manager Servers
@@ -556,27 +558,25 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 
 ```hcl
 module "master" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "master"
-  product_version = "4.2-released"
+  product_version = "head"
   iss_slave = "slave.tf.local"
 }
 
 module "slave" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "slave"
-  product_version = "4.2-released"
+  product_version = "head"
   iss_master = module.master.configuration["hostname"]
 }
 ```
 
 Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
-
-Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 ## Working on multiple configuration sets (workspaces) locally
 

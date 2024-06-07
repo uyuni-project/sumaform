@@ -72,6 +72,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
   scc_access_logging        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
+  beta_enabled              = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "beta_enabled", false) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
@@ -103,6 +105,7 @@ module "server" {
   forward_registration           = false
   monitored                      = true
   use_os_released_updates        = true
+  beta_enabled                   = lookup(local.beta_enabled, "server", false)
   install_salt_bundle            = lookup(local.install_salt_bundle, "server", false)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
@@ -148,6 +151,7 @@ module "server_containerized" {
   disable_download_tokens        = false
   //forward_registration           = false
   use_os_released_updates        = true
+  beta_enabled                   = lookup(local.beta_enabled, "server_containerized", false)
   install_salt_bundle            = lookup(local.install_salt_bundle, "server_containerized", false)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
@@ -208,6 +212,7 @@ module "proxy_containerized" {
 
   runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
   container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
+  container_tag          = lookup(local.container_tags, "proxy_containerized", "")
   helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
   server_configuration   = { hostname = local.server_full_name,
                               username = "admin",

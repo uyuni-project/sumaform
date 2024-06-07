@@ -13,9 +13,9 @@ variable "use_os_released_updates" {
 }
 
 variable "salt_obs_flavor" {
-  description = "One of: products, products:testing or products:next"
+  description = "One of: saltstack, saltstack:products, saltstack:products:testing or saltstack:products:next"
   type        = string
-  default     = "products:testing"
+  default     = "saltstack:products:testing"
 }
 
 variable "additional_repos" {
@@ -52,4 +52,9 @@ variable "image" {
   description = "An image name, e.g. sles12sp4 or opensuse155o"
   type        = string
   default = "opensuse155o"
+}
+
+variable "install_salt_bundle" {
+  description = "use true to install the venv-salt-minion package in the hosts"
+  default     = true
 }

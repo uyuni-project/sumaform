@@ -3,8 +3,8 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
-  x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o"]
-  combustion_images  = ["leapmicro55o"]
+  x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o", "slmicro60o"]
+  combustion_images  = ["leapmicro55o", "slmicro60o"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {
         path = "/etc/gpg_keys/${key}"
@@ -15,7 +15,8 @@ locals {
     }
   ]
   container_runtime = lookup(var.grains, "container_runtime", "")
-  
+  product_version = lookup(var.grains, "product_version", "")
+
   combustion = contains(local.combustion_images, var.image)
   provider_settings = merge({
     memory          = 1024
@@ -87,6 +88,8 @@ data "template_file" "combustion" {
     container_runtime   = local.container_runtime
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     additional_repos    = join(" ", [for key, value in var.additional_repos : "${key}=${value}"])
+    image               = var.image
+    product_version     = local.product_version
   }
 }
 

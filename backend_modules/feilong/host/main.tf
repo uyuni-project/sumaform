@@ -75,6 +75,7 @@ resource "null_resource" "provisioning" {
         gpg_keys                      = var.gpg_keys
         connect_to_base_network       = true
         connect_to_additional_network = false
+        reset_ids                     = true
         ipv6                          = var.ipv6
 
         // These should be defined in a "sumaform module", but we cannot use sumaform modules,
@@ -96,6 +97,13 @@ resource "null_resource" "provisioning" {
       "sudo rm -rf /root/salt",
       "sudo mv /tmp/salt /root",
       "sudo bash /root/salt/first_deployment_highstate.sh"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo bash -c 'echo root:linux | chpasswd'",
+      "sudo bash -c 'sed -i \"/Please login as the user ..sles.. rather than the user ..root../d\" /root/.ssh/authorized_keys'"
     ]
   }
 }

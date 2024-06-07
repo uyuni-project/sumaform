@@ -60,7 +60,7 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "sles15sp4o" || image == "sles15sp5o" }
+%{ if image == "sles15sp4o" || image == "sles15sp5o" || image == "sles15sp6o" }
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
   - zypper ref
@@ -71,7 +71,7 @@ packages: ["salt-minion"]
 
 %{ endif }
 
-%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "slesforsap15sp5-paygo" }
+%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "slesforsap15sp5-paygo" || image == "sles15sp6-paygo" }
 packages: ["salt-minion"]
 
 %{ endif }
@@ -117,7 +117,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion"]
+packages: ["venv-salt-minion", "dbus-tools"]
 runcmd:
   # WORKAROUND: rhel9 change ssh security for ssh key
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
@@ -134,7 +134,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion"]
+packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif }
 %{ if image == "rocky8"}
 yum_repos:
@@ -146,7 +146,7 @@ yum_repos:
     gpgcheck: false
     name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion"]
+packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif }
 %{ if image == "centos7" || image == "rhel7"}
 yum_repos:

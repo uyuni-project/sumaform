@@ -177,6 +177,12 @@ variable "use_os_released_updates" {
   default     = false
 }
 
+variable "beta_enabled" {
+  description = "enable the mechanism to take into account beta channels"
+  type        = bool
+  default     = false
+}
+
 variable "from_email" {
   description = "email address used as sender for emails"
   default     = null
@@ -271,7 +277,7 @@ variable "connect_to_additional_network" {
 }
 
 variable "image" {
-  description = "An image name, e.g. sles15sp5 or opensuse155o"
+  description = "An image name, e.g. slemicro55o or leapmicro55o"
   type        = string
   default     = "default"
 }

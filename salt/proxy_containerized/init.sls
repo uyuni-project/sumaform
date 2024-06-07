@@ -37,22 +37,39 @@ ssh_config_proxy_containerized:
 # Note: In our registries we don't have released and not released versions at this point in time
 {% if grains.get('container_repository') %}
   {% set container_repository = grains.get('container_repository') %}
+  {% set container_tag = grains.get('container_tag') %}
 {% else %}
   {% if 'uyuni' in grains.get('product_version') %}
     {% set container_repository = 'registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni' %}
+    #in uyuni this would use latest tag 
+    {% set container_tag = '' %}
   {% elif '5.0' in grains.get('product_version') %}
     {% set container_repository = 'registry.suse.de/devel/galaxy/manager/5.0/containers/suse/manager/5.0' %}
+    #in suma this would use most recent version as tag
+    {% set container_tag = '' %} 
   {% else %} # Head
     {% set container_repository = 'registry.suse.de/devel/galaxy/manager/head/containers/suse/manager/5.0' %}
+    {% set container_tag = 'latest' %}
   {% endif %}
 {% endif %}
 
 # Useful to setup the proxy through the tests
-env_var_bashrc_registry_proxy_httpd_image:
-  cmd.run:
-    - name: |
-        echo "export UYUNI_IMAGES_LOCATION={{ container_repository }}" >> /root/.bashrc
-        source /root/.bashrc
+config_proxy_containerized:
+  file.managed:
+    - name: /etc/uyuni/uyuni-tools.yaml
+    - contents: |
+        registry: {{ container_repository }}
+        httpd:
+          tag: {{ container_tag }}
+        saltBroker:
+          tag: {{ container_tag }}
+        ssh:
+          tag: {{ container_tag }}
+        tftpd:
+          tag: {{ container_tag }}
+        squid:
+          tag: {{ container_tag }}
+    - makedirs: True
 
 {% if 'Micro' not in grains['osfullname'] %}
 install_mgr_tools:
@@ -60,7 +77,6 @@ install_mgr_tools:
     - pkgs:
       - podman
       - mgrpxy
-      - mgrctl
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready

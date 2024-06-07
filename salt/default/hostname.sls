@@ -30,7 +30,7 @@ legacy_permanent_hostname:
     - follow_symlinks: False
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
-{% if grains['os_family'] == 'Suse' %}
+{% if grains['os_family'] == 'Suse' and grains["osfullname"] not in ['SL-Micro', 'openSUSE Tumbleweed'] %}
 change_searchlist:
   file.replace:
     - name: /etc/sysconfig/network/config

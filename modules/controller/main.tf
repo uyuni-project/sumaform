@@ -64,9 +64,11 @@ module "controller" {
     server_instance_id        = var.server_instance_id
     container_runtime         = lookup(var.server_configuration, "runtime", "")
     catch_timeout_message     = var.catch_timeout_message
+    beta_enabled              = var.beta_enabled
 
     sle12sp5_paygo_minion    = length(var.sle12sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_paygo_minion_configuration["hostnames"][0] : null
     sle15sp5_paygo_minion    = length(var.sle15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp5_paygo_minion_configuration["hostnames"][0] : null
+    sle15sp6_paygo_minion    = length(var.sle15sp6_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp6_paygo_minion_configuration["hostnames"][0] : null
     sleforsap15sp5_paygo_minion = length(var.sleforsap15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sleforsap15sp5_paygo_minion_configuration["hostnames"][0] : null
     sle11sp4_minion      = length(var.sle11sp4_minion_configuration["hostnames"]) > 0 ? var.sle11sp4_minion_configuration["hostnames"][0] : null
     sle11sp4_sshminion   = length(var.sle11sp4_sshminion_configuration["hostnames"]) > 0 ? var.sle11sp4_sshminion_configuration["hostnames"][0] : null
@@ -96,6 +98,9 @@ module "controller" {
     sle15sp5_client      = length(var.sle15sp5_client_configuration["hostnames"]) > 0 ? var.sle15sp5_client_configuration["hostnames"][0] : null
     sle15sp5_minion      = length(var.sle15sp5_minion_configuration["hostnames"]) > 0 ? var.sle15sp5_minion_configuration["hostnames"][0] : null
     sle15sp5_sshminion   = length(var.sle15sp5_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp5_sshminion_configuration["hostnames"][0] : null
+    sle15sp6_client      = length(var.sle15sp6_client_configuration["hostnames"]) > 0 ? var.sle15sp6_client_configuration["hostnames"][0] : null
+    sle15sp6_minion      = length(var.sle15sp6_minion_configuration["hostnames"]) > 0 ? var.sle15sp6_minion_configuration["hostnames"][0] : null
+    sle15sp6_sshminion   = length(var.sle15sp6_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp6_sshminion_configuration["hostnames"][0] : null
     slemicro51_minion    = length(var.slemicro51_minion_configuration["hostnames"]) > 0 ? var.slemicro51_minion_configuration["hostnames"][0] : null
     slemicro51_sshminion = length(var.slemicro51_sshminion_configuration["hostnames"]) > 0 ? var.slemicro51_sshminion_configuration["hostnames"][0] : null
     slemicro52_minion    = length(var.slemicro52_minion_configuration["hostnames"]) > 0 ? var.slemicro52_minion_configuration["hostnames"][0] : null
@@ -106,6 +111,8 @@ module "controller" {
     slemicro54_sshminion = length(var.slemicro54_sshminion_configuration["hostnames"]) > 0 ? var.slemicro54_sshminion_configuration["hostnames"][0] : null
     slemicro55_minion    = length(var.slemicro55_minion_configuration["hostnames"]) > 0 ? var.slemicro55_minion_configuration["hostnames"][0] : null
     slemicro55_sshminion = length(var.slemicro55_sshminion_configuration["hostnames"]) > 0 ? var.slemicro55_sshminion_configuration["hostnames"][0] : null
+    slmicro60_minion     = length(var.slmicro60_minion_configuration["hostnames"]) > 0 ? var.slmicro60_minion_configuration["hostnames"][0] : null
+    slmicro60_sshminion  = length(var.slmicro60_sshminion_configuration["hostnames"]) > 0 ? var.slmicro60_sshminion_configuration["hostnames"][0] : null
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null

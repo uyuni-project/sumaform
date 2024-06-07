@@ -7,6 +7,22 @@ chpasswd:
   list: |
      root:linux
 
+%{ if image == "tumbleweedo"}
+runcmd:
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack/openSUSE_Tumbleweed/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+# For openSUSE Tumbleweed venv-salt-minion is not available.
+# The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
+packages: ["salt", "salt-minion", "avahi", "avahi-lang"]
+%{endif}
+
 %{ if image == "centos7o" }
 yum_repos:
   # repo for salt
@@ -340,16 +356,50 @@ runcmd:
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
+%{ if image == "sles15sp6o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
+      enabled: 1
+      autorefresh: 1
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+%{ else }
+packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+%{ endif }
+
+runcmd:
+  # WORKAROUND: cloud-init in SLES 15 SP6 does not take care of the following
+  # TODO: Check!
+  - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+%{ endif }
+
 %{ if image == "slemicro55o" }
 
 write_files: ${ files }
 
 zypper:
   repos:
-%{ if container_proxy || container_server }
+%{ if container_server }
     - id: container_tools_repo
       name: container_tools_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/SLE_15_SP5/
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+%{ if container_proxy }
+    - id: container_tools_repo
+      name: container_tools_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -381,6 +431,12 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
+    - id: tools_pool_repo
+      name: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
 
 runcmd:
   - [transactional-update, run, sh, -c, "for key in $(ls /etc/gpg_keys); do rpm --import /etc/gpg_keys/$key; done" ]
@@ -393,7 +449,7 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
 %{ endif }
 %{ if container_proxy }
-  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgrpxy, ca-certificates-suse ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
 %{ endif }
 %{ if install_salt_bundle }
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, venv-salt-minion, avahi ]
@@ -760,9 +816,9 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "dbus-tools"]
 %{ else }
-packages: ["avahi", "nss-mdns", "salt-minion"]
+packages: ["avahi", "nss-mdns", "salt-minion", "dbus-tools"]
 %{ endif }
 
 %{ endif }
@@ -789,9 +845,9 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "dbus-tools"]
 %{ else }
-packages: ["avahi", "nss-mdns", "salt-minion"]
+packages: ["avahi", "nss-mdns", "salt-minion", "dbus-tools"]
 %{ endif }
 %{ endif }
 
@@ -865,4 +921,13 @@ packages: ["salt-minion"]
 
 runcmd:
   - zypper removerepo --all
+%{ endif }
+  
+%{ if image == "opensuse156armo" }
+
+runcmd:
+  # WORKAROUND: cloud-init in opensuse156 does not take care of the following
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+  - systemctl restart sshd.service
+
 %{ endif }
