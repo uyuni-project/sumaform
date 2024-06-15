@@ -110,11 +110,16 @@ repo_key_import:
       - cmd: galaxy_key_copy
 {% endif %}
 
+testsuite_refresh_repos:
+  cmd.run:
+    - name: mgrctl exec "zypper --non-interactive --gpg-auto-import-keys refresh --force; exit 0"
+
 testsuite_packages:
   cmd.run:
     - name: mgrctl exec "zypper -n in iputils expect wget OpenIPMI"
-{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
     - require:
+      - cmd: testsuite_refresh_repos
+{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
 
