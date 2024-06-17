@@ -95,7 +95,7 @@ install_salt_testsuite:
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
-    {% if grains["install_salt_bundle"] %}
+    {% if grains["install_salt_bundle"] and not grains['osfullname'] == 'Leap' %}
     - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
     {% else %}
     - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
