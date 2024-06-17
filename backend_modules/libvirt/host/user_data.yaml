@@ -787,11 +787,8 @@ runcmd:
   - yes | sh rmt-client-setup-res https://rmt.scc.suse.de
   # Packages installation after registration
   - dnf config-manager --set-enabled epel
-%{ if install_salt_bundle }
+  # EL9 only supports Salt Bundle, so we can't offer the possibility to install salt-minion package
   - dnf -y install venv-salt-minion avahi nss-mdns
-%{ else }
-  - dnf -y install avahi nss-mdns salt-minion
-%{ endif }
   # WORKAROUND: cloud-init in Liberty 9 does not take care of the following
   - dnf -y install dbus-tools
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
