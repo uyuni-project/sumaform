@@ -670,6 +670,8 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - systemctl start qemu-guest-agent
+  # HACK: buster-backports repository has changed
+  - sed -i 's/deb.debian.org\/debian buster-backports/archive.debian.org\/debian buster-backports/g' /etc/apt/sources.list
 
 bootcmd:
   # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
