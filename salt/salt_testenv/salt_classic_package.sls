@@ -88,6 +88,7 @@ salt_testing_repo:
 {% endif %}
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/repodata/repomd.xml.key
 
+{% set salt_minion_is_installed = salt["pkg.info_installed"]("salt-minion").get("salt-minion", False) %}
 install_salt_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
@@ -95,10 +96,10 @@ install_salt_testsuite:
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
-    {% if grains["install_salt_bundle"] %}
-    - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
-    {% else %}
+    {% if salt_minion_is_installed %}
     - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
+    {% else %}
+    - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
     {% endif %}
     - fromrepo: salt_testing_repo
 {% endif %}
