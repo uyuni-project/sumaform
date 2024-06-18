@@ -96,10 +96,10 @@ install_salt_testsuite:
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
-    {% if not salt_minion_is_installed %}
-    - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
-    {% else %}
+    {% if salt_minion_is_installed %}
     - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
+    {% else %}
+    - name: zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
     {% endif %}
     - fromrepo: salt_testing_repo
 {% endif %}
