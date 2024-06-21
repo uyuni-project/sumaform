@@ -204,6 +204,9 @@ tools_update_repo:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
+{% elif grains['osfullname'] == 'SL-Micro' %}
+{# TODO: add SL Micro 6 #}
+
 {% elif grains['osfullname'] == 'SLE Micro' %}
 
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %} {# Released Tools repos #}
