@@ -3,7 +3,7 @@
 {% if 'uyuni' in grains['product_version'] %}
 proxy_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
     - refresh: True
     - priority: 97
 {% endif %}
@@ -11,13 +11,13 @@ proxy_pool_repo:
 {% if 'uyuni-master' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') or '4.3-pr' in grains.get('product_version') %}
 proxy_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
     - refresh: True
     - priority: 96
 
 testing_overlay_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-x86_64-Media1/
     - refresh: True
     - priority: 96
 
