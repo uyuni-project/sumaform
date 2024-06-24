@@ -66,12 +66,12 @@ galaxy_key:
 
 {% elif '4.3' in grains.get('product_version') %}
   {% if '-released' in grains.get('product_version') %}
-    {% set client_tools_repo = grains.get("mirror") | default("download.suse.de/ibs", true) ~ '/SUSE/Updates/SLE-Manager-Tools/15/{{ grains.get("cpuarch") }}/update/' %}
+    {% set client_tools_repo = grains.get("mirror") | default("download.suse.de/ibs", true) ~ '/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/' %}
   {% else %}
-    {% set client_tools_repo =  grains.get("mirror") | default("download.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/' %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
   {% endif %}
 {% else %}
-    {% set client_tools_repo =  grains.get("mirror") | default("download.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/' %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
 {% endif %}
 
 proxy_client_tools_repo:

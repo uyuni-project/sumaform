@@ -63,18 +63,18 @@ tools_pool_repo:
 tools_pool_repo:
   pkgrepo.managed:
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15-BETA/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
     {% endif %}
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15-BETA/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15-BETA/x86_64/update/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     {% endif %}
     - refresh: True
 {% endif %}
@@ -89,27 +89,27 @@ tools_update_repo:
 os_pool_repo:
   pkgrepo.managed:
     {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Pool/sle-11-{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64/
     {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/{{ grains.get("cpuarch") }}/update/SLE-SERVER/11-SP4-POOL/
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL/
     {% endif %}
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
     {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Updates/sle-11-{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/
     {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/x86_64/update/
     {% endif %}
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
     {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-LTSS-Updates/sle-11-{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-LTSS-Updates/sle-11-x86_64/
     {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-LTSS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-LTSS/x86_64/update/
     {% endif %}
     - refresh: True
 
@@ -117,15 +117,15 @@ tools_pool_repo:
   pkgrepo.managed:
     {% if grains.get('mirror') %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools-Beta/sle-11-{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools-Beta/sle-11-x86_64/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/
     {% endif %}
     {% else %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS-BETA/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     {% endif %}
     - refresh: True
@@ -134,7 +134,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-{{ grains.get("cpuarch") }}-Media1/suse/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
     - refresh: True
     - priority: 98
 {% endif %}
@@ -148,47 +148,47 @@ tools_additional_repo:
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP3/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP3/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP3/x86_64/update/
     - refresh: True
 
 {% elif grains['osrelease'] == '12.4' %}
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP4/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4/x86_64/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4-LTSS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4-LTSS/x86_64/update/
     - refresh: True
 
 {% elif grains['osrelease'] == '12.5' %}
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP5/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5/x86_64/update/
     - refresh: True
 
 # uncomment when it goes LTSS
 # os_ltss_repo:
 #   pkgrepo.managed:
-#           - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5-LTSS/{{ grains.get("cpuarch") }}/update/
+#           - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5-LTSS/x86_64/update/
 
 {% endif %}
 {% endif %} ## End skip if SCC support
@@ -198,18 +198,18 @@ os_update_repo:
 tools_pool_repo:
   pkgrepo.managed:
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/12-BETA/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/12-BETA/x86_64/product/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/12/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
     {% endif %}
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/12-BETA/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/12-BETA/x86_64/update/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/12/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
     {% endif %}
     - refresh: True
 {% else %}
@@ -222,14 +222,14 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-Beta-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-Beta-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
 
@@ -275,7 +275,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
 
@@ -290,7 +290,7 @@ lock_firewalld_prometheus_config_cmd:
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
 
@@ -325,17 +325,17 @@ lock_firewalld_prometheus_config_cmd:
 {% if '15' == grains['osrelease'] %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-LTSS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-LTSS/x86_64/update/
     - refresh: True
 
 {% endif %} {# '15' == grains['osrelease'] #}
@@ -343,17 +343,17 @@ os_ltss_repo:
 {% if '15.1' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true)) %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP1/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP1/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP1/x86_64/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP1-LTSS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP1-LTSS/x86_64/update/
     - refresh: True
 
 {% endif %} {# '15.1' == grains['osrelease'] #}
@@ -361,17 +361,17 @@ os_ltss_repo:
 {% if '15.2' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true)) %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update/
 
 {% endif %} {# '15.2' == grains['osrelease'] #}
 
@@ -414,18 +414,18 @@ os_ltss_repo:
 {% if '15.5' == grains['osrelease'] and not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true) ) %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP5/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP5/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP5/x86_64/update/
     - refresh: True
 
 # uncomment when it goes LTSS
 #os_ltss_repo:
 #  pkgrepo.managed:
-#    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP5-LTSS/{{ grains.get("cpuarch") }}/update/
+#    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP5-LTSS/x86_64/update/
 #    - refresh: True
 
 {% endif %} {# '15.5' == grains['osrelease'] #}
@@ -461,16 +461,16 @@ tools_pool_repo:
 {% elif 'head' in grains.get('product_version', '') %}
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools-For-Micro/5/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools-For-Micro/5/x86_64/product/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools-For-Micro/5/{{ grains.get("cpuarch") }}/product/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Manager-Tools-For-Micro/5/x86_64/product/repodata/repomd.xml.key
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools-For-Micro/5/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools-For-Micro/5/x86_64/update/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools-For-Micro/5/{{ grains.get("cpuarch") }}/update/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools-For-Micro/5/x86_64/update/repodata/repomd.xml.key
 {% endif %}
 {% endif %}
 
@@ -532,27 +532,27 @@ uyuni_key:
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://rmt.scc.suse.de/repo/SUSE/Updates/SLL/9/{{ grains.get("cpuarch") }}/update
+    - baseurl: http://rmt.scc.suse.de/repo/SUSE/Updates/SLL/9/x86_64/update
     - refresh: True
 
 os_as_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://rmt.scc.suse.de/repo/SUSE/Updates/SLL-AS/9/{{ grains.get("cpuarch") }}/update
+    - baseurl: http://rmt.scc.suse.de/repo/SUSE/Updates/SLL-AS/9/x86_64/update
     - refresh: True
 
 os_updates_repo:
   pkgrepo.managed:
-    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL/9/{{ grains.get("cpuarch") }}/update/?credentials=SUSE_Liberty_Linux_{{ grains.get("cpuarch") }}
+    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL/9/x86_64/update/?credentials=SUSE_Liberty_Linux_x86_64
     - refresh: True
 
 os_as_updates_repo:
   pkgrepo.managed:
-    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL-AS/9/{{ grains.get("cpuarch") }}/update/?credentials=SUSE_Liberty_Linux_{{ grains.get("cpuarch") }}
+    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL-AS/9/x86_64/update/?credentials=SUSE_Liberty_Linux_x86_64
     - refresh: True
 
 os_cb_updates_repo:
   pkgrepo.managed:
-    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL-CB/9/{{ grains.get("cpuarch") }}/update/?credentials=SUSE_Liberty_Linux_{{ grains.get("cpuarch") }}
+    - baseurl: https://rmt.scc.suse.de/repo/SUSE/Updates/SLL-CB/9/x86_64/update/?credentials=SUSE_Liberty_Linux_x86_64
     - refresh: True
 {% endif %} {# salt['file.search']('/etc/os-release', 'Liberty') #}
 {% endif %} {# release == 9 #}
@@ -569,25 +569,25 @@ tools_pool_repo:
     - humanname: tools_pool_repo
     {% if release >= 8 %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/product/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/product/
     {% endif %}
     {% elif grains.get('mirror') %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools-Beta/{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools-Beta/x86_64/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools/{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools/x86_64/
     {% endif %}
     {% else %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
     # Amazon Linux support
     {% if release == 2 %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/7-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/RES/7-CLIENT-TOOLS/x86_64/product/
     {% else %}
-    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://download.suse.de/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     {% endif %}
     {% endif %}
@@ -692,9 +692,9 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
     - refresh: True
     - require:
@@ -763,11 +763,11 @@ tools_update_repo:
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
 {% else %}
@@ -793,12 +793,12 @@ tools_update_repo_raised_priority:
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:{{ grains.get("cpuarch") }}:update
+            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
             Pin-Priority: 800
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:{{ grains.get("cpuarch") }}:update
+            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
             Pin-Priority: 800
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
     - contents: |
@@ -827,11 +827,11 @@ tools_update_repo:
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS-BETA/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
 {% else %}
@@ -857,12 +857,12 @@ tools_update_repo_raised_priority:
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
-        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:{{ grains.get("cpuarch") }}:update
+        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
         Pin-Priority: 800
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
-        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:{{ grains.get("cpuarch") }}:update
+        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
         Pin-Priority: 800
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
     - contents: |
