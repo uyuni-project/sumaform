@@ -31,7 +31,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
+      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/{{ grains.get("cpuarch") }}/product
       enabled: 1
       autorefresh: 1
 
