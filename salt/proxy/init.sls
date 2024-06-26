@@ -311,6 +311,7 @@ ca-configuration-checksum:
 
 {% endif %}
 
+{% if grains.get('provider') != 'aws' %}
 
 # WORKAROUND: this avoids already established connections to hang
 # when SuSEfirewall2 is started by the retail formula
@@ -334,6 +335,8 @@ preload_conntrack_modules_and_enable_them_at_boottime:
 {% endif %}
     - require:
       - pkg: proxy-packages
+
+{% endif %}
 
 {% if grains.get('testsuite') | default(false, true) %}
 testsuite_packages:
