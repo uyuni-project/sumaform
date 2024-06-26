@@ -136,18 +136,23 @@ yum_repos:
 
 packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif }
-%{ if image == "rocky8"}
-yum_repos:
-  # repo for salt
-  temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    name: temp_tools_pool_repo
 
-packages: ["venv-salt-minion", "dbus-tools"]
+%{ if image == "rocky8"}
+runcmd:
+  - |
+    cat <<EOF > /etc/yum.repos.d/temp_tools_pool_repo.repo
+    [temp_tools_pool_repo]
+    name=temp_tools_pool_repo
+    baseurl=http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    failovermethod=priority
+    enabled=1
+    gpgcheck=0
+    EOF
+  - yum clean all
+  - yum repolist
+  - dnf -y install venv-salt-minion
 %{ endif }
+
 %{ if image == "centos7" || image == "rhel7"}
 yum_repos:
   # repo for salt

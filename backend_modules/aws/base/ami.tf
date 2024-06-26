@@ -1,6 +1,6 @@
 data "aws_ami" "opensuse155o" {
   most_recent = true
-  name_regex  = "^openSUSE-Leap-15-5-v"
+  name_regex  = "^openSUSE-Leap-15.5-HVM"
   owners      = ["679593333241"]
 
   filter {
