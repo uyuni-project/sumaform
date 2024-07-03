@@ -75,25 +75,6 @@ packages: ["salt-minion"]
 packages: ["salt-minion"]
 
 %{ endif }
-  
-%{ if image == "slemicro55o" }
-
-zypper:
-  repos:
-    - id: micro_pool_repo
-      name: micro_pool_repo
-      baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-
-runcmd:
-  - [transactional-update, run, sh, -c, "for key in $(ls /etc/gpg_keys); do rpm --import /etc/gpg_keys/$key; done" ]
-  - [ zypper, mr, -a, -g ]
-  - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
-  - [ reboot ]
-%{ endif }
-
 
 %{ if image == "sles12sp5"}
 zypper:
