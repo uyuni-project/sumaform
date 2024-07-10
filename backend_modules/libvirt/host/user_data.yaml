@@ -24,6 +24,12 @@ packages: ["salt", "salt-minion", "avahi", "avahi-lang"]
 %{endif}
 
 %{ if image == "centos7o" }
+bootcmd:
+  # HACK: mirrorlist.centos.org doesn't exist anymore
+  - sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
+  - sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo
+  - sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
+
 yum_repos:
   # repo for salt
   tools_pool_repo:
