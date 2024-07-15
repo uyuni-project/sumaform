@@ -37,15 +37,15 @@ module "server_containerized" {
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
-    product_version        = var.product_version
-    container_runtime      = var.runtime
-    container_repository   = var.container_repository
-    container_tag          = var.container_tag
-    helm_chart_url         = var.helm_chart_url
-    cc_username            = var.base_configuration["cc_username"]
-    cc_password            = var.base_configuration["cc_password"]
-    mirror                 = var.base_configuration["mirror"]
-    server_mounted_mirror  = var.server_mounted_mirror
+    product_version                = var.product_version
+    container_runtime              = var.runtime
+    container_repository           = var.container_repository
+    container_tag                  = var.container_tag
+    helm_chart_url                 = var.helm_chart_url
+    cc_username                    = var.base_configuration["cc_username"]
+    cc_password                    = var.base_configuration["cc_password"]
+    mirror                         = var.base_configuration["mirror"]
+    server_mounted_mirror          = var.server_mounted_mirror
     server_username                = var.server_username
     server_password                = var.server_password
     java_debugging                 = var.java_debugging
@@ -67,6 +67,7 @@ module "server_containerized" {
     disable_auto_bootstrap         = var.disable_auto_bootstrap
     large_deployment               = var.large_deployment
     beta_enabled                   = var.beta_enabled
+    additional_repos               = var.additional_repos
   }
 }
 
