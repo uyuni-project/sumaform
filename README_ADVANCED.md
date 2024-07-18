@@ -4,25 +4,27 @@
 
 Some modules have a `product_version` variable that determines the software product version. Specifically:
 
-- in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
-- in `server_containerized`, `proxy_containerized` etc. `product_version` determines the SUSE Manager/Uyuni product version - this is currently the recommended setup for head,
-- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
+- in `server`, `proxy`, `server_containerized` and `proxy_containerized`, `product_version` determines the SUSE Manager/Uyuni product version
+- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version
 
 Legal values for released software are:
 
-- `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
-- `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
-- `4.3-VM-released` (latest released Maintenance Update for SUSE Manager 4.3Virtual Machine)
+- `4.2-released` (latest released maintenance update for SUSE Manager 4.2 and Tools)
+- `4.3-released` (latest released maintenance update for SUSE Manager 4.3 and Tools)
+- `4.3-VM-released` (latest released maintenance update for SUSE Manager 4.3 virtual machine)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
 
 - `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
-- `4.3-VM-nightly`       (corresponds to the Virtual Image in the Build Service project Devel:Galaxy:Manager:4.3)
-- `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
-- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, **must be used with `server_containerized` and `proxy_containerized` modules**, uses SLE Micro as base image for server)
+- `4.3-VM-nightly` (corresponds to the VM image in the Build Service project Devel:Galaxy:Manager:4.3)
+- `4.3-beta` (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, uses SLE Micro as the base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
+
+**Important:** sumaform only supports containerized deployments for SUSE Manager versions 5.0 and later.
+Please use `server_containerized` and `proxy_containerized` modules with product versions `head` and `5.0-X`.
 
 Legal values for CI:
 
