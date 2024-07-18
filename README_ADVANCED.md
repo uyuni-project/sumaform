@@ -731,7 +731,7 @@ It is possible to install Prometheus exporters on a SUSE Manager Server instance
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -840,7 +840,7 @@ It is possible to run SUSE Manager servers, proxies, clients and minions with th
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -857,7 +857,7 @@ This setting can be overridden with a custom 'from' address by supplying the par
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -872,7 +872,7 @@ By suppling the parameter `traceback_email` you can override that address to hav
 
 ```hcl
 module "sumamail3" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "sumamail3"
