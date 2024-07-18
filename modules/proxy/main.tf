@@ -10,7 +10,6 @@ variable "images" {
     "4.3-build_image"= "sles15sp4o"
     "4.3-VM-nightly" = "sles15sp4o"
     "4.3-VM-released"= "sles15sp4o"
-    "head"           = "sles15sp4o"
     "uyuni-master"   = "opensuse155o"
     "uyuni-released" = "opensuse155o"
     "uyuni-pr"       = "opensuse155o"
@@ -57,7 +56,7 @@ module "proxy" {
     proxy_containerized       = var.proxy_containerized
   }
 
-  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image                    = var.image == "default" ? var.images[var.product_version] : var.image
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings

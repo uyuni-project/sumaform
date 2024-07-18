@@ -11,7 +11,6 @@ variable "images" {
     "4.3-paygo"       = "suma-server-43-paygo"
     "4.3-VM-nightly"  = "suma43VM-ign"
     "4.3-VM-released" = "suma43VM-ign"
-    "head"            = "sles15sp4o"
     "uyuni-master"    = "opensuse155o"
     "uyuni-released"  = "opensuse155o"
     "uyuni-pr"        = "opensuse155o"
@@ -38,7 +37,7 @@ module "server" {
   connect_to_additional_network = false
   roles                         = var.register_to_server == null ? ["server"] : ["server", "minion"]
   disable_firewall              = var.disable_firewall
-  image                         = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image                         = var.image == "default" ? var.images[var.product_version] : var.image
   provider_settings             = var.provider_settings
   main_disk_size                = var.main_disk_size
   additional_disk_size          = var.repository_disk_size
