@@ -60,10 +60,12 @@ cucumber_requisites:
 install_chromium:
   pkg.installed:
   - name: chromium
+  - version: 125.0.6422.141-bp155.2.91.1
 
 install_chromedriver:
   pkg.installed:
   - name: chromedriver
+  - version: 125.0.6422.141-bp155.2.91.1
 
 create_syslink_for_chromedriver:
   file.symlink:
