@@ -60,11 +60,13 @@ cucumber_requisites:
 install_chromium:
   pkg.installed:
   - name: chromium
+  # workaround for https://github.com/SUSE/spacewalk/issues/24883, as soon as we find a version newer than 126 fixing the issue, we should remove this line
   - version: 125.0.6422.141-bp155.2.91.1
 
 install_chromedriver:
   pkg.installed:
   - name: chromedriver
+  # workaround for https://github.com/SUSE/spacewalk/issues/24883, as soon as we find a version newer than 126 fixing the issue, we should remove this line
   - version: 125.0.6422.141-bp155.2.91.1
 
 create_syslink_for_chromedriver:
