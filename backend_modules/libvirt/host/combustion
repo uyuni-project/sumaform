@@ -87,7 +87,11 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 for i in ${additional_repos};do
   name=$(echo $i | cut -d= -f1)
   url=$(echo $i | cut -d= -f2)
-  zypper ar $url $name
+  %{ if 'uyuni-pr' in grains.get('product_version', '') }
+    zypper ar --no-gpgcheck $url $name
+  {% else %}
+    zypper ar $url $name
+  %{ endif }
 done
 
 
