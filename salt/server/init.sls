@@ -172,3 +172,18 @@ change_product_tree_to_beta:
     - require:
       - cmd: server_setup
 {% endif %}
+
+# WORKAROUND: The minimal VM images use a different kernel package that causes issues when trying to upgrade the
+# server and the proxy/minions via SUMA
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] == '15.4'  %}
+remove_kernel_default_base:
+  pkg.removed:
+    - name: kernel-default-base
+
+use_correct_kernel_package:
+  pkg.installed:
+    - pkgs:
+        - kernel-default
+    - require:
+      - pkg: remove_kernel_default_base
+{% endif %}
