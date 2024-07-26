@@ -362,4 +362,10 @@ use_correct_kernel_package_proxy:
         - kernel-default
     - require:
       - pkg: remove_kernel_default_base_proxy
+
+reboot_after_kernel_change_proxy:
+  module.run:
+    - name: system.reboot
+    - at_time: +1
+    - order: last
 {% endif %}

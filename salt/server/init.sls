@@ -186,4 +186,10 @@ use_correct_kernel_package_server:
         - kernel-default
     - require:
       - pkg: remove_kernel_default_base_server
+
+reboot_after_kernel_change_server:
+  module.run:
+    - name: system.reboot
+    - at_time: +1
+    - order: last
 {% endif %}
