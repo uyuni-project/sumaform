@@ -348,23 +348,3 @@ testsuite_packages:
       - sls: repos
 {% endif %}
 {% endif %}
-
-# WORKAROUND: The minimal VM images use a different kernel package that causes issues when trying to upgrade the
-# server and the proxy/minions via SUMA
-{% if grains['osfullname'] == 'SLES' and grains['osrelease'] == '15.4'  %}
-remove_kernel_default_base_proxy:
-  pkg.removed:
-    - name: kernel-default-base
-
-use_correct_kernel_package_proxy:
-  pkg.installed:
-    - pkgs:
-        - kernel-default
-    - require:
-      - pkg: remove_kernel_default_base_proxy
-
-reboot_after_kernel_change_proxy:
-  module.run:
-    - name: system.reboot
-    - at_time: +1
-{% endif %}
