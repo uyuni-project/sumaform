@@ -367,5 +367,4 @@ reboot_after_kernel_change_proxy:
   module.run:
     - name: system.reboot
     - at_time: +1
-    - order: last
 {% endif %}

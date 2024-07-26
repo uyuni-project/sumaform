@@ -191,5 +191,4 @@ reboot_after_kernel_change_server:
   module.run:
     - name: system.reboot
     - at_time: +1
-    - order: last
 {% endif %}
