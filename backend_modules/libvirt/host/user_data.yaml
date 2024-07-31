@@ -243,10 +243,13 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
+  - zypper remove kernel-default-base
+
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "kernel-default"]
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+packages: ["avahi", "nss-mdns", "qemu-guest-agent", "kernel-default"]
 %{ endif }
 
 runcmd:
