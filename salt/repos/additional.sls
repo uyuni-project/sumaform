@@ -1,6 +1,5 @@
-# Skip Micro OSes, given the additional repos are set up by combustion/ignition/cloud-init, always add them to the server and server_containerized.
+# Skip Micro OSes, given the additional repos are set up by combustion/ignition/cloud-init.
 {% if (grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro']) %}
-{% if (('server' in grains.get('roles')) or ('server_containerized' in grains.get('roles'))) %}
 {% if grains['additional_repos'] %}
 {% for label, url in grains['additional_repos'].items() %}
 {{ label }}_repo:
@@ -59,7 +58,6 @@ update-ca-certificates:
           - ca-certificates.path
 {% endif %}
 {% endfor %}
-{% endif %}
 {% endif %}
 {% endif %}
 # WORKAROUND: see github:saltstack/salt#10852
