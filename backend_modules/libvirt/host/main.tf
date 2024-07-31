@@ -62,6 +62,7 @@ data "template_file" "user_data" {
     container_proxy     = contains(var.roles, "proxy_containerized")
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
+    additional_repos    = var.additional_repos
   }
 }
 
