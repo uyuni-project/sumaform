@@ -60,7 +60,6 @@ update-ca-certificates:
 {% endfor %}
 {% endif %}
 {% endif %}
-{% endif %}
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
