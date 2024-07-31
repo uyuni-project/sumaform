@@ -443,8 +443,7 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ if additional_repos }
-%{ for repo in additional_repos }
+%{ for repo in jsondecode(additional_repos) }
     - id: {{ repo[0] }}_repo
       name: {{ repo[0] }}_repo
       baseurl: {{ repo[1] }} 
@@ -452,7 +451,6 @@ zypper:
       autorefresh: 1
       gpgcheck: false
 %{ endfor }
-%{ endif }
 
 runcmd:
   - [transactional-update, run, sh, -c, "for key in $(ls /etc/gpg_keys); do rpm --import /etc/gpg_keys/$key; done" ]
