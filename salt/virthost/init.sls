@@ -184,6 +184,14 @@ cloudinit-user-data-{{ os_type }}:
         - cp -f /etc/salt/minion /etc/venv-salt-minion/minion
         - systemctl enable venv-salt-minion.service
         - systemctl start venv-salt-minion.service
+{% elif os_type == 'SLE Micro' %}
+{% if grains['additional_repos'] %}
+{% for label, url in grains['additional_repos'].items() %}
+        - zypper --non-interactive ar {{ url }} {{ label }}
+{% endfor %}
+        - zypper --non-interactive --gpg-auto-import-keys ref
+
+{% endif %}
 {% endif %}
         - zypper --non-interactive --gpg-auto-import-keys ref
         - zypper --non-interactive install nss-mdns qemu-guest-agent
