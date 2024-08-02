@@ -1,20 +1,20 @@
 include:
-  - repos.disable_local
-  - repos.vendor
+  - .disable_local
+  - .vendor
   {% if not grains.get('additional_repos_only') %}
-  - repos.default
-  - repos.minion
-  - repos.proxy
-  - repos.server
-  - repos.build_host
-  - repos.virthost
-  - repos.testsuite
-  - repos.tools
-  - repos.jenkins
-  - repos.server_containerized
-  - repos.proxy_containerized
+  - .default
+  - .minion
+  - .proxy
+  - .server
+  - .build_host
+  - .virthost
+  - .testsuite
+  - .tools
+  - .jenkins
+  - .server_containerized
+  - .proxy_containerized
   {% endif %}
-  - repos.additional
+  - .additional
 
 {% if grains['os'] == 'SUSE' %}
 refresh_repos:
