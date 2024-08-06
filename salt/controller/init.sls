@@ -62,6 +62,11 @@ cucumber_requisites:
     - target: /usr/bin/gem.ruby3.3
     - force: True
 
+/usr/bin/irb:
+  file.symlink:
+    - target: /usr/bin/irb.ruby3.3
+    - force: True
+
 ruby_set_rake_version:
   cmd.run:
     - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
