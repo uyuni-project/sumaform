@@ -443,10 +443,10 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ for repo in jsondecode(additional_repos) }
-    - id: {{ repo[0] }}_repo
-      name: {{ repo[0] }}_repo
-      baseurl: {{ repo[1] }} 
+%{ for name, url in jsondecode(additional_repos) }
+    - id: ${name}_repo
+      name: ${name}_repo
+      baseurl: ${url}
       enabled: 1
       autorefresh: 1
       gpgcheck: false
