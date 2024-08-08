@@ -9,17 +9,17 @@ Some modules have a `product_version` variable that determines the software prod
 
 Legal values for released software are:
 
-- `4.2-released` (latest released maintenance update for SUSE Manager 4.2 and Tools)
 - `4.3-released` (latest released maintenance update for SUSE Manager 4.3 and Tools)
 - `4.3-VM-released` (latest released maintenance update for SUSE Manager 4.3 virtual machine)
+- `5.0-released` (latest released maintenance update for SUSE Manager 5.0 and Tools)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
 
-- `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-VM-nightly` (corresponds to the VM image in the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-beta` (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
+- `5.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.0)
 - `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, uses SLE Micro as the base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
@@ -46,10 +46,10 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "min-sles15sp1"
-  image = "sles15sp1o"
+  name = "min-sles15sp6"
+  image = "sles15sp6o"
   server_configuration = module.proxy.configuration
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
 }
 
 module "server" {
@@ -57,7 +57,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-released"
+  product_version = "5.0-released"
 }
 ```
 
@@ -69,7 +69,7 @@ For some modules like `minion`, `image` is mandatory and Terraform will refuse t
 
 For other modules like `server` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
 
-The following example creates a SUSE Manager server using "nightly" packages from version 4.2 based on SLES 15 SP3:
+The following example creates a SUSE Manager server using "nightly" packages from version 5.0 based on SLES 15 SP3:
 
 ```hcl
 module "server" {
@@ -78,7 +78,7 @@ module "server" {
 
   image = "sles15sp3o"
   name = "server"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
 }
 ```
 
@@ -209,7 +209,7 @@ module "virthost" {
   server_configuration = module.srv.configuration
   ...
   name = "min-kvm"
-  image = "sles15sp1o"
+  image = "sles15sp6o"
   ...
   provider_settings = {
     vcpu = 3
@@ -311,7 +311,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   channels = ["sles12-sp5-pool-x86_64"]
 }
 ```
@@ -337,11 +337,11 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-nightly"
-  channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
+  product_version = "5.0-nightly"
+  channels = ["sles15-sp3-pool-x86_64", "sles15-sp3-updates-x86_64"]
   wait_for_reposync = true
   cloned_channels = [
-    { channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"],
+    { channels = ["sles15-sp3-pool-x86_64", "sles15-sp3-updates-x86_64"],
       prefix   = "cloned-2017-q3",
       date     = "2017-09-30"
     }
@@ -547,7 +547,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   server_configuration = module.server.configuration
 
   minion = false
@@ -672,7 +672,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   smt = "http://smt.suse.de"
 }
 ```
@@ -788,7 +788,7 @@ module "minion" {
   base_configuration = module.base.configuration
 
   name = "minion"
-  image = "sles15sp1o"
+  image = "sles15sp6o"
   server_configuration = module.server.configuration
   evil_minion_count = 10
   evil_minion_slowdown_factor = 1
@@ -911,7 +911,7 @@ An example follows:
 module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   name = "server"
   repository_disk_size = 500
   database_disk_size = 50

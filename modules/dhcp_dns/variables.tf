@@ -22,7 +22,7 @@ variable "private_hosts" {
 }
 
 variable "image" {
-  description = "an image name, e.g. sles12sp5 or opensuse155o"
+  description = "an image name, e.g. sles12sp4 or opensuse155o"
   type        = string
   default     = "opensuse155o"
 }

@@ -50,37 +50,6 @@ beta_tools_update_repo:
 
 {% elif grains['osfullname'] == 'SLES' %}
 
-{% if grains['osrelease'] == '11.4' %}
-
-tools_pool_repo:
-  pkgrepo.managed:
-    {% if grains.get('mirror') %}
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools-Beta/sle-11-x86_64/
-    {% else %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/
-    {% endif %}
-    {% else %}
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS-BETA/x86_64/update/
-    {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-CLIENT-TOOLS/x86_64/update/
-    {% endif %}
-    {% endif %}
-    - refresh: True
-
-# SLE11 will not get Head/4.3 client tools. Submissions to be done from 4.2 until it's EoL from a SUSE Manager POV, and removed completely from sumaform
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
-tools_additional_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse/
-    - refresh: True
-    - priority: 98
-{% endif %}
-
-{% endif %} {# grains['osrelease'] == '11.4' #}
-
-
 {% if '12' in grains['osrelease'] %}
 
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %} {# Released Tools Repos #}
