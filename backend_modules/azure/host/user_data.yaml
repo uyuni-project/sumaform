@@ -40,31 +40,6 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "sles15"}
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-%{ endif }
-
-%{ if image == "sles15sp1o" }
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP1/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-
-%{ endif }
-
 %{ if image == "sles15sp2o" }
 zypper:
   repos:
@@ -130,32 +105,6 @@ packages: ["salt-minion"]
 
 %{ endif }
   
-%{ if image == "sles12sp3"}
-zypper:
-  repos:
-    - id: os_manager_tools
-      name: os_manager_tools
-      baseurl: http://${mirror_url}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
-      enabled: 1
-      autorefresh: 1
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-%{ endif }
-%{ if image == "sles11sp4"}
-# WORKAROUND: SLES 11 SP4 does not ship with Salt installed
-runcmd:
-  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ tools_pool_repo
-  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-Pool/sle-11-x86_64/ os_pool_repo
-  - zypper ref
-  - zypper in -y salt-minion
-  - zypper removerepo --all
-  - rm /etc/modprobe.d/50-ipv6.conf
-%{ endif }
 %{ if image == "rhel9"}
 yum_repos:
   # repo for salt

@@ -153,27 +153,6 @@ runcmd:
   - zypper removerepo --all
 %{ endif }
 
-%{ if image == "sles12sp4o" }
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
-      enabled: 1
-      autorefresh: 1
-    - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
-      enabled: true
-      gpgcheck: false
-      name: tools_pool_repo
-
-%{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
-%{ endif }
-%{ endif }
-
 %{ if image == "sles12sp5o" }
 zypper:
   repos:
@@ -193,67 +172,6 @@ packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ else }
 packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
-%{ endif }
-
-%{ if image == "sles15o" }
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product
-      enabled: 1
-      autorefresh: 1
-      ## WORKAROUND: name of server app repo needs to be alphabetically after the base system repo to force GPG key update
-    - id: server_applications_pool_repo
-      name: module_server_applications_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15/x86_64/product
-      enabled: 1
-      autorefresh: 1
-    - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
-      enabled: true
-      gpgcheck: false
-      name: tools_pool_repo
-
-%{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
-%{ endif }
-
-runcmd:
-  # WORKAROUND: cloud-init in SLES 15 does not take care of the following
-  - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
-%{ endif }
-
-%{ if image == "sles15sp1o" }
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
-      enabled: 1
-      autorefresh: 1
-    - id: module_server_applications_pool_repo
-      name: module_server_applications_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP1/x86_64/product
-      enabled: 1
-      autorefresh: 1
-    - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
-      enabled: true
-      gpgcheck: false
-      name: tools_pool_repo
-
-%{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
-%{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
-%{ endif }
-
-runcmd:
-  # WORKAROUND: cloud-init in SLES 15 SP1 does not take care of the following
-  - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
 
 %{ if image == "sles15sp2o" }
@@ -649,53 +567,6 @@ bootcmd:
 packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
 %{ else }
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
-%{ endif }
-%{ endif }
-%{ if image == "debian10o" }
-apt:
-  sources:
-    tools_pool_repo:
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Debian10-Uyuni-Client-Tools/Debian_10/ /
-      key: |
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v1.4.5 (GNU/Linux)
-
-        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
-        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
-        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
-        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
-        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
-        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
-        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJjQDEEAhsDBQkMNyavBgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPjsSCAC1v9YHwuP0kRt8VPlq
-        /RLgADb5TsUPOaDcZ/maKVxhL5EgY2mX1ViCO4Bm+VFL2ZSJEXth8/Zp/dZe80e9
-        tlZgag5uPQe9FV0IAHXYt91DYJlE7VuxvdhADIt9RcDmS4OrSAfQoroyh5OW3ZRW
-        Kqa68L6RBhiyuvBTaRCUdIhqDBjVCgMlLJxC5soOIVCEvMRzOxHqO0+gvKomvM1P
-        iK4cio2OcIqZb8vCyMIXtYniHqA0rUZD4U+EB9enmYcj9ZhWO9oQXZ0qCQN6ve/K
-        1Q7NjImT5oEHWGFeLmwWZMe2+djFcHiCQM1bFN1gC+2ASz5XPC7OKdrIi+E85gMo
-        cYu+iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
-        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =8MsV
-        -----END PGP PUBLIC KEY BLOCK-----
-
-runcmd:
-#   HACK: cloud-init in Debian 10 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
-  - systemctl start qemu-guest-agent
-  # HACK: buster-backports repository has changed
-  - sed -i 's/deb.debian.org\/debian buster-backports/archive.debian.org\/debian buster-backports/g' /etc/apt/sources.list
-
-bootcmd:
-  # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
-  - DEBIAN_FRONTEND=noninteractive apt-get -yq update
-  - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
-
-%{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
-%{ else }
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "apt-transport-https", "python-apt", "python3-apt"]
 %{ endif }
 %{ endif }
 

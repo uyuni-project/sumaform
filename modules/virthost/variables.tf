@@ -87,7 +87,7 @@ variable "hvm_disk_image" {
 }
 
 variable "image" {
-  description = "One of: sles15, sles15sp1, sles15sp2, sles15sp2o, sles15sp3o, sles15sp4o or opensuse155o"
+  description = "One of: sles15sp2, sles15sp2o, sles15sp3o, sles15sp4o, sles15sp4o, sles15sp5o, sles15sp6o, or opensuse155o"
   type        = string
 }
 
