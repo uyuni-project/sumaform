@@ -66,6 +66,7 @@ cucumber_requisites:
       - make
       - wget
       - libssh-devel
+      - python-devel
       - ruby3.3
       - ruby3.3-devel
       - autoconf
