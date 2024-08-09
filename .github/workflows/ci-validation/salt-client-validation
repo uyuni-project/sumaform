@@ -19,6 +19,7 @@ osrelease_info: [15, 5]
 
 # Set grain values in such a way that covers as many conditions as possible
 hostname: sumaform-test-client
+product_version: head
 install_salt_bundle: true
 gpg_keys: ['testkey.pub']
 domain: tf.local
