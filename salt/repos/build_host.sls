@@ -15,11 +15,7 @@ containers_updates_repo:
 
 {% if '15' in grains['osrelease'] %}
 
-{% if grains['osrelease'] == '15' %}
-{% set sle_version_path = '15' %}
-{% elif grains['osrelease'] == '15.1' %}
-{% set sle_version_path = '15-SP1' %}
-{% elif grains['osrelease'] == '15.2' %}
+{% if grains['osrelease'] == '15.2' %}
 {% set sle_version_path = '15-SP2' %}
 {% elif grains['osrelease'] == '15.3' %}
 {% set sle_version_path = '15-SP3' %}

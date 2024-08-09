@@ -27,68 +27,9 @@ backports_update_repo:
 
 {% elif grains['osfullname'] == 'SLES' %}
 
-{% if grains['osrelease'] == '11.4' %}
-os_pool_repo:
-  pkgrepo.managed:
-    {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Pool/sle-11-x86_64/
-    {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/zypp-patches.suse.de/x86_64/update/SLE-SERVER/11-SP4-POOL/
-    {% endif %}
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-Updates/sle-11-x86_64/
-    {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4/x86_64/update/
-    {% endif %}
-    - refresh: True
-
-os_ltss_repo:
-  pkgrepo.managed:
-    {% if grains.get('mirror') %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/SLES11-SP4-LTSS-Updates/sle-11-x86_64/
-    {% else %}
-    - baseurl: http://euklid.nue.suse.com/mirror/SuSE/build-ncc.suse.de/SUSE/Updates/SLE-SERVER/11-SP4-LTSS/x86_64/update/
-    {% endif %}
-    - refresh: True
-{% endif %} {# grains['osrelease'] == '11.4' #}
-
-
 {% if '12' in grains['osrelease'] %}
 {% if not grains.get('sles_registration_code') %} ## Skip if SCC support
-{% if grains['osrelease'] == '12.3' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP3/x86_64/update/
-    - refresh: True
-
-{% elif grains['osrelease'] == '12.4' %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP4/x86_64/product/
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4/x86_64/update/
-    - refresh: True
-
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP4-LTSS/x86_64/update/
-    - refresh: True
-
-{% elif grains['osrelease'] == '12.5' %}
+{% if grains['osrelease'] == '12.5' %}
 
 os_pool_repo:
   pkgrepo.managed:
@@ -113,41 +54,7 @@ os_update_repo:
 {% if '15' in grains['osrelease'] %}
 {% if not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true)) %} ## Skip if SCC support or PAYG
 
-{% if '15' == grains['osrelease'] %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15/x86_64/product/
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15/x86_64/update/
-    - refresh: True
-
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-LTSS/x86_64/update/
-    - refresh: True
-
-{% elif '15.1' == grains['osrelease'] %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product/
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP1/x86_64/update/
-    - refresh: True
-
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP1-LTSS/x86_64/update/
-    - refresh: True
-
-{% elif '15.2' == grains['osrelease'] %}
+{% if '15.2' == grains['osrelease'] %}
 
 os_pool_repo:
   pkgrepo.managed:

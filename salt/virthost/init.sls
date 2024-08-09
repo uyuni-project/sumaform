@@ -29,16 +29,6 @@ virthost_packages:
       - sls: repos
       - pkg: no_kernel_default_base
 
-{% if grains['osrelease'] == '12.4' %}
-# WORKAROUND for guestfs appliance missing libaugeas0 on 12SP4
-guestfs-fix:
-  file.append:
-    - name: /usr/lib64/guestfs/supermin.d/packages
-    - text: libaugeas0
-    - require:
-      - pkg: virthost_packages
-{% endif %}
-
 # WORKAROUND for bsc#1181264
 {% if grains['osrelease'] == '15.3' %}
 no-50-xen-hvm-x86_64.json:

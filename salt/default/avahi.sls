@@ -8,18 +8,8 @@ include:
 custom_avahi_repo:
   pkgrepo.managed:
     - humanname: custom_avahi_repo
-    {%   if grains['osrelease'] == '11.4' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.23/SLE_11_SP4/
-    {% elif grains['osrelease'] == '12.3' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP3/
-    {% elif grains['osrelease'] == '12.4' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP4/
-    {% elif grains['osrelease'] == '12.5' %}
+    {% if grains['osrelease'] == '12.5' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP5/
-    {% elif grains['osrelease'] == '15' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15/
-    {% elif grains['osrelease'] == '15.1' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP1/
     {% elif grains['osrelease'] == '15.2' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP2/
     {% elif grains['osrelease'] == '15.3' %}

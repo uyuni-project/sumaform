@@ -1,9 +1,5 @@
 {% if grains['os'] == 'Debian' %}
-    {% if grains['osrelease'] == '9' %}
-        {% set repo_path = 'Debian_9.0' %}
-    {% elif grains['osrelease'] == '10' %}
-        {% set repo_path = 'Debian_10' %}
-    {% elif grains['osrelease'] == '11' %}
+    {% if grains['osrelease'] == '11' %}
         {% set repo_path = 'Debian_11' %}
     {% elif grains['osrelease'] == '12' %}
         {% set repo_path = 'Debian_12' %}

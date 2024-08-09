@@ -149,48 +149,6 @@ variable "sleforsap15sp5_paygo_minion_configuration" {
   }
 }
 
-variable "sle11sp4_minion_configuration" {
-  description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle11sp4_sshminion_configuration" {
-  description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle11sp4_client_configuration" {
-  description = "use module.<SLE11SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle12sp4_minion_configuration" {
-  description = "use module.<SLE12SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle12sp4_sshminion_configuration" {
-  description = "use module.<SLE12SP4_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle12sp4_client_configuration" {
-  description = "use module.<SLE12SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "sle12sp5_minion_configuration" {
   description = "use module.<SLE12SP5_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -207,48 +165,6 @@ variable "sle12sp5_sshminion_configuration" {
 
 variable "sle12sp5_client_configuration" {
   description = "use module.<SLE12SP5_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15_minion_configuration" {
-  description = "use module.<SLE15_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15_sshminion_configuration" {
-  description = "use module.<SLE15_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15_client_configuration" {
-  description = "use module.<SLE15_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15sp1_minion_configuration" {
-  description = "use module.<SLE15SP1_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15sp1_sshminion_configuration" {
-  description = "use module.<SLE15SP1_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15sp1_client_configuration" {
-  description = "use module.<SLE15SP1_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -590,20 +506,6 @@ variable "ubuntu2204_sshminion_configuration" {
   }
 }
 
-variable "debian10_minion_configuration" {
-  description = "use module.<DEBIAN10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "debian10_sshminion_configuration" {
-  description = "use module.<DEBIAN10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "debian11_minion_configuration" {
   description = "use module.<DEBIAN11_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -675,23 +577,6 @@ variable "sle12sp5_buildhost_configuration" {
 
 variable "sle12sp5_terminal_configuration" {
   description = "use module.<SLE12SP5_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    private_mac = null
-    private_ip = null
-    private_name = null
-    image = null
-  }
-}
-
-variable "sle11sp4_buildhost_configuration" {
-  description = "use module.<SLE11SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle11sp3_terminal_configuration" {
-  description = "use module.<SLE11SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     private_mac = null
     private_ip = null
