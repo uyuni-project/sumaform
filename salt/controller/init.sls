@@ -25,6 +25,40 @@ authorized_keys_controller:
     - source: salt://controller/id_rsa.pub
     - makedirs: True
 
+{% if '4.3' in grains.get('product_version') %}
+cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - gcc
+      - make
+      - wget
+      - ruby
+      - ruby-devel
+      - autoconf
+      - ca-certificates-mozilla
+      - automake
+      - libtool
+      - apache2-worker
+      - cantarell-fonts
+      - git-core
+      - aaa_base-extras
+      - zlib-devel
+      - libxslt-devel
+      - mozilla-nss-tools
+      - postgresql-devel
+      - unzip
+      # packaged ruby gems
+      - ruby2.5-rubygem-bundler
+      - twopence
+      - python-twopence
+      - twopence-devel
+      - twopence-shell-client
+      - twopence-test-server
+      - rubygem-twopence
+    - require:
+      - sls: repos
+{% else %}
+
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -47,13 +81,6 @@ cucumber_requisites:
       - mozilla-nss-tools
       - postgresql-devel
       - unzip
-      #- twopence
-      #- python-twopence
-      - python-devel
-      #- twopence-devel
-      #- twopence-shell-client
-      #- twopence-test-server
-      #- rubygem-twopence
     - require:
       - sls: repos
 
@@ -83,7 +110,8 @@ ruby_set_ri_version:
   cmd.run:
     - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
 
-# workaround until twopence is adjusted for Ruby 3.x
+# WORKAROUND: Build twopence from source due to Ruby 3 not being available
+# 						openSUSE Leap 15.5/15.6
 twopence_install_from_source:
   cmd.run:
     - name: |
@@ -95,6 +123,7 @@ twopence_install_from_source:
     - creates: /root/twopence
     - require:
       - pkg: cucumber_requisites
+{% endif %}
 
 install_chromium:
   pkg.installed:
@@ -114,6 +143,26 @@ create_syslink_for_chromedriver:
     - target: ../lib64/chromium/chromedriver
     - force: True
 
+install_npm:
+  pkg.installed:
+    - name: npm-default
+
+{% if '4.3' in grains.get('product_version') %}
+install_gems_via_bundle:
+  cmd.run:
+    - name: bundle.ruby2.5 install --gemfile Gemfile
+    - cwd: /root/spacewalk/testsuite
+    - require:
+      - pkg: cucumber_requisites
+      - cmd: spacewalk_git_repositoryo
+
+# https://github.com/gkushang/cucumber-html-reporter
+install_cucumber_html_reporter_via_npm:
+  cmd.run:
+    - name: npm install cucumber-html-reporter@5.5.0 --save-dev
+    - require:
+      - pkg: install_npm
+{% else %}
 install_gems_via_bundle:
   cmd.run:
     - name: bundle.ruby3.3 install --gemfile Gemfile
@@ -123,16 +172,13 @@ install_gems_via_bundle:
       - cmd: twopence_install_from_source
       - cmd: spacewalk_git_repository
 
-install_npm:
-  pkg.installed:
-    - name: npm-default
-
-# https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
   cmd.run:
-    - name: npm install cucumber-html-reporter@5.5.0 --save-dev
+    - name: npm install cucumber-html-reporter@7.1.1 --save-dev
     - require:
       - pkg: install_npm
+{% endif %}
+
 
 fix_cucumber_html_reporter_style:
   file.append:

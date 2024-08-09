@@ -501,6 +501,7 @@ module "controller" {
   server_http_proxy        = var.server_http_proxy
   custom_download_endpoint = var.custom_download_endpoint
   swap_file_size           = null
+  product_version          = var.product_version
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)
