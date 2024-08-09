@@ -2,7 +2,9 @@ include:
   - repos.disable_local
   - repos.vendor
   {% if not grains.get('additional_repos_only') %}
-  - repos.default
+  - repos.default_settings
+  - repos.os
+  - repos.clienttools
   - repos.minion
   - repos.proxy
   - repos.server
