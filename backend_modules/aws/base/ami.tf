@@ -276,7 +276,7 @@ data "aws_ami" "rocky8" {
 
 data "aws_ami" "rocky9" {
   most_recent = true
-  name_regex  = "^Rocky-9-EC2-9"
+  name_regex  = "^Rocky-9-EC2-Base-9"
   owners      = ["792107900819"]
 
   filter {
