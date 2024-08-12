@@ -2,14 +2,19 @@
 
 include:
   {%- if '4.2' in grains['product_version'] %}
-  - repos.server42
+  - .suma42
   {%- elif '4.3' in grains['product_version'] %}
-  - repos.server43
+  - .suma43
   {%- elif 'head' in grains['product_version'] %}
-  - repos.serverHead
-  {%- else %}
-  - repos.serverUyuni
+  - .head
+  {%- elif 'uyuni' in grains['product_version'] %}
+  - .uyuni
   {%- endif %}
+
+{% elif 'server_containerized' in grains.get('roles') and 'uyuni' in grains['product_version'] %}
+
+include:
+  - .containerized_uyuni
 
 {% endif %}
 

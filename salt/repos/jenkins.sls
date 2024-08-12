@@ -12,11 +12,12 @@
       {% endif %}
     {% endif %}
   {% endif %}
+
 jenkins_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org/", true) }}/repositories/devel:/tools:/building/{{ repo }}
     - refresh: True
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org/", true) }}/repositories/devel:/tools:/building//{{ repo }}/repodata/repomd.xml.key
-{% endif %}
 
+{% endif %}

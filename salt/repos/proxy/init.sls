@@ -1,15 +1,19 @@
 {% if 'proxy' in grains.get('roles') %}
+
 include:
   {%- if '4.2' in grains['product_version'] %}
-  - repos.proxy42
+  - .suma42
   {%- elif '4.3' in grains['product_version'] %}
-  - repos.proxy43
-  {%- elif grains.get('proxy_containerized') %}
-  - repos.proxy_containerized
-  {%- else %}
+  - .suma43
+  {%- elif 'uyuni' in grains['product_version'] %}
   # We support both flavours of Uyuni Proxy (RPM and containerized)
-  - repos.proxyUyuni
+  - .uyuni
   {%- endif %}
+
+{% elif 'proxy_containerized' in grains.get('roles') and 'uyuni' in grains['product_version'] %}
+
+include:
+  - .containerized_uyuni
 
 {% endif %}
 

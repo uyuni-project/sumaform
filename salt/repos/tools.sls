@@ -6,29 +6,27 @@
       grains.get('monitored')
 ) %}
 
-{% if grains['osfullname'] == 'Leap' %}
-{% set path = 'openSUSE_Leap_' + grains['osrelease'] %}
-{% endif %}
-
-{% if grains['osfullname'] != 'Leap' %}
-{% if grains['osrelease'] == '11.4' %}
-{% set path = 'SLE_11_SP4' %}
-{% elif grains['osrelease'] == '12.3' %}
-{% set path = 'SLE_12_SP3' %}
-{% elif grains['osrelease'] == '12.4' %}
-{% set path = 'SLE_12_SP4' %}
-{% elif grains['osrelease'] == '15.1' %}
-{% set path = 'SLE_15_SP1' %}
-{% elif grains['osrelease'] == '15.2' %}
-{% set path = 'SLE_15_SP2' %}
-{% elif grains['osrelease'] == '15.3' %}
-{% set path = 'SLE_15_SP3' %}
-{% elif grains['osrelease'] == '15.4' %}
-{% set path = 'SLE_15_SP4' %}
-{% elif grains['osrelease'] == '15.5' %}
-{% set path = 'SLE_15_SP5' %}
-{% endif %}
-{% endif %}
+  {% if grains['osfullname'] == 'Leap' %}
+    {% set path = 'openSUSE_Leap_' + grains['osrelease'] %}
+  {% else %}
+    {% if grains['osrelease'] == '11.4' %}
+      {% set path = 'SLE_11_SP4' %}
+    {% elif grains['osrelease'] == '12.3' %}
+      {% set path = 'SLE_12_SP3' %}
+    {% elif grains['osrelease'] == '12.4' %}
+      {% set path = 'SLE_12_SP4' %}
+    {% elif grains['osrelease'] == '15.1' %}
+      {% set path = 'SLE_15_SP1' %}
+    {% elif grains['osrelease'] == '15.2' %}
+      {% set path = 'SLE_15_SP2' %}
+    {% elif grains['osrelease'] == '15.3' %}
+      {% set path = 'SLE_15_SP3' %}
+    {% elif grains['osrelease'] == '15.4' %}
+      {% set path = 'SLE_15_SP4' %}
+    {% elif grains['osrelease'] == '15.5' %}
+      {% set path = 'SLE_15_SP5' %}
+    {% endif %}
+  {% endif %}
 
 tools_repo:
   pkgrepo.managed:
