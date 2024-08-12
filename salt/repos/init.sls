@@ -3,7 +3,6 @@ include:
   - .vendor
   {% if not grains.get('additional_repos_only') %}
   - .default
-  - .minion
   - .proxy
   - .server
   - .build_host
