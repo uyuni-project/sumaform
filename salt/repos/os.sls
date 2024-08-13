@@ -98,10 +98,12 @@ os_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP4/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
+{% if not ('server' in grains.get('roles') or 'proxy' in grains.get('roles')) %}
 os_ltss_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP4-LTSS/{{ grains.get("cpuarch") }}/update/
     - refresh: True
+{% endif %}
 
 {% elif '15.5' == grains['osrelease'] %}
 
