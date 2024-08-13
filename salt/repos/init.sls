@@ -3,7 +3,9 @@ include:
   - repos.vendor
   {% if not grains.get('additional_repos_only') %}
   - repos.default_settings
+  {% if not ('server' in grains.get('roles') or 'proxy' in grains.get('roles')) %}
   - repos.os
+  {% endif %}
   - repos.clienttools
   - repos.minion
   - repos.proxy
