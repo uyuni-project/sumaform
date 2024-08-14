@@ -77,7 +77,16 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 
 %{ if image == "slmicro60o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
+
+# SL Micro 6.0 is being used in both Uyuni and SUSE Manager
+# we do not support yet Leap Micro 6.0, even in Uyuni
+%{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
+%{ else }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/ tools_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/ tools_update_repo
+%{ endif }
+
 %{ if testsuite }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 %{ endif }
