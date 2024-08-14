@@ -61,6 +61,7 @@ resource "null_resource" "provisioning" {
         use_avahi                     = false
         provider                      = "feilong"
         roles                         = var.roles
+        product_version               = var.product_version
         use_os_released_updates       = var.use_os_released_updates
         additional_repos              = var.additional_repos
         additional_repos_only         = var.additional_repos_only
