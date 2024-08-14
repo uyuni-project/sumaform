@@ -125,3 +125,8 @@ variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
 }
+
+variable "product_version" {
+  description = "One of: 4.2-nightly, 4.2-released, 4.3-nightly, 4.3-released, 4.3-pr, 4.3-beta, 4.3-VM-nightly, 4.3-VM-released, head, uyuni-master, uyuni-released, uyuni-pr"
+  default     = "released"
+}
