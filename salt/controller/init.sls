@@ -169,8 +169,14 @@ extra_pkgs:
   pkg.installed:
     - pkgs:
       - screen
+      - xauth
     - require:
       - sls: repos
+
+# needed together with the `xauth` package for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
+create_xauthority_file:
+  cmd.run:
+   - name: touch /root/.Xauthority
 
 chrome_certs:
   file.directory:
