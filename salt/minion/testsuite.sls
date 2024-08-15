@@ -50,4 +50,21 @@ update_ca_truststore:
 {% endif %}
 {% endif %}
 
+# WORKAROUND for not syncing openSUSE Leap 15.5 in the Uyuni CIs
+# We need some dependencies for the package mgr-push, otherwise the installation in the test suite will fail
+{% if grains['osfullname'] == 'Leap' and grains['osrelease'] == '15.5' %}
+suse_minion_mgr_push_requisites:
+  pkg.installed:
+    - pkgs:
+      - hwdata
+      - libgudev-1_0-0
+      - python3-dmidecode
+      - python3-extras
+      - python3-hwdata
+      - python3-libxml2
+      - python3-pyudev
+      - python3-rhnlib
+      - zchunk
+{% endif %}
+
 {% endif %}
