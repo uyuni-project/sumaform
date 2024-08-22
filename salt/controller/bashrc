@@ -116,6 +116,7 @@ export SERVER_INSTANCE_ID="{{ grains.get('server_instance_id') }}"
 export BETA_ENABLED="{{ grains.get('beta_enabled') }}"
 
 # Ruby specific settings
+# For 4.3 we currently still use Ruby 2.5
 {% if '4.3' not in grains.get('product_version') %}
 export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
 {% endif %}

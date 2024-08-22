@@ -122,10 +122,11 @@ ruby_set_ri_version:
 twopence_install_from_source:
   cmd.run:
     - name: |
-        git clone https://github.com/nodeg/twopence.git /root/twopence
+        git clone https://github.com/openSUSE/twopence.git /root/twopence
         cd /root/twopence
         make
         make install
+        ldconfig
     - creates: /root/twopence
     - require:
       - pkg: cucumber_requisites
@@ -160,14 +161,7 @@ install_gems_via_bundle:
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
-      - cmd: spacewalk_git_repositoryo
-
-# https://github.com/gkushang/cucumber-html-reporter
-install_cucumber_html_reporter_via_npm:
-  cmd.run:
-    - name: npm install cucumber-html-reporter@5.5.0 --save-dev
-    - require:
-      - pkg: install_npm
+      - cmd: spacewalk_git_repository
 {% else %}
 install_gems_via_bundle:
   cmd.run:
@@ -177,14 +171,14 @@ install_gems_via_bundle:
       - pkg: cucumber_requisites
       - cmd: twopence_install_from_source
       - cmd: spacewalk_git_repository
-
-install_cucumber_html_reporter_via_npm:
-  cmd.run:
-    - name: npm install cucumber-html-reporter@7.1.1 --save-dev
-    - require:
-      - pkg: install_npm
 {% endif %}
 
+# https://github.com/gkushang/cucumber-html-reporter
+install_cucumber_html_reporter_via_npm:
+  cmd.run:
+    - name: npm install cucumber-html-reporter@5.5.0 --save-dev
+    - require:
+      - pkg: install_npm
 
 fix_cucumber_html_reporter_style:
   file.append:
