@@ -159,7 +159,7 @@ install_gems_via_bundle:
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
   cmd.run:
-    - name: npm install cucumber-html-reporter@5.5.0 --save-dev
+    - name: npm install cucumber-html-reporter@7.2.0 --save-dev
     - require:
       - pkg: install_npm
 
