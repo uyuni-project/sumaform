@@ -115,21 +115,6 @@ ruby_set_rdoc_version:
 ruby_set_ri_version:
   cmd.run:
     - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
-
-
-# WORKAROUND: Build twopence from source due to Ruby 3 not being available
-#             openSUSE Leap 15.5/15.6
-twopence_install_from_source:
-  cmd.run:
-    - name: |
-        git clone https://github.com/openSUSE/twopence.git /root/twopence
-        cd /root/twopence
-        make
-        make install
-        ldconfig
-    - creates: /root/twopence
-    - require:
-      - pkg: cucumber_requisites
 {% endif %}
 
 install_chromium:
@@ -169,7 +154,6 @@ install_gems_via_bundle:
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
-      - cmd: twopence_install_from_source
       - cmd: spacewalk_git_repository
 {% endif %}
 
