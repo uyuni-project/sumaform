@@ -315,7 +315,8 @@ zypper:
 %{ if container_server }
     - id: container_tools_repo
       name: container_tools_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
+      # WORKAROUND: Use the correct URL for the 5.0.1 BV
+      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -323,7 +324,8 @@ zypper:
 %{ if container_proxy }
     - id: container_tools_repo
       name: container_tools_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
+      # WORKAROUND: Use the correct URL for the 5.0.1 BV
+      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -806,7 +808,7 @@ packages: ["salt-minion"]
 runcmd:
   - zypper removerepo --all
 %{ endif }
-  
+
 %{ if image == "opensuse156armo" }
 
 runcmd:
