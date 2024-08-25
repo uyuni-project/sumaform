@@ -19,6 +19,27 @@ data "aws_ami" "opensuse155o" {
   }
 }
 
+data "aws_ami" "opensuse156o" {
+  most_recent = true
+  name_regex  = "^openSUSE-Leap-15-6-"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles15sp2o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp2-byos-v"
