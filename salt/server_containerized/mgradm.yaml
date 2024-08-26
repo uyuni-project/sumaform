@@ -13,6 +13,9 @@ email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) 
 emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
 {%- if grains.get('container_repository') %}
 registry: {{ grains.get('container_repository') }}
+image: registry.suse.de/suse/maintenance/35237/suse_sle-15-sp6_update_products_manager50_update_containerfile/suse/manager/5.0/x86_64/server
+coco-image: registry.suse.de/suse/maintenance/35237/suse_sle-15-sp6_update_products_manager50_update_containerfile/suse/manager/5.0/x86_64/server-attestation
+hubxmlrpc-image: registry.suse.de/suse/maintenance/35237/suse_sle-15-sp6_update_products_manager50_update_containerfile/suse/manager/5.0/x86_64/server-hub-xmlrpc-api
 {% endif %}
 {%- if grains.get('container_tag') %}
 tag: {{ grains.get('container_tag') }}
