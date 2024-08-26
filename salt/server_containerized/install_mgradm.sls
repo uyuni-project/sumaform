@@ -10,7 +10,7 @@ mgradm_config:
 {% set runtime = grains.get('container_runtime') | default('podman', true) %}
 {% set install_cmd = 'kubernetes' if runtime == 'k3s' else 'podman' %}
 
-{% set registry = 'registry.suse.de/suse/maintenance/35237/suse_sle-15-sp6_update_products_manager50_update_containerfile/suse/manager/5.0/x86_64' %}
+{% set registry = 'registry.suse.de/suse/maintenance/35237/suse_sle-15-sp6_update_products_manager50_update_containerfile' %}
 
 mgradm_install:
   cmd.run:
