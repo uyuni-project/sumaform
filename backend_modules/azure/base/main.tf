@@ -31,6 +31,13 @@ data "azurerm_platform_image" "opensuse155o" {
   sku       = "gen2"
 }
 
+data "azurerm_platform_image" "opensuse156o" {
+  location  = local.location
+  publisher = "suse"
+  offer     = "opensuse-leap-15-6"
+  sku       = "gen2"
+}
+
 data "azurerm_platform_image" "sles12sp5o" {
   location  = local.location
   publisher = "suse"
@@ -150,6 +157,7 @@ locals {
     platform_image_info  = {
       opensuse154o = { platform_image = data.azurerm_platform_image.opensuse154o },
       opensuse155o = { platform_image = data.azurerm_platform_image.opensuse155o },
+      opensuse156o = { platform_image = data.azurerm_platform_image.opensuse156o },
       sles15sp4o   = { platform_image = data.azurerm_platform_image.sles15sp4o },
       sles15sp5o   = { platform_image = data.azurerm_platform_image.sles15sp5o },
       sles15sp6o   = { platform_image = data.azurerm_platform_image.sles15sp6o },
