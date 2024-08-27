@@ -15,8 +15,6 @@ include:
   - repos.testsuite
   - repos.tools
   - repos.jenkins
-  - repos.server_containerized
-  - repos.proxy_containerized
   {% if '4.3' not in grains.get('product_version') %}
   - repos.ruby
   {% endif %}

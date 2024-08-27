@@ -67,8 +67,8 @@ cucumber_requisites:
       - wget
       - libssh-devel
       - python-devel
-      - ruby3.1
-      - ruby3.1-devel
+      - ruby3.3
+      - ruby3.3-devel
       - autoconf
       - ca-certificates-mozilla
       - automake
@@ -87,34 +87,34 @@ cucumber_requisites:
 
 /usr/bin/ruby:
   file.symlink:
-    - target: /usr/bin/ruby.ruby3.1
+    - target: /usr/bin/ruby.ruby3.3
     - force: True
 
 /usr/bin/gem:
   file.symlink:
-    - target: /usr/bin/gem.ruby3.1
+    - target: /usr/bin/gem.ruby3.3
     - force: True
 
 /usr/bin/irb:
   file.symlink:
-    - target: /usr/bin/irb.ruby3.1
+    - target: /usr/bin/irb.ruby3.3
     - force: True
 
 ruby_set_rake_version:
   cmd.run:
-    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.1
+    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
 
 ruby_set_bundle_version:
   cmd.run:
-    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.1
+    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
 
 ruby_set_rdoc_version:
   cmd.run:
-    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.1
+    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
 
 ruby_set_ri_version:
   cmd.run:
-    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.1
+    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
 {% endif %}
 
 install_chromium:
@@ -150,7 +150,7 @@ install_gems_via_bundle:
 {% else %}
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby3.1 install --gemfile Gemfile
+    - name: bundle.ruby3.3 install --gemfile Gemfile
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
