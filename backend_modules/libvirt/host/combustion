@@ -83,8 +83,7 @@ zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Pr
 %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ else }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/ tools_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/ tools_update_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
 %{ endif }
 
 %{ if testsuite }
