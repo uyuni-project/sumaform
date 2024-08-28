@@ -7,6 +7,8 @@ include:
   - repos.server43
   {%- elif 'head' in grains['product_version'] %}
   - repos.serverHead
+  {% elif 'server_containerized' in grains.get('roles') %}
+  - repos.server_containerized
   {%- else %}
   - repos.serverUyuni
   {%- endif %}
