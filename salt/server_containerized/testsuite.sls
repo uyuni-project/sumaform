@@ -108,6 +108,19 @@ repo_key_import:
     - name: "mgrctl exec 'rpm --import /tmp/galaxy.key'"
     - onchanges:
       - cmd: galaxy_key_copy
+
+# needed for SL Micro 6.0 maintenance updates coming from staging e.g.
+# https://download.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
+suse_staging_key_copy_host:
+  file.managed:
+    - name: /tmp/suse_staging.key
+    - source: salt://default/gpg_keys/suse_staging.key
+
+suse_staging_key_import:
+  cmd.run:
+    - name: "mgradm gpg add /tmp/suse_staging.key"
+    - onchanges:
+      - cmd: suse_staging_key_copy_host
 {% endif %}
 
 testsuite_refresh_repos:
