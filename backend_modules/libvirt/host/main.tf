@@ -63,6 +63,7 @@ data "template_file" "user_data" {
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
+    product_version     = var.product_version
   }
 }
 
@@ -171,7 +172,7 @@ resource "libvirt_domain" "domain" {
 
   cloudinit = length(libvirt_cloudinit_disk.cloudinit_disk) == var.quantity ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
   coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : length(libvirt_combustion.combustion_disk) == var.quantity ? libvirt_combustion.combustion_disk[count.index].id : null
-  fw_cfg_name = local.combustion ? "opt/org.opensuse.combustion/script" : null 
+  fw_cfg_name = local.combustion ? "opt/org.opensuse.combustion/script" : null
 
   dynamic "network_interface" {
     for_each = slice(
