@@ -79,17 +79,11 @@ uyuni_key_copy_host:
     - name: /tmp/uyuni.key
     - source: salt://default/gpg_keys/uyuni.key
 
-uyuni_key_copy:
-  cmd.run:
-    - name: "mgrctl cp /tmp/uyuni.key server:/tmp/uyuni.key"
-    - onchanges:
-      - file: uyuni_key_copy_host
-
 repo_key_import:
   cmd.run:
-    - name: "mgrctl exec 'rpm --import /tmp/uyuni.key'"
+    - name: "mgradm gpg add /tmp/uyuni.key"
     - onchanges:
-      - cmd: uyuni_key_copy
+      - file: uyuni_key_copy_host
 {% else %}
 
 galaxy_key_copy_host:
@@ -97,17 +91,11 @@ galaxy_key_copy_host:
     - name: /tmp/galaxy.key
     - source: salt://default/gpg_keys/galaxy.key
 
-galaxy_key_copy:
-  cmd.run:
-    - name: "mgrctl cp /tmp/galaxy.key server:/tmp/galaxy.key"
-    - onchanges:
-      - file: galaxy_key_copy_host
-
 repo_key_import:
   cmd.run:
-    - name: "mgrctl exec 'rpm --import /tmp/galaxy.key'"
+    - name: "mgradm gpg add /tmp/galaxy.key"
     - onchanges:
-      - cmd: galaxy_key_copy
+      - file: galaxy_key_copy_host
 
 # needed for SL Micro 6.0 maintenance updates coming from staging e.g.
 # https://download.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
@@ -120,7 +108,7 @@ suse_staging_key_import:
   cmd.run:
     - name: "mgradm gpg add /tmp/suse_staging.key"
     - onchanges:
-      - cmd: suse_staging_key_copy_host
+      file: suse_staging_key_copy_host
 {% endif %}
 
 testsuite_refresh_repos:
