@@ -42,7 +42,7 @@ Note: on clients and minions only, the version number can be omitted to take the
 A libvirt example follows:
 
 ```hcl
-module "suse-minion" {
+module "suse_minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
@@ -108,7 +108,7 @@ ln -sfn ../backend_modules/<BACKEND> modules/backend
 Some modules, for example clients and minions, support a `quantity` variable that allows you to create several instances at once. For example:
 
 ```hcl
-module "suse-minion" {
+module "suse_minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
@@ -493,7 +493,7 @@ User root
 You can specify an Activation Key string for minions to use at onboarding time to a SUSE Manager Server. An example follows:
 
 ```hcl
-module "suse-minion" {
+module "suse_minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
@@ -526,7 +526,7 @@ module "proxy" {
   server_configuration = module.server.configuration
 }
 
-module "suse-client" {
+module "suse_client" {
   source = "./modules/client"
   base_configuration = module.base.configuration
 
@@ -626,7 +626,7 @@ Building Kiwi images is needed for starting PXE boot hosts (see below) in Retail
 An example follows:
 
 ```hcl
-module "build-host"
+module "build_host"
 {
   source = "./modules/build_host"
   base_configuration = module.base.configuration
@@ -649,7 +649,7 @@ They are connected only to the private network.
 An example follows:
 
 ```hcl
-module "pxeboot-minion"
+module "pxeboot_minion"
 {
   source = "./modules/pxe_boot"
   base_configuration = module.base.configuration
@@ -682,7 +682,7 @@ module "server" {
 You can specify additional custom repos and packages to be installed at deploy time for a specific host:
 
 ```hcl
-module "suse-minion" {
+module "suse_minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
@@ -977,7 +977,7 @@ module "cucumber_testsuite" {
 A libvirt example is:
 
 ```hcl
-module "opensuse155arm-minion" {
+module "opensuse155arm_minion" {
   source = "./modules/minion"
   ...
   name = "nue-min-opensuse155arm"
