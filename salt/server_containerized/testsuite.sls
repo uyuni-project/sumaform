@@ -108,7 +108,7 @@ suse_staging_key_import:
   cmd.run:
     - name: "mgradm gpg add /tmp/suse_staging.key"
     - onchanges:
-      file: suse_staging_key_copy_host
+      - file: suse_staging_key_copy_host
 {% endif %}
 
 testsuite_refresh_repos:
