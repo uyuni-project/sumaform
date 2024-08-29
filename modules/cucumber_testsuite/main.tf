@@ -231,7 +231,7 @@ module "proxy_containerized" {
   provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
 }
 
-module "dhcp-dns" {
+module "dhcp_dns" {
   source             = "../dhcp_dns"
 
   quantity           = contains(local.hosts, "dhcp-dns") ? 1 : 0
@@ -239,12 +239,12 @@ module "dhcp-dns" {
   image              = lookup(local.images, "dhcp-dns", "opensuse155o")
   name               = lookup(local.names, "dhcp-dns", "dhcp-dns")
 
-  private_hosts      = [ local.proxy_configuration, module.pxeboot-minion.configuration ]
+  private_hosts      = [ local.proxy_configuration, module.pxeboot_minion.configuration ]
 
   hypervisor         = lookup(local.hypervisors, "dhcp-dns", null)
 }
 
-module "suse-client" {
+module "suse_client" {
   source             = "../client"
 
   quantity = contains(local.hosts, "suse-client") ? 1 : 0
@@ -266,7 +266,7 @@ module "suse-client" {
   provider_settings = lookup(local.provider_settings_by_host, "suse-client", {})
 }
 
-module "suse-minion" {
+module "suse_minion" {
   source             = "../minion"
 
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
@@ -289,7 +289,7 @@ module "suse-minion" {
   provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
 }
 
-module "suse-sshminion" {
+module "suse_sshminion" {
   source = "../sshminion"
 
   quantity = contains(local.hosts, "suse-sshminion") ? 1 : 0
@@ -310,7 +310,7 @@ module "suse-sshminion" {
   provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
 }
 
-module "slemicro-minion" {
+module "slemicro_minion" {
   source = "../minion"
 
   quantity = contains(local.hosts, "slemicro-minion") ? 1 : 0
@@ -332,7 +332,7 @@ module "slemicro-minion" {
   provider_settings = lookup(local.provider_settings_by_host, "slemicro-minion", {})
 }
 
-module "redhat-minion" {
+module "redhat_minion" {
   source = "../minion"
 
   quantity = contains(local.hosts, "redhat-minion") ? 1 : 0
@@ -354,7 +354,7 @@ module "redhat-minion" {
   provider_settings = lookup(local.provider_settings_by_host, "redhat-minion", {})
 }
 
-module "debian-minion" {
+module "debian_minion" {
   source = "../minion"
 
   quantity = contains(local.hosts, "debian-minion") ? 1 : 0
@@ -376,7 +376,7 @@ module "debian-minion" {
   provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
 }
 
-module "build-host" {
+module "build_host" {
   source = "../build_host"
 
   quantity           = contains(local.hosts, "build-host") ? 1 : 0
@@ -398,7 +398,7 @@ module "build-host" {
   provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
 }
 
-module "pxeboot-minion" {
+module "pxeboot_minion" {
   source = "../pxe_boot"
 
   quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
@@ -412,7 +412,7 @@ module "pxeboot-minion" {
   provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
 }
 
-module "kvm-host" {
+module "kvm_host" {
   source = "../virthost"
 
   quantity = contains(local.hosts, "kvm-host") ? 1 : 0
@@ -436,28 +436,28 @@ module "kvm-host" {
   provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
 }
 
-module "monitoring-server" {
+module "monitoring_server" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "monitoring-server") ? 1 : 0
+  quantity = contains(local.hosts, "monitoring_server") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "monitoring-server", "sles15sp4o")
-  name               = lookup(local.names, "monitoring-server", "min-monitoring")
+  image              = lookup(local.images, "monitoring_server", "sles15sp4o")
+  name               = lookup(local.names, "monitoring_server", "min-monitoring")
 
   server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "monitoring-server", null)
+  sles_registration_code = lookup(local.sles_registration_code, "monitoring_server", null)
 
   auto_connect_to_master  = false
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "monitoring-server", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "monitoring_server", false)
 
-  additional_repos  = lookup(local.additional_repos, "monitoring-server", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "monitoring-server", false)
-  additional_packages = lookup(local.additional_packages, "monitoring-server", [])
-  additional_grains = lookup(local.additional_grains, "monitoring-server", {})
-  provider_settings = lookup(local.provider_settings_by_host, "monitoring-server", {})
+  additional_repos  = lookup(local.additional_repos, "monitoring_server", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "monitoring_server", false)
+  additional_packages = lookup(local.additional_packages, "monitoring_server", [])
+  additional_grains = lookup(local.additional_grains, "monitoring_server", {})
+  provider_settings = lookup(local.provider_settings_by_host, "monitoring_server", {})
 }
 
 module "controller" {
@@ -467,16 +467,16 @@ module "controller" {
   base_configuration             = module.base.configuration
   server_configuration           = local.server_configuration
   proxy_configuration            = local.proxy_configuration
-  client_configuration           = contains(local.hosts, "suse-client") ? module.suse-client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  minion_configuration           = contains(local.hosts, "suse-minion") ? module.suse-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  sshminion_configuration        = contains(local.hosts, "suse-sshminion") ? module.suse-sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  slemicro_minion_configuration  = contains(local.hosts, "slemicro-minion") ? module.slemicro-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  redhat_configuration           = contains(local.hosts, "redhat-minion") ? module.redhat-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  debian_configuration           = contains(local.hosts, "debian-minion") ? module.debian-minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  buildhost_configuration        = contains(local.hosts, "build-host") ? module.build-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  pxeboot_configuration          = contains(local.hosts, "pxeboot-minion") ? module.pxeboot-minion.configuration : { private_mac = null, private_ip = null, private_name = null, image = null }
-  kvmhost_configuration          = contains(local.hosts, "kvm-host") ? module.kvm-host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  monitoringserver_configuration = contains(local.hosts, "monitoring-server") ? module.monitoring-server.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  client_configuration           = contains(local.hosts, "suse_client") ? module.suse_client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  minion_configuration           = contains(local.hosts, "suse_minion") ? module.suse_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  sshminion_configuration        = contains(local.hosts, "suse_sshminion") ? module.suse_sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  slemicro_minion_configuration  = contains(local.hosts, "slemicro_minion") ? module.slemicro_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  redhat_configuration           = contains(local.hosts, "redhat_minion") ? module.redhat_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  debian_configuration           = contains(local.hosts, "debian_minion") ? module.debian_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  buildhost_configuration        = contains(local.hosts, "build_host") ? module.build_host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  pxeboot_configuration          = contains(local.hosts, "pxeboot_minion") ? module.pxeboot_minion.configuration : { private_mac = null, private_ip = null, private_name = null, image = null }
+  kvmhost_configuration          = contains(local.hosts, "kvm_host") ? module.kvm_host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  monitoringserver_configuration = contains(local.hosts, "monitoring_server") ? module.monitoring_server.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
 
   branch                   = var.branch
   git_username             = var.git_username
@@ -502,16 +502,16 @@ output "configuration" {
     base = module.base.configuration
     server = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
     proxy = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
-    suse-client = module.suse-client.configuration
-    slemicro-minion = module.slemicro-minion.configuration
-    suse-minion = module.suse-minion.configuration
-    suse-sshminion = module.suse-sshminion.configuration
-    redhat-minion = module.redhat-minion.configuration
-    debian-minion = module.debian-minion.configuration
-    build-host = module.build-host.configuration
-    pxeboot-minion = module.pxeboot-minion.configuration
-    kvm-host = module.kvm-host.configuration
-    monitoring-server = module.monitoring-server.configuration
+    suse_client = module.suse_client.configuration
+    slemicro_minion = module.slemicro_minion.configuration
+    suse_minion = module.suse_minion.configuration
+    suse_sshminion = module.suse_sshminion.configuration
+    redhat_minion = module.redhat_minion.configuration
+    debian_minion = module.debian_minion.configuration
+    build_host = module.build_host.configuration
+    pxeboot_minion = module.pxeboot_minion.configuration
+    kvm_host = module.kvm_host.configuration
+    monitoring_server = module.monitoring_server.configuration
     controller = module.controller.configuration
   }
 }
