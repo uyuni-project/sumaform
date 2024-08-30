@@ -1,4 +1,4 @@
-{% if 'proxy' in grains.get('roles') %}
+{% if 'proxy' in grains.get('roles') or 'proxy_containerized' in grains.get('roles') %}
 include:
   {%- if '4.2' in grains['product_version'] %}
   - repos.proxy42
