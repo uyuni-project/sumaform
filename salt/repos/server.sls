@@ -1,4 +1,4 @@
-{% if 'server' in grains.get('roles') %}
+{% if 'server' in grains.get('roles') or 'server_containerized' in grains.get('roles') %}
 
 include:
   {%- if '4.2' in grains['product_version'] %}
