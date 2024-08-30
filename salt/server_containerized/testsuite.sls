@@ -81,7 +81,7 @@ uyuni_key_copy_host:
 
 repo_key_import:
   cmd.run:
-    - name: "mgradm gpg add /tmp/uyuni.key"
+    - name: "mgradm gpg add -f /tmp/uyuni.key"
     - onchanges:
       - file: uyuni_key_copy_host
 {% else %}
@@ -93,7 +93,7 @@ galaxy_key_copy_host:
 
 repo_key_import:
   cmd.run:
-    - name: "mgradm gpg add /tmp/galaxy.key"
+    - name: "mgradm gpg add -f /tmp/galaxy.key"
     - onchanges:
       - file: galaxy_key_copy_host
 
@@ -106,7 +106,7 @@ suse_staging_key_copy_host:
 
 suse_staging_key_import:
   cmd.run:
-    - name: "mgradm gpg add /tmp/suse_staging.key"
+    - name: "mgradm gpg add -f /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
 {% endif %}
