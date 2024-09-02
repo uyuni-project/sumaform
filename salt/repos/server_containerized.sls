@@ -4,8 +4,9 @@
 include:
   - repos.server_containerizedUyuni
 {% elif '5.0' in grains.get('product_version') %}
-include:
-  - repos.server50
+# we already include this with cloud-init for SLE Micro 5.5
+# include:
+#  - repos.server50
 {%- endif %}
 
 {% endif %}
