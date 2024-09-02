@@ -690,6 +690,7 @@ runcmd:
   # WORKAROUND: cloud-init in Liberty 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
+  - dnf -y install venv-salt-minion
 
 %{ endif }
 
