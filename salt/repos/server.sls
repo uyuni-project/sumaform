@@ -1,15 +1,12 @@
-{% if 'server' in grains.get('roles') or 'server_containerized' in grains.get('roles') %}
+{% if 'server' in grains.get('roles') %}
 
 include:
   {%- if '4.2' in grains['product_version'] %}
   - repos.server42
   {%- elif '4.3' in grains['product_version'] %}
   - repos.server43
-  {%- elif 'head' in grains['product_version'] %}
-  - repos.serverHead
-  {% elif 'server_containerized' in grains.get('roles') %}
-  - repos.server_containerized
   {%- else %}
+  # Non-podman version deprecated in September 2024:
   - repos.serverUyuni
   {%- endif %}
 

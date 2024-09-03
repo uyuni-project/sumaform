@@ -7,7 +7,9 @@ include:
   - repos.clienttools
   - repos.minion
   - repos.proxy
+  - repos.proxy_containerized
   - repos.server
+  - repos.server_containerized
   - repos.build_host
   - repos.virthost
   - repos.testsuite
