@@ -63,7 +63,7 @@ data "template_file" "user_data" {
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
-    product_version     = var.product_version
+    product_version     = local.product_version
   }
 }
 
