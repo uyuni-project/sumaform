@@ -4,14 +4,25 @@
 #       This only affects Uyuni, as we use slemicro55o image for Head/5.0
 
 {% if grains.get("os") == "SUSE" %}
-{% if grains['osfullname'] == 'Leap' %}
-{% set repo = 'openSUSE_Leap_15.5' %}
+{% if grains['osfullname'] == 'openSUSE Leap Micro' %}
+{% set repo = 'openSUSE_Leap_Micro_5.5' %}
 
-systemsmanagement_Uyuni_Master_ContainerUtils:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/
-    - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/repodata/repomd.xml.key
+# Commented out because we already add this repo in combustion:
+# {% if 'uyuni' in grains['product_version'] %}
+# containerutils_uyuni_stable:
+#     pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/{{ repo }}/
+#     - refresh: True
+#     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/{{ repo }}/repodata/repomd.xml.key
+# {% endif %}
+
+# {% if 'uyuni-master' in grains.get('product_version') %}
+# containerutils_uyuni_master:
+#     pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/
+#     - refresh: True
+#     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/repodata/repomd.xml.key
+# {% endif %}
 
 {% endif %}
 {% endif %}

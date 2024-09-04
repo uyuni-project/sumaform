@@ -59,7 +59,11 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
 
 %{ if container_server || container_proxy }
+%{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
+%{ else }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils
+%{ endif }
 %{ endif }
 
 %{ if testsuite }
