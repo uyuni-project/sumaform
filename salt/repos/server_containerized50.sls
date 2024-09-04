@@ -4,11 +4,12 @@
 {% if grains['osfullname'] == 'SLE Micro' %}
 
 
-manager50_repo:
-  pkgrepo.managed:
-    - baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
-    - refresh: True
-    - gpgkey: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/repodata/repomd.xml.key
+# Commented out because we already add this repo in cloud-init:
+# manager50_repo:
+#   pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
+#     - refresh: True
+#     - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/repodata/repomd.xml.key
 
 {% endif %}
 {% endif %}

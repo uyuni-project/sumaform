@@ -4,12 +4,12 @@
 {% if grains['osfullname'] == 'SLE Micro' %}
 
 
-proxy_devel_repo:
-  pkgrepo.managed:
-    # 5.0 should probably become 5.1 in the following URLs:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
-    - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/repodata/repomd.xml.key
+# Commented out because we already add this repo in cloud-init:
+# proxy_devel_repo:
+#   pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.1-POOL-x86_64-Media1/
+#     - refresh: True
+#     - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.1-POOL-x86_64-Media1/repodata/repomd.xml.key
 
 {% endif %}
 {% endif %}
