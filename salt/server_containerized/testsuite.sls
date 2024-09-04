@@ -27,6 +27,16 @@ test_repo_rpm_updates:
     - require:
       - cmd: minima_unpack
 
+test_repo_appstream:
+  cmd.run:
+    - name: mgrctl exec -e MINIMA_CONFIG minima sync
+    - env:
+      - MINIMA_CONFIG: |
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/CentOS_8
+            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - require:
+      - cmd: minima_unpack
+
 another_test_repo:
   cmd.run:
     - name: mgrctl exec "ln -s TestRepoRpmUpdates /srv/www/htdocs/pub/AnotherRepo"
