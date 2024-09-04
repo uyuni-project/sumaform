@@ -32,7 +32,7 @@ test_repo_appstream:
     - name: mgrctl exec -e MINIMA_CONFIG minima sync
     - env:
       - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
             path: /srv/www/htdocs/pub/TestRepoAppStream
     - require:
       - cmd: minima_unpack
