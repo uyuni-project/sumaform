@@ -459,7 +459,7 @@ module "dhcp-dns" {
 }
 ```
 
-in a more direct manner.
+in a more direct manner. In both cases, you need to drop your public SSH key into `~/.ssh/authorized_keys` on the hypervisor.
 
 ## Custom SSH keys
 
