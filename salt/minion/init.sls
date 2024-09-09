@@ -7,8 +7,7 @@ include:
   - minion.reflector
 
 {% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
-# Dependencies already satisfied by the images
-# https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
+# Dependencies already satisfied by cloud-init/combustion for SLEM 5.5 and Leap Micro 5.5
 minion_package:
   pkg.installed:
 {% if grains['install_salt_bundle'] %}

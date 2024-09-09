@@ -4,7 +4,7 @@ locals {
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
   x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o", "slmicro60o"]
-  combustion_images  = ["leapmicro55o", "slmicro60o"]
+  combustion_images  = ["leapmicro55o", "slemicro54", "slmicro60o"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {
         path = "/etc/gpg_keys/${key}"

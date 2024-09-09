@@ -38,6 +38,7 @@ locals {
     slemicro52-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_52/SUSE-MicroOS.x86_64-sumaform.qcow2"
     slemicro53-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_53/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro54-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_54/SLE-Micro.x86_64-sumaform.qcow2"
+    slemicro54               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_54/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro55o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_55/SLE-Micro.x86_64-sumaform.qcow2"
     slmicro60o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_60/SL-Micro.x86_64-sumaform.qcow2"
     suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM-x86_64.qcow2"

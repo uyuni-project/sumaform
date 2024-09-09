@@ -1,5 +1,7 @@
 #!/bin/bash
 # combustion: network prepare
+
+%{ if image == "leapmicro55o" }
 set -euxo pipefail
 
 function nm_config() {
@@ -28,13 +30,16 @@ if [ "$${1-}" = "--prepare" ]; then
   nm_config 2 eth1 manual
   exit 0
 fi
+%{ endif }
 
-# Redirect output to the console
+# Redirect output to log file
 exec > >(exec tee -a /var/log/combustion) 2>&1
 
+%{ if image == "leapmicro55o" }
 # Name the Network Manager connections (final phase on real filesystem)
 nm_config 1 eth0 auto
 nm_config 2 eth1 manual
+%{ endif }
 
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
@@ -53,6 +58,17 @@ ${ gpg_keys }
 
 # Add repositories
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
+
+%{ if image == "slemicro54" }
+%{ if testsuite }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product os_pool_repo
+%{ endif }
+
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Micro/5.4/x86_64/product/ micro_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SLE-Micro/5.4/x86_64/update/ micro_update_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/ tools_pool_repo
+
+%{ endif } # end of image == "slemicro54-ign" block
 
 %{ if image == "leapmicro55o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
@@ -144,3 +160,6 @@ zypper --non-interactive install $PACKAGES
 
 # Leave a marker
 echo "Configured with combustion" > /etc/issue.d/combustion
+
+# Close outputs and wait for tee to finish.
+exec 1>&- 2>&-; wait;
