@@ -34,14 +34,14 @@ module "cucumber_testsuite" {
   # "amazonlinux2o",
   # "centos7o", "centos8o", "centos9o",
   # "libertylinux9o",
-  # "opensuse154o", "opensuse155o",
+  # "opensuse155o", "opensuse156o",
   # "oraclelinux9o",
   # "rocky8o", "rocky9o",
   # "sles12sp5o", "sles15sp2o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o",
   # "ubuntu2004o", "ubuntu2204o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
-  images = ["rocky9o", "opensuse154o", "sles15sp4o", "ubuntu2204o"]
+  images = ["rocky9o", "opensuse156o", "sles15sp4o", "ubuntu2204o"]
 
   use_avahi = true
   name_prefix = "prefix-"
@@ -120,7 +120,7 @@ module "cucumber_testsuite" {
       name = "pxeboot"
     }
     kvm-host = {
-      image = "opensuse154o"
+      image = "opensuse156o"
       name = "kvmhost"
     }
     monitoring-server = {

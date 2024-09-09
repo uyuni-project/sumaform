@@ -237,7 +237,7 @@ The generated virtual host will be setup with:
 - a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
 - and a VM template disk image located in `/var/testsuite-data/`.
 
-The openSUSE Leap template (`leap`) disk image is `opensuse154o` used by sumaform and is downloaded when applying the
+The openSUSE Leap template (`leap`) disk image is `opensuse156o` used by sumaform and is downloaded when applying the
 highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
 If the values inside the `hvm_disk_image` map are set to an empty map, no image will be copied to `/var/testsuite-data/`.
@@ -998,14 +998,14 @@ suma-arm:~ # virsh list
  Id   Name                                   State
 ----------------------------------------------------
  ...
- 11   suma-bv-43-nue-min-opensuse154arm      running
+ 11   suma-bv-43-nue-min-opensuse156arm      running
 ```
 
 and inside the VM:
 
 ```bash
 # hostname -f
-suma-bv-43-min-opensuse154arm.mgr.suse.de
+suma-bv-43-min-opensuse156arm.mgr.suse.de
 ```
 
 
