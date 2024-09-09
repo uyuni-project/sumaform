@@ -147,7 +147,6 @@ module "base" {
   images = [
     "centos7o",
     "almalinux8o",
-    "opensuse154o",
     "opensuse155o",
     "sles15sp4o",
     "sles15sp5o",

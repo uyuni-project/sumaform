@@ -79,9 +79,9 @@ variable "hvm_disk_image" {
   type = map(map(string))
   default = {
     leap = {
-      hostname = "leap154"
-      image = "https://download.opensuse.org/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-Minimal-VM.x86_64-OpenStack-Cloud.qcow2"
-      hash = "https://download.opensuse.org/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-Minimal-VM.x86_64-OpenStack-Cloud.qcow2.sha256"
+      hostname = "leap156"
+      image = "https://download.opensuse.org/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2"
+      hash = "https://download.opensuse.org/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2.sha256"
     }
   }
 }

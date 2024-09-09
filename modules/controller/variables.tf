@@ -585,20 +585,6 @@ variable "sle12sp5_terminal_configuration" {
   }
 }
 
-variable "opensuse154arm_minion_configuration" {
-  description = "use module.<OPENSUSE154ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "opensuse154arm_sshminion_configuration" {
-  description = "use module.<OPENSUSE154ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "opensuse155arm_minion_configuration" {
   description = "use module.<OPENSUSE155ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
