@@ -13,6 +13,7 @@ type=ethernet
 interface-name=$2
 
 [ipv4]
+dhcp-timeout=1
 method=auto
 
 [ipv6]
