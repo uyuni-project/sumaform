@@ -134,7 +134,7 @@ packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
 
-%{ if image == "opensuse154o" || image == "opensuse154-ci-pro" || image == "opensuse154-ci-pr-client" || image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro"}
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro"}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -815,7 +815,7 @@ packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools",
 
 %{ endif }
 
-%{ if image == "opensuse154armo" || image == "opensuse155armo" || image == "opensuse156armo" }
+%{ if image == "opensuse155armo" || image == "opensuse156armo" }
 zypper:
   repos:
     - id: tools_pool_repo

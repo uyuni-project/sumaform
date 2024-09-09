@@ -34,7 +34,7 @@ module "cucumber_testsuite" {
   # "amazonlinux2o",
   # "centos7o", "centos8o", "centos9o",
   # "libertylinux9o",
-  # "opensuse154o", "opensuse155o",
+  # "opensuse155o", "opensuse156o",
   # "oraclelinux9o",
   # "rocky8o", "rocky9o",
   # "sles12sp5o", "sles15sp2o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o",
@@ -91,7 +91,7 @@ module "cucumber_testsuite" {
     }
     server_containerized = {
       name = "server"
-     
+
       # Uncomment to run the container on k3s rather than podman
       # runtime = "k3s"
 
@@ -132,7 +132,7 @@ module "cucumber_testsuite" {
       name = "pxeboot"
     }
     kvm-host = {
-      image = "opensuse154o"
+      image = "opensuse156o"
       name = "kvmhost"
     }
     monitoring-server = {
