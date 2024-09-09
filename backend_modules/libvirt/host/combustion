@@ -2,6 +2,7 @@
 # combustion: network prepare
 set -euxo pipefail
 
+%{ if image == "leapmicro55o" }
 function nm_config() {
   connectiondir="/etc/NetworkManager/system-connections"
   connectionfile="$connectiondir/Wired connection $1.nmconnection"
@@ -28,13 +29,17 @@ if [ "$${1-}" = "--prepare" ]; then
   nm_config 2 eth1
   exit 0
 fi
+%{ endif } # end of image == "leapmicro55o" block
 
 # Redirect output to the console
 exec > >(exec tee -a /var/log/combustion) 2>&1
 
+%{ if image == "leapmicro55o" }
 # Name the Network Manager connections (final phase on real filesystem)
 nm_config 1 eth0
 nm_config 2 eth1
+%{ endif }
+
 
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
@@ -78,6 +83,26 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 %{ endif }
 %{ endif } # end of image == "leapmicro55o" block
 
+
+%{ if image == "slemicro51-ign" }
+%{ if testsuite }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product os_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SUSE-MicroOS/5.1/x86_64/product/ micro_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SUSE-MicroOS/5.1/x86_64/update/ micro_update_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/ tools_pool_repo
+
+%{ endif }
+%{ endif }
+
+%{ if image == "slemicro52-ign" }
+%{ endif }
+
+%{ if image == "slemicro53-ign" }
+%{ endif }
+
+%{ if image == "slemicro54-ign" }
+%{ endif }
+
 %{ if image == "slmicro60o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 
@@ -88,6 +113,7 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/reposi
 %{ else }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
 %{ endif }
+
 
 %{ if testsuite }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
