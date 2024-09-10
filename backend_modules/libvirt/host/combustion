@@ -13,8 +13,7 @@ type=ethernet
 interface-name=$2
 
 [ipv4]
-dhcp-timeout=1
-method=auto
+method=$3
 
 [ipv6]
 addr-gen-mode=eui64
@@ -25,8 +24,8 @@ EOF
 
 # Name the Network Manager connections (preparation phase in initrd)
 if [ "$${1-}" = "--prepare" ]; then
-  nm_config 1 eth0
-  nm_config 2 eth1
+  nm_config 1 eth0 auto
+  nm_config 2 eth1 manual
   exit 0
 fi
 
@@ -34,8 +33,8 @@ fi
 exec > >(exec tee -a /var/log/combustion) 2>&1
 
 # Name the Network Manager connections (final phase on real filesystem)
-nm_config 1 eth0
-nm_config 2 eth1
+nm_config 1 eth0 auto
+nm_config 2 eth1 manual
 
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
