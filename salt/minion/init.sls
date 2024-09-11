@@ -7,7 +7,7 @@ include:
   - minion.reflector
 
 {% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
-# Dependencies already satisfied by cloud-init/combustion for SLEM 5.5 and Leap Micro 5.5
+# Dependencies already satisfied by cloud-init/combustion
 minion_package:
   pkg.installed:
 {% if grains['install_salt_bundle'] %}
