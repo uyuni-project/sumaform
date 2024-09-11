@@ -27,6 +27,7 @@ locals {
     sles12sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.suse.de"}/install/SLE-12-SP5-JeOS-GM/SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
     ubuntu2004o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
     ubuntu2204o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
+    ubuntu2404o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/noble/current/noble-server-cloudimg-amd64.img"
     debian11o                = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.debian.org"}/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2"
     debian12o                = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.debian.org"}/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
     opensuse155-ci-pro       = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse155-ci-pr.x86_64.qcow2"
