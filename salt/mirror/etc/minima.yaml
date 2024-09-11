@@ -287,6 +287,10 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04
     archs: [amd64]
 
+  # Ubuntu 24.04 Manager Tools Head devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04
+    archs: [amd64]
+
   # openSUSE Leap
   - url: http://download.opensuse.org/distribution/leap/15.2/repo/oss
     archs: [x86_64]
@@ -369,6 +373,8 @@ http:
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian11-Uyuni-Client-Tools/Debian_11/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/
@@ -398,6 +404,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian11-Uyuni-Client-Tools/Debian_11/
     archs: [amd64]
