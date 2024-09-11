@@ -513,6 +513,30 @@ packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
 packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
 %{ endif }
 %{ endif }
+
+%{ if image == "ubuntu2404o" }
+
+apt:
+  sources:
+    tools_pool_repo:
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
+      key: |
+
+runcmd:
+  # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  # WORKAROUND: disable IPv6 until we have it in Provo
+  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
+  - systemctl restart sshd
+  - systemctl start qemu-guest-agent
+
+%{ if install_salt_bundle }
+packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ else }
+packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+%{ endif }
+%{ endif } # end Ubuntu 24.04
+
 %{ if image == "debian12o" }
 apt:
   sources:

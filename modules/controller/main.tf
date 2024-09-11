@@ -124,6 +124,8 @@ module "controller" {
     ubuntu2004_sshminion = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
     ubuntu2204_minion    = length(var.ubuntu2204_minion_configuration["hostnames"]) > 0 ? var.ubuntu2204_minion_configuration["hostnames"][0] : null
     ubuntu2204_sshminion = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
+    ubuntu2404_minion    = length(var.ubuntu2404_minion_configuration["hostnames"]) > 0 ? var.ubuntu2404_minion_configuration["hostnames"][0] : null
+    ubuntu2404_sshminion = length(var.ubuntu2404_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2404_sshminion_configuration["hostnames"][0] : null
     debian11_minion      = length(var.debian11_minion_configuration["hostnames"]) > 0 ? var.debian11_minion_configuration["hostnames"][0] : null
     debian11_sshminion   = length(var.debian11_sshminion_configuration["hostnames"]) > 0 ? var.debian11_sshminion_configuration["hostnames"][0] : null
     debian12_minion      = length(var.debian12_minion_configuration["hostnames"]) > 0 ? var.debian12_minion_configuration["hostnames"][0] : null
