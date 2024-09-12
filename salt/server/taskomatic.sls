@@ -13,7 +13,7 @@ taskomatic_config:
       - sls: server.rhn
 {% endif %}
 
-{% if grains.get('java_hibernate_debugging') and '4.2' not in grains['product_version'] %}
+{% if grains.get('java_hibernate_debugging') %}
 hibernate_debug_log:
   file.line:
     - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml

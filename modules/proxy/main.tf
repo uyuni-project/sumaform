@@ -1,8 +1,5 @@
 variable "images" {
   default = {
-    "4.2-released"   = "sles15sp3o"
-    "4.2-nightly"    = "sles15sp3o"
-    "4.2-build_image"= "sles15sp3o"
     "4.3-released"   = "sles15sp4o"
     "4.3-nightly"    = "sles15sp4o"
     "4.3-pr"         = "sles15sp4o"
@@ -10,6 +7,7 @@ variable "images" {
     "4.3-build_image"= "sles15sp4o"
     "4.3-VM-nightly" = "sles15sp4o"
     "4.3-VM-released"= "sles15sp4o"
+    # Uyuni non-podman deprecated in September 2024:
     "uyuni-master"   = "opensuse155o"
     "uyuni-released" = "opensuse155o"
     "uyuni-pr"       = "opensuse155o"
