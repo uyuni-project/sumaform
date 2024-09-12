@@ -15,6 +15,9 @@ include:
   - repos.testsuite
   - repos.tools
   - repos.jenkins
+  {% if '4.3' not in grains.get('product_version') %}
+  - repos.ruby
+  {% endif %}
   {% endif %}
   - repos.additional
 

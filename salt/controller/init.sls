@@ -25,6 +25,7 @@ authorized_keys_controller:
     - source: salt://controller/id_rsa.pub
     - makedirs: True
 
+{% if '4.3' in grains.get('product_version') %}
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -56,6 +57,65 @@ cucumber_requisites:
       - rubygem-twopence
     - require:
       - sls: repos
+{% else %}
+
+cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - gcc
+      - make
+      - wget
+      - libssh-devel
+      - python-devel
+      - ruby3.3
+      - ruby3.3-devel
+      - autoconf
+      - ca-certificates-mozilla
+      - automake
+      - libtool
+      - apache2-worker
+      - cantarell-fonts
+      - git-core
+      - aaa_base-extras
+      - zlib-devel
+      - libxslt-devel
+      - mozilla-nss-tools
+      - postgresql-devel
+      - unzip
+    - require:
+      - sls: repos
+
+/usr/bin/ruby:
+  file.symlink:
+    - target: /usr/bin/ruby.ruby3.3
+    - force: True
+
+/usr/bin/gem:
+  file.symlink:
+    - target: /usr/bin/gem.ruby3.3
+    - force: True
+
+/usr/bin/irb:
+  file.symlink:
+    - target: /usr/bin/irb.ruby3.3
+    - force: True
+
+ruby_set_rake_version:
+  cmd.run:
+    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
+
+ruby_set_bundle_version:
+  cmd.run:
+    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
+
+ruby_set_rdoc_version:
+  cmd.run:
+    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
+
+ruby_set_ri_version:
+  cmd.run:
+    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
+{% endif %}
 
 install_chromium:
   pkg.installed:
@@ -75,6 +135,11 @@ create_syslink_for_chromedriver:
     - target: ../lib64/chromium/chromedriver
     - force: True
 
+install_npm:
+  pkg.installed:
+    - name: npm-default
+
+{% if '4.3' in grains.get('product_version') %}
 install_gems_via_bundle:
   cmd.run:
     - name: bundle.ruby2.5 install --gemfile Gemfile
@@ -82,10 +147,15 @@ install_gems_via_bundle:
     - require:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
-
-install_npm:
-  pkg.installed:
-    - name: npm-default
+{% else %}
+install_gems_via_bundle:
+  cmd.run:
+    - name: bundle.ruby3.3 install --gemfile Gemfile
+    - cwd: /root/spacewalk/testsuite
+    - require:
+      - pkg: cucumber_requisites
+      - cmd: spacewalk_git_repository
+{% endif %}
 
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
