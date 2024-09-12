@@ -26,6 +26,16 @@ test_repo_rpm_updates:
     - require:
       - archive: minima
 
+test_repo_appstream:
+  cmd.run:
+    - name: minima sync
+    - env:
+      - MINIMA_CONFIG: |
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
+            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - require:
+      - archive: minima
+
 another_test_repo:
   file.symlink:
     - name: /srv/www/htdocs/pub/AnotherRepo
