@@ -21,7 +21,7 @@ tomcat_config:
       - file: tomcat_config_create
 {% endif %}
 
-{% if grains.get('java_salt_debugging') and '4.2' not in grains['product_version'] %}
+{% if grains.get('java_salt_debugging') %}
 salt_server_action_service_debug_log:
   file.line:
     - name: /srv/tomcat/webapps/rhn/WEB-INF/classes/log4j2.xml
