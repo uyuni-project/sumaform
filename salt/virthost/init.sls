@@ -81,12 +81,13 @@ ifcfg-br0:
 ### adjustments for cloud init and the Salt bundle migration tests in the test suite ---
 # https://cloudinit.readthedocs.io/en/latest/topics/examples.html
 # We use openSUSE Leap 15.4 and SLES 15 SP4 as nested VMs
-rezise-{{ os_type }}-disk-image-template:
-  cmd.run:
-    - name: qemu-img resize /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2 3G
-    - requires:
-      - pgk: qemu-tools
-      - file: /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2
+# With Leap 15.4 the image might be big enough
+#rezise-{{ os_type }}-disk-image-template:
+#  cmd.run:
+#    - name: qemu-img resize /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2 3G
+#    - requires:
+#      - pgk: qemu-tools
+#      - file: /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2
 
 cloudinit-directory-{{ os_type }}:
   file.directory:
