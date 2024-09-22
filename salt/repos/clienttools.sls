@@ -428,7 +428,7 @@ tools_update_repo_raised_priority:
             Pin-Priority: 800
 {% endif %}
 
-{% if grains.get('product_version') is not null and 'beta' not in grains.get('product_version') and '4.3' not in grains.get('product_version') %}
+{% if grains.get('product_version') and 'beta' not in grains.get('product_version') and '4.3' not in grains.get('product_version') %}
 
 tools_additional_repo:
   pkgrepo.managed:
