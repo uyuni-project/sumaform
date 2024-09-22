@@ -283,6 +283,27 @@ tools_pool_repo:
     {% endif %}
     - refresh: True
 
+{% if release >= 8 %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    {% if 'beta' in grains.get('product_version') | default('', true) %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
+    {% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
+    {% endif %}
+    - refresh: True
+    - require:
+      - cmd: galaxy_key
+    {% if release >= 9 %}
+      - cmd: suse_el9_key
+    {% else %}
+      - cmd: suse_res7_key
+    {% endif %}
+
+{% endif %} {# release >= 8 #}
+
 {% else %}
 
 {% set rhlike_client_tools_prefix = 'EL' %}
@@ -306,7 +327,7 @@ tools_pool_repo:
 {% set rhlike_client_tools_prefix = 'RES' %}
 {% endif %}
 
-tools_update_repo:
+tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
@@ -326,7 +347,7 @@ tools_update_repo:
 {% set rhlike_client_tools_prefix = 'RES' %}
 {% endif %}
 
-tools_update_repo:
+tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
@@ -346,7 +367,7 @@ tools_update_repo:
 {% set rhlike_client_tools_prefix = 'CentOS' %}
 {% endif %}
 
-tools_update_repo:
+tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
@@ -356,33 +377,6 @@ tools_update_repo:
     - require:
       - cmd: uyuni_key
 
-{% else %}
-
-{% if release >= 8 %}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 9 %}
-{% set rhlike_client_tools_prefix = 'RES' %}
-{% endif %}
-
-tools_update_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
-    {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
-    {% endif %}
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-    {% if release >= 9 %}
-      - cmd: suse_el9_key
-    {% else %}
-      - cmd: suse_res7_key
-    {% endif %}
-
-{% endif %} {# release >= 8 #}
 {% endif %} {# Devel Tools Repos #}
 
 clean_repo_metadata:
@@ -402,16 +396,49 @@ tools_update_repo:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
 # We only have one shared Client Tools repository
+{% if 'uyuni' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
+{% elif 'beta' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
+{% else %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
+{% endif %}
+    - refresh: True
+    - name: deb {{ tools_repo_url }} /
+    - key_url: {{ tools_repo_url }}/Release.key
+
+tools_update_repo_raised_priority:
+  file.managed:
+    - name: /etc/apt/preferences.d/tools_update_repo
+
+{% if 'uyuni' in grains.get('product_version') | default('', true) %}
+    - contents: |
+            Package: *
+            Pin: release l=systemsmanagement:Uyuni:Master:Ubuntu{{ short_release }}-Uyuni-Client-Tools
+            Pin-Priority: 800
+{% elif 'beta' in grains.get('product_version') | default('', true) %}
+    - contents: |
+            Package: *
+            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS-BETA:x86_64:update
+            Pin-Priority: 800
+{% else %}
+    - contents: |
+            Package: *
+            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
+            Pin-Priority: 800
+{% endif %}
+
+{% if grains.get('product_version') is not null and 'beta' not in grains.get('product_version') and '4.3' not in grains.get('product_version') %}
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - humanname: tools_additional_repo
+    - file: /etc/apt/sources.list.d/tools_additional_repo.list
+# We only have one shared Client Tools repository
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
-{% elif 'beta' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
-{% elif '4.3-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
 {% else %}
@@ -421,9 +448,9 @@ tools_update_repo:
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
 
-tools_update_repo_raised_priority:
+tools_additional_repo_raised_priority:
   file.managed:
-    - name: /etc/apt/preferences.d/tools_update_repo
+    - name: /etc/apt/preferences.d/tools_additional_repo
 {% if 'head' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
@@ -454,6 +481,7 @@ tools_update_repo_raised_priority:
             Package: *
             Pin: release l=systemsmanagement:Uyuni:Stable:Ubuntu{{ short_release }}-Uyuni-Client-Tools
             Pin-Priority: 800
+{% endif %}
 {% endif %}
 {% endif %} {# grains['os'] == 'Ubuntu' #}
 
