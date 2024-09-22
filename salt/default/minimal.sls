@@ -44,6 +44,8 @@ fixed_minion_version:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
   cmd.run:
     - name: transactional-update -n -c pkg install venv-salt-minion-3006.0-150000.3.62.2
+    - require:
+      - cmd: minimal_package_update
 {% else %}
   pkg.installed:
 {% if grains['os_family'] == 'Debian' %}
@@ -56,6 +58,7 @@ fixed_minion_version:
     - name: venv-salt-minion
     - version: 3006.0-150000.3.62.2
 {% endif %}
-
+    - require:
+      - pkg: minimal_package_update
 {% endif %}
 
