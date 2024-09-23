@@ -22,7 +22,7 @@ fi
 
 echo "starting first call to update salt and do minimal configuration"
 
-${SALT_CALL} --local --file-root=$FILE_ROOT/ --log-level=info $MODULE_EXEC state.sls default.minimal ||:
+${SALT_CALL} --local --file-root=$FILE_ROOT/ --log-level=info --out-file=/var/log/salt-deployment.log $MODULE_EXEC state.sls default.minimal ||:
 
 NEXT_TRY=0
 until [ $NEXT_TRY -eq 10 ] || ${SALT_CALL} --local test.ping
@@ -39,6 +39,6 @@ fi
 
 echo "apply highstate"
 
-${SALT_CALL} --local --file-root=$FILE_ROOT/ --log-level=info --retcode-passthrough --force-color $MODULE_EXEC state.highstate || exit 1
+${SALT_CALL} --local --file-root=$FILE_ROOT/ --log-level=info --out-file=/var/log/salt-deployment.log --retcode-passthrough --force-color $MODULE_EXEC state.highstate || exit 1
 
 chmod +x ${FILE_ROOT}/highstate.sh
