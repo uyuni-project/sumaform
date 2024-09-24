@@ -8,9 +8,6 @@ chpasswd:
      root:linux
 
 %{ if image == "tumbleweedo"}
-runcmd:
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
 zypper:
   repos:
     - id: tools_pool_repo
@@ -21,7 +18,9 @@ zypper:
 # For openSUSE Tumbleweed venv-salt-minion is not available.
 # The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
 runcmd:
-  - zypper -n in salt salt-minion avahi avahi-lang
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - "zypper -n in salt salt-minion avahi avahi-lang"
 %{endif}
 
 %{ if image == "centos7o" }
@@ -48,12 +47,11 @@ yum_repos:
     gpgcheck: false
     name: epel
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install in salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
@@ -90,12 +88,11 @@ yum_repos:
     gpgcheck: false
     name: CentOS-AppStream_backup
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
@@ -132,12 +129,11 @@ yum_repos:
     gpgcheck: false
     name: CentOS-AppStream_backup
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install in salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
@@ -150,16 +146,13 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns
+  - "zypper -n in venv-salt-minion avahi nss-mdns"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns
+  - "zypper -n in avahi nss-mdns"
 %{ endif }
-
-runcmd:
-  - zypper removerepo --all
+  - "zypper removerepo --all"
 %{ endif }
 
 %{ if image == "sles12sp5o" }
@@ -176,12 +169,11 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
@@ -204,15 +196,12 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
-
-runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
@@ -231,15 +220,12 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
-
-runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP3 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
@@ -258,15 +244,12 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
-
-runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP4 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
@@ -285,15 +268,12 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
-
-runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP5 does not take care of the following
   # TODO: Check!
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
@@ -313,15 +293,12 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
-
-runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP6 does not take care of the following
   # TODO: Check!
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
@@ -483,15 +460,14 @@ runcmd:
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
-  - systemctl start qemu-guest-agent
-
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent
+  - "apt-get -yq update"
+  - "apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi-daemon qemu-guest-agent
+  - "apt-get -yq update"
+  - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - systemctl start qemu-guest-agent
 %{ endif }
 %{ if image == "ubuntu2204o" }
 
@@ -528,15 +504,14 @@ runcmd:
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
-  - systemctl start qemu-guest-agent
-
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent
+  - "apt-get -yq update"
+  - "apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi-daemon qemu-guest-agent
+  - "apt-get -yq update"
+  - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - systemctl start qemu-guest-agent
 %{ endif }
 
 %{ if image == "ubuntu2404o" }
@@ -580,10 +555,10 @@ runcmd:
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
 %{ if install_salt_bundle }
-  - apt-get update
+  - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
 %{ else }
-  - apt-get update
+  - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
   - systemctl start qemu-guest-agent
@@ -617,25 +592,25 @@ apt:
         =8MsV
         -----END PGP PUBLIC KEY BLOCK-----
 
-runcmd:
-  # HACK: cloud-init in Debian 12 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
-  - systemctl start qemu-guest-agent
-
 bootcmd:
   # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
   - DEBIAN_FRONTEND=noninteractive apt-get -yq update
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
+runcmd:
+  # HACK: cloud-init in Debian 12 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent gnupg
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi-daemon qemu-guest-agent gnupg
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - systemctl start qemu-guest-agent
 %{ endif }
+
 %{ if image == "debian11o" }
 apt:
   sources:
@@ -664,26 +639,25 @@ apt:
         =8MsV
         -----END PGP PUBLIC KEY BLOCK-----
 
-runcmd:
-  # HACK: cloud-init in Debian 11 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
-  - systemctl start qemu-guest-agent
-  # WORKAROUND: security release/updates does not have a Release file
-  - sed -i "s|bullseye/updates|bullseye-security|" /etc/apt/sources.list
-
 bootcmd:
   # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
   - DEBIAN_FRONTEND=noninteractive apt-get -yq update
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
+runcmd:
+  # HACK: cloud-init in Debian 11 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  # WORKAROUND: security release/updates does not have a Release file
+  - sed -i "s|bullseye/updates|bullseye-security|" /etc/apt/sources.list
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
+  - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt"
 %{ endif }
+  - systemctl start qemu-guest-agent
 %{ endif }
 
 %{ if image == "amazonlinux2o" }
@@ -705,14 +679,12 @@ yum_repos:
     gpgcheck: false
     name: epel
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
-
 %{ endif }
 
 %{ if image == "almalinux8o" }
@@ -731,14 +703,12 @@ yum_repos:
     gpgcheck: false
     name: epel
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion
+  - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion"
 %{ endif }
-
 %{ endif }
 
 %{ if image == "almalinux9o" }
@@ -761,15 +731,11 @@ runcmd:
   # WORKAROUND: cloud-init in Alma 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion dbus-tools
+  - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion dbus-tools"
 %{ endif }
-
 %{ endif }
 
 %{ if image == "libertylinux9o" }
@@ -812,14 +778,12 @@ yum_repos:
     gpgcheck: false
     name: epel
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns dbus-tools
+  - "dnf -y install venv-salt-minion avahi nss-mdns dbus-tools"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns salt-minion dbus-tools
+  - "dnf -y install in avahi nss-mdns salt-minion dbus-tools"
 %{ endif }
-
 %{ endif }
 
 %{ if image == "rocky9o" }
@@ -842,13 +806,10 @@ runcmd:
   # WORKAROUND: cloud-init in Rocky 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns dbus-tools
+  - "dnf -y install venv-salt-minion avahi nss-mdns dbus-tools"
 %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns salt-minion dbus-tools
+  - "dnf -y install avahi nss-mdns salt-minion dbus-tools"
 %{ endif }
 %{ endif }
 
@@ -868,15 +829,13 @@ yum_repos:
     gpgcheck: false
     name: epel
 
-  %{ if install_salt_bundle }
 runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
-  %{ else }
-runcmd:
-  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion
-  %{ endif }
-
-  %{ endif }
+%{ if install_salt_bundle }
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
+%{ else }
+  - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion"
+%{ endif }
+%{ endif }
 
 %{ if image == "oraclelinux9o" }
 yum_repos:
@@ -898,15 +857,11 @@ runcmd:
   # WORKAROUND: cloud-init in Oracle 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-
-  %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
-  %{ else }
-runcmd:
-  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
-  %{ endif }
-
+%{ if install_salt_bundle }
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar"
+%{ else }
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar"
+%{ endif }
 %{ endif }
 
 %{ if image == "opensuse155armo" || image == "opensuse156armo" }
@@ -918,23 +873,18 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+runcmd:
 %{ if install_salt_bundle }
-runcmd:
-  - zypper -n in venv-salt-minion
+  - "zypper -n in venv-salt-minion"
 %{ else }
-runcmd:
-  - zypper -n in salt-minion
+  - "zypper -n in salt-minion"
 %{ endif }
-
-runcmd:
-  - zypper removerepo --all
+  - "zypper removerepo --all"
 %{ endif }
 
 %{ if image == "opensuse156armo" }
-
 runcmd:
   # WORKAROUND: cloud-init in opensuse156 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
-
 %{ endif }
