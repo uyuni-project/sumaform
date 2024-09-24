@@ -20,7 +20,8 @@ zypper:
       name: tools_pool_repo
 # For openSUSE Tumbleweed venv-salt-minion is not available.
 # The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
-packages: ["salt", "salt-minion", "avahi", "avahi-lang"]
+runcmd:
+  - zypper -n in salt salt-minion avahi avahi-lang
 %{endif}
 
 %{ if image == "centos7o" }
@@ -48,9 +49,11 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -88,9 +91,11 @@ yum_repos:
     name: CentOS-AppStream_backup
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -128,9 +133,11 @@ yum_repos:
     name: CentOS-AppStream_backup
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -144,9 +151,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns
 %{ else }
-packages: ["avahi", "nss-mdns"]
+runcmd:
+  - zypper -n in avahi nss-mdns
 %{ endif }
 
 runcmd:
@@ -168,9 +177,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -194,9 +205,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -219,9 +232,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -244,9 +259,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -269,9 +286,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -295,9 +314,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -465,9 +486,11 @@ runcmd:
   - systemctl start qemu-guest-agent
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent
 %{ else }
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent
 %{ endif }
 %{ endif }
 %{ if image == "ubuntu2204o" }
@@ -508,9 +531,11 @@ runcmd:
   - systemctl start qemu-guest-agent
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent
 %{ else }
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -604,9 +629,11 @@ bootcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent gnupg
 %{ else }
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg"]
+runcmd:
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent gnupg
 %{ endif }
 %{ endif }
 %{ if image == "debian11o" }
@@ -651,9 +678,11 @@ bootcmd:
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
 %{ else }
-packages: ["salt-minion", "avahi-daemon", "qemu-guest-agent", "gnupg", "python3-apt"]
+runcmd:
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
 %{ endif }
 %{ endif }
 
@@ -677,9 +706,11 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 %{ endif }
@@ -701,9 +732,11 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion
 %{ endif }
 
 %{ endif }
@@ -730,9 +763,11 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools
 %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion dbus-tools
 %{ endif }
 
 %{ endif }
@@ -778,9 +813,11 @@ yum_repos:
     name: epel
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "dbus-tools"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns dbus-tools
 %{ else }
-packages: ["avahi", "nss-mdns", "salt-minion", "dbus-tools"]
+runcmd:
+  - zypper -n in avahi nss-mdns salt-minion dbus-tools
 %{ endif }
 
 %{ endif }
@@ -807,9 +844,11 @@ runcmd:
   - systemctl restart sshd
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "dbus-tools"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns dbus-tools
 %{ else }
-packages: ["avahi", "nss-mdns", "salt-minion", "dbus-tools"]
+runcmd:
+  - zypper -n in avahi nss-mdns salt-minion dbus-tools
 %{ endif }
 %{ endif }
 
@@ -830,9 +869,11 @@ yum_repos:
     name: epel
 
   %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
   %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion"]
+runcmd:
+  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion
   %{ endif }
 
   %{ endif }
@@ -859,9 +900,11 @@ runcmd:
   - systemctl restart sshd
 
   %{ if install_salt_bundle }
-packages: ["venv-salt-minion", "avahi", "nss-mdns", "qemu-guest-agent", "dbus-tools", "tar"]
+runcmd:
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
   %{ else }
-packages: ["avahi", "nss-mdns", "qemu-guest-agent", "salt-minion", "dbus-tools", "tar"]
+runcmd:
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
   %{ endif }
 
 %{ endif }
@@ -876,9 +919,11 @@ zypper:
       name: tools_pool_repo
 
 %{ if install_salt_bundle }
-packages: ["venv-salt-minion"]
+runcmd:
+  - zypper -n in venv-salt-minion
 %{ else }
-packages: ["salt-minion"]
+runcmd:
+  - zypper -n in salt-minion
 %{ endif }
 
 runcmd:
