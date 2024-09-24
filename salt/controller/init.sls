@@ -25,40 +25,8 @@ authorized_keys_controller:
     - source: salt://controller/id_rsa.pub
     - makedirs: True
 
+# WORKAROUND: Remove this case when ruby upgrade is backported from master to 4.3
 {% if '4.3' in grains.get('product_version') %}
-cucumber_requisites:
-  pkg.installed:
-    - pkgs:
-      - gcc
-      - make
-      - wget
-      - ruby
-      - ruby-devel
-      - autoconf
-      - ca-certificates-mozilla
-      - automake
-      - libtool
-      - apache2-worker
-      - cantarell-fonts
-      - git-core
-      - aaa_base-extras
-      - zlib-devel
-      - libxslt-devel
-      - mozilla-nss-tools
-      - postgresql-devel
-      - unzip
-      # packaged ruby gems
-      - ruby2.5-rubygem-bundler
-      - twopence
-      - python-twopence
-      - twopence-devel
-      - twopence-shell-client
-      - twopence-test-server
-      - rubygem-twopence
-    - require:
-      - sls: repos
-# WORKAROUND: Remove this case when refactorings are backported from master to 5.0
-{% elif '5.0' in grains.get('product_version') %}
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -171,16 +139,8 @@ install_npm:
   pkg.installed:
     - name: npm-default
 
+# WORKAROUND: Remove this case when ruby upgrade is backported from master to 4.3
 {% if '4.3' in grains.get('product_version') %}
-install_gems_via_bundle:
-  cmd.run:
-    - name: bundle.ruby2.5 install --gemfile Gemfile
-    - cwd: /root/spacewalk/testsuite
-    - require:
-      - pkg: cucumber_requisites
-      - cmd: spacewalk_git_repository
-# WORKAROUND: Remove this case when refactorings are backported from master to 5.0
-{% elif '5.0' in grains.get('product_version') %}
 install_gems_via_bundle:
   cmd.run:
     - name: bundle.ruby2.5 install --gemfile Gemfile
