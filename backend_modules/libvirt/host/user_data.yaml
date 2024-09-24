@@ -21,7 +21,7 @@ zypper:
 # For openSUSE Tumbleweed venv-salt-minion is not available.
 # The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
 runcmd:
-  - zypper in salt salt-minion avahi avahi-lang
+  - zypper -n in salt salt-minion avahi avahi-lang
 %{endif}
 
 %{ if image == "centos7o" }
@@ -50,10 +50,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -92,10 +92,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -134,10 +134,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -152,10 +152,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns
+  - zypper -n in venv-salt-minion avahi nss-mdns
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns
+  - zypper -n in avahi nss-mdns
 %{ endif }
 
 runcmd:
@@ -178,10 +178,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 %{ endif }
 
@@ -206,10 +206,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -233,10 +233,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -260,10 +260,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -287,10 +287,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -315,10 +315,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent
+  - zypper -n in avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 runcmd:
@@ -487,10 +487,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi-daemon qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi-daemon qemu-guest-agent
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent
 %{ endif }
 %{ endif }
 %{ if image == "ubuntu2204o" }
@@ -532,10 +532,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi-daemon qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi-daemon qemu-guest-agent
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent
 %{ endif }
 %{ endif }
 %{ if image == "debian12o" }
@@ -579,10 +579,10 @@ bootcmd:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi-daemon qemu-guest-agent gnupg
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent gnupg
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi-daemon qemu-guest-agent gnupg
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent gnupg
 %{ endif }
 %{ endif }
 %{ if image == "debian11o" }
@@ -628,10 +628,10 @@ bootcmd:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
+  - zypper -n in venv-salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
+  - zypper -n in salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt
 %{ endif }
 %{ endif }
 
@@ -656,10 +656,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent
 %{ endif }
 
 %{ endif }
@@ -682,10 +682,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent salt-minion
+  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion
 %{ endif }
 
 %{ endif }
@@ -713,10 +713,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent salt-minion dbus-tools
+  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion dbus-tools
 %{ endif }
 
 %{ endif }
@@ -763,10 +763,10 @@ yum_repos:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns dbus-tools
+  - zypper -n in venv-salt-minion avahi nss-mdns dbus-tools
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns salt-minion dbus-tools
+  - zypper -n in avahi nss-mdns salt-minion dbus-tools
 %{ endif }
 
 %{ endif }
@@ -794,10 +794,10 @@ runcmd:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns dbus-tools
+  - zypper -n in venv-salt-minion avahi nss-mdns dbus-tools
 %{ else }
 runcmd:
-  - zypper in avahi nss-mdns salt-minion dbus-tools
+  - zypper -n in avahi nss-mdns salt-minion dbus-tools
 %{ endif }
 %{ endif }
 
@@ -819,10 +819,10 @@ yum_repos:
 
   %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent
   %{ else }
 runcmd:
-  - zypper in avahi nss-mdns qemu-guest-agent salt-minion
+  - zypper -n in avahi nss-mdns qemu-guest-agent salt-minion
   %{ endif }
 
   %{ endif }
@@ -850,10 +850,10 @@ runcmd:
 
   %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
+  - zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
   %{ else }
 runcmd:
-  - zypper in salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
+  - zypper -n in salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
   %{ endif }
 
 %{ endif }
@@ -869,10 +869,10 @@ zypper:
 
 %{ if install_salt_bundle }
 runcmd:
-  - zypper in venv-salt-minion
+  - zypper -n in venv-salt-minion
 %{ else }
 runcmd:
-  - zypper in salt-minion
+  - zypper -n in salt-minion
 %{ endif }
 
 runcmd:
