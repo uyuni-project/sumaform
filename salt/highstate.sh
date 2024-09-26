@@ -13,3 +13,6 @@ else
 fi
 
 ${SALT_CALL} --local --file-root=$FILE_ROOT/ --log-level=info --out-file=/var/log/salt-deployment.log --retcode-passthrough --force-color state.highstate
+
+# Display the output from the Salt execution
+cat /var/log/salt-deployment.log
