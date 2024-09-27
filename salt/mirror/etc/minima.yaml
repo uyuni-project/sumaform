@@ -5,157 +5,157 @@ storage:
 scc:
   username: {{ grains.get("cc_username") }}
   password: {{ grains.get("cc_password") }}
-  repo_names:
-    # Required for SLED testing
-    - SLE-15-GA-Desktop-NVIDIA-Driver
-    - SLE-15-SP2-Desktop-NVIDIA-Driver
-
-    # SLE 12-SP5
-    - SLES12-SP5-Pool
-    - SLES12-SP5-Updates
-    # uncomment when it goes LTSS (October 2024)
-    # - SLES12-SP5-LTSS-Updates
-    # SLE 15-SP2 Products
-    - SLE-Product-SLES15-SP2-Pool
-    - SLE-Product-SLES15-SP2-Updates
-    - SLE-Product-SLES15-SP2-LTSS-Updates
-    - SLE-Product-SLED15-SP2-Pool
-    - SLE-Product-SLED15-SP2-Updates
-    # SLE 15-SP2 Basic Modules
-    - SLE-Module-Basesystem15-SP2-Pool
-    - SLE-Module-Basesystem15-SP2-Updates
-    - SLE-Module-Server-Applications15-SP2-Pool
-    - SLE-Module-Server-Applications15-SP2-Updates
-    - SLE-Module-Web-Scripting15-SP2-Pool
-    - SLE-Module-Web-Scripting15-SP2-Updates
-    - SLE-Module-Desktop-Applications15-SP2-Pool
-    - SLE-Module-Desktop-Applications15-SP2-Updates
-    - SLE-Module-DevTools15-SP2-Pool
-    - SLE-Module-DevTools15-SP2-Updates
-    - SLE-Module-Python2-15-SP2-Pool
-    - SLE-Module-Python2-15-SP2-Update
-    # SLE 15-SP3 Products
-    - SLE-Product-SLES15-SP3-Pool
-    - SLE-Product-SLES15-SP3-Updates
-    - SLE-Product-SLES15-SP3-LTSS-Updates
-    # SLE 15-SP3 Basic Modules
-    - SLE-Module-Basesystem15-SP3-Pool
-    - SLE-Module-Basesystem15-SP3-Updates
-    - SLE-Module-Server-Applications15-SP3-Pool
-    - SLE-Module-Server-Applications15-SP3-Updates
-    - SLE-Module-Web-Scripting15-SP3-Pool
-    - SLE-Module-Web-Scripting15-SP3-Updates
-    - SLE-Module-Desktop-Applications15-SP3-Pool
-    - SLE-Module-Desktop-Applications15-SP3-Updates
-    - SLE-Module-DevTools15-SP3-Pool
-    - SLE-Module-DevTools15-SP3-Updates
-    - SLE-Module-Python2-15-SP3-Pool
-    - SLE-Module-Python2-15-SP3-Update
-    # SLE Micro
-    - SLE-Micro-5.2-Pool
-    - SLE-Micro-5.2-Updates
-    - SLE-Micro-5.3-Pool
-    - SLE-Micro-5.3-Updates
-    - SLE-Micro-5.4-Pool
-    - SLE-Micro-5.4-Updates
-    - SLE-Micro-5.5-Pool
-    - SLE-Micro-5.5-Updates
-    # SL Micro
-    - SL-Micro-6.0-Pool
-    - SL-Micro-6.0-Updates
-    # SLE 15-SP4 Products
-    - SLE-Product-SLES15-SP4-Pool
-    - SLE-Product-SLES15-SP4-Updates
-    - SLE-Product-SLES15-SP4-LTSS-Updates
-    # SLE 15-SP4 Basic Modules
-    - SLE-Module-Basesystem15-SP4-Pool
-    - SLE-Module-Basesystem15-SP4-Updates
-    - SLE-Module-Server-Applications15-SP4-Pool
-    - SLE-Module-Server-Applications15-SP4-Updates
-    - SLE-Module-Web-Scripting15-SP4-Pool
-    - SLE-Module-Web-Scripting15-SP4-Updates
-    - SLE-Module-Desktop-Applications15-SP4-Pool
-    - SLE-Module-Desktop-Applications15-SP4-Updates
-    - SLE-Module-DevTools15-SP4-Pool
-    - SLE-Module-DevTools15-SP4-Updates
-    # SLE 15-SP5 Products
-    - SLE-Product-SLES15-SP5-Pool
-    - SLE-Product-SLES15-SP5-Updates
-    # SLE 15-SP5 Basic Modules
-    - SLE-Module-Basesystem15-SP5-Pool
-    - SLE-Module-Basesystem15-SP5-Updates
-    - SLE-Module-Server-Applications15-SP5-Pool
-    - SLE-Module-Server-Applications15-SP5-Updates
-    - SLE-Module-Web-Scripting15-SP5-Pool
-    - SLE-Module-Web-Scripting15-SP5-Updates
-    - SLE-Module-Desktop-Applications15-SP5-Pool
-    - SLE-Module-Desktop-Applications15-SP5-Updates
-    - SLE-Module-DevTools15-SP5-Pool
-    - SLE-Module-DevTools15-SP5-Updates
-    # SLE 15-SP6 Products
-    - SLE-Product-SLES15-SP6-Pool
-    - SLE-Product-SLES15-SP6-Updates
-    # SLE 15-SP6 Basic Modules
-    - SLE-Module-Basesystem15-SP6-Pool
-    - SLE-Module-Basesystem15-SP6-Updates
-    - SLE-Module-Server-Applications15-SP6-Pool
-    - SLE-Module-Server-Applications15-SP6-Updates
-    - SLE-Module-Web-Scripting15-SP6-Pool
-    - SLE-Module-Web-Scripting15-SP6-Updates
-    - SLE-Module-Desktop-Applications15-SP6-Pool
-    - SLE-Module-Desktop-Applications15-SP6-Updates
-    - SLE-Module-DevTools15-SP6-Pool
-    - SLE-Module-DevTools15-SP6-Updates
-    # SLE Legacy Module
-    - SLE-Module-Legacy12-Pool
-    - SLE-Module-Legacy12-Updates
-    # SLE Container Module
-    - SLE-Module-Containers12-Pool
-    - SLE-Module-Containers12-Updates
-    - SLE-Module-Containers15-Pool
-    - SLE-Module-Containers15-Updates
-    - SLE-Module-Containers15-SP2-Pool
-    - SLE-Module-Containers15-SP2-Updates
-    - SLE-Module-Containers15-SP3-Pool
-    - SLE-Module-Containers15-SP3-Updates
-    - SLE-Module-Containers15-SP4-Pool
-    - SLE-Module-Containers15-SP4-Updates
-    # SUSE Manager Server
-    - SLE-Product-SUSE-Manager-Server-4.3-Pool
-    - SLE-Product-SUSE-Manager-Server-4.3-Updates
-    - SLE-Module-SUSE-Manager-Server-4.3-Pool
-    - SLE-Module-SUSE-Manager-Server-4.3-Updates
-    # SUSE Manager Proxy
-    - SLE-Product-SUSE-Manager-Proxy-4.3-Pool
-    - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
-    - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
-    - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
-    # Retail Branch Server
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Pool
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
-    # SUSE Manager Tools
-    - SLE-Manager-Tools12-Pool
-    - SLE-Manager-Tools12-Updates
-    - SLE-Manager-Tools15-Pool
-    - SLE-Manager-Tools15-Updates
-    - RES-7-SUSE-Manager-Tools
-    - RES8-Manager-Tools-Pool
-    - RES8-Manager-Tools-Updates
-    - Ubuntu-20.04-SUSE-Manager-Tools
-    - Ubuntu-22.04-SUSE-Manager-Tools
-    # SUSE Manager Beta Tools
-    - SLE-Manager-Tools12-Pool-Beta
-    - SLE-Manager-Tools12-Updates-Beta
-    - SLE-Manager-Tools15-Pool-Beta
-    - SLE-Manager-Tools15-Updates-Beta
-    - RES-7-SUSE-Manager-Tools-Beta
-    - RES8-Manager-Tools-Pool-Beta
-    - RES8-Manager-Tools-Updates-Beta
-    - Ubuntu-20.04-SUSE-Manager-Tools-Beta
-    - Ubuntu-22.04-SUSE-Manager-Tools-Beta
-  archs: [x86_64, amd64]
+  repositories:
+    - names:
+      # Required for SLED testing
+      - SLE-15-GA-Desktop-NVIDIA-Driver
+      - SLE-15-SP2-Desktop-NVIDIA-Driver
+      # SLE 12-SP5
+      - SLES12-SP5-Pool
+      - SLES12-SP5-Updates
+      # uncomment when it goes LTSS (October 2024)
+      # - SLES12-SP5-LTSS-Updates
+      # SLE 15-SP2 Products
+      - SLE-Product-SLES15-SP2-Pool
+      - SLE-Product-SLES15-SP2-Updates
+      - SLE-Product-SLES15-SP2-LTSS-Updates
+      - SLE-Product-SLED15-SP2-Pool
+      - SLE-Product-SLED15-SP2-Updates
+      # SLE 15-SP2 Basic Modules
+      - SLE-Module-Basesystem15-SP2-Pool
+      - SLE-Module-Basesystem15-SP2-Updates
+      - SLE-Module-Server-Applications15-SP2-Pool
+      - SLE-Module-Server-Applications15-SP2-Updates
+      - SLE-Module-Web-Scripting15-SP2-Pool
+      - SLE-Module-Web-Scripting15-SP2-Updates
+      - SLE-Module-Desktop-Applications15-SP2-Pool
+      - SLE-Module-Desktop-Applications15-SP2-Updates
+      - SLE-Module-DevTools15-SP2-Pool
+      - SLE-Module-DevTools15-SP2-Updates
+      - SLE-Module-Python2-15-SP2-Pool
+      - SLE-Module-Python2-15-SP2-Update
+      # SLE 15-SP3 Products
+      - SLE-Product-SLES15-SP3-Pool
+      - SLE-Product-SLES15-SP3-Updates
+      - SLE-Product-SLES15-SP3-LTSS-Updates
+      # SLE 15-SP3 Basic Modules
+      - SLE-Module-Basesystem15-SP3-Pool
+      - SLE-Module-Basesystem15-SP3-Updates
+      - SLE-Module-Server-Applications15-SP3-Pool
+      - SLE-Module-Server-Applications15-SP3-Updates
+      - SLE-Module-Web-Scripting15-SP3-Pool
+      - SLE-Module-Web-Scripting15-SP3-Updates
+      - SLE-Module-Desktop-Applications15-SP3-Pool
+      - SLE-Module-Desktop-Applications15-SP3-Updates
+      - SLE-Module-DevTools15-SP3-Pool
+      - SLE-Module-DevTools15-SP3-Updates
+      - SLE-Module-Python2-15-SP3-Pool
+      - SLE-Module-Python2-15-SP3-Update
+      # SLE Micro
+      - SLE-Micro-5.2-Pool
+      - SLE-Micro-5.2-Updates
+      - SLE-Micro-5.3-Pool
+      - SLE-Micro-5.3-Updates
+      - SLE-Micro-5.4-Pool
+      - SLE-Micro-5.4-Updates
+      - SLE-Micro-5.5-Pool
+      - SLE-Micro-5.5-Updates
+      # SL Micro
+      - SL-Micro-6.0-Pool
+      - SL-Micro-6.0-Updates
+      # SLE 15-SP4 Products
+      - SLE-Product-SLES15-SP4-Pool
+      - SLE-Product-SLES15-SP4-Updates
+      - SLE-Product-SLES15-SP4-LTSS-Updates
+      # SLE 15-SP4 Basic Modules
+      - SLE-Module-Basesystem15-SP4-Pool
+      - SLE-Module-Basesystem15-SP4-Updates
+      - SLE-Module-Server-Applications15-SP4-Pool
+      - SLE-Module-Server-Applications15-SP4-Updates
+      - SLE-Module-Web-Scripting15-SP4-Pool
+      - SLE-Module-Web-Scripting15-SP4-Updates
+      - SLE-Module-Desktop-Applications15-SP4-Pool
+      - SLE-Module-Desktop-Applications15-SP4-Updates
+      - SLE-Module-DevTools15-SP4-Pool
+      - SLE-Module-DevTools15-SP4-Updates
+      # SLE 15-SP5 Products
+      - SLE-Product-SLES15-SP5-Pool
+      - SLE-Product-SLES15-SP5-Updates
+      # SLE 15-SP5 Basic Modules
+      - SLE-Module-Basesystem15-SP5-Pool
+      - SLE-Module-Basesystem15-SP5-Updates
+      - SLE-Module-Server-Applications15-SP5-Pool
+      - SLE-Module-Server-Applications15-SP5-Updates
+      - SLE-Module-Web-Scripting15-SP5-Pool
+      - SLE-Module-Web-Scripting15-SP5-Updates
+      - SLE-Module-Desktop-Applications15-SP5-Pool
+      - SLE-Module-Desktop-Applications15-SP5-Updates
+      - SLE-Module-DevTools15-SP5-Pool
+      - SLE-Module-DevTools15-SP5-Updates
+      # SLE 15-SP6 Products
+      - SLE-Product-SLES15-SP6-Pool
+      - SLE-Product-SLES15-SP6-Updates
+      # SLE 15-SP6 Basic Modules
+      - SLE-Module-Basesystem15-SP6-Pool
+      - SLE-Module-Basesystem15-SP6-Updates
+      - SLE-Module-Server-Applications15-SP6-Pool
+      - SLE-Module-Server-Applications15-SP6-Updates
+      - SLE-Module-Web-Scripting15-SP6-Pool
+      - SLE-Module-Web-Scripting15-SP6-Updates
+      - SLE-Module-Desktop-Applications15-SP6-Pool
+      - SLE-Module-Desktop-Applications15-SP6-Updates
+      - SLE-Module-DevTools15-SP6-Pool
+      - SLE-Module-DevTools15-SP6-Updates
+      # SLE Legacy Module
+      - SLE-Module-Legacy12-Pool
+      - SLE-Module-Legacy12-Updates
+      # SLE Container Module
+      - SLE-Module-Containers12-Pool
+      - SLE-Module-Containers12-Updates
+      - SLE-Module-Containers15-Pool
+      - SLE-Module-Containers15-Updates
+      - SLE-Module-Containers15-SP2-Pool
+      - SLE-Module-Containers15-SP2-Updates
+      - SLE-Module-Containers15-SP3-Pool
+      - SLE-Module-Containers15-SP3-Updates
+      - SLE-Module-Containers15-SP4-Pool
+      - SLE-Module-Containers15-SP4-Updates
+      # SUSE Manager Server
+      - SLE-Product-SUSE-Manager-Server-4.3-Pool
+      - SLE-Product-SUSE-Manager-Server-4.3-Updates
+      - SLE-Module-SUSE-Manager-Server-4.3-Pool
+      - SLE-Module-SUSE-Manager-Server-4.3-Updates
+      # SUSE Manager Proxy
+      - SLE-Product-SUSE-Manager-Proxy-4.3-Pool
+      - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
+      - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
+      - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
+      # Retail Branch Server
+      - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Pool
+      - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
+      - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
+      - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
+      # SUSE Manager Tools
+      - SLE-Manager-Tools12-Pool
+      - SLE-Manager-Tools12-Updates
+      - SLE-Manager-Tools15-Pool
+      - SLE-Manager-Tools15-Updates
+      - RES-7-SUSE-Manager-Tools
+      - RES8-Manager-Tools-Pool
+      - RES8-Manager-Tools-Updates
+      - Ubuntu-20.04-SUSE-Manager-Tools
+      - Ubuntu-22.04-SUSE-Manager-Tools
+      # SUSE Manager Beta Tools
+      - SLE-Manager-Tools12-Pool-Beta
+      - SLE-Manager-Tools12-Updates-Beta
+      - SLE-Manager-Tools15-Pool-Beta
+      - SLE-Manager-Tools15-Updates-Beta
+      - RES-7-SUSE-Manager-Tools-Beta
+      - RES8-Manager-Tools-Pool-Beta
+      - RES8-Manager-Tools-Updates-Beta
+      - Ubuntu-20.04-SUSE-Manager-Tools-Beta
+      - Ubuntu-22.04-SUSE-Manager-Tools-Beta
+    archs: [x86_64, amd64]
 
 http:
   # RES 7
@@ -252,6 +252,8 @@ http:
   # Ubuntu 22.04 Manager Tools 4.3 devel
   - url: https://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04/
     archs: [amd64]
+
+  # No Ubuntu 24.04 in 4.3
 
   # Debian 11 Manager Tools 4.3 devel
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian11-SUSE-Manager-Tools/Debian_11/
@@ -364,13 +366,13 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian11-Uyuni-Client-Tools/Debian_11/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/
-    archs: [x86_64]
+    archs: [amd64]
 
   # Uyuni Stable
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.4/
@@ -394,10 +396,10 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian11-Uyuni-Client-Tools/Debian_11/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/
-    archs: [x86_64]
+    archs: [amd64]
