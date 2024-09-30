@@ -51,7 +51,7 @@ runcmd:
 %{ if install_salt_bundle }
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-  - "dnf -y install in salt-minion avahi nss-mdns qemu-guest-agent"
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
@@ -131,9 +131,9 @@ yum_repos:
 
 runcmd:
 %{ if install_salt_bundle }
-  - "dnf -y install in venv-salt-minion avahi nss-mdns qemu-guest-agent"
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-  - "dnf -y install in salt-minion avahi nss-mdns qemu-guest-agent"
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
@@ -782,7 +782,7 @@ runcmd:
 %{ if install_salt_bundle }
   - "dnf -y install venv-salt-minion avahi nss-mdns dbus-tools"
 %{ else }
-  - "dnf -y install in avahi nss-mdns salt-minion dbus-tools"
+  - "dnf -y install avahi nss-mdns salt-minion dbus-tools"
 %{ endif }
 %{ endif }
 
