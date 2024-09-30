@@ -15,11 +15,12 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
-# For openSUSE Tumbleweed venv-salt-minion is not available.
-# The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
+
 runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
+  # For openSUSE Tumbleweed venv-salt-minion is not available.
+  # The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
   - "zypper -n in salt salt-minion avahi avahi-lang"
 %{endif}
 
@@ -469,6 +470,7 @@ runcmd:
 %{ endif }
   - systemctl start qemu-guest-agent
 %{ endif }
+
 %{ if image == "ubuntu2204o" }
 
 apt:
