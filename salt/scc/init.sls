@@ -1,4 +1,4 @@
-{% if grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') %}
+{% if (grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code')) and grains['os'] == 'SUSE' %}
 include:
   - scc.clean
   - scc.client

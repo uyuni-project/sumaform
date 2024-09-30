@@ -4,28 +4,16 @@ include:
 {% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
 # TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES <= SLES15SP4
-{% if grains['osfullname'] == 'SLES' and grains['osrelease'] != '15.5' %}
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] != '15.5' and grains['osrelease'] != '15.4' %}
 custom_avahi_repo:
   pkgrepo.managed:
     - humanname: custom_avahi_repo
-    {%   if grains['osrelease'] == '11.4' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.23/SLE_11_SP4/
-    {% elif grains['osrelease'] == '12.3' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP3/
-    {% elif grains['osrelease'] == '12.4' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP4/
-    {% elif grains['osrelease'] == '12.5' %}
+    {% if grains['osrelease'] == '12.5' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP5/
-    {% elif grains['osrelease'] == '15' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15/
-    {% elif grains['osrelease'] == '15.1' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP1/
     {% elif grains['osrelease'] == '15.2' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP2/
     {% elif grains['osrelease'] == '15.3' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP3/
-    {% elif grains['osrelease'] == '15.4' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP4/
     {% endif %}
     - enabled: True
     - refresh: True
@@ -41,13 +29,9 @@ dbus_enable_service:
 {% endif %}
 
 # TODO: replace 'pkg.latest' with 'pkg.installed' when fix to bsc#1163683 is applied to all the SLES versions we use
+{% if not (grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro']) %}
 avahi_pkg:
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SLE Micro'  %}
-# WORKAROUND for sle micro we should not ask for the latest by just check that is installed. We are building our image for sumaform.
-  pkg.installed:
-{% else %}
   pkg.latest:
-{% endif %}
     - pkgs:
       {% if grains['os_family'] == 'Debian' %}
       - avahi-daemon
@@ -68,6 +52,9 @@ avahi_pkg:
       - libavahi-core7
       {% endif %}
       {% endif %}
+    - requires:
+      - pkgrepo: os_pool_repo
+{% endif %}
 
 # WORKAROUND: watch does not really work with Salt 2016.11
 avahi_dead_before_config:

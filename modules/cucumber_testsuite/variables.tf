@@ -2,11 +2,13 @@
 variable "cc_username" {
   description = "username for the Customer Center"
   type        = string
+  default     = null
 }
 
 variable "cc_password" {
   description = "password for the Customer Center"
   type        = string
+  default     = null
 }
 
 variable "use_avahi" {
@@ -36,7 +38,22 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos7o", "opensuse153o", "opensuse154o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o"]
+  default     = ["centos7o", "opensuse155o", "leapmicro55o", "slemicro55o", "rocky8o", "rocky9o", "sles12sp5o", "sles15sp2o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "ubuntu2004o", "ubuntu2204o", "suma43VM-ign"]
+}
+
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
+}
+
+variable "repository_disk_size" {
+  description = "Size of an additional disk for /var/spacewalk partition, defined in GiB"
+  default     = 0
+}
+
+variable "database_disk_size" {
+  description = "Size of an additional disk for /var/lib/pgsql partition, defined in GiB"
+  default     = 0
 }
 
 variable "mirror" {
@@ -67,7 +84,7 @@ variable "host_settings" {
 
 // server
 variable "product_version" {
-  description = "One of: 4.0-nightly, 4.0-released, 4.1-nightly, 4.1-released, 4.2-nightly, 4.2-released, 4.3-nightly, 4.3-released, 4.3-beta, head, test, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 4.3-nightly, 4.3-released, 4.3-pr, 4.3-beta, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, head, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
@@ -146,4 +163,14 @@ variable "provider_settings" {
 variable "login_timeout" {
   description = "How long the webUI login session cookie is valid"
   default     = null
+}
+
+variable "container_server" {
+  description = "true to run the server in containers"
+  default = false
+}
+
+variable "container_proxy" {
+  description = "true to run the proxy in containers"
+  default = false
 }

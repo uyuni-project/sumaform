@@ -8,14 +8,19 @@ CERT_STATE="Bayern"
 CERT_COUNTRY="DE"
 CERT_EMAIL="galaxy-noise@suse.de"
 CERT_PASS="spacewalk"
+{%- if grains.get('provider') == 'aws' %}
+CERT_CNAMES="{{ grains.get('hostname') }}.{{ grains.get('domain') }}"
+{%- endif %}
 USE_EXISTING_CERTS="N"
 MANAGER_DB_NAME="susemanager"
 MANAGER_DB_HOST="{{ grains.get('db_configuration')['hostname'] }}"
 MANAGER_DB_PORT="{{ grains.get('db_configuration')['port'] }}"
 MANAGER_DB_PROTOCOL="TCP"
 MANAGER_ENABLE_TFTP="Y"
+{%- if grains.get('cc_username') %}
 SCC_USER="{{ grains.get("cc_username") }}"
 SCC_PASS="{{ grains.get("cc_password") }}"
+{% endif %}
 {%- if not grains.get('db_configuration')['local'] %}
 EXTERNALDB_ADMIN_USER="{{ grains.get('db_configuration')['superuser'] }}"
 EXTERNALDB_ADMIN_PASS="{{ grains.get('db_configuration')['superuser_password'] }}"

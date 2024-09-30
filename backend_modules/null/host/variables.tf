@@ -17,11 +17,6 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
 variable "disable_firewall" {
   description = "whether to disable the built-in firewall, opening up all ports"
   default     = true
@@ -49,7 +44,7 @@ variable "additional_packages" {
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
+  default     = true
 }
 
 variable "quantity" {
@@ -96,7 +91,7 @@ variable "connect_to_additional_network" {
 }
 
 variable "image" {
-  description = "An image name, e.g. sles12sp4 or opensuse154o"
+  description = "An image name, e.g. sles12sp4 or opensuse156o"
   type        = string
 }
 
@@ -111,12 +106,28 @@ variable "provider_settings" {
   default     = {}
 }
 
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
+}
+
 variable "additional_disk_size" {
-  description = "Size of an aditional disk, defined in GiB"
-  default     = null
+  description = "Size of an additional disk, defined in GiB"
+  default     = 0
+}
+
+variable "second_additional_disk_size" {
+  description = "Size of a second additional disk, defined in GiB"
+  default     = 0
 }
 
 variable "volume_provider_settings" {
   description = "Map of volume-provider-specific settings, see the backend-specific README file"
   default     = {}
+}
+
+variable "product_version" {
+  description = "One of: 4.3-nightly, 4.3-released, 4.3-pr, 4.3-beta, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, head, uyuni-master, uyuni-released, uyuni-pr"
+  type        = string
+  default     = "5.0-released"
 }

@@ -12,4 +12,8 @@ dbus_machine_id:
 
 minion_id_cleared:
   file.absent:
+{% if grains['install_salt_bundle'] %}
+    - name: /etc/venv-salt-minion/minion_id
+{% else %}
     - name: /etc/salt/minion_id
+{% endif %}

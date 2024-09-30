@@ -4,29 +4,34 @@
 
 Some modules have a `product_version` variable that determines the software product version. Specifically:
 
-- in `server`, `proxy` etc. `product_version` determines the SUSE Manager/Uyuni product version,
-- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version.
+- in `server`, `proxy`, `server_containerized` and `proxy_containerized`, `product_version` determines the SUSE Manager/Uyuni product version
+- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version
 
 Legal values for released software are:
 
-- `4.1-released`   (latest released Maintenance Update for SUSE Manager 4.1 and Tools)
-- `4.2-released`   (latest released Maintenance Update for SUSE Manager 4.2 and Tools)
-- `4.3-released`   (latest released Maintenance Update for SUSE Manager 4.3 and Tools)
+- `4.3-released` (latest released maintenance update for SUSE Manager 4.3 and Tools)
+- `4.3-VM-released` (latest released maintenance update for SUSE Manager 4.3 virtual machine)
+- `5.0-released` (latest released maintenance update for SUSE Manager 5.0 and Tools)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
 
-- `4.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.1)
-- `4.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.2)
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
-- `4.3-beta`    (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
-- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, for `server` and `proxy`only works with SLE15SP4 image)
+- `4.3-VM-nightly` (corresponds to the VM image in the Build Service project Devel:Galaxy:Manager:4.3)
+- `4.3-beta` (corresponds to the Build Service project SUSE:SLE-15-SP4:Update:Products:Manager43)
+- `5.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.0)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, uses SLE Micro as the base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
+
+**Important:** sumaform only supports containerized deployments for SUSE Manager versions 5.0 and later.
+Please use `server_containerized` and `proxy_containerized` modules with product versions `head` and `5.0-X`.
 
 Legal values for CI:
 
 `uyuni-pr` is a special product version used internally to test Pull Requests. Packages are under a subproject in systemsmanagement:Uyuni:Master:TEST and systemsmanagement:Uyuni:Master:PR.
 This is not meant to be used outside the Continous Integration system (CI).
+
+Similarly, `4.3-pr` is used for testing Pull Requests on Manager-4.3.
 
 Because packages are under different subprojects for each CI run and each Pull Request, repositories will be added later as additional repositories.
 
@@ -41,10 +46,10 @@ module "suse-minion" {
   source = "./modules/minion"
   base_configuration = module.base.configuration
 
-  name = "min-sles15sp1"
-  image = "sles15sp1o"
+  name = "min-sles15sp6"
+  image = "sles15sp6o"
   server_configuration = module.proxy.configuration
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
 }
 
 module "server" {
@@ -52,7 +57,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-released"
+  product_version = "5.0-released"
 }
 ```
 
@@ -64,7 +69,7 @@ For some modules like `minion`, `image` is mandatory and Terraform will refuse t
 
 For other modules like `server` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
 
-The following example creates a SUSE Manager server using "nightly" packages from version 4.2 based on SLES 15 SP3:
+The following example creates a SUSE Manager server using "nightly" packages from version 5.0 based on SLES 15 SP3:
 
 ```hcl
 module "server" {
@@ -73,7 +78,7 @@ module "server" {
 
   image = "sles15sp3o"
   name = "server"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
 }
 ```
 
@@ -180,7 +185,7 @@ module "mirror" {
   source = "./modules/mirror"
   base_configuration = module.base.configuration
 
-  ubuntu_distros = ['16.04', '18.04', '22.04']
+  ubuntu_distros = ['20.04', '22.04']
 }
 ```
 
@@ -204,7 +209,7 @@ module "virthost" {
   server_configuration = module.srv.configuration
   ...
   name = "min-kvm"
-  image = "sles15sp1o"
+  image = "sles15sp6o"
   ...
   provider_settings = {
     vcpu = 3
@@ -232,12 +237,12 @@ The generated virtual host will be setup with:
 - a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
 - and a VM template disk image located in `/var/testsuite-data/`.
 
-The openSUSE Leap template (`leap`) disk image is `opensuse154o` used by sumaform and is downloaded when applying the
+The openSUSE Leap template (`leap`) disk image is `opensuse156o` used by sumaform and is downloaded when applying the
 highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
 If the values inside the `hvm_disk_image` map are set to an empty map, no image will be copied to `/var/testsuite-data/`.
 For example, to use a local image, copy it to the `salt/virthost/` folder and set the `image` key inside the `leap`
-hashmap of `hvm_disk_image` to `"leap = salt://virthost/imagename.qcow2"`. See the [Virtual host](https://github.com/uyuni-project/sumaform/blob/master/README_TESTING.md#virtual-host) section inside of README_TESTING for an example
+hashmap of `hvm_disk_image` to `"leap = salt://virthost/imagename.qcow2"`. See the [Virtual host](https://github.com/uyuni-project/sumaform/blob/master/README_TESTING.md#virtual-host) section inside of README_TESTING for an example.
 
 ## Turning convenience features off
 
@@ -284,6 +289,7 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
    * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
    * `db_configuration` : pass external database configuration to change `setup_env.sh` file. See more in `Using external database` section
+   * `beta_enabled`: enable beta channels in rhn configuration. Set to false by default.
 
 
 ## Adding channels to SUSE Manager Servers
@@ -305,7 +311,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   channels = ["sles12-sp5-pool-x86_64"]
 }
 ```
@@ -331,11 +337,11 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-nightly"
-  channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"]
+  product_version = "5.0-nightly"
+  channels = ["sles15-sp3-pool-x86_64", "sles15-sp3-updates-x86_64"]
   wait_for_reposync = true
   cloned_channels = [
-    { channels = ["sles12-sp3-pool-x86_64", "sles12-sp3-updates-x86_64"],
+    { channels = ["sles15-sp3-pool-x86_64", "sles15-sp3-updates-x86_64"],
       prefix   = "cloned-2017-q3",
       date     = "2017-09-30"
     }
@@ -394,9 +400,9 @@ module "minion" {
 
 If you will be adding Windows minions, you should disable Avahi in sumaform, as for historical reasons mDNS and resolution of .local and .lan is broken and will not work. Do not trust any source saying it works on Windows 10 (there are lots of "ifs" and "buts"), or can be fixed with Bonjour Printing Services (not for .local).
 
-## Additional network and SUSE Manager for Retail
+## Additional network
 
-You may get an additional, isolated, network, with neither DHCP nor DNS by specifying for example:
+You may get an additional, isolated, network by specifying for example:
 
 ```hcl
 module "base" {
@@ -410,7 +416,7 @@ module "base" {
 
 This will create a network named `private`, with your prefix in front of the name (e.g. `prefix-private`).
 
-You may use that additional network to test SUSE Manager for Retail with the test suite or manually.
+You may use that additional network to test Cobbler or SUSE Manager for Retail with the test suite or manually.
 
 For each VM, you can decide whether it connects to the base network and/or to the additional network by specifying:
 
@@ -422,7 +428,38 @@ connect_to_additional_network = true
 When there are two connections, the first network interface `eth0` gets connected to base network, and the second interface `eth1` gets connected to the additional network.
 When there is only one connection, the card is always `eth0`, no matter to which network it is connected.
 
-Some modules have preset defaults: SUSE Manager/Uyuni Servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni Proxies and clients or minions connect to both networks.
+Some modules have preset defaults: SUSE Manager/Uyuni servers and the testsuite controller connect only to the base network, while SUSE Manager/Uyuni proxies connect to both networks.
+
+DHCP and DNS services for the additional network may be ensured by the proxy. Alternatively, you can install a DHCP and DNS server into the additional network by declaring:
+
+```hcl
+module "cucumber_testsuite" {
+  ...
+  host_settings = {
+    ...
+    dhcp-dns = {
+      name = "dhcp-dns"
+      image = "opensuse155o"
+    }
+    ...
+  }
+}
+```
+
+from the test suite module, or:
+
+```hcl
+module "dhcp-dns" {
+  source = "./modules/dhcp_dns"
+
+  name = "dhcp-dns"
+  image = "opensuse155o"
+  hypervisor = { host = "hypervisor.example.org", user = "root", private_key = file("~/.ssh/id_rsa") }
+  private_hosts = [ module.proxy.configuration, module.sles12sp5-terminal.configuration, module.sles15sp4-terminal.configuration ]
+}
+```
+
+in a more direct manner. In both cases, you need to drop your public SSH key into `~/.ssh/authorized_keys` on the hypervisor.
 
 ## Custom SSH keys
 
@@ -477,7 +514,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.1-nightly"
+  product_version = "4.3-nightly"
 }
 
 module "proxy" {
@@ -485,7 +522,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "4.1-nightly"
+  product_version = "4.3-nightly"
   server_configuration = module.server.configuration
 }
 
@@ -510,7 +547,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   server_configuration = module.server.configuration
 
   minion = false
@@ -523,27 +560,25 @@ Create two SUSE Manager server modules and add `iss_master` and `iss_slave` vari
 
 ```hcl
 module "master" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "master"
-  product_version = "4.2-released"
+  product_version = "head"
   iss_slave = "slave.tf.local"
 }
 
 module "slave" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "slave"
-  product_version = "4.2-released"
+  product_version = "head"
   iss_master = module.master.configuration["hostname"]
 }
 ```
 
 Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for Terraform to resolve dependencies correctly, as dependency cycles are not permitted.
-
-Also note that this requires `create_first_user` and `publish_private_ssl_key` settings to be true (they are by default).
 
 ## Working on multiple configuration sets (workspaces) locally
 
@@ -609,6 +644,8 @@ PXE boot hosts are unprovisioned hosts that are capable of booting from their ne
 
 SUSE Manager makes use of PXE booting in two use cases: cobbler, and Retail.
 
+They are connected only to the private network.
+
 An example follows:
 
 ```hcl
@@ -619,6 +656,9 @@ module "pxeboot-minion"
 
   name = "pxeboot"
   image = "sles12sp5o"
+  # last digit of the IP address and name on the private network:
+  private_ip = 4
+  private_name = "pxeboot"
 }
 ```
 
@@ -632,7 +672,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   smt = "http://smt.suse.de"
 }
 ```
@@ -691,7 +731,7 @@ It is possible to install Prometheus exporters on a SUSE Manager Server instance
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -748,7 +788,7 @@ module "minion" {
   base_configuration = module.base.configuration
 
   name = "minion"
-  image = "sles15sp1o"
+  image = "sles15sp6o"
   server_configuration = module.server.configuration
   evil_minion_count = 10
   evil_minion_slowdown_factor = 1
@@ -794,18 +834,18 @@ module "locust" {
 }
 ```
 
-## Use Operating System updates (released and unreleased)
+## Use Operating System released updates
 
-It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones, including updates currently in QAM, that is, upcoming updates. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` (respectively `use_os_unreleased_updates`) flag. Libvirt example:
+It is possible to run SUSE Manager servers, proxies, clients and minions with the latest packages of the operating system (for now, only SLE is supported) instead of outdated ones. This is useful to spot regressions early, and can be activated via the `use_os_released_updates` flag. Libvirt example:
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
   product_version = "head"
-  use_os_unreleased_updates = true
+  use_os_released_updates = true
 }
 ```
 
@@ -817,7 +857,7 @@ This setting can be overridden with a custom 'from' address by supplying the par
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -832,7 +872,7 @@ By suppling the parameter `traceback_email` you can override that address to hav
 
 ```hcl
 module "sumamail3" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "sumamail3"
@@ -863,7 +903,7 @@ To disable the swap file, set its size to 0.
 
 ## Additional disk on Server or Proxy
 
-In case the default disk size for those machines is not enough for the amount of products you want to synchronize, you can add an additional disk which will mount the first volume in `/var/spacewalk` with size `repository_disk_size`. This additional disk will be created in the pool specified by `data_pool`.
+In case the default disk size for those machines is not enough for the amount of products you want to synchronize, you can add an additional disk which will mount the first volume in `/var/spacewalk` with size `repository_disk_size` and the second volume in `/var/lib/pgsql` with size `database_disk_size`. This additional disk will be created in the pool specified by `data_pool`.
 
 An example follows:
 
@@ -871,39 +911,131 @@ An example follows:
 module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
-  product_version = "4.2-nightly"
+  product_version = "5.0-nightly"
   name = "server"
   repository_disk_size = 500
+  database_disk_size = 50
   volume_provider_settings = {
-    pool = "default"
+    data_pool = "default"
   }
 }
 ```
+
+## Large deployments
+
+In the case of the Build Validation test suite, or when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option. This option is inspired by the documentation at https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
+
+```
+### /etc/rhn/rhn.conf
+taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads = 3
+hibernate.c3p0.max_size = 50
+
+### /etc/tomcat/server.xml
+changed `maxThreads` to 256
+
+### /var/lib/pgsql/data/postgresql.conf
+max_connections = 450
+work_mem = 10MB
+```
+
+An example follows:
+
+```hcl
+module "server" {
+   ...
+   large_deployment = true
+   ...
+}
+```
+
+## Using a different FQDN
+
+Normally, the fully qualified domain name (FQDN) is derived from `name` variable. However, some providers, like AWS cloud provider, impose a naming scheme that does not always match this mechanism. You may also want a name for libvirt that differs from the hostname part of the FQDN. The `overwrite_fqdn` variable allows the FQDN to diverge from the value normally derived from the name.
+
+An AWS example is:
+
+```hcl
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+  ...
+  host_settings = {
+    ...
+    server = {
+      provider_settings = {
+        instance_type = "m6a.xlarge"
+        volume_size = "100"
+        private_ip = "172.16.3.6"
+        overwrite_fqdn = "uyuni-master-srv.sumaci.aws"
+      }
+    }
+    ...
+  }
+  ...
+}
+```
+
+A libvirt example is:
+
+```hcl
+module "opensuse155arm-minion" {
+  source = "./modules/minion"
+  ...
+  name = "nue-min-opensuse155arm"
+  ...
+  provider_settings = {
+    ...
+    overwrite_fqdn   = "suma-bv-43-min-opensuse155arm.mgr.suse.de"
+    ...
+  }
+  ...
+}
+```
+
+Note the extra `nue-` in the name. With those settings, we have in libvirt:
+
+```bash
+suma-arm:~ # virsh list
+ Id   Name                                   State
+----------------------------------------------------
+ ...
+ 11   suma-bv-43-nue-min-opensuse156arm      running
+```
+
+and inside the VM:
+
+```bash
+# hostname -f
+suma-bv-43-min-opensuse156arm.mgr.suse.de
+```
+
 
 ## Debugging facilities
 
 The `server` module has options to automatically capture more diagnostic information, off by default:
 
 - `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
+- `java_hibernate_debugging`: enable additional logs for Hibernate in Tomcat and Taskomatic
+- `java_salt_debugging`: enable additional logs for Hibernate in Tomcat
 - `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
 
-## Using external database
+## Using an external database
 
-Currently, sumaform only support RDS database. The server need to be created in public cloud ( by default AWS). It's possible to get RDS in private network shared by server in aws.
-RDS module return automatically the parameters needed to configure rhn.conf throught setup_env.sh . 
+Currently, sumaform only supports the RDS database as an external database. The server needs to be created in the public cloud (by default AWS). It's possible to get RDS in a private network shared with the server in AWS.
 
+The RDS module returns automatically the parameters needed to configure `rhn.conf` through `setup_env.sh`.
 
-| Output variable    | Type    | Description                                                                                 |
-|--------------------|---------|---------------------------------------------------------------------------------------------|
-| hostname           | string  | RDS hostname that will be use for MANAGER_DB_HOST and REPORT_DB_HOST                        |
-| superuser          | string  | superuser to connect database, it will be use to create MANAGER_USER user and both database |
-| superuser_password | string  | superuser password                                                                          |
-| port               | string  | RDS port ( by default 5432)                                                                 |
-| certificate        | string  | Certificate use to connect RDS database. Certificate is provided by AWS                     |
-| local              | boolean | Set to `false` to use external database                                                     |
+| Output variable      | Type    | Description                                                               |
+|----------------------|---------|---------------------------------------------------------------------------|
+| `hostname`           | string  | RDS hostname that will be used for `MANAGER_DB_HOST` and `REPORT_DB_HOST` |
+| `superuser`          | string  | Superuser to connect database                                             |
+|                      |         | it will be used to create `MANAGER_USER` user and both databases          |
+| `superuser_password` | string  | Superuser password                                                        |
+| `port`               | string  | RDS port (by default `5432`)                                              |
+| `certificate`        | string  | Certificate used to connect RDS database, provided by AWS                 |
+| `local`              | boolean | Set to `false` to use an external database                                |
 
+Example:
 
-Example :
 ```hcl
 module "rds" {
    source             = "./modules/rds"
@@ -917,6 +1049,6 @@ module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
   db_configuration = module.db.configuration
-
+  ...
 }
 ```

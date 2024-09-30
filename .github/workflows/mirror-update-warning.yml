@@ -1,31 +1,38 @@
-name: mirror-update-warning
+name: Mirror update notification
 
-on: push
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - backend_modules/libvirt/base/main.tf
 
 jobs:
-  Check-changed-files:
+  check-image-urls:
+    name: Check updated image URLs
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
-    - uses: actions/checkout@v2
-    - name: Get Changed Files
-      id: get_file_changes
-      uses: trilom/file-changes-action@v1.2.3
+    - uses: actions/checkout@v4
       with:
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
-        plaintext: true
-    - name: RESULTS
+        fetch-depth: 2
+    - name: Find modified image URLs
       run: |
-        for directory in ${{ steps.get_file_changes.outputs.files }}
-        do
-          if [ ${directory} == "backend_modules/libvirt/base/main.tf" ]
-          then
-            echo "IMAGES_CHANGED=true" >> $GITHUB_ENV
-          fi
-        done
-    - name: PR Comment
-      if: env.IMAGES_CHANGED == 'true'
-      uses: peter-evans/commit-comment@v1
+        echo "IMAGE_LIST<<EOF" >> $GITHUB_ENV
+
+        git diff -p -U0 --no-color --diff-filter=M -G"\{var\.mirror\}" \
+          ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} \
+          -- backend_modules/libvirt/base/main.tf | \
+          grep "^[+-] " | sed 's/^[+-]\s*\([^ ]*\).*$/ - `\1`/' | uniq >> $GITHUB_ENV
+
+        echo "EOF" >> $GITHUB_ENV
+    - name: Comment on the pull request
+      uses: actions-cool/maintain-one-comment@v3
       with:
+        delete: ${{ !env.IMAGE_LIST }}
         body: |
-          Before merging this PR, keep in mind we must have updated CI and BV Mirror YAML files.
-          Thank you for your collaboration.
+          This pull request updates the URLs of the following images:
+          ${{ env.IMAGE_LIST }}
+
+          Please consider updating the CI and BV mirror configurations accordingly.

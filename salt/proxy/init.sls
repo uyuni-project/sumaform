@@ -15,6 +15,14 @@ include:
 {% endif %}
 {% endif %}
 
+{% if 'uyuni' not in grains.get('product_version') %}
+proxy-switch-product:
+  cmd.run:
+    - name: zypper --non-interactive in -t product --force-resolution --auto-agree-with-product-licenses SUSE-Manager-Proxy
+    - require:
+      - sls: repos
+{% endif %}
+
 proxy-packages:
   pkg.installed:
     - pkgs:
@@ -41,7 +49,11 @@ proxy-packages:
 {% if install_proxy_container_packages %}
 
 {% if 'uyuni' in grains.get('product_version') %}
+  {% if '-released' in grains.get('product_version') %}
+    {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
+  {% else %}
     {% set client_tools_repo =  grains.get("mirror") | default("download.opensuse.org", true) ~ '/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/' %}
+  {% endif %}
 
 galaxy_key:
   file.managed:
@@ -71,6 +83,27 @@ proxy-container-packages:
   pkg.installed:
     - pkgs:
       - uyuni-proxy-systemd-services
+
+# Set up the Docker/Podman registry for development
+{% if not '-released' in grains.get('product_version') %}
+  {% if 'uyuni' in grains.get('product_version') %}
+proxy_substitute_uyuni_registry:
+  file.replace:
+    - name: /etc/sysconfig/uyuni-proxy-systemd-services
+    - pattern: registry.opensuse.org/uyuni
+    - repl: registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni
+    - require:
+      - proxy-container-packages
+  {% elif '4.3' in grains.get('product_version') %}
+proxy_substitute_suma_registry:
+  file.replace:
+    - name: /etc/sysconfig/uyuni-proxy-systemd-services
+    - pattern: registry.suse.com/suse/manager/4.3
+    - repl: registry.suse.de/devel/galaxy/manager/4.3/containers/suse/manager/4.3
+    - require:
+      - proxy-container-packages
+  {% endif %}
+{% endif %}
 
 # Remove the client tools repo as it would lead to conflicts on a proxy
 proxy_client_tools_repo_removed:
@@ -206,7 +239,7 @@ ssl-building-ca-configuration:
 
 configure-proxy:
   cmd.run:
-    - name: configure-proxy.sh --non-interactive --rhn-user={{ grains.get('server_username') | default('admin', true) }} --rhn-password={{ grains.get('server_password') | default('admin', true) }} --answer-file=/root/config-answers.txt ; true
+    - name: configure-proxy.sh --non-interactive --rhn-user={{ grains.get('server_username') | default('admin', true) }} --rhn-password={{ grains.get('server_password') | default('admin', true) }} --answer-file=/root/config-answers.txt
     - env:
       - SSL_PASSWORD: spacewalk
     - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT
@@ -278,6 +311,7 @@ ca-configuration-checksum:
 
 {% endif %}
 
+{% if grains.get('provider') != 'aws' %}
 
 # WORKAROUND: this avoids already established connections to hang
 # when SuSEfirewall2 is started by the retail formula
@@ -301,3 +335,16 @@ preload_conntrack_modules_and_enable_them_at_boottime:
 {% endif %}
     - require:
       - pkg: proxy-packages
+
+{% endif %}
+
+{% if grains.get('testsuite') | default(false, true) %}
+testsuite_packages:
+  pkg.installed:
+    - pkgs:
+      - expect
+{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    - require:
+      - sls: repos
+{% endif %}
+{% endif %}

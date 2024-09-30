@@ -1,3 +1,6 @@
+{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+# Dependencies already satisfied by the images
+# https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
 timezone_package:
   pkg.installed:
 {% if grains['os_family'] == 'Suse' %}
@@ -5,14 +8,17 @@ timezone_package:
 {% else %}
     - name: tzdata
 {% endif %}
+{% endif %}
 
 timezone_symlink:
   file.symlink:
     - name: /etc/localtime
     - target: /usr/share/zoneinfo/{{ grains['timezone'] }}
     - force: true
+{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
     - require:
       - pkg: timezone_package
+{% endif %}
 
 timezone_setting:
   timezone.system:
@@ -23,9 +29,7 @@ timezone_setting:
 
 {% if grains['use_ntp'] %}
 
-{% if grains['osfullname'] == 'SLES' %}
-
-{% if grains['osrelease'] == '11.4' %}
+{% if  grains['osfullname'] == 'Leap' %}
 
 ntp_pkg:
   pkg.installed:
@@ -36,16 +40,19 @@ ntp_conf_file:
     - name: /etc/ntp.conf
     - source: salt://default/ntp.conf
 
-ntp_enable_service:
+ntpd_enable_service:
   service.running:
-    - name: ntp
+    - name: ntpd
     - enable: true
 
 {% else %}
 
+{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+# Dependencies already satisfied by SLE Micro itself
 chrony_pkg:
   pkg.installed:
     - name: chrony
+{% endif %}
 
 chrony_conf_file:
   file.managed:
@@ -58,23 +65,4 @@ chrony_enable_service:
     - enable: true
 
 {% endif %}
-
-{% elif grains['osfullname'] == 'Leap' %}
-
-ntp_pkg:
-  pkg.installed:
-    - name: ntp
-
-ntp_conf_file:
-  file.managed:
-    - name: /etc/ntp.conf
-    - source: salt://default/ntp.conf
-
-ntp_enable_service:
-  service.running:
-    - name: ntpd
-    - enable: true
-
-{% endif %}
-
 {% endif %}

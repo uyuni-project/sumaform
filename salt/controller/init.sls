@@ -25,6 +25,7 @@ authorized_keys_controller:
     - source: salt://controller/id_rsa.pub
     - makedirs: True
 
+{% if '4.3' in grains.get('product_version') %}
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -45,6 +46,7 @@ cucumber_requisites:
       - libxslt-devel
       - mozilla-nss-tools
       - postgresql-devel
+      - unzip
       # packaged ruby gems
       - ruby2.5-rubygem-bundler
       - twopence
@@ -55,20 +57,121 @@ cucumber_requisites:
       - rubygem-twopence
     - require:
       - sls: repos
+# WORKAROUND: Remove this case when refactorings are backported from master to 5.0
+{% elif '5.0' in grains.get('product_version') %}
+cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - gcc
+      - make
+      - wget
+      - ruby
+      - ruby-devel
+      - autoconf
+      - ca-certificates-mozilla
+      - automake
+      - libtool
+      - apache2-worker
+      - cantarell-fonts
+      - git-core
+      - aaa_base-extras
+      - zlib-devel
+      - libxslt-devel
+      - mozilla-nss-tools
+      - postgresql-devel
+      - unzip
+      # packaged ruby gems
+      - ruby2.5-rubygem-bundler
+      - twopence
+      - python-twopence
+      - twopence-devel
+      - twopence-shell-client
+      - twopence-test-server
+      - rubygem-twopence
+    - require:
+      - sls: repos
+{% else %}
+cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - gcc
+      - make
+      - wget
+      - libssh-devel
+      - python-devel
+      - ruby3.3
+      - ruby3.3-devel
+      - autoconf
+      - ca-certificates-mozilla
+      - automake
+      - libtool
+      - apache2-worker
+      - cantarell-fonts
+      - git-core
+      - aaa_base-extras
+      - zlib-devel
+      - libxslt-devel
+      - mozilla-nss-tools
+      - postgresql-devel
+      - unzip
+    - require:
+      - sls: repos
+
+/usr/bin/ruby:
+  file.symlink:
+    - target: /usr/bin/ruby.ruby3.3
+    - force: True
+
+/usr/bin/gem:
+  file.symlink:
+    - target: /usr/bin/gem.ruby3.3
+    - force: True
+
+/usr/bin/irb:
+  file.symlink:
+    - target: /usr/bin/irb.ruby3.3
+    - force: True
+
+ruby_set_rake_version:
+  cmd.run:
+    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
+
+ruby_set_bundle_version:
+  cmd.run:
+    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
+
+ruby_set_rdoc_version:
+  cmd.run:
+    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
+
+ruby_set_ri_version:
+  cmd.run:
+    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
+{% endif %}
 
 install_chromium:
   pkg.installed:
   - name: chromium
+  # workaround for https://github.com/SUSE/spacewalk/issues/24883, as soon as we find a version newer than 126 fixing the issue, we should remove this line
+  - version: 125.0.6422.141-bp155.2.91.1
 
 install_chromedriver:
   pkg.installed:
   - name: chromedriver
+  # workaround for https://github.com/SUSE/spacewalk/issues/24883, as soon as we find a version newer than 126 fixing the issue, we should remove this line
+  - version: 125.0.6422.141-bp155.2.91.1
 
 create_syslink_for_chromedriver:
   file.symlink:
     - name: /usr/bin/chromedriver
-    - target: /usr/lib64/chromium/chromedriver
+    - target: ../lib64/chromium/chromedriver
+    - force: True
 
+install_npm:
+  pkg.installed:
+    - name: npm-default
+
+{% if '4.3' in grains.get('product_version') %}
 install_gems_via_bundle:
   cmd.run:
     - name: bundle.ruby2.5 install --gemfile Gemfile
@@ -76,10 +179,24 @@ install_gems_via_bundle:
     - require:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
-
-install_npm:
-  pkg.installed:
-    - name: npm8
+# WORKAROUND: Remove this case when refactorings are backported from master to 5.0
+{% elif '5.0' in grains.get('product_version') %}
+install_gems_via_bundle:
+  cmd.run:
+    - name: bundle.ruby2.5 install --gemfile Gemfile
+    - cwd: /root/spacewalk/testsuite
+    - require:
+      - pkg: cucumber_requisites
+      - cmd: spacewalk_git_repository
+{% else %}
+install_gems_via_bundle:
+  cmd.run:
+    - name: bundle.ruby3.3 install --gemfile Gemfile
+    - cwd: /root/spacewalk/testsuite
+    - require:
+      - pkg: cucumber_requisites
+      - cmd: spacewalk_git_repository
+{% endif %}
 
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
@@ -163,8 +280,14 @@ extra_pkgs:
   pkg.installed:
     - pkgs:
       - screen
+      - xauth
     - require:
       - sls: repos
+
+# needed together with the `xauth` package for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
+create_xauthority_file:
+  cmd.run:
+   - name: touch /root/.Xauthority
 
 chrome_certs:
   file.directory:

@@ -15,11 +15,11 @@
 - complete the `cc_password` variable in the `base` module
 - make sure that:
   - either your target libvirt host has a storage pool named `default`
-  - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-storage.html#sec-libvirt-storage-vmm-addpool)
+  - or you [create one](https://documentation.suse.com/sles/15-SP5/html/SLES-all/cha-libvirt-host.html#sec-libvirt-storage-vmm-addpool)
   - or you specify a different name by uncommenting the `pool` variable declaration in the `base` module
 - if you are not using bridged networking, make sure that:
   - either your target libvirt host has a NAT network which is named `default`
-  - or you [create one](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-libvirt-networks.html#libvirt-networks-virtual-vmm-define)
+  - or you [create one](https://documentation.suse.com/sles/15-SP5/html/SLES-all/cha-libvirt-host.html#libvirt-networks-virtual-vmm)
     - Note: ipv6 is configured by default on all VMs created by sumaform, so make sure to enable ipv6 too (DHCPv6 is not necessary)
   - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
 - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
@@ -147,6 +147,23 @@ virsh console suma32pg
 ```
 
 especially in the case the network is not working and you need to debug it, or if the images have difficulties booting.
+
+### Accessing VMs through bastion host
+
+When deployed VMs are behind NAT and not directly accessible from the machine terraform is running on, it is required for libvirt connection provider to specify a jump host. To do this add
+bastion configuration options to the libvirt `provider_settings`:
+
+```hcl-terraform
+
+provider_settings = {
+    bastion_host        = <jump-host-fqdn>
+    bastion_host_key    = <validation-of-jump-host>
+    bastion_port        = <jump-host-port>
+    bastion_user        = <jump-host-user>
+    bastion_password    = <jump-host-password>
+    bastion_private_key = <jump-host-user-authentication>
+}
+```
 
 ## Only upload a subset of available images
 

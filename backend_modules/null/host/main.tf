@@ -4,7 +4,6 @@ resource "null_resource" "domain" {
     name                          = var.name
     roles                         = yamlencode(var.roles)
     use_os_released_updates       = var.use_os_released_updates
-    use_os_unreleased_updates     = var.use_os_unreleased_updates
     install_salt_bundle           = var.install_salt_bundle
     additional_repos              = yamlencode(var.additional_repos)
     additional_repos_only         = var.additional_repos_only
@@ -20,13 +19,15 @@ resource "null_resource" "domain" {
     connect_to_additional_network = var.connect_to_additional_network
     image                         = var.image
     provider_settings             = yamlencode(var.provider_settings)
+    main_disk_size                = var.main_disk_size
   }
 }
 
 output "configuration" {
   value = {
-    ids       = ["1"]
-    hostnames = ["domain"]
-    macaddrs  = []
+    ids          = ["1"]
+    hostnames    = ["domain"]
+    macaddrs     = []
+    public_names = []
   }
 }

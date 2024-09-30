@@ -1,21 +1,16 @@
 variable "images" {
   default = {
-    "4.0-released"   = "sles15sp1o"
-    "4.0-nightly"    = "sles15sp1o"
-    "4.1-released"   = "sles15sp2o"
-    "4.1-nightly"    = "sles15sp2o"
-    "4.1-build_image"= "sles15sp2o"
-    "4.2-released"   = "sles15sp3o"
-    "4.2-nightly"    = "sles15sp3o"
-    "4.2-build_image"= "sles15sp3o"
     "4.3-released"   = "sles15sp4o"
     "4.3-nightly"    = "sles15sp4o"
+    "4.3-pr"         = "sles15sp4o"
     "4.3-beta"       = "sles15sp4o"
     "4.3-build_image"= "sles15sp4o"
-    "head"           = "sles15sp4o"
-    "uyuni-master"   = "opensuse154o"
-    "uyuni-released" = "opensuse154o"
-    "uyuni-pr"       = "opensuse154o"
+    "4.3-VM-nightly" = "sles15sp4o"
+    "4.3-VM-released"= "sles15sp4o"
+    # Uyuni non-podman deprecated in September 2024:
+    "uyuni-master"   = "opensuse155o"
+    "uyuni-released" = "opensuse155o"
+    "uyuni-pr"       = "opensuse155o"
   }
 }
 
@@ -26,7 +21,6 @@ module "proxy" {
   name                          = var.name
   quantity                      = var.quantity
   use_os_released_updates       = var.use_os_released_updates
-  use_os_unreleased_updates     = var.use_os_unreleased_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
   additional_repos_only         = var.additional_repos_only
@@ -53,13 +47,14 @@ module "proxy" {
     server_password           = var.server_configuration["password"]
     generate_bootstrap_script = var.generate_bootstrap_script
     publish_private_ssl_key   = var.publish_private_ssl_key
+    main_disk_size            = var.main_disk_size
     repository_disk_size      = var.repository_disk_size
     proxy_registration_code   = var.proxy_registration_code
     accept_all_ssl_protocols  = var.accept_all_ssl_protocols
     proxy_containerized       = var.proxy_containerized
   }
 
-  image                    = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image                    = var.image == "default" ? var.images[var.product_version] : var.image
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings
@@ -69,6 +64,9 @@ output "configuration" {
   value = {
     id              = length(module.proxy.configuration["ids"]) > 0 ? module.proxy.configuration["ids"][0] : null
     hostname        = length(module.proxy.configuration["hostnames"]) > 0 ? module.proxy.configuration["hostnames"][0] : null
+    private_mac     = length(module.proxy.configuration["private_macs"]) > 0 ? module.proxy.configuration["private_macs"][0]: null
+    private_ip      = 254
+    private_name    = "proxy"
     product_version = var.product_version
     username        = var.server_configuration["username"]
     password        = var.server_configuration["password"]

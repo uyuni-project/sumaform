@@ -54,6 +54,14 @@ variable "minion_configuration" {
   }
 }
 
+variable "slemicro_minion_configuration" {
+  description = "use module.<SLE_MICRO_MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    ids       = []
+    hostnames = []
+  }
+}
+
 variable "buildhost_configuration" {
   description = "use module.<BUILDHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -85,7 +93,9 @@ variable "debian_configuration" {
 variable "pxeboot_configuration" {
   description = "use module.<PXEBOOT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddr = null
+    private_mac = null
+    private_ip = null
+    private_name = null
     image = null
   }
 }
@@ -104,43 +114,36 @@ variable "monitoringserver_configuration" {
   }
 }
 
-variable "sle11sp4_minion_configuration" {
-  description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle12sp5_paygo_minion_configuration" {
+  description = "use module.<SLE12SP5_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sle11sp4_sshminion_configuration" {
-  description = "use module.<SLE11SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp4_byos_minion_configuration" {
+  description = "use module.<SLE15SP4_BYOS_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sle11sp4_client_configuration" {
-  description = "use module.<SLE11SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp5_paygo_minion_configuration" {
+  description = "use module.<SLE15SP5_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sle12sp4_minion_configuration" {
-  description = "use module.<SLE12SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp6_paygo_minion_configuration" {
+  description = "use module.<SLE15SP6_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sle12sp4_sshminion_configuration" {
-  description = "use module.<SLE12SP4_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle12sp4_client_configuration" {
-  description = "use module.<SLE12SP4_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sleforsap15sp5_paygo_minion_configuration" {
+  description = "use module.<SLEFORSAP15SP5_PAYGO_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -162,48 +165,6 @@ variable "sle12sp5_sshminion_configuration" {
 
 variable "sle12sp5_client_configuration" {
   description = "use module.<SLE12SP5_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15_minion_configuration" {
-  description = "use module.<SLE15_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15_sshminion_configuration" {
-  description = "use module.<SLE15_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15_client_configuration" {
-  description = "use module.<SLE15_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15sp1_minion_configuration" {
-  description = "use module.<SLE15SP1_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15sp1_sshminion_configuration" {
-  description = "use module.<SLE15SP1_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sle15sp1_client_configuration" {
-  description = "use module.<SLE15SP1_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -272,6 +233,62 @@ variable "sle15sp4_client_configuration" {
   }
 }
 
+variable "sle15sp5_minion_configuration" {
+  description = "use module.<SLE15SP5_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp5_sshminion_configuration" {
+  description = "use module.<SLE15SP5_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp5_client_configuration" {
+  description = "use module.<SLE15SP5_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_minion_configuration" {
+  description = "use module.<SLE15SP6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_sshminion_configuration" {
+  description = "use module.<SLE15SP6_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_client_configuration" {
+  description = "use module.<SLE15SP6_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro51_minion_configuration" {
+  description = "use module.<SLEMICRO51_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro51_sshminion_configuration" {
+  description = "use module.<SLEMICRO51_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "slemicro52_minion_configuration" {
   description = "use module.<SLEMICRO52_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -286,22 +303,57 @@ variable "slemicro52_sshminion_configuration" {
   }
 }
 
-variable "centos6_minion_configuration" {
-  description = "use module.<CENTOS6_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "slemicro53_minion_configuration" {
+  description = "use module.<SLEMICRO53_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "centos6_sshminion_configuration" {
-  description = "use module.<CENTOS6_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "slemicro53_sshminion_configuration" {
+  description = "use module.<SLEMICRO53_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "centos6_client_configuration" {
-  description = "use module.<CENTOS6_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+variable "slemicro54_minion_configuration" {
+  description = "use module.<SLEMICRO54_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro54_sshminion_configuration" {
+  description = "use module.<SLEMICRO54_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro55_minion_configuration" {
+  description = "use module.<SLEMICRO55_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slemicro55_sshminion_configuration" {
+  description = "use module.<SLEMICRO55_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slmicro60_minion_configuration" {
+  description = "use module.<SLMICRO60_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slmicro60_sshminion_configuration" {
+  description = "use module.<SLMICRO60_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -323,6 +375,20 @@ variable "centos7_sshminion_configuration" {
 
 variable "centos7_client_configuration" {
   description = "use module.<CENTOS7_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "liberty9_minion_configuration" {
+  description = "use module.<LIBERTY9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "liberty9_sshminion_configuration" {
+  description = "use module.<LIBERTY9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -363,6 +429,20 @@ variable "rhel9_minion_configuration" {
   }
 }
 
+variable "alma8_minion_configuration" {
+  description = "use module.<ALMA8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "alma8_sshminion_configuration" {
+  description = "use module.<ALMA8_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "alma9_minion_configuration" {
   description = "use module.<ALMA9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -398,34 +478,6 @@ variable "rhel9_sshminion_configuration" {
   }
 }
 
-variable "ubuntu1604_minion_configuration" {
-  description = "use module.<UBUNTU1604_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu1604_sshminion_configuration" {
-  description = "use module.<UBUNTU1604_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu1804_minion_configuration" {
-  description = "use module.<UBUNTU1804_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu1804_sshminion_configuration" {
-  description = "use module.<UBUNTU1804_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "ubuntu2004_minion_configuration" {
   description = "use module.<UBUNTU2004_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -454,29 +506,15 @@ variable "ubuntu2204_sshminion_configuration" {
   }
 }
 
-variable "debian9_minion_configuration" {
-  description = "use module.<DEBIAN9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "ubuntu2404_minion_configuration" {
+  description = "use module.<UBUNTU2404_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "debian9_sshminion_configuration" {
-  description = "use module.<DEBIAN9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "debian10_minion_configuration" {
-  description = "use module.<DEBIAN10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "debian10_sshminion_configuration" {
-  description = "use module.<DEBIAN10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "ubuntu2404_sshminion_configuration" {
+  description = "use module.<UBUNTU2404_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -496,6 +534,20 @@ variable "debian11_sshminion_configuration" {
   }
 }
 
+variable "debian12_minion_configuration" {
+  description = "use module.<DEBIAN12_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "debian12_sshminion_configuration" {
+  description = "use module.<DEBIAN12_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "sle15sp4_buildhost_configuration" {
   description = "use module.<SLE15SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -506,7 +558,9 @@ variable "sle15sp4_buildhost_configuration" {
 variable "sle15sp4_terminal_configuration" {
   description = "use module.<SLE15SP4_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddr = null
+    private_mac = null
+    private_ip = null
+    private_name = null
     image = null
   }
 }
@@ -521,7 +575,9 @@ variable "sle15sp3_buildhost_configuration" {
 variable "sle15sp3_terminal_configuration" {
   description = "use module.<SLE15SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddr = null
+    private_mac = null
+    private_ip = null
+    private_name = null
     image = null
   }
 }
@@ -536,35 +592,57 @@ variable "sle12sp5_buildhost_configuration" {
 variable "sle12sp5_terminal_configuration" {
   description = "use module.<SLE12SP5_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    macaddr = null
+    private_mac = null
+    private_ip = null
+    private_name = null
     image = null
   }
 }
 
-variable "sle11sp4_buildhost_configuration" {
-  description = "use module.<SLE11SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse155arm_minion_configuration" {
+  description = "use module.<OPENSUSE155ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "sle11sp3_terminal_configuration" {
-  description = "use module.<SLE11SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    macaddr = null
-    image = null
-  }
-}
-
-variable "opensuse154arm_minion_configuration" {
-  description = "use module.<OPENSUSE154ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse155arm_sshminion_configuration" {
+  description = "use module.<OPENSUSE155ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "opensuse154arm_sshminion_configuration" {
-  description = "use module.<OPENSUSE154ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse156arm_minion_configuration" {
+  description = "use module.<OPENSUSE156ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "opensuse156arm_sshminion_configuration" {
+  description = "use module.<OPENSUSE156ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp5s390_minion_configuration" {
+  description = "use module.<SLE15SP5S390_MINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp5s390_sshminion_configuration" {
+  description = "use module.<SLE15SP5S390_SSHMINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "salt_migration_minion_configuration" {
+  description = "use module.<SALT_MIGRATION_MINION>.configuration"
   default = {
     hostnames = []
   }
@@ -648,6 +726,21 @@ variable "no_mirror" {
   default     = false
 }
 
+variable "catch_timeout_message" {
+  description = "Enable the mechanism to catch the timeout message shown by a server overloaded"
+  default     = false
+}
+
+variable "beta_enabled" {
+  description = "Enable the mechanism to take into account beta channels"
+  default     = false
+}
+
+variable "is_using_paygo_server" {
+  description = "Specify to controller that server image is a paygo image"
+  default     = false
+}
+
 variable "is_using_build_image" {
 description = "Specify to controller that server image is a build image"
 default     = false
@@ -656,4 +749,14 @@ default     = false
 variable "is_using_scc_repositories" {
   description = "Specify to controller that server and proxy are using SCC repository and not internal repositories"
   default     = false
+}
+
+variable "server_instance_id" {
+  description = "Server instance ID"
+  default     = null
+}
+
+variable "product_version" {
+  description = "A valid SUSE Manager version (eg. 4.3-nightly, head) see README_ADVANCED.md"
+  default     = "released"
 }

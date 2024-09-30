@@ -8,7 +8,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 4.0-nightly, 4.0-released, 4.1-released, 4.1-nightly, 4.2-released, 4.2-nightly, 4.3-released, 4.3-nightly, 4.3-beta, head, test, uyuni-master, uyuni-released"
+  description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-beta, 4.3-build_image, 4.3-paygo, 4.3-VM-nightly, 4.3-VM-released, 5.0-released, 5.0-nightly, head, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
@@ -45,6 +45,11 @@ variable "iss_slave" {
 variable "register_to_server" {
   description = "name of another Server to register to, eg module.<SERVER_NAME>.configuration.hostname"
   default     = null
+}
+
+variable "disable_auto_bootstrap" {
+  description = "disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
+  default     = false
 }
 
 variable "auto_register" {
@@ -97,6 +102,16 @@ variable "java_debugging" {
   default     = true
 }
 
+variable "java_hibernate_debugging" {
+  description = "enable additional logs for Hibernate in Tomcat and Taskomatic"
+  default     = false
+}
+
+variable "java_salt_debugging" {
+  description = "enable additional logs for Hibernate in Tomcat"
+  default     = false
+}
+
 variable "skip_changelog_import" {
   description = "import RPMs without changelog data, this speeds up spacewalk-repo-sync"
   default     = true
@@ -142,8 +157,9 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
+variable "beta_enabled" {
+  description = "enable the mechanism to take into account beta channels"
+  type        = bool
   default     = false
 }
 
@@ -189,12 +205,18 @@ variable "additional_packages" {
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
+  default     = true
 }
 
 variable "traceback_email" {
   description = "recipient email address that will receive errors during usage"
   default     = null
+}
+
+variable "scc_access_logging" {
+  description = "Enable logging for SCC access through taskomatic and tomcat"
+  type        = bool
+  default     = false
 }
 
 variable "swap_file_size" {
@@ -225,9 +247,24 @@ variable "image" {
   default     = "default"
 }
 
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
+}
+
 variable "repository_disk_size" {
-  description = "Size of an aditional disk for /var/spacewalk partition, defined in GiB"
+  description = "Size of an additional disk for /var/spacewalk partition, defined in GiB"
   default     = 0
+}
+
+variable "database_disk_size" {
+  description = "Size of an additional disk for /var/lib/pgsql partition, defined in GiB"
+  default     = 0
+}
+
+variable "repository_disk_use_cloud_setup" {
+  description = "Use cloud tool suma-storage to setup additional disk for repository and database data"
+  default = false
 }
 
 variable "saltapi_tcpdump" {
@@ -277,4 +314,26 @@ variable "db_configuration" {
     hostname           = "localhost"
     port               = "5432"
   }
+}
+
+variable "c3p0_connection_timeout" {
+  description = "c3p0 connections will be closed after this timeout"
+  # WORKAROUND: this is causing problems in the testsuite, disable it for now
+  default     = false
+}
+
+variable "c3p0_connection_debug" {
+  description = "log additional info regarding leaked c3p0 connections"
+  default     = false
+}
+
+variable "large_deployment" {
+  description = "set up for a deployment with a great number of clients"
+  type        = bool
+  default     = false
+}
+
+variable "quantity" {
+  description = "number of hosts like this one"
+  default     = 1
 }

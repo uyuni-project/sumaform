@@ -29,16 +29,6 @@ virthost_packages:
       - sls: repos
       - pkg: no_kernel_default_base
 
-{% if grains['osrelease'] == '12.4' %}
-# WORKAROUND for guestfs appliance missing libaugeas0 on 12SP4
-guestfs-fix:
-  file.append:
-    - name: /usr/lib64/guestfs/supermin.d/packages
-    - text: libaugeas0
-    - require:
-      - pkg: virthost_packages
-{% endif %}
-
 # WORKAROUND for bsc#1181264
 {% if grains['osrelease'] == '15.3' %}
 no-50-xen-hvm-x86_64.json:
@@ -88,14 +78,16 @@ ifcfg-br0:
     - mode: 655
     - makedirs: True
 
-### adjustments for cloud init and the test suite ---
+### adjustments for cloud init and the Salt bundle migration tests in the test suite ---
 # https://cloudinit.readthedocs.io/en/latest/topics/examples.html
-rezise-{{ os_type }}-disk-image-template:
-  cmd.run:
-    - name: qemu-img resize /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2 3G
-    - requires:
-      - pgk: qemu-tools
-      - file: /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2
+# We use openSUSE Leap 15.4 and SLES 15 SP4 as nested VMs
+# With Leap 15.4 the image might be big enough
+#rezise-{{ os_type }}-disk-image-template:
+#  cmd.run:
+#    - name: qemu-img resize /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2 3G
+#    - requires:
+#      - pgk: qemu-tools
+#      - file: /var/testsuite-data/{{ os_type }}-disk-image-template.qcow2
 
 cloudinit-directory-{{ os_type }}:
   file.directory:
@@ -138,7 +130,6 @@ cloudinit-user-data-{{ os_type }}:
           {% for key in grains.get('authorized_keys') %}
           - {{ key }}
           {% endfor %}
-
         # adjust configuration files
         write_files:
         - content: |
@@ -148,31 +139,10 @@ cloudinit-user-data-{{ os_type }}:
            enable_fqdns_grains: False
           path: /etc/salt/minion
         - content: |
-           {{ salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') }}.{{ grains.get('domain') }}
-          path: /etc/hostname
-        - content: |
-           [server]
-           domain-name={{ grains.get('domain') }}
-           use-ipv4=yes
-           use-ipv6=no
-           ratelimit-interval-usec=1000000
-           ratelimit-burst=1000
-           [wide-area]
-           enable-wide-area=yes
-           [publish]
-           publish-hinfo=no
-           publish-workstation=no
-          path: /etc/avahi/avahi-daemon.conf
-        - content: |
-           .local
-           .tf.local
-           .{{ grains.get('domain') }}
-          path: /etc/mdns.allow
-        - content: |
            passwd:         compat
            group:          compat
            shadow:         compat
-           hosts:          files mdns [NOTFOUND=return] dns
+           hosts:          files dns
            networks:       files dns
            aliases:        files usrfiles
            ethers:         files usrfiles
@@ -187,18 +157,29 @@ cloudinit-user-data-{{ os_type }}:
            netmasks:       files
           path: /etc/nsswitch.conf
         runcmd:
-{% if salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') == 'sles' %}
+        - hostnamectl hostname {{ salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') }}.{{ grains.get('domain') }}
+{% if os_type == 'sles' %}
         # add SLES 15 SP4 base repository
         - zypper --non-interactive ar "http://download.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
+{% elif os_type == 'leap' %}
+        # add Leap 15.4 repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Leap 15.4
+        # on the server to be able to onboard the nested VM
+        - zypper --non-interactive ar "http://download.opensuse.org/distribution/leap/15.4/repo/oss/" os_pool_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/oss/" os_update_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/sle/" sle_update_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/backports/" backports_update_repo
+        - zypper --non-interactive ar -p 98 "http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/" tools_pool_repo
+        - zypper --non-interactive --gpg-auto-import-keys ref
+        - zypper --non-interactive install venv-salt-minion
+        - rm /etc/venv-salt-minion/minion
+        - cp -f /etc/salt/minion /etc/venv-salt-minion/minion
+        - systemctl enable venv-salt-minion.service
+        - systemctl start venv-salt-minion.service
 {% endif %}
-        - zypper --non-interactive ref
-        - zypper --non-interactive install avahi
-        - rm /etc/avahi/avahi-daemon.conf
-        - mv /etc/avahi/avahi-daemon.conf.rpmorig /etc/avahi/avahi-daemon.conf
+        - zypper --non-interactive --gpg-auto-import-keys ref
+        - zypper --non-interactive install nss-mdns qemu-guest-agent
         - rm /etc/nsswitch.conf
         - mv /etc/nsswitch.confbak /etc/nsswitch.conf
-        - systemctl enable avahi-daemon.service
-        - systemctl start avahi-daemon.service
         - systemctl restart salt-minion.service
 
 create-vm-cloudinit-disk-{{ os_type }}:

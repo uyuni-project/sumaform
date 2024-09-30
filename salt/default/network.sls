@@ -11,11 +11,22 @@ ipv6_enable_all:
 {% if grains.get('ipv6')['accept_ra'] %}
 
 {% for iface in ifaces %}
+{% if not iface.startswith("flannel") %}
 ipv6_accept_ra_{{ iface }}:
   sysctl.present:
     - name: net.ipv6.conf.{{ iface }}.accept_ra
     - value: 2
+{% endif %}
 {% endfor %}
+
+{% if grains['osfullname'] in ['SLE Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
+{% set conname = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show eth0') %}
+avoid_network_manager_messing_up:
+  cmd.run:
+    - name: |
+        nmcli connection modify "{{ conname }}" ipv6.addr-gen-mode eui64
+        nmcli device modify eth0 ipv6.addr-gen-mode eui64
+{% endif %}
 
 {% else %}
 
@@ -60,6 +71,17 @@ ipv6_disable_all:
     - name: net.ipv6.conf.all.disable_ipv6
     - value: 1
 
+{% endif %}
+
+{% if grains['osfullname'] in ['SLE Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
+{% set conname2 = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show eth1') %}
+{% if conname2 != '' %}
+enable_dhcp_on_eth1:
+  cmd.run:
+    - name: |
+        nmcli connection modify "{{ conname2 }}" ipv4.method auto
+        nmcli device modify eth1 ipv4.method auto
+{% endif %}
 {% endif %}
 
 {% if grains['os_family'] == 'RedHat' and grains.get('osmajorrelease', None)|int() == 6 %}

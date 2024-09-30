@@ -1,0 +1,42 @@
+db:
+  password: spacewalk
+reportdb:
+  host: localhost
+ssl:
+  password: spacewalk
+{%- if grains.get('cc_username') %}
+scc:
+  user: {{ grains.get("cc_username") }}
+  password: {{ grains.get("cc_password") }}
+{% endif %}
+email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) }}
+emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
+{%- if grains.get('container_repository') %}
+registry: {{ grains.get('container_repository') }}
+{% endif %}
+{%- if grains.get('container_tag') %}
+tag: {{ grains.get('container_tag') }}
+{% endif %}
+{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+{%- if mirror_hostname %}
+mirror: /srv/mirror
+{% endif -%}
+{% set helm_chart_default = 'oci://registry.opensuse.org/uyuni/server-helm' %}
+helm:
+  uyuni:
+    chart: {{ grains.get("helm_chart_url") | default(helm_chart_default, true) }}
+    values: /root/chart-values.yaml
+{%- if grains.get("java_debugging") %}
+debug:
+  java: true
+{%- endif %}
+
+{% set server_username = grains.get('server_username') | default('admin', true) %}
+{% set server_password = grains.get('server_password') | default('admin', true) %}
+organization: SUSE Test
+admin:
+  password: {{ server_password }}
+  login: {{ server_username }}
+  firstName: Admin
+  lastName: Admin
+  email: galaxy-noise@suse.de

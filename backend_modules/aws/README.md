@@ -17,7 +17,7 @@ This architecture is based on [AWS VPC with Public and Private Subnets](https://
 A mirror is necessary for SUSE Manager installations and for SLES clients (see README_ADVANCED.md).
 In Uyuni deployments with free OSs a mirror is not mandatory, but will still to speed up machine provisioning.
 
-AWS backend don't have support for pxe_boot hosts. It's implementation will be considered in future releases.
+AWS backend don't have support for pxe_boot hosts. Its implementation will be considered in future releases.
 
 ## Prerequisites
 
@@ -51,7 +51,7 @@ Available provider settings for the base module:
 | server_registration_code | string | `null`          | SUMA SCC server registration code to use SCC repositories and disable internal repositories                             |
 | proxy_registration_code  | string | `null`          | SUMA SCC proxy registration code to use SCC repositories and disable internal repositories                              |
 | sles_registration_code   | string | `null`          | SLE registration code to use SCC repositories and disable internal repositories ( use for minion, sshminion and client) |
-| bastion_image            | string | `opensuse154o`  | Image name to be used when deploying the bastion host                                                                   |
+| bastion_image            | string | `opensuse155o`  | Image name to be used when deploying the bastion host                                                                   |
 
 An example follows:
 

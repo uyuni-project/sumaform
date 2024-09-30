@@ -3,6 +3,9 @@
 include:
   - server
 
+# There products already have salt, prevent version conflicts by not updating/downgrading them
+{% set products_with_preinstalled_salt = [ "build_image", "paygo", "4.3-VM-nightly", "4.3-VM-released" ] %}
+
 minima:
   archive.extracted:
     - name: /usr/bin
@@ -23,6 +26,16 @@ test_repo_rpm_updates:
     - require:
       - archive: minima
 
+test_repo_appstream:
+  cmd.run:
+    - name: minima sync
+    - env:
+      - MINIMA_CONFIG: |
+          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
+            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - require:
+      - archive: minima
+
 another_test_repo:
   file.symlink:
     - name: /srv/www/htdocs/pub/AnotherRepo
@@ -37,14 +50,14 @@ test_repo_debian_updates:
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages
-      {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+{% if grains.get('product_version', '') not in products_with_preinstalled_salt %}
       - pkg: testsuite_salt_packages
-      {% endif %}
+{% endif %}
 
-# modify cobbler to be executed from remote-machines..
-{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
+# modify Cobbler to be executed from remote-machines..
+{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.3-VM-nightly", "4.3-VM-released" ] %}
 {% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
-
+{% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
 cobbler_configuration:
     service:
     - name : cobblerd.service
@@ -70,6 +83,7 @@ cobbler_configuration:
 {% endif %}
     - require:
       - sls: server
+{% endif %}
 
 testsuite_packages:
   pkg.installed:
@@ -78,24 +92,24 @@ testsuite_packages:
       - aaa_base-extras
       - wget
       - OpenIPMI
-    {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+    {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
     - require:
       - sls: repos
     {% endif %}
 
-{% if 'build_image' not in grains.get('product_version') | default('', true) %}
+{% if grains.get('product_version', '') not in products_with_preinstalled_salt %}
 testsuite_salt_packages:
   pkg.installed:
     - pkgs:
       - salt-ssh
-{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') %}
+{% if 'head' in grains.get('product_version') or 'uyuni-master' in grains.get('product_version') or 'nightly' in grains.get('product_version') or 'uyuni-pr' in grains.get('product_version') or '4.3-pr' in grains.get('product_version') %}
     - fromrepo: testing_overlay_devel_repo
 {% endif %}
     - require:
       - sls: repos
 {% endif %}
 
-{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "4.3-released", "4.3-nightly"] %}
+{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "4.3-nightly", "4.3-released", "4.3-pr", "4.3-VM-nightly", "4.3-VM-released"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,
@@ -154,6 +168,7 @@ tomcat:
     - watch:
       - file: enable_salt_content_staging_window
       - file: enable_salt_content_staging_advance
+      - file: enable_kiwi_os_image_building
 
 dump_salt_event_log:
     cmd.run:

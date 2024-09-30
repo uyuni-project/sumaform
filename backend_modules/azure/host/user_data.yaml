@@ -10,52 +10,48 @@ chpasswd:
     root:linux
 %{ endif }
 
-%{ if image == "opensuse152o" }
-packages: ["salt-minion"]
-
+%{ if image == "opensuse154o" }
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
+%{ if install_salt_bundle }
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else }
+  - zypper up --allow-vendor-change --no-confirm salt-minion
+%{ endif }
 
 %{ endif }
 
-%{ if image == "opensuse153o" }
-packages: ["salt-minion"]
-
+%{ if image == "opensuse155o" }
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
+%{ if install_salt_bundle }
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else }
+  - zypper up --allow-vendor-change --no-confirm salt-minion
+%{ endif }
 
 %{ endif }
 
-%{ if image == "sles15"}
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
+%{ if image == "opensuse156o" }
+runcmd:
+  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
+  - zypper rm -y gettext-runtime-mini
+  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
+  # Possible bug in zypper's Salt module
+  - zypper removerepo --all
+%{ if install_salt_bundle }
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else }
+  - zypper up --allow-vendor-change --no-confirm salt-minion
 %{ endif }
-
-%{ if image == "sles15sp1o" }
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP1/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
 
 %{ endif }
 
@@ -98,32 +94,32 @@ packages: ["salt-minion"]
 
 %{ endif }
 
-%{ if image == "sles12sp3"}
+%{ if image == "sles15sp5o" }
 zypper:
   repos:
-    - id: os_manager_tools
-      name: os_manager_tools
-      baseurl: http://${mirror_url}/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update
-      enabled: 1
-      autorefresh: 1
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-SERVER/12-SP3/x86_64/product/
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
       enabled: 1
       autorefresh: 1
 
 packages: ["salt-minion"]
+
 %{ endif }
-%{ if image == "sles11sp4"}
-# WORKAROUND: SLES 11 SP4 does not ship with Salt installed
-runcmd:
-  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-SUSE-Manager-Tools/sle-11-x86_64/ tools_pool_repo
-  - zypper ar http://${mirror_url}/repo/\$RCE/SLES11-SP4-Pool/sle-11-x86_64/ os_pool_repo
-  - zypper ref
-  - zypper in -y salt-minion
-  - zypper removerepo --all
-  - rm /etc/modprobe.d/50-ipv6.conf
+  
+%{ if image == "sles15sp6o" }
+zypper:
+  repos:
+    - id: salt_qubes_build
+      name: salt_qubes_build
+      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
+      enabled: 1
+      autorefresh: 1
+
+packages: ["salt-minion"]
+
 %{ endif }
+  
 %{ if image == "rhel9"}
 yum_repos:
   # repo for salt
@@ -141,7 +137,7 @@ packages: ["salt-minion"]
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -163,27 +159,7 @@ yum_repos:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "centos6" }
-yum_repos:
-  # repo for salt
-  temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS6-Uyuni-Client-Tools/CentOS_6/
-    enabled: true
-    gpgcheck: false
-    name: temp_tools_pool_repo
-    priority: 98
 
-packages: ["salt-minion"]
-
-runcmd:
-  # WORKAROUND: CentOS 6 changes the root password with a random one after cloud-init. Disable the mechanism
-  - "rm -f /root/firstrun"
-  # WORKAROUND: cloud-init in CentOS 6 does not take care of the following
-  - "sed -i -e's/without-password/yes/' /etc/ssh/sshd_config"
-  - "service sshd restart"
-  # WORKAROUND: needed because onboard traditional clients
-  - "/usr/bin/update-ca-trust force-enable"
-%{ endif }
 %{ if image == "ubuntu2004" }
 
 apt:
@@ -220,20 +196,13 @@ runcmd:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "ubuntu1804" }
 
-runcmd:
-  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
+%{ if image == "ubuntu2204" }
 
-packages: ["salt-minion"]
-%{ endif }
-%{ if image == "ubuntu1604" }
 apt:
   sources:
     tools_pool_repo:
-      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1604-Uyuni-Client-Tools/xUbuntu_16.04 /"
+      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_22.04/ /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -259,7 +228,7 @@ apt:
 
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu does not take care of the following
-  - "sed -i -e's/prohibit-password/yes/' /etc/ssh/sshd_config"
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
 packages: ["salt-minion"]

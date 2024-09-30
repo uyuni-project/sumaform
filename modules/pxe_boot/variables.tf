@@ -12,12 +12,22 @@ variable "quantity" {
   default     = 1
 }
 
+variable "private_ip" {
+  description = "last digit of IP address in private network"
+  type        = number
+}
+
+variable "private_name" {
+  description = "hostname inside the private network"
+  type        = string
+}
+
 variable "image" {
-  description = "An image name, e.g. sles12sp4 or opensuse154o"
+  description = "an image name, e.g. sles12sp4 or opensuse155o"
   type        = string
 }
 
 variable "provider_settings" {
-  description = "Settings specific to the provider"
+  description = "settings specific to the provider"
   default     = {}
 }

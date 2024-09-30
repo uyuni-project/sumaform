@@ -34,7 +34,7 @@ resource "azurerm_subnet" "private-sn" {
 }
 
 resource "azurerm_subnet" "private-additional-sn" {
-  count = var.create_network? 1: 0
+  count = var.create_network && var.additional_network != null ? 1: 0
 
   name                 = "${var.name_prefix}-private-additional-sn"
   virtual_network_name = "${azurerm_virtual_network.suma-vn[0].name}"
@@ -74,7 +74,7 @@ resource "azurerm_subnet_route_table_association" "private-rtas" {
 }
 
 resource "azurerm_subnet_route_table_association" "private-additional-rtas" {
-  count = var.create_network? 1: 0
+  count = var.create_network && var.additional_network != null ? 1: 0
   subnet_id      = "${azurerm_subnet.private-additional-sn[0].id}"
   route_table_id = "${azurerm_route_table.public-rt[0].id}"
 }
@@ -100,7 +100,7 @@ resource "azurerm_network_security_rule" "ssh" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = var.ssh_allowed_ips
+  source_address_prefixes     = var.ssh_allowed_ips
   destination_address_prefix  = "*"
 }
 
@@ -135,14 +135,14 @@ resource "azurerm_subnet_network_security_group_association" "public-nsg-associa
 }
 
 resource "azurerm_network_security_group" "private-additional-nsg" {
-  count = var.create_network? 1: 0
+  count = var.create_network && var.additional_network != null ? 1: 0
   name                = "${var.name_prefix}-private-nsg"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
 }
 
 resource "azurerm_subnet_network_security_group_association" "private-additonal-nsg-association" {
-  count = var.create_network? 1: 0
+  count = var.create_network && var.additional_network != null ? 1: 0
   subnet_id                 = "${azurerm_subnet.private-additional-sn[0].id}"
   network_security_group_id = "${azurerm_network_security_group.private-additional-nsg[0].id}"
 }
@@ -160,7 +160,6 @@ resource "azurerm_public_ip" "nat-pubIP" {
   location            = "${azurerm_resource_group.suma-rg.location}"
   allocation_method   = "Static"
   sku                 = "Standard"
-  zones               = ["1"]
 }
 
 resource "azurerm_nat_gateway" "suma-ngw" {

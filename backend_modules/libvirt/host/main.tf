@@ -1,8 +1,23 @@
 locals {
+  overwrite_fqdn = lookup(var.provider_settings, "overwrite_fqdn", "")
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
-  x86_64_v2_images = ["almalinux9o", "rocky9o", "oraclelinux9o", "centos9o"]
+  x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o", "slmicro60o"]
+  combustion_images  = ["leapmicro55o", "slmicro60o"]
+  gpg_keys = [
+    for key in fileset("salt/default/gpg_keys/", "*.key"): {
+        path = "/etc/gpg_keys/${key}"
+        content = filebase64("salt/default/gpg_keys/${key}")
+        encoding = "b64"
+        owner = "root:root"
+        permissions = "0700"
+    }
+  ]
+  container_runtime = lookup(var.grains, "container_runtime", "")
+  product_version = lookup(var.grains, "product_version", "")
+
+  combustion = contains(local.combustion_images, var.image)
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -13,20 +28,27 @@ locals {
     },
     contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
+    contains(var.roles, "server_containerized") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
+    contains(var.roles, "server_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
+    contains(var.roles, "proxy") ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "proxy_containerized") ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "proxy_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "pxe_boot")? { memory = 2048} : {},
     contains(var.roles, "mirror") ? { memory = 1024 } : {},
     contains(var.roles, "build_host") ? { vcpu = 2 } : {},
     contains(var.roles, "controller") ? { memory = 2048 } : {},
     contains(var.roles, "grafana") ? { memory = 4096 } : {},
+    contains(var.roles, "salt_testenv") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "virthost") ? { memory = 4096, vcpu = 3 } : {},
     contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
-  cloud_init = length(regexall("o$", var.image)) > 0
-  ignition = length(regexall("-ign$", var.image)) > 0
+    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image)
+    ignition = length(regexall("-ign$", var.image)) > 0
+    add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
 }
 
 data "template_file" "user_data" {
@@ -36,14 +58,48 @@ data "template_file" "user_data" {
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
+    container_server    = contains(var.roles, "server_containerized")
+    container_proxy     = contains(var.roles, "proxy_containerized")
+    testsuite           = lookup(var.base_configuration, "testsuite", false)
+    files               = jsonencode(local.gpg_keys)
+    additional_repos    = jsonencode(var.additional_repos)
+    product_version     = local.product_version
   }
 }
 
 data "template_file" "network_config" {
   template = file("${path.module}/network_config.yaml")
   vars = {
-    image = var.image
+    image              = var.image
+    dhcp_dns           = contains(var.roles, "dhcp_dns")
+    dhcp_dns_address   = join(".", concat(local.add_net, [ "53" ]))
   }
+}
+
+data "template_file" "combustion" {
+  template = file("${path.module}/combustion")
+  vars = {
+    gpg_keys = join("\n", [for key in local.gpg_keys :
+    "mkdir -p `dirname ${key.path}` && echo ${key.content} | base64 -d >${key.path} && rpm --import ${key.path}"
+  ])
+    use_mirror_images   = var.base_configuration["use_mirror_images"]
+    mirror              = var.base_configuration["mirror"]
+    install_salt_bundle = var.install_salt_bundle
+    container_server    = contains(var.roles, "server_containerized")
+    container_proxy     = contains(var.roles, "proxy_containerized")
+    container_runtime   = local.container_runtime
+    testsuite           = lookup(var.base_configuration, "testsuite", false)
+    additional_repos    = join(" ", [for key, value in var.additional_repos : "${key}=${value}"])
+    image               = var.image
+    product_version     = local.product_version
+  }
+}
+
+resource "libvirt_combustion" "combustion_disk" {
+  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion-disk"
+  pool             = var.base_configuration["pool"]
+  content          = data.template_file.combustion.rendered
+  count            = local.combustion ? var.quantity : 0
 }
 
 data "template_file" "ignition" {
@@ -54,16 +110,24 @@ resource "libvirt_volume" "main_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
   pool             = var.base_configuration["pool"]
-  size             = 214748364800
+  size             = var.main_disk_size * 1024 * 1024 * 1024
   count            = var.quantity
 }
 
 resource "libvirt_volume" "data_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-data-disk"
   // needs to be converted to bytes
-  size  = (var.additional_disk_size == null? 0: var.additional_disk_size) * 1024 * 1024 * 1024
+  size  = var.additional_disk_size * 1024 * 1024 * 1024
   pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
-  count = var.additional_disk_size == null? 0 : var.additional_disk_size > 0 ? var.quantity : 0
+  count = var.additional_disk_size > 0 ? var.quantity : 0
+}
+
+resource "libvirt_volume" "database_disk" {
+  name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-database-disk"
+  // needs to be converted to bytes
+  size  = var.second_additional_disk_size * 1024 * 1024 * 1024
+  pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
+  count = var.second_additional_disk_size > 0 ? var.quantity : 0
 }
 
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
@@ -98,7 +162,8 @@ resource "libvirt_domain" "domain" {
   dynamic "disk" {
     for_each = concat(
       length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
-      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : []
+      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : [],
+      length(libvirt_volume.database_disk) == var.quantity ? [{"volume_id" : libvirt_volume.database_disk[count.index].id}] : []
     )
     content {
       volume_id = disk.value.volume_id
@@ -106,7 +171,8 @@ resource "libvirt_domain" "domain" {
   }
 
   cloudinit = length(libvirt_cloudinit_disk.cloudinit_disk) == var.quantity ? libvirt_cloudinit_disk.cloudinit_disk[count.index].id : null
-  coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : null
+  coreos_ignition = length(libvirt_ignition.ignition_disk) == var.quantity ? libvirt_ignition.ignition_disk[count.index].id : length(libvirt_combustion.combustion_disk) == var.quantity ? libvirt_combustion.combustion_disk[count.index].id : null
+  fw_cfg_name = local.combustion ? "opt/org.opensuse.combustion/script" : null
 
   dynamic "network_interface" {
     for_each = slice(
@@ -181,7 +247,6 @@ resource "null_resource" "provisioning" {
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
-        use_os_unreleased_updates = var.use_os_unreleased_updates
         install_salt_bundle       = var.install_salt_bundle
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
@@ -200,6 +265,14 @@ resource "null_resource" "provisioning" {
     host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
     user     = "root"
     password = "linux"
+    // ssh connection through a bastion host
+    bastion_host        = lookup(var.provider_settings, "bastion_host", var.base_configuration["bastion_host"])
+    bastion_host_key    = lookup(var.provider_settings, "bastion_host_key", var.base_configuration["bastion_host_key"])
+    bastion_port        = lookup(var.provider_settings, "bastion_port", var.base_configuration["bastion_port"])
+    bastion_user        = lookup(var.provider_settings, "bastion_user", var.base_configuration["bastion_user"])
+    bastion_password    = lookup(var.provider_settings, "bastion_password", var.base_configuration["bastion_password"])
+    bastion_private_key = lookup(var.provider_settings, "bastion_private_key", var.base_configuration["bastion_private_key"])
+    bastion_certificate = lookup(var.provider_settings, "bastion_certificate", var.base_configuration["bastion_certificate"])
   }
 
   provisioner "file" {
@@ -207,16 +280,10 @@ resource "null_resource" "provisioning" {
     destination = "/root"
   }
 
-  provisioner "remote-exec" {
-    inline = local.cloud_init ? [
-      "bash /root/salt/wait_for_salt.sh",
-    ] : ["bash -c \"echo 'no cloud init, nothing to do'\""]
-  }
-
   provisioner "file" {
     content = yamlencode(merge(
       {
-        hostname                  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+        hostname                  = local.overwrite_fqdn != "" ? split(".", local.overwrite_fqdn)[0] : "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
         domain                    = var.base_configuration["domain"]
         use_avahi                 = var.base_configuration["use_avahi"]
         additional_network        = var.base_configuration["additional_network"]
@@ -225,7 +292,6 @@ resource "null_resource" "provisioning" {
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
-        use_os_unreleased_updates = var.use_os_unreleased_updates
         install_salt_bundle       = var.install_salt_bundle
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
@@ -241,11 +307,18 @@ resource "null_resource" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
         provider                      = "libvirt"
       },
-    var.grains))
-    destination = "/etc/salt/grains"
+      var.grains))
+    destination = "/tmp/grains"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "bash /root/salt/wait_for_salt.sh",
+    ]
   }
 
   provisioner "remote-exec" {
@@ -265,8 +338,9 @@ output "configuration" {
   depends_on = [libvirt_domain.domain, null_resource.provisioning]
   value = {
     ids       = libvirt_domain.domain[*].id
-    hostnames = [for value_used in libvirt_domain.domain : "${value_used.name}.${var.base_configuration["domain"]}"]
+    hostnames = [for value_used in libvirt_domain.domain : local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${value_used.name}.${var.base_configuration["domain"]}"]
     macaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].mac if length(value_used.network_interface) > 0]
+    private_macs = [for value_used in libvirt_domain.domain : value_used.network_interface[1].mac if length(value_used.network_interface) > 1]
     ipaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].addresses if length(value_used.network_interface) > 0]
   }
 }

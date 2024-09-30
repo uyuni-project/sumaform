@@ -1,16 +1,24 @@
 include:
   - scc.minion
-  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
+  {% if 'paygo' not in grains.get('product_version') | default('', true) %}
   - repos
   {% endif %}
   - minion.testsuite
   - minion.reflector
 
+{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+# Dependencies already satisfied by the images
+# https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
 minion_package:
   pkg.installed:
+{% if grains['install_salt_bundle'] %}
+    - name: venv-salt-minion
+{% else %}
     - name: salt-minion
+{% endif %}
     - require:
       - sls: default
+{% endif %}
 
 {% if grains.get('evil_minion_count') %}
 evil_minions_package:
@@ -32,13 +40,21 @@ reload_systemd_modules:
 
 minion_id:
   file.managed:
+{% if grains['install_salt_bundle'] %}
+    - name: /etc/venv-salt-minion/minion_id
+{% else %}
     - name: /etc/salt/minion_id
+{% endif %}
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
 {% if grains.get('auto_connect_to_master') %}
 master_configuration:
   file.managed:
+    {% if grains.get('install_salt_bundle') %}
+    - name: /etc/venv-salt-minion/minion.d/master.conf
+    {% else %}
     - name: /etc/salt/minion.d/master.conf
+    {% endif %}
     - contents: |
         master: {{grains['server']}}
         server_id_use_crc: adler32
@@ -52,8 +68,13 @@ master_configuration:
 
 minion_service:
   service.running:
+{% if grains['install_salt_bundle'] %}
+    - name: venv-salt-minion
+    - enable: True
+{% else %}
     - name: salt-minion
     - enable: True
+{% endif %}
 {% if grains.get('auto_connect_to_master') %}
     - watch:
       - file: master_configuration

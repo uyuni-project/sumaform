@@ -8,7 +8,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "A valid SUSE Manager version (eg. 4.2-nightly, head) see README_ADVANCED.md"
+  description = "A valid SUSE Manager version (eg. 4.3-nightly, head) see README_ADVANCED.md"
   default     = "released"
 }
 
@@ -31,11 +31,6 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
 variable "additional_repos" {
   description = "extra repositories used for installation {label = url}"
   default     = {}
@@ -53,7 +48,7 @@ variable "additional_packages" {
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
+  default     = true
 }
 
 variable "ssh_key_path" {
@@ -84,15 +79,15 @@ variable "hvm_disk_image" {
   type = map(map(string))
   default = {
     leap = {
-      hostname = "leap154"
-      image = "https://download.opensuse.org/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-JeOS.x86_64-OpenStack-Cloud.qcow2"
-      hash = "https://download.opensuse.org/distribution/leap/15.4/appliances/openSUSE-Leap-15.4-JeOS.x86_64-OpenStack-Cloud.qcow2.sha256"
+      hostname = "leap156"
+      image = "https://download.opensuse.org/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2"
+      hash = "https://download.opensuse.org/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2.sha256"
     }
   }
 }
 
 variable "image" {
-  description = "One of: sles15, sles15sp1, sles15sp2, sles15sp2o, sles15sp3o, sles15sp4o or opensuse154o"
+  description = "One of: sles15sp2, sles15sp2o, sles15sp3o, sles15sp4o, sles15sp4o, sles15sp5o, sles15sp6o, or opensuse155o"
   type        = string
 }
 

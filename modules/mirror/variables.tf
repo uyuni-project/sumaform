@@ -24,7 +24,7 @@ variable "additional_packages" {
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
+  default     = true
 }
 
 variable "swap_file_size" {
@@ -38,7 +38,7 @@ variable "ssh_key_path" {
 }
 
 variable "ubuntu_distros" {
-  description = "List of Ubuntu versions to mirror among 16.04, 18.04, xenial, bionic"
+  description = "List of Ubuntu versions to mirror among 20.04, 22.04"
   default     = []
 }
 
@@ -78,7 +78,7 @@ variable "disable_cron" {
 }
 
 variable "image" {
-  description = "An image name, e.g. sles12sp4 or opensuse154o"
+  description = "An image name, e.g. sles12sp4 or opensuse155o"
   type        = string
-  default = "opensuse153o"
+  default = "opensuse155o"
 }

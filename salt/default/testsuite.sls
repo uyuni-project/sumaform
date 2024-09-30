@@ -3,7 +3,7 @@
 
 include:
   - scc
-  - repos
+  - repos.testsuite
 
 {% if grains['os'] == 'SUSE' %}
 
@@ -13,8 +13,9 @@ default_cucumber_requisites:
       - andromeda-dummy
       - milkyway-dummy
       - virgo-dummy
+      - iptables
     - require:
-      - sls: repos
+      - sls: repos.testsuite
 
 {% elif grains['os_family'] == 'RedHat' %}
 

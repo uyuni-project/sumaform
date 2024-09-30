@@ -20,6 +20,7 @@ locals {
   private_additional_security_group_id = lookup(var.provider_settings, "private_additional_security_group_id", null)
   vpc_id                               = lookup(var.provider_settings, "vpc_id", null)
   bastion_host                         = lookup(var.provider_settings, "bastion_host", null)
+  route53_domain                       = lookup(var.provider_settings, "route53_domain", null)
 
   additional_network = lookup(var.provider_settings, "additional_network", "172.16.2.0/24")
   private_network    = lookup(var.provider_settings, "private_network", "172.16.1.0/24")
@@ -40,6 +41,7 @@ module "network" {
   additional_network        = local.additional_network
   public_subnet_id          = local.public_subnet_id
   vpc_id                    = local.vpc_id
+  route53_domain            = local.route53_domain
 }
 
 locals {
@@ -63,24 +65,27 @@ locals {
 
     key_name = local.key_name
     key_file = local.key_file
+    iam_instance_profile = length(aws_iam_instance_profile.metering_full_access_instance_profile) > 0 ? aws_iam_instance_profile.metering_full_access_instance_profile[0].name : null
     ami_info = {
-      opensuse153o = { ami = data.aws_ami.opensuse153o.image_id },
-      opensuse154o = { ami = data.aws_ami.opensuse154o.image_id },
-      sles15      = { ami = data.aws_ami.sles15.image_id },
-      sles15sp1o   = { ami = data.aws_ami.sles15sp1o.image_id },
-      sles15sp2o   = { ami = data.aws_ami.sles15sp2o.image_id },
-      sles15sp3o   = { ami = data.aws_ami.sles15sp3o.image_id },
-      sles15sp4o   = { ami = data.aws_ami.sles15sp4o.image_id },
-      sles12sp5   = { ami = data.aws_ami.sles12sp5.image_id },
-      sles12sp4   = { ami = data.aws_ami.sles12sp4.image_id },
-      sles12sp3   = { ami = data.aws_ami.sles12sp3.image_id },
-      rocky8      = { ami = data.aws_ami.rocky8.image_id, ssh_user = "rocky" },
-      ubuntu2204  = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
-      ubuntu2004  = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
-      ubuntu1804  = { ami = data.aws_ami.ubuntu1804.image_id, ssh_user = "ubuntu" },
-      ubuntu1604  = { ami = data.aws_ami.ubuntu1604.image_id, ssh_user = "ubuntu" },
-      rhel8       = { ami = data.aws_ami.rhel8.image_id},
-      rhel9       = { ami = data.aws_ami.rhel9.image_id},
+      opensuse155o         = { ami = data.aws_ami.opensuse155o.image_id },
+      opensuse156o         = { ami = data.aws_ami.opensuse156o.image_id },
+      sles15sp3o           = { ami = data.aws_ami.sles15sp3o.image_id },
+      sles15sp4o           = { ami = data.aws_ami.sles15sp4o.image_id },
+      sles15sp5o           = { ami = data.aws_ami.sles15sp5o.image_id },
+      sles15sp5-paygo      = { ami = data.aws_ami.sles15sp5-paygo.image_id },
+      slesforsap15sp5-paygo= { ami = data.aws_ami.slesforsap15sp5-paygo.image_id },
+      suma-server-43-byos  = { ami = data.aws_ami.suma-server-43-byos.image_id },
+      suma-server-43-ltd-paygo = { ami = data.aws_ami.suma-server-43-ltd-paygo.image_id },
+      suma-server-43-llc-paygo = { ami = data.aws_ami.suma-server-43-llc-paygo.image_id },
+      suma-proxy-43-byos   = { ami = data.aws_ami.suma-proxy-43-byos.image_id },
+      sles12sp5            = { ami = data.aws_ami.sles12sp5.image_id },
+      sles12sp5-paygo      = { ami = data.aws_ami.sles12sp5-paygo.image_id },
+      rocky8               = { ami = data.aws_ami.rocky8.image_id, ssh_user = "rocky" },
+      debian11             = { ami = data.aws_ami.debian11.image_id, ssh_user= "admin" },
+      ubuntu2204           = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
+      ubuntu2004           = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
+      rhel8                = { ami = data.aws_ami.rhel8.image_id},
+      rhel9                = { ami = data.aws_ami.rhel9.image_id},
     }
     },
     module.network.configuration,
@@ -103,12 +108,13 @@ module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = lookup(var.provider_settings, "bastion_image", "opensuse154o")
+  image                         = lookup(var.provider_settings, "bastion_image", "opensuse155o")
   name                          = "bastion"
   provider_settings = {
     instance_type   = "t3a.micro"
     public_instance = true
-    instance_with_eip = true
+    instance_with_eip = var.use_eip_bastion
+    overwrite_fqdn    = local.bastion_host
   }
 }
 

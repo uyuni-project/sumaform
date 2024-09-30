@@ -5,202 +5,157 @@ storage:
 scc:
   username: {{ grains.get("cc_username") }}
   password: {{ grains.get("cc_password") }}
-  repo_names:
-    # required by testsuite
-    - SLES11-SP1-Pool
-    - SLES11-SP1-Updates
-    - SLES11-SP1-SUSE-Manager-Tools
-    - SLE11-SDK-SP1-Pool
-    - SLE11-SDK-SP1-Updates
-    - SUSE-Manager-Proxy-2.1-Pool
-    - SUSE-Manager-Proxy-2.1-Updates
-    - SLES11-SP3-Pool
-    - SLES11-SP3-Updates
-
-    # Required for SLED testing
-    - SLE-15-GA-Desktop-NVIDIA-Driver
-    - SLE-15-SP1-Desktop-NVIDIA-Driver
-    - SLE-15-SP2-Desktop-NVIDIA-Driver
-
-    # SLES
-    - SLES11-SP4-Pool
-    - SLES11-SP4-Updates
-    - SLES12-SP3-Pool
-    - SLES12-SP3-Updates
-    - SLES12-SP3-LTSS-Updates
-    - SLES12-SP4-Pool
-    - SLES12-SP4-Updates
-    - SLES12-SP4-LTSS-Updates
-    - SLES12-SP5-Pool
-    - SLES12-SP5-Updates
-    # uncomment when it goes LTSS
-    # - SLES12-SP5-LTSS-Updates
-    # SLE 15 Products
-    - SLE-Product-SLES15-Pool
-    - SLE-Product-SLES15-Updates
-    - SLE-Product-SLES15-LTSS-Updates
-    - SLE-Product-SLES_SAP15-Pool
-    - SLE-Product-SLES_SAP15-Updates
-    - SLE-Product-SLED15-Pool
-    - SLE-Product-SLED15-Updates
-    # SLE 15 Basic Modules
-    - SLE-Module-Basesystem15-Pool
-    - SLE-Module-Basesystem15-Updates
-    - SLE-Module-Server-Applications15-Pool
-    - SLE-Module-Server-Applications15-Updates
-    - SLE-Module-Desktop-Applications15-Pool
-    - SLE-Module-Desktop-Applications15-Updates
-    - SLE-Product-WE15-Pool
-    - SLE-Product-WE15-Updates
-    # SLE 15-SP1 Products
-    - SLE-Product-SLES15-SP1-Pool
-    - SLE-Product-SLES15-SP1-Updates
-    - SLE-Product-SLES15-SP1-LTSS-Updates
-    # SLE 15-SP1 Basic Modules
-    - SLE-Module-Basesystem15-SP1-Pool
-    - SLE-Module-Basesystem15-SP1-Updates
-    - SLE-Module-Server-Applications15-SP1-Pool
-    - SLE-Module-Server-Applications15-SP1-Updates
-    - SLE-Module-Web-Scripting15-SP1-Pool
-    - SLE-Module-Web-Scripting15-SP1-Updates
-    - SLE-Module-Desktop-Applications15-SP1-Pool
-    - SLE-Module-Desktop-Applications15-SP1-Updates
-    - SLE-Module-DevTools15-SP1-Pool
-    - SLE-Module-DevTools15-SP1-Updates
-    - SLE-Module-Python2-15-SP1-Pool
-    - SLE-Module-Python2-15-SP1-Update
-    # SLE 15-SP2 Products
-    - SLE-Product-SLES15-SP2-Pool
-    - SLE-Product-SLES15-SP2-Updates
-    # uncomment when it goes LTSS
-    # - SLE-Product-SLES15-SP2-LTSS-Updates
-    - SLE-Product-SLED15-SP2-Pool
-    - SLE-Product-SLED15-SP2-Updates
-    # SLE 15-SP2 Basic Modules
-    - SLE-Module-Basesystem15-SP2-Pool
-    - SLE-Module-Basesystem15-SP2-Updates
-    - SLE-Module-Server-Applications15-SP2-Pool
-    - SLE-Module-Server-Applications15-SP2-Updates
-    - SLE-Module-Web-Scripting15-SP2-Pool
-    - SLE-Module-Web-Scripting15-SP2-Updates
-    - SLE-Module-Desktop-Applications15-SP2-Pool
-    - SLE-Module-Desktop-Applications15-SP2-Updates
-    - SLE-Module-DevTools15-SP2-Pool
-    - SLE-Module-DevTools15-SP2-Updates
-    - SLE-Module-Python2-15-SP2-Pool
-    - SLE-Module-Python2-15-SP2-Update
-    # SLE 15-SP3 Products
-    - SLE-Product-SLES15-SP3-Pool
-    - SLE-Product-SLES15-SP3-Updates
-    # uncomment when it goes LTSS
-    # - SLE-Product-SLES15-SP3-LTSS-Updates
-    # SLE 15-SP3 Basic Modules
-    - SLE-Module-Basesystem15-SP3-Pool
-    - SLE-Module-Basesystem15-SP3-Updates
-    - SLE-Module-Server-Applications15-SP3-Pool
-    - SLE-Module-Server-Applications15-SP3-Updates
-    - SLE-Module-Web-Scripting15-SP3-Pool
-    - SLE-Module-Web-Scripting15-SP3-Updates
-    - SLE-Module-Desktop-Applications15-SP3-Pool
-    - SLE-Module-Desktop-Applications15-SP3-Updates
-    - SLE-Module-DevTools15-SP3-Pool
-    - SLE-Module-DevTools15-SP3-Updates
-    - SLE-Module-Python2-15-SP3-Pool
-    - SLE-Module-Python2-15-SP3-Update
-    # SLE 15-SP4 Products
-    - SLE-Product-SLES15-SP4-Pool
-    - SLE-Product-SLES15-SP4-Updates
-    # SLE 15-SP4 Basic Modules
-    - SLE-Module-Basesystem15-SP4-Pool
-    - SLE-Module-Basesystem15-SP4-Updates
-    - SLE-Module-Server-Applications15-SP4-Pool
-    - SLE-Module-Server-Applications15-SP4-Updates
-    - SLE-Module-Web-Scripting15-SP4-Pool
-    - SLE-Module-Web-Scripting15-SP4-Updates
-    - SLE-Module-Desktop-Applications15-SP4-Pool
-    - SLE-Module-Desktop-Applications15-SP4-Updates
-    - SLE-Module-DevTools15-SP4-Pool
-    - SLE-Module-DevTools15-SP4-Updates
-    # SLE Legacy Module
-    - SLE-Module-Legacy12-Pool
-    - SLE-Module-Legacy12-Updates
-    # SLE Container Module
-    - SLE-Module-Containers12-Pool
-    - SLE-Module-Containers12-Updates
-    - SLE-Module-Containers15-Pool
-    - SLE-Module-Containers15-Updates
-    - SLE-Module-Containers15-SP1-Pool
-    - SLE-Module-Containers15-SP1-Updates
-    - SLE-Module-Containers15-SP2-Pool
-    - SLE-Module-Containers15-SP2-Updates
-    - SLE-Module-Containers15-SP3-Pool
-    - SLE-Module-Containers15-SP3-Updates
-    - SLE-Module-Containers15-SP4-Pool
-    - SLE-Module-Containers15-SP4-Updates
-    # SUSE Manager Server
-    - SLE-Product-SUSE-Manager-Server-4.1-Pool
-    - SLE-Product-SUSE-Manager-Server-4.1-Updates
-    - SLE-Module-SUSE-Manager-Server-4.1-Pool
-    - SLE-Module-SUSE-Manager-Server-4.1-Updates
-    - SLE-Product-SUSE-Manager-Server-4.2-Pool
-    - SLE-Product-SUSE-Manager-Server-4.2-Updates
-    - SLE-Module-SUSE-Manager-Server-4.2-Pool
-    - SLE-Module-SUSE-Manager-Server-4.2-Updates
-    - SLE-Product-SUSE-Manager-Server-4.3-Pool
-    - SLE-Product-SUSE-Manager-Server-4.3-Updates
-    - SLE-Module-SUSE-Manager-Server-4.3-Pool
-    - SLE-Module-SUSE-Manager-Server-4.3-Updates
-    # SUSE Manager Proxy
-    - SLE-Product-SUSE-Manager-Proxy-4.1-Pool
-    - SLE-Product-SUSE-Manager-Proxy-4.1-Updates
-    - SLE-Module-SUSE-Manager-Proxy-4.1-Pool
-    - SLE-Module-SUSE-Manager-Proxy-4.1-Updates
-    - SLE-Product-SUSE-Manager-Proxy-4.2-Pool
-    - SLE-Product-SUSE-Manager-Proxy-4.2-Updates
-    - SLE-Module-SUSE-Manager-Proxy-4.2-Pool
-    - SLE-Module-SUSE-Manager-Proxy-4.2-Updates
-    - SLE-Product-SUSE-Manager-Proxy-4.3-Pool
-    - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
-    - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
-    - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
-    # Retail Branch Server
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.1-Pool
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.1-Updates
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.1-Pool
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.1-Updates
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.2-Pool
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.2-Updates
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.2-Pool
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.2-Updates
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Pool
-    - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
-    - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
-    # SUSE Manager Tools
-    - SLES11-SP4-SUSE-Manager-Tools
-    - SLE-Manager-Tools12-Pool
-    - SLE-Manager-Tools12-Updates
-    - SLE-Manager-Tools15-Pool
-    - SLE-Manager-Tools15-Updates
-    - RES-7-SUSE-Manager-Tools
-    - RES8-Manager-Tools-Pool
-    - RES8-Manager-Tools-Updates
-    - Ubuntu-18.04-SUSE-Manager-Tools
-    - Ubuntu-20.04-SUSE-Manager-Tools
-    - Ubuntu-22.04-SUSE-Manager-Tools
-    # SUSE Manager Beta Tools
-    - SLES11-SP4-SUSE-Manager-Tools-Beta
-    - SLE-Manager-Tools12-Pool-Beta
-    - SLE-Manager-Tools12-Updates-Beta
-    - SLE-Manager-Tools15-Pool-Beta
-    - SLE-Manager-Tools15-Updates-Beta
-    - RES-7-SUSE-Manager-Tools-Beta
-    - RES8-Manager-Tools-Pool-Beta
-    - RES8-Manager-Tools-Updates-Beta
-    - Ubuntu-18.04-SUSE-Manager-Tools-Beta
-    - Ubuntu-20.04-SUSE-Manager-Tools-Beta
-    - Ubuntu-22.04-SUSE-Manager-Tools-Beta
-  archs: [x86_64, amd64]
+  repositories:
+    - names:
+      # Required for SLED testing
+      - SLE-15-GA-Desktop-NVIDIA-Driver
+      - SLE-15-SP2-Desktop-NVIDIA-Driver
+      # SLE 12-SP5
+      - SLES12-SP5-Pool
+      - SLES12-SP5-Updates
+      # uncomment when it goes LTSS (October 2024)
+      # - SLES12-SP5-LTSS-Updates
+      # SLE 15-SP2 Products
+      - SLE-Product-SLES15-SP2-Pool
+      - SLE-Product-SLES15-SP2-Updates
+      - SLE-Product-SLES15-SP2-LTSS-Updates
+      - SLE-Product-SLED15-SP2-Pool
+      - SLE-Product-SLED15-SP2-Updates
+      # SLE 15-SP2 Basic Modules
+      - SLE-Module-Basesystem15-SP2-Pool
+      - SLE-Module-Basesystem15-SP2-Updates
+      - SLE-Module-Server-Applications15-SP2-Pool
+      - SLE-Module-Server-Applications15-SP2-Updates
+      - SLE-Module-Web-Scripting15-SP2-Pool
+      - SLE-Module-Web-Scripting15-SP2-Updates
+      - SLE-Module-Desktop-Applications15-SP2-Pool
+      - SLE-Module-Desktop-Applications15-SP2-Updates
+      - SLE-Module-DevTools15-SP2-Pool
+      - SLE-Module-DevTools15-SP2-Updates
+      - SLE-Module-Python2-15-SP2-Pool
+      - SLE-Module-Python2-15-SP2-Update
+      # SLE 15-SP3 Products
+      - SLE-Product-SLES15-SP3-Pool
+      - SLE-Product-SLES15-SP3-Updates
+      - SLE-Product-SLES15-SP3-LTSS-Updates
+      # SLE 15-SP3 Basic Modules
+      - SLE-Module-Basesystem15-SP3-Pool
+      - SLE-Module-Basesystem15-SP3-Updates
+      - SLE-Module-Server-Applications15-SP3-Pool
+      - SLE-Module-Server-Applications15-SP3-Updates
+      - SLE-Module-Web-Scripting15-SP3-Pool
+      - SLE-Module-Web-Scripting15-SP3-Updates
+      - SLE-Module-Desktop-Applications15-SP3-Pool
+      - SLE-Module-Desktop-Applications15-SP3-Updates
+      - SLE-Module-DevTools15-SP3-Pool
+      - SLE-Module-DevTools15-SP3-Updates
+      - SLE-Module-Python2-15-SP3-Pool
+      - SLE-Module-Python2-15-SP3-Update
+      # SLE Micro
+      - SLE-Micro-5.2-Pool
+      - SLE-Micro-5.2-Updates
+      - SLE-Micro-5.3-Pool
+      - SLE-Micro-5.3-Updates
+      - SLE-Micro-5.4-Pool
+      - SLE-Micro-5.4-Updates
+      - SLE-Micro-5.5-Pool
+      - SLE-Micro-5.5-Updates
+      # SL Micro
+      - SL-Micro-6.0-Pool
+      - SL-Micro-6.0-Updates
+      # SLE 15-SP4 Products
+      - SLE-Product-SLES15-SP4-Pool
+      - SLE-Product-SLES15-SP4-Updates
+      - SLE-Product-SLES15-SP4-LTSS-Updates
+      # SLE 15-SP4 Basic Modules
+      - SLE-Module-Basesystem15-SP4-Pool
+      - SLE-Module-Basesystem15-SP4-Updates
+      - SLE-Module-Server-Applications15-SP4-Pool
+      - SLE-Module-Server-Applications15-SP4-Updates
+      - SLE-Module-Web-Scripting15-SP4-Pool
+      - SLE-Module-Web-Scripting15-SP4-Updates
+      - SLE-Module-Desktop-Applications15-SP4-Pool
+      - SLE-Module-Desktop-Applications15-SP4-Updates
+      - SLE-Module-DevTools15-SP4-Pool
+      - SLE-Module-DevTools15-SP4-Updates
+      # SLE 15-SP5 Products
+      - SLE-Product-SLES15-SP5-Pool
+      - SLE-Product-SLES15-SP5-Updates
+      # SLE 15-SP5 Basic Modules
+      - SLE-Module-Basesystem15-SP5-Pool
+      - SLE-Module-Basesystem15-SP5-Updates
+      - SLE-Module-Server-Applications15-SP5-Pool
+      - SLE-Module-Server-Applications15-SP5-Updates
+      - SLE-Module-Web-Scripting15-SP5-Pool
+      - SLE-Module-Web-Scripting15-SP5-Updates
+      - SLE-Module-Desktop-Applications15-SP5-Pool
+      - SLE-Module-Desktop-Applications15-SP5-Updates
+      - SLE-Module-DevTools15-SP5-Pool
+      - SLE-Module-DevTools15-SP5-Updates
+      # SLE 15-SP6 Products
+      - SLE-Product-SLES15-SP6-Pool
+      - SLE-Product-SLES15-SP6-Updates
+      # SLE 15-SP6 Basic Modules
+      - SLE-Module-Basesystem15-SP6-Pool
+      - SLE-Module-Basesystem15-SP6-Updates
+      - SLE-Module-Server-Applications15-SP6-Pool
+      - SLE-Module-Server-Applications15-SP6-Updates
+      - SLE-Module-Web-Scripting15-SP6-Pool
+      - SLE-Module-Web-Scripting15-SP6-Updates
+      - SLE-Module-Desktop-Applications15-SP6-Pool
+      - SLE-Module-Desktop-Applications15-SP6-Updates
+      - SLE-Module-DevTools15-SP6-Pool
+      - SLE-Module-DevTools15-SP6-Updates
+      # SLE Legacy Module
+      - SLE-Module-Legacy12-Pool
+      - SLE-Module-Legacy12-Updates
+      # SLE Container Module
+      - SLE-Module-Containers12-Pool
+      - SLE-Module-Containers12-Updates
+      - SLE-Module-Containers15-Pool
+      - SLE-Module-Containers15-Updates
+      - SLE-Module-Containers15-SP2-Pool
+      - SLE-Module-Containers15-SP2-Updates
+      - SLE-Module-Containers15-SP3-Pool
+      - SLE-Module-Containers15-SP3-Updates
+      - SLE-Module-Containers15-SP4-Pool
+      - SLE-Module-Containers15-SP4-Updates
+      # SUSE Manager Server
+      - SLE-Product-SUSE-Manager-Server-4.3-Pool
+      - SLE-Product-SUSE-Manager-Server-4.3-Updates
+      - SLE-Module-SUSE-Manager-Server-4.3-Pool
+      - SLE-Module-SUSE-Manager-Server-4.3-Updates
+      # SUSE Manager Proxy
+      - SLE-Product-SUSE-Manager-Proxy-4.3-Pool
+      - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
+      - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
+      - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
+      # Retail Branch Server
+      - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Pool
+      - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
+      - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
+      - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
+      # SUSE Manager Tools
+      - SLE-Manager-Tools12-Pool
+      - SLE-Manager-Tools12-Updates
+      - SLE-Manager-Tools15-Pool
+      - SLE-Manager-Tools15-Updates
+      - RES-7-SUSE-Manager-Tools
+      - RES8-Manager-Tools-Pool
+      - RES8-Manager-Tools-Updates
+      - Ubuntu-20.04-SUSE-Manager-Tools
+      - Ubuntu-22.04-SUSE-Manager-Tools
+      # SUSE Manager Beta Tools
+      - SLE-Manager-Tools12-Pool-Beta
+      - SLE-Manager-Tools12-Updates-Beta
+      - SLE-Manager-Tools15-Pool-Beta
+      - SLE-Manager-Tools15-Updates-Beta
+      - RES-7-SUSE-Manager-Tools-Beta
+      - RES8-Manager-Tools-Pool-Beta
+      - RES8-Manager-Tools-Updates-Beta
+      - Ubuntu-20.04-SUSE-Manager-Tools-Beta
+      - Ubuntu-22.04-SUSE-Manager-Tools-Beta
+    archs: [x86_64, amd64]
 
 http:
   # RES 7
@@ -208,47 +163,11 @@ http:
   # #  archs: [x86_64]
 
   # Required for SLED testing
-  - url: https://download.nvidia.com/suse/sle15
-  - url: https://download.nvidia.com/suse/sle15sp1
   - url: https://download.nvidia.com/suse/sle15sp2
   - url: https://download.nvidia.com/suse/sle15sp3
   - url: https://download.nvidia.com/suse/sle15sp4
-
-  # SLES 11 SP4 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/11-SP4:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 12 SP3 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP3:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 12 SP4 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-SERVER:/12-SP4:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 15 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 15 SP1 Test
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP1:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP1:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP1:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP1:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP1:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP1:/x86_64/update
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP1:/x86_64/update
-    archs: [x86_64]
+  - url: https://download.nvidia.com/suse/sle15sp5
+  - url: https://download.nvidia.com/suse/sle15sp6
 
   # SLES 15 SP2 Test
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP2:/x86_64/update
@@ -282,86 +201,21 @@ http:
   - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP3:/x86_64/update
     archs: [x86_64]
 
-  # SLES 15 SP4 Test (not available until GM)
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-  #- url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP4:/x86_64/update
-  #  archs: [x86_64]
-
-
-  # SUSE Manager Head (SLE15-SP3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Server-4.2-POOL-x86_64-Media1
+  # SLES 15 SP4 Test
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP4:/x86_64/update
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP3/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP4:/x86_64/update
     archs: [x86_64]
-
-  # SUSE Manager Head Proxy (SLE15-SP3)
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Proxy-4.2-POOL-x86_64-Media1
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP4:/x86_64/update
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/ToSLE/SLE_15_SP3/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP4:/x86_64/update
     archs: [x86_64]
-
-  # SUSE Manager 4.1 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1/SLE_15_SP2
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP4:/x86_64/update
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1:/ToSLE/SLE_15_SP2/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP4:/x86_64/update
     archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.1/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.1-POOL-x86_64-Media1/
+  - url: http://download.suse.de/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP4:/x86_64/update
     archs: [x86_64]
-
-  # SUSE Manager 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2/SLE_15_SP3
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/ToSLE/SLE_15_SP3/
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.2-POOL-x86_64-Media1/
-    archs: [x86_64]
-
-  # SLE 11 SP4 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE11-SUSE-Manager-Tools/images/repo/SLE-11-SP4-CLIENT-TOOLS-ia64-ppc64-s390x-x86_64-Media1/suse
-    archs: [x86_64]
-
-  # SLE 12 (GA and all SPs) Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # SLE 15 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1
-    archs: [x86_64]
-
-  # RES 7 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
-    archs: [x86_64]
-
-  # RES 8 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
-    archs: [x86_64]
-
-  # Ubuntu 18.04 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
-    archs: [amd64]
-
-  # Ubuntu 20.04 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04
-    archs: [amd64]
-
-  # Debian 9 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Debian9-SUSE-Manager-Tools/Debian_9
-    archs: [amd64]
-
-  # Debian 10 Manager Tools 4.2 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.2:/Debian10-SUSE-Manager-Tools/Debian_10
-    archs: [amd64]
 
   # SUSE Manager 4.3 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3/SLE_15_SP4
@@ -391,10 +245,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
     archs: [x86_64]
 
-  # Ubuntu 18.04 Manager Tools 4.3 devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
-    archs: [amd64]
-
   # Ubuntu 20.04 Manager Tools 4.3 devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04/
     archs: [amd64]
@@ -403,23 +253,11 @@ http:
   - url: https://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04/
     archs: [amd64]
 
-  # Debian 9 Manager Tools 4.3 devel
-  #- url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian9-SUSE-Manager-Tools/Debian_9
-  #  archs: [amd64]
-
-  # Debian 10 Manager Tools 4.3 devel
-  - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian10-SUSE-Manager-Tools/Debian_10/
-    archs: [amd64]
+  # No Ubuntu 24.04 in 4.3
 
   # Debian 11 Manager Tools 4.3 devel
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian11-SUSE-Manager-Tools/Debian_11/
     archs: [amd64]
-
-  # SUSE Manager Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/SLE_15_SP3
-    archs: [x86_64]
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.2-POOL-x86_64-Media1/
-    archs: [x86_64]
 
   # SLE 12 (GA and all SPs) Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-Beta-POOL-x86_64-Media1
@@ -441,10 +279,6 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
     archs: [x86_64]
 
-  # Ubuntu 18.04 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu18.04-SUSE-Manager-Tools/xUbuntu_18.04
-    archs: [amd64]
-
   # Ubuntu 20.04 Manager Tools Head devel
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu20.04-SUSE-Manager-Tools/xUbuntu_20.04
     archs: [amd64]
@@ -453,12 +287,8 @@ http:
   - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04
     archs: [amd64]
 
-  # Debian 9 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Debian9-SUSE-Manager-Tools/Debian_9
-    archs: [amd64]
-
-  # Debian 10 Manager Tools Head devel
-  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Debian10-SUSE-Manager-Tools/Debian_10
+  # Ubuntu 24.04 Manager Tools Head devel
+  - url: http://download.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04
     archs: [amd64]
 
   # openSUSE Leap
@@ -476,6 +306,10 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.4/sle
     archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.5/sle
+    archs: [x86_64]
+  - url: http://download.opensuse.org/update/leap/15.6/sle
+    archs: [aarch64]
 
   # Testsuite dummy packages for testing repo
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
@@ -484,23 +318,15 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
 
   # Software for sumaformed Virtual Machines
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_11_SP4
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP3
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_12_SP4
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP1
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP2
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP4
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.0
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP5
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.1
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP6
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.2
     archs: [x86_64]
@@ -508,18 +334,20 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.4
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.5
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.6
+    archs: [x86_64]
   # Jenkins
-  - url: http://download.opensuse.org/repositories/devel:/tools:/building/SLE_15_SP1
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.5
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/devel:/tools:/building/SLE_15_SP2
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.3
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.4
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.6
     archs: [x86_64]
 
   # Uyuni Master
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.4/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.5/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_15.5/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-x86_64-Media1/
     archs: [x86_64]
@@ -537,16 +365,20 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian9-Uyuni-Client-Tools/Debian_9/
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian10-Uyuni-Client-Tools/Debian_10/
-    archs: [x86_64]
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian11-Uyuni-Client-Tools/Debian_11/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/
+    archs: [amd64]
 
   # Uyuni Stable
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.4/
@@ -565,13 +397,17 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu1804-Uyuni-Client-Tools/xUbuntu_18.04/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
-    archs: [x86_64]
+    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian9-Uyuni-Client-Tools/Debian_9/
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian10-Uyuni-Client-Tools/Debian_10/
-    archs: [x86_64]
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian11-Uyuni-Client-Tools/Debian_11/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/
+    archs: [amd64]

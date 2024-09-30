@@ -1,11 +1,13 @@
 variable "cc_username" {
   description = "username for the Customer Center"
   type        = string
+  default     = null
 }
 
 variable "cc_password" {
   description = "password for the Customer Center"
   type        = string
+  default     = null
 }
 
 variable "timezone" {
@@ -65,6 +67,18 @@ variable "provider_settings" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = [ "almalinux8o", "amazonlinux2o", "centos7o", "opensuse153o", "opensuse154o", "rocky8o", "rocky9o", "sles12sp4o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "ubuntu1804o", "ubuntu2004o", "ubuntu2204o" ]
+  default     = [ "almalinux8o", "almalinux9o", "amazonlinux2o", "centos7o", "libertylinux9o", "opensuse155o", "opensuse156o", "tumbleweedo", "oraclelinux9o", "rocky8o", "rocky9o", "sles12sp5o", "sles15sp2o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "ubuntu2004o", "ubuntu2204o"]
   type        = set(string)
+}
+
+variable "use_eip_bastion" {
+  description = "Use eip feature for bastion on AWS"
+  default     = true
+  type        = bool
+}
+
+variable "is_server_paygo_instance" {
+  description = "specify if the server instance is a paygo instance"
+  type        = bool
+  default     = false
 }

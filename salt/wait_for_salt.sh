@@ -1,10 +1,40 @@
 #!/bin/bash
 
-# As Salt might be in the process of being installed by cloud-init, this script waits for it
+if [ -x /usr/bin/cloud-init ]; then
+    # Wait for cloud-init to finish
+    NEXT_TRY=0
+    until [ $NEXT_TRY -eq 50 ] || ! cloud-init status | grep running
+    do
+            echo "cloud-init is still running. Retrying... [$NEXT_TRY]";
+            sleep 10;
+            ((NEXT_TRY++));
+    done
+
+    if [ $NEXT_TRY -eq 50 ]
+    then
+            echo "ERROR: cloud-init is still running after 50 retries";
+            exit 1;
+    fi
+fi
+
+if [ -x /usr/bin/venv-salt-call ]; then
+    echo "Salt Bundle detected! We use it for running sumaform deployment"
+    echo "Copying /tmp/grains to /etc/venv-salt-minion/grains"
+    cp /tmp/grains /etc/venv-salt-minion/grains
+    SALT_CALL=venv-salt-call
+elif [ -x /usr/bin/salt-call ]; then
+    echo "Classic Salt detected! We use it for running sumaform deployment"
+    echo "Copying /tmp/grains to /etc/salt/grains"
+    cp /tmp/grains /etc/salt/grains
+    SALT_CALL=salt-call
+else
+    echo "Error: Cannot find venv-salt-call or salt-call on the system"
+    exit 1
+fi
 
 for i in {0..100}
 do
-  if salt-call --help &>/dev/null; then
+  if ${SALT_CALL} --help &>/dev/null; then
     break
   fi
   echo "Waiting for salt to be installed..."

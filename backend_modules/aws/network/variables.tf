@@ -57,3 +57,8 @@ variable "vpc_id" {
   description = "ID of the VPC where networks should be created in (optional)"
   default     = null
 }
+
+variable "route53_domain"{
+  description = "Domain name for route53"
+  default     = null
+}

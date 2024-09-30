@@ -6,6 +6,10 @@ base:
     - match: grain
     - server
 
+  'roles:server_containerized':
+    - match: grain
+    - server_containerized
+
   'roles:client':
     - match: grain
     - client
@@ -13,6 +17,10 @@ base:
   'roles:proxy':
     - match: grain
     - proxy
+
+  'roles:proxy_containerized':
+    - match: grain
+    - proxy_containerized
 
   'roles:minion':
     - match: grain
@@ -49,3 +57,7 @@ base:
   'roles:registry':
     - match: grain
     - registry
+
+  'roles:salt_testenv':
+    - match: grain
+    - salt_testenv

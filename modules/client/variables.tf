@@ -8,7 +8,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "A valid SUSE Manager version (eg. 4.2-nightly, head) see README_ADVANCED.md"
+  description = "A valid SUSE Manager version (eg. 4.3-nightly) see README_ADVANCED.md"
   default     = "released"
 }
 
@@ -23,11 +23,6 @@ variable "auto_register" {
 
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
-  default     = false
-}
-
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
   default     = false
 }
 
@@ -53,7 +48,7 @@ variable "additional_packages" {
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
+  default     = true
 }
 
 variable "quantity" {
@@ -86,7 +81,7 @@ variable "ipv6" {
 
 
 variable "image" {
-  description = "An image name, e.g. sles12sp4 or opensuse154o"
+  description = "An image name, e.g. sles12sp4 or opensuse155o"
   type        = string
 }
 

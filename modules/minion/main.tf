@@ -5,7 +5,6 @@ module "minion" {
   name                          = var.name
   quantity                      = var.quantity
   use_os_released_updates       = var.use_os_released_updates
-  use_os_unreleased_updates     = var.use_os_unreleased_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
   additional_repos_only         = var.additional_repos_only
@@ -15,7 +14,7 @@ module "minion" {
   ssh_key_path                  = var.ssh_key_path
   ipv6                          = var.ipv6
   connect_to_base_network       = true
-  connect_to_additional_network = true
+  connect_to_additional_network = false
   roles                         = var.roles
   disable_firewall              = var.disable_firewall
 

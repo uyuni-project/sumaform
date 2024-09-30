@@ -1,20 +1,18 @@
 include:
   - default.locale
+  - default.update
   - default.minimal
   - default.pkgs
-  - default.grub
   - default.sshd
   {% if grains.get('reset_ids') | default(false, true) %}
   - default.ids
   {% endif %}
+  {% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+  # Dependencies already satisfied by the images
+  # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
   - default.testsuite
+  {% endif %}
 
-{% if grains.get('use_os_unreleased_updates') | default(False, true) or grains.get('use_os_released_updates') | default(False, true) %}
-update_packages:
-  pkg.uptodate:
-    - require:
-      - sls: repos
-{% endif %}
 
 {% if grains.get('swap_file_size', "0")|int() > 0 %}
 file_swap:

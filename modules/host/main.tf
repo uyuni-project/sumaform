@@ -6,7 +6,6 @@ module "host" {
   name                          = var.name
   roles                         = var.roles
   use_os_released_updates       = var.use_os_released_updates
-  use_os_unreleased_updates     = var.use_os_unreleased_updates
   install_salt_bundle           = var.install_salt_bundle
   additional_repos              = var.additional_repos
   additional_repos_only         = var.additional_repos_only
@@ -22,7 +21,9 @@ module "host" {
   image                         = var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
+  main_disk_size                = var.main_disk_size
   additional_disk_size          = var.additional_disk_size
+  second_additional_disk_size   = var.second_additional_disk_size
   volume_provider_settings      = var.volume_provider_settings
 
   grains = merge({ disable_firewall = var.disable_firewall },
@@ -30,5 +31,5 @@ module "host" {
 }
 
 output "configuration" {
-  value = module.host.configuration
+  value = merge( { private_macs = [] }, module.host.configuration)
 }

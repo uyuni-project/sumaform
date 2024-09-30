@@ -8,7 +8,7 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 4.0-released, 4.0-nightly, 4.1-released, 4.1-nightly, 4.2-released, 4.2-nightly, 4.3-released, 4.3-nightly, 4.3-beta, head, test, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-beta, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, head, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
 }
 
@@ -66,11 +66,6 @@ variable "use_os_released_updates" {
   default     = false
 }
 
-variable "use_os_unreleased_updates" {
-  description = "Apply all updates from SUSE Linux Enterprise unreleased (Test) repos"
-  default     = false
-}
-
 variable "additional_repos" {
   description = "extra repositories in the form {label = url}, see README_ADVANCED.md"
   default     = {}
@@ -88,7 +83,7 @@ variable "additional_packages" {
 
 variable "install_salt_bundle" {
   description = "use true to install the venv-salt-minion package in the hosts"
-  default     = false
+  default     = true
 }
 
 variable "quantity" {
@@ -122,6 +117,11 @@ variable "ipv6" {
 variable "image" {
   description = "Leave default for automatic selection or specify an OS supported by the specified product version"
   default     = "default"
+}
+
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default     = 200
 }
 
 variable "repository_disk_size" {

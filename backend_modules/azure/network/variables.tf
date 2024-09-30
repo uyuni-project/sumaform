@@ -15,8 +15,8 @@ variable "create_network" {
 }
 
 variable "ssh_allowed_ips" {
-  description = "ip allowed to ssh"
-  default = ""
+  description = "list of ips allowed to ssh"
+  default = []
 }
 
 variable "additional_network" {
