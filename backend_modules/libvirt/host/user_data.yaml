@@ -50,9 +50,9 @@ yum_repos:
 
 runcmd:
 %{ if install_salt_bundle }
-  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
+  - "yum -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
 %{ else }
-  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
+  - "yum -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
 %{ endif }
 
