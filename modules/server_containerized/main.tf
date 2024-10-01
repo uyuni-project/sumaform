@@ -12,7 +12,7 @@ variable "images" {
 }
 
 locals {
-  product_version = var.product_version ? var.product_version : var.base_configuration["product_version"]
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 }
 
 module "server_containerized" {
