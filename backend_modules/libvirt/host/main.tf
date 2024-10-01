@@ -15,7 +15,7 @@ locals {
     }
   ]
   container_runtime = lookup(var.grains, "container_runtime", "")
-  product_version = var.product_version ? var.product_version : var.base_configuration['product_version']
+  product_version = var.product_version ? var.product_version : var.base_configuration["product_version"]
 
   combustion = contains(local.combustion_images, var.image)
   provider_settings = merge({
