@@ -82,3 +82,8 @@ variable "is_server_paygo_instance" {
   type        = bool
   default     = false
 }
+
+variable "product_version" {
+  description = "One of: 4.3-nightly, 4.3-released, 4.3-pr, 4.3-beta, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, head, uyuni-master, uyuni-released, uyuni-pr"
+  type        = string
+}
