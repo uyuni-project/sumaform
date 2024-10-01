@@ -17,8 +17,8 @@ module "client" {
   connect_to_additional_network = false
   roles                         = ["client"]
   disable_firewall              = var.disable_firewall
+  product_version               = var.product_version
   grains = {
-    product_version = var.product_version
     mirror          = var.base_configuration["mirror"]
     server          = var.server_configuration["hostname"]
     auto_register   = var.auto_register

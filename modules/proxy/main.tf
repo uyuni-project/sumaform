@@ -14,6 +14,10 @@ variable "images" {
   }
 }
 
+locals {
+  product_version = var.product_version ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "proxy" {
   source = "../host"
 
@@ -33,8 +37,8 @@ module "proxy" {
   connect_to_additional_network = true
   roles                         = ["proxy"]
   disable_firewall              = var.disable_firewall
+  product_version               = var.product_version
   grains = {
-    product_version           = var.product_version
     mirror                    = var.base_configuration["mirror"]
     server                    = var.server_configuration["hostname"]
     minion                    = var.minion
@@ -54,7 +58,7 @@ module "proxy" {
     proxy_containerized       = var.proxy_containerized
   }
 
-  image                    = var.image == "default" ? var.images[var.product_version] : var.image
+  image                    = var.image == "default" ? var.images[local.product_version] : var.image
   provider_settings        = var.provider_settings
   additional_disk_size     = var.repository_disk_size
   volume_provider_settings = var.volume_provider_settings
@@ -67,7 +71,6 @@ output "configuration" {
     private_mac     = length(module.proxy.configuration["private_macs"]) > 0 ? module.proxy.configuration["private_macs"][0]: null
     private_ip      = 254
     private_name    = "proxy"
-    product_version = var.product_version
     username        = var.server_configuration["username"]
     password        = var.server_configuration["password"]
   }

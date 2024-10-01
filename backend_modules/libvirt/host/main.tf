@@ -298,6 +298,7 @@ resource "null_resource" "provisioning" {
         additional_certs          = var.additional_certs
         additional_packages       = var.additional_packages
         swap_file_size            = var.swap_file_size
+        product_version           = local.product_version
         authorized_keys = concat(
           var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
           var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],

@@ -17,9 +17,8 @@ module "minion" {
   connect_to_additional_network = false
   roles                         = var.roles
   disable_firewall              = var.disable_firewall
-
+  product_version               = var.product_version
   grains = merge({
-    product_version        = var.product_version
     mirror                 = var.base_configuration["mirror"]
     server                 = var.server_configuration["hostname"]
     auto_connect_to_master = var.auto_connect_to_master

@@ -15,6 +15,10 @@ variable "images" {
   }
 }
 
+locals {
+  product_version = var.product_version ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "server" {
   source = "../host"
 
@@ -35,7 +39,7 @@ module "server" {
   connect_to_additional_network = false
   roles                         = var.register_to_server == null ? ["server"] : ["server", "minion"]
   disable_firewall              = var.disable_firewall
-  image                         = var.image == "default" ? var.images[var.product_version] : var.image
+  image                         = var.image == "default" ? var.images[local.product_version] : var.image
   provider_settings             = var.provider_settings
   main_disk_size                = var.main_disk_size
   additional_disk_size          = var.repository_disk_size
@@ -43,7 +47,6 @@ module "server" {
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
-    product_version        = var.product_version
     cc_username            = var.base_configuration["cc_username"]
     cc_password            = var.base_configuration["cc_password"]
     channels               = var.channels
@@ -104,7 +107,6 @@ output "configuration" {
   value = {
     id              = length(module.server.configuration["ids"]) > 0 ? module.server.configuration["ids"][0] : null
     hostname        = length(module.server.configuration["hostnames"]) > 0 ? module.server.configuration["hostnames"][0] : null
-    product_version = var.product_version
     username        = var.server_username
     password        = var.server_password
   }

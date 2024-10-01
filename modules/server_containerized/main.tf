@@ -11,6 +11,10 @@ variable "images" {
   }
 }
 
+locals {
+  product_version = var.product_version ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "server_containerized" {
   source = "../host"
 
@@ -30,7 +34,7 @@ module "server_containerized" {
   ipv6                          = var.ipv6
   connect_to_base_network       = true
   connect_to_additional_network = false
-  image                         = var.image == "default" ? var.images[var.product_version] : var.image
+  image                         = var.image == "default" ? var.images[local.product_version] : var.image
   provision                     = var.provision
   provider_settings             = var.provider_settings
   main_disk_size                = var.main_disk_size
@@ -39,7 +43,6 @@ module "server_containerized" {
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
-    product_version                = var.product_version
     container_runtime              = var.runtime
     container_repository           = var.container_repository
     container_tag                  = var.container_tag
@@ -77,7 +80,6 @@ output "configuration" {
   value = {
     id                 = length(module.server_containerized.configuration["ids"]) > 0 ? module.server_containerized.configuration["ids"][0] : null
     hostname           = length(module.server_containerized.configuration["hostnames"]) > 0 ? module.server_containerized.configuration["hostnames"][0] : null
-    product_version    = var.product_version
     username           = var.server_username
     password           = var.server_password
     runtime            = var.runtime
