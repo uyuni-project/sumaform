@@ -415,7 +415,13 @@ tools_update_repo:
 {% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif '5.0-released' in grains.get('product_version') | default('', true) %}
+{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
+{% if release == '24.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04' %}
+{% else %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
+{% endif %}
+{# END TODO #}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
 {% else %}
@@ -456,7 +462,13 @@ tools_update_repo_raised_priority:
 {% elif '5.0-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
+{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
+{% if release == '24.04' %}
+            Pin: release l=Devel:Galaxy:Manager:5.0:Ubuntu24.04-SUSE-Manager-Tools
+{% else %}
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
+{% endif %}
+{# END TODO #}
             Pin-Priority: 800
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
     - contents: |
