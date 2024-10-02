@@ -66,6 +66,7 @@ master_configuration:
           - susemanager
 {% endif %}
 
+{% if grains.get('auto_connect_to_master') %}
 minion_service:
   service.running:
 {% if grains['install_salt_bundle'] %}
@@ -75,7 +76,6 @@ minion_service:
     - name: salt-minion
     - enable: True
 {% endif %}
-{% if grains.get('auto_connect_to_master') %}
     - watch:
       - file: master_configuration
 {% endif %}
