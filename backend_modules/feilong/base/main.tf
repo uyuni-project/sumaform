@@ -7,9 +7,10 @@ locals {
 
 output "configuration" {
   value = {
-    name_prefix  = local.name_prefix
-    domain       = local.domain
-    ssh_key_path = local.ssh_key_path
-    key_file     = local.key_file
+    name_prefix     = local.name_prefix
+    domain          = local.domain
+    ssh_key_path    = local.ssh_key_path
+    key_file        = local.key_file
+    product_version = var.product_version
   }
 }

@@ -33,5 +33,6 @@ output "configuration" {
     name_prefix          = var.name_prefix
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
+    product_version      = var.product_version
   }
 }

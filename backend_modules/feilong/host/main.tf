@@ -2,6 +2,7 @@ locals {
   name_prefix       = var.base_configuration["name_prefix"]
   domain            = var.base_configuration["domain"]
   ssh_key_path      = var.base_configuration["ssh_key_path"]
+  product_version   = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
   provider_settings = merge({
     userid   = null
     memory   = "2G"
@@ -61,7 +62,7 @@ resource "null_resource" "provisioning" {
         use_avahi                     = false
         provider                      = "feilong"
         roles                         = var.roles
-        product_version               = var.product_version
+        product_version               = local.product_version
         use_os_released_updates       = var.use_os_released_updates
         additional_repos              = var.additional_repos
         additional_repos_only         = var.additional_repos_only

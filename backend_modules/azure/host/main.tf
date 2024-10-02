@@ -25,10 +25,11 @@ locals {
   public_security_group_id             = var.base_configuration.public_security_group_id
   private_security_group_id            = var.base_configuration.private_security_group_id
   private_additional_security_group_id = var.base_configuration.private_additional_security_group_id
-  resource_group_name = var.base_configuration.resource_group_name
-  resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
-  public_instance = lookup(var.provider_settings, "public_instance", false)
-  location            = var.base_configuration["location"]
+  resource_group_name                  = var.base_configuration.resource_group_name
+  resource_name_prefix                 = "${var.base_configuration["name_prefix"]}${var.name}"
+  public_instance                      = lookup(var.provider_settings, "public_instance", false)
+  location                             = var.base_configuration["location"]
+  product_version                      = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 }
 
 data "template_file" "user_data" {
@@ -181,6 +182,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
+        product_version           = local.product_version
         use_os_released_updates   = var.use_os_released_updates
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only
