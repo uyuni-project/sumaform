@@ -17,7 +17,7 @@ module "base" {
 
   name_prefix =  local.name_prefix 
    // if you use name_prefix, make sure to update the server_configuration for clients/minions below
-
+  product_version = "*"
   provider_settings = {
     location = local.location
     ssh_allowed_ips   = "*"

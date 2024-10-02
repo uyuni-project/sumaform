@@ -18,6 +18,7 @@ module "base" {
   cc_password = ...
 
   name_prefix = ... // if you use name_prefix, make sure to update the server_configuration for clients/minions below
+  product_version = ...
 
   provider_settings = {
     availability_zone = local.availability_zone
