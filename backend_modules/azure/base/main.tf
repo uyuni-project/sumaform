@@ -108,11 +108,11 @@ data "azurerm_platform_image" "ubuntu2204" {
   sku       = "ubuntu-22-04-lts"
 }
 
-data "azurerm_platform_image" "suma42" {
+data "azurerm_platform_image" "ubuntu2404" {
   location  = local.location
-  publisher = "suse"
-  offer     = "manager-server-4-2-byos"
-  sku       = "gen2"
+  publisher = "cognosys"
+  offer     = "ubuntu-24-04-lts"
+  sku       = "ubuntu-24-04-lts"
 }
 
 data "azurerm_platform_image" "suma43" {

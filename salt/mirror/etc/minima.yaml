@@ -145,6 +145,7 @@ scc:
       - RES8-Manager-Tools-Updates
       - Ubuntu-20.04-SUSE-Manager-Tools
       - Ubuntu-22.04-SUSE-Manager-Tools
+      - Ubuntu 24.04-SUSE-Manager-Tools
       # SUSE Manager Beta Tools
       - SLE-Manager-Tools12-Pool-Beta
       - SLE-Manager-Tools12-Updates-Beta
@@ -155,6 +156,7 @@ scc:
       - RES8-Manager-Tools-Updates-Beta
       - Ubuntu-20.04-SUSE-Manager-Tools-Beta
       - Ubuntu-22.04-SUSE-Manager-Tools-Beta
+      - Ubuntu-24.04-SUSE-Manager-Tools-Beta
     archs: [x86_64, amd64]
 
 http:
@@ -253,7 +255,9 @@ http:
   - url: https://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04/
     archs: [amd64]
 
-  # No Ubuntu 24.04 in 4.3
+  # Ubuntu 24.04 Manager Tools 4.3 devel
+  - url: https://download.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04/
+    archs: [amd64]
 
   # Debian 11 Manager Tools 4.3 devel
   - url: https://download.suse.de/download/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian11-SUSE-Manager-Tools/Debian_11/

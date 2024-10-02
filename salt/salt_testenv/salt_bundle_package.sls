@@ -9,6 +9,8 @@
         {% set repo_path = 'Ubuntu_20.04' %}
     {% elif grains['osrelease'] == '22.04' %}
         {% set repo_path = 'Ubuntu_22.04' %}
+    {% elif grains['osrelease'] == '24.04' %}
+        {% set repo_path = 'Ubuntu_24.04' %}
     {% endif %}
 {% elif grains['osfullname'] == 'AlmaLinux' %}
     {% if grains['osrelease_info'][0] == 8 %}
