@@ -33,6 +33,7 @@ locals {
   overwrite_fqdn                       = local.route53_domain == null ? local.provider_settings["overwrite_fqdn"] : "${var.base_configuration["name_prefix"]}${var.name}.${var.base_configuration["route53_domain"]}"
   route53_zone_id                      = lookup(var.base_configuration, "route53_zone_id", null)
   route53_domain                       = lookup(var.base_configuration, "route53_domain", null)
+  product_version                      = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
 
@@ -245,6 +246,7 @@ resource "null_resource" "host_salt_configuration" {
         use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
         roles                     = var.roles
+        product_version           = local.product_version
         use_os_released_updates   = var.use_os_released_updates
         additional_repos          = var.additional_repos
         additional_repos_only     = var.additional_repos_only

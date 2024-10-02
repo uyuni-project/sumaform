@@ -12,6 +12,7 @@ module "base" {
   use_mirror_images    = var.use_mirror_images
   use_shared_resources = var.use_shared_resources
   ssh_key_path         = var.ssh_key_path
+  product_version      = var.product_version
   testsuite            = true
 
   provider_settings = var.provider_settings
@@ -86,7 +87,6 @@ module "server" {
   count = var.container_server ? 0 : 1
 
   base_configuration             = module.base.configuration
-  product_version                = var.product_version
   image                          = lookup(local.images, "server", "default")
   name                           = lookup(local.names, "server", "srv")
   auto_accept                    = false
@@ -131,7 +131,6 @@ module "server_containerized" {
   count = var.container_server ? 1 : 0
 
   base_configuration             = module.base.configuration
-  product_version                = var.product_version
   image                          = lookup(local.images, "server_containerized", "default")
   name                           = lookup(local.names, "server_containerized", "srv")
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
@@ -175,7 +174,6 @@ module "proxy" {
   quantity = contains(local.hosts, "proxy") ? 1 : 0
 
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "proxy", "default")
   name               = lookup(local.names, "proxy", "pxy")
 
@@ -206,7 +204,6 @@ module "proxy_containerized" {
   quantity = contains(local.hosts, "proxy_containerized") ? 1 : 0
 
   base_configuration     = module.base.configuration
-  product_version        = var.product_version
   image                  = lookup(local.images, "proxy_containerized", "default")
   name                   = lookup(local.names, "proxy_containerized", "pxy")
 
@@ -251,7 +248,6 @@ module "suse-client" {
 
   quantity = contains(local.hosts, "suse-client") ? 1 : 0
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "suse-client", "sles15sp4o")
   name               = lookup(local.names, "suse-client", "cli-sles15")
 
@@ -274,7 +270,6 @@ module "suse-minion" {
 
   quantity = contains(local.hosts, "suse-minion") ? 1 : 0
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "suse-minion", "sles15sp4o")
   name               = lookup(local.names, "suse-minion", "min-sles15")
 
@@ -299,7 +294,6 @@ module "suse-sshminion" {
   quantity = contains(local.hosts, "suse-sshminion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "suse-sshminion", "sles15sp4o")
   name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
   sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
@@ -320,7 +314,6 @@ module "slemicro-minion" {
 
   quantity = contains(local.hosts, "slemicro-minion") ? 1 : 0
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "slemicro-minion", "slemicro55o")
   name               = lookup(local.names, "slemicro-minion", "min-slemicro5")
 
@@ -344,7 +337,6 @@ module "redhat-minion" {
   quantity = contains(local.hosts, "redhat-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "redhat-minion", "rocky8o")
   name               = lookup(local.names, "redhat-minion", "min-rocky8")
 
@@ -367,7 +359,6 @@ module "debian-minion" {
   quantity = contains(local.hosts, "debian-minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "debian-minion", "ubuntu2204o")
   name               = lookup(local.names, "debian-minion", "min-ubuntu2204")
 
@@ -389,7 +380,6 @@ module "build-host" {
 
   quantity           = contains(local.hosts, "build-host") ? 1 : 0
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "build-host", "sles15sp4o")
   name               = lookup(local.names, "build-host", "min-build")
 
@@ -427,7 +417,6 @@ module "kvm-host" {
   quantity = contains(local.hosts, "kvm-host") ? 1 : 0
 
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "kvm-host", "sles15sp4o")
   name               = lookup(local.names, "kvm-host", "min-kvm")
 
@@ -452,7 +441,6 @@ module "monitoring-server" {
   quantity = contains(local.hosts, "monitoring-server") ? 1 : 0
 
   base_configuration = module.base.configuration
-  product_version    = var.product_version
   image              = lookup(local.images, "monitoring-server", "sles15sp4o")
   name               = lookup(local.names, "monitoring-server", "min-monitoring")
 
@@ -501,7 +489,6 @@ module "controller" {
   server_http_proxy        = var.server_http_proxy
   custom_download_endpoint = var.custom_download_endpoint
   swap_file_size           = null
-  product_version          = var.product_version
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)

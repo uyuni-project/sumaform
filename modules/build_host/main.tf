@@ -18,14 +18,12 @@ module "build_host" {
   roles                         = ["build_host"]
   disable_firewall              = var.disable_firewall
   grains = {
-    product_version = var.product_version
-    mirror          = var.base_configuration["mirror"]
+    mirror                 = var.base_configuration["mirror"]
     server                 = var.server_configuration["hostname"]
     auto_connect_to_master = var.auto_connect_to_master
     avahi_reflector        = var.avahi_reflector
     sles_registration_code = var.sles_registration_code
   }
-
 
   image             = var.image
   provider_settings = var.provider_settings

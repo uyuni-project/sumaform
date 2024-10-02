@@ -757,6 +757,7 @@ variable "server_instance_id" {
 }
 
 variable "product_version" {
-  description = "A valid SUSE Manager version (eg. 4.3-nightly, head) see README_ADVANCED.md"
-  default     = "released"
+  description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-beta, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, head, uyuni-master, uyuni-released, uyuni-pr"
+  type        = string
+  default     = null
 }

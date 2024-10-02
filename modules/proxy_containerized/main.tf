@@ -9,6 +9,10 @@ variable "images" {
   }
 }
 
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "proxy_containerized" {
   source = "../host"
 
@@ -17,7 +21,7 @@ module "proxy_containerized" {
   connect_to_additional_network = true
   quantity                      = var.quantity
   base_configuration            = var.base_configuration
-  image                         = var.image == "default" || var.product_version == "head" ? var.images[var.product_version] : var.image
+  image                         = var.image == "default" || local.product_version == "head" ? var.images[local.product_version] : var.image
   name                          = var.name
   use_os_released_updates       = true
   install_salt_bundle           = var.install_salt_bundle
@@ -31,7 +35,6 @@ module "proxy_containerized" {
   volume_provider_settings      = var.volume_provider_settings
 
   grains = {
-    product_version           = var.product_version
     server                    = var.server_configuration["hostname"]
     server_username           = var.server_configuration["username"]
     server_password           = var.server_configuration["password"]
@@ -55,7 +58,6 @@ output "configuration" {
     private_mac          = length(module.proxy_containerized.configuration["private_macs"]) > 0 ? module.proxy_containerized.configuration["private_macs"][0]: null
     private_ip           = 254
     private_name         = "proxy"
-    product_version      = var.product_version
     username             = var.server_configuration["username"]
     password             = var.server_configuration["password"]
     runtime              = var.runtime

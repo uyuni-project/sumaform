@@ -1,7 +1,7 @@
 locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
-
-  provider_settings = merge({
+  product_version      = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+  provider_settings    = merge({
     host     = null
     user     = "root"
     password = "linux"
@@ -85,6 +85,7 @@ resource "null_resource" "provisioning" {
         timezone                  = var.base_configuration["timezone"]
         use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
+        product_version           = local.product_version
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
         install_salt_bundle       = var.install_salt_bundle

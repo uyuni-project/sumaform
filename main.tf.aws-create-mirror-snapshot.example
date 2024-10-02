@@ -20,6 +20,7 @@ locals {
   name_prefix       = "mirrorsnap-"
   region            = "eu-west-2"
   availability_zone = "${local.region}a"
+  product_version   = "5.0-released"
   ssh_allowed_ips   = [""] // add your IP address in here
 }
 
@@ -36,6 +37,7 @@ module "base" {
   cc_password = local.cc_password
 
   name_prefix = local.name_prefix
+  product_version = local.product_version
 
   provider_settings = {
     availability_zone = local.availability_zone

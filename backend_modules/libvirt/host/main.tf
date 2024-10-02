@@ -15,7 +15,7 @@ locals {
     }
   ]
   container_runtime = lookup(var.grains, "container_runtime", "")
-  product_version = lookup(var.grains, "product_version", "")
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 
   combustion = contains(local.combustion_images, var.image)
   provider_settings = merge({
@@ -298,6 +298,7 @@ resource "null_resource" "provisioning" {
         additional_certs          = var.additional_certs
         additional_packages       = var.additional_packages
         swap_file_size            = var.swap_file_size
+        product_version           = local.product_version
         authorized_keys = concat(
           var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
           var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],

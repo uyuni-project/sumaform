@@ -17,7 +17,7 @@ module "base" {
 
   name_prefix =  local.name_prefix 
    // if you use name_prefix, make sure to update the server_configuration for clients/minions below
-
+  product_version   = "uyuni-release"
   provider_settings = {
     location = local.location
     ssh_allowed_ips   = "*"
@@ -65,7 +65,6 @@ module "server" {
 
   name            = "server"
   image           = "suma41"
-  product_version = "suma41"
   
 
   provider_settings = {
@@ -82,7 +81,6 @@ module "minion" {
   name                 = "minion"
   image                = "opensuse154"
   server_configuration =  module.server.configuration
-  product_version      = "uyuni-release"
 }
 
 output "key_file" {

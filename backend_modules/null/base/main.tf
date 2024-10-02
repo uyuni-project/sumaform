@@ -4,6 +4,7 @@ resource "null_resource" "base" {
   triggers = {
     cc_username          = var.cc_username
     cc_password          = var.cc_password
+    product_version      = var.product_version
     timezone             = var.timezone
     use_ntp              = var.use_ntp
     ssh_key_path         = var.ssh_key_path
@@ -33,5 +34,6 @@ output "configuration" {
     name_prefix          = var.name_prefix
     use_shared_resources = var.use_shared_resources
     testsuite            = var.testsuite
+    product_version      = var.product_version
   }
 }
