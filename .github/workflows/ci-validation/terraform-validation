@@ -15,6 +15,7 @@ ln -sfn ../backend_modules/null modules/backend
 for tf_file in main.tf.*.example; do
   echo "::notice::Validating $tf_file..."
   cp $tf_file main.tf
+  cat main.tf
   # Uncomment for Terraform detailed logging
   # export TF_LOG=TRACE
   terraform init
