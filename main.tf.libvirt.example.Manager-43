@@ -18,7 +18,7 @@ module "base" {
   // Set SUSE Customer Center credentials here if you have some
   // cc_username = ""
   // cc_password = ""
-  // product_version = "4.3-nightly"
+  product_version = "4.3-nightly"
 
   // optional parameters with defaults below
   // use_avahi = true

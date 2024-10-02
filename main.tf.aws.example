@@ -18,7 +18,7 @@ module "base" {
   cc_password = ...
 
   name_prefix = ... // if you use name_prefix, make sure to update the server_configuration for clients/minions below
-  product_version = ...
+  product_version = "uyuni-release"
 
   provider_settings = {
     availability_zone = local.availability_zone
@@ -68,7 +68,6 @@ module "server" {
 
   name            = "server"
   image           = "opensuse154o"
-  product_version = "uyuni-release"
 
   provider_settings = {  }
 }
@@ -80,7 +79,6 @@ module "minion" {
   name                 = "minion"
   image                = "opensuse154o"
   server_configuration = module.server.configuration
-  product_version      = "uyuni-release"
 }
 
 output "key_file" {

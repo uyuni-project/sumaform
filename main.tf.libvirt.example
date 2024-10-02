@@ -18,7 +18,7 @@ module "base" {
   // Set SUSE Customer Center credentials here if you have some
   // cc_username = ""
   // cc_password = ""
-  // product_version = "uyuni-master"
+  product_version = "uyuni-master"
 
   // optional parameters with defaults below
   // use_avahi = true
