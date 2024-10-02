@@ -78,7 +78,6 @@ output "configuration" {
     pool                = local.pool
     network_name        = local.bridge == null ? local.network_name : null
     bridge              = local.bridge
-    product_version     = var.product_version
     bastion_host        = lookup(var.provider_settings, "bastion_host", null)
     bastion_host_key    = lookup(var.provider_settings, "bastion_host_key", null)
     bastion_port        = lookup(var.provider_settings, "bastion_port", null)

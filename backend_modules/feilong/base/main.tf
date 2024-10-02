@@ -11,6 +11,5 @@ output "configuration" {
     domain          = local.domain
     ssh_key_path    = local.ssh_key_path
     key_file        = local.key_file
-    product_version = var.product_version
   }
 }
