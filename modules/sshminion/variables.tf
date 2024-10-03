@@ -15,7 +15,7 @@ variable "product_version" {
 
 variable "auto_connect_to_master" {
   description = "whether this minion should automatically connect to the Salt Master upon deployment"
-  default     = true
+  default     = false
 }
 
 variable "use_os_released_updates" {
