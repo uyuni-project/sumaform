@@ -53,8 +53,6 @@ test_repo_debian_updates_script:
 test_repo_debian_updates_script_copy:
   cmd.run:
     - name: "mgrctl cp /root/download_ubuntu_repo.sh server:/root/download_ubuntu_repo.sh"
-    - onchanges:
-      - file: test_repo_debian_updates_script
 
 test_repo_debian_updates:
   cmd.run:
