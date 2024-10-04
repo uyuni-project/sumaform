@@ -409,7 +409,13 @@ tools_update_repo:
 {% elif '4.3-nightly' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
+{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
+{% if release == '24.04' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04' %}
+{% else %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
+{% endif %}
+{# END TODO #}
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
@@ -447,7 +453,13 @@ tools_update_repo_raised_priority:
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
+{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
+{% if release == '24.04' %}
+            Pin: release l=Devel:Galaxy:Manager:4.3:Ubuntu24.04-SUSE-Manager-Tools
+{% else %}
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
+{% endif %}
+{# END TODO #}
             Pin-Priority: 800
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
     - contents: |
