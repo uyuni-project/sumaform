@@ -20,7 +20,7 @@ module "minion" {
   product_version               = var.product_version
   grains = merge({
     mirror                 = var.base_configuration["mirror"]
-    server                 = var.server_configuration["hostname"]
+    server                 = var.auto_connect_to_master ? var.server_configuration["hostname"] : null
     auto_connect_to_master = var.auto_connect_to_master
     avahi_reflector        = var.avahi_reflector
     susemanager = {
