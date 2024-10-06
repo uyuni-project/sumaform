@@ -20,11 +20,7 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
-}
-
-variable "activation_key" {
-  description = "an Activation Key to be used when onboarding this minion"
-  default     = null
+  default     = {}
 }
 
 variable "auto_connect_to_master" {
