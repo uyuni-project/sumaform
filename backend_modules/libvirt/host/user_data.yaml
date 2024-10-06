@@ -749,6 +749,11 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
+  ssl_as_updates:
+    baseurl: http://${mirror}/SUSE/Updates/SLL-AS/9/x86_64/update/
+    enabled: true
+    gpgcheck: false
+    name: ssl_as_updates
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
