@@ -23,6 +23,11 @@ variable "server_configuration" {
   default     = {}
 }
 
+variable "activation_key" {
+  description = "an Activation Key to be used when onboarding this minion"
+  default     = null
+}
+
 variable "auto_connect_to_master" {
   description = "whether this minion should automatically connect to the Salt Master upon deployment"
   default     = true
