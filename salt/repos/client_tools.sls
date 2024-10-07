@@ -408,7 +408,8 @@ tools_update_repo:
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
 {% elif '4.3-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+{# 5.0 is intentional here (shared tools) #}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
 {# TODO: remove extra code when Ubuntu 24.04 tools get released #}
 {# 5.0 is intentional here (shared tools) #}
@@ -503,8 +504,11 @@ tools_update_repo:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
     # We only have one shared Client Tools repository
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/4.3:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
+{% if '4.3-nightly' in grains.get('product_version') | default('', true) %}
+{# 5.0 is intentional here (shared tools) #}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
+{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
 {% elif 'beta' in grains.get('product_version') | default('', true) %}
