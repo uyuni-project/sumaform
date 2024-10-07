@@ -84,11 +84,21 @@ tools_pool_repo:
     - refresh: True
 {% endif %} {# Released Tools Repos #}
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 tools_additional_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+    - refresh: True
+    - priority: 98
+
+{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch #}
+
+{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE12-SUSE-Manager-Tools/SLE_12/
     - refresh: True
     - priority: 98
 
@@ -147,11 +157,21 @@ tools_pool_repo:
 
 {% endif %} {# Released Tools repos #}
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 tools_additional_repo:
   pkgrepo.managed:
   - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+  - refresh: True
+  - priority: 98
+
+{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch #}
+
+{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+
+tools_additional_repo:
+  pkgrepo.managed:
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
 
@@ -212,11 +232,21 @@ tools_pool_repo:
 
 {% endif %} {# Released Tools repos #}
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 tools_additional_repo:
   pkgrepo.managed:
   - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+  - refresh: True
+  - priority: 98
+
+{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch #}
+
+{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+
+tools_additional_repo:
+  pkgrepo.managed:
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
 
@@ -300,7 +330,7 @@ tools_pool_repo:
       - cmd: uyuni_key
 {% endif %} {# Released Tools Repos #}
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 {% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 9 %}
@@ -311,6 +341,28 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
+    - refresh: True
+    - require:
+      - cmd: galaxy_key
+    {% if release >= 9 %}
+      - cmd: suse_el9_key
+    {% else %}
+      - cmd: suse_res7_key
+    {% endif %}
+
+{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch (RES 7 and CentOS 7 only) #}
+
+{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 9 %}
+{% set rhlike_client_tools_prefix = 'RES' %}
+{% endif %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
     - refresh: True
     - require:
       - cmd: galaxy_key
@@ -517,6 +569,8 @@ tools_update_repo:
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
+{% elif '5.0-released' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.suse.de/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
 {% else %}
@@ -545,6 +599,11 @@ tools_update_repo_raised_priority:
         Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
         Pin-Priority: 800
 {% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
+    - contents: |
+        Package: *
+        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
+        Pin-Priority: 800
+{% elif '5.0-released' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
         Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
