@@ -4,7 +4,7 @@ include:
   {% if not grains.get('additional_repos_only') %}
   - repos.default_settings
   - repos.os
-  - repos.clienttools
+  - repos.client_tools
   - repos.minion
   - repos.proxy
   - repos.proxy_containerized

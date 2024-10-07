@@ -1,6 +1,6 @@
-{# This state setup client tools repositories for all supported OSes #}
+{# These states set up client tools repositories for all supported OSes #}
 
-{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %} {# no clienttools on server or proxy #}
+{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles')) %} {# no client tools on server or proxy #}
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
@@ -84,7 +84,7 @@ tools_pool_repo:
     - refresh: True
 {% endif %} {# Released Tools Repos #}
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %} {# DEVEL Tools Repos #}
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -108,7 +108,7 @@ tools_additional_repo:
     - refresh: True
     - priority: 98
 
-{% endif %} {# DEVEL Tools Repos #}
+{% endif %} {# Devel Tools Repos #}
 
 {% endif %} {# '12' in grains['osrelease'] #}
 
@@ -174,6 +174,7 @@ tools_update_repo:
 {% endif %} {# '15' in grains['osrelease'] #}
 
 {% elif grains['osfullname'] == 'SL-Micro' %}
+
 {# TODO: add SL Micro 6 #}
 
 {% elif grains['osfullname'] == 'SLE Micro' %}
@@ -556,7 +557,7 @@ tools_update_repo_raised_priority:
         Pin-Priority: 800
 {% endif %}
 {% endif %} {# grains['os'] == 'Debian' #}
-{% endif %} {# no clienttools on server or proxy #}
+{% endif %} {# no client tools on server or proxy #}
 
 {# WORKAROUND: see github:saltstack/salt#10852 #}
 {{ sls }}_nop:
