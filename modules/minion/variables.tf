@@ -20,6 +20,7 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
+  default     = {}
 }
 
 variable "activation_key" {
