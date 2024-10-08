@@ -86,13 +86,20 @@ tools_pool_repo:
 
 {% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
-tools_additional_repo:
+{% if 'client' in grains.get('roles') %}
+tools_trad_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
     - refresh: True
     - priority: 98
+{% endif %}
 
-{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch #}
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-x86_64-Media1/
+    - refresh: True
+    - priority: 98
+{# 5.0 is intentional here (shared tools) #}
 
 {% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
 
@@ -159,13 +166,20 @@ tools_pool_repo:
 
 {% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
-tools_additional_repo:
+{% if 'client' in grains.get('roles') %}
+tools_trad_repo:
   pkgrepo.managed:
   - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
+{% endif %}
 
-{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch #}
+tools_additional_repo:
+  pkgrepo.managed:
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+  - refresh: True
+  - priority: 98
+{# 5.0 is intentional here (shared tools) #}
 
 {% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
 
@@ -236,11 +250,10 @@ tools_pool_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
   - refresh: True
   - priority: 98
-
-{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch #}
+{# 5.0 is intentional here (shared tools) #}
 
 {% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
 
@@ -337,7 +350,8 @@ tools_pool_repo:
 {% set rhlike_client_tools_prefix = 'RES' %}
 {% endif %}
 
-tools_update_repo:
+{% if 'client' in grains.get('roles') %}
+tools_update_trad_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
@@ -349,8 +363,21 @@ tools_update_repo:
     {% else %}
       - cmd: suse_res7_key
     {% endif %}
+{% endif %}
 
-{# TODO due to shared client tools, we also need 5.0 tools in 4.3 branch (RES 7 and CentOS 7 only) #}
+tools_update_repo:
+  pkgrepo.managed:
+    - humanname: tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
+    - refresh: True
+    - require:
+      - cmd: galaxy_key
+    {% if release >= 9 %}
+      - cmd: suse_el9_key
+    {% else %}
+      - cmd: suse_res7_key
+    {% endif %}
+{# 5.0 is intentional here (shared tools) #}
 
 {% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
 
