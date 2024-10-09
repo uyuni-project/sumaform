@@ -13,22 +13,8 @@ variable "product_version" {
   default     = null
 }
 
-variable "server_configuration" {
-  description = "use module.<SERVER_NAME>.configuration, see the main.tf example file"
-}
-
-variable "auto_connect_to_master" {
-  description = "whether this minion should automatically connect to the Salt Master upon deployment"
-  default     = true
-}
-
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
-  default     = false
-}
-
-variable "avahi_reflector" {
-  description = "if using avahi, let the daemon be a reflector"
   default     = false
 }
 

@@ -15,6 +15,9 @@ variable "product_version" {
 
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
+  default = {
+    hostnames = []
+  }
 }
 
 variable "disable_firewall" {

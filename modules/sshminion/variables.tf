@@ -13,11 +13,6 @@ variable "product_version" {
   default     = null
 }
 
-variable "auto_connect_to_master" {
-  description = "whether this minion should automatically connect to the Salt Master upon deployment"
-  default     = false
-}
-
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default     = false
