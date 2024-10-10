@@ -385,7 +385,6 @@ module "build-host" {
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  avahi_reflector         = var.avahi_reflector
   install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
 
   additional_repos  = lookup(local.additional_repos, "build-host", {})
