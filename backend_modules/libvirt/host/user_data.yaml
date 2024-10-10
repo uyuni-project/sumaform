@@ -55,6 +55,8 @@ runcmd:
 %{ else }
   - "yum -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "centos8o" }
@@ -96,6 +98,10 @@ runcmd:
 %{ else }
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Base_backup.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Appstream_backup.repo"
 %{ endif }
 
 %{ if image == "centos9o" }
@@ -137,6 +143,10 @@ runcmd:
 %{ else }
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Base_backup.repo"
+  - "rm -f /etc/yum.repos.d/CentOS-Appstream_backup.repo"
 %{ endif }
 
 %{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro"}
@@ -177,6 +187,7 @@ runcmd:
 %{ else }
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp2o" }
@@ -204,6 +215,7 @@ runcmd:
 %{ else }
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
 %{ endif }
+  - "zypper removerepo os_pool_repo"
   # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
 %{ endif }
@@ -230,6 +242,7 @@ runcmd:
 %{ endif }
   # WORKAROUND: cloud-init in SLES 15 SP3 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp4o" }
@@ -254,6 +267,7 @@ runcmd:
 %{ endif }
   # WORKAROUND: cloud-init in SLES 15 SP4 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp5o" }
@@ -279,6 +293,7 @@ runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP5 does not take care of the following
   # TODO: Check!
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "sles15sp6o" }
@@ -304,6 +319,7 @@ runcmd:
   # WORKAROUND: cloud-init in SLES 15 SP6 does not take care of the following
   # TODO: Check!
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
+  - "zypper removerepo os_pool_repo"
 %{ endif }
 
 %{ if image == "slemicro55o" }
@@ -469,6 +485,7 @@ runcmd:
   - "apt-get -yq update"
   - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
@@ -514,6 +531,7 @@ runcmd:
   - "apt-get -yq update"
   - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
@@ -564,6 +582,7 @@ runcmd:
   - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif } # end Ubuntu 24.04
 
@@ -611,6 +630,7 @@ runcmd:
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
@@ -660,6 +680,7 @@ runcmd:
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent gnupg python3-apt"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
@@ -688,6 +709,8 @@ runcmd:
 %{ else }
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "almalinux8o" }
@@ -712,6 +735,8 @@ runcmd:
 %{ else }
   - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "almalinux9o" }
@@ -739,6 +764,8 @@ runcmd:
 %{ else }
   - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion dbus-tools"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "libertylinux9o" }
@@ -767,6 +794,8 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
   - dnf -y install venv-salt-minion
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 
 %{ endif }
 
@@ -792,6 +821,8 @@ runcmd:
 %{ else }
   - "dnf -y install avahi nss-mdns salt-minion dbus-tools"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "rocky9o" }
@@ -819,6 +850,8 @@ runcmd:
 %{ else }
   - "dnf -y install avahi nss-mdns salt-minion dbus-tools"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "oraclelinux8o" }
@@ -843,7 +876,10 @@ runcmd:
 %{ else }
   - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
+
 
 %{ if image == "oraclelinux9o" }
 yum_repos:
@@ -870,6 +906,8 @@ runcmd:
 %{ else }
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar"
 %{ endif }
+  - "rm -f /etc/yum.repos.d/tools_pool_repo.repo"
+  - "rm -f /etc/yum.repos.d/epel.repo"
 %{ endif }
 
 %{ if image == "opensuse155armo" || image == "opensuse156armo" }
