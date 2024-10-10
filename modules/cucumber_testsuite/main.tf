@@ -383,8 +383,12 @@ module "build-host" {
   image              = lookup(local.images, "build-host", "sles15sp4o")
   name               = lookup(local.names, "build-host", "min-build")
 
+  server_configuration = local.minimal_configuration
+
+  auto_connect_to_master  = false
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
+  avahi_reflector         = var.avahi_reflector
   install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
 
   additional_repos  = lookup(local.additional_repos, "build-host", {})
