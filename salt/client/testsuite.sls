@@ -10,7 +10,10 @@ client_cucumber_requisites:
       - spacewalk-client-setup
       - spacewalk-check
       - mgr-cfg-actions
+# Debian based systems don't come with curl installed, the test suite handles it with wget instead
+{% if grains['os_family'] == 'Debian' %}
       - wget
+{% endif %}
     - require:
       - sls: default
 
