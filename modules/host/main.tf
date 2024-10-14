@@ -25,6 +25,7 @@ module "host" {
   additional_disk_size          = var.additional_disk_size
   second_additional_disk_size   = var.second_additional_disk_size
   volume_provider_settings      = var.volume_provider_settings
+  product_version               = var.product_version
 
   grains = merge({ disable_firewall = var.disable_firewall },
   var.grains)
