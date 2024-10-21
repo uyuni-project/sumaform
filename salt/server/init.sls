@@ -1,6 +1,6 @@
 include:
   - scc.server
-  {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
+  {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') and grains['osfullname'] not in ['SLE Micro', 'SL-Micro'] %}
   - repos
   {% endif %}
   - server.additional_disk
@@ -19,7 +19,6 @@ include:
   - server.large_deployment
   - server.salt_master
   - server.tcpdump
-
 
 {% if 'paygo' not in grains.get('product_version') | default('', true) %}
 {% if 'uyuni' not in grains.get('product_version') %}
