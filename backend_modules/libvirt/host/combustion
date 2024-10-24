@@ -98,9 +98,9 @@ for i in ${additional_repos}; do
   name=$(echo $i | cut -d= -f1)
   url=$(echo $i | cut -d= -f2)
   %{ if product_version == "uyuni-pr" }
-    zypper ar --no-gpgcheck $url $name
+    zypper ar --no-gpgcheck -f -e $url $name
   %{ else }
-    zypper ar $url $name
+    zypper ar -f -e $url $name
   %{ endif }
 done
 
