@@ -74,7 +74,7 @@ ipv6_disable_all:
 {% endif %}
 
 {% if grains['osfullname'] in ['SLE Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
-{% set conname2 = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show eth1') %}
+{% set conname2 = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show eth1', ignore_retcode=true) %}
 {% if conname2 != '' %}
 enable_dhcp_on_eth1:
   cmd.run:
