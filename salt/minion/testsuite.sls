@@ -61,6 +61,7 @@ suse_minion_mgr_push_requisites:
     - pkgs:
       - hwdata
       - libgudev-1_0-0
+      - python3-dbus-python
       - python3-dmidecode
       - python3-extras
       - python3-hwdata
