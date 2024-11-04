@@ -26,6 +26,7 @@ helm:
   uyuni:
     chart: {{ grains.get("helm_chart_url") | default(helm_chart_default, true) }}
     values: /root/chart-values.yaml
+    namespace: uyuni
 {%- if grains.get("java_debugging") %}
 debug:
   java: true
