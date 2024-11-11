@@ -42,7 +42,7 @@ locals {
   names                     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "name", null) if var.host_settings[host_key] != null ? contains(keys(var.host_settings[host_key]), "name") : false }
   install_salt_bundle       = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "install_salt_bundle", false) if var.host_settings[host_key] != null }
+    host_key => lookup(var.host_settings[host_key], "install_salt_bundle", true) if var.host_settings[host_key] != null }
   server_mounted_mirror     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "server_mounted_mirror", {}) if var.host_settings[host_key] != null }
   sles_registration_code    = { for host_key in local.hosts :
@@ -88,7 +88,7 @@ module "server" {
 
   base_configuration             = module.base.configuration
   image                          = lookup(local.images, "server", "default")
-  name                           = lookup(local.names, "server", "srv")
+  name                           = lookup(local.names, "server", "server")
   auto_accept                    = false
   download_private_ssl_key       = false
   disable_firewall               = false
@@ -132,7 +132,7 @@ module "server_containerized" {
 
   base_configuration             = module.base.configuration
   image                          = lookup(local.images, "server_containerized", "default")
-  name                           = lookup(local.names, "server_containerized", "srv")
+  name                           = lookup(local.names, "server_containerized", "server")
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
   container_repository           = lookup(local.container_repositories, "server_containerized", "")
   container_tag                  = lookup(local.container_tags, "server_containerized", "")
@@ -175,7 +175,7 @@ module "proxy" {
 
   base_configuration = module.base.configuration
   image              = lookup(local.images, "proxy", "default")
-  name               = lookup(local.names, "proxy", "pxy")
+  name               = lookup(local.names, "proxy", "proxy")
 
   server_configuration      = { hostname = local.server_full_name, username = "admin", password = "admin" }
   auto_register             = false
@@ -205,7 +205,7 @@ module "proxy_containerized" {
 
   base_configuration     = module.base.configuration
   image                  = lookup(local.images, "proxy_containerized", "default")
-  name                   = lookup(local.names, "proxy_containerized", "pxy")
+  name                   = lookup(local.names, "proxy_containerized", "proxy")
 
   runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
   container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
@@ -233,155 +233,155 @@ module "proxy_containerized" {
 module "dhcp_dns" {
   source             = "../dhcp_dns"
 
-  quantity           = contains(local.hosts, "dhcp-dns") ? 1 : 0
+  quantity           = contains(local.hosts, "dhcp_dns") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "dhcp-dns", "opensuse155o")
-  name               = lookup(local.names, "dhcp-dns", "dhcp-dns")
+  image              = lookup(local.images, "dhcp_dns", "opensuse155o")
+  name               = lookup(local.names, "dhcp_dns", "dhcp-dns")
 
   private_hosts      = [ local.proxy_configuration, module.pxeboot_minion.configuration ]
 
-  hypervisor         = lookup(local.hypervisors, "dhcp-dns", null)
+  hypervisor         = lookup(local.hypervisors, "dhcp_dns", null)
 }
 
 module "suse_client" {
   source             = "../client"
 
-  quantity = contains(local.hosts, "suse-client") ? 1 : 0
+  quantity = contains(local.hosts, "suse_client") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "suse-client", "sles15sp4o")
-  name               = lookup(local.names, "suse-client", "cli-sles15")
+  image              = lookup(local.images, "suse_client", "sles15sp4o")
+  name               = lookup(local.names, "suse_client", "suse-client")
 
   server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "suse-client", null)
+  sles_registration_code = lookup(local.sles_registration_code, "suse_client", null)
 
   auto_register           = false
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "suse-client", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "suse_client", false)
 
-  additional_repos  = lookup(local.additional_repos, "suse-client", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse-client", false)
-  additional_packages = lookup(local.additional_packages, "suse-client", [])
-  provider_settings = lookup(local.provider_settings_by_host, "suse-client", {})
+  additional_repos  = lookup(local.additional_repos, "suse_client", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "suse_client", false)
+  additional_packages = lookup(local.additional_packages, "suse_client", [])
+  provider_settings = lookup(local.provider_settings_by_host, "suse_client", {})
 }
 
 module "suse_minion" {
   source             = "../minion"
 
-  quantity = contains(local.hosts, "suse-minion") ? 1 : 0
+  quantity = contains(local.hosts, "suse_minion") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "suse-minion", "sles15sp4o")
-  name               = lookup(local.names, "suse-minion", "min-sles15")
+  image              = lookup(local.images, "suse_minion", "sles15sp4o")
+  name               = lookup(local.names, "suse_minion", "suse-minion")
 
   server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "suse-minion", null)
+  sles_registration_code = lookup(local.sles_registration_code, "suse_minion", null)
 
   auto_connect_to_master  = false
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "suse-minion", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "suse_minion", false)
 
-  additional_repos  = lookup(local.additional_repos, "suse-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse-minion", false)
-  additional_packages = lookup(local.additional_packages, "suse-minion", [])
-  additional_grains = lookup(local.additional_grains, "suse-minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "suse-minion", {})
+  additional_repos  = lookup(local.additional_repos, "suse_minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "suse_minion", false)
+  additional_packages = lookup(local.additional_packages, "suse_minion", [])
+  additional_grains = lookup(local.additional_grains, "suse_minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "suse_minion", {})
 }
 
 module "suse_sshminion" {
   source = "../sshminion"
 
-  quantity = contains(local.hosts, "suse-sshminion") ? 1 : 0
+  quantity = contains(local.hosts, "suse_sshminion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "suse-sshminion", "sles15sp4o")
-  name               = lookup(local.names, "suse-sshminion", "minssh-sles15")
-  sles_registration_code = lookup(local.sles_registration_code, "suse-sshminion", null)
+  image              = lookup(local.images, "suse_sshminion", "sles15sp4o")
+  name               = lookup(local.names, "suse_sshminion", "suse-sshminion")
+  sles_registration_code = lookup(local.sles_registration_code, "suse_sshminion", null)
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
-  install_salt_bundle     = lookup(local.install_salt_bundle, "suse-sshminion", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "suse_sshminion", false)
 
-  additional_repos  = lookup(local.additional_repos, "suse-sshminion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse-sshminion", false)
-  additional_packages = lookup(local.additional_packages, "suse-sshminion", [])
-  provider_settings = lookup(local.provider_settings_by_host, "suse-sshminion", {})
+  additional_repos  = lookup(local.additional_repos, "suse_sshminion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "suse_sshminion", false)
+  additional_packages = lookup(local.additional_packages, "suse_sshminion", [])
+  provider_settings = lookup(local.provider_settings_by_host, "suse_sshminion", {})
 }
 
 module "slemicro_minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "slemicro-minion") ? 1 : 0
+  quantity = contains(local.hosts, "slemicro_minion") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "slemicro-minion", "slemicro55o")
-  name               = lookup(local.names, "slemicro-minion", "min-slemicro5")
+  image              = lookup(local.images, "slemicro_minion", "slemicro55o")
+  name               = lookup(local.names, "slemicro_minion", "slemicro-minion")
 
   server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "slemicro-minion", null)
+  sles_registration_code = lookup(local.sles_registration_code, "slemicro_minion", null)
 
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "slemicro-minion", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "slemicro_minion", false)
 
-  additional_repos  = lookup(local.additional_repos, "slemicro-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "slemicro-minion", false)
-  additional_packages = lookup(local.additional_packages, "slemicro-minion", ["avahi", "avahi-lang", "libavahi-common3", "libavahi-core7"])
-  additional_grains = lookup(local.additional_grains, "slemicro-minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "slemicro-minion", {})
+  additional_repos  = lookup(local.additional_repos, "slemicro_minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "slemicro_minion", false)
+  additional_packages = lookup(local.additional_packages, "slemicro_minion", ["avahi", "avahi-lang", "libavahi-common3", "libavahi-core7"])
+  additional_grains = lookup(local.additional_grains, "slemicro_minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "slemicro_minion", {})
 }
 
 module "redhat_minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "redhat-minion") ? 1 : 0
+  quantity = contains(local.hosts, "redhat_minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "redhat-minion", "rocky8o")
-  name               = lookup(local.names, "redhat-minion", "min-rocky8")
+  image              = lookup(local.images, "redhat_minion", "rocky8o")
+  name               = lookup(local.names, "redhat_minion", "rocky8-minion")
 
   server_configuration   = local.minimal_configuration
 
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "redhat-minion", false)
+  install_salt_bundle    = lookup(local.install_salt_bundle, "redhat_minion", false)
 
-  additional_repos  = lookup(local.additional_repos, "redhat-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "redhat-minion", false)
-  additional_packages = lookup(local.additional_packages, "redhat-minion", [])
-  additional_grains = lookup(local.additional_grains, "redhat-minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "redhat-minion", {})
+  additional_repos  = lookup(local.additional_repos, "redhat_minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "redhat_minion", false)
+  additional_packages = lookup(local.additional_packages, "redhat_minion", [])
+  additional_grains = lookup(local.additional_grains, "redhat_minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "redhat_minion", {})
 }
 
 module "debian_minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "debian-minion") ? 1 : 0
+  quantity = contains(local.hosts, "debian_minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "debian-minion", "ubuntu2204o")
-  name               = lookup(local.names, "debian-minion", "min-ubuntu2204")
+  image              = lookup(local.images, "debian_minion", "ubuntu2204o")
+  name               = lookup(local.names, "debian_minion", "ubuntu2204-minion")
 
   server_configuration   = local.minimal_configuration
 
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "debian-minion", false)
+  install_salt_bundle    = lookup(local.install_salt_bundle, "debian_minion", false)
 
-  additional_repos  = lookup(local.additional_repos, "debian-minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "debian-minion", false)
-  additional_packages = lookup(local.additional_packages, "debian-minion", [])
-  additional_grains = lookup(local.additional_grains, "debian-minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "debian-minion", {})
+  additional_repos  = lookup(local.additional_repos, "debian_minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "debian_minion", false)
+  additional_packages = lookup(local.additional_packages, "debian_minion", [])
+  additional_grains = lookup(local.additional_grains, "debian_minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "debian_minion", {})
 }
 
 module "build_host" {
   source = "../build_host"
 
-  quantity           = contains(local.hosts, "build-host") ? 1 : 0
+  quantity           = contains(local.hosts, "build_host") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "build-host", "sles15sp4o")
-  name               = lookup(local.names, "build-host", "min-build")
+  image              = lookup(local.images, "build_host", "sles15sp4o")
+  name               = lookup(local.names, "build_host", "build-minion")
 
   server_configuration = local.minimal_configuration
 
@@ -389,50 +389,50 @@ module "build_host" {
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   avahi_reflector         = var.avahi_reflector
-  install_salt_bundle     = lookup(local.install_salt_bundle, "build-host", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "build_host", false)
 
-  additional_repos  = lookup(local.additional_repos, "build-host", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "build-host", false)
-  additional_packages = lookup(local.additional_packages, "build-host", [])
-  provider_settings = lookup(local.provider_settings_by_host, "build-host", {})
+  additional_repos  = lookup(local.additional_repos, "build_host", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "build_host", false)
+  additional_packages = lookup(local.additional_packages, "build_host", [])
+  provider_settings = lookup(local.provider_settings_by_host, "build_host", {})
 }
 
 module "pxeboot_minion" {
   source = "../pxe_boot"
 
-  quantity = contains(local.hosts, "pxeboot-minion") ? 1 : 0
+  quantity = contains(local.hosts, "pxeboot_minion") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "pxeboot-minion", "sles15sp4o")
-  name               = lookup(local.names, "pxeboot-minion", "min-pxeboot")
+  image              = lookup(local.images, "pxeboot_minion", "sles15sp4o")
+  name               = lookup(local.names, "pxeboot_minion", "pxeboot-minion")
 
-  private_ip         = lookup(local.private_ip, "pxeboot-minion", 4)
-  private_name       = lookup(local.private_name, "pxeboot-minion", "pxeboot")
+  private_ip         = lookup(local.private_ip, "pxeboot_minion", 4)
+  private_name       = lookup(local.private_name, "pxeboot_minion", "pxeboot")
 
-  provider_settings  = lookup(local.provider_settings_by_host, "pxeboot-minion", {})
+  provider_settings  = lookup(local.provider_settings_by_host, "pxeboot_minion", {})
 }
 
 module "kvm_host" {
   source = "../virthost"
 
-  quantity = contains(local.hosts, "kvm-host") ? 1 : 0
+  quantity = contains(local.hosts, "kvm_host") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "kvm-host", "sles15sp4o")
-  name               = lookup(local.names, "kvm-host", "min-kvm")
+  image              = lookup(local.images, "kvm_host", "sles15sp4o")
+  name               = lookup(local.names, "kvm_host", "kvm-minion")
 
   server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "kvm-host", null)
+  sles_registration_code = lookup(local.sles_registration_code, "kvm_host", null)
 
   auto_connect_to_master  = false
   use_os_released_updates = true
   ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "kvm-host", false)
+  install_salt_bundle     = lookup(local.install_salt_bundle, "kvm_host", false)
 
-  additional_repos  = lookup(local.additional_repos, "kvm-host", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "kvm-host", false)
-  additional_packages = lookup(local.additional_packages, "kvm-host", [])
-  additional_grains = lookup(local.additional_grains, "kvm-host", {})
-  provider_settings = lookup(local.provider_settings_by_host, "kvm-host", {})
+  additional_repos  = lookup(local.additional_repos, "kvm_host", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "kvm_host", false)
+  additional_packages = lookup(local.additional_packages, "kvm_host", [])
+  additional_grains = lookup(local.additional_grains, "kvm_host", {})
+  provider_settings = lookup(local.provider_settings_by_host, "kvm_host", {})
 }
 
 module "monitoring_server" {
@@ -442,7 +442,7 @@ module "monitoring_server" {
 
   base_configuration = module.base.configuration
   image              = lookup(local.images, "monitoring_server", "sles15sp4o")
-  name               = lookup(local.names, "monitoring_server", "min-monitoring")
+  name               = lookup(local.names, "monitoring_server", "monitoring")
 
   server_configuration = local.minimal_configuration
   sles_registration_code = lookup(local.sles_registration_code, "monitoring_server", null)
