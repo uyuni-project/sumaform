@@ -461,7 +461,7 @@ module "monitoring_server" {
 
 module "controller" {
   source = "../controller"
-  name   = lookup(local.names, "controller", "ctl")
+  name   = lookup(local.names, "controller", "controller")
 
   base_configuration             = module.base.configuration
   server_configuration           = local.server_configuration
