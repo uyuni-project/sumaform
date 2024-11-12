@@ -331,48 +331,48 @@ module "slemicro_minion" {
   provider_settings = lookup(local.provider_settings_by_host, "slemicro_minion", {})
 }
 
-module "redhat_minion" {
+module "rhlike_minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "redhat_minion") ? 1 : 0
+  quantity = contains(local.hosts, "rhlike_minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "redhat_minion", "rocky8o")
-  name               = lookup(local.names, "redhat_minion", "rocky8-minion")
+  image              = lookup(local.images, "rhlike_minion", "rocky8o")
+  name               = lookup(local.names, "rhlike_minion", "rhlike-minion")
 
   server_configuration   = local.minimal_configuration
 
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "redhat_minion", false)
+  install_salt_bundle    = lookup(local.install_salt_bundle, "rhlike_minion", false)
 
-  additional_repos  = lookup(local.additional_repos, "redhat_minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "redhat_minion", false)
-  additional_packages = lookup(local.additional_packages, "redhat_minion", [])
-  additional_grains = lookup(local.additional_grains, "redhat_minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "redhat_minion", {})
+  additional_repos  = lookup(local.additional_repos, "rhlike_minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "rhlike_minion", false)
+  additional_packages = lookup(local.additional_packages, "rhlike_minion", [])
+  additional_grains = lookup(local.additional_grains, "rhlike_minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "rhlike_minion", {})
 }
 
-module "debian_minion" {
+module "deblike_minion" {
   source = "../minion"
 
-  quantity = contains(local.hosts, "debian_minion") ? 1 : 0
+  quantity = contains(local.hosts, "deblike_minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "debian_minion", "ubuntu2204o")
-  name               = lookup(local.names, "debian_minion", "ubuntu2204-minion")
+  image              = lookup(local.images, "deblike_minion", "ubuntu2204o")
+  name               = lookup(local.names, "deblike_minion", "deblike-minion")
 
   server_configuration   = local.minimal_configuration
 
   auto_connect_to_master = false
   ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "debian_minion", false)
+  install_salt_bundle    = lookup(local.install_salt_bundle, "deblike_minion", false)
 
-  additional_repos  = lookup(local.additional_repos, "debian_minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "debian_minion", false)
-  additional_packages = lookup(local.additional_packages, "debian_minion", [])
-  additional_grains = lookup(local.additional_grains, "debian_minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "debian_minion", {})
+  additional_repos  = lookup(local.additional_repos, "deblike_minion", {})
+  additional_repos_only  = lookup(local.additional_repos_only, "deblike_minion", false)
+  additional_packages = lookup(local.additional_packages, "deblike_minion", [])
+  additional_grains = lookup(local.additional_grains, "deblike_minion", {})
+  provider_settings = lookup(local.provider_settings_by_host, "deblike_minion", {})
 }
 
 module "build_host" {
@@ -470,8 +470,9 @@ module "controller" {
   minion_configuration           = contains(local.hosts, "suse_minion") ? module.suse_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   sshminion_configuration        = contains(local.hosts, "suse_sshminion") ? module.suse_sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   slemicro_minion_configuration  = contains(local.hosts, "slemicro_minion") ? module.slemicro_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  redhat_configuration           = contains(local.hosts, "redhat_minion") ? module.redhat_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  debian_configuration           = contains(local.hosts, "debian_minion") ? module.debian_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  # TODO: rename redhat_configuration and debian_configuration to rhlike_configuration and deblike_configuration once the renaming is done: https://github.com/SUSE/spacewalk/issues/25062
+  redhat_configuration           = contains(local.hosts, "rhlike_minion") ? module.rhlike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  debian_configuration           = contains(local.hosts, "deblike_minion") ? module.deblike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   buildhost_configuration        = contains(local.hosts, "build_host") ? module.build_host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   pxeboot_configuration          = contains(local.hosts, "pxeboot_minion") ? module.pxeboot_minion.configuration : { private_mac = null, private_ip = null, private_name = null, image = null }
   kvmhost_configuration          = contains(local.hosts, "kvm_host") ? module.kvm_host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
@@ -505,8 +506,8 @@ output "configuration" {
     slemicro_minion = module.slemicro_minion.configuration
     suse_minion = module.suse_minion.configuration
     suse_sshminion = module.suse_sshminion.configuration
-    redhat_minion = module.redhat_minion.configuration
-    debian_minion = module.debian_minion.configuration
+    rhlike_minion = module.rhlike_minion.configuration
+    deblike_minion = module.deblike_minion.configuration
     build_host = module.build_host.configuration
     pxeboot_minion = module.pxeboot_minion.configuration
     kvm_host = module.kvm_host.configuration
