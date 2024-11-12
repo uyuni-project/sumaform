@@ -418,7 +418,7 @@ module "kvm_host" {
 
   base_configuration = module.base.configuration
   image              = lookup(local.images, "kvm_host", "sles15sp4o")
-  name               = lookup(local.names, "kvm_host", "kvm-minion")
+  name               = lookup(local.names, "kvm_host", "kvm-host")
 
   server_configuration = local.minimal_configuration
   sles_registration_code = lookup(local.sles_registration_code, "kvm_host", null)
