@@ -19,8 +19,8 @@ module "base" {
 }
 
 locals {
-  server_full_name          = "${var.name_prefix}srv.${var.domain}"
-  proxy_full_name           = "${var.name_prefix}pxy.${var.domain}"
+  server_full_name          = "${var.name_prefix}server.${var.domain}"
+  proxy_full_name           = "${var.name_prefix}proxy.${var.domain}"
 
   hosts                     = keys(var.host_settings)
   provider_settings_by_host = { for host_key in local.hosts :
@@ -419,7 +419,7 @@ module "kvm_host" {
 
   base_configuration = module.base.configuration
   image              = lookup(local.images, "kvm_host", "sles15sp4o")
-  name               = lookup(local.names, "kvm_host", "kvm-minion")
+  name               = lookup(local.names, "kvm_host", "kvm-host")
 
   server_configuration = local.minimal_configuration
   sles_registration_code = lookup(local.sles_registration_code, "kvm_host", null)
@@ -462,7 +462,7 @@ module "monitoring_server" {
 
 module "controller" {
   source = "../controller"
-  name   = lookup(local.names, "controller", "ctl")
+  name   = lookup(local.names, "controller", "controller")
 
   base_configuration             = module.base.configuration
   server_configuration           = local.server_configuration
