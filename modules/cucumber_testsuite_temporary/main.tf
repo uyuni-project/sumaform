@@ -381,7 +381,7 @@ module "build_host" {
   quantity           = contains(local.hosts, "build_host") ? 1 : 0
   base_configuration = module.base.configuration
   image              = lookup(local.images, "build_host", "sles15sp4o")
-  name               = lookup(local.names, "build_host", "build-minion")
+  name               = lookup(local.names, "build_host", "build-host")
 
   server_configuration = local.minimal_configuration
 
