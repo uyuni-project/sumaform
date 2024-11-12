@@ -19,8 +19,8 @@ module "base" {
 }
 
 locals {
-  server_full_name          = "${var.name_prefix}srv.${var.domain}"
-  proxy_full_name           = "${var.name_prefix}pxy.${var.domain}"
+  server_full_name          = "${var.name_prefix}server.${var.domain}"
+  proxy_full_name           = "${var.name_prefix}proxy.${var.domain}"
 
   hosts                     = keys(var.host_settings)
   provider_settings_by_host = { for host_key in local.hosts :
