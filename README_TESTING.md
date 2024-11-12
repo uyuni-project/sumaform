@@ -138,9 +138,9 @@ host_settings = {
   }
   suse_sshminion = {
   }
-  redhat_minion = {
+  redlike_minion = {
   }
-  debian_minion = {
+  deblike_minion = {
   }
   build_host = {
   }
