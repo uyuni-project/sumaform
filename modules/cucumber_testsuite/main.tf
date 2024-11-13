@@ -163,6 +163,8 @@ module "server_containerized" {
   provider_settings             = lookup(local.provider_settings_by_host, "server_containerized", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
   main_disk_size                = lookup(local.main_disk_size, "server_containerized", 200)
+  repository_disk_size          = lookup(local.repository_disk_size, "server", 0)
+  database_disk_size            = lookup(local.database_disk_size, "server", 0)
   large_deployment              = lookup(local.large_deployment, "server_containerized", false)
 }
 
@@ -189,11 +191,12 @@ module "proxy" {
   ssh_key_path              = "./salt/controller/id_rsa.pub"
   install_salt_bundle = lookup(local.install_salt_bundle, "proxy", false)
 
-  additional_repos  = lookup(local.additional_repos, "proxy", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "proxy", false)
-  additional_packages = lookup(local.additional_packages, "proxy", [])
-  main_disk_size      = lookup(local.main_disk_size, "proxy", 200)
-  provider_settings = lookup(local.provider_settings_by_host, "proxy", {})
+  additional_repos      = lookup(local.additional_repos, "proxy", {})
+  additional_repos_only = lookup(local.additional_repos_only, "proxy", false)
+  additional_packages   = lookup(local.additional_packages, "proxy", [])
+  main_disk_size        = lookup(local.main_disk_size, "proxy", 200)
+  repository_disk_size  = lookup(local.repository_disk_size, "proxy", 0)
+  provider_settings     = lookup(local.provider_settings_by_host, "proxy", {})
 }
 
 module "proxy_containerized" {
@@ -225,9 +228,8 @@ module "proxy_containerized" {
   additional_repos_only  = lookup(local.additional_repos_only, "proxy_containerized", false)
   additional_packages    = lookup(local.additional_packages, "proxy_containerized", [])
   main_disk_size         = lookup(local.main_disk_size, "proxy_containerized", 200)
-  provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
   repository_disk_size   = lookup(local.repository_disk_size, "proxy_containerized", 0)
-  database_disk_size     = lookup(local.database_disk_size, "proxy_containerized", 0)
+  provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
 }
 
 module "dhcp-dns" {

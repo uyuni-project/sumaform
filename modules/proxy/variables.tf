@@ -131,7 +131,7 @@ variable "main_disk_size" {
 }
 
 variable "repository_disk_size" {
-  description = "Size of an aditional disk for /var/spacewalk partition, defined in GiB"
+  description = "Size of an additional disk for /var/spacewalk partition, defined in GiB"
   default     = 0
 }
 
