@@ -163,6 +163,8 @@ module "server_containerized" {
   provider_settings             = lookup(local.provider_settings_by_host, "server_containerized", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
   main_disk_size                = lookup(local.main_disk_size, "server_containerized", 200)
+  repository_disk_size          = lookup(local.repository_disk_size, "server", 0)
+  database_disk_size            = lookup(local.database_disk_size, "server", 0)
   large_deployment              = lookup(local.large_deployment, "server_containerized", false)
 }
 
