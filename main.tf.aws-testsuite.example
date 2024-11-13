@@ -31,15 +31,15 @@ module "cucumber_testsuite" {
     controller = {}
     server = {}
     proxy = {}
-    suse-client = {
+    suse_client = {
       image = "opensuse154"
       name = "cli-opensuse154"
     }
-    suse-minion = {
+    suse_minion = {
       image = "opensuse154"
       name = "min-opensuse154"
     }
-    suse-sshminion = {
+    suse_sshminion = {
       image = "opensuse154"
       name = "minssh-opensuse154"
     }
@@ -69,24 +69,24 @@ output "aws_proxy_private_name" {
   value = module.cucumber_testsuite.configuration.proxy.hostname
 }
 
-output "aws_suse-minion_private_names" {
-  value = module.cucumber_testsuite.configuration.suse-minion.hostnames
+output "aws_suse_minion_private_names" {
+  value = module.cucumber_testsuite.configuration.suse_minion.hostnames
 }
 
-output "aws_suse-client_private_names" {
-  value = module.cucumber_testsuite.configuration.suse-client.hostnames
+output "aws_suse_client_private_names" {
+  value = module.cucumber_testsuite.configuration.suse_client.hostnames
 }
 
-output "aws_suse-sshminion_private_names" {
-  value = module.cucumber_testsuite.configuration.suse-sshminion.hostnames
+output "aws_suse_sshminion_private_names" {
+  value = module.cucumber_testsuite.configuration.suse_sshminion.hostnames
 }
 
-output "aws_redhat-minion_private_names" {
-  value = module.cucumber_testsuite.configuration.redhat-minion.hostnames
+output "aws_rhlike_minion_private_names" {
+  value = module.cucumber_testsuite.configuration.rhlike_minion.hostnames
 }
 
-output "aws_debian-minion_private_names" {
-  value = module.cucumber_testsuite.configuration.debian-minion.hostnames
+output "aws_deblike_minion_private_names" {
+  value = module.cucumber_testsuite.configuration.deblike_minion.hostnames
 }
 
 output "aws_controller_private_name" {
