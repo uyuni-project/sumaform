@@ -1,3 +1,13 @@
+{% if "-bundle" in grains['fqdn'] %}
+set_bundle_salt_test:
+  cmd.run:
+    - name: alternatives --set salt-test /usr/lib/venv-salt-minion/bin/salt-test
+{% else %}
+set_non_bundle_salt_test:
+  cmd.run:
+    - name: alternatives --set salt-test /usr/bin/salt-test-3.{{ grains["pythonversion"][1] }}
+{% endif %}
+
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
 copy_salt_classic_testsuite:
   cmd.run:
