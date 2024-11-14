@@ -136,7 +136,6 @@ module "server_containerized" {
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
   container_repository           = lookup(local.container_repositories, "server_containerized", "")
   container_tag                  = lookup(local.container_tags, "server_containerized", "")
-  helm_chart_url                 = lookup(local.helm_chart_urls, "server_containerized", "")
   auto_accept                    = false
   download_private_ssl_key       = false
   disable_firewall               = false
