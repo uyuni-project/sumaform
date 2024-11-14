@@ -237,7 +237,7 @@ Initializing provider plugins...
 ╷
 │ Error: Failed to install provider
 │ 
-│ Error while installing dmacvicar/libvirt v0.6.3: the local package for registry.terraform.io/dmacvicar/libvirt 0.6.3 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
+│ Error while installing dmacvicar/libvirt v0.6.3: the local package for registry.terraform.io/dmacvicar/libvirt 0.8.1 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
 │ targeting different platforms)
 ```
 
