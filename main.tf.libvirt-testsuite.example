@@ -97,9 +97,6 @@ module "cucumber_testsuite" {
 
       # Override where to get the containers from
       # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
-
-      # Override where to get the helm chart from
-      # helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni/server-helm"
     }
     proxy = {
       name = "proxy"

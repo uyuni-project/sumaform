@@ -23,9 +23,3 @@ helm_install:
     - refresh: True
     - name: helm
 {% endif %}
-
-chart_values_file:
-  file.managed:
-    - name: /root/chart-values.yaml
-    - source: salt://server_containerized/chart-values.yaml
-    - template: jinja

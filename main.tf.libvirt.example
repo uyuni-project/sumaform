@@ -54,9 +54,6 @@ module "server" {
 
   // To define a specific container image tag to install
   // container_tag = 
-
-  // To override the URL to the helm chart to install
-  // helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/charts/uyuni/server"
 }
 
 module "minion" {
