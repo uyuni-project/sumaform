@@ -4,7 +4,7 @@ include:
 {% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
 # TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES <= SLES15SP4
-{% if grains['osfullname'] == 'SLES' and grains['osrelease'] != '15.5' and grains['osrelease'] != '15.4' %}
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] != '15.6' and grains['osrelease'] != '15.5' and grains['osrelease'] != '15.4' %}
 custom_avahi_repo:
   pkgrepo.managed:
     - humanname: custom_avahi_repo
