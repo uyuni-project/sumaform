@@ -255,7 +255,7 @@ data "aws_ami" "sles12sp5-paygo" {
 
 data "aws_ami" "rocky8" {
   most_recent = true
-  name_regex  = "^Rocky-8-EC2-8"
+  name_regex  = "^Rocky-8-EC2-Base-8"
   owners      = ["792107900819"]
 
   filter {
