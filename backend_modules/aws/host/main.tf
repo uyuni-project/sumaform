@@ -86,6 +86,7 @@ resource "aws_instance" "instance" {
 
   root_block_device {
     volume_size = local.provider_settings["volume_size"]
+    volume_type = "gp3"
   }
 
   user_data = data.template_file.user_data[count.index].rendered
