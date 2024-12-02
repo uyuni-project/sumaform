@@ -138,7 +138,7 @@ host_settings = {
   }
   suse_sshminion = {
   }
-  redlike_minion = {
+  rhlike_minion = {
   }
   deblike_minion = {
   }
