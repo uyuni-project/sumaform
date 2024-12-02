@@ -112,11 +112,11 @@ host_settings = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
   }
-  suse-client = {
+  suse_client = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
   }
-  suse-minion = {
+  suse_minion = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
   }
@@ -132,23 +132,23 @@ Several test hosts are optional and can be activated via a `host_settings` block
 host_settings = {
   proxy = {
   }
-  suse-client = {
+  suse_client = {
   }
-  suse-minion = {
+  suse_minion = {
   }
-  suse-sshminion = {
+  suse_sshminion = {
   }
-  redhat-minion = {
+  redlike_minion = {
   }
-  debian-minion = {
+  deblike_minion = {
   }
-  build-host = {
+  build_host = {
   }
-  pxeboot-minion = {
+  pxeboot_minion = {
   }
-  kvm-host = {
+  kvm_host = {
   }
-  monitoring-server = {
+  monitoring_server = {
   }
 }
 ```
@@ -157,9 +157,9 @@ The default value for `host_settings` block has a SUSE family traditional client
 
 ```hcl
 host_settings = {
-  suse-client = {
+  suse_client = {
   }
-  suse-minion = {
+  suse_minion = {
   }
 }
 ```
@@ -290,7 +290,7 @@ You may need to change the KVM image download. To do it, use the `additional_gra
 
 ```hcl
 host_settings = {
-  kvm-host = {
+  kvm_host = {
     additional_grains = {
       hvm_disk_image = {
         leap = {

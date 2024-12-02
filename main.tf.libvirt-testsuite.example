@@ -70,7 +70,7 @@ module "cucumber_testsuite" {
   # define which VMs should be created and adjust their settings.
   # if you do not need a minion just comment it out.
   # example:
-  # suse-minion = {
+  # suse_minion = {
   #    image = "sles15sp4o"
   #    name = "minion"
   #    provider_settings = {
@@ -101,38 +101,38 @@ module "cucumber_testsuite" {
     proxy = {
       name = "proxy"
     }
-    suse-client = {
+    suse_client = {
       image = "sles15sp4o"
     }
-    suse-minion = {
+    suse_minion = {
       image = "sles15sp4o"
       name = "minion"
     }
-    suse-sshminion = {
+    suse_sshminion = {
       image = "sles15sp4o"
       name = "sshminion"
     }
-    redhat-minion = {
+    rhlike_minion = {
       image = "centos7o"
       name = "centos"
     }
-    debian-minion = {
+    deblike_minion = {
       image = "ubuntu2204o"
       name = "ubuntu"
     }
-    build-host = {
+    build_host = {
       image = "sles15sp4o"
       name = "build"
     }
-    pxeboot-minion = {
+    pxeboot_minion = {
       image = "sles15sp4o"
       name = "pxeboot"
     }
-    kvm-host = {
+    kvm_host = {
       image = "opensuse156o"
       name = "kvmhost"
     }
-    monitoring-server = {
+    monitoring_server = {
       image = "sles15sp4o"
       name = "monitoring"
     }
