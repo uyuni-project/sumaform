@@ -189,6 +189,27 @@ data "aws_ami" "suma-server-43-ltd-paygo" {
   }
 }
 
+// EMEA offer
+data "aws_ami" "suma-server-50-ltd-paygo" {
+  most_recent = true
+  name_regex  = "^suse-manager-server-5-0-v.*(ltd).*$"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
 
 data "aws_ami" "suma-proxy-43-byos" {
   most_recent = true
