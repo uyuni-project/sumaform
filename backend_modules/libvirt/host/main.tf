@@ -185,7 +185,7 @@ resource "libvirt_domain" "domain" {
           "mac"            = local.provider_settings["mac"]
         },
         {
-          "wait_for_lease" = false
+          "wait_for_lease" = true
           "network_name"   = null
           "network_id"     = var.base_configuration["additional_network_id"]
           "bridge"         = null
