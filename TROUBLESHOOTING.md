@@ -232,12 +232,12 @@ Initializing provider plugins...
 - Reusing previous version of hashicorp/null from the dependency lock file
 - Reusing previous version of hashicorp/template from the dependency lock file
 - Using previously-installed hashicorp/template v2.2.0
-- Installing dmacvicar/libvirt v0.6.3...
+- Installing dmacvicar/libvirt v0.8.1...
 - Using previously-installed hashicorp/null v3.1.0
 ╷
 │ Error: Failed to install provider
 │ 
-│ Error while installing dmacvicar/libvirt v0.6.3: the local package for registry.terraform.io/dmacvicar/libvirt 0.6.3 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
+│ Error while installing dmacvicar/libvirt v0.8.1: the local package for registry.terraform.io/dmacvicar/libvirt 0.8.1 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
 │ targeting different platforms)
 ```
 
