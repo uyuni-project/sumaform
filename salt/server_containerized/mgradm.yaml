@@ -38,3 +38,5 @@ admin:
   firstName: Admin
   lastName: Admin
   email: galaxy-noise@suse.de
+tz:
+  Europe/Berlin
