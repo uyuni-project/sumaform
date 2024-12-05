@@ -253,6 +253,27 @@ data "aws_ami" "suma-proxy-43-byos" {
   }
 }
 
+data "aws_ami" "suma-proxy-50-byos" {
+  most_recent = true
+  name_regex  = "^suse-manager-proxy-5-0-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles12sp5" {
   most_recent = true
   name_regex  = "^suse-sles-12-sp5-byos-v"
