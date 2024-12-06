@@ -1,4 +1,8 @@
 base:
+  {% if 'paygo' in grains.get('product_version', '').lower() %}
+  '*':
+    - noop  # No-op state when 'paygo' is found
+  {% else %}
   '*':
     - default
 
@@ -61,3 +65,4 @@ base:
   'roles:salt_testenv':
     - match: grain
     - salt_testenv
+  {% endif %}
