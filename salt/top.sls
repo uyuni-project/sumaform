@@ -1,5 +1,8 @@
 base:
-  {% if 'paygo' not in grains.get('product_version', '') %}
+  {% if 'paygo' in grains.get('product_version', '').lower() %}
+  '*':
+    - noop  # No-op state when 'paygo' is found
+  {% else %}
   '*':
     - default
 
