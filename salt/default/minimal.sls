@@ -1,3 +1,4 @@
+{% if 'paygo' not in grains.get('product_version', '') %}
 include:
   {% if grains['hostname'] and grains['domain'] %}
   - default.hostname
@@ -38,4 +39,5 @@ minimal_package_update:
       {% endif %}
 {% endif %}
     - order: last
+{% endif %}
 {% endif %}
