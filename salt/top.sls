@@ -1,4 +1,5 @@
 base:
+  {% if 'paygo' not in grains.get('product_version', '') %}
   '*':
     - default
 
@@ -61,3 +62,4 @@ base:
   'roles:salt_testenv':
     - match: grain
     - salt_testenv
+  {% endif %}
