@@ -134,3 +134,8 @@ variable "additional_grains" {
   description = "custom grain string to be added to this minion's configuration"
   default     = {}
 }
+
+variable "use_os_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default     = true
+}

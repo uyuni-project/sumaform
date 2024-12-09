@@ -23,7 +23,7 @@ module "proxy_containerized" {
   base_configuration            = var.base_configuration
   image                         = var.image == "default" || local.product_version == "head" ? var.images[local.product_version] : var.image
   name                          = var.name
-  use_os_released_updates       = true
+  use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   ssh_key_path                  = var.ssh_key_path
   additional_repos              = var.additional_repos
