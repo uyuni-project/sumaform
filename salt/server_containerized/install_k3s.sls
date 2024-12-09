@@ -23,3 +23,19 @@ helm_install:
     - refresh: True
     - name: helm
 {% endif %}
+
+{%- set mirror_hostname = grains.get('server_mounted_mirror', grains.get('mirror')) %}
+{% if mirror_hostname %}
+mirror_pv_file:
+  file.managed:
+    - name: /root/mirror-pv.yaml
+    - source: salt://server_containerized/mirror-pv.yaml
+    - template: jinja
+
+mirror_pv_deploy:
+  cmd.run:
+    - name: kubectl apply -f /root/mirror-pv.yaml
+    - unless: kubectl get pv mirror
+    - require:
+      - file: mirror_pv_file
+{% endif %}
