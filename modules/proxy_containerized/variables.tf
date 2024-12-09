@@ -139,3 +139,9 @@ variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default     = true
 }
+
+variable "provision" {
+  description = "Indicates whether servers should be provisioned or not"
+  type        = bool
+  default     = true
+}
