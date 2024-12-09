@@ -338,3 +338,9 @@ variable "quantity" {
   description = "number of hosts like this one"
   default     = 1
 }
+
+variable "provision" {
+  description = "Indicates whether servers should be provisioned or not"
+  type        = bool
+  default     = true
+}
