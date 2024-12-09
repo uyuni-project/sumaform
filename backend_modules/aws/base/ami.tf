@@ -251,6 +251,11 @@ data "aws_ami" "suma-server-50-ltd-paygo" {
     name   = "root-device-type"
     values = ["ebs"]
   }
+
+  filter {
+    name   = "product-code"
+    values = ["8ysfelcfs2dkok3fba4s5uqo4"]
+  }
 }
 
 // EMEA offer
@@ -272,6 +277,11 @@ data "aws_ami" "suma-server-50-arm64-ltd-paygo" {
   filter {
     name   = "root-device-type"
     values = ["ebs"]
+  }
+
+  filter {
+    name   = "product-code"
+    values = ["umnofojstehgl6jnp9nspg7g"]
   }
 }
 
