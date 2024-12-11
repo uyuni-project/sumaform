@@ -24,7 +24,7 @@ helm_install:
     - name: helm
 {% endif %}
 
-{%- set mirror_hostname = grains.get('server_mounted_mirror', grains.get('mirror')) %}
+{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 {% if mirror_hostname %}
 mirror_pv_file:
   file.managed:
