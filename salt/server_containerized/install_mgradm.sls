@@ -10,10 +10,6 @@ mgradm_config:
 {% set runtime = grains.get('container_runtime') | default('podman', true) %}
 {% set install_cmd = 'kubernetes' if runtime == 'k3s' else 'podman' %}
 
-podman_login:
-  cmd.run:
-    - name: podman login -u {{ grains.get('cc_username') }} -p {{ grains.get('cc_password') }} {{ grains.get("container_repository") }}
-
 mgradm_install:
   cmd.run:
     - name: mgradm install {{ install_cmd }} --logLevel=debug --config /root/mgradm.yaml {{ grains.get("fqdn") }}

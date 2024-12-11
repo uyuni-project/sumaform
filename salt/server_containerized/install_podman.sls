@@ -14,6 +14,10 @@ podman_packages:
       {% endif %}
 {% endif %}
 
+podman_login:
+  cmd.run:
+    - name: podman login -u {{ grains.get('cc_username') }} -p {{ grains.get('cc_password') }} {{ grains.get("container_repository") }}
+
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
