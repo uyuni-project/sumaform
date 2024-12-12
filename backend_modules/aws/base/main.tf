@@ -80,7 +80,7 @@ locals {
       suma-server-43-byos             = { ami = data.aws_ami.suma-server-43-byos.image_id },
       suma-server-43-ltd-paygo        = { ami = data.aws_ami.suma-server-43-ltd-paygo.image_id },
       suma-server-43-llc-paygo        = { ami = data.aws_ami.suma-server-43-llc-paygo.image_id },
-      suma-server-50-ltd-paygo        = { ami = data.aws_ami.suma-server-50-ltd-paygo.image_id },
+      suma-server-50-x86_64-ltd-paygo = { ami = data.aws_ami.suma-server-50-x86_64-ltd-paygo.image_id },
       suma-server-50-arm64-ltd-paygo  = { ami = data.aws_ami.suma-server-50-arm64-ltd-paygo.image_id },
       suma-proxy-43-byos              = { ami = data.aws_ami.suma-proxy-43-byos.image_id },
       suma-proxy-50-byos              = { ami = data.aws_ami.suma-proxy-50-byos.image_id },

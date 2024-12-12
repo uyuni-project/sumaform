@@ -232,7 +232,7 @@ data "aws_ami" "suma-server-43-ltd-paygo" {
 }
 
 // EMEA offer
-data "aws_ami" "suma-server-50-ltd-paygo" {
+data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
   most_recent = true
   name_regex  = "^SUSE-Manager-Server-5\\.0.*"
   owners      = ["679593333241"]
