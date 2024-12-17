@@ -1,5 +1,4 @@
 locals {
-#   ami = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ami", var.image)
   ami = lookup(
     lookup(var.base_configuration["ami_info"], var.image, { "ami" = var.image }),
     "ami",
