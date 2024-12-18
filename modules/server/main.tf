@@ -46,6 +46,7 @@ module "server" {
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
   product_version               = var.product_version
+  provision                     = var.provision
 
   grains = {
     cc_username            = var.base_configuration["cc_username"]
