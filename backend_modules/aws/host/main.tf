@@ -1,5 +1,9 @@
 locals {
-  ami = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ami", var.image)
+  ami = lookup(
+    lookup(var.base_configuration["ami_info"], var.image, { "ami" = var.image }),
+    "ami",
+    var.image
+  )
 
   provider_settings = merge({
     key_name        = var.base_configuration["key_name"]

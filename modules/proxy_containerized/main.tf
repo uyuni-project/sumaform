@@ -23,7 +23,7 @@ module "proxy_containerized" {
   base_configuration            = var.base_configuration
   image                         = var.image == "default" || local.product_version == "head" ? var.images[local.product_version] : var.image
   name                          = var.name
-  use_os_released_updates       = true
+  use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   ssh_key_path                  = var.ssh_key_path
   additional_repos              = var.additional_repos
@@ -33,6 +33,7 @@ module "proxy_containerized" {
   additional_disk_size          = var.repository_disk_size
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
+  provision                     = var.provision
 
   grains = {
     server                    = var.server_configuration["hostname"]
@@ -48,6 +49,7 @@ module "proxy_containerized" {
     main_disk_size            = var.main_disk_size
     repository_disk_size      = var.repository_disk_size
     database_disk_size        = var.database_disk_size
+    proxy_registration_code   = var.proxy_registration_code
   }
 }
 

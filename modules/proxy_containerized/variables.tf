@@ -134,3 +134,19 @@ variable "additional_grains" {
   description = "custom grain string to be added to this minion's configuration"
   default     = {}
 }
+
+variable "use_os_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default     = true
+}
+
+variable "provision" {
+  description = "Indicates whether servers should be provisioned or not"
+  type        = bool
+  default     = true
+}
+
+variable "proxy_registration_code" {
+  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
+  default     = null
+}
