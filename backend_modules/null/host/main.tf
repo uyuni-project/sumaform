@@ -29,5 +29,6 @@ output "configuration" {
     hostnames    = ["domain"]
     macaddrs     = []
     public_names = []
+    ipaddrs      = []
   }
 }
