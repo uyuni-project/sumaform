@@ -1,7 +1,7 @@
 {% if 'server_containerized' in grains.get('roles')  %}
 
 {% if grains.get("os") == 'SUSE' %}
-{% if grains['osfullname'] == 'SLE Micro' %}
+{% if grains['osfullname'] == 'SL-Micro' %}
 
 
 # Commented out because we already add this repo in cloud-init:

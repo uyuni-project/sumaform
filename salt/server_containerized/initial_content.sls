@@ -13,7 +13,7 @@ first_user_set_password:
     - name: mgrctl exec 'echo -e "{{ server_password }}\\n{{ server_password }}" | satpasswd -s {{ server_username }}'
     - require:
       - cmd: mgradm_install
-{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
+{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
 {% endif %}

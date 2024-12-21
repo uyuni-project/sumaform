@@ -2,7 +2,7 @@
 
 variable "images" {
   default = {
-    "head"           = "slemicro55o"
+    "head"           = "slmicro61o"
     "5.0-released"   = "slemicro55o"
     "5.0-nightly"    = "slemicro55o"
     "uyuni-master"   = "leapmicro55o"
