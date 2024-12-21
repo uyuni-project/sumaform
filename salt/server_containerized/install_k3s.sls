@@ -1,7 +1,7 @@
 include:
   - server_containerized.install_common
 
-{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
+{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
 k3s_install:
   cmd.run:
     - name: curl -sfL https://get.k3s.io | sh -
