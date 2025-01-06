@@ -174,5 +174,10 @@ PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa
 
 zypper --non-interactive install $PACKAGES
 
+%{ if testsuite }
+# full update cause a timeout on deployment
+zypper --non-interactive update --no-recommends iptables
+%{ endif }
+
 # Leave a marker
 echo "Configured with combustion" > /etc/issue.d/combustion
