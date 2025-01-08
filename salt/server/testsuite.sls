@@ -46,7 +46,7 @@ another_test_repo:
 test_repo_debian_updates:
   cmd.script:
     - name: salt://server/download_ubuntu_repo.sh
-    - args: "TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
+    - args: "/srv/www TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
     - creates: /srv/www/htdocs/pub/TestRepoDebUpdates/Release
     - require:
       - pkg: testsuite_packages

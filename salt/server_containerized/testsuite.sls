@@ -50,20 +50,15 @@ test_repo_debian_updates_script:
     - source: salt://server/download_ubuntu_repo.sh
     - mode: 755
 
-test_repo_debian_updates_script_copy:
-  cmd.run:
-    - name: "mgrctl cp /root/download_ubuntu_repo.sh server:/root/download_ubuntu_repo.sh"
-
 test_repo_debian_updates:
   cmd.run:
-    - name: mgrctl exec /root/download_ubuntu_repo.sh "TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/"
+    - name: /root/download_ubuntu_repo.sh /var/lib/containers/storage/volumes/srv-www/_data TestRepoDebUpdates {{ grains.get('mirror') | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/
     - unless: mgrctl exec "ls -d /srv/www/htdocs/pub/TestRepoDebUpdates"
     - require:
-      - cmd: test_repo_debian_updates_script_copy
+      - file: test_repo_debian_updates_script
 {% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
       - pkg: uyuni-tools
 {% endif %}
-      - cmd: testsuite_packages
 
 # modify cobbler to be executed from remote-machines..
 cobbler_configuration:
@@ -117,19 +112,6 @@ suse_staging_key_import:
     - name: "mgradm gpg add -f /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
-{% endif %}
-
-testsuite_refresh_repos:
-  cmd.run:
-    - name: mgrctl exec "zypper --non-interactive --gpg-auto-import-keys refresh --force; exit 0"
-
-testsuite_packages:
-  cmd.run:
-    - name: mgrctl exec "zypper -n in iputils expect wget OpenIPMI"
-    - require:
-      - cmd: testsuite_refresh_repos
-{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
-      - pkg: uyuni-tools
 {% endif %}
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "5.0-nightly", "5.0-released"] %}
