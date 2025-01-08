@@ -149,6 +149,10 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
+%{ if container_server && testsuite }
+  # Packages needed for the testsuite
+  - "zypper -n in expect"
+%{ endif }
 %{ if install_salt_bundle }
   - "zypper -n in venv-salt-minion avahi nss-mdns"
 %{ else }
