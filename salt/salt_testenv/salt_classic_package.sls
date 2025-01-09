@@ -137,3 +137,9 @@ start_docker_service:
 
 {% endif %}
 
+
+{% if grains['osfullname'] == 'SLES' and '15.3' == grains['osrelease'] %}
+update_buggy_pyzmq_version:
+  pkg.latest:
+    - name: python3-pyzmq
+{% endif %}
