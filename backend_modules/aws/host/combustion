@@ -1,0 +1,49 @@
+#!/bin/bash
+# combustion: network prepare
+set -euxo pipefail
+
+function nm_config() {
+  connectiondir="/etc/NetworkManager/system-connections"
+  connectionfile="$connectiondir/Wired connection $1.nmconnection"
+  mkdir -p "$connectiondir"
+  cat > "$connectionfile" <<EOF
+[connection]
+id=Wired connection $1
+type=ethernet
+interface-name=$2
+
+[ipv4]
+method=$3
+
+[ipv6]
+addr-gen-mode=eui64
+method=auto
+EOF
+  chmod go-r "$connectionfile"
+}
+
+# Name the Network Manager connections (preparation phase in initrd)
+if [ "$${1-}" = "--prepare" ]; then
+  nm_config 1 eth0 auto
+  nm_config 2 eth1 manual
+  exit 0
+fi
+
+# Redirect output to the console
+exec > >(exec tee -a /var/log/combustion) 2>&1
+
+# Name the Network Manager connections (final phase on real filesystem)
+nm_config 1 eth0 auto
+nm_config 2 eth1 manual
+
+# Set linux as password for root
+echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
+
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config
+echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config
+echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOSLK0kJAulwO9Qwm/DVKLsGzv8Fh+ZcGe5x5d+VzO4/+xKnxjOPvGVngm9Hki8N436bCCvIRqwzstDUyJnTHhEe3qzsl02QGqIIfVjzK3BEp4sA8XcmByBy3pxqbTjAjrW8a+n43DBRMx4J86LgywX3fFt8ceEym3rFer/IzQD9QvKRocycNCwhpmGKEDh4zdl9PdyU5RcUpiA01AD/8rdJMNYnUxIsaNElcgP2LSzROjNdyu11cq9h3/cb3b7oRRef718GOkIkzqL/szo4Mm/j4KfyG0SBWyPxlJktFADD3lcQIRrGakFhiZOFbg2HZci26q+l/hUfLMbzcBrWlc+gzY4z4LMF8YBy1x/x+yR4j1SzZuqempSRu7rDKevcIGBF/fALPyiXH2EzYKsVcN9nv5mFCjmwVK7WTjw1SFzufKwdmnvOYgyeYuMaOJv3LEBY1jJg8r4xqzuQx32KNK/iJz1E+njptV3ZhOYDiHBmieykP08nWxdS79N1DbljxRzS54T7CArfGo23nYTNlMewPeKFx7ZqtUVv03g8i1Hn8WdArz2TYciWWrPErBEALBpXsu7Oq5AT97wAhcAIf3B3dV5p/bXgnhALA/SodNBf/wr0U2f5VzTDyJ9eNZURt16jSxDgXkuKKY/rimLqqt2FC1SeicmTql1nVyHG3j9Q== root@controller" > /root/.ssh/authorized_keys
+
+# Add a public ssh key and enable sshd
+systemctl enable sshd.service
+systemctl enable sshd.service
