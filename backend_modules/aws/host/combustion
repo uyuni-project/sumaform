@@ -46,4 +46,4 @@ echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOSLK0kJAulwO9Qwm/DVKLsGzv8Fh+ZcGe5x
 
 # Add a public ssh key and enable sshd
 systemctl enable sshd.service
-systemctl enable sshd.service
+systemctl restart sshd.service
