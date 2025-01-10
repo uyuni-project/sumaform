@@ -47,23 +47,11 @@ locals {
   second_data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme2n1"
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
-
-  combustion_images  = ["suma-proxy-50-byos"]
-  combustion = contains(local.combustion_images, var.image)
 }
 
 data "template_file" "user_data" {
+  count    = var.quantity > 0 ? var.quantity : 0
   template = file("${path.module}/user_data.yaml")
-  vars = {
-    image                    = var.image
-    public_instance          = local.provider_settings["public_instance"]
-    mirror_url               = var.base_configuration["mirror"]
-    install_salt_bundle      = var.install_salt_bundle
-  }
-}
-
-data "template_file" "combustion" {
-  template = file("${path.module}/combustion")
   vars = {
     image                    = var.image
     public_instance          = local.provider_settings["public_instance"]
@@ -105,8 +93,7 @@ resource "aws_instance" "instance" {
     volume_type = "gp3"
   }
 
-#   user_data = data.template_file.user_data[count.index].rendered
-  user_data = local.combustion ? data.template_file.combustion.rendered : data.template_file.user_data.rendered
+  user_data = data.template_file.user_data[count.index].rendered
 
   # WORKAROUND: ephemeral block devices are defined in any case
   # they will only be used for instance types that provide them
