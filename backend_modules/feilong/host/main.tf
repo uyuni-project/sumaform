@@ -27,7 +27,7 @@ resource "feilong_guest" "s390_guest" {
   name       = "${local.name_prefix}${var.name}"
 
   memory     = local.provider_settings["memory"]
-  disk       = "12G"
+  disk       = "10G"
   vcpus      = local.provider_settings["vcpu"]
   image      = var.image
   userid     = local.provider_settings["userid"]
