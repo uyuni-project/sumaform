@@ -104,7 +104,7 @@ module "server" {
   disable_auto_bootstrap         = false
   forward_registration           = false
   monitored                      = true
-  use_os_released_updates        = true
+  use_os_released_updates        = false
   beta_enabled                   = lookup(local.beta_enabled, "server", false)
   install_salt_bundle            = lookup(local.install_salt_bundle, "server", true)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
@@ -148,7 +148,7 @@ module "server_containerized" {
   publish_private_ssl_key        = false
   disable_download_tokens        = false
   //forward_registration           = false
-  use_os_released_updates        = true
+  use_os_released_updates        = false
   beta_enabled                   = lookup(local.beta_enabled, "server_containerized", false)
   install_salt_bundle            = lookup(local.install_salt_bundle, "server_containerized", true)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
@@ -186,7 +186,7 @@ module "proxy" {
   auto_configure            = false
   generate_bootstrap_script = false
   publish_private_ssl_key   = false
-  use_os_released_updates   = true
+  use_os_released_updates   = false
   ssh_key_path              = "./salt/controller/id_rsa.pub"
   install_salt_bundle = lookup(local.install_salt_bundle, "proxy", true)
 
@@ -256,7 +256,7 @@ module "suse_client" {
   sles_registration_code = lookup(local.sles_registration_code, "suse_client", null)
 
   auto_register           = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse_client", true)
 
@@ -278,7 +278,7 @@ module "suse_minion" {
   sles_registration_code = lookup(local.sles_registration_code, "suse_minion", null)
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse_minion", true)
 
@@ -299,7 +299,7 @@ module "suse_sshminion" {
   name               = lookup(local.names, "suse_sshminion", "suse-sshminion")
   sles_registration_code = lookup(local.sles_registration_code, "suse_sshminion", null)
 
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse_sshminion", true)
@@ -321,7 +321,7 @@ module "slemicro_minion" {
   server_configuration = local.minimal_configuration
   sles_registration_code = lookup(local.sles_registration_code, "slemicro_minion", null)
 
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "slemicro_minion", true)
 
@@ -387,7 +387,7 @@ module "build_host" {
   server_configuration = local.minimal_configuration
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   avahi_reflector         = var.avahi_reflector
   install_salt_bundle     = lookup(local.install_salt_bundle, "build_host", true)
@@ -425,7 +425,7 @@ module "kvm_host" {
   sles_registration_code = lookup(local.sles_registration_code, "kvm_host", null)
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "kvm_host", true)
 
@@ -449,7 +449,7 @@ module "monitoring_server" {
   sles_registration_code = lookup(local.sles_registration_code, "monitoring_server", null)
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "monitoring_server", true)
 
