@@ -218,17 +218,17 @@ module "proxy_containerized" {
                               password = "admin",
                               create_first_user = lookup(local.create_first_user, "server_containerized", false) }
 
-  auto_configure         = lookup(local.auto_configure, "proxy_containerized", false)
+  auto_configure          = lookup(local.auto_configure, "proxy_containerized", false)
 
-  ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "proxy_containerized", true)
-
-  additional_repos       = lookup(local.additional_repos, "proxy_containerized", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "proxy_containerized", false)
-  additional_packages    = lookup(local.additional_packages, "proxy_containerized", [])
-  main_disk_size         = lookup(local.main_disk_size, "proxy_containerized", 200)
-  repository_disk_size   = lookup(local.repository_disk_size, "proxy_containerized", 0)
-  provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "proxy_containerized", true)
+  use_os_released_updates = false
+  additional_repos        = lookup(local.additional_repos, "proxy_containerized", {})
+  additional_repos_only   = lookup(local.additional_repos_only, "proxy_containerized", false)
+  additional_packages     = lookup(local.additional_packages, "proxy_containerized", [])
+  main_disk_size          = lookup(local.main_disk_size, "proxy_containerized", 200)
+  repository_disk_size    = lookup(local.repository_disk_size, "proxy_containerized", 0)
+  provider_settings       = lookup(local.provider_settings_by_host, "proxy_containerized", {})
 }
 
 module "dhcp_dns" {
@@ -343,9 +343,10 @@ module "rhlike_minion" {
 
   server_configuration   = local.minimal_configuration
 
-  auto_connect_to_master = false
-  ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "rhlike_minion", true)
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "rhlike_minion", true)
 
   additional_repos  = lookup(local.additional_repos, "rhlike_minion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "rhlike_minion", false)
@@ -365,15 +366,16 @@ module "deblike_minion" {
 
   server_configuration   = local.minimal_configuration
 
-  auto_connect_to_master = false
-  ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "deblike_minion", true)
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "deblike_minion", true)
 
-  additional_repos  = lookup(local.additional_repos, "deblike_minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "deblike_minion", false)
-  additional_packages = lookup(local.additional_packages, "deblike_minion", [])
-  additional_grains = lookup(local.additional_grains, "deblike_minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "deblike_minion", {})
+  additional_repos      = lookup(local.additional_repos, "deblike_minion", {})
+  additional_repos_only = lookup(local.additional_repos_only, "deblike_minion", false)
+  additional_packages   = lookup(local.additional_packages, "deblike_minion", [])
+  additional_grains     = lookup(local.additional_grains, "deblike_minion", {})
+  provider_settings     = lookup(local.provider_settings_by_host, "deblike_minion", {})
 }
 
 module "build_host" {
