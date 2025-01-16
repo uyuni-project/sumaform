@@ -104,7 +104,7 @@ module "server" {
   disable_auto_bootstrap         = false
   forward_registration           = false
   monitored                      = true
-  use_os_released_updates        = true
+  use_os_released_updates        = false
   beta_enabled                   = lookup(local.beta_enabled, "server", false)
   install_salt_bundle            = lookup(local.install_salt_bundle, "server", true)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
@@ -148,7 +148,7 @@ module "server_containerized" {
   publish_private_ssl_key        = false
   disable_download_tokens        = false
   //forward_registration           = false
-  use_os_released_updates        = true
+  use_os_released_updates        = false
   beta_enabled                   = lookup(local.beta_enabled, "server_containerized", false)
   install_salt_bundle            = lookup(local.install_salt_bundle, "server_containerized", true)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
@@ -186,7 +186,7 @@ module "proxy" {
   auto_configure            = false
   generate_bootstrap_script = false
   publish_private_ssl_key   = false
-  use_os_released_updates   = true
+  use_os_released_updates   = false
   ssh_key_path              = "./salt/controller/id_rsa.pub"
   install_salt_bundle = lookup(local.install_salt_bundle, "proxy", true)
 
@@ -218,17 +218,17 @@ module "proxy_containerized" {
                               password = "admin",
                               create_first_user = lookup(local.create_first_user, "server_containerized", false) }
 
-  auto_configure         = lookup(local.auto_configure, "proxy_containerized", false)
+  auto_configure          = lookup(local.auto_configure, "proxy_containerized", false)
 
-  ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "proxy_containerized", true)
-
-  additional_repos       = lookup(local.additional_repos, "proxy_containerized", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "proxy_containerized", false)
-  additional_packages    = lookup(local.additional_packages, "proxy_containerized", [])
-  main_disk_size         = lookup(local.main_disk_size, "proxy_containerized", 200)
-  repository_disk_size   = lookup(local.repository_disk_size, "proxy_containerized", 0)
-  provider_settings      = lookup(local.provider_settings_by_host, "proxy_containerized", {})
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "proxy_containerized", true)
+  use_os_released_updates = false
+  additional_repos        = lookup(local.additional_repos, "proxy_containerized", {})
+  additional_repos_only   = lookup(local.additional_repos_only, "proxy_containerized", false)
+  additional_packages     = lookup(local.additional_packages, "proxy_containerized", [])
+  main_disk_size          = lookup(local.main_disk_size, "proxy_containerized", 200)
+  repository_disk_size    = lookup(local.repository_disk_size, "proxy_containerized", 0)
+  provider_settings       = lookup(local.provider_settings_by_host, "proxy_containerized", {})
 }
 
 module "dhcp_dns" {
@@ -256,7 +256,7 @@ module "suse_client" {
   sles_registration_code = lookup(local.sles_registration_code, "suse_client", null)
 
   auto_register           = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse_client", true)
 
@@ -278,7 +278,7 @@ module "suse_minion" {
   sles_registration_code = lookup(local.sles_registration_code, "suse_minion", null)
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse_minion", true)
 
@@ -299,7 +299,7 @@ module "suse_sshminion" {
   name               = lookup(local.names, "suse_sshminion", "suse-sshminion")
   sles_registration_code = lookup(local.sles_registration_code, "suse_sshminion", null)
 
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
   install_salt_bundle     = lookup(local.install_salt_bundle, "suse_sshminion", true)
@@ -321,7 +321,7 @@ module "slemicro_minion" {
   server_configuration = local.minimal_configuration
   sles_registration_code = lookup(local.sles_registration_code, "slemicro_minion", null)
 
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "slemicro_minion", true)
 
@@ -343,9 +343,10 @@ module "rhlike_minion" {
 
   server_configuration   = local.minimal_configuration
 
-  auto_connect_to_master = false
-  ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "rhlike_minion", true)
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "rhlike_minion", true)
 
   additional_repos  = lookup(local.additional_repos, "rhlike_minion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "rhlike_minion", false)
@@ -365,15 +366,16 @@ module "deblike_minion" {
 
   server_configuration   = local.minimal_configuration
 
-  auto_connect_to_master = false
-  ssh_key_path           = "./salt/controller/id_rsa.pub"
-  install_salt_bundle    = lookup(local.install_salt_bundle, "deblike_minion", true)
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_rsa.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "deblike_minion", true)
 
-  additional_repos  = lookup(local.additional_repos, "deblike_minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "deblike_minion", false)
-  additional_packages = lookup(local.additional_packages, "deblike_minion", [])
-  additional_grains = lookup(local.additional_grains, "deblike_minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "deblike_minion", {})
+  additional_repos      = lookup(local.additional_repos, "deblike_minion", {})
+  additional_repos_only = lookup(local.additional_repos_only, "deblike_minion", false)
+  additional_packages   = lookup(local.additional_packages, "deblike_minion", [])
+  additional_grains     = lookup(local.additional_grains, "deblike_minion", {})
+  provider_settings     = lookup(local.provider_settings_by_host, "deblike_minion", {})
 }
 
 module "build_host" {
@@ -387,7 +389,7 @@ module "build_host" {
   server_configuration = local.minimal_configuration
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   avahi_reflector         = var.avahi_reflector
   install_salt_bundle     = lookup(local.install_salt_bundle, "build_host", true)
@@ -425,7 +427,7 @@ module "kvm_host" {
   sles_registration_code = lookup(local.sles_registration_code, "kvm_host", null)
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "kvm_host", true)
 
@@ -449,7 +451,7 @@ module "monitoring_server" {
   sles_registration_code = lookup(local.sles_registration_code, "monitoring_server", null)
 
   auto_connect_to_master  = false
-  use_os_released_updates = true
+  use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_rsa.pub"
   install_salt_bundle     = lookup(local.install_salt_bundle, "monitoring_server", true)
 
