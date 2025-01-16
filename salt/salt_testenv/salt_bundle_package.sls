@@ -36,6 +36,9 @@
     {% if grains['osrelease'] == '6.0' %}
         {% set repo_path = 'SLMicro60' %}
     {% endif %}
+    {% if grains['osrelease'] == '6.1' %}
+        {% set repo_path = 'SLMicro61' %}
+    {% endif %}
 {% endif %}
 
 {% if grains['salt_obs_flavor'] != 'saltstack' %}
