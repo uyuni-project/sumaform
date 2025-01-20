@@ -102,6 +102,8 @@ module "controller" {
     slemicro55_sshminion = length(var.slemicro55_sshminion_configuration["hostnames"]) > 0 ? var.slemicro55_sshminion_configuration["hostnames"][0] : null
     slmicro60_minion     = length(var.slmicro60_minion_configuration["hostnames"]) > 0 ? var.slmicro60_minion_configuration["hostnames"][0] : null
     slmicro60_sshminion  = length(var.slmicro60_sshminion_configuration["hostnames"]) > 0 ? var.slmicro60_sshminion_configuration["hostnames"][0] : null
+    slmicro61_minion     = length(var.slmicro61_minion_configuration["hostnames"]) > 0 ? var.slmicro61_minion_configuration["hostnames"][0] : null
+    slmicro61_sshminion  = length(var.slmicro61_sshminion_configuration["hostnames"]) > 0 ? var.slmicro61_sshminion_configuration["hostnames"][0] : null
     centos7_minion       = length(var.centos7_minion_configuration["hostnames"]) > 0 ? var.centos7_minion_configuration["hostnames"][0] : null
     centos7_sshminion    = length(var.centos7_sshminion_configuration["hostnames"]) > 0 ? var.centos7_sshminion_configuration["hostnames"][0] : null
     centos7_client       = length(var.centos7_client_configuration["hostnames"]) > 0 ? var.centos7_client_configuration["hostnames"][0] : null

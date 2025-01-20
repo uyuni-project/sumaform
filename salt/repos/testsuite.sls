@@ -17,7 +17,7 @@ uyuni_key_for_fake_packages:
     - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror-ci-bv.mgr.prv.suse.net", true) }}/uyuni.key
 {% endif %}
 
-{% if not (grains['osfullname'] in ['SL-Micro'] and grains['osrelease'] in ['6.0']) and not (grains['osfullname'] in ['openSUSE Leap Micro'] and grains['osrelease'] in ['5.5']) %}
+{% if not (grains['osfullname'] in ['SLE-Micro', 'SL-Micro', 'openSUSE Leap Micro']) %}
 test_repo_rpm_pool:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/

@@ -105,7 +105,7 @@ repo_key_import:
     - onchanges:
       - file: galaxy_key_copy_host
 
-# needed for SL Micro 6.0 maintenance updates coming from staging e.g.
+# needed for SL Micro maintenance updates coming from staging e.g.
 # https://download.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
 suse_staging_key_copy_host:
   file.managed:
