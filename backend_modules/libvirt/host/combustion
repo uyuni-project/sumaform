@@ -159,7 +159,7 @@ PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
 %{ endif }
 
 %{ if container_proxy }
-PACKAGES="$PACKAGES  mgrpxy"
+PACKAGES="$PACKAGES mgrpxy"
 %{ endif }
 
 %{ if install_salt_bundle }
