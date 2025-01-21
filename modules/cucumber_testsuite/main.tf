@@ -332,28 +332,6 @@ module "slemicro_minion" {
   provider_settings = lookup(local.provider_settings_by_host, "slemicro_minion", {})
 }
 
-module "slmicro_minion" {
-  source = "../minion"
-
-  quantity = contains(local.hosts, "slmicro_minion") ? 1 : 0
-  base_configuration = module.base.configuration
-  image              = lookup(local.images, "slmicro_minion", "slmicro61o")
-  name               = lookup(local.names, "slmicro_minion", "slmicro-minion")
-
-  server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "slmicro_minion", null)
-
-  use_os_released_updates = true
-  ssh_key_path            = "./salt/controller/id_rsa.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "slmicro_minion", true)
-
-  additional_repos  = lookup(local.additional_repos, "slmicro_minion", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "slmicro_minion", false)
-  additional_packages = lookup(local.additional_packages, "slmicro_minion", ["avahi", "avahi-lang", "libavahi-common3", "libavahi-core7"])
-  additional_grains = lookup(local.additional_grains, "slmicro_minion", {})
-  provider_settings = lookup(local.provider_settings_by_host, "slmicro_minion", {})
-}
-
 module "rhlike_minion" {
   source = "../minion"
 
@@ -492,8 +470,6 @@ module "controller" {
   client_configuration           = contains(local.hosts, "suse_client") ? module.suse_client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   minion_configuration           = contains(local.hosts, "suse_minion") ? module.suse_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   sshminion_configuration        = contains(local.hosts, "suse_sshminion") ? module.suse_sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  slemicro_minion_configuration  = contains(local.hosts, "slemicro_minion") ? module.slemicro_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  slmicro_minion_configuration   = contains(local.hosts, "slmicro_minion") ? module.slmicro_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   # TODO: rename redhat_configuration and debian_configuration to rhlike_configuration and deblike_configuration once the renaming is done: https://github.com/SUSE/spacewalk/issues/25062
   redhat_configuration           = contains(local.hosts, "rhlike_minion") ? module.rhlike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   debian_configuration           = contains(local.hosts, "deblike_minion") ? module.deblike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
@@ -527,8 +503,6 @@ output "configuration" {
     server = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
     proxy = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
     suse_client = module.suse_client.configuration
-    slemicro_minion = module.slemicro_minion.configuration
-    slmicro_minion = module.slmicro_minion.configuration
     suse_minion = module.suse_minion.configuration
     suse_sshminion = module.suse_sshminion.configuration
     rhlike_minion = module.rhlike_minion.configuration
