@@ -472,7 +472,6 @@ module "controller" {
   client_configuration           = contains(local.hosts, "suse_client") ? module.suse_client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   minion_configuration           = contains(local.hosts, "suse_minion") ? module.suse_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   sshminion_configuration        = contains(local.hosts, "suse_sshminion") ? module.suse_sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  slemicro_minion_configuration  = contains(local.hosts, "slemicro_minion") ? module.slemicro_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   # TODO: rename redhat_configuration and debian_configuration to rhlike_configuration and deblike_configuration once the renaming is done: https://github.com/SUSE/spacewalk/issues/25062
   redhat_configuration           = contains(local.hosts, "rhlike_minion") ? module.rhlike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   debian_configuration           = contains(local.hosts, "deblike_minion") ? module.deblike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
@@ -506,7 +505,6 @@ output "configuration" {
     server = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
     proxy = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
     suse_client = module.suse_client.configuration
-    slemicro_minion = module.slemicro_minion.configuration
     suse_minion = module.suse_minion.configuration
     suse_sshminion = module.suse_sshminion.configuration
     rhlike_minion = module.rhlike_minion.configuration

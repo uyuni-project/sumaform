@@ -54,14 +54,6 @@ variable "minion_configuration" {
   }
 }
 
-variable "slemicro_minion_configuration" {
-  description = "use module.<SLE_MICRO_MINION_NAME>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    ids       = []
-    hostnames = []
-  }
-}
-
 variable "buildhost_configuration" {
   description = "use module.<BUILDHOST_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -352,8 +344,22 @@ variable "slmicro60_minion_configuration" {
   }
 }
 
+variable "slmicro61_minion_configuration" {
+  description = "use module.<SLMICRO61_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "slmicro60_sshminion_configuration" {
   description = "use module.<SLMICRO60_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "slmicro61_sshminion_configuration" {
+  description = "use module.<SLMICRO61_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
