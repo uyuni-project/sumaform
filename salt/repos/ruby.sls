@@ -10,7 +10,7 @@ ruby_add_devel_repository:
 ruby_gems_add_devel_repository:
     pkgrepo.managed:
       - name: ruby_devel_extensions
-      - baseurl: http://download.opensuse.org/repositories/devel:/languages:/ruby:/extensions/15.5/
+      - baseurl: http://download.opensuse.org/repositories/devel:/languages:/ruby:/extensions/15.6/
       - refresh: True
       - gpgautoimport: True
 
