@@ -61,6 +61,9 @@ resource "libvirt_network" "additional_network" {
   name      = "${var.name_prefix}private"
   mode      = "none"
   addresses = [local.additional_network]
+  dns {
+    enabled = "false"
+  }
   dhcp {
     enabled = "false"
   }
