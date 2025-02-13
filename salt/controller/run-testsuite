@@ -30,6 +30,7 @@ if [ -z "$1" ]; then
   stage sanity_check
   stage core
   stage reposync
+  stage proxy
   stage init_clients
   stage secondary
   stage secondary_parallelizable
@@ -41,6 +42,7 @@ if [ "$1" = "parallel" ]; then
   parallel_stage sanity_check
   stage core
   stage reposync
+  stage proxy
   parallel_stage init_clients
   stage secondary
   parallel_stage secondary_parallelizable
@@ -52,6 +54,7 @@ if [ "$1" = "essential" ]; then
   stage sanity_check
   stage core
   stage reposync
+  stage proxy
   stage init_clients
 fi
 
