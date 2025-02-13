@@ -9,7 +9,7 @@
 
 **Terraform version**: 1.0.10
 
-**Libvirt provider version**: 0.6.3
+**Libvirt provider version**: 0.8.1
 
 NOTE: to deploy development versions of SUSE Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
 
