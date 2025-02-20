@@ -89,10 +89,19 @@ salt_testing_repo:
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ grains["salt_obs_flavor"] }}/{{ repo_path }}/repodata/repomd.xml.key
 
 {% set salt_minion_is_installed = salt["pkg.info_installed"]("salt-minion").get("salt-minion", False) %}
+
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SL-Micro', 'openSUSE Tumbleweed'] %}
+{% set salt_classic_pkgs = "python311-salt-testsuite python311-salt" %}
+{% set salt_test_executor = "python311-salt-test" %}
+{% else %}
+{% set salt_classic_pkgs = "python3-salt-testsuite python3-salt" %}
+{% set salt_test_executor = "python3-salt-test" %}
+{% endif %}
+
 install_salt_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test python3-salt
+    - name: transactional-update -c -n pkg in {{ salt_classic_pkgs }} {{ salt_test_executor }}
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
@@ -100,11 +109,11 @@ install_salt_testsuite:
     {% if salt_minion_is_installed %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
+        zypper --non-interactive in --force --from salt_testing_repo {{ salt_classic_pkgs }} salt salt-minion
     {% else %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
+        zypper --non-interactive in --force --from salt_testing_repo {{ salt_classic_pkgs }} salt
     {% endif %}
     - fromrepo: salt_testing_repo
 {% endif %}
@@ -115,7 +124,7 @@ install_salt_testsuite:
 install_salt_tests_executor:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in python3-salt-test
+    - name: transactional-update -c -n pkg in {{ salt_test_executor }}
 {% else %}
   pkg.installed:
     - pkgs:
