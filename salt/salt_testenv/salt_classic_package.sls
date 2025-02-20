@@ -91,8 +91,8 @@ salt_testing_repo:
 {% set salt_minion_is_installed = salt["pkg.info_installed"]("salt-minion").get("salt-minion", False) %}
 
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SL-Micro', 'openSUSE Tumbleweed'] %}
-{% set salt_classic_pkgs = "python311-salt-testsuite python311-salt" %}
-{% set salt_test_executor = "python311-salt-test" %}
+{% set salt_classic_pkgs = "python3{{ grains['pythonversion'][1] }}-salt-testsuite python3{{ grains['pythonversion'][1] }}-salt" %}
+{% set salt_test_executor = "python3{{ grains['pythonversion'][1] }}-salt-test" %}
 {% else %}
 {% set salt_classic_pkgs = "python3-salt-testsuite python3-salt" %}
 {% set salt_test_executor = "python3-salt-test" %}
