@@ -90,18 +90,18 @@ salt_testing_repo:
 
 {% set salt_minion_is_installed = salt["pkg.info_installed"]("salt-minion").get("salt-minion", False) %}
 
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SL-Micro', 'openSUSE Tumbleweed'] %}
-{% set salt_classic_pkgs = "python3{{ grains['pythonversion'][1] }}-salt-testsuite python3{{ grains['pythonversion'][1] }}-salt" %}
-{% set salt_test_executor = "python3{{ grains['pythonversion'][1] }}-salt-test" %}
-{% else %}
-{% set salt_classic_pkgs = "python3-salt-testsuite python3-salt" %}
-{% set salt_test_executor = "python3-salt-test" %}
-{% endif %}
+salt_version_testing_repo:
+  cmd.run:
+    - name: zypper search -x -t package -s --repo salt_testing_repo salt | grep "| salt |" | cut -d"|" -f4 | tr -d ' ' > /tmp/salt_version_testing_repo
+    - require:
+      - pkgrepo: salt_testing_repo
 
 install_salt_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in {{ salt_classic_pkgs }} {{ salt_test_executor }}
+    - name: |
+        SALT_VERSION=`cat /tmp/salt_version_testing_repo`
+        transactional-update -c -n pkg in --capability python3-salt-testsuite-$SALT_VERSION python3-salt-test python3-salt-$SALT_VERSION
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
@@ -109,22 +109,24 @@ install_salt_testsuite:
     {% if salt_minion_is_installed %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo {{ salt_classic_pkgs }} salt salt-minion
+        SALT_VERSION=`cat /tmp/salt_version_testing_repo`
+        zypper --non-interactive in --capability --from salt_testing_repo python3-salt-$SALT_VERSION salt-$SALT_VERSION python3-salt-testsuite-$SALT_VERSION salt-minion-$SALT_VERSION
     {% else %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo {{ salt_classic_pkgs }} salt
+        SALT_VERSION=`cat /tmp/salt_version_testing_repo`
+        zypper --non-interactive in --capability --from salt_testing_repo python3-salt-$SALT_VERSION salt-$SALT_VERSION python3-salt-testsuite-$SALT_VERSION
     {% endif %}
-    - fromrepo: salt_testing_repo
 {% endif %}
     - require:
       - pkgrepo: salt_testsuite_dependencies_repo
       - pkgrepo: salt_testing_repo
+      - cmd: salt_version_testing_repo
 
 install_salt_tests_executor:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in {{ salt_test_executor }}
+    - name: transactional-update -c -n pkg in python3-salt-test
 {% else %}
   pkg.installed:
     - pkgs:
