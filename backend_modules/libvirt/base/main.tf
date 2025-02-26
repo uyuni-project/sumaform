@@ -28,7 +28,6 @@ locals {
     ubuntu2004o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
     ubuntu2204o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
     ubuntu2404o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/noble/current/noble-server-cloudimg-amd64.img"
-    debian11o                = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.debian.org"}/images/cloud/bullseye/latest/debian-11-genericcloud-amd64.qcow2"
     debian12o                = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.debian.org"}/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
     opensuse155-ci-pro       = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse155-ci-pr.x86_64.qcow2"
     slemicro51-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_51/SUSE-MicroOS.x86_64-sumaform.qcow2"
