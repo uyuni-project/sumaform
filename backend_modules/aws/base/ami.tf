@@ -411,6 +411,27 @@ data "aws_ami" "rocky9" {
   }
 }
 
+data "aws_ami" "ubuntu2004" {
+  most_recent = true
+  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-focal-20.04"
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "ubuntu2204" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
@@ -432,9 +453,9 @@ data "aws_ami" "ubuntu2204" {
   }
 }
 
-data "aws_ami" "ubuntu2004" {
+data "aws_ami" "ubuntu2404" {
   most_recent = true
-  name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-focal-20.04"
+  name_regex  = "^ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04"
   owners      = ["099720109477"]
 
   filter {
