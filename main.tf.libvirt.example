@@ -33,7 +33,7 @@ module "base" {
   //   pool = "default"
   // }
 
-  images = ["opensuse155o"]
+  images = ["opensuse155o", "leapmicro55o"]
 }
 
 module "server" {
