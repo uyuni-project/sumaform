@@ -26,7 +26,7 @@ runcmd:
 
 %{ endif }
 
-%{ if image == "sles15"}
+%{ if image == "sles15" }
 zypper:
   repos:
     - id: os_pool_repo
@@ -63,7 +63,7 @@ packages: ["salt-minion"]
 
 %{ endif }
 
-%{ if image == "sles12sp5"}
+%{ if image == "sles12sp5" }
 zypper:
   repos:
     - id: tools_pool_repo
@@ -75,7 +75,7 @@ zypper:
 packages: ["venv-salt-minion"]
 %{ endif }
 
-%{ if image == "rhel9"}
+%{ if image == "rhel9" }
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -92,7 +92,7 @@ runcmd:
   - systemctl restart sshd
 
 %{ endif }
-%{ if image == "rhel8"}
+%{ if image == "rhel8" }
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -105,7 +105,7 @@ yum_repos:
 packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif }
 
-%{ if image == "rocky8"}
+%{ if image == "rocky8" }
 runcmd:
   - |
     cat <<EOF > /etc/yum.repos.d/temp_tools_pool_repo.repo
@@ -121,7 +121,7 @@ runcmd:
   - dnf -y install venv-salt-minion
 %{ endif }
 
-%{ if image == "centos7" || image == "rhel7"}
+%{ if image == "centos7" || image == "rhel7" }
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:

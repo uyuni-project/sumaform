@@ -120,7 +120,7 @@ packages: ["salt-minion"]
 
 %{ endif }
   
-%{ if image == "rhel9"}
+%{ if image == "rhel9" }
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -133,7 +133,7 @@ yum_repos:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "rhel8"}
+%{ if image == "rhel8" }
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -146,7 +146,7 @@ yum_repos:
 
 packages: ["salt-minion"]
 %{ endif }
-%{ if image == "centos7" || image == "rhel7"}
+%{ if image == "centos7" || image == "rhel7" }
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
