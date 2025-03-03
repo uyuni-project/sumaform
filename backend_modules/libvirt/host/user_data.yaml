@@ -7,11 +7,11 @@ chpasswd:
   list: |
      root:linux
 
-%{ if image == "tumbleweedo"}
+%{ if image == "tumbleweedo" }
 zypper:
   repos:
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/saltstack/openSUSE_Tumbleweed/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/saltstack/openSUSE_Tumbleweed/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -35,7 +35,7 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -66,7 +66,7 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -107,7 +107,7 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -139,11 +139,11 @@ runcmd:
 %{ endif }
 %{ endif }
 
-%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro"}
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" }
 zypper:
   repos:
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -166,11 +166,11 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -188,16 +188,16 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: module_server_applications_pool_repo
       name: module_server_applications_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -217,11 +217,11 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -241,11 +241,11 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -263,11 +263,11 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -285,11 +285,11 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -329,7 +329,7 @@ zypper:
 %{ if product_version == "5.0-released" }
     - id: container_tools_repo
       name: container_tools_repo
-      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -356,7 +356,7 @@ zypper:
 %{ if product_version == "5.0-released" }
     - id: container_tools_repo
       name: container_tools_repo
-      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -366,7 +366,7 @@ zypper:
     # Required only for wget
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -430,7 +430,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -475,7 +475,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -521,7 +521,7 @@ apt:
   sources:
     tools_pool_repo:
       # TODO: change to Stable: when the tools are published
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -569,7 +569,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -617,7 +617,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -643,7 +643,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -667,7 +667,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -694,7 +694,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -718,7 +718,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -742,7 +742,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -769,7 +769,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -793,7 +793,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -820,7 +820,7 @@ runcmd:
 zypper:
   repos:
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
