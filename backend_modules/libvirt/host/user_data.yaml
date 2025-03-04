@@ -312,11 +312,10 @@ zypper:
 %{ if product_version == "head" }
     - id: container_tools_repo
       name: container_tools_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/SLE-Micro55/
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Server-5.1-x86_64/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-#      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Server-5.1-x86_64/
 %{ endif }
 %{ if product_version == "5.0-nightly" }
     - id: container_tools_repo
