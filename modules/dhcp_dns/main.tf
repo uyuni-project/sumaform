@@ -20,7 +20,7 @@ locals {
   reverse_prefix       = join(".", reverse(local.add_net))
   zypper               = "/usr/bin/zypper --non-interactive --gpg-auto-import-keys"
   # Currently only for openSUSE 15.5:
-  repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.5/repo/oss"
+  repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.5/repo/${var.base_configuration["mirror"] != null ? "oss-old" : "oss"}"
 }
 
 resource "null_resource" "standalone_provisioning" {

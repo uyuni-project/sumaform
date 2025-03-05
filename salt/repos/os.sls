@@ -2,26 +2,51 @@
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
+{% if grains.get('mirror') %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/distribution/leap/{{ grains['osrelease'] }}/repo/oss/
+    - baseurl: http://{{ grains.get("mirror") }}/distribution/leap/{{ grains['osrelease'] }}/repo/oss-old/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/oss/
+    - baseurl: http://{{ grains.get("mirror") }}/update/leap/{{ grains['osrelease'] }}/oss-old/
     - refresh: True
 
 {% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
 sle_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/sle/
+    - baseurl: http://{{ grains.get("mirror") }}/update/leap/{{ grains['osrelease'] }}/sle/
     - refresh: True
 
 backports_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/backports/
+    - baseurl: http://{{ grains.get("mirror") }}/update/leap/{{ grains['osrelease'] }}/backports-old/
     - refresh: True
+
+{% else %}
+
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.opensuse.org/distribution/leap/{{ grains['osrelease'] }}/repo/oss/
+    - refresh: True
+
+os_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.opensuse.org/update/leap/{{ grains['osrelease'] }}/oss/
+    - refresh: True
+
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
+sle_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.opensuse.org/update/leap/{{ grains['osrelease'] }}/sle/
+    - refresh: True
+
+backports_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://download.opensuse.org/update/leap/{{ grains['osrelease'] }}/backports/
+    - refresh: True
+{% endif %} {# grains.get('mirror') #}
 {% endif %} {# grains['osfullname'] == 'Leap' #}
 
 
