@@ -14,6 +14,7 @@ email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) 
 emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
 {%- if grains.get('container_repository') %}
 registry: {{ grains.get('container_repository') }}
+image: server
 {% endif %}
 {%- if grains.get('container_tag') %}
 tag: {{ grains.get('container_tag') }}
