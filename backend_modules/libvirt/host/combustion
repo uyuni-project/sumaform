@@ -110,10 +110,10 @@ zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Pr
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils
 %{ else }
 %{ if container_server }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Server-5.1-x86_64/ container_utils
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils
 %{ endif }
 %{ if container_proxy }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils
 %{ endif }
 %{ endif }
 %{ endif }
