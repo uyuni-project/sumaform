@@ -122,7 +122,11 @@ zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 
 # Leap repos are required to install expect
-zypper ar --no-gpgcheck http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/16.0/repo/oss/ leap_pool_repo
+%{ if use_mirror_images }
+zypper ar --no-gpgcheck http://${ mirror }/distribution/leap/16.0/repo/oss/ leap_pool_repo
+%{ else }
+zypper ar --no-gpgcheck http://download.opensuse.org/distribution/leap/16.0/repo/oss/x86_64 leap_pool_repo
+%{ endif }
 %{ endif }
 %{ endif } # end of image == "slmicro61o" block
 
