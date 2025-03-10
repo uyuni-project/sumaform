@@ -315,18 +315,23 @@ zypper:
 %{ endif }
 %{ if container_server }
 %{ if product_version == "5.0-nightly" }
-    - id: container_tools_repo
-      name: container_tools_repo
+    - id: container_utils_repo
+      name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
 %{ endif }
 %{ if product_version == "5.0-released" }
-    - id: container_tools_repo
-      name: container_tools_repo
-      # What about mirroring this repo?
-      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
+    - id: container_utils_pool_repo
+      name: container_utils_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SUSE-Manager-Server/5.0/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: container_utils_updates_repo
+      name: container_utils_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SUSE-Manager-Server/5.0/x86_64/update
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -334,18 +339,23 @@ zypper:
 %{ endif }
 %{ if container_proxy }
 %{ if product_version == "5.0-nightly" }
-    - id: container_tools_repo
-      name: container_tools_repo
+    - id: container_utils_repo
+      name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
 %{ endif }
 %{ if product_version == "5.0-released" }
-    - id: container_tools_repo
-      name: container_tools_repo
-      # What about mirroring this repo?
-      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1
+    - id: container_utils_pool_repo
+      name: container_utils_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SUSE-Manager-Proxy/5.0/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: container_utils_updates_repo
+      name: container_utils_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SUSE-Manager-Proxy/5.0/x86_64/update
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -374,26 +384,31 @@ zypper:
   repos:
 %{ if container_server }
 %{ if product_version == "head" }
-    - id: container_tools_repo
-      name: container_tools_repo
+    - id: container_utils_repo
+      name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
 %{ endif }
 %{ if product_version == "5.0-nightly" }
-    - id: container_tools_repo
-      name: container_tools_repo
+    - id: container_utils_repo
+      name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
 %{ endif }
 %{ if product_version == "5.0-released" }
-    - id: container_tools_repo
-      name: container_tools_repo
-      # What about mirroring this repo?
-      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1
+    - id: container_utils_pool_repo
+      name: container_utils_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SUSE-Manager-Server/5.0/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: container_utils_updates_repo
+      name: container_utils_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SUSE-Manager-Server/5.0/x86_64/update
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -401,8 +416,8 @@ zypper:
 %{ endif }
 %{ if container_proxy }
 %{ if product_version == "head" }
-    - id: container_tools_repo
-      name: container_tools_repo
+    - id: container_utils_repo
+      name: container_utils_repo
 #      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/SLE-Micro55/
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/
       enabled: 1
@@ -410,18 +425,23 @@ zypper:
       gpgcheck: false
 %{ endif }
 %{ if product_version == "5.0-nightly" }
-    - id: container_tools_repo
-      name: container_tools_repo
+    - id: container_utils_repo
+      name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
 %{ endif }
 %{ if product_version == "5.0-released" }
-    - id: container_tools_repo
-      name: container_tools_repo
-      # What about mirroring this repo?
-      baseurl: http://download.suse.de/ibs/SUSE:/SLE-15-SP5:/Update:/Products:/Manager50/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
+    - id: container_utils_pool_repo
+      name: container_utils_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Products/SUSE-Manager-Proxy/5.0/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: container_utils_updates_repo
+      name: container_utils_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.suse.de/ibs" }/SUSE/Updates/SUSE-Manager-Proxy/5.0/x86_64/update
       enabled: 1
       autorefresh: 1
       gpgcheck: false
