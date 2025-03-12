@@ -476,7 +476,7 @@ data "aws_ami" "ubuntu2404" {
 
 data "aws_ami" "rhel8" {
   most_recent = true
-  name_regex  = "^RHEL-8.8.0_HVM-"
+  name_regex  = "^RHEL-8.9.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
@@ -497,7 +497,7 @@ data "aws_ami" "rhel8" {
 
 data "aws_ami" "rhel9" {
   most_recent = true
-  name_regex  = "^RHEL-9.2.0_HVM-"
+  name_regex  = "^RHEL-9.5.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
