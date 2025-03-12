@@ -7,3 +7,4 @@ include:
   - server_containerized.initial_content
   - server_containerized.testsuite
   - server_containerized.large_deployment
+  - server_containerized.rhn
