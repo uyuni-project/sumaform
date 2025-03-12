@@ -1,8 +1,6 @@
 {% set runtime = grains.get('container_runtime') | default('podman', true) %}
 db:
   password: spacewalk
-reportdb:
-  host: localhost
 ssl:
   password: spacewalk
 {%- if grains.get('cc_username') %}
