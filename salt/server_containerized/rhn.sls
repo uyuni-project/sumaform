@@ -1,111 +1,68 @@
 include:
-  - server_containerized
+  - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
 {% if grains.get('skip_changelog_import') %}
 
 package_import_skip_changelog_reposync:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: package_import_skip_changelog = 1
+  cmd.run:
+    - name: mgrctl exec 'echo "package_import_skip_changelog = 1" >> /etc/rhn/rhn.conf'
     - require:
-      - sls: server_containerized
+        - pkg: uyuni-tools
 
 {% endif %}
 
 limit_changelog_entries:
-  file.replace:
-    - name: /etc/rhn/rhn.conf
-    - pattern: java.max_changelog_entries.*
-    - repl: java.max_changelog_entries = 3
-    - append_if_not_found: true
+  cmd.run:
+    - name: mgrctl exec 'grep -q "java.max_changelog_entries" /etc/rhn/rhn.conf && sed -i "s/java.max_changelog_entries.*/java.max_changelog_entries = 3/" /etc/rhn/rhn.conf || echo "java.max_changelog_entries = 3" >> /etc/rhn/rhn.conf'
     - require:
-      - sls: server
+        - pkg: uyuni-tools
 
 {% if grains.get('disable_download_tokens') %}
 disable_download_tokens:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: java.salt_check_download_tokens = false
+  cmd.run:
+    - name: mgrctl exec 'echo "java.salt_check_download_tokens = false" >> /etc/rhn/rhn.conf'
     - require:
-      - sls: server_containerized
-{% endif %}
-
-{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
-
-{% if mirror_hostname %}
-
-nfs_client:
-  pkg.installed:
-    - name: nfs-client
-
-non_empty_fstab:
-  file.managed:
-    - name: /etc/fstab
-    - replace: false
-
-mirror_directory:
-  mount.mounted:
-    - name: /mirror
-    - device: {{ mirror_hostname }}:/srv/mirror
-    - fstype: nfs
-    - mkmnt: True
-    - require:
-      - file: /etc/fstab
-      - pkg: nfs_client
-
-rhn_conf_from_dir:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: server.susemanager.fromdir = /mirror
-    - require:
-      - sls: server_containerized
-      - mount: mirror_directory
-
-{% elif salt["grains.get"]("smt") %}
-
-rhn_conf_mirror:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: server.susemanager.mirror = {{ salt["grains.get"]("smt") }}
-    - require:
-      - sls: server_containerized
-
+        - pkg: uyuni-tools
 {% endif %}
 
 {% if grains.get('monitored') | default(false, true) %}
 
 rhn_conf_prometheus:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: prometheus_monitoring_enabled = true
+  cmd.run:
+    - name: mgrctl exec 'echo "prometheus_monitoring_enabled = true" >> /etc/rhn/rhn.conf'
     - require:
-      - sls: server_containerized
+        - pkg: uyuni-tools
 
 {% endif %}
 
 {% if not grains.get('forward_registration') | default(false, true) %}
 
 rhn_conf_forward_reg:
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: server.susemanager.forward_registration = 0
+  cmd.run:
+    - name: mgrctl exec 'echo "server.susemanager.forward_registration = 0" >> /etc/rhn/rhn.conf'
     - require:
-      - sls: server_containerized
+        - pkg: uyuni-tools
 
 {% endif %}
 
 {% if grains.get('disable_auto_bootstrap') | default(false, true) %}
 
-rhn_conf_disable_auto_generate_bootstrap_repo :
-  file.append:
-    - name: /etc/rhn/rhn.conf
-    - text: server.susemanager.auto_generate_bootstrap_repo = 0
+rhn_conf_disable_auto_generate_bootstrap_repo:
+  cmd.run:
+    - name: mgrctl exec 'echo "server.susemanager.auto_generate_bootstrap_repo = 0" >> /etc/rhn/rhn.conf'
     - require:
-      - sls: server
+        - pkg: uyuni-tools
 
 {% endif %}
 
-# catch-all to ensure we always have at least one state covering /etc/rhn/rhn.conf
+{% if 'head' in grains.get('product_version') and grains.get('beta_enabled') %}
+change_product_tree_to_beta:
+  cmd.run:
+    - name: mgrctl exec 'grep -q "java.product_tree_tag" /etc/rhn/rhn.conf && sed -i "s/java.product_tree_tag = .*/java.product_tree_tag = Beta/" /etc/rhn/rhn.conf || echo "java.product_tree_tag = Beta" >> /etc/rhn/rhn.conf'
+    - require:
+        - pkg: uyuni-tools
+{% endif %}
+
 rhn_conf_present:
-  file.touch:
-    - name: /etc/rhn/rhn.conf
+  cmd.run:
+    - name: mgrctl exec 'touch /etc/rhn/rhn.conf'

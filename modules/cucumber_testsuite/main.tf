@@ -73,8 +73,6 @@ locals {
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
   scc_access_logging        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
-  beta_enabled              = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "beta_enabled", false) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
@@ -105,7 +103,7 @@ module "server" {
   forward_registration           = false
   monitored                      = true
   use_os_released_updates        = false
-  beta_enabled                   = lookup(local.beta_enabled, "server", false)
+  beta_enabled                   = var.beta_enabled
   install_salt_bundle            = lookup(local.install_salt_bundle, "server", true)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
@@ -149,7 +147,7 @@ module "server_containerized" {
   disable_download_tokens        = false
   //forward_registration           = false
   use_os_released_updates        = false
-  beta_enabled                   = lookup(local.beta_enabled, "server_containerized", false)
+  beta_enabled                   = var.beta_enabled
   install_salt_bundle            = lookup(local.install_salt_bundle, "server_containerized", true)
   ssh_key_path                   = "./salt/controller/id_rsa.pub"
   from_email                     = var.from_email
@@ -492,6 +490,7 @@ module "controller" {
   server_http_proxy        = var.server_http_proxy
   custom_download_endpoint = var.custom_download_endpoint
   swap_file_size           = null
+  beta_enabled             = var.beta_enabled
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)

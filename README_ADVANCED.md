@@ -290,7 +290,12 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
    * `db_configuration` : pass external database configuration to change `setup_env.sh` file. See more in `Using external database` section
    * `beta_enabled`: enable beta channels in rhn configuration. Set to false by default.
-
+ * `controller` module:
+   * `is_using_paygo_server`: whether to use the paygo server. Set to `false` to use the default server
+   * `is_using_build_image`: whether to use the build image. Set to `false` to use the default image
+   * `is_using_scc_repositories`: whether to use SCC repositories. Set to `false` to use the default repositories
+   * `catch_timeout_message`: whether to catch timeout messages. Set to `false` to use the default timeout message
+   * `beta_enabled`: enable beta channels in rhn configuration. Set to false by default.
 
 ## Adding channels to SUSE Manager Servers
 

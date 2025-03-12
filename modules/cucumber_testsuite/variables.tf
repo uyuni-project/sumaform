@@ -175,3 +175,8 @@ variable "container_proxy" {
   description = "true to run the proxy in containers"
   default = false
 }
+
+variable "beta_enabled" {
+  description = "Enable the mechanism to take into account beta channels"
+  default     = false
+}
