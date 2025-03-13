@@ -5,6 +5,6 @@ include:
   - server_containerized.additional_disks
   - server_containerized.install_mgradm
   - server_containerized.initial_content
-  - server_containerized.testsuite
-  - server_containerized.large_deployment
   - server_containerized.rhn
+  - server_containerized.large_deployment
+  - server_containerized.testsuite

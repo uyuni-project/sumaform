@@ -2,24 +2,13 @@
 
 {% if grains.get('large_deployment') | default(false, true) %}
 
-include:
-  - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-
 large_deployment_increase_tasko_parallel_threads:
   cmd.run:
     - name: mgrctl exec 'echo "taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads = 3" >> /etc/rhn/rhn.conf'
-{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
-    - require:
-      - pkg: uyuni-tools
-{% endif %}
 
 large_deployment_increase_hibernate_max_connections:
   cmd.run:
     - name: mgrctl exec 'echo "hibernate.c3p0.max_size = 100" >> /etc/rhn/rhn.conf'
-{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
-    - require:
-      - pkg: uyuni-tools
-{% endif %}
 
 large_deployment_tune_tomcat_stylesheet_host:
   file.managed:
@@ -49,18 +38,10 @@ large_deployment_tomcat_restart:
 large_deployment_increase_database_max_connections:
   cmd.run:
     - name: mgrctl exec 'sed -i "s/max_connections = (.*)/max_connections = 400/" /var/lib/pgsql/data/postgresql.conf'
-{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
-    - require:
-      - pkg: uyuni-tools
-{% endif %}
 
 large_deployment_increase_database_work_memory:
   cmd.run:
     - name: mgrctl exec 'sed -i "s/work_mem = (.*)/work_mem = 20MB/" /var/lib/pgsql/data/postgresql.conf'
-{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
-    - require:
-      - pkg: uyuni-tools
-{% endif %}
 
 large_deployment_postgresql_restart:
   cmd.run:

@@ -1,13 +1,25 @@
 {%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 
-{% if grains['osfullname'] not in ['SLE Micro', 'openSUSE Leap Micro'] %}
+{% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
 uyuni-tools:
   pkg.installed:
     - pkgs:
       - mgradm
       - mgrctl
+{%- else %}
+check_mgrctl_installed:
+  cmd.run:
+    - name: "rpm -q mgrctl"
+    - success_retcodes: [0]
+    - failhard: True
+
+check_mgradm_installed:
+  cmd.run:
+    - name: "rpm -q mgradm"
+    - success_retcodes: [0]
+    - failhard: True
 {% endif %}
-    
+
 {% if mirror_hostname %}
 
 nfs_client:
@@ -30,7 +42,6 @@ mirror_directory:
       - pkg: nfs_client
 
 {% endif %}
-
 
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
