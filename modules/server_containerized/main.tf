@@ -45,6 +45,7 @@ module "server_containerized" {
   grains = {
     container_runtime              = var.runtime
     container_repository           = var.container_repository
+    container_image                = var.container_image
     container_tag                  = var.container_tag
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
