@@ -22,6 +22,11 @@ variable "container_repository" {
   default = ""
 }
 
+variable "container_image" {
+  description = "Server container images name. Don't setup for default images."
+  default = ""
+}
+
 variable "container_tag" {
   description = "The container image tag to use."
   default = ""
