@@ -108,6 +108,13 @@ zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Pr
 %{ if container_server || container_proxy }
 %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils_repo
+%{ elif product_version == "5.1-released" || product_version == "5.1-nightly"}
+%{ if container_server }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.1:/ToTest/product/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+%{ endif }
+%{ if container_proxy }
+zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.1:/ToTest/product/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+%{ endif }
 %{ else }
 %{ if container_server }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
