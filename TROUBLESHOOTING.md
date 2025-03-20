@@ -255,10 +255,10 @@ At the time of writing, the upstream `dmacvicar/libvirt` terraform provider does
 1\. Add the sumaform repository
 
 ```
-zypper ar -f https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.5 sumaform
+zypper ar -f https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.6 sumaform
 ```
 
-Swap out `openSUSE_Leap_15.5` for `openSUSE_Leap_15.4` or `openSUSE_Tumbleweed` if you’re using a different version of openSUSE.
+Swap out `openSUSE_Leap_15.6` for `openSUSE_Leap_15.5` or `openSUSE_Tumbleweed` if you are using a different version of openSUSE.
 
 2\. Install `terraform-provider-libvirt` from sumaform
 

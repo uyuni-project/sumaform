@@ -28,7 +28,7 @@
 {% endif %}
 
 {% if grains['osfullname'] == 'Leap' %}
-{% set repo = 'openSUSE_Leap_15.5' %}
+{% set repo = 'openSUSE_Leap_15.6' %}
 
 
 {% if 'uyuni' == grains['product_version'] %}

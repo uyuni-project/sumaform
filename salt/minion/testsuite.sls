@@ -53,9 +53,9 @@ update_ca_truststore:
 {% endif %}
 {% endif %}
 
-# WORKAROUND for not syncing openSUSE Leap 15.5 in the Uyuni CIs
+# WORKAROUND for not syncing openSUSE Leap 15.6 in the Uyuni CIs
 # We need some dependencies for the package mgr-push, otherwise the installation in the test suite will fail
-{% if grains['osfullname'] == 'Leap' and grains['osrelease'] == '15.5' %}
+{% if grains['osfullname'] == 'Leap' and grains['osrelease'] == '15.6' %}
 suse_minion_mgr_push_requisites:
   pkg.installed:
     - pkgs:
