@@ -146,7 +146,7 @@ zypper refresh -f
 
 # Install packages
 #PACKAGES="qemu-guest-agent avahi ca-certificates"
-PACKAGES="qemu-guest-agent"
+#PACKAGES="qemu-guest-agent"
 
 #%{ if container_runtime == "podman" }
 #  PACKAGES="$PACKAGES podman netavark aardvark-dns"
@@ -181,7 +181,7 @@ PACKAGES="qemu-guest-agent"
 #  PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
 #%{ endif }
 
-transactional-update pkg install --no-confirm $PACKAGES
+transactional-update pkg install --no-confirm wget
 
 #%{ if testsuite }
 ## full update cause a timeout on deployment
