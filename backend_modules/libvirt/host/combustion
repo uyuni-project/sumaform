@@ -145,7 +145,8 @@ done
 zypper refresh -f
 
 # Install packages
-PACKAGES="qemu-guest-agent avahi ca-certificates"
+#PACKAGES="qemu-guest-agent avahi ca-certificates"
+PACKAGES="qemu-guest-agent ca-certificates"
 
 %{ if container_runtime == "podman" }
   PACKAGES="$PACKAGES podman netavark aardvark-dns"
