@@ -52,7 +52,7 @@ systemctl enable sshd.service
 ${ gpg_keys }
 
 # Add repositories
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.6/ ca_suse
 
 %{ if image == "leapmicro55o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
@@ -69,12 +69,12 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 
 # Leap repos are required to install expect
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.5/repo/oss/ leap_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/oss/ leap_update_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.6/repo/oss/ leap_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/oss/ leap_update_repo
 %{ endif }
 
 %{ if container_runtime == "k3s" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/sle/ sle_update_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/sle/ sle_update_repo
 %{ endif }
 %{ endif } # end of image == "leapmicro55o" block
 
