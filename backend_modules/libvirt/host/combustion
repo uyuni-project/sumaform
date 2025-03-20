@@ -144,48 +144,48 @@ done
 
 zypper refresh -f
 
-## Install packages
-#PACKAGES="qemu-guest-agent avahi ca-certificates"
-#
-#%{ if container_runtime == "podman" }
-#  PACKAGES="$PACKAGES podman netavark aardvark-dns"
-#%{ endif }
-#
-#%{ if container_runtime == "k3s" }
-#  PACKAGES="$PACKAGES helm"
-#%{ endif }
-#
-#%{ if container_server || container_proxy }
-#  PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
-#  %{ if testsuite }
-#    PACKAGES="$PACKAGES expect bind-utils"
-#  %{ endif }
-#%{ endif }
-#
-#%{ if container_server }
-#  PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
-#%{ endif }
-#
-#%{ if container_proxy }
-#  PACKAGES="$PACKAGES mgrpxy"
-#%{ endif }
-#
-#%{ if install_salt_bundle }
-#  PACKAGES="$PACKAGES venv-salt-minion"
-#%{ else }
-#  PACKAGES="$PACKAGES salt-minion"
-#%{ endif }
-#
-#%{ if testsuite }
-#  PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
-#%{ endif }
-#
-#transactional-update pkg install --no-confirm $PACKAGES
-#
-#%{ if testsuite }
-## full update cause a timeout on deployment
-#  transactional-update pkg update --no-recommends iptables
-#%{ endif }
-#
-## Leave a marker
-#echo "Configured with combustion" > /etc/issue.d/combustion
+# Install packages
+PACKAGES="qemu-guest-agent avahi ca-certificates"
+
+%{ if container_runtime == "podman" }
+  PACKAGES="$PACKAGES podman netavark aardvark-dns"
+%{ endif }
+
+%{ if container_runtime == "k3s" }
+  PACKAGES="$PACKAGES helm"
+%{ endif }
+
+%{ if container_server || container_proxy }
+  PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
+  %{ if testsuite }
+    PACKAGES="$PACKAGES expect bind-utils"
+  %{ endif }
+%{ endif }
+
+%{ if container_server }
+  PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
+%{ endif }
+
+%{ if container_proxy }
+  PACKAGES="$PACKAGES mgrpxy"
+%{ endif }
+
+%{ if install_salt_bundle }
+  PACKAGES="$PACKAGES venv-salt-minion"
+%{ else }
+  PACKAGES="$PACKAGES salt-minion"
+%{ endif }
+
+%{ if testsuite }
+  PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
+%{ endif }
+
+transactional-update pkg install --no-confirm $PACKAGES
+
+%{ if testsuite }
+# full update cause a timeout on deployment
+  transactional-update pkg update --no-recommends iptables
+%{ endif }
+
+# Leave a marker
+echo "Configured with combustion" > /etc/issue.d/combustion
