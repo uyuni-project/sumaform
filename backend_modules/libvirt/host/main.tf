@@ -232,7 +232,7 @@ resource "libvirt_domain" "domain" {
   }
 }
 
-resource "null_resource" "provisioning" {
+resource "null_resource" "grain_provisioning" {
   depends_on = [libvirt_domain.domain]
 
   triggers = {
@@ -317,7 +317,7 @@ resource "null_resource" "provisioning" {
 }
 
 resource "null_resource" "provisioning" {
-  depends_on = [libvirt_domain.domain]
+  depends_on = [null_resource.grain_provisioning]
 
   triggers = {
     main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
