@@ -259,8 +259,6 @@ resource "null_resource" "provisioning" {
     })
   }
 
-  count = var.provision ? var.quantity : 0
-
   connection {
     host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
     user     = "root"
@@ -302,6 +300,92 @@ resource "null_resource" "provisioning" {
         authorized_keys = concat(
           var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
           var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
+        )
+        gpg_keys                      = var.gpg_keys
+        connect_to_base_network       = var.connect_to_base_network
+        connect_to_additional_network = var.connect_to_additional_network
+        reset_ids                     = true
+        ipv6                          = var.ipv6
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
+        provider                      = "libvirt"
+      },
+      var.grains))
+    destination = "/tmp/grains"
+  }
+
+}
+
+resource "null_resource" "provisioning" {
+  depends_on = [libvirt_domain.domain]
+
+  triggers = {
+    main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
+    domain_id      = length(libvirt_domain.domain) == var.quantity ? libvirt_domain.domain[count.index].id : null
+    grains_subset = yamlencode(
+      {
+        domain                    = var.base_configuration["domain"]
+        use_avahi                 = var.base_configuration["use_avahi"]
+        timezone                  = var.base_configuration["timezone"]
+        use_ntp                   = var.base_configuration["use_ntp"]
+        testsuite                 = var.base_configuration["testsuite"]
+        roles                     = var.roles
+        use_os_released_updates   = var.use_os_released_updates
+        install_salt_bundle       = var.install_salt_bundle
+        additional_repos          = var.additional_repos
+        additional_repos_only     = var.additional_repos_only
+        additional_certs          = var.additional_certs
+        additional_packages       = var.additional_packages
+        swap_file_size            = var.swap_file_size
+        authorized_keys           = var.ssh_key_path
+        gpg_keys                  = var.gpg_keys
+        ipv6                      = var.ipv6
+      })
+  }
+
+  count = var.provision ? var.quantity : 0
+
+  connection {
+    host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
+    user     = "root"
+    password = "linux"
+    // ssh connection through a bastion host
+    bastion_host        = lookup(var.provider_settings, "bastion_host", var.base_configuration["bastion_host"])
+    bastion_host_key    = lookup(var.provider_settings, "bastion_host_key", var.base_configuration["bastion_host_key"])
+    bastion_port        = lookup(var.provider_settings, "bastion_port", var.base_configuration["bastion_port"])
+    bastion_user        = lookup(var.provider_settings, "bastion_user", var.base_configuration["bastion_user"])
+    bastion_password    = lookup(var.provider_settings, "bastion_password", var.base_configuration["bastion_password"])
+    bastion_private_key = lookup(var.provider_settings, "bastion_private_key", var.base_configuration["bastion_private_key"])
+    bastion_certificate = lookup(var.provider_settings, "bastion_certificate", var.base_configuration["bastion_certificate"])
+  }
+
+  provisioner "file" {
+    source      = "salt"
+    destination = "/root"
+  }
+
+  provisioner "file" {
+    content = yamlencode(merge(
+      {
+        hostname                  = local.overwrite_fqdn != "" ? split(".", local.overwrite_fqdn)[0] : "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}"
+        domain                    = var.base_configuration["domain"]
+        use_avahi                 = var.base_configuration["use_avahi"]
+        additional_network        = var.base_configuration["additional_network"]
+        timezone                  = var.base_configuration["timezone"]
+        use_ntp                   = var.base_configuration["use_ntp"]
+        testsuite                 = var.base_configuration["testsuite"]
+        roles                     = var.roles
+        use_os_released_updates   = var.use_os_released_updates
+        install_salt_bundle       = var.install_salt_bundle
+        additional_repos          = var.additional_repos
+        additional_repos_only     = var.additional_repos_only
+        additional_certs          = var.additional_certs
+        additional_packages       = var.additional_packages
+        swap_file_size            = var.swap_file_size
+        product_version           = local.product_version
+        authorized_keys = concat(
+            var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
+            var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
         )
         gpg_keys                      = var.gpg_keys
         connect_to_base_network       = var.connect_to_base_network
