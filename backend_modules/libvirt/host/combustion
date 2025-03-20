@@ -181,7 +181,7 @@ zypper refresh -f
 #  PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
 #%{ endif }
 
-transactional-update pkg install --no-confirm wget
+#transactional-update pkg install --no-confirm wget
 
 #%{ if testsuite }
 ## full update cause a timeout on deployment
