@@ -365,7 +365,7 @@ resource "null_resource" "provisioning_grains_only" {
   count = var.provision ? 0 : var.quantity
 
   connection {
-    host     = libvirt_domain.domain[var.quantity].network_interface[0].addresses[0]
+    host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
     user     = "root"
     password = "linux"
     // ssh connection through a bastion host
@@ -416,7 +416,7 @@ resource "null_resource" "provisioning_grains_only" {
         provider                      = "libvirt"
       },
       var.grains))
-    destination = "/tmp/grains"
+    destination = "/root/grains"
   }
 
 }
