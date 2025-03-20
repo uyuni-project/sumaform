@@ -51,17 +51,6 @@ systemctl enable sshd.service
 # Add the GPG keys
 ${ gpg_keys }
 
-# Add repositories
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.5/ ca_suse
-
-%{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
-
-# Leap repos are required to install expect
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.5/repo/oss/ leap_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.5/oss/ leap_update_repo
-%{ endif }
-
 %{ if image == "slmicro61o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
 
@@ -74,14 +63,45 @@ zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/SUSE/Pr
 %{ endif }
 
 %{ if container_server || container_proxy }
-%{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils_repo
-%{ else }
+    %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
+        zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils_repo
+    %{ else }
+        %{ if product_version == "5.1-released" || product_version == "5.1-nightly" }
+            %{ if container_server }
+                zypper ar http://${ use_mirror_images ? mirror : "download.suse.de"}/ibs/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.1:/ToTest/product/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+            %{ endif }
+            %{ if container_proxy }
+                zypper ar http://${ use_mirror_images ? mirror : "download.suse.de"}/ibs/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.1:/ToTest/product/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+            %{ endif }
+        %{ else }
+            %{ if container_server }
+                zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+            %{ endif }
+            %{ if container_proxy }
+                zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+            %{ endif }
+        %{ endif }
+    %{ endif }
+%{ endif }
+
+
+%{ if container_server || container_proxy }
+PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
+%{ if testsuite }
+PACKAGES="$PACKAGES expect bind-utils"
+%{ endif }
+%{ endif }
+
 %{ if container_server }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
 %{ endif }
+
 %{ if container_proxy }
-zypper ar http://${ use_mirror_images ? mirror : "download.suse.de/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+PACKAGES="$PACKAGES mgrpxy"
 %{ endif }
-%{ endif }
+
+%{ if install_salt_bundle }
+PACKAGES="$PACKAGES venv-salt-minion"
+%{ else }
+PACKAGES="$PACKAGES salt-minion"
 %{ endif }
