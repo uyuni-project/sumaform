@@ -158,14 +158,14 @@ PACKAGES="qemu-guest-agent ca-certificates"
 
 %{ if container_server || container_proxy }
   PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
-  %{ if testsuite }
-    PACKAGES="$PACKAGES expect bind-utils"
-  %{ endif }
+#  %{ if testsuite }
+#    PACKAGES="$PACKAGES expect bind-utils"
+#  %{ endif }
 %{ endif }
 
-%{ if container_server }
-  PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
-%{ endif }
+#%{ if container_server }
+#  PACKAGES="$PACKAGES mgradm mgrctl mgradm-bash-completion mgrctl-bash-completion"
+#%{ endif }
 
 %{ if container_proxy }
   PACKAGES="$PACKAGES mgrpxy"
@@ -177,16 +177,16 @@ PACKAGES="qemu-guest-agent ca-certificates"
   PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
-%{ if testsuite }
-  PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
-%{ endif }
+#%{ if testsuite }
+#  PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
+#%{ endif }
 
 transactional-update pkg install --no-confirm $PACKAGES
 
-%{ if testsuite }
-# full update cause a timeout on deployment
-  transactional-update pkg update --no-recommends iptables
-%{ endif }
+#%{ if testsuite }
+## full update cause a timeout on deployment
+#  transactional-update pkg update --no-recommends iptables
+#%{ endif }
 
 # Leave a marker
-echo "Configured with combustion" > /etc/issue.d/combustion
+#echo "Configured with combustion" > /etc/issue.d/combustion
