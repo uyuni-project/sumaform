@@ -101,7 +101,7 @@ suse_staging_key_import:
       - file: suse_staging_key_copy_host
 {% endif %}
 
-{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "5.0-nightly", "5.0-released"] %}
+{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,
