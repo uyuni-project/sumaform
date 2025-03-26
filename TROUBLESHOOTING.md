@@ -163,9 +163,9 @@ Resource instance module.base.libvirt_volume.volumes[2] has been marked as taint
 
 Please note that any dependent volume and module should be tainted as well before applying (eg. if you are tainting the `sles12sp5` image, make sure you either have no VMs based on that OS or that they are all tainted).
 
-## Q: I get the error "* file: open /home/<user>/.ssh/id_rsa.pub: no such file or directory in:"
+## Q: I get the error "* file: open /home/<user>/.ssh/id_ed25519.pub: no such file or directory in:"
 
-Terraform cannot find your SSH key in the default path `~/.ssh/id_rsa.pub`. See [Accessing VMs](backend_modules/libvirt/README.md#accessing-vms) for details.
+Terraform cannot find your SSH key in the default path `~/.ssh/id_25519.pub`. See [Accessing VMs](backend_modules/libvirt/README.md#accessing-vms) for details.
 
 ## Q: how can I workaround an "libvirt_domain.domain: diffs didn't match during apply" libvirt error?
 

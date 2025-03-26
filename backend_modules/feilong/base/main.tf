@@ -2,7 +2,7 @@ locals {
   name_prefix       = var.name_prefix
   domain            = var.domain
   ssh_key_path      = var.ssh_key_path
-  key_file          = lookup(var.provider_settings, "key_file", "~/.ssh/id_rsa")
+  key_file          = lookup(var.provider_settings, "key_file", "~/.ssh/id_25519")
   product_version   = var.product_version
 }
 

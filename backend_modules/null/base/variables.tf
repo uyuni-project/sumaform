@@ -22,7 +22,7 @@ variable "use_ntp" {
 
 variable "ssh_key_path" {
   description = "path of pub ssh key you want to use to access VMs, see backend_modules/libvirt/README.md"
-  default     = "~/.ssh/id_rsa.pub"
+  default     = "~/.ssh/id_25519.pub"
 }
 
 variable "mirror" {
