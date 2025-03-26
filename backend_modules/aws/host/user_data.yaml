@@ -165,10 +165,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - echo "PubkeyAuthentication yes" >> /etc/ssh/sshd_config
-    # WORKAROUND: something in terraform is still using ssh-rsa
-  - echo "PubkeyAcceptedAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
-  - echo "HostKeyAlgorithms +ssh-rsa" >> /etc/ssh/sshd_config
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   # not an error, Ubuntu/Debian Systemd unit file was always called ssh.service and they now dropped the 'd' alias
@@ -208,8 +204,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 22.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: something in terraform is still using ssh-rsa
-  - echo "PubkeyAcceptedKeyTypes=+ssh-rsa" >> /etc/ssh/sshd_config
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
