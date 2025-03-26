@@ -115,7 +115,7 @@ Some roles such as `suse_manager` or `mirror` have specific defaults that overri
 
 All machines come with user `root` with password `linux`.
 
-They are also accessible via your SSH public key if you have one. By default the key `~/.ssh/id_rsa.pub` is used, but this value can be changed by specifying the variable `ssh_key_path`:
+They are also accessible via your SSH public key if you have one. By default the key `~/.ssh/id_25519.pub` is used, but this value can be changed by specifying the variable `ssh_key_path`:
 
 ```hcl
 module "base" {

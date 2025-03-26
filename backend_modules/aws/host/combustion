@@ -42,7 +42,7 @@ echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG7
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config
 echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config
 echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOSLK0kJAulwO9Qwm/DVKLsGzv8Fh+ZcGe5x5d+VzO4/+xKnxjOPvGVngm9Hki8N436bCCvIRqwzstDUyJnTHhEe3qzsl02QGqIIfVjzK3BEp4sA8XcmByBy3pxqbTjAjrW8a+n43DBRMx4J86LgywX3fFt8ceEym3rFer/IzQD9QvKRocycNCwhpmGKEDh4zdl9PdyU5RcUpiA01AD/8rdJMNYnUxIsaNElcgP2LSzROjNdyu11cq9h3/cb3b7oRRef718GOkIkzqL/szo4Mm/j4KfyG0SBWyPxlJktFADD3lcQIRrGakFhiZOFbg2HZci26q+l/hUfLMbzcBrWlc+gzY4z4LMF8YBy1x/x+yR4j1SzZuqempSRu7rDKevcIGBF/fALPyiXH2EzYKsVcN9nv5mFCjmwVK7WTjw1SFzufKwdmnvOYgyeYuMaOJv3LEBY1jJg8r4xqzuQx32KNK/iJz1E+njptV3ZhOYDiHBmieykP08nWxdS79N1DbljxRzS54T7CArfGo23nYTNlMewPeKFx7ZqtUVv03g8i1Hn8WdArz2TYciWWrPErBEALBpXsu7Oq5AT97wAhcAIf3B3dV5p/bXgnhALA/SodNBf/wr0U2f5VzTDyJ9eNZURt16jSxDgXkuKKY/rimLqqt2FC1SeicmTql1nVyHG3j9Q== root@controller" > /root/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEPA8UvZ/6tTiL+MKGUAsHJuPlDpueeDmbuJ+0giOCY root@controller" > /root/.ssh/authorized_keys
 
 # Add a public ssh key and enable sshd
 systemctl enable sshd.service

@@ -459,7 +459,7 @@ module "dhcp-dns" {
 
   name = "dhcp-dns"
   image = "opensuse155o"
-  hypervisor = { host = "hypervisor.example.org", user = "root", private_key = file("~/.ssh/id_rsa") }
+  hypervisor = { host = "hypervisor.example.org", user = "root", private_key = file("~/.ssh/id_ed25519") }
   private_hosts = [ module.proxy.configuration, module.sles12sp5-terminal.configuration, module.sles15sp4-terminal.configuration ]
 }
 ```
