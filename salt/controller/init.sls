@@ -3,8 +3,8 @@ include:
 
 ssh_private_key:
   file.managed:
-    - name: /root/.ssh/id_rsa
-    - source: salt://controller/id_rsa
+    - name: /root/.ssh/id_25519
+    - source: salt://controller/id_25519
     - makedirs: True
     - user: root
     - group: root
@@ -12,8 +12,8 @@ ssh_private_key:
 
 ssh_public_key:
   file.managed:
-    - name: /root/.ssh/id_rsa.pub
-    - source: salt://controller/id_rsa.pub
+    - name: /root/.ssh/id_25519.pub
+    - source: salt://controller/id_25519.pub
     - makedirs: True
     - user: root
     - group: root
@@ -22,7 +22,7 @@ ssh_public_key:
 authorized_keys_controller:
   file.append:
     - name: /root/.ssh/authorized_keys
-    - source: salt://controller/id_rsa.pub
+    - source: salt://controller/id_25519.pub
     - makedirs: True
 
 cucumber_requisites:

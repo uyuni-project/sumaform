@@ -3,8 +3,8 @@ include:
 
 ssh_private_key_proxy_containerized:
   file.managed:
-    - name: /root/.ssh/id_rsa
-    - source: salt://proxy_containerized/id_rsa
+    - name: /root/.ssh/id_25519
+    - source: salt://proxy_containerized/id_25519
     - makedirs: True
     - user: root
     - group: root
@@ -12,8 +12,8 @@ ssh_private_key_proxy_containerized:
 
 ssh_public_key_proxy_containerized:
   file.managed:
-    - name: /root/.ssh/id_rsa.pub
-    - source: salt://proxy_containerized/id_rsa.pub
+    - name: /root/.ssh/id_25519.pub
+    - source: salt://proxy_containerized/id_25519.pub
     - makedirs: True
     - user: root
     - group: root
@@ -22,7 +22,7 @@ ssh_public_key_proxy_containerized:
 authorized_keys_proxy_containerized:
   file.append:
     - name: /root/.ssh/authorized_keys
-    - source: salt://proxy_containerized/id_rsa.pub
+    - source: salt://proxy_containerized/id_25519.pub
     - makedirs: True
 
 ssh_config_proxy_containerized:
