@@ -3,7 +3,7 @@
 ruby_add_devel_repository:
     pkgrepo.managed:
       - name: ruby_devel
-      - baseurl: http://download.opensuse.org/repositories/devel:/languages:/ruby/15.5/
+      - baseurl: http://download.opensuse.org/repositories/devel:/languages:/ruby/15.6/
       - refresh: True
       - gpgautoimport: True
 
