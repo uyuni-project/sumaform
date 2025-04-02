@@ -50,7 +50,7 @@ Most modules have configuration settings specific to the Feilong backend, those 
 
 | Variable name            | Type   | Default value   | Description                                                                                                             |
 |--------------------------|--------|-----------------|-------------------------------------------------------------------------------------------------------------------------|
-| key_file                 | string | `~/.ssh/id_25519` | path to private SSH key file used for provisioning                                                                      |
+| key_file                 | string | `~/.ssh/id_ed25519` | path to private SSH key file used for provisioning                                                                      |
 
 ### Host Module
 
