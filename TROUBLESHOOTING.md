@@ -165,7 +165,7 @@ Please note that any dependent volume and module should be tainted as well befor
 
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_ed25519.pub: no such file or directory in:"
 
-Terraform cannot find your SSH key in the default path `~/.ssh/id_25519.pub`. See [Accessing VMs](backend_modules/libvirt/README.md#accessing-vms) for details.
+Terraform cannot find your SSH key in the default path `~/.ssh/id_ed25519.pub`. See [Accessing VMs](backend_modules/libvirt/README.md#accessing-vms) for details.
 
 ## Q: how can I workaround an "libvirt_domain.domain: diffs didn't match during apply" libvirt error?
 
