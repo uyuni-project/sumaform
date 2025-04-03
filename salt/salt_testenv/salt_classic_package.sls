@@ -4,33 +4,33 @@
 {% set repo_path = "15" if grains["osrelease"] == 15 else "15-SP" + grains["osrelease_info"][1]|string %}
 development_tools_repo_pool:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Development-Tools/{{ repo_path }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Development-Tools/{{ repo_path }}/x86_64/product/
     - refresh: True
 
 development_tools_repo_updates:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/{{ repo_path }}/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Development-Tools/{{ repo_path }}/x86_64/update/
     - refresh: True
 
 # needed for libhttp_parser_2_7_1, dependency of libgit2
 sle_module_hpc_repo_pool:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-HPC/{{ repo_path }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-HPC/{{ repo_path }}/x86_64/product/
     - refresh: True
 
 sle_module_hpc_repo_updates:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-HPC/{{ repo_path }}/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-HPC/{{ repo_path }}/x86_64/update/
     - refresh: True
 
 containers_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/{{ repo_path }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Containers/{{ repo_path }}/x86_64/product/
     - refresh: True
 
 containers_updates_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/{{ repo_path }}/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/{{ repo_path }}/x86_64/update/
     - refresh: True
 
 {% if grains['osrelease_info'][1] >= 3 %}
@@ -46,12 +46,12 @@ containers_updates_repo:
 {% set repo_path = 'SLMicro' + grains['osrelease_info'][0]|string + grains['osrelease_info'][1]|string %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
     - refresh: True
 
 alp_sources_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
     - refresh: True
 {% endif %}
 
