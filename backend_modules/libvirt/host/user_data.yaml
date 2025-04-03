@@ -790,6 +790,12 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: epel
+  # repo for dbus-tools
+  os_update_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "updates.suse.de" }/SUSE/Updates/SLL/9/x86_64/update/
+    enabled: true
+    gpgcheck: false
+    name: os_update_repo
 
 runcmd:
   # WORKAROUND: cloud-init in Liberty 9 does not take care of the following
