@@ -35,6 +35,22 @@ large_deployment_tomcat_restart:
       - cmd: large_deployment_increase_hibernate_max_connections
       - cmd: large_deployment_tune_tomcat_maxthreads
 
+{% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') %}
+large_deployment_increase_database_max_connections_db_container:
+  cmd.run:
+    - name: podman exec uyuni-db sed -i "s/max_connections = .*/max_connections = 400/" /var/lib/pgsql/data/postgresql.conf
+
+large_deployment_increase_database_work_memory_db_container:
+  cmd.run:
+    - name: podman exec uyuni-db sed -i "s/work_mem = .*/work_mem = 20MB/" /var/lib/pgsql/data/postgresql.conf
+
+large_deployment_postgresql_restart_db_container:
+  cmd.run:
+    - name: podman restart uyuni-db
+    - watch:
+      - cmd: large_deployment_increase_database_max_connections_db_container
+      - cmd: large_deployment_increase_database_work_memory_db_container
+{% else %}
 large_deployment_increase_database_max_connections:
   cmd.run:
     - name: mgrctl exec 'sed -i "s/max_connections = (.*)/max_connections = 400/" /var/lib/pgsql/data/postgresql.conf'
@@ -49,5 +65,5 @@ large_deployment_postgresql_restart:
     - watch:
       - cmd: large_deployment_increase_database_max_connections
       - cmd: large_deployment_increase_database_work_memory
-
+{% endif %}
 {% endif %}
