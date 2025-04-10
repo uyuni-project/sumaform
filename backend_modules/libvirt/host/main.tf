@@ -3,7 +3,7 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
-  x86_64_v2_images = ["almalinux9o", "libertylinux9o", "oraclelinux9o", "rocky9o", "slmicro60o", "slmicro61o"]
+  x86_64_v2_images = ["almalinux9o", "amazonlinux2023o", "libertylinux9o", "oraclelinux9o", "rocky9o", "slmicro60o", "slmicro61o"]
   combustion_images  = ["leapmicro55o", "slmicro60o", "slmicro61o"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {

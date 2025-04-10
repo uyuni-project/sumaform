@@ -1,8 +1,10 @@
-{% if grains['os_family'] == 'RedHat' and grains['osfinger'] == 'Red Hat Enterprise Linux-9' %}
+{% if grains['os_family'] == 'RedHat' %}
+{% if grains['osfinger'] == 'Red Hat Enterprise Linux-9' or grains['osfinger'] == 'Amazon Linux-2023' %}
 install_dbus_uuidgen:
   pkg.installed:
     - pkgs:
       - dbus-tools
+{% endif %}
 {% endif %}
 
 systemd_machine_id:
