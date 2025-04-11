@@ -1,6 +1,4 @@
-%{ if image == "debian12o" }
-# Debian 12 cloud images use Netplan by default,
-# which is compatible with version 2 of cloud-inits network config.
+%{ if image == "debian12o" || image == "amazonlinux2023o" }
 network:
   version: 2
   ethernets:
