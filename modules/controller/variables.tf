@@ -435,6 +435,13 @@ variable "rhel9_minion_configuration" {
   }
 }
 
+variable "rhel9_sshminion_configuration" {
+  description = "use module.<RHEL9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "alma8_minion_configuration" {
   description = "use module.<ALMA8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -477,8 +484,15 @@ variable "oracle9_sshminion_configuration" {
   }
 }
 
-variable "rhel9_sshminion_configuration" {
-  description = "use module.<RHEL9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "amazon2023_minion_configuration" {
+  description = "use module.<AMAZON2023_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "amazon2023_sshminion_configuration" {
+  description = "use module.<AMAZON2023_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

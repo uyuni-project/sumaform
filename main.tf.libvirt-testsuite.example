@@ -31,7 +31,7 @@ module "cucumber_testsuite" {
   # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
   # the following images are e.g. available:
   # "almalinux8o", "almalinux9o",
-  # "amazonlinux2o",
+  # "amazonlinux2o", "amazonlinux2023o",
   # "centos7o", "centos8o", "centos9o",
   # "libertylinux9o",
   # "opensuse155o", "opensuse156o",
