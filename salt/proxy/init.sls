@@ -65,11 +65,7 @@ galaxy_key:
       - file: galaxy_key
 
 {% elif '4.3' in grains.get('product_version') %}
-  {% if '-released' in grains.get('product_version') %}
-    {% set client_tools_repo = grains.get("mirror") | default("dist.nue.suse.com/ibs", true) ~ '/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/' %}
-  {% else %}
-    {% set client_tools_repo =  grains.get("mirror") | default("dist.nue.suse.com", true) ~ '/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
-  {% endif %}
+  {% set client_tools_repo = grains.get("mirror") | default("dist.nue.suse.com/ibs", true) ~ '/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/' %}
 {% else %}
     {% set client_tools_repo =  grains.get("mirror") | default("dist.nue.suse.com", true) ~ '/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
 {% endif %}
