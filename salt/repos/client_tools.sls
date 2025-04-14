@@ -166,32 +166,7 @@ tools_pool_repo:
 
 {% endif %} {# Released Tools repos #}
 
-{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-
-{% if 'client' in grains.get('roles') %}
-tools_trad_repo:
-  pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
-  - refresh: True
-  - priority: 98
-{% endif %}
-
-tools_additional_repo:
-  pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
-  - refresh: True
-  - priority: 98
-{# 5.0 is intentional here (shared tools) #}
-
-{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
-
-tools_additional_repo:
-  pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
-  - refresh: True
-  - priority: 98
-
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% if 'head' in grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
