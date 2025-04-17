@@ -187,7 +187,7 @@ zypper --non-interactive install $PACKAGES
 zypper --non-interactive update --no-recommends iptables
 %{ endif }
 
-# Disabling this timer safely by masking it (systemctl might still not available at Combustion phase)
+# Disabling this timer safely by masking it (systemctl might still be unavailable during the Combustion phase)
 echo "Disabling automatic daily system updates"
 ln -sf /dev/null /etc/systemd/system/transactional-update.timer
 
