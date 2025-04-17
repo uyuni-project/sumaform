@@ -20,6 +20,15 @@ export VIRTHOST_KVM_PASSWORD="linux" {% else %}# no KVM host defined {% endif %}
 # base goodies
 {% if grains.get('additional_network') | default(false, true) %}export PRIVATENET="{{ grains.get('additional_network') }}" {% else %}# no private network defined {% endif %}
 {% if grains.get('mirror') | default(false, true) %}export MIRROR="yes" {% else %}# no mirror used {% endif %}
+{% if grains.get('mirror') | default(false, true) %}
+export BUILD_SOURCES="{{ grains.get('mirror') }}"
+{% else %}
+{% if 'uyuni' in grains.get('product_version') | default(false, true) %}
+export BUILD_SOURCES="downloadcontent.opensuse.org"
+{% else %}
+export BUILD_SOURCES="dist.nue.suse.com"
+{% endif %}
+{% endif %}
 
 # BV clients
 {% if grains.get('sle12sp5_paygo_minion') | default(false, true) %}export SLE12SP5_PAYGO_MINION="{{ grains.get('sle12sp5_paygo_minion') }}" {% else %}# no SLE12SP5_PAYGO minion defined {% endif %}
