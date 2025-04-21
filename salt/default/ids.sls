@@ -9,9 +9,22 @@ install_dbus_uuidgen:
 
 systemd_machine_id:
   cmd.run:
-    - name: rm -f /etc/machine-id && rm -f /var/lib/dbus/machine-id && mkdir -p /var/lib/dbus && dbus-uuidgen --ensure && systemd-machine-id-setup && mv /var/log/journal/* /var/log/journal/$(cat /etc/machine-id)/ && touch /etc/machine-id-already-setup
+    - name: >
+        bash -c '
+        rm -f /etc/machine-id &&
+        rm -f /var/lib/dbus/machine-id &&
+        mkdir -p /var/lib/dbus &&
+        dbus-uuidgen --ensure &&
+        systemd-machine-id-setup &&
+        if [ -d /var/log/journal ] && [ "$(ls -A /var/log/journal)" ]; then
+          mkdir -p /var/log/journal/$(cat /etc/machine-id) &&
+          mv /var/log/journal/* /var/log/journal/$(cat /etc/machine-id)/;
+        fi &&
+        touch /etc/machine-id-already-setup
+        '
     - creates: /etc/machine-id-already-setup
     - onlyif: test -f /usr/bin/systemd-machine-id-setup -o -f /bin/systemd-machine-id-setup
+
 
 dbus_machine_id:
   cmd.run:
