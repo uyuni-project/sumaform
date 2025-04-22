@@ -9,7 +9,7 @@ install_dbus_uuidgen:
 
 systemd_machine_id:
   cmd.run:
-    - name: >
+    - name: |
         bash -c '
         set -e
         echo "Removing existing machine-id files"
@@ -40,8 +40,6 @@ systemd_machine_id:
         '
     - creates: /etc/machine-id-already-setup
     - onlyif: test -f /usr/bin/systemd-machine-id-setup -o -f /bin/systemd-machine-id-setup
-
-
 
 dbus_machine_id:
   cmd.run:
