@@ -431,7 +431,11 @@ tools_update_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
+{%- if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-EL-{{ release }}-Beta-x86_64-Media1/
+{%- else %}
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/ManagerTools-Beta-EL{{ release }}-POOL-x86_64-Media/
+{%- endif %}
     - refresh: True
     - require:
       - cmd: galaxy_key
