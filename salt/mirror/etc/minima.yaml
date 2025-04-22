@@ -15,25 +15,6 @@ scc:
       - SLES12-SP5-Updates
       # uncomment when it goes LTSS (October 2024)
       # - SLES12-SP5-LTSS-Updates
-      # SLE 15-SP2 Products
-      - SLE-Product-SLES15-SP2-Pool
-      - SLE-Product-SLES15-SP2-Updates
-      - SLE-Product-SLES15-SP2-LTSS-Updates
-      - SLE-Product-SLED15-SP2-Pool
-      - SLE-Product-SLED15-SP2-Updates
-      # SLE 15-SP2 Basic Modules
-      - SLE-Module-Basesystem15-SP2-Pool
-      - SLE-Module-Basesystem15-SP2-Updates
-      - SLE-Module-Server-Applications15-SP2-Pool
-      - SLE-Module-Server-Applications15-SP2-Updates
-      - SLE-Module-Web-Scripting15-SP2-Pool
-      - SLE-Module-Web-Scripting15-SP2-Updates
-      - SLE-Module-Desktop-Applications15-SP2-Pool
-      - SLE-Module-Desktop-Applications15-SP2-Updates
-      - SLE-Module-DevTools15-SP2-Pool
-      - SLE-Module-DevTools15-SP2-Updates
-      - SLE-Module-Python2-15-SP2-Pool
-      - SLE-Module-Python2-15-SP2-Update
       # SLE 15-SP3 Products
       - SLE-Product-SLES15-SP3-Pool
       - SLE-Product-SLES15-SP3-Updates
@@ -166,59 +147,11 @@ http:
   # #  archs: [x86_64]
 
   # Required for SLED testing
-  - url: https://download.nvidia.com/suse/sle15sp2
   - url: https://download.nvidia.com/suse/sle15sp3
   - url: https://download.nvidia.com/suse/sle15sp4
   - url: https://download.nvidia.com/suse/sle15sp5
   - url: https://download.nvidia.com/suse/sle15sp6
-
-  # SLES 15 SP2 Test
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP2:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP2:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP2:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP2:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP2:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP2:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP2:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 15 SP3 Test
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP3:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP3:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP3:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP3:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP3:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP3:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP3:/x86_64/update
-    archs: [x86_64]
-
-  # SLES 15 SP4 Test
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Basesystem:/15-SP4:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Containers:/15-SP4:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Desktop-Applications:/15-SP4:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Development-Tools:/15-SP4:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Python2:/15-SP4:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Server-Applications:/15-SP4:/x86_64/update
-    archs: [x86_64]
-  - url: http://dist.nue.suse.com/ibs/SUSE:/Maintenance:/Test:/SLE-Module-Web-Scripting:/15-SP4:/x86_64/update
-    archs: [x86_64]
+  - url: https://download.nvidia.com/suse/sle15sp7
 
   # SUSE Manager 4.3 devel
   - url: http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/4.3/SLE_15_SP4
