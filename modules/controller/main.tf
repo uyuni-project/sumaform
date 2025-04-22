@@ -76,9 +76,6 @@ module "controller" {
     sle12sp5_minion      = length(var.sle12sp5_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_minion_configuration["hostnames"][0] : null
     sle12sp5_sshminion   = length(var.sle12sp5_sshminion_configuration["hostnames"]) > 0 ? var.sle12sp5_sshminion_configuration["hostnames"][0] : null
     sle12sp5_client      = length(var.sle12sp5_client_configuration["hostnames"]) > 0 ? var.sle12sp5_client_configuration["hostnames"][0] : null
-    sle15sp2_minion      = length(var.sle15sp2_minion_configuration["hostnames"]) > 0 ? var.sle15sp2_minion_configuration["hostnames"][0] : null
-    sle15sp2_sshminion   = length(var.sle15sp2_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp2_sshminion_configuration["hostnames"][0] : null
-    sle15sp2_client      = length(var.sle15sp2_client_configuration["hostnames"]) > 0 ? var.sle15sp2_client_configuration["hostnames"][0] : null
     sle15sp3_minion      = length(var.sle15sp3_minion_configuration["hostnames"]) > 0 ? var.sle15sp3_minion_configuration["hostnames"][0] : null
     sle15sp3_sshminion   = length(var.sle15sp3_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp3_sshminion_configuration["hostnames"][0] : null
     sle15sp3_client      = length(var.sle15sp3_client_configuration["hostnames"]) > 0 ? var.sle15sp3_client_configuration["hostnames"][0] : null
@@ -92,6 +89,9 @@ module "controller" {
     sle15sp6_client      = length(var.sle15sp6_client_configuration["hostnames"]) > 0 ? var.sle15sp6_client_configuration["hostnames"][0] : null
     sle15sp6_minion      = length(var.sle15sp6_minion_configuration["hostnames"]) > 0 ? var.sle15sp6_minion_configuration["hostnames"][0] : null
     sle15sp6_sshminion   = length(var.sle15sp6_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp6_sshminion_configuration["hostnames"][0] : null
+    sle15sp7_client      = length(var.sle15sp7_client_configuration["hostnames"]) > 0 ? var.sle15sp7_client_configuration["hostnames"][0] : null
+    sle15sp7_minion      = length(var.sle15sp7_minion_configuration["hostnames"]) > 0 ? var.sle15sp7_minion_configuration["hostnames"][0] : null
+    sle15sp7_sshminion   = length(var.sle15sp7_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp7_sshminion_configuration["hostnames"][0] : null
     slemicro51_minion    = length(var.slemicro51_minion_configuration["hostnames"]) > 0 ? var.slemicro51_minion_configuration["hostnames"][0] : null
     slemicro51_sshminion = length(var.slemicro51_sshminion_configuration["hostnames"]) > 0 ? var.slemicro51_sshminion_configuration["hostnames"][0] : null
     slemicro52_minion    = length(var.slemicro52_minion_configuration["hostnames"]) > 0 ? var.slemicro52_minion_configuration["hostnames"][0] : null

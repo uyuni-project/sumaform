@@ -183,35 +183,6 @@ runcmd:
 %{ endif }
 %{ endif }
 
-%{ if image == "sles15sp2o" }
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product
-      enabled: 1
-      autorefresh: 1
-    - id: module_server_applications_pool_repo
-      name: module_server_applications_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Server-Applications/15-SP2/x86_64/product
-      enabled: 1
-      autorefresh: 1
-    - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
-      enabled: true
-      gpgcheck: false
-      name: tools_pool_repo
-
-runcmd:
-%{ if install_salt_bundle }
-  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
-  - "zypper -n in avahi nss-mdns qemu-guest-agent"
-%{ endif }
-  # WORKAROUND: cloud-init in SLES 15 SP2 does not take care of the following
-  - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
-%{ endif }
-
 %{ if image == "sles15sp3o" }
 zypper:
   repos:
@@ -373,6 +344,28 @@ runcmd:
 %{ endif }
 %{ if container_proxy }
   - "zypper -n in mgrpxy podman ca-certificates-suse"
+%{ endif }
+%{ endif }
+
+%{ if image == "sles15sp7o" }
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP7/x86_64/product
+      enabled: 1
+      autorefresh: 1
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+runcmd:
+%{ if install_salt_bundle }
+  - "zypper -n in venv-salt-minion avahi avahi-lang nss-mdns qemu-guest-agent iptables"
+%{ else }
+  - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
 %{ endif }
 %{ endif }
 
