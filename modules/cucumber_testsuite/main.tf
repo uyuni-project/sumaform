@@ -119,7 +119,7 @@ module "server" {
   main_disk_size                  = lookup(local.main_disk_size, "server", 200)
   repository_disk_size            = lookup(local.repository_disk_size, "server", 0)
   database_disk_size              = lookup(local.database_disk_size, "server", 0)
-  large_deployment                = lookup(local.large_deployment, "server", false)
+  large_deployment                = lookup(local.large_deployment, "server", true)
   repository_disk_use_cloud_setup = lookup(local.repository_disk_use_cloud_setup, "server", false)
 }
 
@@ -162,7 +162,7 @@ module "server_containerized" {
   main_disk_size                = lookup(local.main_disk_size, "server_containerized", 200)
   repository_disk_size          = lookup(local.repository_disk_size, "server_containerized", 0)
   database_disk_size            = lookup(local.database_disk_size, "server_containerized", 0)
-  large_deployment              = lookup(local.large_deployment, "server_containerized", false)
+  large_deployment              = lookup(local.large_deployment, "server_containerized", true)
 }
 
 module "proxy" {
