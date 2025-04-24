@@ -928,27 +928,28 @@ module "server" {
 
 ## Large deployments
 
-In the case of the Build Validation test suite, or when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option. This option is inspired by the documentation at https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
+By default to support the load in our test suites, when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option.
+This option is inspired by the documentation at https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
 
 ```
 ### /etc/rhn/rhn.conf
 taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads = 3
-hibernate.c3p0.max_size = 50
+hibernate.c3p0.max_size = 100
 
 ### /etc/tomcat/server.xml
 changed `maxThreads` to 256
 
 ### /var/lib/pgsql/data/postgresql.conf
-max_connections = 450
-work_mem = 10MB
+max_connections = 400
+work_mem = 20MB
 ```
 
-An example follows:
+An example to disable it follows:
 
 ```hcl
-module "server" {
+module "server_containerized" {
    ...
-   large_deployment = true
+   large_deployment = false
    ...
 }
 ```
