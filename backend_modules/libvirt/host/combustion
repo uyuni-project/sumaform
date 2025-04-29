@@ -54,6 +54,8 @@ ${ gpg_keys }
 # Add repositories
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.6/ ca_suse
 
+# PRODUCT SETUP ----------------
+
 %{ if image == "leapmicro55o" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
 
@@ -63,14 +65,6 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 %{ else }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils_repo
 %{ endif }
-%{ endif }
-
-%{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
-
-# Leap repos are required to install expect
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.6/repo/oss/ leap_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/oss/ leap_update_repo
 %{ endif }
 
 %{ if container_runtime == "k3s" }
@@ -87,10 +81,6 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/P
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ else }
 zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
-%{ endif }
-
-%{ if testsuite }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 %{ endif }
 %{ endif } # end of image == "slmicro60o" block
 
@@ -126,12 +116,6 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
         %{ endif }
     %{ endif }
   %{ endif }
-
-  %{ if testsuite }
-    zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
-    # Leap repos are required to install expect
-    zypper ar --no-gpgcheck http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/16.0/repo/oss/ leap_pool_repo
-  %{ endif }
 %{ endif } # end of image == "slmicro61o" block
 
 for i in ${additional_repos}; do
@@ -157,9 +141,6 @@ PACKAGES="$PACKAGES helm"
 
 %{ if container_server || container_proxy }
 PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
-%{ if testsuite }
-PACKAGES="$PACKAGES expect bind-utils"
-%{ endif }
 %{ endif }
 
 %{ if container_server }
@@ -176,13 +157,34 @@ PACKAGES="$PACKAGES venv-salt-minion"
 PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
-%{ if testsuite }
-PACKAGES="$PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
-%{ endif }
-
 zypper --non-interactive install $PACKAGES
 
+# TEST SUITE SETUP ----------------
+
 %{ if testsuite }
+%{ if image == "leapmicro55o" }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+# Leap repos are required to install expect
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.6/repo/oss/ leap_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/oss/ leap_update_repo
+%{ endif } # end of image == "leapmicro55o" block
+
+%{ if image == "slmicro60o" }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+%{ endif } # end of image == "slmicro60o" block
+
+%{ if image == "slmicro61o" }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+# Leap repos are required to install expect
+zypper ar --no-gpgcheck http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/16.0/repo/oss/ leap_pool_repo
+%{ endif } # end of image == "slmicro61o" block
+
+TEST_PACKAGES=""
+%{ if container_server || container_proxy }
+TEST_PACKAGES="$TEST_PACKAGES expect bind-utils"
+%{ endif }
+TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
+zypper --non-interactive install $TEST_PACKAGES
 # full update cause a timeout on deployment
 zypper --non-interactive update --no-recommends iptables
 %{ endif }
