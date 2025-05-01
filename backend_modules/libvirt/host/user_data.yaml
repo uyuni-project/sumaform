@@ -850,6 +850,7 @@ yum_repos:
     name: epel
 
 runcmd:
+  - "dnf -y check-update"
 %{ if install_salt_bundle }
   - "dnf -y install venv-salt-minion avahi nss-mdns dbus-tools"
 %{ else }
