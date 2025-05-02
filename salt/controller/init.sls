@@ -228,3 +228,17 @@ http_testsuite_service:
     - enable: true
     - require:
       - file: http_testsuite_service_file
+
+# Health-check testing
+health_check_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}/repodata/repomd.xml.key
+    - gpgcheck: 0
+    - refresh: True
+
+install_health_check:
+    pkg.installed:
+    - name: mgr-health-check
+    - require:
+      - pkgrepo: health_check_repo
