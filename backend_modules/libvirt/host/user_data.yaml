@@ -496,9 +496,9 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
 %{ endif }
 %{ if install_salt_bundle }
-  - [ transactional-update, --continue, --non-interactive, -G, pkg, install, -G, qemu-guest-agent, venv-salt-minion, avahi ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, venv-salt-minion, avahi ]
 %{ else }
-  - [ transactional-update, --continue, --non-interactive, -G, pkg, install, -G, qemu-guest-agent, salt-minion, avahi ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
 %{ endif }
   - [ reboot ]
 %{ endif }
