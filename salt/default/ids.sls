@@ -16,10 +16,13 @@ systemd_machine_id:
         mkdir -p /var/lib/dbus
         dbus-uuidgen --ensure
         systemd-machine-id-setup
-        if [ -d /var/log/journal ] && [ "$(ls -A /var/log/journal)" ]; then
-          mkdir -p /var/log/journal/$(cat /etc/machine-id)
-          find /var/log/journal -mindepth 1 -maxdepth 1 ! -name "$(cat /etc/machine-id)" -exec mv {} /var/log/journal/$(cat /etc/machine-id)/ \;
-        fi
+        new_id="$(cat /etc/machine-id)"
+        mkdir -p "/var/log/journal/$new_id"
+        for d in /var/log/journal/*; do
+          [ "$(basename "$d")" != "$new_id" ] || continue
+          [ -d "$d" ] || continue
+          mv "$d"/* "$d"/.* "/var/log/journal/$new_id/" 2>/dev/null || true
+        done
         touch /etc/machine-id-already-setup
         '
     - creates: /etc/machine-id-already-setup
