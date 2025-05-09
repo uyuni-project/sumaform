@@ -52,7 +52,7 @@ systemctl enable sshd.service
 ${ gpg_keys }
 
 # Add repositories
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.6/ ca_suse
+zypper ar -G http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.6/ ca_suse
 
 # PRODUCT SETUP ----------------
 
