@@ -46,6 +46,12 @@ change_product_tree_to_beta:
     - name: mgrctl exec 'grep -q "java.product_tree_tag" /etc/rhn/rhn.conf && sed -i "s/java.product_tree_tag = .*/java.product_tree_tag = Beta/" /etc/rhn/rhn.conf || echo "java.product_tree_tag = Beta" >> /etc/rhn/rhn.conf'
 {% endif %}
 
+{% if grains.get('testsuite') | default(false, true) %}
+increase_presence_ping_timeout:
+  cmd.run:
+    - name: mgrctl exec 'echo "java.salt_presence_ping_timeout = 6" >> /etc/rhn/rhn.conf'
+{% endif %}
+
 rhn_conf_present:
   cmd.run:
     - name: mgrctl exec 'touch /etc/rhn/rhn.conf'
