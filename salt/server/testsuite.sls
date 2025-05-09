@@ -10,31 +10,35 @@ minima:
   archive.extracted:
     - name: /usr/bin
     - source: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz.sha512
+    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_checksums.txt
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
     - overwrite: True
 
+test_repo_rpm_updates_minima_config:
+  file.managed:
+    - name: /tmp/test_repo_rpm_updates.yaml
+    - source: salt://server/test_repo_rpm_updates.yaml
+    - template: jinja
+
 test_repo_rpm_updates:
   cmd.run:
-    - name: minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
+    - name: minima sync -c /tmp/test_repo_rpm_updates.yaml
     - require:
-      - archive: minima
+      - file: test_repo_rpm_updates_minima_config
+
+test_repo_appstream_minima_config:
+  file.managed:
+    - name: /tmp/test_repo_appstream.yaml
+    - source: salt://server/test_repo_appstream.yaml
+    - template: jinja
 
 test_repo_appstream:
   cmd.run:
-    - name: minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
-            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - name: minima sync -c /tmp/test_repo_appstream.yaml
     - require:
-      - archive: minima
+      - file: test_repo_appstream_minima_config
 
 another_test_repo:
   file.symlink:
