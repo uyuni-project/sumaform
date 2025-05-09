@@ -10,48 +10,48 @@ minima_unpack:
     - require:
       - cmd: minima_download
 
-test_repo_rpm_updates_minima_config:
+test_repositories_minima_config:
   file.managed:
-    - name: /tmp/test_repo_rpm_updates.yaml
-    - source: salt://server_containerized/test_repo_rpm_updates.yaml
+    - name: /tmp/test_repositories.yaml
+    - source: salt://server_containerized/test_repositories.yaml
     - template: jinja
 
-copy_test_repo_rpm_updates_config_to_container:
+copy_test_repositories_config_to_container:
   cmd.run:
-    - name: mgrctl cp /tmp/test_repo_rpm_updates.yaml server:/root/test_repo_rpm_updates.yaml
+    - name: mgrctl cp /tmp/test_repositories.yaml server:/root/test_repositories.yaml
     - require:
-      - file: test_repo_rpm_updates_minima_config
+      - file: test_repositories_minima_config
 
-test_repo_rpm_updates:
+test_repositories:
   cmd.run:
-    - name: mgrctl exec "minima sync -c /root/test_repo_rpm_updates.yaml"
+    - name: mgrctl exec "minima sync -c /root/test_repositories.yaml"
     - require:
-      - cmd: copy_test_repo_rpm_updates_config_to_container
+      - cmd: copy_test_repositories_config_to_container
 
-test_repo_appstream_minima_config:
+test_repositories_move_script:
   file.managed:
-    - name: /tmp/test_repo_appstream.yaml
-    - source: salt://server_containerized/test_repo_appstream.yaml
-    - template: jinja
+    - name: /tmp/move_testsuite_repos.sh
+    - source: salt://server_containerized/move_testsuite_repos.sh
+    - mode: '0755'
 
-copy_test_repo_appstream_config_to_container:
+copy_test_repositories_move_script_to_container:
   cmd.run:
-    - name: mgrctl cp /tmp/test_repo_appstream.yaml server:/root/test_repo_appstream.yaml
+    - name: mgrctl cp /tmp/move_testsuite_repos.sh server:/root/move_testsuite_repos.sh
     - require:
-      - file: test_repo_appstream_minima_config
+      - file: test_repositories_move_script
 
-test_repo_appstream:
+move_testsuite_repos:
   cmd.run:
-    - name: mgrctl exec "minima sync -c /root/test_repo_appstream.yaml"
+    - name: mgrctl exec "/root/move_testsuite_repos.sh"
     - require:
-      - cmd: copy_test_repo_appstream_config_to_container
+      - cmd: copy_test_repositories_move_script_to_container
 
 another_test_repo:
   cmd.run:
     - name: mgrctl exec "ln -s TestRepoRpmUpdates /srv/www/htdocs/pub/AnotherRepo"
     - unless: mgrctl exec "ls /srv/www/htdocs/pub/AnotherRepo"
     - require:
-      - cmd: test_repo_rpm_updates
+      - cmd: move_testsuite_repos
 
 test_repo_debian_updates_script:
   file.managed:
