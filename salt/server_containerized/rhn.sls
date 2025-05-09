@@ -49,7 +49,7 @@ change_product_tree_to_beta:
 {% if grains.get('testsuite') | default(false, true) %}
 increase_presence_ping_timeout:
   cmd.run:
-    - name: mgrctl exec 'echo "presence_ping_timeout = 6" >> /etc/rhn/rhn.conf'
+    - name: mgrctl exec 'echo "java.salt_presence_ping_timeout = 6" >> /etc/rhn/rhn.conf'
 {% endif %}
 
 rhn_conf_present:
