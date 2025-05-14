@@ -2,40 +2,56 @@
 
 minima_download:
   cmd.run:
-    - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz'
+    - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz'
 
 minima_unpack:
   cmd.run:
-    - name: mgrctl exec 'tar xf /root/minima-linux-amd64.tar.gz -C /usr/bin'
+    - name: mgrctl exec 'tar xf /root/minima_0.25_linux_amd64.tar.gz -C /usr/bin'
     - require:
       - cmd: minima_download
 
-test_repo_rpm_updates:
-  cmd.run:
-    - name: mgrctl exec -e MINIMA_CONFIG minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
-    - require:
-      - cmd: minima_unpack
+test_repositories_minima_config:
+  file.managed:
+    - name: /tmp/test_repositories.yaml
+    - source: salt://server_containerized/test_repositories.yaml
+    - template: jinja
 
-test_repo_appstream:
+copy_test_repositories_config_to_container:
   cmd.run:
-    - name: mgrctl exec -e MINIMA_CONFIG minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
-            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - name: mgrctl cp /tmp/test_repositories.yaml server:/root/test_repositories.yaml
     - require:
-      - cmd: minima_unpack
+      - file: test_repositories_minima_config
+
+test_repositories:
+  cmd.run:
+    - name: mgrctl exec "minima sync -c /root/test_repositories.yaml"
+    - require:
+      - cmd: copy_test_repositories_config_to_container
+
+test_repositories_move_script:
+  file.managed:
+    - name: /tmp/move_testsuite_repos.sh
+    - source: salt://server_containerized/move_testsuite_repos.sh
+    - mode: '0755'
+
+copy_test_repositories_move_script_to_container:
+  cmd.run:
+    - name: mgrctl cp /tmp/move_testsuite_repos.sh server:/root/move_testsuite_repos.sh
+    - require:
+      - file: test_repositories_move_script
+
+move_testsuite_repos:
+  cmd.run:
+    - name: mgrctl exec "/root/move_testsuite_repos.sh"
+    - require:
+      - cmd: copy_test_repositories_move_script_to_container
 
 another_test_repo:
   cmd.run:
     - name: mgrctl exec "ln -s TestRepoRpmUpdates /srv/www/htdocs/pub/AnotherRepo"
     - unless: mgrctl exec "ls /srv/www/htdocs/pub/AnotherRepo"
     - require:
-      - cmd: test_repo_rpm_updates
+      - cmd: move_testsuite_repos
 
 test_repo_debian_updates_script:
   file.managed:
