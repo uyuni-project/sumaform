@@ -92,7 +92,7 @@ salt_testing_repo:
 install_salt_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test python3-salt
+    - name: transactional-update -c -n pkg in --capability python3-salt-testsuite python3-salt-test python3-salt
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
@@ -100,11 +100,11 @@ install_salt_testsuite:
     {% if salt_minion_is_installed %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
+        zypper --non-interactive in --capability --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
     {% else %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
+        zypper --non-interactive in --capability --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
     {% endif %}
     - fromrepo: salt_testing_repo
 {% endif %}
