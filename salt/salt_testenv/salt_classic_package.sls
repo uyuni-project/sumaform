@@ -41,6 +41,13 @@ containers_updates_repo:
 
 {% endif %}
 
+remove_old_salt:
+  cmd.run:
+{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+    - name: transactional-update -c -n pkg remove python3-salt; exit 0
+{% else %}
+    - name: zypper --non-interactive remove python3-salt; exit 0
+{% endif %}
 
 {% if grains['osfullname'] == 'SL-Micro' %}
 {% set repo_path = 'SLMicro' + grains['osrelease_info'][0]|string + grains['osrelease_info'][1]|string %}
@@ -92,7 +99,7 @@ salt_testing_repo:
 install_salt_testsuite:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
   cmd.run:
-    - name: transactional-update -c -n pkg in python3-salt-testsuite python3-salt-test python3-salt
+    - name: transactional-update -c -n pkg in --capability python3-salt-testsuite python3-salt-test python3-salt
 {% else %}
   {# HACK: we call zypper manually to ensure right packages are installed regardless upgrade/downgrade #}
   cmd.run:
@@ -100,11 +107,11 @@ install_salt_testsuite:
     {% if salt_minion_is_installed %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
+        zypper --non-interactive in --capability --from salt_testing_repo python3-salt salt python3-salt-testsuite salt-minion
     {% else %}
     - name: |
         zypper --non-interactive in --force docker
-        zypper --non-interactive in --force --from salt_testing_repo python3-salt salt python3-salt-testsuite
+        zypper --non-interactive in --capability --from salt_testing_repo python3-salt salt python3-salt-testsuite
     {% endif %}
     - fromrepo: salt_testing_repo
 {% endif %}
