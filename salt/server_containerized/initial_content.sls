@@ -16,43 +16,20 @@ first_user_set_password:
 {% endif %}
 
 {% if grains.get('mgr_sync_autologin') %}
-
-mgr_sync_configuration_file:
-  file.managed:
-    - name: /root/.mgr-sync
-    - replace: false
-    - require:
-      - cmd: mgradm_install
-
 mgr_sync_automatic_authentication:
-  file.replace:
-    - name: /root/.mgr-sync
-    - pattern: mgrsync.user =.*\nmgrsync.password =.*\n
-    - repl: |
-        mgrsync.user = {{ server_username }}
-        mgrsync.password = {{ server_password }}
-    - append_if_not_found: true
-    - require:
-      - file: mgr_sync_configuration_file
+  cmd.run:
+     - name: mgrctl exec 'echo -e "mgrsync.user = {{ server_username }}\\nmgrsync.password = {{ server_password }}\\n" > /root/.mgr-sync'
 
 {% endif %}
 
 {% if grains.get('channels') %}
-wait_for_mgr_sync:
+scc_data_refresh:
   cmd.script:
-    - name: salt://server/wait_for_mgr_sync.py
+    - name: salt://server_containerized/wait_for_mgr_sync.sh
     - use_vt: True
-    - template: jinja
+    - args: "{{ server_username }} {{ server_password }}"
     - require:
       - cmd: mgradm_install
-
-scc_data_refresh:
-  cmd.run:
-    - name: mgrctl mgr-sync refresh
-    - use_vt: True
-    - unless: mgrctl exec "spacecmd -u {{ server_username }} -p {{ server_password }} --quiet api sync.content.listProducts | grep name"
-    - require:
-      - cmd: wait_for_mgr_sync
 
 add_channels:
   cmd.run:

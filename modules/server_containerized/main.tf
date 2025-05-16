@@ -51,6 +51,7 @@ module "server_containerized" {
     container_tag                  = var.container_tag
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
+    channels                       = var.channels
     mirror                         = var.base_configuration["mirror"]
     server_mounted_mirror          = var.server_mounted_mirror
     server_username                = var.server_username
