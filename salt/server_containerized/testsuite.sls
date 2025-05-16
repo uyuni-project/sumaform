@@ -99,6 +99,13 @@ suse_staging_key_import:
     - name: "mgradm gpg add -f /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
+
+authorized_keys_buildhost:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://build_host/keys/id_ed25519.pub
+    - makedirs: True
+
 {% endif %}
 
 {% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released"] %}
