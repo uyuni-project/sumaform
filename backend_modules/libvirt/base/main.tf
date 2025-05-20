@@ -23,7 +23,7 @@ locals {
     sles15sp4o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP4-Minimal-GM/SLES15-SP4-Minimal-VM.x86_64-OpenStack-Cloud-GM.qcow2"
     sles15sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP5-Minimal-GM/SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
     sles15sp6o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP6-Minimal-GM/SLES15-SP6-Minimal-VM.x86_64-Cloud-GM.qcow2"
-    sles15sp7o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP7-Minimal-RC1-202503/SLES15-SP7-Minimal-VM.x86_64-Cloud-RC1-202503.qcow2"
+    sles15sp7o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP7-Minimal-GMC-202505/SLES15-SP7-Minimal-VM.x86_64-Cloud-GMC-202505.qcow2"
     sles12sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-12-SP5-JeOS-GM/SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
     ubuntu2004o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
     ubuntu2204o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
