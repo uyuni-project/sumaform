@@ -7,6 +7,24 @@ certificate_authority_certificate:
     - source: salt://build_host/certs/ca.cert.pem
     - makedirs: True
 
+ssh_private_key:
+  file.managed:
+    - name: /root/.ssh/id_ed25519
+    - source: salt://build_host/keys/id_ed25519
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 600
+
+ssh_public_key:
+  file.managed:
+    - name: /root/.ssh/id_ed25519.pub
+    - source: salt://build_host/keys/id_ed25519.pub
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 600
+
 {% if '11' in grains['osrelease'] %}
 
 update_ca_truststore_registry_build_host:
