@@ -10,25 +10,41 @@ minima_unpack:
     - require:
       - cmd: minima_download
 
+test_repo_rpm_updates_minima_config:
+  file.managed:
+    - name: /tmp/test_repo_rpm_updates.yaml
+    - source: salt://server_containerized/test_repo_rpm_updates.yaml
+    - template: jinja
+
+copy_test_repo_rpm_updates_config_to_container:
+  cmd.run:
+    - name: mgrctl cp /tmp/test_repo_rpm_updates.yaml server:/root/test_repo_rpm_updates.yaml
+    - require:
+      - file: test_repo_rpm_updates_minima_config
+
 test_repo_rpm_updates:
   cmd.run:
-    - name: mgrctl exec -e MINIMA_CONFIG minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
+    - name: mgrctl exec "minima sync -c /root/test_repo_rpm_updates.yaml"
     - require:
-      - cmd: minima_unpack
+      - cmd: copy_test_repo_rpm_updates_config_to_container
+
+test_repo_appstream_minima_config:
+  file.managed:
+    - name: /tmp/test_repo_appstream.yaml
+    - source: salt://server_containerized/test_repo_appstream.yaml
+    - template: jinja
+
+copy_test_repo_appstream_config_to_container:
+  cmd.run:
+    - name: mgrctl cp /tmp/test_repo_appstream.yaml server:/root/test_repo_appstream.yaml
+    - require:
+      - file: test_repo_appstream_minima_config
 
 test_repo_appstream:
   cmd.run:
-    - name: mgrctl exec -e MINIMA_CONFIG minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
-            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - name: mgrctl exec "minima sync -c /root/test_repo_appstream.yaml"
     - require:
-      - cmd: minima_unpack
+      - cmd: copy_test_repo_appstream_config_to_container
 
 another_test_repo:
   cmd.run:
