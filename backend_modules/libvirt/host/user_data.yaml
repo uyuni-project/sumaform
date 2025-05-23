@@ -360,6 +360,74 @@ zypper:
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
+%{ if container_server || container_proxy }
+    - id: ca_suse
+      name: ca_suse
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/SLE_15_SP7/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: containers_pool_repo
+      name: containers_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Containers/15-SP7/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: containers_updates_repo
+      name: containers_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Updates/SLE-Module-Containers/15-SP7/x86_64/update/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+%{ if container_server }
+%{ if product_version == "5.1-nightly" }
+    - id: container_utils_repo
+      name: container_utils_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.1/images-SP7/repo/Multi-Linux-Manager-Server-5.1-x86_64/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+%{ if product_version == "5.1-released" }
+    - id: container_utils_pool_repo
+      name: container_utils_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/Multi-Linux-Manager-Server-SLE/5.1/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: container_utils_updates_repo
+      name: container_utils_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Updates/Multi-Linux-Manager-Server-SLE/5.1/x86_64/update
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+%{ endif }
+%{ if container_proxy }
+%{ if product_version == "5.1-nightly" }
+    - id: container_utils_repo
+      name: container_utils_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.1/images-SP7/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+%{ if product_version == "5.1-released" }
+    - id: container_utils_pool_repo
+      name: container_utils_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/Multi-Linux-Manager-Proxy-SLE/5.1/x86_64/product
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+    - id: container_utils_updates_repo
+      name: container_utils_updates_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Updates/Multi-Linux-Manager-Proxy-SLE/5.1/x86_64/update
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif }
+%{ endif }
 
 runcmd:
 %{ if install_salt_bundle }
