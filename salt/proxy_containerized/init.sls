@@ -43,11 +43,15 @@ ssh_config_proxy_containerized:
     {% set container_repository = 'registry.opensuse.org/systemsmanagement/uyuni/master/containers' %}
     # in Uyuni this would use latest tag
     {% set container_tag = '' %}
-  {% elif '5.0' in grains.get('product_version') and 'released' in grains.get('product_version') %}
+  {% elif '5.0-released' in grains.get('product_version') %}
     {% set container_repository = 'registry.suse.de/suse/sle-15-sp6/update/products/manager50/containerfile' %}
     # in SUMA this would use most recent version as tag
     {% set container_tag = '' %}
-  {% else %} # Head or 5.0-nightly
+  {% elif '5.1-released' in grains.get('product_version') %}
+    {% set container_repository = 'registry.suse.de/suse/sle-15-sp7/update/products/multilinuxmanager51/containerfile' %}
+    # in SUMA this would use most recent version as tag
+    {% set container_tag = '' %}
+  {% else %} # Head or nightly versions
     {% set container_repository = 'registry.suse.de/devel/galaxy/manager/head/containers' %}
     {% set container_tag = 'latest' %}
   {% endif %}
