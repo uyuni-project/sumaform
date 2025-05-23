@@ -11,12 +11,6 @@ proxy_product_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SUSE-Manager-Proxy/4.3/x86_64/update/
     - refresh: True
 
-{% if 'beta' in grains['product_version'] %}
-proxy_module_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE:/SLE-15-SP4:/Update:/Products:/Manager43/images/repo/SLE-Module-SUSE-Manager-Proxy-4.3-POOL-x86_64-Media1/
-    - refresh: True
-{% else %}
 proxy_module_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-SUSE-Manager-Proxy/4.3/x86_64/product/
@@ -26,8 +20,6 @@ proxy_module_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-SUSE-Manager-Proxy/4.3/x86_64/update/
     - refresh: True
-
-{% endif %}
 
 module_server_applications_pool_repo:
   pkgrepo.managed:

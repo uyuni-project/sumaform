@@ -5,11 +5,11 @@ variable "images" {
     "head"           = "slmicro61o"
     "5.0-released"   = "slemicro55o"
     "5.0-nightly"    = "slemicro55o"
+    "5.1-released"   = "slmicro61o"
+    "5.1-nightly"    = "slmicro61o"
     "uyuni-master"   = "leapmicro55o"
     "uyuni-released" = "leapmicro55o"
     "uyuni-pr"       = "leapmicro55o"
-    "5.1-released"   = "slmicro61o"
-    "5.1-nightly"    = "slmicro61o"
   }
 }
 
