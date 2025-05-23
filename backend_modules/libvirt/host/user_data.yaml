@@ -545,6 +545,7 @@ runcmd:
   - "apt-get -yq update"
   - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
@@ -590,6 +591,7 @@ runcmd:
   - "apt-get -yq update"
   - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
@@ -640,6 +642,7 @@ runcmd:
   - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif } # end Ubuntu 24.04
 
@@ -687,6 +690,7 @@ runcmd:
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
 %{ endif }
+  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif }
 
