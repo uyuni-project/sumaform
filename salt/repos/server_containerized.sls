@@ -3,6 +3,8 @@
 include:
   {% if '5.0' in grains.get('product_version') %}
   - repos.server_containerized50
+  {% elif '5.1' in grains.get('product_version') %}
+  - repos.server_containerized51
   {%- elif 'head' in grains['product_version'] %}
   - repos.server_containerizedHead
   {%- else %}
