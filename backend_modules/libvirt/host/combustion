@@ -177,6 +177,8 @@ zypper --non-interactive install $PACKAGES
 %{ if testsuite }
 # full update cause a timeout on deployment
 zypper --non-interactive update --no-recommends iptables
+# guarantees the most recent version of suse-build-key from SL Micro 6.1 repo
+zypper --non-interactive install --no-recommends --from os_pool_repo suse-build-key
 %{ endif }
 
 # Leave a marker
