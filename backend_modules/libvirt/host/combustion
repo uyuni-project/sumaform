@@ -187,6 +187,13 @@ TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezon
 zypper --non-interactive install $TEST_PACKAGES
 # full update cause a timeout on deployment
 zypper --non-interactive update --no-recommends iptables
+
+# WORKAROUND
+# Installing the last version of suse-build-key harcoded until it is solved
+%{ if image == "slmicro60o" || image == "slmicro61o" }
+zypper install --from os_pool_repo suse-build-key=12.0-slfo.1.1_3.1
+%{ endif }
+
 %{ endif }
 
 # Disabling this timer safely by masking it (systemctl might still be unavailable during the Combustion phase)
