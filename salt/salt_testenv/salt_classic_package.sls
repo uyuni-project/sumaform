@@ -46,7 +46,7 @@ remove_old_salt:
 {% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
     - name: transactional-update -c -n pkg remove python3-salt; exit 0
 {% else %}
-    - name: zypper --non-interactive remove python3-salt; exit 0
+    - name: zypper se -i /python3[0-9]*-salt/ | awk -F'|' '/^i/ { gsub(/ /, "", $2); print $2 }' |  xargs zypper --non-interactive remove; exit 0
 {% endif %}
 
 {% if grains['osfullname'] == 'SL-Micro' %}
@@ -125,6 +125,7 @@ install_salt_tests_executor:
     - name: transactional-update -c -n pkg in python3-salt-test
 {% else %}
   pkg.installed:
+    - resolve_capabilities: true
     - pkgs:
       - python3-salt-test
 {% endif %}
