@@ -17,11 +17,11 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
   # For openSUSE Tumbleweed venv-salt-minion is not available.
   # The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
-  - "zypper -n in salt salt-minion avahi avahi-lang"
+  # openssh-server-config-rootlogin is required due to SELinux
+  - "zypper -n in salt salt-minion avahi avahi-lang openssh-server-config-rootlogin"
+  - systemctl restart sshd
 %{endif}
 
 %{ if image == "centos7o" }
