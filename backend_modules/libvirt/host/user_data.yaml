@@ -7,7 +7,7 @@ chpasswd:
   list: |
      root:linux
 
-%{ if image == "tumbleweedo" }
+%{ if image == "tumbleweedo" ~}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -24,7 +24,7 @@ runcmd:
   - systemctl restart sshd
 %{endif}
 
-%{ if image == "centos7o" }
+%{ if image == "centos7o" ~}
 bootcmd:
   # HACK: mirrorlist.centos.org doesn't exist anymore
   - sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo
@@ -50,14 +50,14 @@ yum_repos:
     name: epel
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "yum -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "yum -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "centos8o" }
+%{ if image == "centos8o" ~}
 bootcmd:
   # WORKAROUND: yum_repos state cant replace a repo, so we need to delete it,
   # otherwise the workaround for archived repo doesn't work
@@ -91,14 +91,14 @@ yum_repos:
     name: CentOS-AppStream_backup
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "centos9o" }
+%{ if image == "centos9o" ~}
 bootcmd:
   # WORKAROUND: yum_repos state cant replace a repo, so we need to delete it,
   # otherwise the workaround for archived repo doesn't work
@@ -132,14 +132,14 @@ yum_repos:
     name: CentOS-AppStream_backup
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" }
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" ~}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -149,19 +149,19 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if container_server && testsuite }
+%{ if container_server && testsuite ~}
   # Packages needed for the testsuite
   - "zypper -n in expect"
-%{ endif }
-%{ if install_salt_bundle }
+%{ endif ~}
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi nss-mdns"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi nss-mdns"
-%{ endif }
+%{ endif ~}
   - "zypper removerepo --all"
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles12sp5o" }
+%{ if image == "sles12sp5o" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -176,14 +176,14 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "sles15sp3o" }
+%{ if image == "sles15sp3o" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -198,16 +198,16 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
-%{ endif }
+%{ endif ~}
   # WORKAROUND: cloud-init in SLES 15 SP3 does not take care of the following
   - "systemctl start 'qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0'"
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp4o" }
+%{ if image == "sles15sp4o" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -222,14 +222,14 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "sles15sp5o" }
+%{ if image == "sles15sp5o" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -244,14 +244,14 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "sles15sp6o" }
+%{ if image == "sles15sp6o" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -266,14 +266,14 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "sles15sp7o" }
+%{ if image == "sles15sp7o" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -288,37 +288,37 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion avahi avahi-lang nss-mdns qemu-guest-agent iptables"
-%{ else }
+%{ else ~}
   - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "slemicro55o" }
+%{ if image == "slemicro55o" ~}
 
-write_files: ${ files }
+write_files: ${ files ~}
 
 zypper:
   repos:
-%{ if container_server }
-%{ if product_version == "head" }
+%{ if container_server ~}
+%{ if product_version == "head" ~}
     - id: container_utils_repo
       name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
-%{ if product_version == "5.0-nightly" }
+%{ endif ~}
+%{ if product_version == "5.0-nightly" ~}
     - id: container_utils_repo
       name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
-%{ if product_version == "5.0-released" }
+%{ endif ~}
+%{ if product_version == "5.0-released" ~}
     - id: container_utils_pool_repo
       name: container_utils_pool_repo
       baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SUSE-Manager-Server/5.0/x86_64/product
@@ -331,10 +331,10 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
-%{ endif }
-%{ if container_proxy }
-%{ if product_version == "head" }
+%{ endif ~}
+%{ endif ~}
+%{ if container_proxy ~}
+%{ if product_version == "head" ~}
     - id: container_utils_repo
       name: container_utils_repo
 #      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/SLE-Micro55/
@@ -342,16 +342,16 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
-%{ if product_version == "5.0-nightly" }
+%{ endif ~}
+%{ if product_version == "5.0-nightly" ~}
     - id: container_utils_repo
       name: container_utils_repo
       baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
-%{ if product_version == "5.0-released" }
+%{ endif ~}
+%{ if product_version == "5.0-released" ~}
     - id: container_utils_pool_repo
       name: container_utils_pool_repo
       baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SUSE-Manager-Proxy/5.0/x86_64/product
@@ -364,9 +364,9 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
-%{ endif }
-%{ if testsuite }
+%{ endif ~}
+%{ endif ~}
+%{ if testsuite ~}
     # Required only for wget
     - id: os_pool_repo
       name: os_pool_repo
@@ -374,7 +374,7 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endif }
+%{ endif ~}
     - id: ca_suse
       name: ca_suse
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/SLE_15_SP5/
@@ -399,37 +399,37 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ for name, url in jsondecode(additional_repos) }
+%{ for name, url in jsondecode(additional_repos) ~}
     - id: ${name}_repo
       name: ${name}_repo
       baseurl: ${url}
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ endfor }
+%{ endfor ~}
 
 runcmd:
   - [transactional-update, run, sh, -c, "for key in $(ls /etc/gpg_keys); do rpm --import /etc/gpg_keys/$key; done" ]
   - [ zypper, mr, -a, -g ]
-%{ if testsuite }
+%{ if testsuite ~}
   # Packages needed for the testsuite
   - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, expect, ca-certificates ]
-%{ endif }
-%{ if container_server }
+%{ endif ~}
+%{ if container_server ~}
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
-%{ endif }
-%{ if container_proxy }
+%{ endif ~}
+%{ if container_proxy ~}
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]
-%{ endif }
-%{ if install_salt_bundle }
+%{ endif ~}
+%{ if install_salt_bundle ~}
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, venv-salt-minion, avahi ]
-%{ else }
+%{ else ~}
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
-%{ endif }
+%{ endif ~}
   - [ reboot ]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2004o" }
+%{ if image == "ubuntu2004o" ~}
 
 apt:
   sources:
@@ -464,18 +464,18 @@ runcmd:
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "apt-get -yq update"
   - "apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "apt-get -yq update"
   - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
-%{ endif }
+%{ endif ~}
   - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2204o" }
+%{ if image == "ubuntu2204o" ~}
 
 apt:
   sources:
@@ -510,18 +510,18 @@ runcmd:
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "apt-get -yq update"
   - "apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "apt-get -yq update"
   - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
-%{ endif }
+%{ endif ~}
   - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2404o" }
+%{ if image == "ubuntu2404o" ~}
 
 apt:
   sources:
@@ -561,18 +561,18 @@ runcmd:
   # WORKAROUND: disable IPv6 until we have it in Provo
   - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
-%{ endif }
+%{ endif ~}
   - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
 %{ endif } # end Ubuntu 24.04
 
-%{ if image == "debian12o" }
+%{ if image == "debian12o" ~}
 apt:
   sources:
     tools_pool_repo:
@@ -609,18 +609,18 @@ runcmd:
   # HACK: cloud-init in Debian 12 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
-%{ endif }
+%{ endif ~}
   - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
   - systemctl start qemu-guest-agent
-%{ endif }
+%{ endif ~}
 
-%{ if image == "almalinux8o" }
+%{ if image == "almalinux8o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -637,14 +637,14 @@ yum_repos:
     name: epel
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "almalinux9o" }
+%{ if image == "almalinux9o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -664,14 +664,14 @@ runcmd:
   # WORKAROUND: cloud-init in Alma 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent dbus-tools"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "amazonlinux2o" }
+%{ if image == "amazonlinux2o" ~}
 
 yum_repos:
   # repo for salt
@@ -691,14 +691,14 @@ yum_repos:
     name: epel
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "amazonlinux2023o" }
+%{ if image == "amazonlinux2023o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -725,15 +725,15 @@ runcmd:
   # WORKAROUND: cloud-init in Amazon Linux 2023 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif }
+%{ endif ~}
   - systemctl start qemu-guest-agent
-%{ endif }
+%{ endif ~}
 
-%{ if image == "libertylinux9o" }
+%{ if image == "libertylinux9o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -761,9 +761,9 @@ runcmd:
   - systemctl restart sshd
   - dnf -y install venv-salt-minion
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "openeuler2403o" }
+%{ if image == "openeuler2403o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -783,7 +783,7 @@ runcmd:
   - systemctl start qemu-guest-agent
 %{ endif }
 
-%{ if image == "rocky8o" }
+%{ if image == "rocky8o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -801,14 +801,14 @@ yum_repos:
 
 runcmd:
   - "dnf -y check-update"
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns dbus-tools"
-%{ else }
+%{ else ~}
   - "dnf -y install avahi nss-mdns salt-minion dbus-tools"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "rocky9o" }
+%{ if image == "rocky9o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -828,14 +828,14 @@ runcmd:
   # WORKAROUND: cloud-init in Rocky 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns dbus-tools"
-%{ else }
+%{ else ~}
   - "dnf -y install avahi nss-mdns salt-minion dbus-tools"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "oraclelinux8o" }
+%{ if image == "oraclelinux8o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -852,14 +852,14 @@ yum_repos:
     name: epel
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else }
+%{ else ~}
   - "dnf -y install avahi nss-mdns qemu-guest-agent salt-minion"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "oraclelinux9o" }
+%{ if image == "oraclelinux9o" ~}
 yum_repos:
   # repo for salt
   tools_pool_repo:
@@ -879,14 +879,14 @@ runcmd:
   # WORKAROUND: cloud-init in Oracle 9 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar"
-%{ else }
+%{ else ~}
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar"
-%{ endif }
-%{ endif }
+%{ endif ~}
+%{ endif ~}
 
-%{ if image == "opensuse155armo" || image == "opensuse156armo" }
+%{ if image == "opensuse155armo" || image == "opensuse156armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -896,17 +896,17 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - "zypper -n in venv-salt-minion"
-%{ else }
+%{ else ~}
   - "zypper -n in salt-minion"
-%{ endif }
+%{ endif ~}
   - "zypper removerepo --all"
-%{ endif }
+%{ endif ~}
 
-%{ if image == "opensuse156armo" }
+%{ if image == "opensuse156armo" ~}
 runcmd:
   # WORKAROUND: cloud-init in opensuse156 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
-%{ endif }
+%{ endif ~}

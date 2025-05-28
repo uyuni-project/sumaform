@@ -1,6 +1,6 @@
 #cloud-config
 
-%{ if public_instance == "false" }
+%{ if public_instance == "false" ~}
 #disable_root: false
 disable_root: false
 ssh_pwauth: true
@@ -8,54 +8,54 @@ chpasswd:
   expire: false
   list: |
     root:linux
-%{ endif }
+%{ endif ~}
 
-%{ if image == "opensuse154o" }
+%{ if image == "opensuse154o" ~}
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else }
+%{ else ~}
   - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif }
+%{ endif ~}
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "opensuse155o" }
+%{ if image == "opensuse155o" ~}
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else }
+%{ else ~}
   - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif }
+%{ endif ~}
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "opensuse156o" }
+%{ if image == "opensuse156o" ~}
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else }
+%{ else ~}
   - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif }
+%{ endif ~}
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp2o" }
+%{ if image == "sles15sp2o" ~}
 zypper:
   repos:
     - id: salt_qubes_build
@@ -66,9 +66,9 @@ zypper:
 
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp3o" }
+%{ if image == "sles15sp3o" ~}
 zypper:
   repos:
     - id: salt_qubes_build
@@ -79,9 +79,9 @@ zypper:
 
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp4o" }
+%{ if image == "sles15sp4o" ~}
 zypper:
   repos:
     - id: salt_qubes_build
@@ -92,9 +92,9 @@ zypper:
 
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp5o" }
+%{ if image == "sles15sp5o" ~}
 zypper:
   repos:
     - id: salt_qubes_build
@@ -105,9 +105,9 @@ zypper:
 
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
   
-%{ if image == "sles15sp6o" }
+%{ if image == "sles15sp6o" ~}
 zypper:
   repos:
     - id: salt_qubes_build
@@ -118,9 +118,9 @@ zypper:
 
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
   
-%{ if image == "rhel9" }
+%{ if image == "rhel9" ~}
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -132,8 +132,8 @@ yum_repos:
     priority: 98
 
 packages: ["salt-minion"]
-%{ endif }
-%{ if image == "rhel8" }
+%{ endif ~}
+%{ if image == "rhel8" ~}
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -145,8 +145,8 @@ yum_repos:
     priority: 98
 
 packages: ["salt-minion"]
-%{ endif }
-%{ if image == "centos7" || image == "rhel7" }
+%{ endif ~}
+%{ if image == "centos7" || image == "rhel7" ~}
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -158,9 +158,9 @@ yum_repos:
     priority: 98
 
 packages: ["salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2004" }
+%{ if image == "ubuntu2004" ~}
 
 apt:
   sources:
@@ -195,9 +195,9 @@ runcmd:
   - systemctl restart sshd
 
 packages: ["salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2204" }
+%{ if image == "ubuntu2204" ~}
 
 apt:
   sources:
@@ -232,9 +232,9 @@ runcmd:
   - systemctl restart sshd
 
 packages: ["salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2404" }
+%{ if image == "ubuntu2404" ~}
 
 apt:
   sources:
@@ -269,4 +269,4 @@ runcmd:
   - systemctl restart sshd
 
 packages: ["salt-minion"]
-%{ endif }
+%{ endif ~}
