@@ -3,7 +3,6 @@ variable "images" {
     "4.3-released"    = "sles15sp4o"
     "4.3-nightly"     = "sles15sp4o"
     "4.3-pr"          = "sles15sp4o"
-    "4.3-beta"        = "sles15sp4o"
     "4.3-build_image" = "sles15sp4o"
     "4.3-paygo"       = "suma-server-43-paygo"
     "4.3-VM-nightly"  = "suma43VM-ign"
