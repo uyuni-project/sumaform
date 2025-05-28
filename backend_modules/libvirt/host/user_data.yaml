@@ -11,16 +11,14 @@ chpasswd:
 zypper:
   repos:
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/saltstack/openSUSE_Tumbleweed/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/saltstack:/bundle:/openSUSE_Tumbleweed/openSUSE_Tumbleweed/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
 
 runcmd:
-  # For openSUSE Tumbleweed venv-salt-minion is not available.
-  # The goal is to be able to run Salt Shaker tests for the classic Salt package in Tumbleweed.
-  # openssh-server-config-rootlogin is required due to SELinux
-  - "zypper -n in salt salt-minion avahi avahi-lang openssh-server-config-rootlogin"
+   # openssh-server-config-rootlogin is required to allow ssh root login with SELinux enabled
+  - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin
   - systemctl restart sshd
 %{endif}
 
