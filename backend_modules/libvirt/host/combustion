@@ -191,7 +191,7 @@ zypper --non-interactive update --no-recommends iptables
 # WORKAROUND
 # Installing the last version of suse-build-key harcoded until it is solved
 %{ if image == "slmicro61o" }
-zypper install --from os_pool_repo suse-build-key=12.0-slfo.1.1_3.1
+zypper --non-interactive install --from os_pool_repo suse-build-key=12.0-slfo.1.1_3.1
 %{ endif }
 
 %{ endif }
