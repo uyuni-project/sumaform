@@ -183,7 +183,7 @@ TEST_PACKAGES=""
 %{ if container_server || container_proxy }
 TEST_PACKAGES="$TEST_PACKAGES expect bind-utils"
 %{ endif }
-TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget aaa_base-extras"
+TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget"
 zypper --non-interactive install $TEST_PACKAGES
 # full update cause a timeout on deployment
 zypper --non-interactive update --no-recommends iptables

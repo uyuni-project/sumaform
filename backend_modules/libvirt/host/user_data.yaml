@@ -413,7 +413,7 @@ runcmd:
   - [ zypper, mr, -a, -g ]
 %{ if testsuite }
   # Packages needed for the testsuite
-  - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, expect, aaa_base-extras, ca-certificates ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, expect, ca-certificates ]
 %{ endif }
 %{ if container_server }
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
