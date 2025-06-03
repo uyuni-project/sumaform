@@ -158,6 +158,8 @@ PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
 zypper --non-interactive install $PACKAGES
+# full update cause a timeout on deployment
+zypper --non-interactive update --no-recommends iptables
 
 # TEST SUITE SETUP ----------------
 
@@ -185,8 +187,6 @@ TEST_PACKAGES="$TEST_PACKAGES expect bind-utils"
 %{ endif }
 TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget"
 zypper --non-interactive install $TEST_PACKAGES
-# full update cause a timeout on deployment
-zypper --non-interactive update --no-recommends iptables
 
 # WORKAROUND
 # Installing the last version of suse-build-key harcoded until it is solved
