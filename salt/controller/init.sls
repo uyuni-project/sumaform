@@ -240,5 +240,6 @@ health_check_repo:
 install_health_check:
     pkg.installed:
     - name: mgr-health-check
+    - resolve_capabilities: True
     - require:
       - pkgrepo: health_check_repo
