@@ -239,6 +239,6 @@ health_check_repo:
 
 install_health_check:
     pkg.installed:
-    - name: mgr-health-check
+    - name: python311-mgr-health-check
     - require:
       - pkgrepo: health_check_repo
