@@ -177,15 +177,6 @@ cucumber_run_script:
     - group: root
     - mode: 755
 
-testsuite_env_vars:
-  file.managed:
-    - name: /root/.bashrc
-    - source: salt://controller/bashrc
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 755
-
 extra_pkgs:
   pkg.installed:
     - pkgs:
@@ -213,6 +204,15 @@ google_cert_db:
    - require:
      - file: chrome_certs
    - creates: /root/.pki/nssdb
+
+testsuite_env_vars:
+  file.managed:
+    - name: /root/.bashrc
+    - source: salt://controller/bashrc
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755
 
 http_testsuite_service_file:
   file.managed:
