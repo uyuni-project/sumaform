@@ -2,11 +2,11 @@
 
 minima_download:
   cmd.run:
-    - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz'
+    - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz'
 
 minima_unpack:
   cmd.run:
-    - name: mgrctl exec 'tar xf /root/minima-linux-amd64.tar.gz -C /usr/bin'
+    - name: mgrctl exec 'tar xf /root/minima_0.25_linux_amd64.tar.gz -C /usr/bin'
     - require:
       - cmd: minima_download
 
