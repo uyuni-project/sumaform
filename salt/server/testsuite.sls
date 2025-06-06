@@ -16,36 +16,36 @@ minima:
     - keep: True
     - overwrite: True
 
-test_repo_rpm_updates_minima_config:
+test_repositories_minima_config:
   file.managed:
-    - name: /tmp/test_repo_rpm_updates.yaml
-    - source: salt://server/test_repo_rpm_updates.yaml
+    - name: /tmp/test_repositories.yaml
+    - source: salt://server/test_repositories.yaml
     - template: jinja
 
-test_repo_rpm_updates:
+test_repositories:
   cmd.run:
-    - name: minima sync -c /tmp/test_repo_rpm_updates.yaml
+    - name: minima sync -c /tmp/test_repositories.yaml
     - require:
-      - file: test_repo_rpm_updates_minima_config
+      - file: test_repositories_minima_config
 
-test_repo_appstream_minima_config:
+test_repositories_move_script:
   file.managed:
-    - name: /tmp/test_repo_appstream.yaml
-    - source: salt://server/test_repo_appstream.yaml
-    - template: jinja
+    - name: /usr/local/bin/move_testsuite_repos.sh
+    - source: salt://server/move_testsuite_repos.sh
+    - mode: '0755'
 
-test_repo_appstream:
+move_testsuite_repos:
   cmd.run:
-    - name: minima sync -c /tmp/test_repo_appstream.yaml
+    - name: /usr/local/bin/move_testsuite_repos.sh
     - require:
-      - file: test_repo_appstream_minima_config
+      - file: test_repositories_move_script
 
 another_test_repo:
   file.symlink:
     - name: /srv/www/htdocs/pub/AnotherRepo
     - target: TestRepoRpmUpdates
     - require:
-      - cmd: test_repo_rpm_updates
+      - cmd: move_testsuite_repos
 
 test_repo_debian_updates:
   cmd.script:
