@@ -707,10 +707,10 @@ tools_update_repo_raised_priority:
         Package: *
         Pin: release l=Devel:Galaxy:Manager:Head:Debian{{ release }}-SUSE-Manager-Tools
         Pin-Priority: 800
-{% elif 'nightly' in grains.get('product_version') | default('', true) %}
+{% elif '4.3-nightly' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
-        Pin: release l=Devel:Galaxy:Manager:4.3:Debian{{ release }}-SUSE-Manager-Tools
+        Pin: release l=Devel:Galaxy:Manager:5.0:Debian{{ release }}-SUSE-Manager-Tools
         Pin-Priority: 800
 {% elif '4.3-released' in grains.get('product_version') | default('', true) %}
     - contents: |
@@ -722,10 +722,20 @@ tools_update_repo_raised_priority:
         Package: *
         Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
         Pin-Priority: 800
+{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+    - contents: |
+        Package: *
+        Pin: release l=Devel:Galaxy:Manager:5.0:Debian{{ release }}-SUSE-Manager-Tools
+        Pin-Priority: 800
 {% elif '5.0-released' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
         Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
+        Pin-Priority: 800
+{% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
+    - contents: |
+        Package: *
+        Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Debian{{ release }}
         Pin-Priority: 800
 {% elif '5.1-released' in grains.get('product_version') | default('', true) %}
     - contents: |
