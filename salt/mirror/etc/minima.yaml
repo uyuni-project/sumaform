@@ -13,8 +13,7 @@ scc:
       # SLE 12-SP5
       - SLES12-SP5-Pool
       - SLES12-SP5-Updates
-      # uncomment when it goes LTSS (October 2024)
-      # - SLES12-SP5-LTSS-Updates
+      - SLES12-SP5-LTSS-Updates
       # SLE 15-SP3 Products
       - SLE-Product-SLES15-SP3-Pool
       - SLE-Product-SLES15-SP3-Updates
