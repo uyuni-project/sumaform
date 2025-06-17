@@ -331,7 +331,7 @@ variable "c3p0_connection_debug" {
 variable "large_deployment" {
   description = "set up for a deployment with a great number of clients"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "quantity" {

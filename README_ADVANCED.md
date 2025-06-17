@@ -945,12 +945,12 @@ max_connections = 400
 work_mem = 20MB
 ```
 
-An example to disable it follows:
+An example to enable it follows:
 
 ```hcl
 module "server_containerized" {
    ...
-   large_deployment = false
+   large_deployment = true
    ...
 }
 ```
