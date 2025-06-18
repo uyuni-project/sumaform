@@ -20,7 +20,7 @@ module "cucumber_testsuite" {
   cc_username = ...
   cc_password = ...
 
-  images = ["opensuse154", "opensuse155"]
+  images = ["opensuse156o"]
 
   name_prefix  = ...
   git_repo     = "https://github.com/uyuni-project/uyuni.git"
@@ -32,16 +32,16 @@ module "cucumber_testsuite" {
     server = {}
     proxy = {}
     suse_client = {
-      image = "opensuse154"
-      name = "cli-opensuse154"
+      image = "opensuse156o"
+      name = "cli-opensuse156"
     }
     suse_minion = {
-      image = "opensuse154"
-      name = "min-opensuse154"
+      image = "opensuse156o"
+      name = "min-opensuse156"
     }
     suse_sshminion = {
-      image = "opensuse154"
-      name = "minssh-opensuse154"
+      image = "opensuse156o"
+      name = "minssh-opensuse156"
     }
   }
 
