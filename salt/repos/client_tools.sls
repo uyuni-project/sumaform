@@ -130,7 +130,9 @@ tools_pool_repo:
     - humanname: tools_pool_repo
     {% if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/product/
+    {% if grains.get('mirror') %}
     - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools/x86_64/
+    {% endif %}
     {% else %}
     # Amazon Linux support
     {% if release == 2 %}
