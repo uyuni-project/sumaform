@@ -210,127 +210,48 @@ tools_additional_repo:
 
 {% if grains['os_family'] == 'RedHat' %}
 
-{% set release = grains.get('osmajorrelease', None)|int() %}
+# Set release to 9 for AmazonLinux2023 and OpenEuler. osmajorrelease is 2023 or 24
+{% set os_major = grains.get('osmajorrelease', 0) | int %}
+{% set release = 9 if os_major >= 9 else os_major %}
 
-
-{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %} {# Released Tools Repos #}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 9 %}
-{% set rhlike_client_tools_prefix = 'RES' %}
-{% endif %}
+# RES extension is only used for centos7
+{% set rhlike_client_tools_prefix = 'RES' if release < 8 else 'EL' %}
 
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    {% if release >= 8 %}
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
-    {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
-    {% endif %}
-    {% elif grains.get('mirror') %}
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools-Beta/x86_64/
-    {% else %}
-    - baseurl: http://{{ grains.get("mirror") }}/repo/$RCE/RES{{ release }}-SUSE-Manager-Tools/x86_64/
-    {% endif %}
-    {% else %}
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://dist.nue.suse.com/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
-    {% else %}
-    # Amazon Linux support
-    {% if release == 2 %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/RES/7-CLIENT-TOOLS/x86_64/product/
-    {% else %}
-    - baseurl: http://dist.nue.suse.com/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    - refresh: True
-
-{% else %}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 8 %}
-{% set rhlike_client_tools_prefix = 'CentOS' %}
-{% endif %}
-
-tools_pool_repo:
-  pkgrepo.managed:
-    - humanname: tools_pool_repo
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
-    - refresh: True
-    - require:
-      - cmd: uyuni_key
-{% endif %} {# Released Tools Repos #}
-
-{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 9 %}
-{% set rhlike_client_tools_prefix = 'RES' %}
-{% endif %}
-
-{% if 'client' in grains.get('roles') %}
-tools_update_trad_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/4.3:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-    {% if release >= 9 %}
-      - cmd: suse_el9_key
-    {% else %}
-      - cmd: suse_res7_key
-    {% endif %}
-{% endif %}
 
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-    {% if release >= 9 %}
-      - cmd: suse_el9_key
-    {% else %}
-      - cmd: suse_res7_key
-    {% endif %}
-{# 5.0 is intentional here (shared tools) #}
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/updates/
 
-{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+{% if 'beta' in grains.get('product_version') | default('', true) %}
 
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 9 %}
-{% set rhlike_client_tools_prefix = 'RES' %}
+beta_tools_pool_repo:
+  pkgrepo.managed:
+    - humanname: beta_tools_pool_repo
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
+
+beta_tools_update_repo:
+  pkgrepo.managed:
+    - humanname: beta_tools_update_repo
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/updates/
+
 {% endif %}
 
-tools_update_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-    {% if release >= 9 %}
-      - cmd: suse_el9_key
-    {% else %}
-      - cmd: suse_res7_key
-    {% endif %}
-
-{% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
+# Devel Tools Repos
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-{%- if release >= 8 %}
+    {%- if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/MultiLinuxManagerTools-EL-{{release}}-x86_64-Media1/
-{%- else %}
+    {%- else %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/ManagerTools-EL{{release}}-POOL-x86_64-Media/
-{%- endif %}
+    {%- endif %}
     - refresh: True
     - require:
       - cmd: galaxy_key
@@ -345,11 +266,11 @@ tools_update_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-{%- if release >= 8 %}
+    {%- if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-EL-{{ release }}-Beta-x86_64-Media1/
-{%- else %}
+    {%- else %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/ManagerTools-Beta-EL{{ release }}-POOL-x86_64-Media/
-{%- endif %}
+    {%- endif %}
     - refresh: True
     - require:
       - cmd: galaxy_key
@@ -359,50 +280,7 @@ tools_update_repo:
       - cmd: suse_res7_key
     {% endif %}
 
-{% elif 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 8 %}
-{% set rhlike_client_tools_prefix = 'CentOS' %}
-{% endif %}
-
-tools_update_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
-    - refresh: True
-    - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
-    - require:
-      - cmd: uyuni_key
-
-{% else %}
-
-{% if release >= 8 %}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 9 %}
-{% set rhlike_client_tools_prefix = 'RES' %}
-{% endif %}
-
-tools_update_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    {% if 'beta' in grains.get('product_version') | default('', true) %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
-    {% else %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
-    {% endif %}
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-    {% if release >= 9 %}
-      - cmd: suse_el9_key
-    {% else %}
-      - cmd: suse_res7_key
-    {% endif %}
-
-{% endif %} {# release >= 8 #}
 {% endif %} {# Devel Tools Repos #}
 
 clean_repo_metadata:
