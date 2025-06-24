@@ -199,18 +199,6 @@ tools_update_repo:
     - name: deb {{ tools_update_repo }} /
     - key_url: {{ tools_update_repo }}/Release.key
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
-tools_additional_repo:
-  pkgrepo.managed:
-    - humanname: tools_additional_repo
-    - file: /etc/apt/sources.list.d/tools_additional_repo.list
-    - refresh: True
-    - name: deb {{ tools_additional_repo }} /
-    - key_url: {{ tools_additional_repo }}/Release.key
-
-{% endif %}
-
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
@@ -220,6 +208,16 @@ tools_update_repo_raised_priority:
             Pin-Priority: 800
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
+
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+tools_additional_repo:
+  pkgrepo.managed:
+    - humanname: tools_additional_repo
+    - file: /etc/apt/sources.list.d/tools_additional_repo.list
+    - refresh: True
+    - name: deb {{ tools_additional_repo }} /
+    - key_url: {{ tools_additional_repo }}/Release.key
+
 tools_additional_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_additional_repo
@@ -245,17 +243,6 @@ tools_update_repo:
     - key_url: {{ tools_repo_url }}/Release.key
     # We only have one shared Client Tools repository
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
-tools_additional_repo:
-  pkgrepo.managed:
-    - humanname: tools_additional_repo
-    - file: /etc/apt/sources.list.d/tools_additional_repo.list
-    - refresh: True
-    - name: deb {{ tools_additional_repo }} /
-    - key_url: {{ tools_additional_repo }}/Release.key
-{% endif %}
-
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
@@ -265,6 +252,16 @@ tools_update_repo_raised_priority:
         Pin-Priority: 800
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
+
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
+tools_additional_repo:
+  pkgrepo.managed:
+    - humanname: tools_additional_repo
+    - file: /etc/apt/sources.list.d/tools_additional_repo.list
+    - refresh: True
+    - name: deb {{ tools_additional_repo }} /
+    - key_url: {{ tools_additional_repo }}/Release.key
+
 tools_additional_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_additional_repo
