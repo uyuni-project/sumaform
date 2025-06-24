@@ -108,9 +108,6 @@ beta_tools_update_repo:
     - refresh: True
 {% endif %}
 
-
-{% endif %} {# Released Tools repos #}
-
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
@@ -132,7 +129,6 @@ tools_additional_repo:
 {% endif %} {# '15' in grains['osrelease'] #}
 
 {% elif grains['osfullname'] == 'SL-Micro' %}
-
 
 # Release Tools Repos
 tools_pool_repo:
@@ -183,8 +179,6 @@ beta_tools_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-Micro-5//{{ grains.get("cpuarch") }}/update/
     - refresh: True
 {% endif %} {# 'beta' in grains.get('product_version') #}
-
-{% endif %} {# Released Tools repos #}
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
@@ -371,7 +365,7 @@ tools_additional_tools_update_repo:
             Pin: release l=Devel:Galaxy:Manager:Head:MLMTools-Beta-Ubuntu{{ release }}
             Pin-Priority: 800
 
-{% endif %}
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['os'] == 'Ubuntu' #}
 
 {% if grains['os'] == 'Debian' %}
@@ -415,7 +409,7 @@ tools_update_repo_raised_priority:
         Pin: release l=SUSE:Updates:MultiLinuxManagerTools-Beta:Debian-{{ release }}:x86_64:update
         Pin-Priority: 800
 
-{% endif %}
+{% endif %} {# Beta Tools Repos #}
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 
@@ -437,6 +431,7 @@ tools_additional_repo_raised_priority:
             Pin-Priority: 800
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
+
 {% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Debian' + release + '/Debian_' + release %}
 tools_additional_repo:
   pkgrepo.managed:
@@ -454,8 +449,7 @@ tools_additional_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Beta-Debian{{ release }}
             Pin-Priority: 800
 
-{% endif %}
-
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['os'] == 'Debian' #}
 {% endif %} {# no client tools on server or proxy #}
 
