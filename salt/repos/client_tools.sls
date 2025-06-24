@@ -335,6 +335,13 @@ tools_update_repo:
 {% if grains['os_family'] == 'RedHat' %}
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
+{% if grains['os'] == 'Amazon' and release == 2 %}
+{% set release = 7 %}
+{% elif grains['os'] == 'Amazon' and release == 2023 %}
+{% set release = 9 %}
+{% elif grains['os'] == 'openEuler' and release == 24 %}
+{% set release = 9 %}
+{% endif %}
 
 {# Released Tools Repos #}
 {% if '4.3' in grains.get('product_version') or '5.0' in grains.get('product_version') %}
@@ -363,12 +370,7 @@ tools_pool_repo:
     {% if 'beta' in grains.get('product_version') | default('', true) %}
     - baseurl: http://dist.nue.suse.com/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
-    # Amazon Linux support
-    {% if release == 2 %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/RES/7-CLIENT-TOOLS/x86_64/product/
-    {% else %}
     - baseurl: http://dist.nue.suse.com/ibs/SUSE/Updates/RES/{{ release }}-CLIENT-TOOLS/x86_64/update/
-    {% endif %}
     {% endif %}
     {% endif %}
     - refresh: True

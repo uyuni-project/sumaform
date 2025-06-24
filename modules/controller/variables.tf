@@ -400,6 +400,20 @@ variable "liberty9_sshminion_configuration" {
   }
 }
 
+variable "openeuler2403_minion_configuration" {
+  description = "use module.<OPENEULER2403_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "openeuler2403_sshminion_configuration" {
+  description = "use module.<OPENEULER2403_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "rocky8_minion_configuration" {
   description = "use module.<ROCKY8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
