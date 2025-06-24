@@ -2,7 +2,7 @@
 
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
-{% if '4.3' in grains.get('product_version') or '5.0' in grains.get('product_version') and %}
+{% if '4.3' in grains.get('product_version') or '5.0' in grains.get('product_version') %}
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
@@ -119,14 +119,12 @@ tools_additional_repo:
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
 
-
-{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %} {# Released Tools Repos #}
-
 {% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 9 %}
 {% set rhlike_client_tools_prefix = 'RES' %}
 {% endif %}
 
+# Release Tools Repos
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
@@ -143,28 +141,8 @@ tools_pool_repo:
     {% endif %}
     - refresh: True
 
-{% else %}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 8 %}
-{% set rhlike_client_tools_prefix = 'CentOS' %}
-{% endif %}
-
-tools_pool_repo:
-  pkgrepo.managed:
-    - humanname: tools_pool_repo
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
-    - refresh: True
-    - require:
-      - cmd: uyuni_key
-
-
+# Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-
-{% set rhlike_client_tools_prefix = 'EL' %}
-{% if release < 9 %}
-{% set rhlike_client_tools_prefix = 'RES' %}
-{% endif %}
 
 {% if 'client' in grains.get('roles') %}
 tools_update_trad_repo:
@@ -209,218 +187,92 @@ clean_repo_metadata:
 {% set release = grains.get('osrelease', None) %}
 {% set short_release = release | replace('.', '') %}
 
+# Release client tools
+{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
-# We only have one shared Client Tools repository
-{% if 'head' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release %}
-{% elif 'beta' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
-{% elif 'nightly' in grains.get('product_version') | default('', true) %}
-{# 5.0 is intentional here (shared tools) #}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
-{% elif '4.3-released' in grains.get('product_version') | default('', true) %}
-{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
-{# 5.0 is intentional here (shared tools) #}
-{% if release == '24.04' %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04' %}
-{% else %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% endif %}
-{% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
-{% elif '5.0-released' in grains.get('product_version') | default('', true) %}
-{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
-{% if release == '24.04' %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04' %}
-{% else %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% endif %}
-{% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
-{% elif '5.1-released' in grains.get('product_version') | default('', true) %}
-{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
-{% if release == '24.04' %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Ubuntu24.04/xUbuntu_24.04' %}
-{% else %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-MultiLinuxManagerTools/x86_64/update/' %}
-{% endif %}
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
-{% else %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
-{% endif %}
     - refresh: True
-    - name: deb {{ tools_repo_url }} /
-    - key_url: {{ tools_repo_url }}/Release.key
+    - name: deb {{ tools_update_repo }} /
+    - key_url: {{ tools_update_repo }}/Release.key
+
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+tools_additional_repo:
+  pkgrepo.managed:
+    - humanname: tools_additional_repo
+    - file: /etc/apt/sources.list.d/tools_additional_repo.list
+    - refresh: True
+    - name: deb {{ tools_additional_repo }} /
+    - key_url: {{ tools_additional_repo }}/Release.key
+
+{% endif %}
 
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
-{% if 'head' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=Devel:Galaxy:Manager:Head:Ubuntu{{ release }}-SUSE-Manager-Tools
-            Pin-Priority: 800
-{% elif '4.3-nightly' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=Devel:Galaxy:Manager:4.3:Ubuntu{{ release }}-SUSE-Manager-Tools
-            Pin-Priority: 800
-{% elif '4.3-released' in grains.get('product_version') | default('', true) %}
-{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
-{# 5.0 is intentional here (shared tools) #}
-    - contents: |
-            Package: *
-{%- if release == '24.04' %}
-            Pin: release l=Devel:Galaxy:Manager:5.0:Ubuntu24.04-SUSE-Manager-Tools
-{%- else %}
-            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
-{%- endif %}
-            Pin-Priority: 800
-{% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
             Pin-Priority: 800
-{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
+
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
+tools_additional_repo_raised_priority:
+  file.managed:
+    - name: /etc/apt/preferences.d/tools_additional_repo
     - contents: |
             Package: *
             Pin: release l=Devel:Galaxy:Manager:5.0:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
-{% elif '5.0-released' in grains.get('product_version') | default('', true) %}
-{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
-    - contents: |
-            Package: *
-{%- if release == '24.04' %}
-            Pin: release l=Devel:Galaxy:Manager:5.0:Ubuntu24.04-SUSE-Manager-Tools
-{%- else %}
-            Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
-{%- endif %}
-            Pin-Priority: 800
-{% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Ubuntu{{ release }}
-            Pin-Priority: 800
-{% elif '5.1-released' in grains.get('product_version') | default('', true) %}
-{# TODO: remove extra code when Ubuntu 24.04 tools get released #}
-    - contents: |
-            Package: *
-{%- if release == '24.04' %}
-            Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Ubuntu24.04
-{%- else %}
-            Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Ubuntu-{{ release }}:x86_64
-{%- endif %}
-            Pin-Priority: 800
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=systemsmanagement:Uyuni:Master:Ubuntu{{ short_release }}-Uyuni-Client-Tools
-            Pin-Priority: 800
-{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
-    - contents: |
-            Package: *
-            Pin: release l=systemsmanagement:Uyuni:Stable:Ubuntu{{ short_release }}-Uyuni-Client-Tools
-            Pin-Priority: 800
+
 {% endif %}
+
 {% endif %} {# grains['os'] == 'Ubuntu' #}
 
 {% if grains['os'] == 'Debian' %}
 
 {% set release = grains.get('osrelease', None) %}
-
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
-    # We only have one shared Client Tools repository
-{% if '4.3-nightly' in grains.get('product_version') | default('', true) %}
-{# 5.0 is intentional here (shared tools) #}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
-{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
-{% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Debian' + release + '/Debian_' + release %}
-{% elif 'head' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Debian' + release + '/Debian_' + release %}
-{% elif 'beta' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS-BETA/x86_64/update/' %}
-{% elif '4.3-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% elif '5.0-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
-{% elif '5.1-released' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-MultiLinuxManagerTools/x86_64/update/' %}
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Master:/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
-{% else %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Stable:/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
-{% endif %}
     - refresh: True
     - name: deb {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
+    # We only have one shared Client Tools repository
+
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
+tools_additional_repo:
+  pkgrepo.managed:
+    - humanname: tools_additional_repo
+    - file: /etc/apt/sources.list.d/tools_additional_repo.list
+    - refresh: True
+    - name: deb {{ tools_additional_repo }} /
+    - key_url: {{ tools_additional_repo }}/Release.key
+{% endif %}
 
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
-{% if 'head' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=Devel:Galaxy:Manager:Head:Debian{{ release }}-SUSE-Manager-Tools
-        Pin-Priority: 800
-{% elif '4.3-nightly' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=Devel:Galaxy:Manager:5.0:Debian{{ release }}-SUSE-Manager-Tools
-        Pin-Priority: 800
-{% elif '4.3-released' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
         Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
         Pin-Priority: 800
-{% elif '4.3-VM-released' in grains.get('product_version') | default('', true) %}
+
+{% if 'nightly' in grains.get('product_version') | default('', true) %}
+tools_additional_repo_raised_priority:
+  file.managed:
+    - name: /etc/apt/preferences.d/tools_additional_repo
     - contents: |
-        Package: *
-        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
-        Pin-Priority: 800
-{% elif '5.0-nightly' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=Devel:Galaxy:Manager:5.0:Debian{{ release }}-SUSE-Manager-Tools
-        Pin-Priority: 800
-{% elif '5.0-released' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
-        Pin-Priority: 800
-{% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Debian{{ release }}
-        Pin-Priority: 800
-{% elif '5.1-released' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Debian-{{release}}:x86_64:update
-        Pin-Priority: 800
-{% elif 'uyuni-master' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=systemsmanagement:Uyuni:Master:Debian{{ release }}-Uyuni-Client-Tools
-        Pin-Priority: 800
-{% elif 'uyuni-released' in grains.get('product_version') | default('', true) %}
-    - contents: |
-        Package: *
-        Pin: release l=systemsmanagement:Uyuni:Stable:Debian{{ release }}-Uyuni-Client-Tools
-        Pin-Priority: 800
+            Package: *
+            Pin: release l=Devel:Galaxy:Manager:5.0:Debian{{ release }}-SUSE-Manager-Tools
+            Pin-Priority: 800
+
 {% endif %}
+
 {% endif %} {# grains['os'] == 'Debian' #}
 {% endif %} {# no client tools on server or proxy #}
 
