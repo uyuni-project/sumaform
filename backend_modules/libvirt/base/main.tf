@@ -56,8 +56,11 @@ resource "null_resource" "decompressed_images" {
     command = <<EOT
       if [ ! -f "decompressed_images/${each.value}.qcow2" ]; then
         mkdir -p decompressed_images
-        curl -L -o "decompressed_images/${each.value}.qcow2.xz" "${local.image_urls[each.value]}"
+        echo "Downloading and decompressing ${each.value}..."
+        curl -sS -L -o "decompressed_images/${each.value}.qcow2.xz" "${local.image_urls[each.value]}"
         xz -d "decompressed_images/${each.value}.qcow2.xz"
+      else
+        echo "${each.value}.qcow2 is already present in decompressed_images/ directory"
       fi
     EOT
   }
@@ -73,6 +76,13 @@ resource "libvirt_volume" "volumes" {
   depends_on = [
     null_resource.decompressed_images
   ]
+}
+
+resource "null_resource" "cleanup_decompressed_images" {
+  provisioner "local-exec" {
+    when = destroy
+    command = "[ -d decompressed_images ] && rm -r decompressed_images/ || true"
+  }
 }
 
 resource "libvirt_network" "additional_network" {
