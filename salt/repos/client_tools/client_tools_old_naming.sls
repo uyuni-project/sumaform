@@ -44,6 +44,7 @@ tools_additional_repo:
     - refresh: True
     - priority: 98
 
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# '12' in grains['osrelease'] #}
 
 
@@ -78,6 +79,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
 {% elif grains['osfullname'] == 'SL-Micro' %}
@@ -111,6 +113,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 
 {% endif %} {# grains['os'] == 'SUSE' #}
@@ -174,7 +177,6 @@ tools_update_repo:
       - cmd: suse_res7_key
     {% endif %}
 
-{% endif %} {# release >= 8 #}
 {% endif %} {# Devel Tools Repos #}
 
 clean_repo_metadata:
@@ -207,7 +209,7 @@ tools_update_repo_raised_priority:
             Pin: release l=SUSE:Updates:Ubuntu:{{ release }}-CLIENT-TOOLS:x86_64:update
             Pin-Priority: 800
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 {% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
 tools_additional_repo:
@@ -226,8 +228,7 @@ tools_additional_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.0:Ubuntu{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 
-{% endif %}
-
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['os'] == 'Ubuntu' #}
 
 {% if grains['os'] == 'Debian' %}
@@ -252,7 +253,7 @@ tools_update_repo_raised_priority:
         Pin: release l=SUSE:Updates:Debian:{{ release }}-CLIENT-TOOLS:x86_64:update
         Pin-Priority: 800
 
-{% if 'nightly' in grains.get('product_version') | default('', true) %}
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
 {% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.0:/Debian' + release + '-SUSE-Manager-Tools/Debian_' + release %}
 tools_additional_repo:
@@ -271,8 +272,7 @@ tools_additional_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.0:Debian{{ release }}-SUSE-Manager-Tools
             Pin-Priority: 800
 
-{% endif %}
-
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['os'] == 'Debian' #}
 
 {% endif %} {# no client tools on server or proxy #}
@@ -280,4 +280,4 @@ tools_additional_repo_raised_priority:
 {# WORKAROUND: see github:saltstack/salt#10852 #}
 {{ sls }}_nop:
   test.nop: []
-{% endif %} {# 5.1 or head product version #}
+{% endif %} {# 4.3 or 5.0 product version #}
