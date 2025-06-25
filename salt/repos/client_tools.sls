@@ -336,8 +336,8 @@ tools_update_repo:
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
 
-
-{% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %} {# Released Tools Repos #}
+{# Released Tools Repos #}
+{% if '4.3' in grains.get('product_version') or '5.0' in grains.get('product_version') %}
 
 {% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 9 %}
@@ -373,7 +373,28 @@ tools_pool_repo:
     {% endif %}
     - refresh: True
 
-{% else %}
+{% endif %} {# '4.3' in grains.get('product_version') or '5.0' in grains.get('product_version') #}
+
+{% if '5.1' in grains.get('product_version') or 'head' in grains.get('product_version') %}
+
+{% set rhlike_client_tools_prefix = 'EL' %}
+{% if release < 8 %}
+{% set rhlike_client_tools_prefix = 'RES' %}
+{% endif %}
+
+tools_pool_repo:
+  pkgrepo.managed:
+    - humanname: tools_pool_repo
+    {% if 'beta' in grains.get('product_version') | default('', true) %}
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
+    {% else %}
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
+    {% endif %}
+    - refresh: True
+
+{% endif %} {# '5.1' in grains.get('product_version') or 'head' in grains.get('product_version') #}
+
+{% if grains.get('product_version').startswith('uyuni-') %}
 
 {% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 8 %}
@@ -387,9 +408,11 @@ tools_pool_repo:
     - refresh: True
     - require:
       - cmd: uyuni_key
-{% endif %} {# Released Tools Repos #}
 
-{% if '4.3-nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+{% endif %} {# grains.get('product_version').startswith('uyuni-') #}
+
+{# Devel Tools Repos #}
+{% if '4.3-nightly' in grains.get('product_version') | default('', true) %}
 
 {% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 9 %}
