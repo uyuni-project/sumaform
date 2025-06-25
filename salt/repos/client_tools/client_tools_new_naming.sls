@@ -206,7 +206,7 @@ tools_additional_repo:
 {% if grains['os_family'] == 'RedHat' %}
 
 # Set release to 9 for AmazonLinux2023 and OpenEuler. osmajorrelease is 2023 or 24
-{% set os_major = grains.get('osmajorrelease', 0) | int %}
+{% set release = grains.get('osmajorrelease', 0) | int %}
 {% if grains['os'] == 'Amazon' and release == 2 %}
 {% set release = 7 %}
 {% elif grains['os'] == 'Amazon' and release == 2023 %}
