@@ -34,6 +34,7 @@ module "cucumber_testsuite" {
   # "amazonlinux2o", "amazonlinux2023o",
   # "centos7o", "centos8o", "centos9o",
   # "libertylinux9o",
+  # "openeuler2403o",
   # "opensuse155o", "opensuse156o",
   # "oraclelinux9o",
   # "rocky8o", "rocky9o",
