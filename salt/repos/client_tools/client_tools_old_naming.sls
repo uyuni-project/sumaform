@@ -72,12 +72,6 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-tools_additional_repo:
-  pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
-  - refresh: True
-  - priority: 98
-
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
@@ -186,7 +180,6 @@ clean_repo_metadata:
     - name: yum clean metadata
 
 {% endif %} {# grains['os_family'] == 'RedHat' #}
-
 
 {% if grains['os'] == 'Ubuntu' %}
 

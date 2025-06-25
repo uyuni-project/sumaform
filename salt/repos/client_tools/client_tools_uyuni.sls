@@ -87,7 +87,6 @@ clean_repo_metadata:
 
 {% endif %} {# grains['os_family'] == 'RedHat' #}
 
-
 {% if grains['os'] == 'Ubuntu' %}
 
 {% set release = grains.get('osrelease', None) %}
@@ -110,7 +109,6 @@ tools_update_repo_raised_priority:
             Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Ubuntu{{ short_release }}-Uyuni-Client-Tools
             Pin-Priority: 800
 
-{% endif %}
 {% endif %} {# grains['os'] == 'Ubuntu' #}
 
 {% if grains['os'] == 'Debian' %}

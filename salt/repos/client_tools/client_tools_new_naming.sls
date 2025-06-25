@@ -82,7 +82,6 @@ tools_additional_repo:
 
 {% endif %} {# '12' in grains['osrelease'] #}
 
-
 {% if '15' in grains['osrelease'] %}
 
 # Release Tools Repos
