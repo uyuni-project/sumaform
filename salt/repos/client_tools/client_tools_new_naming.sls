@@ -207,7 +207,13 @@ tools_additional_repo:
 
 # Set release to 9 for AmazonLinux2023 and OpenEuler. osmajorrelease is 2023 or 24
 {% set os_major = grains.get('osmajorrelease', 0) | int %}
-{% set release = 9 if os_major >= 9 else os_major %}
+{% if grains['os'] == 'Amazon' and release == 2 %}
+{% set release = 7 %}
+{% elif grains['os'] == 'Amazon' and release == 2023 %}
+{% set release = 9 %}
+{% elif grains['os'] == 'openEuler' and release == 24 %}
+{% set release = 9 %}
+{% endif %}
 
 # RES extension is only used for centos7
 {% set rhlike_client_tools_prefix = 'RES' if release < 8 else 'EL' %}
@@ -239,9 +245,9 @@ beta_tools_update_repo:
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
-tools_update_repo:
+tools_additional_repo:
   pkgrepo.managed:
-    - humanname: tools_update_repo
+    - humanname: tools_additional_repo
     {%- if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/MultiLinuxManagerTools-EL-{{release}}-x86_64-Media1/
     {%- else %}
@@ -258,9 +264,9 @@ tools_update_repo:
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 
-tools_update_repo:
+tools_additional_repo:
   pkgrepo.managed:
-    - humanname: tools_update_repo
+    - humanname: tools_additional_repo
     {%- if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-EL-{{ release }}-Beta-x86_64-Media1/
     {%- else %}
@@ -319,7 +325,7 @@ beta_tools_update_repo:
     - name: deb {{ beta_tools_update_repo }} /
     - key_url: {{ beta_tools_update_repo }}/Release.key
 
-tools_beta_update_repo_raised_priority:
+beta_tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/beta_tools_update_repo
     - contents: |

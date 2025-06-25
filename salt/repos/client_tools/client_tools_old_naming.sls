@@ -134,7 +134,13 @@ tools_additional_repo:
 
 # Set release to 9 for AmazonLinux2023 and OpenEuler. osmajorrelease is 2023 or 24
 {% set os_major = grains.get('osmajorrelease', 0) | int %}
-{% set release = 9 if os_major >= 9 else os_major %}
+{% if grains['os'] == 'Amazon' and release == 2 %}
+{% set release = 7 %}
+{% elif grains['os'] == 'Amazon' and release == 2023 %}
+{% set release = 9 %}
+{% elif grains['os'] == 'openEuler' and release == 24 %}
+{% set release = 9 %}
+{% endif %}
 
 # RES extension is only used for centos7
 {% set rhlike_client_tools_prefix = 'RES' if release < 9 else 'EL' %}

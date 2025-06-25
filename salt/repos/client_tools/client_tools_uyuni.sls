@@ -65,6 +65,13 @@ tools_update_repo:
 {% if grains['os_family'] == 'RedHat' %}
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
+{% if grains['os'] == 'Amazon' and release == 2 %}
+{% set release = 7 %}
+{% elif grains['os'] == 'Amazon' and release == 2023 %}
+{% set release = 9 %}
+{% elif grains['os'] == 'openEuler' and release == 24 %}
+{% set release = 9 %}
+{% endif %}
 
 {% set rhlike_client_tools_prefix = 'EL' %}
 {% if release < 8 %}
