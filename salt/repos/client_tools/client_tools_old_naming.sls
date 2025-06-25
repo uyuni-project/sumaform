@@ -16,8 +16,8 @@ tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
-
-{% elif grains['osfullname'] == 'SLES' %}
+{% endif %} {# grains['osfullname'] == 'Leap' #}
+{% if grains['osfullname'] == 'SLES' %}
 
 {% if '12' in grains['osrelease'] %}
 
@@ -46,7 +46,6 @@ tools_additional_repo:
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '12' in grains['osrelease'] #}
-
 
 {% if '15' in grains['osrelease'] %}
 
@@ -82,7 +81,7 @@ tools_additional_repo:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
-{% elif grains['osfullname'] == 'SL-Micro' %}
+{% if grains['osfullname'] == 'SL-Micro' %}
 
 # Released Tools repos
 tools_pool_repo:
@@ -96,7 +95,9 @@ tools_additional_repo:
     - refresh: True
 {#    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SL-Micro-6/.... #}
 
-{% elif grains['osfullname'] == 'SLE Micro' %}
+{% endif %} {# grains['osfullname'] == 'SL-Micro' #}
+
+{% if grains['osfullname'] == 'SLE Micro' %}
 
 # Released Tools repos
 tools_pool_repo:
@@ -116,6 +117,7 @@ tools_additional_repo:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 
+{% endif %} {# grains['osfullname'] == 'SLES' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
 {% if grains['os_family'] == 'RedHat' %}

@@ -30,9 +30,9 @@ beta_tools_update_repo:
     - refresh: True
 
 {% endif %} {# 'beta' in grains.get('product_version') #}
+{% endif %} {# grains['osfullname'] == 'Leap' #}
 
-
-{% elif grains['osfullname'] == 'SLES' %}
+{% if grains['osfullname'] == 'SLES' %}
 
 {% if '12' in grains['osrelease'] %}
 
@@ -107,7 +107,7 @@ beta_tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
-{% endif %}
+{% endif %} {# 'beta' in grains.get('product_version') #}
 
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
@@ -129,7 +129,7 @@ tools_additional_repo:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
 
-{% elif grains['osfullname'] == 'SL-Micro' %}
+{% if grains['osfullname'] == 'SL-Micro' %}
 
 # Release Tools Repos
 tools_pool_repo:
@@ -155,8 +155,9 @@ tools_additional_repo:
     - priority: 98
 
 {% endif %} {# Devel Tools Repos #}
+{% endif %} {# grains['osfullname'] == 'SL-Micro' #}
 
-{% elif grains['osfullname'] == 'SLE Micro' %}
+{% if grains['osfullname'] == 'SLE Micro' %}
 
 # Release Tools repo
 tools_pool_repo:
@@ -200,6 +201,7 @@ tools_additional_repo:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 
+{% endif %} {# grains['osfullname'] == 'SLES' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
 {% if grains['os_family'] == 'RedHat' %}

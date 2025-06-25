@@ -15,7 +15,8 @@ tools_pool_repo:
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_/Leap_15.0/repodata/repomd.xml.key
 
-{% elif grains['osfullname'] == 'SLES' %}
+{% endif %} {# grains['osfullname'] == 'Leap' #}
+{% if grains['osfullname'] == 'SLES' %}
 
 {% if '12' in grains['osrelease'] %}
 
@@ -36,14 +37,15 @@ tools_pool_repo:
 
 {% endif %} {# '15' in grains['osrelease'] #}
 
-{% elif grains['osfullname'] == 'SL-Micro' %}
+{% if grains['osfullname'] == 'SL-Micro' %}
 
 tools_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/SLE15-Uyuni-Client-Tools/SLE_15/
     - refresh: True
+{% endif %} {# grains['osfullname'] == 'SL-Micro' #}
 
-{% elif grains['osfullname'] == 'SLE Micro' %}
+{% if grains['osfullname'] == 'SLE Micro' %}
 
 {% if not grains.get('product_version') or not grains.get('product_version').startswith('uyuni-') %} {# Released Tools repos #}
 
@@ -56,6 +58,8 @@ tools_update_repo:
 
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 
+{% endif %} {# grains['osfullname'] == 'SLES' #}
+{% endif %} {# ggrains['osfullname'] == 'SLES' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
 {% if grains['os_family'] == 'RedHat' %}
