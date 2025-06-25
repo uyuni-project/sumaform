@@ -380,7 +380,7 @@ tools_additional_tools_update_repo:
 
 {% set release = grains.get('osrelease', None) %}
 
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + 'SUSE/Updates/MultiLinuxManagerTools/Debian-' + release + '/x86_64/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Debian-' + release + '/x86_64/update/' %}
 
 tools_update_repo:
   pkgrepo.managed:
@@ -400,7 +400,7 @@ tools_update_repo_raised_priority:
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
-{% set beta_tools_update_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + 'SUSE/Updates/MultiLinuxManagerTools-Beta/Debian-' + release + '/x86_64/update/' %}
+{% set beta_tools_update_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Debian-' + release + '/x86_64/update/' %}
 beta_tools_update_repo_url:
   pkgrepo.managed:
     - humanname: beta_tools_update_repo_url
