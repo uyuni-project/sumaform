@@ -322,5 +322,5 @@ variable "server_mounted_mirror" {
 variable "large_deployment" {
   description = "set up for a deployment with a great number of clients"
   type        = bool
-  default     = true
+  default     = false
 }
