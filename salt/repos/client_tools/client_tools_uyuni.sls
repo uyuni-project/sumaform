@@ -20,20 +20,37 @@ tools_pool_repo:
 
 {% if '12' in grains['osrelease'] %}
 
-tools_additional_repo:
+tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/SLE12-Uyuni-Client-Tools/SLE_12/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+    - refresh: True
+
+{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE12-Uyuni-Client-Tools/SLE_12/
     - refresh: True
     - priority: 98
-
+{% endif %}
 {% endif %} {# '12' in grains['osrelease'] #}
 
 {% if '15' in grains['osrelease'] %}
 
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/SLE15-Uyuni-Client-Tools/SLE_15/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     - refresh: True
+
+{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/repodata/repomd.xml.key
+
+{% endif %}
 
 {% endif %} {# '15' in grains['osrelease'] #}
 {% endif %} {# grains['osfullname'] == 'SLES' #}
@@ -41,18 +58,31 @@ tools_pool_repo:
 
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/SLE15-Uyuni-Client-Tools/SLE_15/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     - refresh: True
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/
+    - refresh: True
+
 {% endif %} {# grains['osfullname'] == 'SL-Micro' #}
 {% if grains['osfullname'] == 'SLE Micro' %}
 
+tools_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+    - refresh: True
+
+{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/SLE15-Uyuni-Client-Tools/SLE_15/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/SLE15-Uyuni-Client-Tools/SLE_15/repodata/repomd.xml.key
-
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/repodata/repomd.xml.key
+{% endif %}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
