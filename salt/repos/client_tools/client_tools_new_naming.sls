@@ -4,7 +4,6 @@
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
-
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
 
@@ -31,7 +30,6 @@ beta_tools_update_repo:
 
 {% endif %} {# 'beta' in grains.get('product_version') #}
 {% endif %} {# grains['osfullname'] == 'Leap' #}
-
 {% if grains['osfullname'] == 'SLES' %}
 
 {% if '12' in grains['osrelease'] %}
@@ -127,7 +125,7 @@ tools_additional_repo:
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
-
+{% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 
 # Release Tools Repos
@@ -155,7 +153,6 @@ tools_additional_repo:
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['osfullname'] == 'SL-Micro' #}
-
 {% if grains['osfullname'] == 'SLE Micro' %}
 
 # Release Tools repo
@@ -199,8 +196,6 @@ tools_additional_repo:
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
-
-{% endif %} {# grains['osfullname'] == 'SLES' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
 {% if grains['os_family'] == 'RedHat' %}
@@ -289,7 +284,6 @@ clean_repo_metadata:
     - name: yum clean metadata
 
 {% endif %} {# grains['os_family'] == 'RedHat' #}
-
 
 {% if grains['os'] == 'Ubuntu' %}
 

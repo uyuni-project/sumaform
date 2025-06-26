@@ -86,7 +86,7 @@ tools_additional_repo:
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
-
+{% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 
 # Released Tools repos
@@ -101,7 +101,6 @@ tools_additional_repo:
     - refresh: True
 
 {% endif %} {# grains['osfullname'] == 'SL-Micro' #}
-
 {% if grains['osfullname'] == 'SLE Micro' %}
 
 # Released Tools repos
@@ -127,7 +126,6 @@ tools_additional_repo:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 
-{% endif %} {# grains['osfullname'] == 'SLES' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
 {% if grains['os_family'] == 'RedHat' %}
