@@ -93,7 +93,7 @@ clean_repo_metadata:
 {% set release = grains.get('osrelease', None) %}
 {% set short_release = release | replace('.', '') %}
 
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/' + uyuni_version + ':/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
@@ -115,8 +115,7 @@ tools_update_repo_raised_priority:
 {% if grains['os'] == 'Debian' %}
 
 {% set release = grains.get('osrelease', None) %}
-
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/' + uyuni_version + ':/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
