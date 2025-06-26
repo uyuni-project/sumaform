@@ -11,9 +11,7 @@ locals {
     centos8o                 = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.centos.org"}/centos/8/x86_64/images/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2"
     centos9o                 = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.centos.org"}/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-20220829.0.x86_64.qcow2"
     libertylinux9o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://zenon.suse.de"}/download/sll9.1-cloud/sll9.1-cloud.img"
-    openeuler2403o           = "http://${var.mirror}/repo.openeuler.org/openEuler-24.03-LTS/virtual_machine_img/x86_64/openEuler-24.03-LTS-x86_64.qcow2"
-    # openEuler images exist only in compressed format, we use our mirror to uncompress them:
-    # http://repo.openeuler.org/openEuler-24.03-LTS/virtual_machine_img/x86_64/openEuler-24.03-LTS-x86_64.qcow2.xz
+    openeuler2403o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://repo.openeuler.org"}/openEuler-24.03-LTS-SP1/virtual_machine_img/x86_64/openEuler-24.03-LTS-SP1-x86_64.qcow2.xz"
     oraclelinux8o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL8/u6/x86_64/OL8U6_x86_64-kvm-b126.qcow"
     oraclelinux9o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL9/u0/x86_64/OL9U0_x86_64-kvm-b142.qcow"
     rocky8o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
@@ -44,18 +42,47 @@ locals {
     leapmicro55o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap-micro/5.5/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
     tumbleweedo              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/tumbleweed/appliances/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"
   }
+  compressed_images = toset(["openeuler2403o"])
   pool               = lookup(var.provider_settings, "pool", "default")
   network_name       = lookup(var.provider_settings, "network_name", "default")
   bridge             = lookup(var.provider_settings, "bridge", null)
   additional_network = lookup(var.provider_settings, "additional_network", null)
 }
 
+resource "null_resource" "decompressed_images" {
+  for_each = setintersection(local.compressed_images, local.images_used)
+
+  provisioner "local-exec" {
+    command = <<EOT
+      if [ ! -f "decompressed_images/${each.value}.qcow2" ]; then
+        mkdir -p decompressed_images
+        echo "Downloading and decompressing ${each.value}..."
+        curl -sS -L -o "decompressed_images/${each.value}.qcow2.xz" "${local.image_urls[each.value]}"
+        xz -d "decompressed_images/${each.value}.qcow2.xz"
+      else
+        echo "${each.value}.qcow2 is already present in decompressed_images/ directory"
+      fi
+    EOT
+  }
+}
+
 resource "libvirt_volume" "volumes" {
   for_each = local.images_used
 
   name   = "${var.name_prefix}${each.value}"
-  source = local.image_urls[each.value]
+  source = contains(local.compressed_images, each.value) ? "decompressed_images/${each.value}.qcow2" : local.image_urls[each.value]
   pool   = local.pool
+
+  depends_on = [
+    null_resource.decompressed_images
+  ]
+}
+
+resource "null_resource" "cleanup_decompressed_images" {
+  provisioner "local-exec" {
+    when = destroy
+    command = "[ -d decompressed_images ] && rm -r decompressed_images/ || true"
+  }
 }
 
 resource "libvirt_network" "additional_network" {
