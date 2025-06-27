@@ -81,6 +81,13 @@ install_mgr_tools:
     - pkgs:
       - podman
       - mgrpxy
+
+{% if grains['osfullname'] == 'SLES' %}
+ca_suse:
+  pkg.installed:
+    - pkgs:
+      - ca-certificates-suse
+{% endif %}
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
