@@ -6,6 +6,14 @@ uyuni-tools:
     - pkgs:
       - mgradm
       - mgrctl
+
+{% if grains['osfullname'] == 'SLES' %}
+ca_suse:
+  pkg.installed:
+    - pkgs:
+      - ca-certificates-suse
+{% endif %}
+
 {%- else %}
 check_mgrctl_installed:
   cmd.run:
