@@ -454,9 +454,4 @@ tools_additional_repo_raised_priority:
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['os'] == 'Debian' #}
 {% endif %} {# no client tools on server or proxy #}
-
-{# WORKAROUND: see github:saltstack/salt#10852 #}
-{{ sls }}_nop:
-  test.nop: []
-
 {% endif %} {# 5.1 or head product version #}

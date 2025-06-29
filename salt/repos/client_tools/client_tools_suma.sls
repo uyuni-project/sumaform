@@ -288,8 +288,4 @@ tools_additional_repo_raised_priority:
 {% endif %} {# grains['os'] == 'Debian' #}
 
 {% endif %} {# no client tools on server or proxy #}
-
-{# WORKAROUND: see github:saltstack/salt#10852 #}
-{{ sls }}_nop:
-  test.nop: []
 {% endif %} {# 4.3 or 5.0 product version #}

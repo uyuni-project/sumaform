@@ -166,9 +166,4 @@ tools_update_repo_raised_priority:
 
 {% endif %} {# grains['os'] == 'Debian' #}
 {% endif %} {# no client tools on server or proxy #}
-
-{# WORKAROUND: see github:saltstack/salt#10852 #}
-{{ sls }}_nop:
-  test.nop: []
-
 {% endif %} {# uyuni product version or no product version (salt shaker)#}
