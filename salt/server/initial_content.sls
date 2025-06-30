@@ -64,7 +64,6 @@ mgr_sync_automatic_authentication:
 
 {% endif %}
 
-{% if grains.get('channels') %}
 wait_for_mgr_sync:
   cmd.script:
     - name: salt://server/wait_for_mgr_sync.py
@@ -73,6 +72,7 @@ wait_for_mgr_sync:
     - require:
       - http: create_first_user
 
+{% if grains.get('channels') %}
 scc_data_refresh:
   cmd.run:
     - name: mgr-sync refresh
