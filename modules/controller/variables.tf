@@ -781,3 +781,8 @@ variable "product_version" {
   type        = string
   default     = null
 }
+
+variable "web_server_hostname" {
+  description = "FQDN of the web server or leave the default for no web server"
+  default = null
+}
