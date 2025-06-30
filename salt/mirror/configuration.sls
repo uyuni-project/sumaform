@@ -17,8 +17,8 @@ tar:
 minima:
   archive.extracted:
     - name: /usr/local/bin/utils/
-    - source: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz.sha512
+    - source: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz
+    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_checksums.txt
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
