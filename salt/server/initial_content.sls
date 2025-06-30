@@ -5,7 +5,6 @@ include:
 {% set server_password = grains.get('server_password') | default('admin', true) %}
 
 {% if grains.get('create_first_user') %}
-
 wait_for_tomcat:
   http.wait_for_successful_query:
     - method: GET
@@ -39,11 +38,9 @@ first_user_set_password:
     - name: echo -e "{{ server_password }}\n{{ server_password }}" | satpasswd -s {{ server_username }}
     - require:
       - http: create_first_user
-
 {% endif %}
 
 {% if grains.get('mgr_sync_autologin') %}
-
 mgr_sync_configuration_file:
   file.managed:
     - name: /root/.mgr-sync
@@ -61,18 +58,17 @@ mgr_sync_automatic_authentication:
     - append_if_not_found: true
     - require:
       - file: mgr_sync_configuration_file
-
 {% endif %}
 
+{% if grains.get('channels') %}
 wait_for_mgr_sync:
   cmd.script:
-    - name: salt://server/wait_for_mgr_sync.py
+    - name: salt://server/wait_for_mgr_sync.sh
     - use_vt: True
-    - template: jinja
+    - args: "{{ server_username }} {{ server_password }}"
     - require:
       - http: create_first_user
 
-{% if grains.get('channels') %}
 scc_data_refresh:
   cmd.run:
     - name: mgr-sync refresh
@@ -80,9 +76,7 @@ scc_data_refresh:
     - unless: spacecmd -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} --quiet api sync.content.listProducts | grep name
     - require:
       - cmd: wait_for_mgr_sync
-{% endif %}
 
-{% if grains.get('channels') %}
 add_channels:
   cmd.run:
     - name: mgr-sync add channels {{ ' '.join(grains['channels']) }}
