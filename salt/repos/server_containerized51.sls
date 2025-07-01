@@ -61,9 +61,9 @@ container_utils_updates_repo:
 {% if '5.1-nightly' in grains['product_version'] %}
 manager51_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/Devel:/Galaxy:/Manager:/5.1/images-SP7/repo/Multi-Linux-Manager-Server-5.1-x86_64
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/Devel:/Galaxy:/Manager:/5.1/images-SP7/repo/SUSE-Multi-Linux-Manager-Server-SLE-5.1-POOL-x86_64-Media1
     - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/Devel:/Galaxy:/Manager:/5.1/images-SP7/repo/Multi-Linux-Manager-Server-5.1-x86_64/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/Devel:/Galaxy:/Manager:/5.1/images-SP7/repo/SUSE-Multi-Linux-Manager-Server-SLE-5.1-POOL-x86_64-Media1/repodata/repomd.xml.key
 {% endif %}
 
 {% endif %}
