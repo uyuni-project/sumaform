@@ -42,6 +42,15 @@ server_packages:
       - sls: repos
       {% endif %}
       - sls: server.firewall
+
+{% endif %}
+
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] == "15.4" %}
+# python3-M2Crypto from the CVE fixes on the minions is incompatible
+# with the original python3-M2Crypto from 15.4 on the server
+update_buggy_m2crypto_version:
+ pkg.latest:
+   - name: python3-M2Crypt
 {% endif %}
 
 {% if 'minion' in grains.get('roles') and grains.get('server') and grains.get('download_private_ssl_key') %}
