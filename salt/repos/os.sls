@@ -140,7 +140,25 @@ os_update_repo:
 #    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP6-LTSS/x86_64/update/
 #    - refresh: True
 
-{% endif %} {# '15.6' == grains['osrelease'] #}
+{% elif '15.7' == grains['osrelease'] %}
+
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP7/x86_64/product/
+    - refresh: True
+
+os_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP7/x86_64/update/
+    - refresh: True
+
+# uncomment when it goes LTSS
+#os_ltss_repo:
+#  pkgrepo.managed:
+#    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP7-LTSS/x86_64/update/
+#    - refresh: True
+
+{% endif %} {# '15.7' == grains['osrelease'] #}
 
 {% endif %} {# '15' in grains['osrelease'] #}
 {% endif %} {# Skip if SCC support or PAYG #}
