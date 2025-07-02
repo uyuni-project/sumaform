@@ -50,7 +50,7 @@ server_packages:
 # with the original python3-M2Crypto from 15.4 on the server
 update_buggy_m2crypto_version:
  pkg.latest:
-   - name: python3-M2Crypt
+   - name: python3-M2Crypto
 {% endif %}
 
 {% if 'minion' in grains.get('roles') and grains.get('server') and grains.get('download_private_ssl_key') %}
