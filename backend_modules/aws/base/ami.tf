@@ -213,7 +213,7 @@ data "aws_ami" "suma-server-43-ltd-paygo" {
 // EMEA offer
 data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
   most_recent = true
-  name_regex  = "^SUSE-Manager-Server-5\\.0.*"
+  name_regex  = "^suse-manager-server-5-0-v[0-9].*(ltd).*$"
   owners      = ["679593333241"]
 
   filter {
@@ -240,7 +240,7 @@ data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
 // EMEA offer
 data "aws_ami" "suma-server-50-arm64-ltd-paygo" {
   most_recent = true
-  name_regex  = "^SUSE-Manager-Server-5\\.0.*"
+  name_regex  = "^suse-manager-server-5-0-v[0-9].*(ltd).*$"
   owners      = ["679593333241"]
 
   filter {
