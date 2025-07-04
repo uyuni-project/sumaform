@@ -38,15 +38,6 @@ zypper:
 packages: ["salt-minion"]
 %{ endif }
 
-%{ if image == "sles15sp3o" }
-runcmd:
-  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15_SP3/ salt_test
-  - zypper ref
-  - zypper in --allow-vendor-change --no-confirm salt-minion
-  - zypper removerepo --all
-
-%{ endif }
-
 %{ if image == "sles15sp4o" || image == "sles15sp5o" || image == "sles15sp6o" }
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
