@@ -180,3 +180,8 @@ variable "beta_enabled" {
   description = "Enable the mechanism to take into account beta channels"
   default     = false
 }
+
+variable "web_server_hostname" {
+  description = "FQDN of the web server or leave the default for no web server"
+  default = null
+}

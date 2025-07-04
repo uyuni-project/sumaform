@@ -491,6 +491,7 @@ module "controller" {
   custom_download_endpoint = var.custom_download_endpoint
   swap_file_size           = null
   beta_enabled             = var.beta_enabled
+  web_server_hostname      = var.web_server_hostname
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)

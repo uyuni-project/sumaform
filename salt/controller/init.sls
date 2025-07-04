@@ -243,3 +243,25 @@ install_health_check:
     - resolve_capabilities: True
     - require:
       - pkgrepo: health_check_repo
+
+# NFS mounted partition to store reports in a external Web Server
+{% if grains.get('web_server_hostname') %}
+nfs_client:
+  pkg.installed:
+    - name: nfs-client
+
+non_empty_fstab:
+  file.managed:
+    - name: /etc/fstab
+    - replace: false
+
+web_server_directory:
+  mount.mounted:
+    - name: /mnt/www
+    - device: {{ grains.get('web_server_hostname') }}:/srv/www/htdocs
+    - fstype: nfs
+    - mkmnt: True
+    - require:
+        - file: /etc/fstab
+        - pkg: nfs_client
+{% endif %}

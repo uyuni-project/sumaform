@@ -197,6 +197,12 @@ Note that `mirror` must be populated before any host can be deployed. By default
 In addition to the parameter `mirror`, which will wrap this case, you might only want to setup a mirror for server products synchronization, but not for the repositories used by sumaform during the deployment of your environment.
 For that use case, instead of `mirror` use `server_mounted_mirror` parameter inside the server module definition.
 
+## External Web Server to store previous reports
+
+Using the variable `web_server_hostname` in the `controller` module, we will provide the FQDN of an external web server. This allows us to mount an NFS partition on the controller module at `/srv/www`.
+Doing so enables the controller to send the current report to that external location, which may be publicly accessible from the internet.
+This setup is useful because the controller, and usually the entire environment, is located in a private network, preventing users from accessing the results directly.
+
 ## Virtual hosts
 
 Virtualization hosts are Salt minions that are also capable to run virtual machines using the KVM hypervisor.
