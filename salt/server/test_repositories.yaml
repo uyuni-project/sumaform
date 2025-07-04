@@ -1,4 +1,4 @@
-{% set host = grains.get('mirror', 'download.opensuse.org') %}
+{% set host = grains.get('mirror') | default('download.opensuse.org', true) %}
 storage:
   type: file
   path: /srv/www/htdocs/pub/
