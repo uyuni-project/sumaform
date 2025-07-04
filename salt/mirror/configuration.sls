@@ -39,7 +39,7 @@ jdupes:
     - source_hash: d59159e3ceb263dbff465a7f2115ab9730c90a651b2aba62f95da957ec26891a0f5e83380f5e7629adf9d4b5ab8e64a54698b6f8c023eb0c5f8cf048ada29b07
     - archive_format: tar
     - enforce_toplevel: false
-    - options: --strip-components=3 --wildcards */jdupes
+    - options: --strip-components=1 --wildcards */jdupes
     - keep: True
     - overwrite: True
     - require:
