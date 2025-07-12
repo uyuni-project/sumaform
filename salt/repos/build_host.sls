@@ -25,6 +25,8 @@ containers_updates_repo:
 {% set sle_version_path = '15-SP5' %}
 {% elif grains['osrelease'] == '15.6' %}
 {% set sle_version_path = '15-SP6' %}
+{% elif grains['osrelease'] == '15.7' %}
+{% set sle_version_path = '15-SP7' %}
 {% endif %}
 
 cloud_pool_repo:
