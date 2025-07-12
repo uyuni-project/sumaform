@@ -598,7 +598,7 @@ tools_update_repo:
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/x86_64/update/' %}
 {% endif %}
 {% elif '5.1-nightly' in grains.get('product_version') | default('', true) %}
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/Ubuntu' + release + '-SUSE-Manager-Tools/xUbuntu_' + release %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Ubuntu' + release + '/xUbuntu_' + release %}
 {% elif '5.1-released' in grains.get('product_version') | default('', true) %}
 {# TODO: remove extra code when Ubuntu 24.04 tools get released #}
 {% if release == '24.04' %}
