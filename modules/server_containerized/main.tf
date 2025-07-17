@@ -49,6 +49,9 @@ module "server_containerized" {
     container_repository           = var.container_repository
     container_image                = var.container_image
     container_tag                  = var.container_tag
+    db_container_repository        = var.db_container_repository
+    db_container_image             = var.db_container_image
+    db_container_tag               = var.db_container_tag
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels

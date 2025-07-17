@@ -32,6 +32,21 @@ variable "container_tag" {
   default = ""
 }
 
+variable "db_container_repository" {
+  description = "Where to find the server database container images. Uses the released ones per default."
+  default = ""
+}
+
+variable "db_container_image" {
+  description = "Server database container images name. Don't setup for default images."
+  default = ""
+}
+
+variable "db_container_tag" {
+  description = "The database container image tag to use."
+  default = ""
+}
+
 variable "product_version" {
   description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, 5.1-nightly, 5.1-released, head, uyuni-master, uyuni-released, uyuni-pr"
   type        = string

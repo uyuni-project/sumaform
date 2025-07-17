@@ -19,6 +19,18 @@ image: {{ grains.get('container_image') }}
 {%- if grains.get('container_tag') %}
 tag: {{ grains.get('container_tag') }}
 {% endif %}
+{%- if grains.get('db_container_image') or grains.get('db_container_tag') %}
+pgsql:
+  {%- if grains.get('db_container_repository') %}
+  registry: {{ grains.get('db_container_repository') }}
+  {% endif %}
+  {%- if grains.get('db_container_image') %}
+  image: {{ grains.get('db_container_image') }}
+  {% endif %}
+  {%- if grains.get('db_container_tag') %}
+  tag: {{ grains.get('db_container_tag') }}
+  {% endif %}
+{% endif %}
 {%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 {%- if runtime == 'podman' %}
 {%- if mirror_hostname %}
