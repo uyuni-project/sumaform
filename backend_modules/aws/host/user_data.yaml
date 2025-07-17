@@ -1,6 +1,6 @@
 #cloud-config
 
-%{ if public_instance == "false" }
+%{ if public_instance == "false" ~}
 #disable_root: false
 disable_root: false
 ssh_pwauth: true
@@ -8,25 +8,25 @@ chpasswd:
   expire: false
   list: |
     root:linux
-%{ endif }
+%{ endif ~}
 
-%{ if image == "opensuse156o" }
+%{ if image == "opensuse156o" ~}
 # WORKAROUND: install latest libzypp to prevent signature verification errors
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/update/leap/15.6/oss/ os_update
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_tmp
   - zypper ref
   - zypper up --allow-vendor-change --no-confirm libzypp
-%{ if install_salt_bundle }
+%{ if install_salt_bundle ~}
   - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else }
+%{ else ~}
   - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif }
+%{ endif ~}
   - zypper removerepo --all
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15" }
+%{ if image == "sles15" ~}
 zypper:
   repos:
     - id: os_pool_repo
@@ -36,9 +36,9 @@ zypper:
       autorefresh: 1
 
 packages: ["salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp4o" || image == "sles15sp5o" || image == "sles15sp6o" }
+%{ if image == "sles15sp4o" || image == "sles15sp5o" || image == "sles15sp6o" ~}
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
   - zypper ref
@@ -47,14 +47,14 @@ runcmd:
 
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "slesforsap15sp5-paygo" || image == "sles15sp6-paygo" }
+%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "slesforsap15sp5-paygo" || image == "sles15sp6-paygo" ~}
 packages: ["salt-minion"]
 
-%{ endif }
+%{ endif ~}
 
-%{ if image == "sles12sp5" }
+%{ if image == "sles12sp5" ~}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -64,9 +64,9 @@ zypper:
       name: tools_pool_repo
 
 packages: ["venv-salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "rhel9" }
+%{ if image == "rhel9" ~}
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -82,8 +82,8 @@ runcmd:
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
 
-%{ endif }
-%{ if image == "rhel8" }
+%{ endif ~}
+%{ if image == "rhel8" ~}
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -94,9 +94,9 @@ yum_repos:
     name: temp_tools_pool_repo
 
 packages: ["venv-salt-minion", "dbus-tools"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "rocky8" }
+%{ if image == "rocky8" ~}
 runcmd:
   - |
     cat <<EOF > /etc/yum.repos.d/temp_tools_pool_repo.repo
@@ -110,9 +110,9 @@ runcmd:
   - yum clean all
   - yum repolist
   - dnf -y install venv-salt-minion
-%{ endif }
+%{ endif ~}
 
-%{ if image == "centos7" || image == "rhel7" }
+%{ if image == "centos7" || image == "rhel7" ~}
 yum_repos:
   # repo for salt
   temp_tools_pool_repo:
@@ -123,9 +123,9 @@ yum_repos:
     name: temp_tools_pool_repo
 
 packages: ["venv-salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2404" }
+%{ if image == "ubuntu2404" ~}
 apt:
   sources:
     tools_pool_repo:
@@ -162,9 +162,9 @@ runcmd:
   - systemctl restart ssh
 
 packages: ["venv-salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2204" }
+%{ if image == "ubuntu2204" ~}
 apt:
   sources:
     tools_pool_repo:
@@ -201,9 +201,9 @@ runcmd:
 
 
 packages: ["venv-salt-minion"]
-%{ endif }
+%{ endif ~}
 
-%{ if image == "ubuntu2004" }
+%{ if image == "ubuntu2004" ~}
 apt:
   sources:
     tools_pool_repo:
@@ -239,5 +239,5 @@ runcmd:
   - systemctl restart sshd
 
 packages: ["venv-salt-minion"]
-%{ endif }
+%{ endif ~}
 
