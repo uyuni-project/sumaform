@@ -156,8 +156,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: disable IPv6 until we have it in Provo
-  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   # not an error, Ubuntu/Debian Systemd unit file was always called ssh.service and they now dropped the 'd' alias
   - systemctl restart ssh
 
@@ -195,8 +193,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 22.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: disable IPv6 until we have it in Provo
-  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
 
 
@@ -234,8 +230,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 20.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: disable IPv6 until we have it in Provo
-  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
 
 packages: ["venv-salt-minion"]

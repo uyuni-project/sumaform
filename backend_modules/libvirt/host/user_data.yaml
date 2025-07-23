@@ -461,8 +461,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 20.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: disable IPv6 until we have it in Provo
-  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
 %{ if install_salt_bundle }
   - "apt-get -yq update"
@@ -507,8 +505,6 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 22.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: disable IPv6 until we have it in Provo
-  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
 %{ if install_salt_bundle }
   - "apt-get -yq update"
@@ -558,8 +554,6 @@ runcmd:
   - systemctl restart systemd-networkd
   # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  # WORKAROUND: disable IPv6 until we have it in Provo
-  - echo 'Acquire::ForceIPv4 "true";' > /etc/apt/apt.conf.d/99force-ipv4
   - systemctl restart sshd
 %{ if install_salt_bundle }
   - "apt-get -yq update"
