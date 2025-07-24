@@ -40,6 +40,13 @@ install_recommends:
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
 
+{% if release >= 10 %}
+# to avoid rejecting third-party repository keys
+set-legacy-crypto-policy:
+  cmd.run:
+    - name: update-crypto-policies --set LEGACY
+{% endif %}
+
 {# Soon this key will be used for all non-suse repos. When it happens, replace galaxy_key with this #}
 suse_el9_key:
   file.managed:
