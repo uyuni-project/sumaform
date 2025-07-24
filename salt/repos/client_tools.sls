@@ -549,12 +549,14 @@ tools_update_repo:
     {% endif %}
     {% endif %}
     - refresh: True
+    {% if release < 10 %}
     - require:
       - cmd: galaxy_key
     {% if release >= 9 %}
       - cmd: suse_el9_key
     {% else %}
       - cmd: suse_res7_key
+    {% endif %}
     {% endif %}
 
 {% endif %} {# release >= 8 #}
