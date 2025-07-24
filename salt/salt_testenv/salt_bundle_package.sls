@@ -17,6 +17,8 @@
         {% set repo_path = 'AlmaLinux_8' %}
     {% elif grains['osrelease_info'][0] == 9 %}
         {% set repo_path = 'AlmaLinux_9' %}
+    {% elif grains['osrelease_info'][0] == 10 %}
+        {% set repo_path = 'AlmaLinux_10' %}
     {% endif %}
 {% elif grains['osfullname'] == 'CentOS Linux' %}
     {% if grains['osrelease_info'][0] == 7 %}
