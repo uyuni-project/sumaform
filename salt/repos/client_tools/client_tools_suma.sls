@@ -95,11 +95,6 @@ tools_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
-tools_additional_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/
-    - refresh: True
-
 {% endif %} {# grains['osfullname'] == 'SL-Micro' #}
 {% if grains['osfullname'] == 'SLE Micro' %}
 

@@ -61,11 +61,6 @@ tools_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     - refresh: True
 
-tools_additional_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/SL-Micro-6-SUSE-Manager-Tools/SL-Micro6/
-    - refresh: True
-
 {% endif %} {# grains['osfullname'] == 'SL-Micro' #}
 {% if grains['osfullname'] == 'SLE Micro' %}
 
