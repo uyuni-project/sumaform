@@ -35,6 +35,19 @@ large_deployment_tomcat_restart:
       - cmd: large_deployment_increase_hibernate_max_connections
       - cmd: large_deployment_tune_tomcat_maxthreads
 
+increase_maxstartups_in_sshd_config:
+  file.append:
+    - name: /etc/ssh/sshd_config
+    - text: MaxStartups 100:30:200
+    - unless: grep -q '^MaxStartups' /etc/ssh/sshd_config
+
+reload_sshd:
+  service.running:
+    - name: sshd
+    - reload: True
+    - watch:
+      - file: increase_maxstartups_in_sshd_config
+
 {% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') or '5.1' in grains.get('product_version', '') %}
 large_deployment_increase_database_max_connections_db_container:
   cmd.run:
