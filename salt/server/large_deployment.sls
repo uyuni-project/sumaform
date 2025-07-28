@@ -68,4 +68,22 @@ large_deployment_postgresql:
       - file: large_deployment_increase_database_max_connections
       - file: large_deployment_increase_database_work_memory
 
+# Increase MaxStartups for SSH daemon
+large_deployment_increase_sshd_maxstartups:
+  file.managed:
+    - name: /etc/ssh/sshd_config.d/99-maxstartups.conf
+    - contents: |
+        # Increased MaxStartups for large deployment tuning
+        MaxStartups 100:30:200
+    - user: root
+    - group: root
+    - mode: '0644'
+
+large_deployment_sshd_reload:
+  service.running:
+    - name: sshd
+    - reload: True
+    - watch:
+      - file: large_deployment_increase_sshd_maxstartups
+
 {% endif %}
