@@ -24,7 +24,11 @@ EOF
 
 # Name the Network Manager connections (preparation phase in initrd)
 if [ "$${1-}" = "--prepare" ]; then
+%{ if image == "slmicro62o" || image == "sles16o" }
+  nm_config 1 ens3 auto
+%{ else }
   nm_config 1 eth0 auto
+%{ endif }
   nm_config 2 eth1 manual
   exit 0
 fi
@@ -33,7 +37,11 @@ fi
 exec > >(exec tee -a /var/log/combustion) 2>&1
 
 # Name the Network Manager connections (final phase on real filesystem)
+%{ if image == "slmicro62o" || image == "sles16o" }
+nm_config 1 ens3 auto
+%{ else }
 nm_config 1 eth0 auto
+%{ endif }
 nm_config 2 eth1 manual
 
 # Set linux as password for root
