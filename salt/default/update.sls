@@ -1,5 +1,5 @@
 {% if grains.get('use_os_released_updates') | default(false, true) %}
-{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if not grains.get('transactional', False) %}
 update_packages:
   pkg.uptodate:
     - require:
