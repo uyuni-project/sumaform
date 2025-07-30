@@ -75,7 +75,7 @@ salt_bundle_testsuite_repo:
     - refresh: True
 
 install_salt_bundle_testsuite:
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if grains.get('transactional', False) %}
   cmd.run:
     - name: transactional-update -c -n pkg in venv-salt-minion-testsuite
 {% else %}
