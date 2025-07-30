@@ -43,7 +43,7 @@ containers_updates_repo:
 
 remove_old_salt:
   cmd.run:
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+{% if grains.get('transactional', False) %}
     - name: transactional-update -c -n pkg remove python3-salt; exit 0
 {% else %}
     - name: zypper --non-interactive remove python3-salt; exit 0
