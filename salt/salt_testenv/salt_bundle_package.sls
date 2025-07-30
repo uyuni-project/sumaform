@@ -29,6 +29,8 @@
         {% set repo_path = 'SLE_12' %}
     {% elif grains['osrelease_info'][0] == 15 %}
         {% set repo_path = 'SLE_15' %}
+    {% elif grains['osrelease_info'][0] == 16 %}
+        {% set repo_path = 'SLFO' %}
     {% endif %}
 {% elif grains['osfullname'] == 'Leap' %}
     {% if grains['osrelease_info'][0] == 15 %}
@@ -40,6 +42,9 @@
     {% endif %}
     {% if grains['osrelease'] == '6.1' %}
         {% set repo_path = 'SLMicro61' %}
+    {% endif %}
+    {% if grains['osrelease'] == '6.2' %}
+        {% set repo_path = 'SLFO' %}
     {% endif %}
 {% endif %}
 
