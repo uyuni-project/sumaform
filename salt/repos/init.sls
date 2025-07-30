@@ -19,7 +19,7 @@ include:
   {% endif %}
   - repos.additional
 
-{% if grains['os'] == 'SUSE' and grains['osfullname'] not in ['SLE Micro', 'SL-Micro'] %}
+{% if not grains.get('transactional', False) %}
 refresh_repos:
   cmd.run:
     - name: zypper --non-interactive --gpg-auto-import-keys refresh --force; exit 0
