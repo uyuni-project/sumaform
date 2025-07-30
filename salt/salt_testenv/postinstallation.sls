@@ -1,4 +1,4 @@
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] == 'SL-Micro' %}
+{% if grains.get('transactional', False) %}
 copy_salt_classic_testsuite:
   cmd.run:
     - name: transactional-update -c run cp -r /usr/lib/python3.{{ grains["pythonversion"][1] }}/site-packages/salt-testsuite /opt/salt-testsuite-classic
