@@ -354,7 +354,9 @@ tools_update_repo:
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    {% if release >= 8 %}
+    {% if release >= 10 %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
+    {% elif release >= 8 %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/product/
     {% else %}
@@ -537,18 +539,24 @@ tools_update_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
+    {% if release >= 10 %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
+    {% else %}
     {% if 'beta' in grains.get('product_version') | default('', true) %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS-BETA/x86_64/update/
     {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/update/
     {% endif %}
+    {% endif %}
     - refresh: True
+    {% if release < 10 %}
     - require:
       - cmd: galaxy_key
     {% if release >= 9 %}
       - cmd: suse_el9_key
     {% else %}
       - cmd: suse_res7_key
+    {% endif %}
     {% endif %}
 
 {% endif %} {# release >= 8 #}

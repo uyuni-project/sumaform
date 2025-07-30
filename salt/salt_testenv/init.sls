@@ -5,6 +5,10 @@ include:
   - .salt_bundle_package
 {% elif grains['osfullname'] == 'SLES' and grains['osrelease_info'][0] == 12 %}
   - .salt_bundle_package
+{% elif grains['osfullname'] == 'SLES' and grains['osrelease_info'][0] == 16 %}
+  - .salt_bundle_package
+{% elif grains['osfullname'] == 'SL-Micro' and grains['osrelease'] == '6.2' %}
+  - .salt_bundle_package
 {% elif grains['osfullname'] == 'SL-Micro' %}
   - .salt_classic_package
   - .salt_bundle_package
