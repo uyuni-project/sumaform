@@ -65,9 +65,9 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 # Temporary use as a source of venv-salt-minion instead of not yet existing client tools repo
 zypper ar https://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLFO/SLFO/ salt_bundle_next
 %{ if image == "slmicro62o" }
-  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.2/x86_64/product/ os_pool_repo
+  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.2/x86_64/product/ os_pool_repo_sf
 %{ else }
-  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/ os_pool_repo
+  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/ os_pool_repo_sf
 %{ endif }
 %{ else }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.6/ ca_suse
