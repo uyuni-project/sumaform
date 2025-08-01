@@ -7,8 +7,8 @@ variable "testsuite-branch" {
     "4.3-VM-nightly" = "Manager-4.3"
     "5.0-released"   = "Manager-5.0"
     "5.0-nightly"    = "Manager-5.0"
-    "5.1-released"   = "master"      # TODO change to "Manager-5.1"
-    "5.1-nightly"    = "master"      # as soon as the branch is created
+    "5.1-released"   = "Manager-5.1"
+    "5.1-nightly"    = "Manager-5.1"
     "head"           = "master"
     "uyuni-master"   = "master"
     "uyuni-released" = "master"
