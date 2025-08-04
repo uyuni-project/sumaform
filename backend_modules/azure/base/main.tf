@@ -115,12 +115,6 @@ data "azurerm_platform_image" "ubuntu2404" {
   sku       = "ubuntu-24-04-lts"
 }
 
-data "azurerm_platform_image" "suma43" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "manager-server-4-3-byos"
-  sku       = "gen2"
-}
 
 module "network" {
   source = "../network"
@@ -169,9 +163,6 @@ locals {
       rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },
       rhel8        = { platform_image = data.azurerm_platform_image.rhel8 },
       rhel7        = { platform_image = data.azurerm_platform_image.rhel7 },
-      suma42       = { platform_image = data.azurerm_platform_image.suma42 },
-      suma43       = { platform_image = data.azurerm_platform_image.suma43 }
-
     }
     },
     local.create_network ? module.network.configuration : {
@@ -185,7 +176,7 @@ locals {
   )
 }
 
- module "bastion" {
+module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
@@ -199,7 +190,7 @@ locals {
 }
 
 output "configuration" {
-     value = merge(local.configuration_output, {
+    value = merge(local.configuration_output, {
     bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null) : local.bastion_host
   })
 }
