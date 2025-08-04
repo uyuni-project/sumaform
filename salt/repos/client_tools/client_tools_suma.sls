@@ -142,7 +142,9 @@ tools_additional_repo:
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    {% if release >= 8 %}
+    {% if release == 10 %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
+    {% elif release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/{{ rhlike_client_tools_prefix }}/{{ release }}-CLIENT-TOOLS/x86_64/product/
     {% else %}
     # Centos7 release channel
@@ -175,14 +177,20 @@ tools_update_trad_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
+    {% if release == 10 %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
+    {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
+    {% endif %}
     - refresh: True
     - require:
       - cmd: galaxy_key
+    {% if release < 10 %}
     {% if release >= 9 %}
       - cmd: suse_el9_key
     {% else %}
       - cmd: suse_res7_key
+    {% endif %}
     {% endif %}
 
 {% endif %} {# Devel Tools Repos #}
