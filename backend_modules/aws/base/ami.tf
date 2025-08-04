@@ -124,71 +124,6 @@ data "aws_ami" "sles15sp6o" {
   }
 }
 
-data "aws_ami" "suma-server-43-byos" {
-  most_recent = true
-  name_regex  = "^suse-manager-server-4-3-byos-v"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-// None EMEA offer
-data "aws_ami" "suma-server-43-llc-paygo" {
-  most_recent = true
-  name_regex  = "^suse-manager-server-4-3-v.*(llc).*$"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
-// EMEA offer
-data "aws_ami" "suma-server-43-ltd-paygo" {
-  most_recent = true
-  name_regex  = "^suse-manager-server-4-3-v.*(ltd).*$"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-}
-
 // EMEA offer
 data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
   most_recent = true
@@ -240,27 +175,6 @@ data "aws_ami" "suma-server-50-arm64-ltd-paygo" {
   filter {
     name   = "product-code"
     values = ["umnofojstehgl6jnp9nspg7g"]
-  }
-}
-
-data "aws_ami" "suma-proxy-43-byos" {
-  most_recent = true
-  name_regex  = "^suse-manager-proxy-4-3-byos-v"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
   }
 }
 
