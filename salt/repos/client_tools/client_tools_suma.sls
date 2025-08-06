@@ -1,6 +1,6 @@
 {# These states set up client tools repositories for all supported OSes #}
 {% set product_version = grains.get('product_version') | default('', true) %}
-{% if '4.3' in product_version or '5.0' in product_version or not grains.get('product_version') %}
+{% if '4.3' in product_version or '5.0' in product_version %}
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
