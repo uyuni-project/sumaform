@@ -414,7 +414,7 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, expect, ca-certificates ]
 %{ endif ~}
 %{ if container_server ~}
-  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, netavark, aardvark-dns, ca-certificates-suse ]
+  - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, uyuni-storage-setup-server, netavark, aardvark-dns, ca-certificates-suse ]
 %{ endif ~}
 %{ if container_proxy ~}
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrpxy, ca-certificates-suse ]

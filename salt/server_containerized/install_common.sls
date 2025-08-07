@@ -6,6 +6,7 @@ uyuni-tools:
     - pkgs:
       - mgradm
       - mgrctl
+      - uyuni-storage-setup-server
 
 {% if grains['osfullname'] == 'SLES' %}
 ca_suse:
@@ -24,6 +25,12 @@ check_mgrctl_installed:
 check_mgradm_installed:
   cmd.run:
     - name: "rpm -q mgradm"
+    - success_retcodes: [0]
+    - failhard: True
+
+check_mgr_storage_server_installed:
+  cmd.run:
+    - name: "rpm -q uyuni-storage-setup-server"
     - success_retcodes: [0]
     - failhard: True
 {% endif %}
