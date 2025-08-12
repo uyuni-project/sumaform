@@ -50,7 +50,7 @@ locals {
 
   combustion_images  = [
     "suma-proxy-50-x86_64-byos", "suma-proxy-50-arm64-byos", "suma-server-50-arm64-ltd-paygo", "suma-server-50-x86_64-ltd-paygo",
-    "mlm-proxy-51-x86_64-byos", "mlm-proxy-51-arm64-byos", "mlm-server-51-arm64-ltd-paygo", "mlm-server-51-x86_64-ltd-paygo"
+    "smlm-proxy-51-x86_64-byos", "smlm-proxy-51-arm64-byos", "smlm-server-51-arm64-ltd-paygo", "smlm-server-51-x86_64-ltd-paygo"
   ]
   // manually provided AMIs for to-be-released images all start with 'ami-'
   combustion = contains(local.combustion_images, var.image) || substr(var.image, 0, 3) == "ami"
@@ -255,7 +255,7 @@ resource "null_resource" "host_salt_configuration" {
     bastion_host        = aws_instance.instance[count.index].associate_public_ip_address ? null : local.provider_settings["bastion_host"]
     bastion_user        = "ec2-user"
     bastion_private_key = file(local.provider_settings["key_file"])
-    timeout             = "600s"
+    timeout             = "120s"
   }
 
   provisioner "file" {

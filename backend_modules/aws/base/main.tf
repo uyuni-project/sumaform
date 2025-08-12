@@ -79,6 +79,12 @@ locals {
       suma-server-50-arm64-ltd-paygo  = { ami = data.aws_ami.suma-server-50-arm64-ltd-paygo.image_id },
       suma-proxy-50-x86_64-byos       = { ami = data.aws_ami.suma-proxy-50-x86_64-byos.image_id },
       suma-proxy-50-arm64-byos        = { ami = data.aws_ami.suma-proxy-50-arm64-byos.image_id },
+//    TODO: remove comment once these images are publicly available
+/*    smlm-server-51-x86_64-ltd-paygo = { ami = data.aws_ami.smlm-server-51-x86_64-ltd-paygo.image_id },
+      smlm-server-51-arm64-ltd-paygo  = { ami = data.aws_ami.smlm-server-51-arm64-ltd-paygo.image_id },
+      smlm-proxy-51-x86_64-byos       = { ami = data.aws_ami.smlm-proxy-51-x86_64-byos.image_id },
+      smlm-proxy-51-arm64-byos        = { ami = data.aws_ami.smlm-proxy-51-arm64-byos.image_id },
+ */
       sles12sp5                       = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp5-paygo                 = { ami = data.aws_ami.sles12sp5-paygo.image_id },
       rocky8                          = { ami = data.aws_ami.rocky8.image_id, ssh_user = "rocky" },

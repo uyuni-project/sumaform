@@ -124,7 +124,7 @@ data "aws_ami" "sles15sp6o" {
   }
 }
 
-// EMEA offer
+// EMEA offers
 data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
   most_recent = true
   name_regex  = "^suse-manager-server-5-0-v[0-9].*(ltd).*$"
@@ -151,7 +151,6 @@ data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
   }
 }
 
-// EMEA offer
 data "aws_ami" "suma-server-50-arm64-ltd-paygo" {
   most_recent = true
   name_regex  = "^suse-manager-server-5-0-v[0-9].*(ltd).*$"
@@ -219,6 +218,104 @@ data "aws_ami" "suma-proxy-50-x86_64-byos" {
     values = ["ebs"]
   }
 }
+
+// TODO: remove comment once those images are publicly available
+
+/* data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
+  most_recent = true
+  name_regex  = "^suse-mlm-server-5-1-v[0-9].*(ltd).*$"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "product-code"
+    values = ["8ysfelcfs2dkok3fba4s5uqo4"]
+  }
+}
+
+
+data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
+  most_recent = true
+  name_regex  = "^suse-mlm-server-5-1-v[0-9].*(ltd).*$"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "product-code"
+    values = ["umnofojstehgl6jnp9nspg7g"]
+  }
+}
+
+data "aws_ami" "smlm-proxy-51-arm64-byos" {
+  most_recent = true
+  name_regex  = "^suse-mlm-proxy-5-1-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "smlm-proxy-51-x86_64-byos" {
+  most_recent = true
+  name_regex  = "^suse-mlm-proxy-5-1-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+ */
 
 data "aws_ami" "sles12sp5" {
   most_recent = true
