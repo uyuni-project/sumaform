@@ -178,7 +178,28 @@ data "aws_ami" "suma-server-50-arm64-ltd-paygo" {
   }
 }
 
-data "aws_ami" "suma-proxy-50-byos" {
+data "aws_ami" "suma-proxy-50-arm64-byos" {
+  most_recent = true
+  name_regex  = "^suse-manager-proxy-5-0-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "suma-proxy-50-x86_64-byos" {
   most_recent = true
   name_regex  = "^suse-manager-proxy-5-0-byos-v"
   owners      = ["679593333241"]

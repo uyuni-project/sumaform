@@ -48,7 +48,7 @@ locals {
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 
-  combustion_images  = ["suma-proxy-50-byos"]
+  combustion_images  = ["suma-proxy-50-x86_64-byos", "suma-proxy-50-arm64-byos"]
   combustion = contains(local.combustion_images, var.image)
 }
 
