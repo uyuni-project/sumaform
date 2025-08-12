@@ -48,8 +48,12 @@ locals {
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 
-  combustion_images  = ["suma-proxy-50-x86_64-byos", "suma-proxy-50-arm64-byos"]
-  combustion = contains(local.combustion_images, var.image)
+  combustion_images  = [
+    "suma-proxy-50-x86_64-byos", "suma-proxy-50-arm64-byos", "suma-server-50-arm64-ltd-paygo", "suma-server-50-x86_64-ltd-paygo",
+    "mlm-proxy-51-x86_64-byos", "mlm-proxy-51-arm64-byos", "mlm-server-51-arm64-ltd-paygo", "mlm-server-51-x86_64-ltd-paygo"
+  ]
+  // manually provided AMIs for to-be-released images all start with 'ami-'
+  combustion = contains(local.combustion_images, var.image) || substr(var.image, 0, 3) == "ami"
 }
 
 data "template_file" "user_data" {
@@ -65,9 +69,7 @@ data "template_file" "user_data" {
 data "template_file" "combustion" {
   template = file("${path.module}/combustion")
   vars = {
-    image                    = var.image
-    public_instance          = local.provider_settings["public_instance"]
-    mirror_url               = var.base_configuration["mirror"]
+    product_version          = local.product_version
     install_salt_bundle      = var.install_salt_bundle
   }
 }
@@ -209,9 +211,18 @@ locals {
     (local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"))
 }
 
+resource "null_resource" "wait_for_reboot" {
+  depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment]
+  count = local.combustion ? 1 : 0 // skip if combustion was not used at all
+
+  provisioner "local-exec" {
+    command = "echo 'Waiting 3 minutes for reboot after combustion ...' && sleep 180"
+  }
+}
+
 /** START: provisioning */
 resource "null_resource" "host_salt_configuration" {
-  depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment]
+  depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment, null_resource.wait_for_reboot]
   count      = var.provision ? var.quantity : 0
 
   triggers = {
@@ -244,7 +255,7 @@ resource "null_resource" "host_salt_configuration" {
     bastion_host        = aws_instance.instance[count.index].associate_public_ip_address ? null : local.provider_settings["bastion_host"]
     bastion_user        = "ec2-user"
     bastion_private_key = file(local.provider_settings["key_file"])
-    timeout             = "120s"
+    timeout             = "600s"
   }
 
   provisioner "file" {
