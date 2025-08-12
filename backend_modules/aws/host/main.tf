@@ -48,8 +48,12 @@ locals {
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 
-  combustion_images  = ["suma-proxy-50-x86_64-byos", "suma-proxy-50-arm64-byos"]
-  combustion = contains(local.combustion_images, var.image)
+  combustion_images  = [
+    "suma-proxy-50-x86_64-byos", "suma-proxy-50-arm64-byos", "suma-server-50-arm64-ltd-paygo", "suma-server-50-x86_64-ltd-paygo",
+    "mlm-proxy-51-x86_64-byos", "mlm-proxy-51-arm64-byos", "mlm-server-51-arm64-ltd-paygo", "mlm-server-51-x86_64-ltd-paygo"
+  ]
+  // manually provided AMIs for to-be-released images all start with 'ami-'
+  combustion = contains(local.combustion_images, var.image) || startswith(var.image, "ami-")
 }
 
 data "template_file" "user_data" {
@@ -65,10 +69,7 @@ data "template_file" "user_data" {
 data "template_file" "combustion" {
   template = file("${path.module}/combustion")
   vars = {
-    image                    = var.image
-    public_instance          = local.provider_settings["public_instance"]
-    mirror_url               = var.base_configuration["mirror"]
-    install_salt_bundle      = var.install_salt_bundle
+    product_version          = local.product_version
   }
 }
 
