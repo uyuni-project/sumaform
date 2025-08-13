@@ -57,7 +57,7 @@ systemctl enable sshd.service
 systemctl restart sshd.service
 
 %{ if install_salt_bundle }
-zypper --non-interactive install venv-salt-minion"
+zypper --non-interactive install venv-salt-minion
 %{ else }
 zypper --non-interactive install salt-minion"
 %{ endif }
