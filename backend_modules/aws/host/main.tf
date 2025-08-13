@@ -53,7 +53,7 @@ locals {
     "mlm-proxy-51-x86_64-byos", "mlm-proxy-51-arm64-byos", "mlm-server-51-arm64-ltd-paygo", "mlm-server-51-x86_64-ltd-paygo"
   ]
   // manually provided AMIs for to-be-released images all start with 'ami-'
-  combustion = contains(local.combustion_images, var.image) || startswith(var.image, "ami-")
+  combustion = contains(local.combustion_images, var.image) || substr(var.image, 0, 3) == "ami"
 }
 
 data "template_file" "user_data" {
