@@ -70,7 +70,6 @@ data "template_file" "combustion" {
   template = file("${path.module}/combustion")
   vars = {
     product_version          = local.product_version
-    install_salt_bundle      = var.install_salt_bundle
   }
 }
 

@@ -56,13 +56,7 @@ echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEPA8UvZ/6tTiL+MKGUAsHJuPlDpueeDmbuJ+
 systemctl enable sshd.service
 systemctl restart sshd.service
 
-%{ if install_salt_bundle }
-zypper --non-interactive install venv-salt-minion
-%{ else }
-zypper --non-interactive install salt-minion"
-%{ endif }
-
-
+zypper --non-interactive install salt-minion
 
 # Disabling this timer safely by masking it (systemctl might still be unavailable during the Combustion phase)
 echo "Disabling automatic daily system updates"
