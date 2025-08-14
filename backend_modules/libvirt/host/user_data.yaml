@@ -303,7 +303,7 @@ zypper:
 %{ if product_version == "head" ~}
     - id: container_utils_repo
       name: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -336,7 +336,7 @@ zypper:
     - id: container_utils_repo
       name: container_utils_repo
 #      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/SLE-Micro55/
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
