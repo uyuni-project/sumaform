@@ -24,7 +24,11 @@ EOF
 
 # Name the Network Manager connections (preparation phase in initrd)
 if [ "$${1-}" = "--prepare" ]; then
+%{ if image == "slmicro62o" || image == "sles16o" }
+  nm_config 1 ens3 auto
+%{ else }
   nm_config 1 eth0 auto
+%{ endif }
   nm_config 2 eth1 manual
   exit 0
 fi
@@ -33,14 +37,18 @@ fi
 exec > >(exec tee -a /var/log/combustion) 2>&1
 
 # Name the Network Manager connections (final phase on real filesystem)
+%{ if image == "slmicro62o" || image == "sles16o" }
+nm_config 1 ens3 auto
+%{ else }
 nm_config 1 eth0 auto
+%{ endif }
 nm_config 2 eth1 manual
 
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
 
 # SL Micro6: Add PermitRootLogin to sshd config
-%{ if image == "slmicro60o" || image == "slmicro61o" }
+%{ if image == "slmicro60o" || image == "slmicro61o" || image == "slmicro62o" || image == "sles16o" }
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
 echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
 %{ endif }
@@ -52,7 +60,18 @@ systemctl enable sshd.service
 ${ gpg_keys }
 
 # Add repositories
+%{ if image == "slmicro62o" || image == "sles16o" }
+zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/16.0/ ca_suse
+# Temporary use as a source of venv-salt-minion instead of not yet existing client tools repo
+zypper ar https://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLFO/SLFO/ salt_bundle_next
+%{ if image == "slmicro62o" }
+  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.2/x86_64/product/ os_pool_repo
+%{ else }
+  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/ os_pool_repo
+%{ endif }
+%{ else }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/15.6/ ca_suse
+%{ endif }
 
 # PRODUCT SETUP ----------------
 
