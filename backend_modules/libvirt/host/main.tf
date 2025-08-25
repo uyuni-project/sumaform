@@ -86,8 +86,10 @@ locals {
     image               = var.image
     product_version     = local.product_version
   })
+  has_combustion_data = local.combustion_data != ""
 
   ignition_data = templatefile("${path.module}/config.ign", {})
+  has_ignition_data = local.ignition_data != ""
 }
 
 
@@ -95,7 +97,7 @@ resource "libvirt_combustion" "combustion_disk" {
   name    = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion-disk"
   pool    = var.base_configuration["pool"]
   content = local.combustion_data
-  count   = local.combustion_data ? var.quantity : 0
+  count   = local.has_combustion_data ? var.quantity : 0
 }
 
 
@@ -135,7 +137,7 @@ resource "libvirt_ignition" "ignition_disk" {
   name    = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
   pool    = var.base_configuration["pool"]
   content = local.ignition_data
-  count   = local.ignition_data ? var.quantity : 0
+  count   = local.has_ignition_data ? var.quantity : 0
 }
 
 resource "libvirt_domain" "domain" {
