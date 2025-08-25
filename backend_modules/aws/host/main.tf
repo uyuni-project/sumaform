@@ -54,6 +54,19 @@ locals {
   ]
   // manually provided AMIs for to-be-released images all start with 'ami-'
   combustion = contains(local.combustion_images, var.image) || substr(var.image, 0, 3) == "ami"
+
+
+  user_data_default = templatefile("${path.module}/user_data.yaml", {
+    image               = var.image
+    public_instance     = local.provider_settings["public_instance"]
+    mirror_url          = var.base_configuration["mirror"]
+    install_salt_bundle = var.install_salt_bundle
+  })
+
+  user_data_combustion = templatefile("${path.module}/combustion", {
+    product_version     = local.product_version
+    install_salt_bundle = var.install_salt_bundle
+  })
 }
 
 data "template_file" "user_data" {
@@ -107,9 +120,7 @@ resource "aws_instance" "instance" {
     volume_type = "gp3"
   }
 
-#   user_data = data.template_file.user_data[count.index].rendered
-  user_data = local.combustion ? data.template_file.combustion.rendered : data.template_file.user_data.rendered
-
+  user_data = local.combustion ? local.user_data_combustion : local.user_data_default
   # WORKAROUND: ephemeral block devices are defined in any case
   # they will only be used for instance types that provide them
   ephemeral_block_device {
