@@ -152,7 +152,7 @@ PACKAGES="$PACKAGES mgradm mgrctl uyuni-storage-setup-server mgradm-bash-complet
 %{ endif }
 
 %{ if container_proxy }
-PACKAGES="$PACKAGES mgrpxy"
+PACKAGES="$PACKAGES mgrpxy mgrpxy-bash-completion"
 %{ endif }
 
 %{ if install_salt_bundle }
