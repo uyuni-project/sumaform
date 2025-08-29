@@ -11,6 +11,11 @@ proxy_product_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SUSE-Manager-Proxy/4.3/x86_64/update/
     - refresh: True
 
+proxy_product_LTS_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SUSE-Manager-Proxy/4.3-LTS/x86_64/update/
+    - refresh: True
+
 proxy_module_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-SUSE-Manager-Proxy/4.3/x86_64/product/
