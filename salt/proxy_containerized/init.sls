@@ -93,12 +93,23 @@ install_mgr_tools:
       - podman
       - mgrpxy
 
-{% if grains['osfullname'] == 'SLES' %}
+  {% if grains['osfullname'] == 'SLES' %}
 ca_suse:
   pkg.installed:
     - pkgs:
       - ca-certificates-suse
-{% endif %}
+  {% endif %}
+
+  # WORKAROUND: remove when we have netavark 1.16.1 or later in Tumbleweed
+  # see https://bugzilla.opensuse.org/show_bug.cgi?id=1248848
+  {% if 'uyuni' in grains.get('product_version') %}
+install_fixed_netavark:
+  pkg.installed:
+    - sources:
+      - netavark: https://download.opensuse.org/repositories/home:/danishprakash:/branches:/devel:/microos/openSUSE_Tumbleweed/x86_64/netavark-1.16.1-48.1.x86_64.rpm
+    - skip_verify: True
+  {% endif %}
+  # END OF WORKAROUND
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
