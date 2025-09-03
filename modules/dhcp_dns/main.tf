@@ -31,7 +31,7 @@ resource "null_resource" "standalone_provisioning" {
     host                = "${local.prefix}.53"
     user                = "root"
     password            = "linux"
-    timeout             = "3m"
+    timeout             = "8m"
     bastion_host        = var.hypervisor != null ? var.hypervisor.host : null
     bastion_user        = var.hypervisor != null ? var.hypervisor.user : null
     bastion_private_key = var.hypervisor != null ? var.hypervisor.private_key : null
