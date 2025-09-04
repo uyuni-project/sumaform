@@ -112,8 +112,7 @@ docker_installed:
     - pkgs: {{ to_install }}
 {% endif %}  
 
-{# TODO: pre-install all Python flavors #}
-{% set to_install = ["python3-salt-testsuite", "python3-salt-test", "python3-salt"] -%}
+{% set to_install = ["python3*-salt-testsuite", "python3*-salt-test", "python3*-salt"] -%}
 {% if grains["transactional"] -%}
 {# FIXME: transactional_update.call currently drops --local
 salt_testsuite_installed:
