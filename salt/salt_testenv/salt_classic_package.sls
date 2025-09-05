@@ -112,8 +112,7 @@ docker_installed:
     - pkgs: {{ to_install }}
 {% endif %}  
 
-{# TODO: pre-install all Python flavors #}
-{% set to_install = ["python3-salt-testsuite", "python3-salt-test", "python3-salt"] -%}
+{% set to_install = ["python3*-salt-testsuite", "python3*-salt-test", "python3*-salt"] -%}
 {% if grains["transactional"] -%}
 {# FIXME: transactional_update.call currently drops --local
 salt_testsuite_installed:
@@ -129,7 +128,7 @@ salt_testsuite_installed:
 -#}
 salt_testsuite_installed:
   cmd.run:
-    - name: transactional-update --continue --non-interactive --drop-if-no-change pkg install --capability --from salt_testing_repo {{ to_install|join(" ")}}
+    - name: transactional-update --continue --non-interactive --drop-if-no-change pkg install --from salt_testing_repo --from salt_testsuite_dependencies_repo {{ to_install|join(" ")}}
     - requires:
         - pkgrepo: salt_testing_repo
         - pkgrepo: salt_testsuite_dependencies_rep
@@ -146,7 +145,7 @@ salt_testsuite_installed:
 -#}
 salt_testsuite_installed:
   cmd.run:
-    - name: zypper --non-interactive install --capability --from salt_testing_repo {{ to_install|join(" ") }}
+    - name: zypper --non-interactive install --from salt_testing_repo --from salt_testsuite_dependencies_repo {{ to_install|join(" ") }}
     - require:
       - pkgrepo: salt_testing_repo
       - pkgrepo: salt_testsuite_dependencies_repo
