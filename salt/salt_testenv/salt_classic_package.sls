@@ -12,8 +12,13 @@
 {% for module in ["development_tools", "HPC", "containers" ] -%}
 {{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
 {% endfor -%}
+{% if grains["osrelease_info"][1]|int >= 4 -%}
+{% for module in ["python3"] -%}
+{{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
+{% endfor -%}
+{% endif -%}
 {% if grains["osrelease_info"][1]|int >= 6 -%}
-{% for module in ["python3", "systems_management"] -%}
+{% for module in ["systems_management"] -%}
 {{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
 {% endfor -%}
 {% endif -%}
