@@ -10,17 +10,48 @@ chpasswd:
 %{ if image == "tumbleweedo" ~}
 zypper:
   repos:
+    # switch to "Stable" as soon as it exist
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/saltstack:/bundle:/openSUSE_Tumbleweed/openSUSE_Tumbleweed/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
+%{ if container_server || container_proxy ~}
+%{ if product_version == "uyuni-master" || product_version == "uyuni-pr" ~}
+    - id: container_utils_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Tumbleweed/
+      enabled: true
+      gpgcheck: false
+      name: container_utils_repo
+%{ else ~}
+    - id: container_utils_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Tumbleweed/
+      enabled: true
+      gpgcheck: false
+      name: container_utils_repo
+%{ endif ~}
+    - id: ca_suse
+      name: ca_suse
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/openSUSE_Tumbleweed/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+%{ endif ~}
 
 runcmd:
    # openssh-server-config-rootlogin is required to allow ssh root login with SELinux enabled
-  - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin
+%{ if testsuite ~}
+  - zypper --non-interactive install wget timezone expect bind-utils ca-certificates
+%{ endif ~}
+%{ if container_server ~}
+  - zypper --non-interactive install mgrctl mgradm uyuni-storage-setup-server netavark aardvark-dns ca-certificates-suse
+%{ endif ~}
+%{ if container_proxy ~}
+  - zypper --non-interactive install mgrpxy ca-certificates-suse
+%{ endif ~}
+  - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin which
   - systemctl restart sshd
-%{endif}
+%{ endif ~}
 
 %{ if image == "centos7o" ~}
 bootcmd:
