@@ -179,3 +179,9 @@ update_buggy_m2crypto_version:
   pkg.latest:
     - name: python3-M2Crypto
 {% endif %}
+
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] in ["15.4", "15.5"] -%}
+update_libexpat1_version:
+  pkg.latest:
+    - name: libexpat1
+{% endif -%}
