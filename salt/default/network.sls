@@ -20,12 +20,16 @@ ipv6_accept_ra_{{ iface }}:
 {% endfor %}
 
 {% if grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
-{% set conname = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show eth0') %}
+{% set ifname = 'eth0' %}
+{% if grains['osrelease'] == '6.2' %}
+{% set ifname = 'ens3' %}
+{% endif %}
+{% set conname = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show ' + ifname) %}
 avoid_network_manager_messing_up:
   cmd.run:
     - name: |
         nmcli connection modify "{{ conname }}" ipv6.addr-gen-mode eui64
-        nmcli device modify eth0 ipv6.addr-gen-mode eui64
+        nmcli device modify "{{ ifname }}" ipv6.addr-gen-mode eui64
 {% endif %}
 
 {% else %}
