@@ -339,3 +339,9 @@ variable "large_deployment" {
   type        = bool
   default     = true
 }
+
+variable "enable_oval_metadata" {
+  description = "synchronize OVAL data"
+  type        = bool
+  default     = false
+}

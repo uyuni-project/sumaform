@@ -73,6 +73,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
   scc_access_logging        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
+  enable_oval_metadata     = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
@@ -163,6 +165,7 @@ module "server_containerized" {
   repository_disk_size          = lookup(local.repository_disk_size, "server_containerized", 0)
   database_disk_size            = lookup(local.database_disk_size, "server_containerized", 0)
   large_deployment              = lookup(local.large_deployment, "server_containerized", true)
+  enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_containerized", false)
 }
 
 module "proxy" {
