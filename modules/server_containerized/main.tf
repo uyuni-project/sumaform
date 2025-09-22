@@ -79,6 +79,7 @@ module "server_containerized" {
     large_deployment               = var.large_deployment
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
+    enable_oval_metadata           = var.enable_oval_metadata
   }
 }
 
