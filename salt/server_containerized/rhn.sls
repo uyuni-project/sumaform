@@ -52,6 +52,19 @@ increase_presence_ping_timeout:
     - name: mgrctl exec 'echo "java.salt_presence_ping_timeout = 6" >> /etc/rhn/rhn.conf'
 {% endif %}
 
+# see https://documentation.suse.com/multi-linux-manager/5.1/en/docs/administration/auditing.html#_oval
+{% if grains.get('enable_oval_metadata') | default(false, true) %}
+oval_metadata_enable_synchronization:
+  cmd.run:
+    - name: mgrctl exec 'echo "java.cve_audit.enable_oval_metadata=true" >> /etc/rhn/rhn.conf'
+
+oval_metadata_services_restart:
+  cmd.run:
+    - name: mgrctl exec systemctl restart tomcat taskomatic
+    - watch:
+      - cmd: oval_metadata_enable_synchronization
+{% endif %}
+
 rhn_conf_present:
   cmd.run:
     - name: mgrctl exec 'touch /etc/rhn/rhn.conf'
