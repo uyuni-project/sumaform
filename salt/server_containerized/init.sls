@@ -8,4 +8,3 @@ include:
   - server_containerized.rhn
   - server_containerized.large_deployment
   - server_containerized.testsuite
-  - server_containerized.oval_metadata
