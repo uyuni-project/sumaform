@@ -1,5 +1,5 @@
 {# These states set up client tools repositories for all supported OSes #}
-{% if 'uyuni' in grains.get('product_version') | default('', true) %}
+{% if not grains.get('product_version') or grains.get('product_version').startswith('uyuni-') %}
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
@@ -101,12 +101,19 @@ tools_update_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
+{% if release == 10 %}
+    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/repodata/repomd.xml.key
+{% else %}
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
     - refresh: True
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
     - require:
       - cmd: uyuni_key
+{% endif %}
 
 clean_repo_metadata:
   cmd.run:

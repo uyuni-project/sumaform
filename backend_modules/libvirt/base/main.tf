@@ -4,6 +4,7 @@ locals {
   image_urls = {
     almalinux8o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://repo.almalinux.org"}/almalinux/8/cloud/x86_64/images/AlmaLinux-8-GenericCloud-latest.x86_64.qcow2"
     almalinux9o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://repo.almalinux.org"}/almalinux/9/cloud/x86_64/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2"
+    almalinux10o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://repo.almalinux.org"}/almalinux/10/cloud/x86_64/images/AlmaLinux-10-GenericCloud-latest.x86_64.qcow2"
     amazonlinux2o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cdn.amazonlinux.com"}/os-images/2.0.20210721.2/kvm/amzn2-kvm-2.0.20210721.2-x86_64.xfs.gpt.qcow2"
     amazonlinux2023o         = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cdn.amazonlinux.com"}/al2023/os-images/latest/kvm/al2023-kvm-2023.7.20250331.0-kernel-6.1-x86_64.xfs.gpt.qcow2"
     centos7                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://github.com"}/uyuni-project/sumaform-images/releases/download/4.3.0/centos7.qcow2"
@@ -26,6 +27,7 @@ locals {
     sles15sp6o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP6-Minimal-GM/SLES15-SP6-Minimal-VM.x86_64-Cloud-GM.qcow2"
     sles15sp7o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP7-Minimal-GM/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
     sles12sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-12-SP5-JeOS-GM/SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
+    sles16o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLES-16-PublicRC/SLES-16.0-Minimal-VM.x86_64-Cloud-PublicRC.qcow2"
     ubuntu2004o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
     ubuntu2204o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
     ubuntu2404o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/noble/current/noble-server-cloudimg-amd64.img"
@@ -38,6 +40,7 @@ locals {
     slemicro55o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_55/SLE-Micro.x86_64-sumaform.qcow2"
     slmicro60o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_60/SL-Micro.x86_64-sumaform.qcow2"
     slmicro61o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_61/SL-Micro.x86_64-sumaform.qcow2"
+    slmicro62o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SL-Micro-6.2-RC2/SL-Micro.x86_64-6.2-Default-qcow-RC2.qcow2"
     suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM-x86_64.qcow2"
     leapmicro55o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap-micro/5.5/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
     tumbleweedo              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/tumbleweed/appliances/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"

@@ -3,7 +3,7 @@ include:
 
 {% if grains['additional_packages'] %}
 install_additional_packages:
-  {% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+  {% if grains.get('transactional', False) %}
   cmd.run:
 {% for package in grains['additional_packages'] %}
     - name: transactional-update -c -n pkg in {{ package }}

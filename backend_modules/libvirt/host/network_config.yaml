@@ -9,7 +9,7 @@ network:
   version: 1
   config:
   - type: physical
-%{ if image == "ubuntu2404o" || image == "ubuntu2204o" || image == "ubuntu2004o" }
+%{ if image == "ubuntu2404o" || image == "ubuntu2204o" || image == "ubuntu2004o" || image == "slmicro62o" }
     name: ens3
 %{ else }
     name: eth0
