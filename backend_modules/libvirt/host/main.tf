@@ -49,11 +49,8 @@ locals {
     cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image)
     ignition = length(regexall("-ign$", var.image)) > 0
     add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
-}
 
-data "template_file" "user_data" {
-  template = file("${path.module}/user_data.yaml")
-  vars = {
+  user_data = templatefile("${path.module}/user_data.yaml", {
     image               = var.image
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
@@ -64,24 +61,19 @@ data "template_file" "user_data" {
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
     product_version     = local.product_version
-  }
-}
+  })
 
-data "template_file" "network_config" {
-  template = file("${path.module}/network_config.yaml")
-  vars = {
-    image              = var.image
-    dhcp_dns           = contains(var.roles, "dhcp_dns")
-    dhcp_dns_address   = join(".", concat(local.add_net, [ "53" ]))
-  }
-}
+  network_config = templatefile("${path.module}/network_config.yaml", {
+    image            = var.image
+    dhcp_dns         = contains(var.roles, "dhcp_dns")
+    dhcp_dns_address = join(".", concat(local.add_net, ["53"]))
+  })
 
-data "template_file" "combustion" {
-  template = file("${path.module}/combustion")
-  vars = {
-    gpg_keys = join("\n", [for key in local.gpg_keys :
-    "mkdir -p `dirname ${key.path}` && echo ${key.content} | base64 -d >${key.path} && rpm --import ${key.path}"
-  ])
+  combustion_file = templatefile("${path.module}/combustion", {
+    gpg_keys = join("\n", [
+      for key in local.gpg_keys :
+      "mkdir -p `dirname ${key.path}` && echo ${key.content} | base64 -d >${key.path} && rpm --import ${key.path}"
+    ])
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
@@ -89,21 +81,14 @@ data "template_file" "combustion" {
     container_proxy     = contains(var.roles, "proxy_containerized")
     container_runtime   = local.container_runtime
     testsuite           = lookup(var.base_configuration, "testsuite", false)
-    additional_repos    = join(" ", [for key, value in var.additional_repos : "${key}=${value}"])
-    image               = var.image
-    product_version     = local.product_version
-  }
-}
+    additional_repos    = join(" ", [
+      for key, value in var.additional_repos : "${key}=${value}"
+    ])
+    image           = var.image
+    product_version = local.product_version
+  })
 
-resource "libvirt_combustion" "combustion_disk" {
-  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion-disk"
-  pool             = var.base_configuration["pool"]
-  content          = data.template_file.combustion.rendered
-  count            = local.combustion ? var.quantity : 0
-}
-
-data "template_file" "ignition" {
-  template = file("${path.module}/config.ign")
+  ignition_file = templatefile("${path.module}/config.ign", {})
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -131,17 +116,24 @@ resource "libvirt_volume" "database_disk" {
 }
 
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
-  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
-  user_data      = data.template_file.user_data.rendered
-  network_config = data.template_file.network_config.rendered
+  name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
+  user_data        = local.user_data
+  network_config   = local.network_config
   pool             = var.base_configuration["pool"]
   count            = local.cloud_init ? var.quantity : 0
 }
 
-resource "libvirt_ignition" "ignition_disk" {
-  name           = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
+resource "libvirt_combustion" "combustion_disk" {
+  name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion-disk"
   pool             = var.base_configuration["pool"]
-  content          = data.template_file.ignition.rendered
+  content          = local.combustion_file
+  count            = local.combustion ? var.quantity : 0
+}
+
+resource "libvirt_ignition" "ignition_disk" {
+  name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
+  pool             = var.base_configuration["pool"]
+  content          = local.ignition_file
   count            = local.ignition ? var.quantity : 0
 }
 
