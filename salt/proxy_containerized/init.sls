@@ -64,14 +64,19 @@ config_proxy_containerized:
     - contents: |
         registry: {{ container_repository }}
         httpd:
+          image: proxy-httpd
           tag: {{ container_tag }}
         saltBroker:
+          image: proxy-salt-broker
           tag: {{ container_tag }}
         ssh:
+          image: proxy-ssh
           tag: {{ container_tag }}
         tftpd:
+          image: proxy-tftpd
           tag: {{ container_tag }}
         squid:
+          image: proxy-squid
           tag: {{ container_tag }}
     - makedirs: True
 
