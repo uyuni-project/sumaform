@@ -10,7 +10,7 @@ chpasswd:
     root:linux
 %{ endif ~}
 
-%{ if image == "opensuse154o" ~}
+%{ if image == "opensuse154o" || image == "opensuse155o" || image == "opensuse156o" || image == "tumbleweedo" ||~}
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini
@@ -23,34 +23,6 @@ runcmd:
   - zypper up --allow-vendor-change --no-confirm salt-minion
 %{ endif ~}
 
-%{ endif ~}
-
-%{ if image == "opensuse155o" ~}
-runcmd:
-  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
-  - zypper rm -y gettext-runtime-mini
-  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
-  # Possible bug in zypper's Salt module
-  - zypper removerepo --all
-%{ if install_salt_bundle ~}
-  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else ~}
-  - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif ~}
-
-%{ endif ~}
-
-%{ if image == "opensuse156o" ~}
-runcmd:
-  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
-  - zypper rm -y gettext-runtime-mini
-  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
-  # Possible bug in zypper's Salt module
-  - zypper removerepo --all
-%{ if install_salt_bundle ~}
-  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else ~}
-  - zypper up --allow-vendor-change --no-confirm salt-minion
 %{ endif ~}
 
 %{ endif ~}
