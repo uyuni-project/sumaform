@@ -152,6 +152,9 @@ salt_testsuite_installed:
     - require:
       - pkgrepo: salt_testing_repo
       - pkgrepo: salt_testsuite_dependencies_repo
+salt_testsuite_try_to_sleep_before_sync:
+  cmd.run:
+    - name: find /usr/ -name test_executor.py | xargs -I {} sed -i -e '/import logging/a import time' -e '/self.run_function("saltutil.sync_all")/i \ \ \ \ \ \ \ \ time.sleep(10)' {}
 {% endif -%}  
 
 ## Services for running tests
