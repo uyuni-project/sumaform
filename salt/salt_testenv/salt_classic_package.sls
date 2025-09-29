@@ -152,6 +152,12 @@ salt_testsuite_installed:
     - require:
       - pkgrepo: salt_testing_repo
       - pkgrepo: salt_testsuite_dependencies_repo
+salt_testsuite_copy_arg_exec:
+  cmd.run:
+    - name: find /usr -type d -name _executors -exec cp {}/arg.py {}/tstarg.py \;
+salt_testsuite_fix_flaky:
+  cmd.run:
+    - name: find /usr/ -name test_executor.py | xargs -I {} sed -i 's/module-executors=arg/module-executors=tstarg/g' {}
 {% endif -%}  
 
 ## Services for running tests
