@@ -152,6 +152,9 @@ salt_testsuite_installed:
     - require:
       - pkgrepo: salt_testing_repo
       - pkgrepo: salt_testsuite_dependencies_repo
+salt_testsuite_fix_ssh_shim:
+  cmd.run:
+    - name: find /usr -name ssh_py_shim.py | xargs -I {} dirname {} | xargs -I {} sed -i 's!/var/tmp/venv-salt-minion/bin/python python3!/var/tmp/venv-salt-minion/bin/python python3.11 python3!' "{}/__init__.py"
 {% endif -%}  
 
 ## Services for running tests
