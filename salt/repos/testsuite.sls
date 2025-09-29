@@ -4,7 +4,7 @@
 {% if (grains['os'] == 'SUSE') or (grains['os_family'] == 'RedHat') %}
 
 uyuni_key_for_fake_packages:
-{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Tumbleweed'] %}
   file.managed:
     - name: /tmp/uyuni.key
     - source: salt://default/gpg_keys/uyuni.key
@@ -17,7 +17,7 @@ uyuni_key_for_fake_packages:
     - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror-ci-bv.mgr.prv.suse.net", true) }}/uyuni.key
 {% endif %}
 
-{% if not (grains['osfullname'] in ['SLE-Micro', 'SL-Micro', 'openSUSE Leap Micro']) %}
+{% if not (grains['osfullname'] in ['SLE-Micro', 'SL-Micro', 'openSUSE Leap Micro', 'openSUSE Tumbleweed']) %}
 test_repo_rpm_pool:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
