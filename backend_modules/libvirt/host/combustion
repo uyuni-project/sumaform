@@ -189,12 +189,6 @@ TEST_PACKAGES="$TEST_PACKAGES expect bind-utils"
 TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget"
 zypper --non-interactive install $TEST_PACKAGES
 
-# WORKAROUND
-# Installing the last version of suse-build-key harcoded until it is solved
-%{ if image == "slmicro61o" }
-zypper --non-interactive install --from os_pool_repo suse-build-key=12.0-slfo.1.1_3.1
-%{ endif }
-
 %{ endif }
 
 # Disabling this timer safely by masking it (systemctl might still be unavailable during the Combustion phase)
