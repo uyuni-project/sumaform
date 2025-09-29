@@ -4,7 +4,7 @@
 {% if (grains['os'] == 'SUSE') or (grains['os_family'] == 'RedHat') %}
 
 uyuni_key_for_fake_packages:
-{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Tumbleweed'] %}
+{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
   file.managed:
     - name: /tmp/uyuni.key
     - source: salt://default/gpg_keys/uyuni.key
