@@ -8,7 +8,7 @@ locals {
   provider_settings = merge({
     key_name        = var.base_configuration["key_name"]
     key_file        = var.base_configuration["key_file"]
-    ssh_user        = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ssh_user", "root")
+    ssh_user        = lookup(lookup(var.base_configuration["ami_info"], var.image, {}), "ssh_user", "ec2-user")
     public_instance = false
     instance_with_eip = false
     volume_size     = var.main_disk_size
