@@ -6,10 +6,10 @@ include:
   - default.firewall
   {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
   - repos
+  - default.avahi
   {% else %}
   - repos.testsuite
   {% endif %}
-  - default.avahi
   - default.time
 
 minimal_package_update:
