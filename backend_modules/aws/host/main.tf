@@ -242,9 +242,8 @@ resource "null_resource" "host_salt_configuration" {
 
   connection {
     host        = aws_instance.instance[count.index].associate_public_ip_address ? aws_instance.instance[count.index].public_dns : aws_instance.instance[count.index].private_dns
-    # private_key = file(local.provider_settings["key_file"])
+    private_key = file(local.provider_settings["key_file"])
     user        = local.provider_settings["ssh_user"]
-    password    = "linux"
 
     bastion_host        = aws_instance.instance[count.index].associate_public_ip_address ? null : local.provider_settings["bastion_host"]
     bastion_user        = "ec2-user"
