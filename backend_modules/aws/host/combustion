@@ -65,7 +65,7 @@ PACKAGES="$PACKAGES venv-salt-minion"
 PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
-zypper --non-interactive install $PACKAGES
+transactional-update --non-interactive --continue pkg in $PACKAGES
 
 # Leave a marker
 echo "Configured with combustion" > /var/lib/combustion.done
