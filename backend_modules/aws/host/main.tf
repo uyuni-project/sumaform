@@ -54,6 +54,7 @@ locals {
   ]
   // manually provided AMIs for to-be-released images all start with 'ami-'
   combustion = contains(local.combustion_images, var.image) || substr(var.image, 0, 3) == "ami"
+  sshd_config_root_d = can(regex("51", var.image))
 
   user_data = templatefile("${path.module}/user_data.yaml", {
     image                    = var.image
@@ -65,7 +66,7 @@ locals {
   combustion_file = templatefile("${path.module}/combustion", {
     product_version          = local.product_version
     install_salt_bundle      = var.install_salt_bundle
-    image                    = var.image
+    sshd_config_root_d       = local.sshd_config_root_d
   })
 }
 
