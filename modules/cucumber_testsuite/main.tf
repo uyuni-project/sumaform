@@ -51,8 +51,16 @@ locals {
     host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
   container_repositories    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
+  container_images    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "container_image", null) if var.host_settings[host_key] != null }
   container_tags    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_tag", null) if var.host_settings[host_key] != null }
+  db_container_repositories    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_repository", null) if var.host_settings[host_key] != null }
+  db_container_images    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_image", null) if var.host_settings[host_key] != null }
+  db_container_tags    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_tag", null) if var.host_settings[host_key] != null }
   helm_chart_urls           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
@@ -135,7 +143,11 @@ module "server_containerized" {
   name                           = lookup(local.names, "server_containerized", "server")
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
   container_repository           = lookup(local.container_repositories, "server_containerized", "")
+  container_image                = lookup(local.container_images, "server_containerized", "")
   container_tag                  = lookup(local.container_tags, "server_containerized", "")
+  db_container_repository        = lookup(local.db_container_repositories, "server_containerized", "")
+  db_container_image             = lookup(local.db_container_images, "server_containerized", "")
+  db_container_tag               = lookup(local.db_container_tags, "server_containerized", "")
   auto_accept                    = false
   download_private_ssl_key       = false
   disable_firewall               = false
