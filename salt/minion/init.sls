@@ -1,6 +1,6 @@
 include:
-  - scc.minion
   {% if 'paygo' not in grains.get('product_version') | default('', true) %}
+  - scc.minion
   - repos
   {% endif %}
   - minion.testsuite
