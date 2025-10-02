@@ -24,6 +24,15 @@ test_repo_rpm_pool:
     - refresh: True
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/repodata/repomd.xml.key
+    - keys:
+        - http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/repodata/repomd.xml.key
+
+{% if (grains['osfinger'] == "SLES-12") %}
+refresh_test_repos:
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys refresh --force; exit 0
+{% endif %}
+
 {% endif %} {# already added via combustion #}
 
 {% elif grains['os_family'] == 'Debian' %}
