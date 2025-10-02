@@ -65,6 +65,7 @@ locals {
   combustion_file = templatefile("${path.module}/combustion", {
     product_version          = local.product_version
     install_salt_bundle      = var.install_salt_bundle
+    image                    = var.image
   })
 }
 
