@@ -53,6 +53,16 @@ locals {
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
   container_images    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_image", null) if var.host_settings[host_key] != null }
+  httpd_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "httpd_container_image", null) if var.host_settings[host_key] != null }
+  salt_broker_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "salt_broker_container_image", null) if var.host_settings[host_key] != null }
+  squid_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "squid_container_image", null) if var.host_settings[host_key] != null }
+  ssh_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "ssh_container_image", null) if var.host_settings[host_key] != null }
+  tftpd_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "tftpd_container_image", null) if var.host_settings[host_key] != null }
   container_tags    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_tag", null) if var.host_settings[host_key] != null }
   db_container_repositories    = { for host_key in local.hosts :
@@ -224,6 +234,11 @@ module "proxy_containerized" {
 
   runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
   container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
+  httpd_container_image  = lookup(local.httpd_container_images, "proxy_containerized", "")
+  salt_broker_container_image = lookup(local.salt_broker_container_images, "proxy_containerized", "")
+  squid_container_image  = lookup(local.squid_container_images, "proxy_containerized", "")
+  ssh_container_image    = lookup(local.ssh_container_images, "proxy_containerized", "")
+  tftpd_container_image  = lookup(local.tftpd_container_images, "proxy_containerized", "")
   container_tag          = lookup(local.container_tags, "proxy_containerized", "")
   helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
   server_configuration   = { hostname = local.server_full_name,

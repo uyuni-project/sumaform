@@ -44,6 +44,11 @@ module "proxy_containerized" {
     auto_configure            = var.auto_configure
     container_runtime         = var.runtime
     container_repository      = var.container_repository
+    httpd_container_image     = var.httpd_container_image
+    salt_broker_container_image = var.salt_broker_container_image
+    squid_container_image     = var.squid_container_image
+    ssh_container_image       = var.ssh_container_image
+    tftpd_container_image     = var.tftpd_container_image
     container_tag             = var.container_tag
     helm_chart_url            = var.helm_chart_url # Not yet implemented in sumaform salt states
     mirror                    = var.base_configuration["mirror"]
