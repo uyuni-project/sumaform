@@ -13,6 +13,10 @@ emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }
 {%- if grains.get('container_repository') %}
 registry: 
   host: {{ grains.get('container_repository') }}
+  {% if grains.get('cc_username') %}
+  user: {{ grains.get('cc_username') }}
+  password: {{ grains.get("cc_password") }}
+  {% endif %}
 {% endif %}
 {%- if grains.get('container_image') %}
 image: {{ grains.get('container_image') }}

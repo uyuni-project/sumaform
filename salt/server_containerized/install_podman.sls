@@ -14,12 +14,6 @@ podman_packages:
       {% endif %}
 {% endif %}
 
-{% if 'paygo' not in grains.get('product_version') | default('', true) %}
-podman_login:
-  cmd.run:
-    - name: podman login -u {{ grains.get('cc_username') }} -p {{ grains.get('cc_password') }} {{ grains.get("container_repository") }}
-{% endif %}
-
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
