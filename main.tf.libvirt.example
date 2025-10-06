@@ -52,6 +52,10 @@ module "server" {
   // To override the default container repository containing the images
   // container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/containers/uyuni"
 
+  // To override the default images names for Server and Database containers
+  // container_image = "server"
+  // db_container_image = "server-postgresql"
+
   // To define a specific container image tag to install
   // container_tag = 
 }

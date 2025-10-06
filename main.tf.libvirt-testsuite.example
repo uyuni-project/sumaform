@@ -98,6 +98,13 @@ module "cucumber_testsuite" {
 
       # Override where to get the containers from
       # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
+
+      # Override the default image names for Server and Database containers
+      # container_image = "server"
+      # db_container_image = "server-postgresql"
+
+      # Define a specific container image tag to install
+      # container_tag = "latest"
     }
     proxy = {
       name = "proxy"
