@@ -78,3 +78,15 @@ http:
 
   - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/EL/9-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
+
+  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-15/
+    archs: [x86_64]
+
+  - url: http://dist.nue.suse.com/ibs//SUSE/Updates/MultiLinuxManagerTools/SLE-15/
+    archs: [ x86_64 ]
+
+  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-12/
+    archs: [x86_64]
+
+  - url: http://dist.nue.suse.com/ibs//SUSE/Updates/MultiLinuxManagerTools/SLE-12/
+    archs: [ x86_64 ]
