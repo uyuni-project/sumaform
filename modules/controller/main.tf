@@ -32,13 +32,15 @@ module "controller" {
   roles                         = ["controller"]
   product_version               = var.product_version
   grains = {
-    cc_username  = var.base_configuration["cc_username"]
-    cc_password  = var.base_configuration["cc_password"]
-    git_username = var.git_username
-    git_password = var.git_password
-    git_repo     = var.git_repo
-    branch       = var.branch == "default" ? var.testsuite-branch[var.base_configuration["product_version"]] : var.branch
-    mirror       = var.no_mirror == true ? null :  var.base_configuration["mirror"]
+    cc_username     = var.base_configuration["cc_username"]
+    cc_password     = var.base_configuration["cc_password"]
+    cc_ptf_username = var.cc_ptf_username
+    cc_ptf_password = var.cc_ptf_password
+    git_username    = var.git_username
+    git_password    = var.git_password
+    git_repo        = var.git_repo
+    branch          = var.branch == "default" ? var.testsuite-branch[var.base_configuration["product_version"]] : var.branch
+    mirror          = var.no_mirror == true ? null :  var.base_configuration["mirror"]
 
     server            = var.server_configuration["hostname"]
     proxy             = var.proxy_configuration["hostname"]

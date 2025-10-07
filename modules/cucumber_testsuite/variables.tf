@@ -100,6 +100,16 @@ variable "branch" {
   default     = "default"
 }
 
+variable "cc_ptf_username" {
+  description = "username of SCC organization having PTFs available"
+  type        = string
+} 
+
+variable "cc_ptf_password" {
+  description = "password of SCC organization having PTFs available"
+  type        = string
+}
+
 variable "git_username" {
   description = "username for GitHub"
   type        = string
