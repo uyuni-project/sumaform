@@ -60,7 +60,7 @@ reload_sshd:
     - watch:
       - file: large_deployment_increase_sshd_maxstartups
 
-{% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') or '5.1' in grains.get('product_version', '') %}
+{% if 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') or '5.1' in grains.get('product_version', '') %}
 large_deployment_increase_database_max_connections_db_container:
   cmd.run:
     - name: podman exec uyuni-db sed -i "s/max_connections = .*/max_connections = 400/" /var/lib/pgsql/data/postgresql.conf
