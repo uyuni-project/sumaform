@@ -36,6 +36,7 @@ module "proxy_containerized" {
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
   provision                     = var.provision
+  product_version               = local.product_version
 
   grains = {
     server                    = var.server_configuration["hostname"]

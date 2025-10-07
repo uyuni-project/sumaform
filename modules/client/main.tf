@@ -1,3 +1,7 @@
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "client" {
   source = "../host"
 
@@ -17,11 +21,11 @@ module "client" {
   connect_to_additional_network = false
   roles                         = ["client"]
   disable_firewall              = var.disable_firewall
-  product_version               = var.product_version
+  product_version               = local.product_version
   grains = {
-    mirror          = var.base_configuration["mirror"]
-    server          = var.server_configuration["hostname"]
-    auto_register   = var.auto_register
+    mirror                 = var.base_configuration["mirror"]
+    server                 = var.server_configuration["hostname"]
+    auto_register          = var.auto_register
     sles_registration_code = var.sles_registration_code
   }
 
