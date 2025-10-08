@@ -18,7 +18,7 @@ minima:
   archive.extracted:
     - name: /usr/local/bin/utils/
     - source: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz.sha512
+    - source_hash: 06c2939868bd02b0328d380e04d7e10c194f0e5eec7ddb12c546ba2513942448a169d103147cc31c7faec4bb89ccba139f28692a2bf69f6b650be92de2f229ce
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
