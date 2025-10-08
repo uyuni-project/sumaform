@@ -58,12 +58,6 @@ http:
   - url: http://dist.nue.suse.com/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/product/
     archs: [ x86_64 ]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/
-    archs: [x86_64]
-
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/update/
-    archs: [x86_64]
-
   - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 
@@ -82,11 +76,11 @@ http:
   - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-15/
     archs: [x86_64]
 
-  - url: http://dist.nue.suse.com/ibs//SUSE/Updates/MultiLinuxManagerTools/SLE-15/
+  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-15/
     archs: [ x86_64 ]
 
   - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-12/
     archs: [x86_64]
 
-  - url: http://dist.nue.suse.com/ibs//SUSE/Updates/MultiLinuxManagerTools/SLE-12/
+  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-12/
     archs: [ x86_64 ]
