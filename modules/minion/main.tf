@@ -1,3 +1,7 @@
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "minion" {
   source = "../host"
 
@@ -17,7 +21,7 @@ module "minion" {
   connect_to_additional_network = false
   roles                         = var.roles
   disable_firewall              = var.disable_firewall
-  product_version               = var.product_version
+  product_version               = local.product_version
   grains = merge({
     mirror                 = var.base_configuration["mirror"]
     server                 = var.auto_connect_to_master ? var.server_configuration["hostname"] : null
