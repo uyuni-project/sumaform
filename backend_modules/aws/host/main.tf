@@ -297,6 +297,7 @@ resource "null_resource" "host_salt_configuration" {
 
   provisioner "remote-exec" {
     inline = [
+      "echo 'Attempting to run wait_for_salt.sh' 2>&1",
       "sudo bash /tmp/salt/wait_for_salt.sh",
     ]
   }
