@@ -99,21 +99,31 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/P
     %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
       zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils_repo
     %{ else }
-        %{ if product_version == "5.1-released" || product_version == "5.1-nightly" }
+      %{ if product_version == "5.1-released" }
+        %{ if container_server }
+          zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/Multi-Linux-Manager-Server/5.1/x86_64/product container_utils_repo
+        %{ endif }
+        %{ if container_proxy }
+          zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/Multi-Linux-Manager-Proxy/5.1/x86_64/product/ container_utils_repo
+        %{ endif }
+      %{ else }
+        %{ if product_version == "5.1-nightly" }
           %{ if container_server }
-              zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-              zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
           %{ endif }
         %{ else }
+          # HEAD
           %{ if container_server }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
         %{ endif }
+      %{ endif }
     %{ endif }
   %{ endif }
 %{ endif } # end of image == "slmicro61o" block
