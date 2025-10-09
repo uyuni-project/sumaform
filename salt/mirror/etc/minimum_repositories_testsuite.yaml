@@ -13,25 +13,25 @@ http:
   - url: http://dist.nue.suse.com/ibs/SUSE/Updates/Ubuntu/24.04-CLIENT-TOOLS/x86_64/update/
     archs: [amd64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [amd64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [amd64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
     archs: [amd64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/
     archs: [amd64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/
     archs: [x86_64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
     archs: [amd64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
     archs: [x86_64]
 
   - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
@@ -46,7 +46,7 @@ http:
   - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
     archs: [x86_64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
 
   - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
@@ -58,19 +58,13 @@ http:
   - url: http://dist.nue.suse.com/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/product/
     archs: [ x86_64 ]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/product/
-    archs: [x86_64]
-
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/15-BETA/x86_64/update/
-    archs: [x86_64]
-
   - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3/
     archs: [x86_64]
 
-  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
 
   - url:  http://dist.nue.suse.com/ibs/SUSE/Products/EL/9-CLIENT-TOOLS/x86_64/product/
@@ -78,3 +72,15 @@ http:
 
   - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/EL/9-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
+
+  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-15/x86_64/product/
+    archs: [x86_64]
+
+  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-15/x86_64/update
+    archs: [ x86_64 ]
+
+  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-12/x86_64/product/
+    archs: [x86_64]
+
+  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-12/x86_64/update/
+    archs: [ x86_64 ]

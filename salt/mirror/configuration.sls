@@ -17,8 +17,8 @@ tar:
 minima:
   archive.extracted:
     - name: /usr/local/bin/utils/
-    - source: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz.sha512
+    - source: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz
+    - source_hash: 06c2939868bd02b0328d380e04d7e10c194f0e5eec7ddb12c546ba2513942448a169d103147cc31c7faec4bb89ccba139f28692a2bf69f6b650be92de2f229ce
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
@@ -35,8 +35,8 @@ apt-mirror:
 jdupes:
   archive.extracted:
     - name: /usr/local/bin/utils/
-    - source: https://codeberg.org/jbruchon/jdupes/releases/download/v1.27.3/jdupes-1.27.3-linux-x86_64.pkg.tar.xz
-    - source_hash: d59159e3ceb263dbff465a7f2115ab9730c90a651b2aba62f95da957ec26891a0f5e83380f5e7629adf9d4b5ab8e64a54698b6f8c023eb0c5f8cf048ada29b07
+    - source: https://codeberg.org/jbruchon/jdupes/releases/download/v1.31.1/jdupes-1.31.1-linux-x86_64.pkg.tar.xz
+    - source_hash: 38bdd7d6269d9acb0fad93168a691fb1718651a7de34f1bbd5384b65a23a3d45290adae9e56340dfb0b9d32d2bf261861da75ac44bf4fece64acbfbb18d00c0c
     - archive_format: tar
     - enforce_toplevel: false
     - options: --strip-components=3 --wildcards */jdupes
