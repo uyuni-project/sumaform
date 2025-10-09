@@ -11,8 +11,12 @@ scc:
 email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) }}
 emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
 {%- if grains.get('container_repository') %}
-registry: 
+{%- if 'released' in grains['product_version'] %}
+registry: {{ grains.get('container_repository') }}
+{% else %}
+registry:
   host: {{ grains.get('container_repository') }}
+{% endif %}
 {% endif %}
 {%- if grains.get('container_image') %}
 image: {{ grains.get('container_image') }}
