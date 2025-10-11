@@ -16,10 +16,10 @@ for tf_file in main.tf.*.example; do
   echo "::notice::Validating $tf_file..."
   cp $tf_file main.tf
   # Uncomment for Terraform detailed logging
-  # export TF_LOG=TRACE
-  terraform init
-  terraform validate
-  terraform apply -auto-approve
-  terraform destroy -auto-approve
+  # export TOFU_LOG=TRACE
+  tofu init -input=false
+  tofu validate
+  tofu apply -auto-approve
+  tofu destroy -auto-approve
   echo
 done
