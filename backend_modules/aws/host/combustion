@@ -51,7 +51,7 @@ echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 
 # Add a public ssh key and enable sshd
 echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEPA8UvZ/6tTiL+MKGUAsHJuPlDpueeDmbuJ+0giOCY root@controller" > /root/.ssh/authorized_keys
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFY000UPEvRSkiNiOXExo6JGB/lJA+tGPqBsl9k5/hzb" > /root/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFY000UPEvRSkiNiOXExo6JGB/lJA+tGPqBsl9k5/hzb" >> /root/.ssh/authorized_keys
 
 systemctl enable sshd.service
 systemctl restart sshd.service

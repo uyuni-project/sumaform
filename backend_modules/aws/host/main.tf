@@ -43,8 +43,7 @@ locals {
 
   availability_zone = var.base_configuration["availability_zone"]
   region            = var.base_configuration["region"]
-  # FIX: Changed nvme1n1 to nvme0n1, as the first additional disk is mapped to nvme0n1 on Nitro instances.
-  data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme0n1"
+  data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme1n1"
   second_data_disk_device  = split(".", local.provider_settings["instance_type"])[0] == "t2" ? "xvdf" : "nvme2n1"
 
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
