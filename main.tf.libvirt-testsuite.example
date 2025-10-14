@@ -27,6 +27,10 @@ module "cucumber_testsuite" {
   cc_username = ""
   cc_password = ""
 
+  # SUSE SCC credentials with PTFs available
+  cc_ptf_username = ""
+  cc_ptf_password = ""
+
   # define what images should be used and uploaded
   # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
   # the following images are e.g. available:
