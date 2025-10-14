@@ -511,6 +511,8 @@ module "controller" {
   branch                   = var.branch
   git_username             = var.git_username
   git_password             = var.git_password
+  cc_ptf_username          = var.cc_ptf_username
+  cc_ptf_password          = var.cc_ptf_password
   git_repo                 = var.git_repo
   git_profiles_repo        = var.git_profiles_repo
   no_auth_registry         = var.no_auth_registry
