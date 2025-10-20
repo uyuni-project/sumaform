@@ -65,6 +65,17 @@ oval_metadata_services_restart:
       - cmd: oval_metadata_enable_synchronization
 {% endif %}
 
+{% if 'nightly' in grains.get('product_version') %}
+change_web_version:
+  cmd.run:
+    - name: |
+        PRODUCT_VERSION=$(mgrctl exec "cat /etc/susemanager-release | awk -F'[()]' '{print \$2}'")
+        BUILD_DATE=$(date +%Y%m%d)
+        FULL_VERSION="${PRODUCT_VERSION}.${BUILD_DATE}"
+        mgrctl exec "grep -q \"web.version\" /etc/rhn/rhn.conf && sed -i \"s/web.version.*/web.version = ${FULL_VERSION}/\" /etc/rhn/rhn.conf || echo \"web.version = ${FULL_VERSION}\" >> /etc/rhn/rhn.conf"
+{% endif %}
+
+
 rhn_conf_present:
   cmd.run:
     - name: mgrctl exec 'touch /etc/rhn/rhn.conf'
