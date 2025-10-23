@@ -568,6 +568,23 @@ variable "debian12_sshminion_configuration" {
   }
 }
 
+variable "sle15sp6_buildhost_configuration" {
+  description = "use module.<SLE15SP6_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "sle15sp6_terminal_configuration" {
+  description = "use module.<SLE15SP6_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    private_mac = null
+    private_ip = null
+    private_name = null
+    image = null
+  }
+}
+
 variable "sle15sp4_buildhost_configuration" {
   description = "use module.<SLE15SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
