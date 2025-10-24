@@ -16,6 +16,10 @@ variable "testsuite-branch" {
   }
 }
 
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "controller" {
   source = "../host"
 
@@ -30,7 +34,7 @@ module "controller" {
   connect_to_base_network       = true
   connect_to_additional_network = false
   roles                         = ["controller"]
-  product_version               = var.product_version
+  product_version               = local.product_version
   grains = {
     cc_username  = var.base_configuration["cc_username"]
     cc_password  = var.base_configuration["cc_password"]
@@ -64,6 +68,7 @@ module "controller" {
     is_using_build_image      = var.is_using_build_image
     is_using_scc_repositories = var.is_using_scc_repositories
     server_instance_id        = var.server_instance_id
+    product_version           = local.product_version
     container_runtime         = lookup(var.server_configuration, "runtime", "")
     catch_timeout_message     = var.catch_timeout_message
     beta_enabled              = var.beta_enabled

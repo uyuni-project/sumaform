@@ -37,7 +37,7 @@ variable "use_mirror_images" {
 
 variable "use_avahi" {
   description = "use false only if you use bridged networking with static MACs and an external DHCP"
-  default     = true
+  default     = false
 }
 
 variable "domain" {

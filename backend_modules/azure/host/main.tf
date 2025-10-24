@@ -30,17 +30,13 @@ locals {
   public_instance                      = lookup(var.provider_settings, "public_instance", false)
   location                             = var.base_configuration["location"]
   product_version                      = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
-}
 
-data "template_file" "user_data" {
-  count    = var.quantity > 0 ? var.quantity : 0
-  template = file("${path.module}/user_data.yaml")
-  vars = {
-    image           = var.image
-    public_instance = local.public_instance
-    mirror_url      = var.base_configuration["mirror"]
+  user_data = templatefile("${path.module}/user_data.yaml", {
+    image                    = var.image
+    public_instance          = local.public_instance
+    mirror_url               = var.base_configuration["mirror"]
     install_salt_bundle      = var.install_salt_bundle
-  }
+  })
 }
 
 resource "azurerm_public_ip" "suma-pubIP" {

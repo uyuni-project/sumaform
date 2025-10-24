@@ -28,6 +28,17 @@ default_cucumber_requisites:
     - require:
       - pkgrepo: test_repo_rpm_pool
 
+{% elif grains['os_family'] == 'Debian' %}
+
+default_cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - andromeda-dummy
+      - milkyway-dummy
+      - virgo-dummy
+    - require:
+      - pkgrepo: test_repo_deb_pool
+
 {% endif %}
 {% endif %}
 {% endif %}

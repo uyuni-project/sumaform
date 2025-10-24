@@ -1,9 +1,13 @@
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "virthost" {
   source = "../minion"
 
   base_configuration        = var.base_configuration
   name                      = var.name
-  product_version           = var.product_version
+  product_version           = local.product_version
   server_configuration      = var.server_configuration
   activation_key            = var.activation_key
   auto_connect_to_master    = var.auto_connect_to_master
