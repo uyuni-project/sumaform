@@ -63,6 +63,12 @@ cobbler_restart:
     - require:
       - cmd: cobbler_configuration
 
+authorized_keys_buildhost:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://build_host/keys/id_ed25519.pub
+    - makedirs: True
+
 {%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-pr', 'uyuni-released'] %}
 uyuni_key_copy_host:
   file.managed:
@@ -99,12 +105,6 @@ suse_staging_key_import:
     - name: "mgradm gpg add -f /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
-
-authorized_keys_buildhost:
-  file.append:
-    - name: /root/.ssh/authorized_keys
-    - source: salt://build_host/keys/id_ed25519.pub
-    - makedirs: True
 
 {% endif %}
 
