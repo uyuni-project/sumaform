@@ -1,6 +1,6 @@
 ![sumaform logo](help/sumaform-logo-color.svg)
 
-`sumaform` is a way to quickly configure test Uyuni and SUSE Manager infrastructures with clients and servers.
+`sumaform` is a way to quickly configure test Uyuni and SUSE Multi-Linux Manager infrastructures with clients and servers.
 
 [![CI validation tests](https://github.com/uyuni-project/sumaform/actions/workflows/ci-validation.yml/badge.svg?branch=master)](https://github.com/uyuni-project/sumaform/actions/workflows/ci-validation.yml)
 [![Join the chat at https://gitter.im/sumaform/Lobby](https://badges.gitter.im/sumaform/Lobby.svg)](https://gitter.im/sumaform/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -11,7 +11,7 @@
 
 **Libvirt provider version**: 0.8.1
 
-NOTE: to deploy development versions of SUSE Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
+NOTE: to deploy development versions of SUSE Multi-Linux Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
 
 You will need to edit HCL ([HashiCorp Configuration Language](https://github.com/hashicorp/hcl)) files. Syntax highlighting is available in major text editors like [atom](https://atom.io/packages/language-hcl).
 
@@ -161,7 +161,7 @@ module "base" {
 
 ## Advanced use
 
-- To run the Cucumber testsuite for Uyuni or SUSE Manager, see [README_TESTING.md](README_TESTING.md)
+- To run the Cucumber testsuite for Uyuni or SUSE Multi-Linux Manager, see [README_TESTING.md](README_TESTING.md)
 - For any other use, please see [README_ADVANCED.md](README_ADVANCED.md)
 
 ## I have a problem!
