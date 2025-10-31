@@ -1,0 +1,8 @@
+{% set host = grains.get('mirror') | default('download.opensuse.org', true) %}
+storage:
+  type: file
+  path: /srv/www/htdocs/pub/
+
+http:
+  - url: http://{{ host }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+  - url: http://{{ host }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike

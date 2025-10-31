@@ -138,7 +138,7 @@ scc:
       - Ubuntu-20.04-SUSE-Manager-Tools-Beta
       - Ubuntu-22.04-SUSE-Manager-Tools-Beta
       - Ubuntu-24.04-SUSE-Manager-Tools-Beta
-    archs: [x86_64, amd64]
+      archs: [x86_64, amd64]
 
 http:
   # RES 7

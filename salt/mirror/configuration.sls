@@ -17,8 +17,8 @@ tar:
 minima:
   archive.extracted:
     - name: /usr/local/bin/utils/
-    - source: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.11/minima-linux-amd64.tar.gz.sha512
+    - source: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz
+    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_checksums.txt
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
@@ -39,7 +39,7 @@ jdupes:
     - source_hash: d59159e3ceb263dbff465a7f2115ab9730c90a651b2aba62f95da957ec26891a0f5e83380f5e7629adf9d4b5ab8e64a54698b6f8c023eb0c5f8cf048ada29b07
     - archive_format: tar
     - enforce_toplevel: false
-    - options: --strip-components=3 --wildcards */jdupes
+    - options: --strip-components=1 --wildcards */jdupes
     - keep: True
     - overwrite: True
     - require:

@@ -9,39 +9,43 @@ include:
 minima:
   archive.extracted:
     - name: /usr/bin
-    - source: https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz.sha512
+    - source: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_linux_amd64.tar.gz
+    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.25/minima_0.25_checksums.txt
     - archive_format: tar
     - enforce_toplevel: false
     - keep: True
     - overwrite: True
 
-test_repo_rpm_updates:
-  cmd.run:
-    - name: minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
-    - require:
-      - archive: minima
+test_repositories_minima_config:
+  file.managed:
+    - name: /tmp/test_repositories.yaml
+    - source: salt://server/test_repositories.yaml
+    - template: jinja
 
-test_repo_appstream:
+test_repositories:
   cmd.run:
-    - name: minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
-            path: /srv/www/htdocs/pub/TestRepoAppStream
+    - name: minima sync -c /tmp/test_repositories.yaml
     - require:
-      - archive: minima
+      - file: test_repositories_minima_config
+
+test_repositories_move_script:
+  file.managed:
+    - name: /usr/local/bin/move_testsuite_repos.sh
+    - source: salt://server/move_testsuite_repos.sh
+    - mode: '0755'
+
+move_testsuite_repos:
+  cmd.run:
+    - name: /usr/local/bin/move_testsuite_repos.sh
+    - require:
+      - file: test_repositories_move_script
 
 another_test_repo:
   file.symlink:
     - name: /srv/www/htdocs/pub/AnotherRepo
     - target: TestRepoRpmUpdates
     - require:
-      - cmd: test_repo_rpm_updates
+      - cmd: move_testsuite_repos
 
 test_repo_debian_updates:
   cmd.script:
