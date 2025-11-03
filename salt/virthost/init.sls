@@ -178,7 +178,7 @@ cloudinit-user-data-{{ os_type }}:
 {% elif os_type == 'Tumbleweed' %}
         # add Tumbleweed repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Tumbleweed
         # on the server to be able to onboard the nested VM
-        - zypper --non-interactive ar "http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/" os_pool_repo
+        - zypper --non-interactive ar "http://download.opensuse.org/tumbleweed/repo/oss/" os_pool_repo
         - zypper --non-interactive ar "http://download.opensuse.org/update/tumbleweed/" os_update_repo
         - zypper --non-interactive ar -p 98 "http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/" tools_pool_repo
         - zypper --non-interactive --gpg-auto-import-keys ref
