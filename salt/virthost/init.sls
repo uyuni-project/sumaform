@@ -175,7 +175,7 @@ cloudinit-user-data-{{ os_type }}:
         - cp -f /etc/salt/minion /etc/venv-salt-minion/minion
         - systemctl enable venv-salt-minion.service
         - systemctl start venv-salt-minion.service
-{% elif os_type == 'Tumbleweed' %}
+{% elif os_type == 'tumbleweed' %}
         # add Tumbleweed repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Tumbleweed
         # on the server to be able to onboard the nested VM
         - zypper --non-interactive ar "http://download.opensuse.org/tumbleweed/repo/oss/" os_pool_repo
