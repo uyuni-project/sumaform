@@ -644,7 +644,7 @@ module "build_host"
   base_configuration = module.base.configuration
 
   name = "buildhost"
-  image = "sles15sp3o"
+  image = "sles15sp7o"
 }
 ```
 

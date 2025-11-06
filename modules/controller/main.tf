@@ -140,12 +140,14 @@ module "controller" {
     ubuntu2404_sshminion     = length(var.ubuntu2404_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2404_sshminion_configuration["hostnames"][0] : null
     debian12_minion          = length(var.debian12_minion_configuration["hostnames"]) > 0 ? var.debian12_minion_configuration["hostnames"][0] : null
     debian12_sshminion       = length(var.debian12_sshminion_configuration["hostnames"]) > 0 ? var.debian12_sshminion_configuration["hostnames"][0] : null
-    sle12sp5_buildhost       = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
-    sle12sp5_terminal_mac    = var.sle12sp5_terminal_configuration["private_mac"]
     sle15sp3_buildhost       = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
     sle15sp3_terminal_mac    = var.sle15sp3_terminal_configuration["private_mac"]
     sle15sp4_buildhost       = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
     sle15sp4_terminal_mac    = var.sle15sp4_terminal_configuration["private_mac"]
+    sle15sp6_buildhost       = length(var.sle15sp6_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp6_buildhost_configuration["hostnames"][0] : null
+    sle15sp6_terminal_mac    = var.sle15sp6_terminal_configuration["private_mac"]
+    sle15sp7_buildhost       = length(var.sle15sp7_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp7_buildhost_configuration["hostnames"][0] : null
+    sle15sp7_terminal_mac    = var.sle15sp7_terminal_configuration["private_mac"]
     opensuse155arm_minion    = length(var.opensuse155arm_minion_configuration["hostnames"]) > 0 ? var.opensuse155arm_minion_configuration["hostnames"][0] : null
     opensuse155arm_sshminion = length(var.opensuse155arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse155arm_sshminion_configuration["hostnames"][0] : null
     opensuse156arm_minion    = length(var.opensuse156arm_minion_configuration["hostnames"]) > 0 ? var.opensuse156arm_minion_configuration["hostnames"][0] : null

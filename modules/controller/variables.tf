@@ -568,6 +568,13 @@ variable "debian12_sshminion_configuration" {
   }
 }
 
+variable "sle15sp3_buildhost_configuration" {
+  description = "use module.<SLE15SP3_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "sle15sp4_buildhost_configuration" {
   description = "use module.<SLE15SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -575,18 +582,15 @@ variable "sle15sp4_buildhost_configuration" {
   }
 }
 
-variable "sle15sp4_terminal_configuration" {
-  description = "use module.<SLE15SP4_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp6_buildhost_configuration" {
+  description = "use module.<SLE15SP6_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    private_mac = null
-    private_ip = null
-    private_name = null
-    image = null
+    hostnames = []
   }
 }
 
-variable "sle15sp3_buildhost_configuration" {
-  description = "use module.<SLE15SP3_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp7_buildhost_configuration" {
+  description = "use module.<SLE15SP7_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -602,15 +606,28 @@ variable "sle15sp3_terminal_configuration" {
   }
 }
 
-variable "sle12sp5_buildhost_configuration" {
-  description = "use module.<SLE12SP5_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp4_terminal_configuration" {
+  description = "use module.<SLE15SP4_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
-    hostnames = []
+    private_mac = null
+    private_ip = null
+    private_name = null
+    image = null
   }
 }
 
-variable "sle12sp5_terminal_configuration" {
-  description = "use module.<SLE12SP5_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+variable "sle15sp6_terminal_configuration" {
+  description = "use module.<SLE15SP6_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    private_mac = null
+    private_ip = null
+    private_name = null
+    image = null
+  }
+}
+
+variable "sle15sp7_terminal_configuration" {
+  description = "use module.<SLE15SP7_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     private_mac = null
     private_ip = null
