@@ -14,7 +14,7 @@ uyuni_key_for_fake_packages:
       - file: uyuni_key_for_fake_packages
 {% else %}
   cmd.run:
-    - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror-ci-bv.mgr.prv.suse.net", true) }}/uyuni.key
+    - name: transactional-update -c run rpm --import http://{{ grains.get("mirror") | default("minima-mirror-ci-bv.mgr.slc1.suse.org", true) }}/uyuni.key
 {% endif %}
 
 {% if not (grains['osfullname'] in ['SLE-Micro', 'SL-Micro', 'openSUSE Leap Micro']) %}

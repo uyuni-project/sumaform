@@ -67,7 +67,7 @@ module "cucumber_testsuite" {
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
   auth_registry_username = ""
   auth_registry_password = ""
-  git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/internal_prv"
+  git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/internal_slc"
 
   # define which VMs should be created and adjust their settings.
   # if you do not need a minion just comment it out.
