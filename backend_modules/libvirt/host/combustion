@@ -198,7 +198,8 @@ TEST_PACKAGES="$TEST_PACKAGES expect bind-utils"
 %{ endif }
 TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget"
 zypper --non-interactive install $TEST_PACKAGES
-
+# cleanup - ignore errors for missing repos and suppress output
+zypper rr leap_pool_repo leap_update_repo >/dev/null 2>&1 || true
 %{ endif }
 
 # Disabling this timer safely by masking it (systemctl might still be unavailable during the Combustion phase)
