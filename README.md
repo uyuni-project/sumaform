@@ -7,7 +7,7 @@
 
 ## Installation
 
-**Terraform version**: 1.0.10
+**OpenTofu version**: 1.10.7 || **Terraform version**: >= 1.6.0
 
 **Libvirt provider version**: 0.8.1
 

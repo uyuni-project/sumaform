@@ -41,6 +41,19 @@ jobs:
       if: always()
       run: bash .github/workflows/ci-validation/salt-server-containerized-validation
 
+  validate_opentofu_config:
+    name: Validate opentofu configuration
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5.0.0
+      with:
+        fetch-depth: 1
+    - uses: opentofu/setup-opentofu@000eeb8522f0572907c393e8151076c205fdba1b #v1.0.6
+      with:
+        tofu_version: 1.10.7
+    - name: Validate configuration using example files
+      run: .github/workflows/ci-validation/opentofu-validation
+
   validate_terraform_config:
     name: Validate terraform configuration
     runs-on: ubuntu-latest
@@ -50,6 +63,6 @@ jobs:
         fetch-depth: 1
     - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd #v3.1.2
       with:
-        terraform_version: 1.0.10
+        terraform_version: 1.6.0
     - name: Validate configuration using example files
       run: .github/workflows/ci-validation/terraform-validation
