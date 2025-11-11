@@ -88,3 +88,9 @@ variable "product_version" {
   type        = string
   default     = ""
 }
+
+variable "salt_log_lvl_debug" {
+  description = "Set salt log_level to debug"
+  type        = bool
+  default     = true
+}
