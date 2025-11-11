@@ -33,6 +33,7 @@ module "minion" {
     evil_minion_count           = var.evil_minion_count
     evil_minion_slowdown_factor = var.evil_minion_slowdown_factor
     sles_registration_code      = var.sles_registration_code
+    salt_log_level              = var.salt_log_level
   }, var.additional_grains)
 
   image             = var.image

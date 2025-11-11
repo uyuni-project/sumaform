@@ -79,3 +79,24 @@ minion_service:
     - watch:
       - file: master_configuration
 {% endif %}
+
+{% if grains.get('salt_log_level') %}
+
+set_salt_log_level:
+  file.replace:
+    - name: /etc/venv-salt-minion/minion.d/99-debug.conf
+    - pattern: '^log_level.*'
+    - repl: 'log_level: {{ grains.get('salt_log_level') }}'
+    - append_if_not_found: true
+    - require:
+      - file: 99_debug_conf
+
+99_debug_conf:
+  file.managed:
+    - name: /etc/venv-salt-minion/minion.d/99-debug.conf
+    - user: root
+    - group: root
+    - mode: 640
+    - replace: false
+
+{% endif %}
