@@ -36,6 +36,7 @@ output "configuration" {
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
     use_eip_bastion          = var.use_eip_bastion
+    salt_log_lvl_debug       = var.salt_log_lvl_debug
     # WORKAROUND
     # For some reason, the key "additional_network" from AWS module gets lost
     # Force it into existence
