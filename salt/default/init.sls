@@ -39,3 +39,13 @@ authorized_keys:
 {% endfor %}
     - makedirs: True
 {% endif %}
+
+{% if grains.get('salt_log_level') %}
+
+set_salt_log_level:
+  file.replace:
+    - name: /etc/venv-salt-minion/minion.d/99-venv.conf
+    - pattern: '^log_level\s*.*'
+    - repl: 'log_level: {{ grains.get('salt_log_level') }}'
+    - append_if_not_found: true
+{% endif %}
