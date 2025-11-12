@@ -47,4 +47,10 @@ write_debug:
     - pattern: '^log_level\s*.*'
     - repl: 'log_level: debug'
     - append_if_not_found: True
+{% else %}
+remove_debug:
+  file.replace:
+    - name: /etc/venv-salt-minion/minion.d/00-venv.conf
+    - pattern: '^log_level: debug\s*.*'
+    - repl: ''
 {% endif %}
