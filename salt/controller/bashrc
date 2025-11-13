@@ -114,7 +114,9 @@ export BUILD_SOURCES="dist.nue.suse.com"
 
 # various test suite settings
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
-{% if grains.get('cc_username') | default(false, true) %}export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}" {% else %}# no SCC Credentials defined {% endif %}
+{% if grains.get('cc_username') | default(false, true) %}export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}" {% else %}# no SCC credentials defined {% endif %}
+{% if grains.get('cc_ptf_username') | default(false, true) %}export SCC_PTF_USER="{{ grains.get('cc_ptf_username') }}" {% else %}# no SCC PTF credentials defined {% endif %}
+{% if grains.get('cc_ptf_password') | default(false, true) %}export SCC_PTF_PASSWORD="{{ grains.get('cc_ptf_password') }}" {% else %}# no SCC PTF credentials defined {% endif %}
 export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ grains.get('auth_registry_password') }}"
 {% if grains.get('auth_registry') | default(false, true) %}export AUTH_REGISTRY="{{ grains.get('auth_registry') }}" {% else %}# no authenticated registry defined {% endif %}
 {% if grains.get('no_auth_registry') | default(false, true) %}export NO_AUTH_REGISTRY="{{ grains.get('no_auth_registry') }}" {% else %}# no container registry defined {% endif %}
