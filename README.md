@@ -7,9 +7,9 @@
 
 ## Installation
 
-**Terraform version**: 1.0.10
+**OpenTofu version**: 1.10.7 || **Terraform version**: >= 1.6.0
 
-**Libvirt provider version**: 0.8.1
+**Libvirt provider version**: 0.8.3
 
 NOTE: to deploy development versions of SUSE Multi-Linux Manager you will have to have [SUSE's internal CA certificates](http://ca.suse.de/) installed on your system.
 
