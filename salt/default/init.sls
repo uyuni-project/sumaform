@@ -40,17 +40,12 @@ authorized_keys:
     - makedirs: True
 {% endif %}
 
-{% if grains.get('salt_log_lvl_debug') %}
+{% if grains.get('salt_log_level') %}
+
 write_debug:
   file.replace:
     - name: /etc/venv-salt-minion/minion.d/00-venv.conf
     - pattern: '^log_level\s*.*'
-    - repl: 'log_level: debug'
-    - append_if_not_found: True
-{% else %}
-remove_debug:
-  file.replace:
-    - name: /etc/venv-salt-minion/minion.d/00-venv.conf
-    - pattern: '^log_level: debug\s*.*'
-    - repl: ''
+    - repl: 'log_level: {{ grains.get('salt_log_level', 'warning') }}'
+    - append_if_not_found: true
 {% endif %}

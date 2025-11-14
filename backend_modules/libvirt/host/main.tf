@@ -237,7 +237,7 @@ resource "terraform_data" "provisioning" {
         timezone                  = var.base_configuration["timezone"]
         use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
-        salt_log_lvl_debug        = var.base_configuration["salt_log_lvl_debug"]
+        salt_log_level            = var.base_configuration["salt_log_level"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
         install_salt_bundle       = var.install_salt_bundle
@@ -283,7 +283,7 @@ resource "terraform_data" "provisioning" {
         timezone                  = var.base_configuration["timezone"]
         use_ntp                   = var.base_configuration["use_ntp"]
         testsuite                 = var.base_configuration["testsuite"]
-        salt_log_lvl_debug        = var.base_configuration["salt_log_lvl_debug"]
+        salt_log_level            = var.base_configuration["salt_log_level"]
         roles                     = var.roles
         use_os_released_updates   = var.use_os_released_updates
         install_salt_bundle       = var.install_salt_bundle
