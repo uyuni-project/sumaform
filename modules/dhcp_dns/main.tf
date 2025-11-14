@@ -23,7 +23,7 @@ locals {
   repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.5/repo/oss"
 }
 
-resource "null_resource" "standalone_provisioning" {
+resource "terraform_data" "standalone_provisioning" {
 
   count = var.base_configuration["additional_network"] != null ? var.quantity : 0
 

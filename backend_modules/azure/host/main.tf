@@ -127,11 +127,11 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
 /** END: Set up an extra data disk */
 
 /** START: provisioning */
- resource "null_resource" "host_salt_configuration" {
+ resource "terraform_data" "host_salt_configuration" {
   depends_on = [azurerm_linux_virtual_machine.instance, azurerm_virtual_machine_data_disk_attachment.addtionaldisks-attach]
   count      = var.provision ? var.quantity : 0
 
-  triggers = {
+  triggers_replace = {
     main_volume_id = length(azurerm_managed_disk.addtionaldisks) == var.quantity ? azurerm_managed_disk.addtionaldisks[count.index].id : null
     domain_id      = length(azurerm_linux_virtual_machine.instance) == var.quantity ? azurerm_linux_virtual_machine.instance[count.index].id : null
     grains_subset = yamlencode(
@@ -220,7 +220,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
 /** END: provisioning */
 
 output "configuration" {
-  depends_on = [azurerm_linux_virtual_machine.instance, null_resource.host_salt_configuration]
+  depends_on = [azurerm_linux_virtual_machine.instance, terraform_data.host_salt_configuration]
   value = {
     ids          = length(azurerm_linux_virtual_machine.instance) > 0 ? azurerm_linux_virtual_machine.instance[*].id : []
     hostnames    = length(azurerm_linux_virtual_machine.instance) > 0 ? azurerm_network_interface.suma-main-nic[*].private_ip_address : []

@@ -224,10 +224,10 @@ resource "libvirt_domain" "domain" {
   }
 }
 
-resource "null_resource" "provisioning" {
+resource "terraform_data" "provisioning" {
   depends_on = [libvirt_domain.domain]
 
-  triggers = {
+  triggers_replace = {
     main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
     domain_id      = length(libvirt_domain.domain) == var.quantity ? libvirt_domain.domain[count.index].id : null
     grains_subset = yamlencode(
@@ -328,7 +328,7 @@ resource "null_resource" "provisioning" {
 }
 
 output "configuration" {
-  depends_on = [libvirt_domain.domain, null_resource.provisioning]
+  depends_on = [libvirt_domain.domain, terraform_data.provisioning]
   value = {
     ids       = libvirt_domain.domain[*].id
     hostnames = [for value_used in libvirt_domain.domain : local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${value_used.name}.${var.base_configuration["domain"]}"]

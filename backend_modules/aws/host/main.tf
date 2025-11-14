@@ -206,7 +206,7 @@ locals {
     (local.region == "us-east-1" ? "ec2.internal" : "${local.region}.compute.internal"))
 }
 
-resource "null_resource" "wait_for_reboot" {
+resource "terraform_data" "wait_for_reboot" {
   depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment]
   count = local.combustion ? 1 : 0 // skip if combustion was not used at all
 
@@ -216,11 +216,11 @@ resource "null_resource" "wait_for_reboot" {
 }
 
 /** START: provisioning */
-resource "null_resource" "host_salt_configuration" {
-  depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment, null_resource.wait_for_reboot]
+resource "terraform_data" "host_salt_configuration" {
+  depends_on = [aws_instance.instance, aws_volume_attachment.data_disk_attachment, terraform_data.wait_for_reboot]
   count      = var.provision ? var.quantity : 0
 
-  triggers = {
+  triggers_replace = {
     main_volume_id = length(aws_ebs_volume.data_disk) == var.quantity ? aws_ebs_volume.data_disk[count.index].id : null
     domain_id      = length(aws_instance.instance) == var.quantity ? aws_instance.instance[count.index].id : null
     grains_subset = yamlencode(
@@ -313,7 +313,7 @@ resource "null_resource" "host_salt_configuration" {
 /** END: provisioning */
 
 output "configuration" {
-  depends_on = [aws_instance.instance, null_resource.host_salt_configuration]
+  depends_on = [aws_instance.instance, terraform_data.host_salt_configuration]
   value = {
     ids          = length(aws_instance.instance) > 0 ? aws_instance.instance[*].id : []
     hostnames    = [for index, value_used in aws_instance.instance : (local.overwrite_fqdn != null ? "${local.hnames[index]}.${local.domain}" : value_used.private_dns)]
