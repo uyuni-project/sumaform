@@ -229,11 +229,7 @@ Initializing the backend...
 
 Initializing provider plugins...
 - Reusing previous version of dmacvicar/libvirt from the dependency lock file
-- Reusing previous version of hashicorp/null from the dependency lock file
-- Reusing previous version of hashicorp/template from the dependency lock file
-- Using previously-installed hashicorp/template v2.2.0
 - Installing dmacvicar/libvirt v0.8.3...
-- Using previously-installed hashicorp/null v3.1.0
 ╷
 │ Error: Failed to install provider
 │ 
