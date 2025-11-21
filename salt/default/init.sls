@@ -44,7 +44,7 @@ authorized_keys:
 
 write_debug:
   file.replace:
-    - name: /etc/venv-salt-minion/minion.d/00-venv.conf
+    - name: /etc/venv-salt-minion/minion.d/99-venv.conf
     - pattern: '^log_level\s*.*'
     - repl: 'log_level: {{ grains.get('salt_log_level', 'warning') }}'
     - append_if_not_found: true
