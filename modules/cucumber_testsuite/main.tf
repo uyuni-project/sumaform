@@ -267,7 +267,7 @@ module "dhcp_dns" {
   image              = lookup(local.images, "dhcp_dns", "opensuse155o")
   name               = lookup(local.names, "dhcp_dns", "dhcp-dns")
 
-  private_hosts      = [ local.proxy_configuration, module.pxeboot_minion.configuration ]
+  private_hosts      = [ local.proxy_configuration, module.pxeboot_minion[0].configuration ]
 
   hypervisor         = lookup(local.hypervisors, "dhcp_dns", null)
 }
