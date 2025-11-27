@@ -1,5 +1,13 @@
 ## Project areas
 
+## Important note
+
+While sumaform is still compatible with terraform as of 2025/11/24, we expect all contributions to be tested and compatible with OpenTofu.
+
+Therefore, this documentation describes OpenTofu and not Terraform anymore.
+
+As a contributor, you are encouraged to not break things for terraform on purpose. But if you need a feature available only on OpenTofu, make sure you evaluate if it will affect all deployments, and if so make sure this is documented properly.
+
 ### Base OS images
 
 openSUSE images are built and tracked in the [Open Build Service](https://build.opensuse.org/):
@@ -21,24 +29,24 @@ Non-SUSE images are built and tracked in the [sumaform-images](https://github.co
 
 ### Software Packages
 
-sumaform requires a specific Terraform version and provides several special-purpose RPM packages as well. Those are built and tracked inthe [Open Build Service](https://build.opensuse.org/):
+sumaform requires a specific OpenTofu version and provides several special-purpose RPM packages as well. Those are built and tracked inthe [Open Build Service](https://build.opensuse.org/):
 
-- the [systemsmanagement:sumaform](https://build.opensuse.org/project/show/systemsmanagement:sumaform) project builds `terraform` and `terraform-provider-libvirt` with some dependencies
+- the [systemsmanagement:sumaform](https://build.opensuse.org/project/show/systemsmanagement:sumaform) project builds `opentofu` and `terraform-provider-libvirt` with some dependencies
 - the [systemsmanagement:sumaform:tools](https://build.opensuse.org/project/show/systemsmanagement:sumaform:tools) project builds other software meant to be installed in sumaformed machines
 
 [Submit Requests](https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.request_and_review_ystem.html) can be created with a free account, project maintainership is given to meritable community members.
 
-#### Terraform and terraform-provider libvirt upgrade instructions
+#### OpenTofu and terraform-provider libvirt upgrade instructions
 
-Terraform:
+OpenTofu:
 
 ```bash
 osc checkout systemsmanagement:sumaform
 osc up systemsmanagement:sumaform
-cd systemsmanagement:sumaform/terraform
+cd systemsmanagement:sumaform/opentofu
 vim _service # change versions
 osc service disabledrun
-osc build openSUSE_Leap_15.0 # check building is fine
+osc build openSUSE_Leap_16.0 # check building is fine
 osc add <new files>
 osc rm <old files>
 osc vc # describe changes
@@ -60,6 +68,6 @@ osc vc # describe changes
 osc commit
 ```
 
-### Salt states and Terraform modules
+### Salt states and OpenTofu modules
 
 Those are tracked in this project. [Pull Requests](https://help.github.com/articles/about-pull-requests/) can be created with a free account, write access is given to meritable community members.
