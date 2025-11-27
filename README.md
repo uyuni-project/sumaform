@@ -7,7 +7,7 @@
 
 ## Installation
 
-**OpenTofu version**: 1.10.7 || **Terraform version**: >= 1.6.0
+**OpenTofu version**: 1.10.7 (preferred) || **Terraform version**: >= 1.6.0
 
 **Libvirt provider version**: 0.8.3
 
@@ -29,7 +29,7 @@ Execute the following on openSUSE and SUSE Linux Enterprise Server:
 #sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP3/systemsmanagement:sumaform.repo
 
 sudo zypper install git-core
-sudo zypper install --from systemsmanagement_sumaform terraform terraform-provider-libvirt
+sudo zypper install --from systemsmanagement_sumaform opentofu terraform-provider-libvirt
 git clone https://github.com/uyuni-project/sumaform.git
 ```
 
@@ -39,8 +39,8 @@ Execute the following commands:
 
 ```bash
 sudo apt install alien
-wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform.rpm
-sudo alien -i terraform.rpm
+wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/opentofu.rpm
+sudo alien -i opentofu.rpm
 wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/uyuni-project/sumaform.git
@@ -64,8 +64,8 @@ The Amazon Web Services backend is currently under maintenance and is not immedi
 The null backend can be useful in a wide variety of scenarios, for example:
 
 - Test configurations before going live in another supported backend
-- Cases in which the virtual infrastructure is outside of the Terraform user's control
-- Cover architectures that will maybe never be covered by any other Terraform plugin
+- Cases in which the virtual infrastructure is outside of the OpenTofu user's control
+- Cover architectures that will maybe never be covered by any other OpenTofu plugin
 
 See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more information about configuring the backend.
 Each backend has a README file with further configuration instructions.
@@ -78,8 +78,8 @@ ln -s ../backend_modules/<BACKEND>/ modules/backend
 
 ### Preparing for the libvirt backend
 
-To use the libvirt provider, install and enable libvirt before you attempt to run the terraform deployment.
-The `virt-manager` package is recommended because it configures default resources that the terraform deployment uses, e.g. the `default` virtual network.
+To use the libvirt provider, install and enable libvirt before you attempt to run the OpenTofu deployment.
+The `virt-manager` package is recommended because it configures default resources that the OpenTofu deployment uses, e.g. the `default` virtual network.
 
 ```bash
 # Download and install libvirt and virt-manager, for example:
@@ -108,7 +108,7 @@ cp main.tf.libvirt.example main.tf
 
 ## Basic `main.tf` configuration
 
-In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run Terraform to have them deployed. Contents of the file vary slightly depending on the backend you choose.
+In `sumaform` you define a set of virtual machines in a `main.tf` configuration file, then run OpenTofu to have them deployed. Contents of the file vary slightly depending on the backend you choose.
 
 Refer to the backend-specific READMEs to get started:
 
@@ -120,15 +120,15 @@ Refer to the backend-specific READMEs to get started:
 
 ## Typical use
 
-Refer to the [official guides](https://www.terraform.io/docs/index.html) for a general understanding of Terraform and full commands.
+Refer to the [official guides](https://opentofu.org/docs/) for a general understanding of OpenTofu and full commands.
 
 For a very quick start:
 
 ```bash
 vim main.tf     # change your VM setup
-terraform init  # populate modules
-terraform validate # check if the configuration is valid
-terraform apply # prepare and apply a plan to create your systems (after manual confirmation)
+tofu init  # populate modules
+tofu validate # check if the configuration is valid
+tofu apply # prepare and apply a plan to create your systems (after manual confirmation)
 ```
 
 ### Common Variables
