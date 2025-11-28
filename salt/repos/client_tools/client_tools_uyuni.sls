@@ -53,6 +53,29 @@ tools_update_repo:
 {% endif %}
 
 {% endif %} {# '15' in grains['osrelease'] #}
+
+{% if '16' in grains['osrelease'] %}
+
+# TODO: Uncomment when released
+#tools_pool_repo:
+#  pkgrepo.managed:
+#    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+#    - refresh: True
+
+{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    # TODO: Review why still not available
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/repodata/repomd.xml.key
+
+{% endif %}
+
+{% endif %} {# '16' in grains['osrelease'] #}
+
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 
