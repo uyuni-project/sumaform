@@ -137,31 +137,32 @@ Run `sh /root/salt/highstate.sh`.
 
 ## Q: how to force the re-creation of a resource?
 
-A: you can use [OpenTofu's taint command](https://opentofu.org/docs/cli/commands/taint/) to mark a resource to be re-created during the next `tofu apply`. To get the correct name of the module and resource use `tofu state list`:
+A: you can use [the -replace option with tofu apply command](https://opentofu.org/docs/cli/commands/taint/#recommended-alternative) to mark a resource to be re-created during the next `tofu apply`. To get the correct name of the module and resource use `tofu state list`:
 
 ```bash
 $ tofu state list
 ...
 module.server.module.server.libvirt_volume.main_disk[0]
 
-$ tofu taint module.server.module.server.libvirt_volume.main_disk[0]
-Resource instance module.server.module.server.libvirt_volume.main_disk[0] has been marked as tainted.
+$ tofu apply -replace="module.server.module.server.libvirt_volume.main_disk[0]"
+
+Resource instance module.server.module.server.libvirt_volume.main_disk[0] will be replaced, as requested.
 ```
 
 ## Q: how to force the re-download of an image?
 
-A: see above, use the taint command as per the following example:
+A: see above, use the -replace option with tofu apply command as per the following example:
 
 ```bash
 $ tofu state list
 ...
 module.base.libvirt_volume.volumes[2]
 
-$ tofu taint module.base.libvirt_volume.volumes[2]
-Resource instance module.base.libvirt_volume.volumes[2] has been marked as tainted.
+$ tofu apply -replace="module.base.libvirt_volume.volumes[2]"
+Resource instance module.base.libvirt_volume.volumes[2] will be replaced, as requested.
 ```
 
-Please note that any dependent volume and module should be tainted as well before applying (eg. if you are tainting the `sles12sp5` image, make sure you either have no VMs based on that OS or that they are all tainted).
+Please note that any dependent volume and module should be replaced as well before applying (eg. if you are replacing the `sles12sp5` image, make sure you either have no VMs based on that OS or that they are all replaced).
 
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_ed25519.pub: no such file or directory in:"
 
@@ -233,7 +234,7 @@ Initializing provider plugins...
 ╷
 │ Error: Failed to install provider
 │ 
-│ Error while installing dmacvicar/libvirt v0.8.3: the local package for registry.terraform.io/dmacvicar/libvirt 0.8.3 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
+│ Error while installing dmacvicar/libvirt v0.8.3: the local package for registry.opentofu.org/dmacvicar/libvirt 0.8.3 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
 │ targeting different platforms)
 ```
 
@@ -243,33 +244,6 @@ Just delete the `.terraform.lock.hcl` file inside your sumaform folder and do an
 rm .terraform.lock.hcl
 tofu init
 ```
-
-## Q: How do I workaround the "The provider dmacvicar/libvirt does not support resource type "libvirt_combustion" error".
-
-At the time of writing, the upstream `dmacvicar/libvirt` terraform provider does not support combustion. However, a [pull request](https://github.com/dmacvicar/terraform-provider-libvirt/pull/1068) was created to resolve this issue and an RPM of `terraform-provider-libvirt` that supports combustion is created and now hosted on the [sumaform repository](https://download.opensuse.org/repositories/systemsmanagement:/sumaform).
-
-1\. Add the sumaform repository
-
-```
-zypper ar -f https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.6 sumaform
-```
-
-Swap out `openSUSE_Leap_15.6` for `openSUSE_Leap_15.5` or `openSUSE_Tumbleweed` if you are using a different version of openSUSE.
-
-2\. Install `terraform-provider-libvirt` from sumaform
-
-```
-zypper in --repo sumaform terraform-provider-libvirt
-```
-
-3\. Edit your `.terraform.lock.hcl` and remove the following block:
-```
- provider "registry.terraform.io/dmacvicar/libvirt" {
-  ...
- }
-```
-
-4\. Finally, run `tofu init`
 
 See the OpenTofu [docs](https://opentofu.org/docs/language/files/dependency-lock/) for more information on the dependency
 lock file.

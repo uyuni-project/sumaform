@@ -22,12 +22,14 @@ Execute the following on openSUSE and SUSE Linux Enterprise Server:
 ```bash
 # Uncomment one of the following lines depending on your distro
 
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.2/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.3/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_12_SP5/systemsmanagement:sumaform.repo
-#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP3/systemsmanagement:sumaform.repo
-
+# openSUSE Tumbleweed
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Tumbleweed/
+# openSUSE Leap 16
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/16.0/
+# SUSE Linux Enterprise Server (SLES)
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP5/
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP6/
+#sudo zypper addrepo http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP7/
 sudo zypper install git-core
 sudo zypper install --from systemsmanagement_sumaform opentofu terraform-provider-libvirt
 git clone https://github.com/uyuni-project/sumaform.git
@@ -39,9 +41,9 @@ Execute the following commands:
 
 ```bash
 sudo apt install alien
-wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/opentofu.rpm
+wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP7/x86_64/opentofu.rpm
 sudo alien -i opentofu.rpm
-wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP1/x86_64/terraform-provider-libvirt.rpm
+wget http://download.opensuse.org/repositories/systemsmanagement:/sumaform/SLE_15_SP7/x86_64/terraform-provider-libvirt.rpm
 sudo alien -i terraform-provider-libvirt.rpm
 git clone https://github.com/uyuni-project/sumaform.git
 ```
@@ -53,13 +55,15 @@ git clone https://github.com/uyuni-project/sumaform.git
 `sumaform` can deploy virtual machines to:
 
 - single libvirt hosts
+- z/VM hosts
 - Amazon Web Services
+- Microsoft Azure 
 - null backend
 
 **The simplest, recommended setup is to use libvirt on your local host.** That needs at least 8 GB of RAM in your machine.
 If you need a lot of VMs or lack hardware you probably want to use an external libvirt host with bridged networking.
 
-The Amazon Web Services backend is currently under maintenance and is not immediately usable as-is. We plan to restore it soon.
+The Amazon Web Services and Microsoft Azure backends are currently under maintenance and are not immediately usable as-is. We plan to restore them.
 
 The null backend can be useful in a wide variety of scenarios, for example:
 
@@ -113,6 +117,7 @@ In `sumaform` you define a set of virtual machines in a `main.tf` configuration 
 Refer to the backend-specific READMEs to get started:
 
 - [libvirt README](backend_modules/libvirt/README.md)
+- [Feilong README](backend_modules/feilong/README.md)
 - [AWS README](backend_modules/aws/README.md)
 - [AZURE README](backend_modules/azure/README.md)
 - [SSH README](backend_modules/ssh/README.md)
