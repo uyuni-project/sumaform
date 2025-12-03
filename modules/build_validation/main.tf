@@ -51,7 +51,7 @@ provider "libvirt" {
 
 provider "feilong" {
   connector   = "https://feilong.mgr.suse.de"
-  admin_token = var.ZVM_ADMIN_TOKEN
+  admin_token = var.zvm_admin_token
   local_user  = "jenkins@jenkins-worker.mgr.suse.de"
 }
 
@@ -139,15 +139,15 @@ module "server_containerized" {
   count               = lookup(var.environment_configuration, "server_containerized", null) != null ? 1 : 0
   base_configuration = local.base_core.configuration
   name               = var.environment_configuration.server_containerized.name
-  image              = var.BASE_OS != null ? var.BASE_OS : var.environment_configuration.server_containerized.image
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.server_containerized.image
   provider_settings = {
     mac    = var.environment_configuration.server_containerized.mac
     memory = 40960
     vcpu   = 10
   }
   runtime              = "podman"
-  container_repository = var.SERVER_CONTAINER_REPOSITORY
-  container_image      = var.SERVER_CONTAINER_IMAGE
+  container_repository = var.server_container_repository
+  container_image      = var.server_container_image
   main_disk_size       = 100
 
   repository_disk_size           = 3072
@@ -208,13 +208,13 @@ module "proxy_containerized" {
   count              = lookup(var.environment_configuration, "proxy_containerized", null) != null ? 1 : 0
   base_configuration = local.base_retail.configuration
   name               = var.environment_configuration.proxy_containerized.name
-  image              = var.BASE_OS != null ? var.BASE_OS : var.environment_configuration.proxy_containerized.image
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy_containerized.image
   provider_settings = {
     mac    = var.environment_configuration.proxy_containerized.mac
     memory = 4096
   }
   runtime              = "podman"
-  container_repository = var.PROXY_CONTAINER_REPOSITORY
+  container_repository = var.proxy_container_repository
   container_tag        = "latest"
   auto_configure       = false
   ssh_key_path         = "../../salt/controller/id_ed25519.pub"
