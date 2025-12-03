@@ -33,17 +33,17 @@ backports_update_repo:
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-SERVER/12-SP5/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5-LTSS/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-SERVER/12-SP5-LTSS/{{ grains.get("cpuarch") }}/update/
 
 {% endif %}
 {% endif %} ## End skip if SCC support
@@ -57,17 +57,17 @@ os_ltss_repo:
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/{{ grains.get("cpuarch") }}/update/
 
 {% elif '15.3' == grains['osrelease'] %}
 
@@ -108,53 +108,53 @@ os_ltss_repo:
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP5/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP5/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP5/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 os_ltss_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP5-LTSS/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP5-LTSS/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% elif '15.6' == grains['osrelease'] %}
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP6/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP6/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP6/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 # uncomment when it goes LTSS
 #os_ltss_repo:
 #  pkgrepo.managed:
-#    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP6-LTSS/x86_64/update/
+#    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP6-LTSS/{{ grains.get("cpuarch") }}/update/
 #    - refresh: True
 
 {% elif '15.7' == grains['osrelease'] %}
 
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP7/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP7/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 os_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP7/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP7/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 # uncomment when it goes LTSS
 #os_ltss_repo:
 #  pkgrepo.managed:
-#    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP7-LTSS/x86_64/update/
+#    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP7-LTSS/{{ grains.get("cpuarch") }}/update/
 #    - refresh: True
 
 {% endif %} {# '15.7' == grains['osrelease'] #}
