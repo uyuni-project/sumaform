@@ -127,10 +127,9 @@ variable "BASE_OS" {
   default     = null
 }
 
-variable "PRODUCT_VERSION" {
+variable "product_version" {
   type        = string
-  description = "Optional override for the product version"
-  default     = null
+  description = "Product version"
 }
 
 variable "base_configurations" {
