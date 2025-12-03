@@ -20,12 +20,12 @@ terraform {
 }
 
 locals {
-  base_core = var.base_configurations["default"]
-  base_old_sle = lookup(var.base_configurations, "old_sle", local.base_core)
-  base_new_sle = lookup(var.base_configurations, "new_sle", local.base_core)
-  base_res     = lookup(var.base_configurations, "res",     local.base_core)
-  base_debian  = lookup(var.base_configurations, "debian",  local.base_core)
-  base_retail  = lookup(var.base_configurations, "retail",  local.base_core)
+  base_core = var.module_base_configurations["default"]
+  base_old_sle = lookup(var.module_base_configurations, "old_sle", local.base_core)
+  base_new_sle = lookup(var.module_base_configurations, "new_sle", local.base_core)
+  base_res     = lookup(var.module_base_configurations, "res",     local.base_core)
+  base_debian  = lookup(var.module_base_configurations, "debian",  local.base_core)
+  base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
   proxy_configuration  = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
