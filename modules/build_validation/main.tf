@@ -546,7 +546,7 @@ module "opensuse156arm_minion" {
 module "sles15sp5s390_minion" {
   source             = "../../backend_modules/feilong/host"
   count              = lookup(var.ENVIRONMENT_CONFIGURATION, "sles15sp5s390_minion", null) != null ? 1 : 0
-  base_configuration = local.base_s390.configuration
+  base_configuration = module.base_s390.configuration
 
   name  = var.ENVIRONMENT_CONFIGURATION.sles15sp5s390_minion.name
   image = "s15s5-minimal-2part-xfs"
@@ -1017,7 +1017,7 @@ module "sles15sp5s390_sshminion" {
   providers = { libvirt = libvirt.host_retail }
   source             = "../../backend_modules/feilong/host"
   count              = lookup(var.ENVIRONMENT_CONFIGURATION, "sles15sp5s390_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_s390.configuration
+  base_configuration = module.base_s390.configuration
 
   name  = var.ENVIRONMENT_CONFIGURATION.sles15sp5s390_sshminion.name
   image = "s15s5-minimal-2part-xfs"
