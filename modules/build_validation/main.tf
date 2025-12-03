@@ -1014,7 +1014,6 @@ module "opensuse156arm_sshminion" {
 }
 
 module "sles15sp5s390_sshminion" {
-  providers = { libvirt = libvirt.host_retail }
   source             = "../../backend_modules/feilong/host"
   count              = lookup(var.ENVIRONMENT_CONFIGURATION, "sles15sp5s390_sshminion", null) != null ? 1 : 0
   base_configuration = module.base_s390.configuration
