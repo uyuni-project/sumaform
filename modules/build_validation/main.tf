@@ -29,7 +29,6 @@ locals {
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
   proxy_configuration  = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
-  product_version      = var.PRODUCT_VERSION != null ? var.PRODUCT_VERSION : var.ENVIRONMENT_CONFIGURATION.product_version
   empty_minion_config = {
     ids          = []
     hostnames    = []
@@ -65,7 +64,7 @@ module "base_arm" {
 
   cc_username     = var.SCC_USER
   cc_password     = var.SCC_PASSWORD
-  product_version = local.product_version
+  product_version = var.PRODUCT_VERSION
   name_prefix     = var.ENVIRONMENT_CONFIGURATION.name_prefix
   use_avahi       = false
   domain          = var.PLATFORM_LOCATION_CONFIGURATION[var.LOCATION].domain
@@ -87,7 +86,7 @@ module "base_s390" {
 
   name_prefix     = var.ENVIRONMENT_CONFIGURATION.name_prefix
   domain          = var.PLATFORM_LOCATION_CONFIGURATION[var.LOCATION].domain
-  product_version = local.product_version
+  product_version = var.PRODUCT_VERSION
 
   testsuite = true
 }
