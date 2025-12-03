@@ -13,115 +13,66 @@ variable location {
   description = "Platform location"
 }
 
-variable "CUCUMBER_COMMAND" {
-  type = string
-  default = "export PRODUCT='SUSE-Manager' && run-testsuite"
-}
-
-variable "CUCUMBER_GITREPO" {
+variable "cucumber_gitrepo" {
   type = string
   default = "This is defined in product tfvars"
 }
 
-variable "CUCUMBER_BRANCH" {
+variable "cucumber_branch" {
   type = string
   default = "This is defined in product tfvars"
 }
 
-variable "CUCUMBER_RESULTS" {
-  type = string
-  default = "/root/spacewalk/testsuite"
-}
-variable "URL_PREFIX" {
-  type = string
-  default = "Not Used for QE pipeline"
-}
-
-variable "MAIL_SUBJECT" {
-  type = string
-  default = "Set in TFVARS"
-}
-
-variable "MAIL_TEMPLATE" {
-  type = string
-  default = "../mail_templates/mail-template-jenkins.txt"
-}
-
-variable "MAIL_SUBJECT_ENV_FAIL" {
-  type = string
-  default = "Set in TFVARS"
-}
-
-variable "MAIL_TEMPLATE_ENV_FAIL" {
-  type = string
-  default = "../mail_templates/mail-template-jenkins-env-fail.txt"
-}
-
-variable "MAIL_FROM" {
-  type = string
-  default = "galaxy-noise@suse.de"
-}
-
-variable "MAIL_TO" {
-  type = string
-  default = "galaxy-noise@suse.de"
-}
-
-#################################################
-## End mailer configuration ##
-#################################################
-
-// sumaform specific variables
-variable "SCC_USER" {
+variable "scc_user" {
   type = string
 }
 
-variable "SCC_PASSWORD" {
+variable "scc_password" {
   type = string
 }
 
-variable "SCC_PTF_USER" {
+variable "scc_ptf_user" {
   type = string
   default = null
   // Not needed for master, as PTFs are only build for SUSE Manager / MLM
 }
 
-variable "SCC_PTF_PASSWORD" {
+variable "scc_ptf_password" {
   type = string
   default = null
   // Not needed for master, as PTFs are only build for SUSE Manager / MLM
 }
 
-variable "SERVER_CONTAINER_REPOSITORY" {
+variable "server_container_repository" {
   type = string
   default = ""
 }
 
-variable "PROXY_CONTAINER_REPOSITORY" {
+variable "proxy_container_repository" {
   type = string
   default = ""
 }
 
-variable "SERVER_CONTAINER_IMAGE" {
+variable "server_container_image" {
   type = string
   default = ""
 }
 
-variable "ZVM_ADMIN_TOKEN" {
+variable "zvm_admin_token" {
   type = string
 }
 
-variable "GIT_USER" {
+variable "git_user" {
   type = string
   default = null // Not needed for master, as it is public
 }
 
-variable "GIT_PASSWORD" {
+variable "git_password" {
   type = string
   default = null // Not needed for master, as it is public
 }
 
-variable "BASE_OS" {
+variable "base_os" {
   type        = string
   description = "Optional override for the server base OS image"
   default     = null
