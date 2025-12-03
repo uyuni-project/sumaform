@@ -64,7 +64,7 @@ module "base_arm" {
 
   cc_username     = var.SCC_USER
   cc_password     = var.SCC_PASSWORD
-  product_version = var.PRODUCT_VERSION
+  product_version = var.product_version
   name_prefix     = var.ENVIRONMENT_CONFIGURATION.name_prefix
   use_avahi       = false
   domain          = var.PLATFORM_LOCATION_CONFIGURATION[var.LOCATION].domain
@@ -86,7 +86,7 @@ module "base_s390" {
 
   name_prefix     = var.ENVIRONMENT_CONFIGURATION.name_prefix
   domain          = var.PLATFORM_LOCATION_CONFIGURATION[var.LOCATION].domain
-  product_version = var.PRODUCT_VERSION
+  product_version = var.product_version
 
   testsuite = true
 }
