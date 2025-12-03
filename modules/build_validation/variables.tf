@@ -1,14 +1,14 @@
-variable "ENVIRONMENT_CONFIGURATION" {
+variable "environment_configuration" {
   type = any
   description = "Collection of values containing: mac addresses, hypervisor and additional network"
 }
 
-variable "PLATFORM_LOCATION_CONFIGURATION" {
+variable "platform_location_configuration" {
   type = any
   description = "Collection of values containing location specific information"
 }
 
-variable LOCATION {
+variable location {
   type = string
   description = "Platform location"
 }
