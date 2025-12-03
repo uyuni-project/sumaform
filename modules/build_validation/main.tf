@@ -527,7 +527,7 @@ module "opensuse156arm_minion" {
   }
   source             = "../minion"
   count              = lookup(var.ENVIRONMENT_CONFIGURATION, "opensuse156arm_minion", null) != null ? 1 : 0
-  base_configuration = local.base_arm.configuration
+  base_configuration = module.base_arm.configuration
   name               = "${var.ENVIRONMENT_CONFIGURATION.opensuse156arm_minion.name}${var.PLATFORM_LOCATION_CONFIGURATION[var.LOCATION].extension}"
   image              = "opensuse156armo"
   provider_settings = {
@@ -998,7 +998,7 @@ module "opensuse156arm_sshminion" {
   }
   source             = "../sshminion"
   count              = lookup(var.ENVIRONMENT_CONFIGURATION, "opensuse156arm_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_arm.configuration
+  base_configuration = module.base_arm.configuration
   name               = "${var.ENVIRONMENT_CONFIGURATION.opensuse156arm_sshminion.name}${var.PLATFORM_LOCATION_CONFIGURATION[var.LOCATION].extension}"
   image              = "opensuse156armo"
   provider_settings = {
