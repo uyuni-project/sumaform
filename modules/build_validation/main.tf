@@ -62,8 +62,8 @@ module "base_arm" {
 
   source = "../base"
 
-  cc_username     = var.SCC_USER
-  cc_password     = var.SCC_PASSWORD
+  cc_username     = var.scc_user
+  cc_password     = var.scc_password
   product_version = var.product_version
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
@@ -1401,14 +1401,14 @@ module "controller" {
   swap_file_size = null
   beta_enabled   = false
 
-  cc_ptf_username = var.SCC_PTF_USER
-  cc_ptf_password = var.SCC_PTF_PASSWORD
+  cc_ptf_username = var.scc_ptf_user
+  cc_ptf_password = var.scc_ptf_password
 
   // Cucumber repository configuration for the controller
-  git_username      = var.GIT_USER
-  git_password      = var.GIT_PASSWORD
-  git_repo          = var.CUCUMBER_GITREPO
-  branch            = var.CUCUMBER_BRANCH
+  git_username      = var.git_user
+  git_password      = var.git_password
+  git_repo          = var.cucumber_gitrepo
+  branch            = var.cucumber_branch
   git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/temporary"
 
   server_configuration = local.server_configuration
