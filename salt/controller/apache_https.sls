@@ -1,28 +1,31 @@
 {% set doc_root = '/root/spacewalk/testsuite' %}
 {% set server_name = grains.get('fqdn') or grains.get('ipv4') | first %}
 
+install_apache2:
+  pkg.installed:
+    - pkgs:
+        - apache2
+
 # Ensure Apache is stopped (since Python is taking port 443)
 apache2_service_stopped:
   service.dead:
     - name: apache2
     - enable: False
 
-# Install Apache SSL package (needed for certificate generation tools)
+# Enable SSL module (needed for certificate generation tools)
 apache2_ssl_package:
-  pkg.installed:
-    - name: apache2-mod_nss
+  cmd.run:
+    - name: a2enmod ssl
 
 # Generate Self-Signed Certificate (used by Python script)
 self_signed_cert:
   cmd.run:
     - name: |
         openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout /etc/apache2/ssl.key/selfsigned.key \
-        -out /etc/apache2/ssl.crt/selfsigned.crt \
+        -keyout /etc/ssl/private/selfsigned.key \
+        -out /etc/ssl/certs/selfsigned.crt \
         -subj '/CN={{ server_name }}/O=Controller/OU=Testsuite'
-    - unless: test -f /etc/apache2/ssl.crt/selfsigned.crt
-    - require:
-      - pkg: apache2_ssl_package
+    - unless: test -f /etc/ssl/certs/selfsigned.crt
 
 # Manage the Python Script file
 https_python_script_file:

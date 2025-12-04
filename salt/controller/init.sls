@@ -1,5 +1,4 @@
 include:
-  - repos
   - controller.apache_https
 
 ssh_private_key:
@@ -26,89 +25,9 @@ authorized_keys_controller:
     - source: salt://controller/id_ed25519.pub
     - makedirs: True
 
-cucumber_requisites:
-  pkg.installed:
-    - pkgs:
-      - gcc
-      - make
-      - wget
-      - libssh-devel
-      - python-devel
-      - ruby3.3
-      - ruby3.3-devel
-      - autoconf
-      - ca-certificates-mozilla
-      - automake
-      - libtool
-      - apache2-worker
-      - apache2-mod_nss
-      - cantarell-fonts
-      - git-core
-      - aaa_base-extras
-      - zlib-devel
-      - libxslt-devel
-      - mozilla-nss-tools
-      - postgresql-devel
-      - unzip
-    - require:
-      - sls: repos
-
-/usr/bin/ruby:
-  file.symlink:
-    - target: /usr/bin/ruby.ruby3.3
-    - force: True
-
-/usr/bin/gem:
-  file.symlink:
-    - target: /usr/bin/gem.ruby3.3
-    - force: True
-
-/usr/bin/irb:
-  file.symlink:
-    - target: /usr/bin/irb.ruby3.3
-    - force: True
-
-ruby_set_rake_version:
-  cmd.run:
-    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
-
-ruby_set_bundle_version:
-  cmd.run:
-    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
-
-ruby_set_rdoc_version:
-  cmd.run:
-    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
-
-ruby_set_ri_version:
-  cmd.run:
-    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
-
-install_chromium:
-  pkg.installed:
-  - name: chromium
-
-install_chromedriver:
-  pkg.installed:
-  - name: chromedriver
-
-create_syslink_for_chromedriver:
-  file.symlink:
-    - name: /usr/bin/chromedriver
-    - target: ../lib64/chromium/chromedriver
-    - force: True
-
 install_npm:
   pkg.installed:
-    - name: npm-default
-
-install_gems_via_bundle:
-  cmd.run:
-    - name: bundle.ruby3.3 install --gemfile Gemfile
-    - cwd: /root/spacewalk/testsuite
-    - require:
-      - pkg: cucumber_requisites
-      - cmd: spacewalk_git_repository
+    - name: npm
 
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
@@ -135,7 +54,6 @@ git_config:
         machine github.com
         login {{ grains.get("git_username") }}
         password {{ grains.get("git_password") }}
-        protocol https
 {%- endif %}
 
 netrc_mode:
@@ -162,12 +80,9 @@ spacewalk_git_repository:
     - name: |
         git clone --depth 100 --no-checkout --branch {{ branch }} {{ url }} /root/spacewalk
         cd /root/spacewalk
-        git sparse-checkout init --cone
-        git sparse-checkout set testsuite
         git checkout
     - creates: /root/spacewalk
     - require:
-      - pkg: cucumber_requisites
       - file: netrc_mode
 
 cucumber_run_script:
@@ -188,67 +103,74 @@ testsuite_env_vars:
     - group: root
     - mode: 755
 
+ssh_config:
+  file.managed:
+    - name: /root/.ssh/config
+    - source: salt://controller/ssh_config
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755
+
 extra_pkgs:
   pkg.installed:
     - pkgs:
       - screen
       - xauth
-    - require:
-      - sls: repos
+      - libnss3-tools
+      - nodejs
 
 # needed together with the `xauth` package for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
 create_xauthority_file:
   cmd.run:
    - name: touch /root/.Xauthority
 
-chrome_certs:
-  file.directory:
-    - user:  root
-    - name:  /root/.pki/nssdb
-    - group: users
-    - mode:  755
-    - makedirs: True
-
-google_cert_db:
+create_nss_db:
   cmd.run:
-   - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
-   - require:
-     - file: chrome_certs
-   - creates: /root/.pki/nssdb
-
-# Health-check testing
-health_check_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}/repodata/repomd.xml.key
-    - gpgcheck: 0
-    - refresh: True
-
-install_health_check:
-    pkg.installed:
-    - name: mgr-health-check
-    - resolve_capabilities: True
+    - name: |
+        mkdir -p /root/.pki/nssdb
+        certutil -N -d /root/.pki/nssdb --empty-password
+    - creates: /root/.pki/nssdb/cert8.db
     - require:
-      - pkgrepo: health_check_repo
+        - pkg: extra_pkgs
 
-# NFS mounted partition to store reports in a external Web Server
-{% if grains.get('web_server_hostname') %}
-nfs_client:
-  pkg.installed:
-    - name: nfs-client
+install_nvm:
+  cmd.run:
+    - name: |
+        wget -q -O- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
 
-non_empty_fstab:
-  file.managed:
-    - name: /etc/fstab
-    - replace: false
-
-web_server_directory:
-  mount.mounted:
-    - name: /mnt/www
-    - device: {{ grains.get('web_server_hostname') }}:/srv/www/htdocs
-    - fstype: nfs
-    - mkmnt: True
+install_node:
+  cmd.run:
+    - name: |
+        export NVM_DIR="/root/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm install node
     - require:
-        - file: /etc/fstab
-        - pkg: nfs_client
-{% endif %}
+        - cmd: install_nvm
+
+install_npm_deps:
+  cmd.run:
+    - name: |
+        export NVM_DIR="/root/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        cd /root/spacewalk
+        npm install
+    - require:
+        - cmd: install_node
+
+install_playwright:
+  cmd.run:
+    - name: |
+        export NVM_DIR="/root/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        cd /root/spacewalk
+        npx playwright install
+        npx playwright install-deps
+    - require:
+        - cmd: install_npm_deps
+
+load_bashrc:
+  cmd.run:
+    - name: source /root/.bashrc
+    - require:
+        - cmd: install_playwright

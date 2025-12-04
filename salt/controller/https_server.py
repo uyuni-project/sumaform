@@ -5,9 +5,9 @@ import os
 
 # Define the port and the certificate file paths
 PORT = 443
-CERT_FILE = "/etc/apache2/ssl.crt/selfsigned.crt"
-KEY_FILE = "/etc/apache2/ssl.key/selfsigned.key"
-DIRECTORY = "/root/spacewalk/testsuite" # Use the original working directory
+CERT_FILE = "/etc/ssl/certs/selfsigned.crt"
+KEY_FILE = "/etc/ssl/private/selfsigned.key"
+DIRECTORY = "/root/spacewalk/"
 
 # Change the current working directory to the target directory
 os.chdir(DIRECTORY)
