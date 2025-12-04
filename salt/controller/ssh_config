@@ -1,0 +1,5 @@
+Host *
+   User root
+   IdentityFile /root/.ssh/id_ed25519
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/root/.ssh/known_hosts

@@ -1,28 +1,53 @@
 {% set doc_root = '/root/spacewalk/testsuite' %}
 {% set server_name = grains.get('fqdn') or grains.get('ipv4') | first %}
 
+# Ensure Apache is installed
+apache2_installed:
+  pkg.installed:
+    - name: apache2
+
 # Ensure Apache is stopped (since Python is taking port 443)
 apache2_service_stopped:
   service.dead:
     - name: apache2
     - enable: False
+    - require:
+      - pkg: apache2_installed
 
-# Install Apache SSL package (needed for certificate generation tools)
 apache2_ssl_package:
+{% if grains['os_family'] == 'Suse' %}
+  # Install Apache SSL package (needed for certificate generation tools)
   pkg.installed:
     - name: apache2-mod_nss
+    - require:
+      - pkg: apache2_installed
+{% else %}
+  # Enable SSL module (needed for certificate generation tools)
+  cmd.run:
+    - name: a2enmod ssl
+    - require:
+      - pkg: apache2_installed
+{% endif %}
 
 # Generate Self-Signed Certificate (used by Python script)
+{% set ssl_dir = '/etc/apache2' if grains['os_family'] == 'Suse' else '/etc/ssl' %}
+{% set cert_path = ssl_dir ~ '/ssl.crt/selfsigned.crt' if grains['os_family'] == 'Suse' else ssl_dir ~ '/certs/selfsigned.crt' %}
+{% set key_path = ssl_dir ~ '/ssl.key/selfsigned.key' if grains['os_family'] == 'Suse' else ssl_dir ~ '/private/selfsigned.key' %}
+
 self_signed_cert:
   cmd.run:
-    - name: |
-        openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-        -keyout /etc/apache2/ssl.key/selfsigned.key \
-        -out /etc/apache2/ssl.crt/selfsigned.crt \
+    - name: >
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048
+        -keyout {{ key_path }}
+        -out {{ cert_path }}
         -subj '/CN={{ server_name }}/O=Controller/OU=Testsuite'
-    - unless: test -f /etc/apache2/ssl.crt/selfsigned.crt
+    - unless: test -f {{ cert_path }}
     - require:
-      - pkg: apache2_ssl_package
+      {% if grains['os_family'] == 'Suse' %}
+        - pkg: apache2_ssl_package
+      {% else %}
+        - cmd: apache2_ssl_package
+      {% endif %}
 
 # Manage the Python Script file
 https_python_script_file:

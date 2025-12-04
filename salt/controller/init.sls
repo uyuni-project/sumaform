@@ -1,5 +1,7 @@
 include:
+{% if grains['os_family'] == 'Suse' %}
   - repos
+{% endif %}
   - controller.apache_https
 
 ssh_private_key:
@@ -26,6 +28,7 @@ authorized_keys_controller:
     - source: salt://controller/id_ed25519.pub
     - makedirs: True
 
+{% if grains['os_family'] == 'Suse' %}
 cucumber_requisites:
   pkg.installed:
     - pkgs:
@@ -86,11 +89,11 @@ ruby_set_ri_version:
 
 install_chromium:
   pkg.installed:
-  - name: chromium
+    - name: chromium
 
 install_chromedriver:
   pkg.installed:
-  - name: chromedriver
+    - name: chromedriver
 
 create_syslink_for_chromedriver:
   file.symlink:
@@ -98,10 +101,17 @@ create_syslink_for_chromedriver:
     - target: ../lib64/chromium/chromedriver
     - force: True
 
+{% endif %}
+
 install_npm:
   pkg.installed:
+{% if grains['os_family'] == 'Suse' %}
     - name: npm-default
+{% else %}
+    - name: npm
+{% endif %}
 
+{% if grains['os_family'] == 'Suse' %}
 install_gems_via_bundle:
   cmd.run:
     - name: bundle.ruby3.3 install --gemfile Gemfile
@@ -109,6 +119,7 @@ install_gems_via_bundle:
     - require:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
+{% endif %}
 
 # https://github.com/gkushang/cucumber-html-reporter
 install_cucumber_html_reporter_via_npm:
@@ -135,7 +146,9 @@ git_config:
         machine github.com
         login {{ grains.get("git_username") }}
         password {{ grains.get("git_password") }}
+{% if grains['os_family'] == 'Suse' %}
         protocol https
+{% endif %}
 {%- endif %}
 
 netrc_mode:
@@ -162,12 +175,16 @@ spacewalk_git_repository:
     - name: |
         git clone --depth 100 --no-checkout --branch {{ branch }} {{ url }} /root/spacewalk
         cd /root/spacewalk
+{% if grains['os_family'] == 'Suse' %}
         git sparse-checkout init --cone
         git sparse-checkout set testsuite
+{% endif %}
         git checkout
     - creates: /root/spacewalk
     - require:
+{% if grains['os_family'] == 'Suse' %}
       - pkg: cucumber_requisites
+{% endif %}
       - file: netrc_mode
 
 cucumber_run_script:
@@ -188,33 +205,92 @@ testsuite_env_vars:
     - group: root
     - mode: 755
 
+{% if grains['os_family'] == 'Debian' %}
+ssh_config:
+  file.managed:
+    - name: /root/.ssh/config
+    - source: salt://controller/ssh_config
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 600
+{% endif %}
+
 extra_pkgs:
   pkg.installed:
     - pkgs:
       - screen
       - xauth
+{% if grains['os_family'] == 'Debian' %}
+      - libatomic1
+      - libnss3-tools
+      - nodejs
+{% endif %}
+{% if grains['os_family'] == 'Suse' %}
     - require:
       - sls: repos
+{% endif %}
 
-# needed together with the `xauth` package for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
+# needed together with the `xauth` package for debugging with chromedriver in non-headless mode with `export DEBUG=1`
 create_xauthority_file:
   cmd.run:
-   - name: touch /root/.Xauthority
+    - name: touch /root/.Xauthority
 
+{% if grains['os_family'] == 'Debian' %}
+install_nvm:
+  cmd.run:
+    - name: |
+        wget -q -O- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+
+install_node:
+  cmd.run:
+    - name: |
+        export NVM_DIR="/root/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm install node
+    - unless: bash -c 'export NVM_DIR="/root/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"; which node'
+    - require:
+      - cmd: install_nvm
+
+install_npm_deps:
+  cmd.run:
+    - name: |
+        export NVM_DIR="/root/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        cd /root/spacewalk
+        npm install
+    - require:
+      - cmd: install_node
+      - cmd: spacewalk_git_repository
+
+install_playwright:
+  cmd.run:
+    - name: |
+        export NVM_DIR="/root/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        cd /root/spacewalk
+        npx playwright install
+        npx playwright install-deps
+    - unless: test -x /root/spacewalk/node_modules/.bin/playwright
+    - require:
+      - cmd: install_npm_deps
+{% endif %}
+
+{% if grains['os_family'] == 'Suse' %}
 chrome_certs:
   file.directory:
-    - user:  root
-    - name:  /root/.pki/nssdb
+    - user: root
+    - name: /root/.pki/nssdb
     - group: users
-    - mode:  755
+    - mode: 755
     - makedirs: True
 
 google_cert_db:
   cmd.run:
-   - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
-   - require:
-     - file: chrome_certs
-   - creates: /root/.pki/nssdb
+    - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
+    - require:
+      - file: chrome_certs
+    - creates: /root/.pki/nssdb
 
 # Health-check testing
 health_check_repo:
@@ -225,11 +301,12 @@ health_check_repo:
     - refresh: True
 
 install_health_check:
-    pkg.installed:
+  pkg.installed:
     - name: mgr-health-check
     - resolve_capabilities: True
     - require:
       - pkgrepo: health_check_repo
+{% endif %}
 
 # NFS mounted partition to store reports in a external Web Server
 {% if grains.get('web_server_hostname') %}
@@ -249,6 +326,6 @@ web_server_directory:
     - fstype: nfs
     - mkmnt: True
     - require:
-        - file: /etc/fstab
-        - pkg: nfs_client
+      - file: /etc/fstab
+      - pkg: nfs_client
 {% endif %}

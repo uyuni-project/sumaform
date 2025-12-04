@@ -155,7 +155,7 @@ module "controller" {
     salt_migration_minion    = length(var.salt_migration_minion_configuration["hostnames"]) > 0 ? var.salt_migration_minion_configuration["hostnames"][0] : null
   }
 
-  image   = "opensuse156o"
+  image             = var.image == null ? "opensuse156o" : var.image
   provider_settings = var.provider_settings
 }
 
@@ -164,5 +164,6 @@ output "configuration" {
     id       = length(module.controller.configuration["ids"]) > 0 ? module.controller.configuration["ids"][0] : null
     hostname = length(module.controller.configuration["hostnames"]) > 0 ? module.controller.configuration["hostnames"][0] : null
     branch   = var.branch == "default" ? var.testsuite-branch[var.server_configuration["product_version"]] : var.branch
+    image    = var.image
   }
 }
