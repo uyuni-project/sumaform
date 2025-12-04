@@ -291,7 +291,7 @@ clean_repo_metadata:
 {% set short_release = release | replace('.', '') %}
 
 # Release client tools
-{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Ubuntu-' + release + '/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Ubuntu-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
@@ -310,7 +310,7 @@ tools_update_repo_raised_priority:
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
-{% set beta_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Ubuntu-' + release + '/{{ grains.get("cpuarch") }}/update/' %}
+{% set beta_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Ubuntu-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 beta_tools_update_repo:
   pkgrepo.managed:
     - humanname: beta_tools_update_repo
@@ -374,7 +374,7 @@ tools_additional_tools_update_repo:
 
 {% set release = grains.get('osrelease', None) %}
 
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Debian-' + release + '/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Debian-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 
 tools_update_repo:
   pkgrepo.managed:
@@ -394,7 +394,7 @@ tools_update_repo_raised_priority:
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
-{% set beta_tools_update_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Debian-' + release + '/{{ grains.get("cpuarch") }}/update/' %}
+{% set beta_tools_update_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Debian-' + release + '/' +  grains.get("cpuarch") + '/update/' %}
 beta_tools_update_repo_url:
   pkgrepo.managed:
     - humanname: beta_tools_update_repo_url
