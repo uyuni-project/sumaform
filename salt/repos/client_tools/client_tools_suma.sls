@@ -199,7 +199,7 @@ clean_repo_metadata:
 {% set short_release = release | replace('.', '') %}
 
 # Release client tools
-{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Ubuntu/' + release + '-CLIENT-TOOLS/' + grains.get("cpuarch") + '/update/' %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
@@ -242,7 +242,7 @@ tools_additional_repo_raised_priority:
 
 {% set release = grains.get('osrelease', None) %}
 
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/{{ grains.get("cpuarch") }}/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/Debian/' + release + '-CLIENT-TOOLS/' + grains.get("cpuarch") + '/update/' %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
