@@ -28,7 +28,7 @@ locals {
   base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
-  proxy_configuration  = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
+  proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_minion_config)
   empty_minion_config = {
     ids          = []
     hostnames    = []
