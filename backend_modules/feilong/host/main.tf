@@ -31,6 +31,7 @@ resource "feilong_guest" "s390_guest" {
   vcpus      = local.provider_settings["vcpu"]
   image      = var.image
   userid     = local.provider_settings["userid"]
+  os_version = local.provider_settings["os_version"]
   mac        = local.provider_settings["mac"]
   vswitch    = local.provider_settings["vswitch"]
 
