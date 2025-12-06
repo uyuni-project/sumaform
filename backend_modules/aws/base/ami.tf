@@ -219,11 +219,9 @@ data "aws_ami" "suma-proxy-50-x86_64-byos" {
   }
 }
 
-// TODO: remove comment once those images are publicly available
-
-/* data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
+data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
   most_recent = true
-  name_regex  = "^suse-mlm-server-5-1-v[0-9].*(ltd).*$"
+  name_regex  = "^suse-manager-server-5-1-v[0-9].*(ltd).*$"
   owners      = ["679593333241"]
 
   filter {
@@ -243,14 +241,14 @@ data "aws_ami" "suma-proxy-50-x86_64-byos" {
 
   filter {
     name   = "product-code"
-    values = ["8ysfelcfs2dkok3fba4s5uqo4"]
+    values = ["c48fapw1f0e4tvjukevqlbmf4"]
   }
 }
 
 
 data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
   most_recent = true
-  name_regex  = "^suse-mlm-server-5-1-v[0-9].*(ltd).*$"
+  name_regex  = "^suse-manager-server-5-1-v[0-9].*(ltd).*$"
   owners      = ["679593333241"]
 
   filter {
@@ -276,7 +274,7 @@ data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
 
 data "aws_ami" "smlm-proxy-51-arm64-byos" {
   most_recent = true
-  name_regex  = "^suse-mlm-proxy-5-1-byos-v"
+  name_regex  = "^suse-manager-proxy-5-1-byos-v"
   owners      = ["679593333241"]
 
   filter {
@@ -293,11 +291,17 @@ data "aws_ami" "smlm-proxy-51-arm64-byos" {
     name   = "root-device-type"
     values = ["ebs"]
   }
+
+
+  filter {
+    name   = "product-code"
+    values = ["713zi40zqboecsjmlxkf31iin"]
+  }
 }
 
 data "aws_ami" "smlm-proxy-51-x86_64-byos" {
   most_recent = true
-  name_regex  = "^suse-mlm-proxy-5-1-byos-v"
+  name_regex  = "^suse-manager-proxy-5-1-byos-v"
   owners      = ["679593333241"]
 
   filter {
@@ -314,8 +318,13 @@ data "aws_ami" "smlm-proxy-51-x86_64-byos" {
     name   = "root-device-type"
     values = ["ebs"]
   }
+
+  filter {
+    name   = "product-code"
+    values = ["q26lvbne2lnivd97mlx43j4u"]
+  }
 }
- */
+
 
 data "aws_ami" "sles12sp5" {
   most_recent = true

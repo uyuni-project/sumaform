@@ -2,7 +2,7 @@
 
 ## Goal
 
-Automating deployment and configuration of virtualized SUSE Manager installations for testing, debugging and development.
+Automating deployment and configuration of virtualized SUSE Multi-Linux Manager installations for testing, debugging and development.
 
 Security is explicitly not a goal, convenience is.
 
@@ -10,7 +10,7 @@ Security is explicitly not a goal, convenience is.
 
 sumaform is:
 
-- [Terraform](https://www.terraform.io/) modules of two types:
+- [OpenTofu](https://opentofu.org) modules of two types:
   - "backend" modules, provider-specific. Those define basic infrastructure components such as hosts and disks
   - "backend-independent" modules (logical components like `suse_manager` or `minion`), that do not vary depending on the chosen backend
 - `cloud-init` configuration files (for OSs which have an official disk image on supported providers)

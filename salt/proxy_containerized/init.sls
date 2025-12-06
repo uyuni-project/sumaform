@@ -37,24 +37,13 @@ ssh_config_proxy_containerized:
 # Note: In our registries we don't have released and not released versions at this point in time
 {% if grains.get('container_repository') %}
   {% set container_repository = grains.get('container_repository') %}
+{% endif %}
+
+{% if grains.get('container_tag') %}
   {% set container_tag = grains.get('container_tag') %}
 {% else %}
-  {% if 'uyuni' in grains.get('product_version') %}
-    {% set container_repository = 'registry.opensuse.org/systemsmanagement/uyuni/master/containers' %}
-    # in Uyuni this would use latest tag
-    {% set container_tag = '' %}
-  {% elif '5.0-released' in grains.get('product_version') %}
-    {% set container_repository = 'registry.suse.de/suse/sle-15-sp6/update/products/manager50/containerfile' %}
-    # in SUMA this would use most recent version as tag
-    {% set container_tag = '' %}
-  {% elif '5.1-released' in grains.get('product_version') %}
-    {% set container_repository = 'registry.suse.de/suse/sle-15-sp7/update/products/multilinuxmanager51/containerfile' %}
-    # in SUMA this would use most recent version as tag
-    {% set container_tag = '' %}
-  {% else %} # Head or nightly versions
-    {% set container_repository = 'registry.suse.de/devel/galaxy/manager/head/containers' %}
-    {% set container_tag = 'latest' %}
-  {% endif %}
+  # in SUMA this would use most recent version as tag
+  {% set container_tag = '' %}
 {% endif %}
 
 # Useful to setup the proxy through the tests
@@ -62,16 +51,38 @@ config_proxy_containerized:
   file.managed:
     - name: /etc/uyuni/uyuni-tools.yaml
     - contents: |
+        {% if container_repository %}
+        {%- if 'released' in grains['product_version'] %}
         registry: {{ container_repository }}
+        {% else %}
+        registry:
+          host: {{ container_repository }}
+        {% endif %}
+        {% endif %}
         httpd:
+          {% if grains.get('httpd_container_image') %}
+          image: {{ grains.get('httpd_container_image') }}
+          {% endif %}
           tag: {{ container_tag }}
         saltBroker:
-          tag: {{ container_tag }}
-        ssh:
-          tag: {{ container_tag }}
-        tftpd:
+          {% if grains.get('salt_broker_container_image') %}
+          image: {{ grains.get('salt_broker_container_image') }}
+          {% endif %}
           tag: {{ container_tag }}
         squid:
+          {% if grains.get('squid_container_image') %}
+          image: {{ squid_container_image }}
+          {% endif %}
+          tag: {{ container_tag }}
+        ssh:
+          {% if grains.get('ssh_container_image') %}
+          image: {{ grains.get('ssh_container_image') }}
+          {% endif %}
+          tag: {{ container_tag }}
+        tftpd:
+          {% if grains.get('tftpd_container_image') %}
+          image: {{ grains.get('tftpd_container_image') }}
+          {% endif %}
           tag: {{ container_tag }}
     - makedirs: True
 
@@ -82,12 +93,23 @@ install_mgr_tools:
       - podman
       - mgrpxy
 
-{% if grains['osfullname'] == 'SLES' %}
+  {% if grains['osfullname'] == 'SLES' %}
 ca_suse:
   pkg.installed:
     - pkgs:
       - ca-certificates-suse
-{% endif %}
+  {% endif %}
+
+  # WORKAROUND: remove when we have netavark 1.16.1 or later in Tumbleweed
+  # see https://bugzilla.opensuse.org/show_bug.cgi?id=1248848
+  {% if 'uyuni' in grains.get('product_version') %}
+install_fixed_netavark:
+  pkg.installed:
+    - sources:
+      - netavark: https://download.opensuse.org/repositories/home:/danishprakash:/branches:/devel:/microos/openSUSE_Tumbleweed/x86_64/netavark-1.16.1-48.1.x86_64.rpm
+    - skip_verify: True
+  {% endif %}
+  # END OF WORKAROUND
 {% endif %}
 
 # This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready

@@ -15,9 +15,9 @@ locals {
   var.provider_settings)
 }
 
-resource "null_resource" "provisioning" {
+resource "terraform_data" "provisioning" {
 
-  triggers = {
+  triggers_replace = {
     provider_settings  = yamlencode(local.provider_settings)
     base_configuration = yamlencode(var.base_configuration)
     grains_subset = yamlencode(
@@ -118,9 +118,9 @@ resource "null_resource" "provisioning" {
 }
 
 output "configuration" {
-  depends_on = [null_resource.provisioning]
+  depends_on = [terraform_data.provisioning]
   value = {
-    ids       = length(null_resource.provisioning) > 0 ? null_resource.provisioning.*.id : []
+    ids       = length(terraform_data.provisioning) > 0 ? terraform_data.provisioning.*.id : []
     hostnames = ["${local.resource_name_prefix}.${var.base_configuration["domain"]}"]
     macaddrs  = null
   }

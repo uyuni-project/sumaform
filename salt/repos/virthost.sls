@@ -12,6 +12,8 @@
 {% set sle_version_path = '15-SP5' %}
 {% elif grains['osrelease'] == '15.6' %}
 {% set sle_version_path = '15-SP6' %}
+{% elif grains['osrelease'] == '15.7' %}
+{% set sle_version_path = '15-SP7' %}
 {% endif %}
 
 module_server_applications_pool_repo:
@@ -21,7 +23,7 @@ module_server_applications_pool_repo:
 
 module_server_applications_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/{{ sle_version_path }}/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/{{ sle_version_path }}/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% endif %}

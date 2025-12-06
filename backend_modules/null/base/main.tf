@@ -1,7 +1,7 @@
 
-resource "null_resource" "base" {
+resource "terraform_data" "base" {
   # Changes to any instance of the cluster requires re-provisioning
-  triggers = {
+  triggers_replace = {
     cc_username          = var.cc_username
     cc_password          = var.cc_password
     product_version      = var.product_version

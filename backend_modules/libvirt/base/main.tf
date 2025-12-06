@@ -49,7 +49,7 @@ locals {
   additional_network = lookup(var.provider_settings, "additional_network", null)
 }
 
-resource "null_resource" "decompressed_images" {
+resource "terraform_data" "decompressed_images" {
   for_each = setintersection(local.compressed_images, local.images_used)
 
   provisioner "local-exec" {
@@ -74,11 +74,11 @@ resource "libvirt_volume" "volumes" {
   pool   = local.pool
 
   depends_on = [
-    null_resource.decompressed_images
+    terraform_data.decompressed_images
   ]
 }
 
-resource "null_resource" "cleanup_decompressed_images" {
+resource "terraform_data" "cleanup_decompressed_images" {
   provisioner "local-exec" {
     when = destroy
     command = "[ -d decompressed_images ] && rm -r decompressed_images/ || true"

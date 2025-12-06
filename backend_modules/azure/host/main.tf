@@ -30,17 +30,13 @@ locals {
   public_instance                      = lookup(var.provider_settings, "public_instance", false)
   location                             = var.base_configuration["location"]
   product_version                      = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
-}
 
-data "template_file" "user_data" {
-  count    = var.quantity > 0 ? var.quantity : 0
-  template = file("${path.module}/user_data.yaml")
-  vars = {
-    image           = var.image
-    public_instance = local.public_instance
-    mirror_url      = var.base_configuration["mirror"]
+  user_data = templatefile("${path.module}/user_data.yaml", {
+    image                    = var.image
+    public_instance          = local.public_instance
+    mirror_url               = var.base_configuration["mirror"]
     install_salt_bundle      = var.install_salt_bundle
-  }
+  })
 }
 
 resource "azurerm_public_ip" "suma-pubIP" {
@@ -131,11 +127,11 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
 /** END: Set up an extra data disk */
 
 /** START: provisioning */
- resource "null_resource" "host_salt_configuration" {
+ resource "terraform_data" "host_salt_configuration" {
   depends_on = [azurerm_linux_virtual_machine.instance, azurerm_virtual_machine_data_disk_attachment.addtionaldisks-attach]
   count      = var.provision ? var.quantity : 0
 
-  triggers = {
+  triggers_replace = {
     main_volume_id = length(azurerm_managed_disk.addtionaldisks) == var.quantity ? azurerm_managed_disk.addtionaldisks[count.index].id : null
     domain_id      = length(azurerm_linux_virtual_machine.instance) == var.quantity ? azurerm_linux_virtual_machine.instance[count.index].id : null
     grains_subset = yamlencode(
@@ -224,7 +220,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
 /** END: provisioning */
 
 output "configuration" {
-  depends_on = [azurerm_linux_virtual_machine.instance, null_resource.host_salt_configuration]
+  depends_on = [azurerm_linux_virtual_machine.instance, terraform_data.host_salt_configuration]
   value = {
     ids          = length(azurerm_linux_virtual_machine.instance) > 0 ? azurerm_linux_virtual_machine.instance[*].id : []
     hostnames    = length(azurerm_linux_virtual_machine.instance) > 0 ? azurerm_network_interface.suma-main-nic[*].private_ip_address : []

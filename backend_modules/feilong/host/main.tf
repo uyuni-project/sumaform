@@ -37,10 +37,10 @@ resource "feilong_guest" "s390_guest" {
   cloudinit_params = feilong_cloudinit_params.s390_params.file
 }
 
-resource "null_resource" "provisioning" {
+resource "terraform_data" "provisioning" {
   depends_on = [ feilong_guest.s390_guest ]
 
-  triggers = {
+  triggers_replace = {
   }
 
   connection {
@@ -111,7 +111,7 @@ resource "null_resource" "provisioning" {
 }
 
 output "configuration" {
-  depends_on  = [ feilong_guest.s390_guest, null_resource.provisioning ]
+  depends_on  = [ feilong_guest.s390_guest, terraform_data.provisioning ]
   value = {
     ids       = [ feilong_guest.s390_guest.userid               ]
     hostnames = [ feilong_cloudinit_params.s390_params.hostname ]

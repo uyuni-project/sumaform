@@ -24,8 +24,8 @@
   - or you specify a different name by uncommenting the `network_name` variable declaration in the `base` module
 - decide the set of virtual machines you want to run. Delete any `module` section relative to VMs you don't want to use and feel free to copy and paste to add more
 - Create a symbolic link to the `libvirt` backend module directory inside the `modules` directory: `cd modules && ln -sfn ../backend_modules/libvirt backend`
-- run `terraform init` to make sure Terraform has detected all modules
-- run `terraform apply` to actually have the VMs set up!
+- run `tofu init` to make sure OpenTofu has detected all modules
+- run `tofu apply` to actually have the VMs set up!
 
 ## libvirt backend specific variables
 

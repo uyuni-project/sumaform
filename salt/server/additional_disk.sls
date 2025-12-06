@@ -23,7 +23,7 @@ spacewalk_directory:
 {% else %}
 
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
-{% if grains['data_disk_device'] == "nvme1n1" %}
+{% if grains['data_disk_device'] == "nvme0n1" %}
 {% set partition_name = '/dev/' + grains['data_disk_device'] + 'p1' %}
 {% else %}
 {% set partition_name = '/dev/' + grains['data_disk_device'] + '1' %}

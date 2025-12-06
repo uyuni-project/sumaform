@@ -43,6 +43,7 @@ module "server_containerized" {
   additional_disk_size          = var.repository_disk_size
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
+  product_version               = local.product_version
 
   grains = {
     container_runtime              = var.runtime
@@ -79,6 +80,7 @@ module "server_containerized" {
     large_deployment               = var.large_deployment
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
+    enable_oval_metadata           = var.enable_oval_metadata
   }
 }
 
@@ -89,6 +91,7 @@ output "configuration" {
     username           = var.server_username
     password           = var.server_password
     runtime            = var.runtime
+    product_version    = local.product_version
     first_user_present = true
   }
 }
