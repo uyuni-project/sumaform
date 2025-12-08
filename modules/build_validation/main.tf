@@ -541,10 +541,11 @@ module "sles15sp5s390_minion" {
   image = "s15s5-minimal-2part-xfs"
 
   provider_settings = {
-    userid   = var.environment_configuration.sles15sp5s390_minion.userid
-    mac      = var.environment_configuration.sles15sp5s390_minion.mac
-    ssh_user = "sles"
-    vswitch  = "VSUMA"
+    userid      = var.environment_configuration.sles15sp5s390_minion.userid
+    os_version  = "sles15.5"
+    mac         = var.environment_configuration.sles15sp5s390_minion.mac
+    ssh_user    = "sles"
+    vswitch     = "VSUMA"
   }
 
   use_os_released_updates = false
@@ -1010,10 +1011,11 @@ module "sles15sp5s390_sshminion" {
   image = "s15s5-minimal-2part-xfs"
 
   provider_settings = {
-    userid   = var.environment_configuration.sles15sp5s390_sshminion.userid
-    mac      = var.environment_configuration.sles15sp5s390_sshminion.mac
-    ssh_user = "sles"
-    vswitch  = "VSUMA"
+    userid      = var.environment_configuration.sles15sp5s390_sshminion.userid
+    os_version  = "sles15.5"
+    mac         = var.environment_configuration.sles15sp5s390_sshminion.mac
+    ssh_user    = "sles"
+    vswitch     = "VSUMA"
   }
 
   use_os_released_updates = false
