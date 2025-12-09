@@ -9,7 +9,8 @@ terraform {
         libvirt.host_new_sle, # For SLES 15/Micro
         libvirt.host_res,     # For Alma/Rocky/CentOS/Oracle
         libvirt.host_debian,  # For Ubuntu/Debian
-        libvirt.host_retail   # For Proxy/BuildHosts/Terminals
+        libvirt.host_retail,  # For Proxy/BuildHosts/Terminals
+        libvirt.host_arm
       ]
     }
     feilong = {
@@ -35,8 +36,8 @@ locals {
 }
 
 provider "libvirt" {
-  alias = "suma-arm"
-  uri   = "qemu+tcp://suma-arm.mgr.suse.de/system"
+  alias = "host_arm"
+  uri   = "qemu+tcp://host_arm.mgr.suse.de/system"
 }
 
 provider "feilong" {
@@ -47,7 +48,7 @@ provider "feilong" {
 
 module "base_arm" {
   providers = {
-    libvirt = libvirt.suma-arm
+    libvirt = libvirt.host_arm
   }
 
   source = "../base"
@@ -513,7 +514,7 @@ module "debian12_minion" {
 
 module "opensuse156arm_minion" {
   providers = {
-    libvirt = libvirt.suma-arm
+    libvirt = libvirt.host_arm
   }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "opensuse156arm_minion", null) != null ? 1 : 0
@@ -984,7 +985,7 @@ module "debian12_sshminion" {
 
 module "opensuse156arm_sshminion" {
   providers = {
-    libvirt = libvirt.suma-arm
+    libvirt = libvirt.host_arm
   }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "opensuse156arm_sshminion", null) != null ? 1 : 0
