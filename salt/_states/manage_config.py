@@ -1,23 +1,28 @@
+import os
+import re
+import logging
+log = logging.getLogger(__name__)
+
 def _error(ret, err_msg):
     ret["result"] = False
     ret["comment"] = err_msg
     return ret
 
-def manage_lines(name, key_value, container_cmd):
+def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
     r"""
-    Maintain an edit in a file.
+    Manage lines of configuration in a file
 
     name
-        Filesystem path to the file to be edited.
+        Filesystem path to the file to be edited
 
     key_value
         A yaml dictionary with 'key: value' pairs with the key to search for and the value to set/replace
 
-    container_cmd
-        The exec command if the target file is in a container. E.g. 'mgrctl exec'
+    mgrctl
+        If the file can be accessed through mgrctl
 
-    When regex capture groups are used in ``pattern:``, their captured value is
-    available for reuse in the ``repl:`` part as a backreference (ex. ``\1``).
+    regex_escape_keys
+        Set to true if the key should be run through re.escape()
 
     .. code-block:: yaml
 
@@ -25,11 +30,14 @@ def manage_lines(name, key_value, container_cmd):
           manage_config.manage_lines:
             - name: |
                 /etc/rhn/rhn.conf
-            - container_cmd: "mgrctl exec"
+            - mgrctl: True
+            - regex_escape_keys: True
             - key_value:
                 package_import_skip_changelog: 1
                 java.max_changelog_entries: 3
     """
+
+    name = name.rstrip()
 
     ret = {"name": name, "result": True, "changes": {}, "comment": ""}
 
@@ -40,28 +48,51 @@ def manage_lines(name, key_value, container_cmd):
         return _error(ret, f"key_value is \'{key_value}\' and should be a valid yaml dict")
 
     if not isinstance(key_value, dict):
-        ret["result"] = False
-        ret["comment"] = f" is no instance of dict"
-        return _error(ret, f"key_value must be a valid yaml dictionary, has value \'{key_value}\' and type \'{type(key_value)}\'")
+        return _error(ret, f"key_value must be a valid dictionary")
 
-    cmds = []
+    name_basename = os.path.basename(name)
+    file_path = name
 
+    if mgrctl == True:
+        file_path = f"/tmp/{name_basename}"
+        cmd = f"mgrctl cp server:{name} {file_path}"
+        cmd = cmd.replace('\n', '')
+        __salt__['cmd.run'](cmd)
+
+    changes = []
     for key in key_value:
-        cmd = f'grep -q "^{key} *=.*$" {name} && sed -i "s/^{key} *=.*/{key} = {key_value[key]}/" {name} || echo "{key} = {key_value[key]}" >> {name}'
-        cmds.append(cmd)
+        re_key = key
+        if regex_escape_keys:
+            re_key = re.escape(key)
+        repl_changes = __salt__["file.replace"](
+            file_path,
+            f"^{re_key} *=.*",
+            f"{key} = {key_value[key]}",
+            count=0,
+            flags=8,
+            bufsize=1,
+            append_if_not_found=True,
+            prepend_if_not_found=False,
+            not_found_content=None,
+            backup=".bak",
+            dry_run=__opts__["test"],
+            show_changes=True,
+            ignore_if_missing=False,
+            backslash_literal=False,
+        )
 
-    cmds = '; '.join(cmds)
+        changes.append(repl_changes)
 
-    if container_cmd != None:
-        cmds = f"{container_cmd} \'{cmds}\'"
+    "\n".join(changes)
+    ret["changes"]["diff"] = changes
+    if len(changes) > 0:
+        ret["result"] = True
+    else:
+        ret["result"] = None
 
-    cmds = cmds.replace('\n', '')
-
-    ret["result"] = True
-
-    ret_cmd_run = __salt__['state.single'](fun='cmd.run', name=cmds)
-
-    if ret_cmd_run["result"] == False:
-        return _error(ret, ret_cmd_run["comment"])
+    if mgrctl:
+        cmd = f"mgrctl cp {file_path} server:/etc/rhn/rhn.conf"
+        cmd = cmd.replace('\n', '')
+        __salt__['cmd.run'](cmd)
 
     return ret

@@ -5,6 +5,7 @@ get_rhn_conf:
   manage_config.manage_lines:
     - name: |
         /etc/rhn/rhn.conf
+    - regex_escape_keys: True
     - key_value:
         {% if grains.get('skip_changelog_import') %}
         package_import_skip_changelog: 1

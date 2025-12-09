@@ -2,7 +2,8 @@ write_rhn_conf:
   manage_config.manage_lines:
     - name: |
         /etc/rhn/rhn.conf
-    - container_cmd: "mgrctl exec"
+    - mgrctl: True
+    - regex_escape_keys: True
     - key_value:
         {% if grains.get('skip_changelog_import') %}
         package_import_skip_changelog: 1
@@ -34,11 +35,10 @@ write_rhn_conf:
         java.salt_presence_ping_timeout: 6
         {% endif %}
 
-        # see https://documentation.suse.com/multi-linux-manager/5.1/en/docs/administration/auditing.html#_oval
+        {# see https://documentation.suse.com/multi-linux-manager/5.1/en/docs/administration/auditing.html#_oval #}
         {% if grains.get('enable_oval_metadata') | default(false, true) %}
         java.cve_audit.enable_oval_metadata: true
         {% endif %}
-
 
 {% if 'nightly' in grains.get('product_version', '') %}
 change_web_version:
