@@ -138,7 +138,7 @@ tools_pool_repo:
 # Devel Tools Repos
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
   - refresh: True
   - priority: 98
 
