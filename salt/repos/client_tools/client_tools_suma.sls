@@ -101,6 +101,7 @@ tools_additional_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
     - refresh: True
     - priority: 98
+    - gpgcheck: 0
 
 {% endif %} {# '16' in grains['osrelease'] #}
 
