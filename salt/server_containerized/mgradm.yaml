@@ -11,13 +11,15 @@ scc:
 email: {{ grains.get("traceback_email") | default('galaxy-noise@suse.de', true) }}
 emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }}
 {%- if grains.get('container_repository') %}
-{%- if 'released' in grains['product_version'] %}
-registry: {{ grains.get('container_repository') }}
-{% else %}
+# WORKAROUND for https://bugzilla.suse.com/show_bug.cgi?id=1254589
+# This should be supported by mgradm install podman --config, but currently fails in 5.0.6 BV
+# {%- if 'released' in grains['product_version'] %}
+# registry: {{ grains.get('container_repository') }}
+# {% else %}
 registry:
   host: {{ grains.get('container_repository') }}
 {% endif %}
-{% endif %}
+# {% endif %}
 {%- if grains.get('container_image') %}
 image: {{ grains.get('container_image') }}
 {% endif %}
