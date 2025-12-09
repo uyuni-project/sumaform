@@ -37,7 +37,7 @@ locals {
 
 provider "libvirt" {
   alias = "host_arm"
-  uri   = "qemu+tcp://host_arm.mgr.suse.de/system"
+  uri   = "qemu+tcp://suma-arm.mgr.suse.de/system"
 }
 
 provider "feilong" {
