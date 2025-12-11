@@ -332,14 +332,6 @@ write_files: ${ files ~}
 zypper:
   repos:
 %{ if container_server ~}
-%{ if product_version == "head" ~}
-    - id: container_utils_repo
-      name: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-%{ endif ~}
 %{ if product_version == "5.0-nightly" ~}
     - id: container_utils_repo
       name: container_utils_repo
@@ -364,15 +356,6 @@ zypper:
 %{ endif ~}
 %{ endif ~}
 %{ if container_proxy ~}
-%{ if product_version == "head" ~}
-    - id: container_utils_repo
-      name: container_utils_repo
-#      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/SLE-Micro55/
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-%{ endif ~}
 %{ if product_version == "5.0-nightly" ~}
     - id: container_utils_repo
       name: container_utils_repo
@@ -425,7 +408,7 @@ zypper:
       gpgcheck: false
     - id: tools_pool_repo
       name: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
