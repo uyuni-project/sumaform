@@ -10,16 +10,16 @@
 {% if grains["osfullname"] == "SLES" -%}
 {# hpc is needed for libhttp_parser_2_7_1, required by libgit2 -#}
 {% for module in ["development_tools", "HPC", "containers" ] -%}
-{{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
+{{ sle15_module_repos(module, "dist.suse.de/ibs") }}
 {% endfor -%}
 {% if grains["osrelease_info"][1]|int >= 4 -%}
 {% for module in ["python3"] -%}
-{{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
+{{ sle15_module_repos(module, "dist.suse.de/ibs") }}
 {% endfor -%}
 {% endif -%}
 {% if grains["osrelease_info"][1]|int >= 6 -%}
 {% for module in ["systems_management"] -%}
-{{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
+{{ sle15_module_repos(module, "dist.suse.de/ibs") }}
 {% endfor -%}
 {% endif -%}
 
@@ -41,12 +41,12 @@
 {%- elif grains["osfullname"] == "SL-Micro" -%}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror")|default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror")|default("dist.suse.de/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
     - refresh: True
 {# REVIEW: Correct repo for 6.1? -#}
 alp_sources_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror")|default("dist.nue.suse.com/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
+    - baseurl: http://{{ grains.get("mirror")|default("dist.suse.de/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
     - refresh: True
 {% set repo_path = 'SLMicro' ~ grains['osrelease_info']|join %}
 

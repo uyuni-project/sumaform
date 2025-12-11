@@ -26,7 +26,7 @@ export BUILD_SOURCES="{{ grains.get('mirror') }}"
 {% if 'uyuni' in grains.get('product_version') | default('', true) %}
 export BUILD_SOURCES="downloadcontent.opensuse.org"
 {% else %}
-export BUILD_SOURCES="dist.nue.suse.com"
+export BUILD_SOURCES="dist.suse.de"
 {% endif %}
 {% endif %}
 

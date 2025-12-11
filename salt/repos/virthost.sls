@@ -18,12 +18,12 @@
 
 module_server_applications_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Server-Applications/{{ sle_version_path }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Server-Applications/{{ sle_version_path }}/x86_64/product/
     - refresh: True
 
 module_server_applications_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/{{ sle_version_path }}/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Server-Applications/{{ sle_version_path }}/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% endif %}

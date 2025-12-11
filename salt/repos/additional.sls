@@ -33,7 +33,7 @@
         Pin: origin download.opensuse.org
         Pin-Priority: 900
         Package: *
-        Pin: origin dist.nue.suse.com
+        Pin: origin dist.suse.de
         Pin-Priority: 850
     - unless: ls /etc/apt/preferences.d/sumaform_additional_repos
 {% endif %}

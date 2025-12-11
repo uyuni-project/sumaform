@@ -160,7 +160,7 @@ cloudinit-user-data-{{ os_type }}:
         - hostnamectl hostname {{ salt['grains.get']('hvm_disk_image:' ~ os_type ~ ':hostname') }}.{{ grains.get('domain') }}
 {% if os_type == 'sles' %}
         # add SLES 15 SP4 base repository
-        - zypper --non-interactive ar "http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
+        - zypper --non-interactive ar "http://dist.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
 {% elif os_type == 'leap' %}
         # add Leap 15.4 repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Leap 15.4
         # on the server to be able to onboard the nested VM

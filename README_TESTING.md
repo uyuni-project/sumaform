@@ -184,7 +184,7 @@ server = {
     mac = "AA:B2:93:00:00:60"
   }
   additional_repos = {
-    Test_repo = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
+    Test_repo = "http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
   }
   additional_packages = [ "vim" ]
 }

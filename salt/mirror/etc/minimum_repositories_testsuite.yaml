@@ -4,13 +4,13 @@ storage:
 
 http:
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/Ubuntu/20.04-CLIENT-TOOLS/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/Ubuntu/20.04-CLIENT-TOOLS/x86_64/update/
     archs: [amd64]
 
-  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/Ubuntu/22.04-CLIENT-TOOLS/x86_64/update/
+  - url: http://dist.suse.de/ibs/SUSE/Updates/Ubuntu/22.04-CLIENT-TOOLS/x86_64/update/
     archs: [amd64]
 
-  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/Ubuntu/24.04-CLIENT-TOOLS/x86_64/update/
+  - url: http://dist.suse.de/ibs/SUSE/Updates/Ubuntu/24.04-CLIENT-TOOLS/x86_64/update/
     archs: [amd64]
 
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
@@ -34,31 +34,31 @@ http:
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/12/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
+  - url:  http://dist.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/12/x86_64/product/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
+  - url:  http://dist.suse.de/ibs/SUSE/Products/SLE-Manager-Tools/15/x86_64/product/
     archs: [x86_64]
 
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/RES/7-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/RES/8-CLIENT-TOOLS/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/RES/8-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
-  - url: http://dist.nue.suse.com/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/product/
+  - url: http://dist.suse.de/ibs/SUSE/Products/RES/8-CLIENT-TOOLS/x86_64/product/
     archs: [ x86_64 ]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3/
@@ -67,20 +67,20 @@ http:
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/EL/9-CLIENT-TOOLS/x86_64/product/
+  - url:  http://dist.suse.de/ibs/SUSE/Products/EL/9-CLIENT-TOOLS/x86_64/product/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Updates/EL/9-CLIENT-TOOLS/x86_64/update/
+  - url:  http://dist.suse.de/ibs/SUSE/Updates/EL/9-CLIENT-TOOLS/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-15/x86_64/product/
+  - url:  http://dist.suse.de/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-15/x86_64/product/
     archs: [x86_64]
 
-  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-15/x86_64/update
+  - url: http://dist.suse.de/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-15/x86_64/update
     archs: [ x86_64 ]
 
-  - url:  http://dist.nue.suse.com/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-12/x86_64/product/
+  - url:  http://dist.suse.de/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-12/x86_64/product/
     archs: [x86_64]
 
-  - url: http://dist.nue.suse.com/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-12/x86_64/update/
+  - url: http://dist.suse.de/ibs/SUSE/Updates/MultiLinuxManagerTools/SLE-12/x86_64/update/
     archs: [ x86_64 ]
