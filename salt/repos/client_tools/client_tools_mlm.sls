@@ -125,6 +125,26 @@ tools_additional_repo:
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
+
+{% if '16' in grains['osrelease'] %}
+
+# Release Tools Repos
+tools_pool_repo:
+  pkgrepo.managed:
+    # TODO: Add "product" folder on the path, when have it released.
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
+    - refresh: True
+
+# Devel Tools Repos
+tools_additional_repo:
+  pkgrepo.managed:
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+  - refresh: True
+  - priority: 98
+  - gpgcheck: 0
+
+{% endif %} {# '16' in grains['osrelease'] #}
+
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 

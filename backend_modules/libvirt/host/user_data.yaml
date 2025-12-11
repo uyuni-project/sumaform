@@ -324,6 +324,33 @@ runcmd:
   - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
 %{ endif ~}
 %{ endif ~}
+  
+# TODO: ONCE AVAILABLE USE: /repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+%{ if image == "sles16o" ~}
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+runcmd:
+# WORKAROUND: cloud-init in SLES 16 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
+  - echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
+  - systemctl restart sshd
+%{ if install_salt_bundle ~}
+  - "zypper -n in venv-salt-minion avahi avahi-lang nss-mdns qemu-guest-agent iptables"
+%{ else ~}
+  - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
+%{ endif ~}
+%{ endif ~}
 
 %{ if image == "slemicro55o" ~}
 
@@ -552,8 +579,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      # TODO: change to Stable: when the tools are published
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
