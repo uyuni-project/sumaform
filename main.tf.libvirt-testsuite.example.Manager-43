@@ -76,7 +76,7 @@ module "cucumber_testsuite" {
   #      vcpu = 2
   #    }
   #    additional_repos = {
-  #      Test_repo = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP4/"
+  #      Test_repo = "http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP4/"
   #    }
   #    additional_packages = [ "vim" ]
   # }

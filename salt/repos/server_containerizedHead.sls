@@ -17,15 +17,15 @@ ca_suse_repo:
 
 containers_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP7/x86_64/product
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP7/x86_64/product
     - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP7/x86_64/product/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Containers/15-SP7/x86_64/product/repodata/repomd.xml.key
 
 containers_updates_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP7/x86_64/update
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP7/x86_64/update
     - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP7/x86_64/update/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Containers/15-SP7/x86_64/update/repodata/repomd.xml.key
 
 {% endif %}
 {% endif %}

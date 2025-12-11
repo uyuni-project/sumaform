@@ -73,26 +73,26 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 %{ endif } # end of image == "leapmicro55o" block
 
 %{ if image == "slmicro60o" }
-zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 
 # SL Micro 6.0 is being used in both Uyuni and SUSE Manager
 # we do not support yet Leap Micro 6.0, even in Uyuni
 %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ else }
-zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
 %{ endif }
 %{ endif } # end of image == "slmicro60o" block
 
 %{ if image == "slmicro61o" }
-  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
+  zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
 
 # SL Micro 6.1 is being used in both Uyuni and SUSE Manager
 # we do not support yet Leap Micro 6.1, even in Uyuni
   %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
     zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
   %{ else }
-    zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
+    zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
   %{ endif }
 
   %{ if container_server || container_proxy }
@@ -101,26 +101,26 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/P
     %{ else }
       %{ if product_version == "5.1-released" }
         %{ if container_server }
-          zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/Multi-Linux-Manager-Server/5.1/x86_64/product container_utils_repo
+          zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Server/5.1/x86_64/product container_utils_repo
         %{ endif }
         %{ if container_proxy }
-          zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/Multi-Linux-Manager-Proxy/5.1/x86_64/product/ container_utils_repo
+          zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Proxy/5.1/x86_64/product/ container_utils_repo
         %{ endif }
       %{ else }
         %{ if product_version == "5.1-nightly" }
           %{ if container_server }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
           %{ endif }
         %{ else }
           # HEAD
           %{ if container_server }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
         %{ endif }
       %{ endif }

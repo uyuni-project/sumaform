@@ -94,7 +94,7 @@ galaxy_repo_key_import:
       - file: galaxy_key_copy_host
 
 # needed for SL Micro maintenance updates coming from staging e.g.
-# https://dist.nue.suse.com/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
+# https://dist.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
 suse_staging_key_copy_host:
   file.managed:
     - name: /tmp/suse_staging.key
