@@ -23,12 +23,12 @@ write_rhn_conf:
         server.susemanager.forward_registration: 0
         {% endif %}
 
-        {% if grains.get('disable_auto_bootstrap') | default(true, true) %}
+        {% if grains.get('disable_auto_bootstrap') | default(false, true) %}
         server.susemanager.auto_generate_bootstrap_repo: 0
         {% endif %}
 
         {% if 'head' in grains.get('product_version', '') and grains.get('beta_enabled') %}
-        java.product_tree_tag: 0
+        java.product_tree_tag: Beta
         {% endif %}
 
         {% if grains.get('testsuite') | default(false, true) %}
@@ -55,9 +55,9 @@ oval_metadata_services_restart:
   cmd.run:
     - name: mgrctl exec systemctl restart tomcat taskomatic
     - watch:
-      - cmd: oval_metadata_enable_synchronization
+      - manage_config: write_rhn_conf
   - require:
-      - file: write_rhn_conf
+      - manage_config.manage_lines: write_rhn_conf
 {% endif %}
 
 rhn_conf_present:

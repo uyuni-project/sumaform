@@ -1,7 +1,6 @@
 import os
 import re
-import logging
-log = logging.getLogger(__name__)
+from salt.exceptions import CommandExecutionError
 
 def _error(ret, err_msg):
     ret["result"] = False
@@ -44,7 +43,7 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
     if not name:
         return _error(ret, "Must provide name to manage_config.manage_lines")
 
-    if key_value == None:
+    if key_value is None:
         return _error(ret, f"key_value is \'{key_value}\' and should be a valid yaml dict")
 
     if not isinstance(key_value, dict):
@@ -53,11 +52,13 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
     name_basename = os.path.basename(name)
     file_path = name
 
-    if mgrctl == True:
+    if mgrctl:
         file_path = f"/tmp/{name_basename}"
         cmd = f"mgrctl cp server:{name} {file_path}"
         cmd = cmd.replace('\n', '')
-        __salt__['cmd.run'](cmd)
+        result = __salt__['cmd.run'](cmd)
+        if result["retcode"] != 0:
+            raise CommandExecutionError(result["stderr"])
 
     changes = []
     for key in key_value:
@@ -83,7 +84,6 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
 
         changes.append(repl_changes)
 
-    "\n".join(changes)
     ret["changes"]["diff"] = changes
     if len(changes) > 0:
         ret["result"] = True
@@ -91,8 +91,10 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
         ret["result"] = None
 
     if mgrctl:
-        cmd = f"mgrctl cp {file_path} server:/etc/rhn/rhn.conf"
+        cmd = f"mgrctl cp {file_path} server:{name}"
         cmd = cmd.replace('\n', '')
         __salt__['cmd.run'](cmd)
+        if result["retcode"] != 0:
+            raise CommandExecutionError(result["stderr"])
 
     return ret

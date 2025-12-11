@@ -12,7 +12,7 @@ get_rhn_conf:
         {% endif %}
         java.max_changelog_entries: 3
         {% if grains.get('disable_download_tokens') %}
-        ava.salt_check_download_tokens: false
+        java.salt_check_download_tokens: false
         {% endif %}
         {% if grains.get('monitored') | default(false, true) %}
         prometheus_monitoring_enabled: true
@@ -79,7 +79,7 @@ rhn_conf_mirror:
 {% if grains.get('c3p0_connection_debug') | default(false, true) %}
 
 rhn_conf_c3p0_connection_debug:
-  file.repl:
+  file.replace:
     - name: /etc/rhn/rhn.conf
     - pattern: "^hibernate.c3p0.debugUnreturnedConnectionStackTraces *=.*"
     - repl: hibernate.c3p0.debugUnreturnedConnectionStackTraces = true
