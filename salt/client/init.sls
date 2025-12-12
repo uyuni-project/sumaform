@@ -12,8 +12,8 @@ wget:
 base_bootstrap_script:
   file.managed:
     - name: /root/bootstrap.sh
-    - source: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh
-    - source_hash: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh.sha512
+    - source: http://{{ grains['server'] }}/pub/bootstrap/bootstrap.sh
+    - source_hash: http://{{ grains['server'] }}/pub/bootstrap/bootstrap.sh.sha512
     - mode: 755
 
 bootstrap_script:
@@ -23,7 +23,7 @@ bootstrap_script:
     {% if grains['hostname'] and grains['domain'] %}
     - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
     {% else %}
-    - repl: PROFILENAME="{{grains['fqdn']}}"
+    - repl: PROFILENAME="{{ grains['fqdn'] }}"
     {% endif %}
     - require:
       - file: base_bootstrap_script
