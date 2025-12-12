@@ -56,7 +56,7 @@ oval_metadata_services_restart:
     - name: mgrctl exec systemctl restart tomcat taskomatic
     - watch:
       - manage_config: write_rhn_conf
-  - require:
+    - require:
       - manage_config.manage_lines: write_rhn_conf
 {% endif %}
 
