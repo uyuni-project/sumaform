@@ -6,7 +6,24 @@
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
+{% if '16' in grains['osrelease'] %}
+# On MLM, we use SLE channels for Leap.
+tools_pool_repo:
+  pkgrepo.managed:
+    # TODO: Add "product" folder on the path, when have it released.
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
+    - refresh: True
 
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+    - refresh: True
+    - priority: 98
+    - gpgcheck: 0
+
+{% endif %} {# if '16' in grains['osrelease'] #}
+
+{% if '15' in grains['osrelease'] %}
 tools_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/product/
@@ -16,6 +33,13 @@ tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
+    - refresh: True
+    - priority: 98
+    - gpgcheck: 0
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
@@ -27,9 +51,10 @@ beta_tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
-
 {% endif %} {# 'beta' in grains.get('product_version') #}
+{% endif %} {# if '15' in grains['osrelease'] #}
 {% endif %} {# grains['osfullname'] == 'Leap' #}
+
 {% if grains['osfullname'] == 'SLES' %}
 
 {% if '12' in grains['osrelease'] %}

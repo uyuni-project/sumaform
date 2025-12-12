@@ -7,12 +7,12 @@ os_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/distribution/leap/{{ grains['osrelease'] }}/repo/oss/
     - refresh: True
 
+{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
 os_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/oss/
     - refresh: True
 
-{% if grains['osrelease_info'][0] == 15 and grains['osrelease_info'][1] >= 3 %}
 sle_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/update/leap/{{ grains['osrelease'] }}/sle/
