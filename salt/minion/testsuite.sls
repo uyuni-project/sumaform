@@ -20,7 +20,7 @@ minion_cucumber_requisites:
 {% endif %}
 
 {% if grains['os'] == 'SUSE' %}
-{% if '12' in grains['osrelease'] or '15' in grains['osrelease']%}
+{% if grains['osrelease'] in ['12', '15', '16'] %}
 
 suse_minion_cucumber_requisites:
   pkg.installed:
@@ -53,9 +53,9 @@ update_ca_truststore:
 {% endif %}
 {% endif %}
 
-# WORKAROUND for not syncing openSUSE Leap 15.6 in the Uyuni CIs
+# WORKAROUND for not syncing openSUSE Leap 15.6 or Leap 16.0 in the Uyuni CIs
 # We need some dependencies for the package mgr-push, otherwise the installation in the test suite will fail
-{% if grains['osfullname'] == 'Leap' and grains['osrelease'] == '15.6' %}
+{% if grains['osfullname'] == 'Leap' and grains['osrelease'] in ['15.6', '16.0'] %}
 suse_minion_mgr_push_requisites:
   pkg.installed:
     - pkgs:
