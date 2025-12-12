@@ -29,8 +29,7 @@ minimal_package_update:
 {% else %}
       - salt-minion
 {% endif %}
-# WORKAROUND: don't update zypper and libzypp for opensuse leap 15.5 because the last zypper version is broken
-{% if grains['os_family'] == 'Suse' and grains['oscodename'] != 'openSUSE Leap 15.5' %}
+{% if grains['os_family'] == 'Suse' %}
       - zypper
       - libzypp
       # WORKAROUND: avoid a segfault on old versions

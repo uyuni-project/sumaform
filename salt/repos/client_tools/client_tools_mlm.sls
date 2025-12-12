@@ -6,26 +6,27 @@
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
+{% set leap_version = "SLE-" + grains['osrelease'].split('.')[0] %}
 
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/{{ leap_version }}/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/{{ leap_version }}/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/{{ leap_version }}/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 beta_tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/{{ leap_version }}/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% endif %} {# 'beta' in grains.get('product_version') #}
