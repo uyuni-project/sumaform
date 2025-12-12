@@ -18,7 +18,7 @@ include:
 file_swap:
   cmd.run:
     - name: |
-        {% if grains['os_family'] == 'RedHat' %}dd if=/dev/zero of=/extra_swapfile bs=1048576 count={{grains['swap_file_size']}}{% else %}fallocate --length {{grains['swap_file_size']}}MiB /extra_swapfile{% endif %}
+        {% if grains['os_family'] == 'RedHat' %}dd if=/dev/zero of=/extra_swapfile bs=1048576 count={{ grains['swap_file_size'] }}{% else %}fallocate --length {{ grains['swap_file_size'] }}MiB /extra_swapfile{% endif %}
         chmod 0600 /extra_swapfile
         mkswap /extra_swapfile
     - creates: /extra_swapfile

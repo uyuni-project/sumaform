@@ -9,7 +9,7 @@ include:
 {% endif %}
 
 {% set install_proxy_container_packages = false %}
-{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true)%}
+{% if grains.get('proxy_containerized') | default(false, true) or grains.get('testsuite') | default(false, true) %}
 {% if grains.get('product_version') | regex_match('(head|uyuni|4\.3).*') %}
     {% set install_proxy_container_packages = true %}
 {% endif %}
@@ -76,7 +76,7 @@ galaxy_key:
 
 proxy_client_tools_repo:
   pkgrepo.managed:
-    - baseurl: http://{{client_tools_repo}}
+    - baseurl: http://{{ client_tools_repo }}
     - refresh: True
 
 proxy-container-packages:
@@ -163,8 +163,8 @@ proxy_substitute_sslprotocols:
 base_bootstrap_script:
   file.managed:
     - name: /root/bootstrap.sh
-    - source: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh
-    - source_hash: http://{{grains['server']}}/pub/bootstrap/bootstrap.sh.sha512
+    - source: http://{{ grains['server'] }}/pub/bootstrap/bootstrap.sh
+    - source_hash: http://{{ grains['server'] }}/pub/bootstrap/bootstrap.sh.sha512
     - mode: 755
 
 bootstrap_script:
@@ -174,7 +174,7 @@ bootstrap_script:
     {% if grains['hostname'] and grains['domain'] %}
     - repl: PROFILENAME="{{ grains['hostname'] }}.{{ grains['domain'] }}"
     {% else %}
-    - repl: PROFILENAME="{{grains['fqdn']}}"
+    - repl: PROFILENAME="{{ grains['fqdn'] }}"
     {% endif %}
     - require:
       - file: base_bootstrap_script
@@ -193,9 +193,9 @@ bootstrap_script:
 internal-trusted-cert:
   file.managed:
     - name: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
-    - source: http://{{grains['server']}}/pub/RHN-ORG-TRUSTED-SSL-CERT
-    - source_hash: http://{{grains['server']}}/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
-    - requires:
+    - source: http://{{ grains['server'] }}/pub/RHN-ORG-TRUSTED-SSL-CERT
+    - source_hash: http://{{ grains['server'] }}/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512
+    - require:
       - pkg: proxy-packages
 
 ssl-build-directory:
@@ -206,25 +206,25 @@ ssl-building-trusted-cert:
   file.managed:
     - name: /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
     - source: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
-    - requires:
+    - require:
       - file: internal-trusted-cert
       - file: ssl-build-directory
 
 ssl-building-private-ssl-key:
   file.managed:
     - name: /root/ssl-build/RHN-ORG-PRIVATE-SSL-KEY
-    - source: http://{{grains['server']}}/pub/RHN-ORG-PRIVATE-SSL-KEY
-    - source_hash: http://{{grains['server']}}/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
-    - requires:
+    - source: http://{{ grains['server'] }}/pub/RHN-ORG-PRIVATE-SSL-KEY
+    - source_hash: http://{{ grains['server'] }}/pub/RHN-ORG-PRIVATE-SSL-KEY.sha512
+    - require:
       - pkg: proxy-packages
       - file: ssl-build-directory
 
 ssl-building-ca-configuration:
   file.managed:
     - name: /root/ssl-build/rhn-ca-openssl.cnf
-    - source: http://{{grains['server']}}/pub/rhn-ca-openssl.cnf
-    - source_hash: http://{{grains['server']}}/pub/rhn-ca-openssl.cnf.sha512
-    - requires:
+    - source: http://{{ grains['server'] }}/pub/rhn-ca-openssl.cnf
+    - source_hash: http://{{ grains['server'] }}/pub/rhn-ca-openssl.cnf.sha512
+    - require:
       - pkg: proxy-packages
       - file: ssl-build-directory
 
@@ -243,7 +243,7 @@ configure-proxy:
     - env:
       - SSL_PASSWORD: spacewalk
     - creates: /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT
-    - requires:
+    - require:
       - pkg: proxy-packages
       - file: /root/config-answers.txt
       - file: ssl-building-trusted-cert
