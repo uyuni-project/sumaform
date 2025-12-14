@@ -10,66 +10,76 @@ variable "platform_location_configuration" {
 
 variable location {
   type = string
-  description = "Platform location"
+  description = "Platform location, nue or slc1"
 }
 
 variable "cucumber_gitrepo" {
   type = string
-  default = "This is defined in product tfvars"
+  description = "Testsuite git repository"
 }
 
 variable "cucumber_branch" {
   type = string
-  default = "This is defined in product tfvars"
+  description = "Testsuite git branch"
+}
+
+variable "git_user" {
+  type = string
+  description = "Git user to access git repository"
+  default = null // Not needed for master, as it is public
+}
+
+variable "git_password" {
+  type = string
+  description = "Git user password to access git repository"
+  default = null // Not needed for master, as it is public
 }
 
 variable "scc_user" {
   type = string
+  description = "SCC user used as product organization"
 }
 
 variable "scc_password" {
   type = string
+  description = "SCC password used as product organization"
 }
 
 variable "scc_ptf_user" {
   type = string
+  description = "SCC user used for PTF Feature testing, only available for 5.1"
   default = null
   // Not needed for master, as PTFs are only build for SUSE Manager / MLM
 }
 
 variable "scc_ptf_password" {
   type = string
+  description = "SCC user used for PTF Feature testing, only available for 5.1"
   default = null
   // Not needed for master, as PTFs are only build for SUSE Manager / MLM
 }
 
 variable "server_container_repository" {
   type = string
+  description = "Server container registry path, not needed for 4.3"
   default = ""
 }
 
 variable "proxy_container_repository" {
   type = string
+  description = "Proxy container registry path, not needed for 4.3"
   default = ""
 }
 
 variable "server_container_image" {
   type = string
+  description = "Server container image, not needed for 4.3"
   default = ""
 }
 
 variable "zvm_admin_token" {
   type = string
-}
-
-variable "git_user" {
-  type = string
-  default = null // Not needed for master, as it is public
-}
-
-variable "git_password" {
-  type = string
-  default = null // Not needed for master, as it is public
+  description = "Admin token for Feilong provider"
 }
 
 variable "base_os" {
@@ -80,7 +90,6 @@ variable "base_os" {
 
 variable "product_version" {
   type        = string
-  description = "Product version"
 }
 
 variable "base_configurations" {
