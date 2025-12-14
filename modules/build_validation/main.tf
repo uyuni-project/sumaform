@@ -375,24 +375,6 @@ module "liberty9_minion" {
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
-// module "openeuler2403_minion" {
-//   providers = { libvirt = libvirt.host_retail }
-//   source
-//       = "../minion"
-//   count              = lookup(var.environment_configuration, "openeuler2403_minion", null) != null ? 1 : 0
-//   base_configuration = local.base_core
-//   name               = var.environment_configuration.openeuler2403_minion.name
-//   image              = "openeuler2403o"
-//   provider_settings = {
-//     mac                = var.environment_configuration.openeuler2403_minion.mac
-//     memory             = 4096
-//   }
-//   auto_connect_to_master  = false
-//
-//   use_os_released_updates = false
-//   ssh_key_path            = "./salt/controller/id_ed25519.pub"
-// }
-
 module "oracle9_minion" {
   providers = { libvirt = libvirt.host_res }
   source             = "../minion"
@@ -852,23 +834,6 @@ module "liberty9_sshminion" {
   use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
-
-// module "openeuler2403_sshminion" {
-//   providers = { libvirt = libvirt.host_res }
-//   source
-//   = "../sshminion"
-//   count              = lookup(var.environment_configuration, "openeuler2403_sshminion", null) != null ? 1 : 0
-//   base_configuration = local.base_res
-//   name               = var.environment_configuration.openeuler2403_sshminion.name
-//   image              = "openeuler2403o"
-//   provider_settings = {
-//     mac                = var.environment_configuration.openeuler2403_sshminion.mac
-//     memory             = 4096
-//   }
-//   use_os_released_updates = false
-//
-//   ssh_key_path            = "./salt/controller/id_ed25519.pub"
-// }
 
 module "oracle9_sshminion" {
   providers = { libvirt = libvirt.host_res }
