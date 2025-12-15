@@ -11,7 +11,7 @@ virthost_packages:
     - pkgs:
         {% if '15' in grains['osrelease'] %}
         - patterns-server-kvm_server
-        - python3-six  # WORKAROUND: missing virt-manager-common dependency
+        - python3-six # WORKAROUND: virt-manager-common dependency may be missing
         - libvirt-daemon-qemu
         {% elif grains['osfullname'] == 'Leap' %}
         - patterns-openSUSE-kvm_server
@@ -21,7 +21,6 @@ virthost_packages:
         - libvirt-client
         - qemu-tools
         - guestfs-tools
-        - tar # WORKAROUND: missing supermin tar dependency bsc#1134334
         - kernel-default
         - tuned
         - irqbalance
@@ -29,13 +28,7 @@ virthost_packages:
       - sls: repos
       - pkg: no_kernel_default_base
 
-# WORKAROUND for bsc#1181264
-{% if grains['osrelease'] == '15.3' %}
-no-50-xen-hvm-x86_64.json:
-  file.absent:
-    - name: /usr/share/qemu/firmware/50-xen-hvm-x86_64.json
-{% endif %}
-
+# overwrite the files with dummy ones, to avoid nested virtualization being detected
 fake_systemd_detect_virt:
   file.managed:
     - name: /usr/bin/systemd-detect-virt
@@ -47,6 +40,55 @@ fake_virt_what:
     - name: /usr/sbin/virt-what
     - mode: 655
     - contents: "# Fake from sumaform to mock physical machine"
+
+# refer to https://documentation.suse.com/sles/15-SP7/html/SLES-all/cha-libvirt-overview.html#libvirt-switch-daemons
+# modular daemons are not supported by SUMA/MLM, we want to switch back to libvirtd (monolithic daemon)
+{% if grains['osrelease'] != '15.4' %}
+
+libvirtd_packages:
+  pkg.installed:
+    - pkgs:
+      - libvirt-daemon
+
+{% set modular_daemons = ['qemu', 'network', 'nodedev', 'nwfilter', 'secret', 'storage'] %}
+{% set monolithic_sockets = ['libvirtd.socket', 'libvirtd-ro.socket', 'libvirtd-admin.socket'] %}
+
+{% for daemon in modular_daemons %}
+# stop and disable the modular daemons
+stop_virt{{ daemon }}d_service:
+  service.dead:
+    - name: virt{{ daemon }}d.service
+    - enable: False
+
+{% for suffix in ['', '-ro', '-admin'] %}
+stop_virt{{ daemon }}d{{ suffix }}_socket:
+  service.dead:
+    - name: virt{{ daemon }}d{{ suffix }}.socket
+    - enable: False
+{% endfor %}
+{% endfor %}
+
+# restore monolithic service
+libvirt_monolithic_service_enable:
+  service.enabled:
+    - name: libvirtd.service
+
+libvirt_monolithic_sockets_enable:
+  service.enabled:
+    - names: {{ monolithic_sockets }}
+
+libvirt_monolithic_start_sockets:
+  service.running:
+    - names: {{ monolithic_sockets }}
+    - require:
+      - service: libvirt_monolithic_service_enable
+      - service: libvirt_monolithic_sockets_enable
+
+{% endif %}
+
+libvirt_daemon_reload:
+  cmd.run:
+    - name: systemctl daemon-reload
 
 ifcfg-eth0:
   file.managed:
