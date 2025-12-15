@@ -29,7 +29,7 @@ evil_minions_systemd_configuration:
   file.replace:
     - name: /etc/systemd/system/salt-minion.service.d/override.conf
     - pattern: ExecStart=(.+)
-    - repl: ExecStart=/usr/bin/evil-minions --count {{grains['evil_minion_count']}} --slowdown-factor {{grains['evil_minion_slowdown_factor']}} --id-prefix {{grains.get('hostname') | default('evil', true)}}
+    - repl: ExecStart=/usr/bin/evil-minions --count {{ grains['evil_minion_count'] }} --slowdown-factor {{ grains['evil_minion_slowdown_factor'] }} --id-prefix {{ grains.get('hostname') | default('evil', true) }}
 
 reload_systemd_modules:
   module.run:
@@ -56,7 +56,7 @@ master_configuration:
     - name: /etc/salt/minion.d/master.conf
     {% endif %}
     - contents: |
-        master: {{grains['server']}}
+        master: {{ grains['server'] }}
         server_id_use_crc: adler32
         enable_legacy_startup_events: False
         enable_fqdns_grains: False
