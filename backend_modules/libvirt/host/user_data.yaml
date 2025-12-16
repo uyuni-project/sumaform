@@ -10,9 +10,8 @@ chpasswd:
 %{ if image == "tumbleweedo" ~}
 zypper:
   repos:
-    # switch to "Stable" as soon as it exist
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
