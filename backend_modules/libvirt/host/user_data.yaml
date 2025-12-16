@@ -169,16 +169,27 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" ~}
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse155-ci-pro" ~}
+
 zypper:
   repos:
     - id: tools_pool_repo
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+%{ endif ~}
+%{ if image == "opensuse160o" ~}
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
 
 runcmd:
+%{ if image == "opensuse160o" ~}
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+  - echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
+  - systemctl restart sshd
+%{ endif ~}
 %{ if container_server && testsuite ~}
   # Packages needed for the testsuite
   - "zypper -n in expect"

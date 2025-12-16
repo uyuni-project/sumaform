@@ -7,14 +7,13 @@
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
-
+{% set leap_version = grains['osrelease'].split('.')[0] %}
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_{{ leap_version }}-Uyuni-Client-Tools/openSUSE_Leap_{{ leap_version }}.0/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_/Leap_15.0/repodata/repomd.xml.key
-
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_{{ leap_version }}-Uyuni-Client-Tools/openSUSE_Leap_{{ leap_version }}.0/repodata/repomd.xml.key
 {% endif %} {# grains['osfullname'] == 'Leap' #}
 {% if grains['osfullname'] == 'SLES' %}
 

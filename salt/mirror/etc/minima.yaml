@@ -264,6 +264,8 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.6/sle
     archs: [x86_64,aarch64]
+  - url: http://download.opensuse.org/distribution/leap/16.0/repo/oss
+    archs: [x86_64]
 
   # Testsuite dummy packages for testing repo
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
@@ -284,16 +286,20 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.6
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_16.0
+    archs: [x86_64]
   # Jenkins
   - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.5
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.6
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/16.0
+    archs: [x86_64]
 
   # Uyuni Master
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Leap_15.6/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Tumbleweed/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_15.6/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Tumbleweed/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-x86_64-Media1/
     archs: [x86_64]
@@ -306,6 +312,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     archs: [x86_64]
@@ -323,9 +331,11 @@ http:
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/
     archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
+    archs: [amd64]
 
   # Uyuni Stable
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Leap_15.6/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Tumbleweed/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-x86_64-Media1/
     archs: [x86_64]
@@ -336,6 +346,8 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
     archs: [x86_64]
@@ -352,4 +364,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
     archs: [amd64]
