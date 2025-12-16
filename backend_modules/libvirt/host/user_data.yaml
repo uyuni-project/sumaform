@@ -23,21 +23,6 @@ zypper:
       enabled: 1
       autorefresh: 1
       gpgcheck: false
-%{ if container_server || container_proxy ~}
-%{ if product_version == "uyuni-master" || product_version == "uyuni-pr" ~}
-    - id: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Tumbleweed/
-      enabled: true
-      gpgcheck: false
-      name: container_utils_repo
-%{ else ~}
-    - id: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Tumbleweed/
-      enabled: true
-      gpgcheck: false
-      name: container_utils_repo
-%{ endif ~}
-%{ endif ~}
 
 runcmd:
    # openssh-server-config-rootlogin is required to allow ssh root login with SELinux enabled
@@ -52,6 +37,7 @@ runcmd:
 %{ endif ~}
   - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin which ca-certificates ca-certificates-suse
   - systemctl restart sshd
+# end of Tumbleweed block
 %{ endif ~}
 
 %{ if image == "centos7o" ~}
