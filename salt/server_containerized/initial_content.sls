@@ -22,13 +22,29 @@ mgr_sync_automatic_authentication:
 
 {% endif %}
 
+wait_for_api_ready:
+  cmd.run:
+    - name: |
+        until mgrctl exec "curl -s -k --fail http://localhost/rpc/api" >/dev/null 2>&1; do
+          echo "Waiting for Uyuni API to initialize..."
+          sleep 15
+        done
+    - timeout: 600
+    - require:
+      - cmd: mgradm_install
+
 scc_data_refresh:
+{% if grains.get('cc_username') %}
   cmd.script:
     - name: salt://server_containerized/wait_for_mgr_sync.sh
     - use_vt: True
     - args: "{{ server_username }} {{ server_password }}"
+{% else %}
+  test.nop:
+    - name: "Skipping SCC sync, no credentials provided"
+{% endif %}
     - require:
-      - cmd: mgradm_install
+      - cmd: wait_for_api_ready
 
 {% if grains.get('channels') %}
 add_channels:
