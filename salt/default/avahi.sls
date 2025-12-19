@@ -94,27 +94,51 @@ mdns_declare_domains:
       - .local
       - .tf.local
 
+# Logic for enabling mdns in nsswitch
+{% if salt['file.directory_exists']('/etc/nsswitch.conf.d') %}
+nsswitch_mdns_dropin:
+  file.managed:
+    - name: /etc/nsswitch.conf.d/99-sumaform.conf
+    - contents: |
+        # Added by sumaform to ensure mDNS works with local files
+        hosts: files mdns4 dns
+    - makedirs: True
+{% else %}
 nsswitch_enable_mdns:
   file.replace:
     - name: /etc/nsswitch.conf
     - pattern: "(hosts: .*?)mdns([46]?)_minimal(.*)"
     - repl: "\\1mdns4\\3"
+    - onlyif: test -f /etc/nsswitch.conf
+{% endif %}
 
 avahi_enable_service:
   service.running:
     - name: avahi-daemon
     - require:
       - file: mdns_declare_domains
+      {% if salt['file.directory_exists']('/etc/nsswitch.conf.d') %}
+      - file: nsswitch_mdns_dropin
+      {% else %}
       - file: nsswitch_enable_mdns
+      {% endif %}
     - enable: true
 
 {% else %} # use_avahi is false
 
+# Logic for disabling mdns in nsswitch
+{% if salt['file.directory_exists']('/etc/nsswitch.conf.d') %}
+nsswitch_mdns_dropin_absent:
+  file.absent:
+    - name: /etc/nsswitch.conf.d/99-sumaform.conf
+{% else %}
 nsswitch_disable_mdns:
   file.replace:
     - name: /etc/nsswitch.conf
     - pattern: "(hosts: .*?)mdns([46]?)_minimal \\[NOTFOUND=return\\](.*)"
     - repl: "\\1\\3"
+    - onlyif: test -f /etc/nsswitch.conf
+{% endif %}
 
 avahi_disable_service:
   service.dead:
