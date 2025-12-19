@@ -7,22 +7,39 @@ apache2_service_stopped:
     - name: apache2
     - enable: False
 
-# Install Apache SSL package (needed for certificate generation tools)
 apache2_ssl_package:
+{% if grains['os_family'] == 'Suse' %}
+  # Install Apache SSL package (needed for certificate generation tools)
   pkg.installed:
     - name: apache2-mod_nss
+{% else %}
+  # Enable SSL module (needed for certificate generation tools)
+  cmd.run:
+    - name: a2enmod ssl
+{% endif %}
 
 # Generate Self-Signed Certificate (used by Python script)
 self_signed_cert:
   cmd.run:
     - name: |
         openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+{% if grains['os_family'] == 'Suse' %}
         -keyout /etc/apache2/ssl.key/selfsigned.key \
         -out /etc/apache2/ssl.crt/selfsigned.crt \
+{% else %}
+        -keyout /etc/ssl/private/selfsigned.key \
+        -out /etc/ssl/certs/selfsigned.crt \
+{% endif %}
         -subj '/CN={{ server_name }}/O=Controller/OU=Testsuite'
+{% if grains['os_family'] == 'Debian' %}
+    - unless: test -f /etc/ssl/certs/selfsigned.crt
+    - require:
+      - cmd: apache2_ssl_package
+{% else %}
     - unless: test -f /etc/apache2/ssl.crt/selfsigned.crt
     - require:
       - pkg: apache2_ssl_package
+{% endif %}
 
 # Manage the Python Script file
 https_python_script_file:
