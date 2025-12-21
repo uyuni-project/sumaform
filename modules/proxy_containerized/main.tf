@@ -45,6 +45,7 @@ module "proxy_containerized" {
     auto_configure            = var.auto_configure
     container_runtime         = var.runtime
     container_repository      = var.container_repository
+    string_registry           = var.string_registry
     httpd_container_image     = var.httpd_container_image
     salt_broker_container_image = var.salt_broker_container_image
     squid_container_image     = var.squid_container_image

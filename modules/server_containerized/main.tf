@@ -78,6 +78,7 @@ module "server_containerized" {
     auto_accept                    = var.auto_accept
     disable_auto_bootstrap         = var.disable_auto_bootstrap
     large_deployment               = var.large_deployment
+    string_registry                = var.string_registry
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
     enable_oval_metadata           = var.enable_oval_metadata
