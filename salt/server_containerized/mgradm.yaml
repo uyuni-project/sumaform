@@ -16,11 +16,12 @@ emailFrom: {{ grains.get("from_email") | default('galaxy-noise@suse.de', true) }
 {# {%- if 'released' in grains['product_version'] %}                                           #}
 {# registry: {{ grains.get('container_repository') }}                                          #}
 {# {% else %}                                                                                  #}
-{% if grains.get('string_registry') | default(false, true) %}
+  {% if grains.get('string_registry') | default(false, true) %}
 registry: {{ grains.get('container_repository') }}
-{% else %}
+  {% else %}
 registry:
   host: {{ grains.get('container_repository') }}
+  {% endif %}
 {% endif %}
 {# {% endif %}                                                                                 #}
 {%- if grains.get('container_image') %}
