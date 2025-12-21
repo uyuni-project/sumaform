@@ -53,10 +53,10 @@ config_proxy_containerized:
     - contents: |
         {% if container_repository %}
         {% if grains.get('string_registry') | default(false, true) %}
-        registry: { { grains.get('container_repository') } }
+        registry: {{ container_repository }}
         {% else %}
         registry:
-          host: {{ grains.get('container_repository') }}
+          host: {{ container_repository }}
         {% endif %}
         {% endif %}
         httpd:
