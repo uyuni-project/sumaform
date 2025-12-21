@@ -28,6 +28,12 @@ variable "httpd_container_image" {
   default = ""
 }
 
+variable "string_registry" {
+  description = "set the registry in string variable in mgradm.yaml"
+  type        = bool
+  default     = false
+}
+
 variable "salt_broker_container_image" {
   description = "Salt broker Proxy container image name. Don't setup for default image."
   default = ""

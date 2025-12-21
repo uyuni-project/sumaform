@@ -52,11 +52,11 @@ config_proxy_containerized:
     - name: /etc/uyuni/uyuni-tools.yaml
     - contents: |
         {% if container_repository %}
-        {%- if 'released' in grains['product_version'] %}
-        registry: {{ container_repository }}
+        {% if grains.get('string_registry') | default(false, true) %}
+        registry: { { grains.get('container_repository') } }
         {% else %}
         registry:
-          host: {{ container_repository }}
+          host: {{ grains.get('container_repository') }}
         {% endif %}
         {% endif %}
         httpd:
