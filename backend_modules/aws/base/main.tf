@@ -86,7 +86,6 @@ locals {
       sles12sp5                       = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp5-paygo                 = { ami = data.aws_ami.sles12sp5-paygo.image_id },
       rocky8                          = { ami = data.aws_ami.rocky8.image_id, ssh_user = "rocky" },
-      ubuntu2004                      = { ami = data.aws_ami.ubuntu2004.image_id, ssh_user = "ubuntu" },
       ubuntu2204                      = { ami = data.aws_ami.ubuntu2204.image_id, ssh_user = "ubuntu" },
       ubuntu2404                      = { ami = data.aws_ami.ubuntu2404.image_id, ssh_user = "ubuntu" },
       rhel8                           = { ami = data.aws_ami.rhel8.image_id},

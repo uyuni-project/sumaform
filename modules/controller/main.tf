@@ -136,8 +136,6 @@ module "controller" {
     rocky9_sshminion         = length(var.rocky9_sshminion_configuration["hostnames"]) > 0 ? var.rocky9_sshminion_configuration["hostnames"][0] : null
     amazon2023_minion        = length(var.amazon2023_minion_configuration["hostnames"]) > 0 ? var.amazon2023_minion_configuration["hostnames"][0] : null
     amazon2023_sshminion     = length(var.amazon2023_sshminion_configuration["hostnames"]) > 0 ? var.amazon2023_sshminion_configuration["hostnames"][0] : null
-    ubuntu2004_minion        = length(var.ubuntu2004_minion_configuration["hostnames"]) > 0 ? var.ubuntu2004_minion_configuration["hostnames"][0] : null
-    ubuntu2004_sshminion     = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
     ubuntu2204_minion        = length(var.ubuntu2204_minion_configuration["hostnames"]) > 0 ? var.ubuntu2204_minion_configuration["hostnames"][0] : null
     ubuntu2204_sshminion     = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
     ubuntu2404_minion        = length(var.ubuntu2404_minion_configuration["hostnames"]) > 0 ? var.ubuntu2404_minion_configuration["hostnames"][0] : null
