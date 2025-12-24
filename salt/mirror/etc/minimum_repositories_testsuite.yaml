@@ -4,16 +4,10 @@ storage:
 
 http:
 
-  - url:  http://dist.suse.de/ibs/SUSE/Updates/Ubuntu/20.04-CLIENT-TOOLS/x86_64/update/
-    archs: [amd64]
-
   - url: http://dist.suse.de/ibs/SUSE/Updates/Ubuntu/22.04-CLIENT-TOOLS/x86_64/update/
     archs: [amd64]
 
   - url: http://dist.suse.de/ibs/SUSE/Updates/Ubuntu/24.04-CLIENT-TOOLS/x86_64/update/
-    archs: [amd64]
-
-  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/
     archs: [amd64]
 
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/

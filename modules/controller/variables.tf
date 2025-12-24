@@ -538,20 +538,6 @@ variable "amazon2023_sshminion_configuration" {
   }
 }
 
-variable "ubuntu2004_minion_configuration" {
-  description = "use module.<UBUNTU2004_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "ubuntu2004_sshminion_configuration" {
-  description = "use module.<UBUNTU2004_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "ubuntu2204_minion_configuration" {
   description = "use module.<UBUNTU2204_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
