@@ -340,6 +340,12 @@ variable "large_deployment" {
   default     = true
 }
 
+variable "string_registry" {
+  description = "set the registry in string variable in mgradm.yaml"
+  type        = bool
+  default     = false
+}
+
 variable "enable_oval_metadata" {
   description = "synchronize OVAL data"
   type        = bool
