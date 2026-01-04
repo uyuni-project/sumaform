@@ -119,6 +119,7 @@ module "server_containerized" {
   container_image      = var.server_container_image
   main_disk_size       = 100
 
+  string_registry                = var.environment_configuration.server_containerized.string_registry
   repository_disk_size           = 3072
   database_disk_size             = 150
   container_tag                  = "latest"
@@ -157,6 +158,7 @@ module "proxy" {
     mac    = var.environment_configuration.proxy.mac
     memory = 4096
   }
+  string_registry           = var.environment_configuration.proxy_containerized.string_registry
   auto_register             = false
   auto_connect_to_master    = false
   download_private_ssl_key  = false
