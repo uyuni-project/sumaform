@@ -7,8 +7,8 @@ terraform {
       configuration_aliases = [
         libvirt.host_old_sle, # For SLES 12
         libvirt.host_new_sle, # For SLES 15/Micro
-        libvirt.host_res,     # For Alma/Rocky/CentOS/Oracle
-        libvirt.host_debian,  # For Ubuntu/Debian
+        libvirt.host_rhlike,  # For Alma/Rocky/CentOS/Oracle
+        libvirt.host_deblike, # For Ubuntu/Debian
         libvirt.host_retail,  # For Proxy/BuildHosts/Terminals
         libvirt.host_arm
       ]
