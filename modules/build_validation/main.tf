@@ -2,8 +2,8 @@ locals {
   base_core = var.module_base_configurations["default"]
   base_old_sle = lookup(var.module_base_configurations, "old_sle", local.base_core)
   base_new_sle = lookup(var.module_base_configurations, "new_sle", local.base_core)
-  base_res     = lookup(var.module_base_configurations, "res",     local.base_core)
-  base_debian  = lookup(var.module_base_configurations, "debian",  local.base_core)
+  host_rhlike  = lookup(var.module_base_configurations, "rhlike",  local.base_core)
+  host_deblike = lookup(var.module_base_configurations, "deblike", local.base_core)
   base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
@@ -296,10 +296,10 @@ module "sles15sp7_minion" {
 }
 
 module "alma8_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "alma8_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma8_minion.name
   image              = "almalinux8o"
   provider_settings = {
@@ -312,10 +312,10 @@ module "alma8_minion" {
 }
 
 module "alma9_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "alma9_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma9_minion.name
   image              = "almalinux9o"
   provider_settings = {
@@ -328,10 +328,10 @@ module "alma9_minion" {
 }
 
 module "amazon2023_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "amazon2023_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.amazon2023_minion.name
   image              = "amazonlinux2023o"
   provider_settings = {
@@ -344,10 +344,10 @@ module "amazon2023_minion" {
 }
 
 module "centos7_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "centos7_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.centos7_minion.name
   image              = "centos7o"
   provider_settings = {
@@ -360,10 +360,10 @@ module "centos7_minion" {
 }
 
 module "liberty9_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "liberty9_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.liberty9_minion.name
   image              = "libertylinux9o"
   provider_settings = {
@@ -376,10 +376,10 @@ module "liberty9_minion" {
 }
 
 module "oracle9_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "oracle9_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.oracle9_minion.name
   image              = "oraclelinux9o"
   provider_settings = {
@@ -392,10 +392,10 @@ module "oracle9_minion" {
 }
 
 module "rocky8_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "rocky8_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky8_minion.name
   image              = "rocky8o"
   provider_settings = {
@@ -408,10 +408,10 @@ module "rocky8_minion" {
 }
 
 module "rocky9_minion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "rocky9_minion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky9_minion.name
   image              = "rocky9o"
   provider_settings = {
@@ -424,10 +424,10 @@ module "rocky9_minion" {
 }
 
 module "ubuntu2204_minion" {
-  providers = { libvirt = libvirt.host_debian }
+  providers = { libvirt = libvirt.host_deblike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "ubuntu2204_minion", null) != null ? 1 : 0
-  base_configuration = local.base_debian
+  base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2204_minion.name
   image              = "ubuntu2204o"
   provider_settings = {
@@ -440,10 +440,10 @@ module "ubuntu2204_minion" {
 }
 
 module "ubuntu2404_minion" {
-  providers = { libvirt = libvirt.host_debian }
+  providers = { libvirt = libvirt.host_deblike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "ubuntu2404_minion", null) != null ? 1 : 0
-  base_configuration = local.base_debian
+  base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2404_minion.name
   image              = "ubuntu2404o"
   provider_settings = {
@@ -456,10 +456,10 @@ module "ubuntu2404_minion" {
 }
 
 module "debian12_minion" {
-  providers = { libvirt = libvirt.host_debian }
+  providers = { libvirt = libvirt.host_deblike }
   source             = "../minion"
   count              = lookup(var.environment_configuration, "debian12_minion", null) != null ? 1 : 0
-  base_configuration = local.base_debian
+  base_configuration = local.host_deblike
   name               = var.environment_configuration.debian12_minion.name
   image              = "debian12o"
   provider_settings = {
@@ -760,10 +760,10 @@ module "sles15sp7_sshminion" {
 }
 
 module "alma8_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "alma8_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma8_sshminion.name
   image              = "almalinux8o"
   provider_settings = {
@@ -775,10 +775,10 @@ module "alma8_sshminion" {
 }
 
 module "alma9_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "alma9_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma9_sshminion.name
   image              = "almalinux9o"
   provider_settings = {
@@ -790,10 +790,10 @@ module "alma9_sshminion" {
 }
 
 module "amazon2023_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "amazon2023_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.amazon2023_sshminion.name
   image              = "amazonlinux2023o"
   provider_settings = {
@@ -805,10 +805,10 @@ module "amazon2023_sshminion" {
 }
 
 module "centos7_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "centos7_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.centos7_sshminion.name
   image              = "centos7o"
   provider_settings = {
@@ -821,10 +821,10 @@ module "centos7_sshminion" {
 
 
 module "liberty9_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "liberty9_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.liberty9_sshminion.name
   image              = "libertylinux9o"
   provider_settings = {
@@ -836,10 +836,10 @@ module "liberty9_sshminion" {
 }
 
 module "oracle9_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "oracle9_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.oracle9_sshminion.name
   image              = "oraclelinux9o"
   provider_settings = {
@@ -851,10 +851,10 @@ module "oracle9_sshminion" {
 }
 
 module "rocky8_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "rocky8_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky8_sshminion.name
   image              = "rocky8o"
   provider_settings = {
@@ -867,10 +867,10 @@ module "rocky8_sshminion" {
 }
 
 module "rocky9_sshminion" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "rocky9_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky9_sshminion.name
   image              = "rocky9o"
   provider_settings = {
@@ -882,10 +882,10 @@ module "rocky9_sshminion" {
 }
 
 module "ubuntu2204_sshminion" {
-  providers = { libvirt = libvirt.host_debian }
+  providers = { libvirt = libvirt.host_deblike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "ubuntu2204_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_debian
+  base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2204_sshminion.name
   image              = "ubuntu2204o"
   provider_settings = {
@@ -897,10 +897,10 @@ module "ubuntu2204_sshminion" {
 }
 
 module "ubuntu2404_sshminion" {
-  providers = { libvirt = libvirt.host_debian }
+  providers = { libvirt = libvirt.host_deblike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "ubuntu2404_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_debian
+  base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2404_sshminion.name
   image              = "ubuntu2404o"
   provider_settings = {
@@ -912,10 +912,10 @@ module "ubuntu2404_sshminion" {
 }
 
 module "debian12_sshminion" {
-  providers = { libvirt = libvirt.host_debian }
+  providers = { libvirt = libvirt.host_deblike }
   source             = "../sshminion"
   count              = lookup(var.environment_configuration, "debian12_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_debian
+  base_configuration = local.host_deblike
   name               = var.environment_configuration.debian12_sshminion.name
   image              = "debian12o"
   provider_settings = {
@@ -1069,10 +1069,10 @@ module "sles15sp7_client" {
 }
 
 module "centos7_client" {
-  providers = { libvirt = libvirt.host_res }
+  providers = { libvirt = libvirt.host_rhlike }
   source             = "../client"
   count              = lookup(var.environment_configuration, "centos7_client", null) != null ? 1 : 0
-  base_configuration = local.base_res
+  base_configuration = local.host_rhlike
   name               = var.environment_configuration.centos7_client.name
   image              = "centos7o"
   provider_settings = {
