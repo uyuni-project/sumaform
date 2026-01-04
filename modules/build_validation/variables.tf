@@ -92,7 +92,7 @@ variable "product_version" {
 
 variable "base_configurations" {
   type        = map(any)
-  description = "Map of base configurations. Mandatory keys: default. Optional: old_sle, new_sle, res, debian, retail, arm, s390."
+  description = "Map of base configurations. Mandatory keys: default. Optional: old_sle, new_sle, deblike, rhlike, retail, arm, s390."
 }
 
 variable "module_base_configurations" {
