@@ -158,7 +158,6 @@ module "proxy" {
     mac    = var.environment_configuration.proxy.mac
     memory = 4096
   }
-  string_registry           = var.environment_configuration.proxy_containerized.string_registry
   auto_register             = false
   auto_connect_to_master    = false
   download_private_ssl_key  = false
@@ -184,6 +183,7 @@ module "proxy_containerized" {
     mac    = var.environment_configuration.proxy_containerized.mac
     memory = 4096
   }
+  string_registry      = var.environment_configuration.proxy_containerized.string_registry
   runtime              = "podman"
   container_repository = var.proxy_container_repository
   container_tag        = "latest"
