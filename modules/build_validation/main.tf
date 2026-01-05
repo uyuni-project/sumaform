@@ -534,26 +534,6 @@ module "salt_migration_minion" {
   install_salt_bundle     = false
 }
 
-module "slemicro51_minion" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../minion"
-  count              = lookup(var.environment_configuration, "slemicro51_minion", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.slemicro51_minion.name
-  image              = "slemicro51-ign"
-  provider_settings = {
-    mac    = var.environment_configuration.slemicro51_minion.mac
-    memory = 2048
-  }
-
-  auto_connect_to_master  = false
-  use_os_released_updates = false
-  ssh_key_path            = "./salt/controller/id_ed25519.pub"
-
-  // WORKAROUND: Does not work in sumaform, yet
-  install_salt_bundle = false
-}
-
 module "slemicro52_minion" {
   providers = { libvirt = libvirt.host_new_sle }
   source             = "../minion"
@@ -1091,23 +1071,6 @@ module "centos7_client" {
 }
 
 //  WORKAROUND until https://bugzilla.suse.com/show_bug.cgi?id=1208045 gets fixed
-// module "slemicro51_sshminion" {
-//   providers = { libvirt = libvirt.new_sle }
-//   source             = "../sshminion"
-//   count              = lookup(var.environment_configuration, "slemicro51_sshminion", null) != null ? 1 : 0
-//   base_configuration = local.base_new_sle
-//   name               = var.environment_configuration.slemicro51_sshminion.name
-//   image              = "slemicro51-ign"
-//   provider_settings = {
-//     mac                = var.environment_configuration.slemicro51_sshminion.mac
-//     memory             = 2048
-//   }
-//   use_os_released_updates = false
-//
-//   ssh_key_path            = "./salt/controller/id_ed25519.pub"
-// }
-
-//  WORKAROUND until https://bugzilla.suse.com/show_bug.cgi?id=1208045 gets fixed
 // module "slemicro52_sshminion" {
 //   providers = { libvirt = libvirt.new_sle }
 //   source             = "../sshminion"
@@ -1418,7 +1381,6 @@ module "controller" {
 
   salt_migration_minion_configuration = length(module.salt_migration_minion) > 0 ? module.salt_migration_minion[0].configuration : local.empty_minion_config
 
-  slemicro51_minion_configuration = length(module.slemicro51_minion) > 0 ? module.slemicro51_minion[0].configuration : local.empty_minion_config
   slemicro52_minion_configuration = length(module.slemicro52_minion) > 0 ? module.slemicro52_minion[0].configuration : local.empty_minion_config
   slemicro53_minion_configuration = length(module.slemicro53_minion) > 0 ? module.slemicro53_minion[0].configuration : local.empty_minion_config
   slemicro54_minion_configuration = length(module.slemicro54_minion) > 0 ? module.slemicro54_minion[0].configuration : local.empty_minion_config
