@@ -36,6 +36,7 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
                 java.max_changelog_entries: 3
     """
 
+    # Workaround to remove invisible trailing character
     name = name.rstrip()
 
     ret = {"name": name, "result": True, "changes": {}, "comment": ""}
@@ -49,10 +50,9 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
     if not isinstance(key_value, dict):
         return _error(ret, f"key_value must be a valid dictionary")
 
-    name_basename = os.path.basename(name)
     file_path = name
     if mgrctl:
-        file_path = f"/tmp/{name_basename}"
+        file_path = f"/tmp/{os.path.basename(name)}"
         cmd = f"mgrctl cp server:{name} {file_path}"
         cmd = cmd.replace('\n', '')
         __salt__['cmd.run'](cmd)
@@ -81,8 +81,8 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
 
         changes.append(repl_changes)
 
-    ret["changes"]["diff"] = changes
     if len(changes) > 0:
+        ret["changes"]["diff"] = changes
         ret["result"] = True
     else:
         ret["result"] = None
