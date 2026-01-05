@@ -82,7 +82,7 @@ rhn_conf_c3p0_connection_debug:
   file.replace:
     - name: /etc/rhn/rhn.conf
     - pattern: "^hibernate.c3p0.debugUnreturnedConnectionStackTraces *=.*"
-    - repl: hibernate.c3p0.debugUnreturnedConnectionStackTraces = true
+    - repl: hibernate\.c3p0\.debugUnreturnedConnectionStackTraces = true
     - append_if_not_found: True
     - require:
       - sls: server
