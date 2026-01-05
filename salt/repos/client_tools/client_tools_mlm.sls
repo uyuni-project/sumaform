@@ -14,6 +14,8 @@ tools_pool_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
     - refresh: True
 
+# Devel Tools Repos
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 tools_additional_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
@@ -21,6 +23,7 @@ tools_additional_repo:
     - priority: 98
     - gpgcheck: 0
 
+{% endif %} {# 'nightly' in grains.get('product_version')#}
 {% endif %} {# if '16' in grains['osrelease'] #}
 
 {% if '15' in grains['osrelease'] %}
@@ -34,13 +37,6 @@ tools_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
-tools_additional_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
-    - refresh: True
-    - priority: 98
-    - gpgcheck: 0
-
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
   pkgrepo.managed:
@@ -52,6 +48,18 @@ beta_tools_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 {% endif %} {# 'beta' in grains.get('product_version') #}
+
+# Devel Tools Repos
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+    - refresh: True
+    - priority: 98
+    - gpgcheck: 0
+{% endif %} {# 'nightly' in grains.get('product_version')#}
+
 {% endif %} {# if '15' in grains['osrelease'] #}
 {% endif %} {# grains['osfullname'] == 'Leap' #}
 
