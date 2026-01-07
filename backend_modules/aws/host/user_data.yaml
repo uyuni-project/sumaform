@@ -10,6 +10,15 @@ chpasswd:
     root:linux
 %{ endif ~}
 
+%{ if image == "tumbleweedo" ~}
+runcmd:
+%{ if install_salt_bundle ~}
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else ~}
+  - zypper in --allow-vendor-change --no-confirm salt-minion
+%{ endif ~}
+%{ endif ~}
+
 %{ if image == "opensuse156o" ~}
 # WORKAROUND: install latest libzypp to prevent signature verification errors
 runcmd:

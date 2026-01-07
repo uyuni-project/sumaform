@@ -124,6 +124,48 @@ data "aws_ami" "sles15sp6o" {
   }
 }
 
+data "aws_ami" "sles15sp7-paygo" {
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp7-v[0-9]*-hvm"
+  owners      = ["013907871322"] // aws-marketplace
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles15sp7o" {
+  most_recent = true
+  name_regex  = "^suse-sles-15-sp7-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 // EMEA offers
 data "aws_ami" "suma-server-50-x86_64-ltd-paygo" {
   most_recent = true
