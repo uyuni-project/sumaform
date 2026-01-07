@@ -263,7 +263,7 @@ data "aws_ami" "suma-proxy-50-x86_64-byos" {
 
 data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
   most_recent = true
-  name_regex  = "^suse-manager-server-5-1-v[0-9].*(ltd).*$"
+  name_regex  = "^suse-multi-linux-manager-server-5-1-v[0-9].*(ltd).*$"
   owners      = ["679593333241"]
 
   filter {
@@ -290,7 +290,7 @@ data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
 
 data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
   most_recent = true
-  name_regex  = "^suse-manager-server-5-1-v[0-9].*(ltd).*$"
+  name_regex  = "^suse-multi-linux-manager-server-5-1-v[0-9].*(ltd).*$"
   owners      = ["679593333241"]
 
   filter {
@@ -316,7 +316,7 @@ data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
 
 data "aws_ami" "smlm-proxy-51-arm64-byos" {
   most_recent = true
-  name_regex  = "^suse-manager-proxy-5-1-byos-v"
+  name_regex  = "^suse-multi-linux-manager-proxy-5-1-byos-v"
   owners      = ["679593333241"]
 
   filter {
@@ -343,7 +343,7 @@ data "aws_ami" "smlm-proxy-51-arm64-byos" {
 
 data "aws_ami" "smlm-proxy-51-x86_64-byos" {
   most_recent = true
-  name_regex  = "^suse-manager-proxy-5-1-byos-v"
+  name_regex  = "^suse-multi-linux-manager-proxy-5-1-byos-v"
   owners      = ["679593333241"]
 
   filter {
