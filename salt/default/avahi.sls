@@ -99,6 +99,7 @@ nsswitch_enable_mdns:
     - name: /etc/nsswitch.conf
     - pattern: "(hosts: .*?)mdns([46]?)_minimal(.*)"
     - repl: "\\1mdns4\\3"
+    - onlyif: test -f /etc/nsswitch.conf
 
 avahi_enable_service:
   service.running:
@@ -115,6 +116,7 @@ nsswitch_disable_mdns:
     - name: /etc/nsswitch.conf
     - pattern: "(hosts: .*?)mdns([46]?)_minimal \\[NOTFOUND=return\\](.*)"
     - repl: "\\1\\3"
+    - onlyif: test -f /etc/nsswitch.conf
 
 avahi_disable_service:
   service.dead:
