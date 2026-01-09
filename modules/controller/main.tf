@@ -16,6 +16,10 @@ variable "testsuite-branch" {
   }
 }
 
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "controller" {
   source = "../host"
 
@@ -30,15 +34,17 @@ module "controller" {
   connect_to_base_network       = true
   connect_to_additional_network = false
   roles                         = ["controller"]
-  product_version               = var.product_version
+  product_version               = local.product_version
   grains = {
-    cc_username  = var.base_configuration["cc_username"]
-    cc_password  = var.base_configuration["cc_password"]
-    git_username = var.git_username
-    git_password = var.git_password
-    git_repo     = var.git_repo
-    branch       = var.branch == "default" ? var.testsuite-branch[var.base_configuration["product_version"]] : var.branch
-    mirror       = var.no_mirror == true ? null :  var.base_configuration["mirror"]
+    cc_username     = var.base_configuration["cc_username"]
+    cc_password     = var.base_configuration["cc_password"]
+    cc_ptf_username = var.cc_ptf_username
+    cc_ptf_password = var.cc_ptf_password
+    git_username    = var.git_username
+    git_password    = var.git_password
+    git_repo        = var.git_repo
+    branch          = var.branch == "default" ? var.testsuite-branch[var.base_configuration["product_version"]] : var.branch
+    mirror          = var.no_mirror == true ? null :  var.base_configuration["mirror"]
 
     server            = var.server_configuration["hostname"]
     proxy             = var.proxy_configuration["hostname"]
@@ -64,6 +70,7 @@ module "controller" {
     is_using_build_image      = var.is_using_build_image
     is_using_scc_repositories = var.is_using_scc_repositories
     server_instance_id        = var.server_instance_id
+    product_version           = local.product_version
     container_runtime         = lookup(var.server_configuration, "runtime", "")
     catch_timeout_message     = var.catch_timeout_message
     beta_enabled              = var.beta_enabled
@@ -92,6 +99,8 @@ module "controller" {
     sle15sp7_client          = length(var.sle15sp7_client_configuration["hostnames"]) > 0 ? var.sle15sp7_client_configuration["hostnames"][0] : null
     sle15sp7_minion          = length(var.sle15sp7_minion_configuration["hostnames"]) > 0 ? var.sle15sp7_minion_configuration["hostnames"][0] : null
     sle15sp7_sshminion       = length(var.sle15sp7_sshminion_configuration["hostnames"]) > 0 ? var.sle15sp7_sshminion_configuration["hostnames"][0] : null
+    sle16_minion             = length(var.sle16_minion_configuration["hostnames"]) > 0 ? var.sle16_minion_configuration["hostnames"][0] : null
+    sle16_sshminion          = length(var.sle16_sshminion_configuration["hostnames"]) > 0 ? var.sle16_sshminion_configuration["hostnames"][0] : null
     slemicro51_minion        = length(var.slemicro51_minion_configuration["hostnames"]) > 0 ? var.slemicro51_minion_configuration["hostnames"][0] : null
     slemicro51_sshminion     = length(var.slemicro51_sshminion_configuration["hostnames"]) > 0 ? var.slemicro51_sshminion_configuration["hostnames"][0] : null
     slemicro52_minion        = length(var.slemicro52_minion_configuration["hostnames"]) > 0 ? var.slemicro52_minion_configuration["hostnames"][0] : null
@@ -127,20 +136,20 @@ module "controller" {
     rocky9_sshminion         = length(var.rocky9_sshminion_configuration["hostnames"]) > 0 ? var.rocky9_sshminion_configuration["hostnames"][0] : null
     amazon2023_minion        = length(var.amazon2023_minion_configuration["hostnames"]) > 0 ? var.amazon2023_minion_configuration["hostnames"][0] : null
     amazon2023_sshminion     = length(var.amazon2023_sshminion_configuration["hostnames"]) > 0 ? var.amazon2023_sshminion_configuration["hostnames"][0] : null
-    ubuntu2004_minion        = length(var.ubuntu2004_minion_configuration["hostnames"]) > 0 ? var.ubuntu2004_minion_configuration["hostnames"][0] : null
-    ubuntu2004_sshminion     = length(var.ubuntu2004_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2004_sshminion_configuration["hostnames"][0] : null
     ubuntu2204_minion        = length(var.ubuntu2204_minion_configuration["hostnames"]) > 0 ? var.ubuntu2204_minion_configuration["hostnames"][0] : null
     ubuntu2204_sshminion     = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
     ubuntu2404_minion        = length(var.ubuntu2404_minion_configuration["hostnames"]) > 0 ? var.ubuntu2404_minion_configuration["hostnames"][0] : null
     ubuntu2404_sshminion     = length(var.ubuntu2404_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2404_sshminion_configuration["hostnames"][0] : null
     debian12_minion          = length(var.debian12_minion_configuration["hostnames"]) > 0 ? var.debian12_minion_configuration["hostnames"][0] : null
     debian12_sshminion       = length(var.debian12_sshminion_configuration["hostnames"]) > 0 ? var.debian12_sshminion_configuration["hostnames"][0] : null
-    sle12sp5_buildhost       = length(var.sle12sp5_buildhost_configuration["hostnames"]) > 0 ? var.sle12sp5_buildhost_configuration["hostnames"][0] : null
-    sle12sp5_terminal_mac    = var.sle12sp5_terminal_configuration["private_mac"]
     sle15sp3_buildhost       = length(var.sle15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp3_buildhost_configuration["hostnames"][0] : null
     sle15sp3_terminal_mac    = var.sle15sp3_terminal_configuration["private_mac"]
     sle15sp4_buildhost       = length(var.sle15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp4_buildhost_configuration["hostnames"][0] : null
     sle15sp4_terminal_mac    = var.sle15sp4_terminal_configuration["private_mac"]
+    sle15sp6_buildhost       = length(var.sle15sp6_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp6_buildhost_configuration["hostnames"][0] : null
+    sle15sp6_terminal_mac    = var.sle15sp6_terminal_configuration["private_mac"]
+    sle15sp7_buildhost       = length(var.sle15sp7_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp7_buildhost_configuration["hostnames"][0] : null
+    sle15sp7_terminal_mac    = var.sle15sp7_terminal_configuration["private_mac"]
     opensuse155arm_minion    = length(var.opensuse155arm_minion_configuration["hostnames"]) > 0 ? var.opensuse155arm_minion_configuration["hostnames"][0] : null
     opensuse155arm_sshminion = length(var.opensuse155arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse155arm_sshminion_configuration["hostnames"][0] : null
     opensuse156arm_minion    = length(var.opensuse156arm_minion_configuration["hostnames"]) > 0 ? var.opensuse156arm_minion_configuration["hostnames"][0] : null

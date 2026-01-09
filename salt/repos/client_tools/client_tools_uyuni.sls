@@ -1,20 +1,19 @@
 {# These states set up client tools repositories for all supported OSes #}
-{% if not grains.get('product_version') or grains.get('product_version').startswith('uyuni-') %}
-{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles')) %}
+{% if 'uyuni' in grains.get('product_version') | default('', true) %}
+{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles') and 'controller' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
 {% set uyuni_version = 'Master' if grains.get('product_version', '') == 'uyuni-master' else 'Stable' %}
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
-
+{% set leap_version = grains['osrelease'].split('.')[0] %}
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_{{ leap_version }}-Uyuni-Client-Tools/openSUSE_Leap_{{ leap_version }}.0/
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_/Leap_15.0/repodata/repomd.xml.key
-
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_{{ leap_version }}-Uyuni-Client-Tools/openSUSE_Leap_{{ leap_version }}.0/repodata/repomd.xml.key
 {% endif %} {# grains['osfullname'] == 'Leap' #}
 {% if grains['osfullname'] == 'SLES' %}
 
@@ -53,6 +52,29 @@ tools_update_repo:
 {% endif %}
 
 {% endif %} {# '15' in grains['osrelease'] #}
+
+{% if '16' in grains['osrelease'] %}
+
+# TODO: Uncomment when released
+#tools_pool_repo:
+#  pkgrepo.managed:
+#    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+#    - refresh: True
+
+{% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    # TODO: Review why still not available
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/repodata/repomd.xml.key
+
+{% endif %}
+
+{% endif %} {# '16' in grains['osrelease'] #}
+
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 

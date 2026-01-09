@@ -10,11 +10,16 @@
 {% if grains["osfullname"] == "SLES" -%}
 {# hpc is needed for libhttp_parser_2_7_1, required by libgit2 -#}
 {% for module in ["development_tools", "HPC", "containers" ] -%}
-{{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
+{{ sle15_module_repos(module, "dist.suse.de/ibs") }}
 {% endfor -%}
+{% if grains["osrelease_info"][1]|int >= 4 -%}
+{% for module in ["python3"] -%}
+{{ sle15_module_repos(module, "dist.suse.de/ibs") }}
+{% endfor -%}
+{% endif -%}
 {% if grains["osrelease_info"][1]|int >= 6 -%}
-{% for module in ["python3", "systems_management"] -%}
-{{ sle15_module_repos(module, "dist.nue.suse.com/ibs") }}
+{% for module in ["systems_management"] -%}
+{{ sle15_module_repos(module, "dist.suse.de/ibs") }}
 {% endfor -%}
 {% endif -%}
 
@@ -36,12 +41,12 @@
 {%- elif grains["osfullname"] == "SL-Micro" -%}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror")|default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror")|default("dist.suse.de/ibs", true) }}/SUSE/Products/SL-Micro/{{ grains['osrelease'] }}/x86_64/product/
     - refresh: True
 {# REVIEW: Correct repo for 6.1? -#}
 alp_sources_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror")|default("dist.nue.suse.com/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
+    - baseurl: http://{{ grains.get("mirror")|default("dist.suse.de/ibs", true) }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/
     - refresh: True
 {% set repo_path = 'SLMicro' ~ grains['osrelease_info']|join %}
 
@@ -112,8 +117,7 @@ docker_installed:
     - pkgs: {{ to_install }}
 {% endif %}  
 
-{# TODO: pre-install all Python flavors #}
-{% set to_install = ["python3-salt-testsuite", "python3-salt-test", "python3-salt"] -%}
+{% set to_install = ["python3*-salt-testsuite", "python3*-salt-test", "python3*-salt"] -%}
 {% if grains["transactional"] -%}
 {# FIXME: transactional_update.call currently drops --local
 salt_testsuite_installed:
@@ -121,15 +125,14 @@ salt_testsuite_installed:
     - transactional_update.call:
       - pkg.install
       - pkgs: {{ to_install }}
-      - resolve_capabilities: true
-      - fromrepo: salt_testing_repo
+      - fromrepo: [salt_testing_repo, salt_testsuite_dependencies_repo]
       - requires:
         - pkgrepo: salt_testing_repo
         - pkgrepo: salt_testsuite_dependencies_repo
 -#}
 salt_testsuite_installed:
   cmd.run:
-    - name: transactional-update --continue --non-interactive --drop-if-no-change pkg install --capability --from salt_testing_repo {{ to_install|join(" ")}}
+    - name: transactional-update --continue --non-interactive --drop-if-no-change pkg install --from salt_testing_repo --from salt_testsuite_dependencies_repo {{ to_install|join(" ")}}
     - requires:
         - pkgrepo: salt_testing_repo
         - pkgrepo: salt_testsuite_dependencies_rep
@@ -138,15 +141,14 @@ salt_testsuite_installed:
 salt_testsuite_installed:
   pkg.installed:
     - pkgs: {{ to_install }}
-    - resolve_capabilities: true
-    - fromrepo: salt_testing_repo
+    - fromrepo: [salt_testing_repo, salt_testsuite_dependencies_repo]
     - require:
       - pkgrepo: salt_testing_repo
       - pkgrepo: salt_testsuite_dependencies_repo
 -#}
 salt_testsuite_installed:
   cmd.run:
-    - name: zypper --non-interactive install --capability --from salt_testing_repo {{ to_install|join(" ") }}
+    - name: zypper --non-interactive install --from salt_testing_repo --from salt_testsuite_dependencies_repo {{ to_install|join(" ") }}
     - require:
       - pkgrepo: salt_testing_repo
       - pkgrepo: salt_testsuite_dependencies_repo
@@ -177,3 +179,9 @@ update_buggy_m2crypto_version:
   pkg.latest:
     - name: python3-M2Crypto
 {% endif %}
+
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] in ["15.4", "15.5"] -%}
+update_libexpat1_version:
+  pkg.latest:
+    - name: libexpat1
+{% endif -%}

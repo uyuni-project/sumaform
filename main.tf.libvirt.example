@@ -1,9 +1,9 @@
 terraform {
- required_version = "1.0.10"
+ required_version = ">= 1.6.0"
  required_providers {
    libvirt = {
      source = "dmacvicar/libvirt"
-     version = "0.8.1"
+     version = "0.8.3"
    }
  }
 }
@@ -33,7 +33,7 @@ module "base" {
   //   pool = "default"
   // }
 
-  images = ["opensuse155o", "leapmicro55o"]
+  images = ["opensuse156o", "tumbleweedo"]
 }
 
 module "server" {
@@ -51,6 +51,10 @@ module "server" {
 
   // To override the default container repository containing the images
   // container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/containers/uyuni"
+
+  // To override the default images names for Server and Database containers
+  // container_image = "server"
+  // db_container_image = "server-postgresql"
 
   // To define a specific container image tag to install
   // container_tag = 

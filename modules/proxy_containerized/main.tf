@@ -5,9 +5,9 @@ variable "images" {
     "5.0-nightly"    = "slemicro55o"
     "5.1-released"   = "slmicro61o"
     "5.1-nightly"    = "slmicro61o"
-    "uyuni-master"   = "leapmicro55o"
-    "uyuni-released" = "leapmicro55o"
-    "uyuni-pr"       = "leapmicro55o"
+    "uyuni-master"   = "tumbleweedo"
+    "uyuni-released" = "tumbleweedo"
+    "uyuni-pr"       = "tumbleweedo"
   }
 }
 
@@ -36,6 +36,7 @@ module "proxy_containerized" {
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
   provision                     = var.provision
+  product_version               = local.product_version
 
   grains = {
     server                    = var.server_configuration["hostname"]
@@ -44,6 +45,12 @@ module "proxy_containerized" {
     auto_configure            = var.auto_configure
     container_runtime         = var.runtime
     container_repository      = var.container_repository
+    string_registry           = var.string_registry
+    httpd_container_image     = var.httpd_container_image
+    salt_broker_container_image = var.salt_broker_container_image
+    squid_container_image     = var.squid_container_image
+    ssh_container_image       = var.ssh_container_image
+    tftpd_container_image     = var.tftpd_container_image
     container_tag             = var.container_tag
     helm_chart_url            = var.helm_chart_url # Not yet implemented in sumaform salt states
     mirror                    = var.base_configuration["mirror"]

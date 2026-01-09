@@ -7,9 +7,9 @@ variable "images" {
     "5.0-nightly"    = "slemicro55o"
     "5.1-released"   = "slmicro61o"
     "5.1-nightly"    = "slmicro61o"
-    "uyuni-master"   = "leapmicro55o"
-    "uyuni-released" = "leapmicro55o"
-    "uyuni-pr"       = "leapmicro55o"
+    "uyuni-master"   = "tumbleweedo"
+    "uyuni-released" = "tumbleweedo"
+    "uyuni-pr"       = "tumbleweedo"
   }
 }
 
@@ -43,6 +43,7 @@ module "server_containerized" {
   additional_disk_size          = var.repository_disk_size
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
+  product_version               = local.product_version
 
   grains = {
     container_runtime              = var.runtime
@@ -77,8 +78,10 @@ module "server_containerized" {
     auto_accept                    = var.auto_accept
     disable_auto_bootstrap         = var.disable_auto_bootstrap
     large_deployment               = var.large_deployment
+    string_registry                = var.string_registry
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
+    enable_oval_metadata           = var.enable_oval_metadata
   }
 }
 
@@ -89,6 +92,7 @@ output "configuration" {
     username           = var.server_username
     password           = var.server_password
     runtime            = var.runtime
+    product_version    = local.product_version
     first_user_present = true
   }
 }

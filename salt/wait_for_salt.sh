@@ -1,7 +1,8 @@
 #!/bin/bash
 
+echo "Waiting for cloud-init to finish VM setup"
+
 if [ -x /usr/bin/cloud-init ]; then
-    # Wait for cloud-init to finish
     NEXT_TRY=0
     until [ $NEXT_TRY -eq 50 ] || ! cloud-init status | grep running
     do

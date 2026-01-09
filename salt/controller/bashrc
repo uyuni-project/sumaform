@@ -26,7 +26,7 @@ export BUILD_SOURCES="{{ grains.get('mirror') }}"
 {% if 'uyuni' in grains.get('product_version') | default('', true) %}
 export BUILD_SOURCES="downloadcontent.opensuse.org"
 {% else %}
-export BUILD_SOURCES="dist.nue.suse.com"
+export BUILD_SOURCES="dist.suse.de"
 {% endif %}
 {% endif %}
 
@@ -54,6 +54,8 @@ export BUILD_SOURCES="dist.nue.suse.com"
 {% if grains.get('sle15sp7_client') | default(false, true) %}export SLE15SP7_CLIENT="{{ grains.get('sle15sp7_client') }}" {% else %}# no SLE15SP7 client defined {% endif %}
 {% if grains.get('sle15sp7_minion') | default(false, true) %}export SLE15SP7_MINION="{{ grains.get('sle15sp7_minion') }}" {% else %}# no SLE15SP7 minion defined {% endif %}
 {% if grains.get('sle15sp7_sshminion') | default(false, true) %}export SLE15SP7_SSHMINION="{{ grains.get('sle15sp7_sshminion') }}" {% else %}# no SLE15SP7 ssh minion defined {% endif %}
+{% if grains.get('sle16_minion') | default(false, true) %}export SLE16_MINION="{{ grains.get('sle16_minion') }}" {% else %}# no SLE16 minion defined {% endif %}
+{% if grains.get('sle16_sshminion') | default(false, true) %}export SLE16_SSHMINION="{{ grains.get('sle16_sshminion') }}" {% else %}# no SLE16 ssh minion defined {% endif %}
 {% if grains.get('slemicro51_minion') | default(false, true) %}export SLEMICRO51_MINION="{{ grains.get('slemicro51_minion') }}" {% else %}# no SLEMICRO51 minion defined {% endif %}
 {% if grains.get('slemicro51_sshminion') | default(false, true) %}export SLEMICRO51_SSHMINION="{{ grains.get('slemicro51_sshminion') }}" {% else %}# no SLEMICRO51 ssh minion defined {% endif %}
 {% if grains.get('slemicro52_minion') | default(false, true) %}export SLEMICRO52_MINION="{{ grains.get('slemicro52_minion') }}" {% else %}# no SLEMICRO52 minion defined {% endif %}
@@ -89,20 +91,20 @@ export BUILD_SOURCES="dist.nue.suse.com"
 {% if grains.get('rocky9_sshminion') | default(false, true) %}export ROCKY9_SSHMINION="{{ grains.get('rocky9_sshminion') }}" {% else %}# no ROCKY9 ssh minion defined {% endif %}
 {% if grains.get('amazon2023_minion') | default(false, true) %}export AMAZON2023_MINION="{{ grains.get('amazon2023_minion') }}" {% else %}# no AMAZON2023 minion defined {% endif %}
 {% if grains.get('amazon2023_sshminion') | default(false, true) %}export AMAZON2023_SSHMINION="{{ grains.get('amazon2023_sshminion') }}" {% else %}# no AMAZON2023 ssh minion defined {% endif %}
-{% if grains.get('ubuntu2004_minion') | default(false, true) %}export UBUNTU2004_MINION="{{ grains.get('ubuntu2004_minion') }}" {% else %}# no UBUNTU2004 minion defined {% endif %}
-{% if grains.get('ubuntu2004_sshminion') | default(false, true) %}export UBUNTU2004_SSHMINION="{{ grains.get('ubuntu2004_sshminion') }}" {% else %}# no UBUNTU2004 ssh minion defined {% endif %}
 {% if grains.get('ubuntu2204_minion') | default(false, true) %}export UBUNTU2204_MINION="{{ grains.get('ubuntu2204_minion') }}" {% else %}# no UBUNTU2204 minion defined {% endif %}
 {% if grains.get('ubuntu2204_sshminion') | default(false, true) %}export UBUNTU2204_SSHMINION="{{ grains.get('ubuntu2204_sshminion') }}" {% else %}# no UBUNTU2204 ssh minion defined {% endif %}
 {% if grains.get('ubuntu2404_minion') | default(false, true) %}export UBUNTU2404_MINION="{{ grains.get('ubuntu2404_minion') }}" {% else %}# no UBUNTU2404 minion defined {% endif %}
 {% if grains.get('ubuntu2404_sshminion') | default(false, true) %}export UBUNTU2404_SSHMINION="{{ grains.get('ubuntu2404_sshminion') }}" {% else %}# no UBUNTU2404 ssh minion defined {% endif %}
 {% if grains.get('debian12_minion') | default(false, true) %}export DEBIAN12_MINION="{{ grains.get('debian12_minion') }}" {% else %}# no DEBIAN12 minion defined {% endif %}
 {% if grains.get('debian12_sshminion') | default(false, true) %}export DEBIAN12_SSHMINION="{{ grains.get('debian12_sshminion') }}" {% else %}# no DEBIAN12 ssh minion defined {% endif %}
-{% if grains.get('sle15sp4_buildhost') | default(false, true) %}export SLE15SP4_BUILDHOST="{{ grains.get('sle15sp4_buildhost') }}" {% else %}# no SLE15SP4 buildhost defined {% endif %}
-{% if grains.get('sle15sp4_terminal_mac') | default(false, true) %}export SLE15SP4_TERMINAL_MAC="{{ grains.get('sle15sp4_terminal_mac') }}" {% else %}# no SLE15SP4 terminal MAC defined {% endif %}
 {% if grains.get('sle15sp3_buildhost') | default(false, true) %}export SLE15SP3_BUILDHOST="{{ grains.get('sle15sp3_buildhost') }}" {% else %}# no SLE15SP3 buildhost defined {% endif %}
 {% if grains.get('sle15sp3_terminal_mac') | default(false, true) %}export SLE15SP3_TERMINAL_MAC="{{ grains.get('sle15sp3_terminal_mac') }}" {% else %}# no SLE15SP3 terminal MAC defined {% endif %}
-{% if grains.get('sle12sp5_buildhost') | default(false, true) %}export SLE12SP5_BUILDHOST="{{ grains.get('sle12sp5_buildhost') }}" {% else %}# no SLE12SP5 buildhost defined {% endif %}
-{% if grains.get('sle12sp5_terminal_mac') | default(false, true) %}export SLE12SP5_TERMINAL_MAC="{{ grains.get('sle12sp5_terminal_mac') }}" {% else %}# no SLE12SP5 terminal MAC defined {% endif %}
+{% if grains.get('sle15sp4_buildhost') | default(false, true) %}export SLE15SP4_BUILDHOST="{{ grains.get('sle15sp4_buildhost') }}" {% else %}# no SLE15SP4 buildhost defined {% endif %}
+{% if grains.get('sle15sp4_terminal_mac') | default(false, true) %}export SLE15SP4_TERMINAL_MAC="{{ grains.get('sle15sp4_terminal_mac') }}" {% else %}# no SLE15SP4 terminal MAC defined {% endif %}
+{% if grains.get('sle15sp6_buildhost') | default(false, true) %}export SLE15SP6_BUILDHOST="{{ grains.get('sle15sp6_buildhost') }}" {% else %}# no SLE15SP6 buildhost defined {% endif %}
+{% if grains.get('sle15sp7_buildhost') | default(false, true) %}export SLE15SP7_BUILDHOST="{{ grains.get('sle15sp7_buildhost') }}" {% else %}# no SLE15SP7 buildhost defined {% endif %}
+{% if grains.get('sle15sp6_terminal_mac') | default(false, true) %}export SLE15SP6_TERMINAL_MAC="{{ grains.get('sle15sp6_terminal_mac') }}" {% else %}# no SLE15SP6 terminal MAC defined {% endif %}
+{% if grains.get('sle15sp7_terminal_mac') | default(false, true) %}export SLE15SP7_TERMINAL_MAC="{{ grains.get('sle15sp7_terminal_mac') }}" {% else %}# no SLE15SP7 terminal MAC defined {% endif %}
 {% if grains.get('opensuse155arm_minion') | default(false, true) %}export OPENSUSE155ARM_MINION="{{ grains.get('opensuse155arm_minion') }}" {% else %}# no OPENSUSE155ARM minion defined {% endif %}
 {% if grains.get('opensuse155arm_sshminion') | default(false, true) %}export OPENSUSE155ARM_SSHMINION="{{ grains.get('opensuse155arm_sshminion') }}" {% else %}# no OPENSUSE155ARM ssh minion defined {% endif %}
 {% if grains.get('opensuse156arm_minion') | default(false, true) %}export OPENSUSE156ARM_MINION="{{ grains.get('opensuse156arm_minion') }}" {% else %}# no OPENSUSE156ARM minion defined {% endif %}
@@ -112,7 +114,9 @@ export BUILD_SOURCES="dist.nue.suse.com"
 
 # various test suite settings
 export GITPROFILES="{{ grains.get('git_profiles_repo') }}"
-{% if grains.get('cc_username') | default(false, true) %}export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}" {% else %}# no SCC Credentials defined {% endif %}
+{% if grains.get('cc_username') | default(false, true) %}export SCC_CREDENTIALS="{{ grains.get('cc_username') }}|{{ grains.get('cc_password') }}" {% else %}# no SCC credentials defined {% endif %}
+{% if grains.get('cc_ptf_username') | default(false, true) %}export SCC_PTF_USER="{{ grains.get('cc_ptf_username') }}" {% else %}# no SCC PTF credentials defined {% endif %}
+{% if grains.get('cc_ptf_password') | default(false, true) %}export SCC_PTF_PASSWORD="{{ grains.get('cc_ptf_password') }}" {% else %}# no SCC PTF credentials defined {% endif %}
 export AUTH_REGISTRY_CREDENTIALS="{{ grains.get('auth_registry_username') }}|{{ grains.get('auth_registry_password') }}"
 {% if grains.get('auth_registry') | default(false, true) %}export AUTH_REGISTRY="{{ grains.get('auth_registry') }}" {% else %}# no authenticated registry defined {% endif %}
 {% if grains.get('no_auth_registry') | default(false, true) %}export NO_AUTH_REGISTRY="{{ grains.get('no_auth_registry') }}" {% else %}# no container registry defined {% endif %}
