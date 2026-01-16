@@ -1,3 +1,7 @@
+locals {
+  product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+}
+
 module "sshminion" {
   source = "../host"
 
@@ -17,7 +21,7 @@ module "sshminion" {
   connect_to_additional_network = false
   roles                         = ["sshminion"]
   disable_firewall              = var.disable_firewall
-  product_version               = var.product_version
+  product_version               = local.product_version
   grains = {
     mirror                 = var.base_configuration["mirror"]
     sles_registration_code = var.sles_registration_code

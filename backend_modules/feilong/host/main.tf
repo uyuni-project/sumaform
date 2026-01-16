@@ -27,20 +27,21 @@ resource "feilong_guest" "s390_guest" {
   name       = "${local.name_prefix}${var.name}"
 
   memory     = local.provider_settings["memory"]
-  disk       = "10G"
+  disk       = "5G"
   vcpus      = local.provider_settings["vcpu"]
   image      = var.image
   userid     = local.provider_settings["userid"]
+  os_version = local.provider_settings["os_version"]
   mac        = local.provider_settings["mac"]
   vswitch    = local.provider_settings["vswitch"]
 
   cloudinit_params = feilong_cloudinit_params.s390_params.file
 }
 
-resource "null_resource" "provisioning" {
+resource "terraform_data" "provisioning" {
   depends_on = [ feilong_guest.s390_guest ]
 
-  triggers = {
+  triggers_replace = {
   }
 
   connection {
@@ -111,7 +112,7 @@ resource "null_resource" "provisioning" {
 }
 
 output "configuration" {
-  depends_on  = [ feilong_guest.s390_guest, null_resource.provisioning ]
+  depends_on  = [ feilong_guest.s390_guest, terraform_data.provisioning ]
   value = {
     ids       = [ feilong_guest.s390_guest.userid               ]
     hostnames = [ feilong_cloudinit_params.s390_params.hostname ]

@@ -94,13 +94,6 @@ data "azurerm_platform_image" "rhel9" {
   sku       = "9-lvm-gen2"
 }
 
-data "azurerm_platform_image" "ubuntu2004" {
-  location  = local.location
-  publisher = "cognosys"
-  offer     = "ubuntu-20-04-lts"
-  sku       = "ubuntu-20-04-lts"
-}
-
 data "azurerm_platform_image" "ubuntu2204" {
   location  = local.location
   publisher = "cognosys"
@@ -157,7 +150,6 @@ locals {
       sles15sp6o   = { platform_image = data.azurerm_platform_image.sles15sp6o },
       sles12sp5o   = { platform_image = data.azurerm_platform_image.sles12sp5o },
       centos7      = { platform_image = data.azurerm_platform_image.centos7 },
-      ubuntu2004   = { platform_image = data.azurerm_platform_image.ubuntu2004 },
       ubuntu2204   = { platform_image = data.azurerm_platform_image.ubuntu2204 },
       ubuntu2404   = { platform_image = data.azurerm_platform_image.ubuntu2404 },
       rhel9        = { platform_image = data.azurerm_platform_image.rhel9 },

@@ -1,6 +1,3 @@
-include:
-  - server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-
 mgradm_config:
   file.managed:
     - name: /root/mgradm.yaml

@@ -1,5 +1,6 @@
 include:
   - repos
+  - controller.apache_https
 
 ssh_private_key:
   file.managed:
@@ -40,6 +41,7 @@ cucumber_requisites:
       - automake
       - libtool
       - apache2-worker
+      - apache2-mod_nss
       - cantarell-fonts
       - git-core
       - aaa_base-extras
@@ -213,21 +215,6 @@ google_cert_db:
    - require:
      - file: chrome_certs
    - creates: /root/.pki/nssdb
-
-http_testsuite_service_file:
-  file.managed:
-    - name: /etc/systemd/system/http_testsuite.service
-    - source: salt://controller/http_testsuite.service
-    - user: root
-    - groop: root
-    - mode: 600
-
-http_testsuite_service:
-  service.running:
-    - name: http_testsuite
-    - enable: true
-    - require:
-      - file: http_testsuite_service_file
 
 # Health-check testing
 health_check_repo:

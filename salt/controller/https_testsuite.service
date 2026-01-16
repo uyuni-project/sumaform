@@ -1,0 +1,13 @@
+[Unit]
+Description=Testsuite HTTPS Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/spacewalk
+ExecStart=/usr/bin/python3 /usr/local/lib/https_server.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

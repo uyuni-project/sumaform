@@ -17,6 +17,9 @@ module "cucumber_testsuite" {
   cc_username = ...
   cc_password = ...
 
+  cc_ptf_username = ...
+  cc_ptf_password = ...
+
   name_prefix = "moio-"
   domain = "tf.local"
   git_username = ...
@@ -31,6 +34,7 @@ module "cucumber_testsuite" {
 This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
 The example will have to be completed with SCC credentials and GitHub credentials to the SUSE Manager or Uyuni repo.
+PTF SCC variables should only be used with SUSE Manager or Multi-Linux Manager versions later than 5.0.
 
 `product_version` determines the version under test, see [README_ADVANCED.md](README_ADVANCED.md) for the list of options.
 
@@ -180,7 +184,7 @@ server = {
     mac = "AA:B2:93:00:00:60"
   }
   additional_repos = {
-    Test_repo = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
+    Test_repo = "http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP1/"
   }
   additional_packages = [ "vim" ]
 }

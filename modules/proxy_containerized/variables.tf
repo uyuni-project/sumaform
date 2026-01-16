@@ -23,6 +23,37 @@ variable "container_repository" {
   default = ""
 }
 
+variable "httpd_container_image" {
+  description = "httpd Proxy container image name. Don't setup for default image."
+  default = ""
+}
+
+variable "string_registry" {
+  description = "set the registry in string variable in mgradm.yaml"
+  type        = bool
+  default     = false
+}
+
+variable "salt_broker_container_image" {
+  description = "Salt broker Proxy container image name. Don't setup for default image."
+  default = ""
+}
+
+variable "squid_container_image" {
+  description = "Squid Proxy container image name. Don't setup for default image."
+  default = ""
+}
+
+variable "ssh_container_image" {
+  description = "SSH Proxy container image name. Don't setup for default image."
+  default = ""
+}
+
+variable "tftpd_container_image" {
+  description = "TFTPF Proxy container image name. Don't setup for default image."
+  default = ""
+}
+
 variable "container_tag" {
   description = "The container image tag to use."
   default = ""

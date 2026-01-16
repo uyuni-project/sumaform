@@ -6,10 +6,11 @@ include:
   - default.firewall
   {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
   - repos
+  - scc
+  - default.avahi
   {% else %}
   - repos.testsuite
   {% endif %}
-  - default.avahi
   - default.time
 
 minimal_package_update:
@@ -28,8 +29,7 @@ minimal_package_update:
 {% else %}
       - salt-minion
 {% endif %}
-# WORKAROUND: don't update zypper and libzypp for opensuse leap 15.5 because the last zypper version is broken
-{% if grains['os_family'] == 'Suse' and grains['oscodename'] != 'openSUSE Leap 15.5' %}
+{% if grains['os_family'] == 'Suse' %}
       - zypper
       - libzypp
       # WORKAROUND: avoid a segfault on old versions

@@ -123,7 +123,7 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 `bastion` is accessible through SSH at the public name noted in outputs.
 
 ```bash
-$ terraform apply
+$ tofu apply
 ...
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 
@@ -140,7 +140,7 @@ Other hosts are accessible via SSH from the `bastion` itself.
 This project provides a utility script, `configure_aws_tunnels.rb`, which will add `Host` definitions in your SSH config file so that you don't have to input tunneling flags manually.
 
 ```bash
-$ terraform apply
+$ tofu apply
 ...
 $ ./configure_aws_tunnels.rb
 $ ssh server
