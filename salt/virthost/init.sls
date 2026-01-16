@@ -240,7 +240,7 @@ create-vm-cloudinit-disk-{{ os_type }}:
   cmd.run:
     - name: mkisofs -o /var/testsuite-data/cloudinit-disk-{{ os_type }}.iso -volid cidata -joliet -rock /var/testsuite-data/cloudinit
     - creates: /var/testsuite-data/cloudinit-disk-{{ os_type }}.iso
-    - requires:
+    - require:
       - pkg: mkisofs
       - file: /var/testsuite-data/cloudinit/network-config
       - file: /var/testsuite-data/cloudinit/user-data
