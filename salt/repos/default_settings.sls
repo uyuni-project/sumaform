@@ -40,6 +40,7 @@ install_recommends:
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
 
+{% if release < 10 %}
 {# Soon this key will be used for all non-suse repos. When it happens, replace galaxy_key with this #}
 suse_el9_key:
   file.managed:
@@ -67,6 +68,7 @@ suse_res7_key:
     - name: rpm --import /tmp/suse_res7.key
     - watch:
       - file: suse_res7_key
+{% endif %}
 
 {% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-released' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 

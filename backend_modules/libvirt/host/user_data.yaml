@@ -336,6 +336,15 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
+%{ if image == "sles16o" ~}
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }SUSE/Products/SLE-Product-SLES/16.0/x86_64/product
+      enabled: 1
+      autorefresh: 1
+
 runcmd:
 # WORKAROUND: cloud-init in SLES 16 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
@@ -347,7 +356,7 @@ runcmd:
   - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
 %{ endif ~}
 %{ endif ~}
-  
+
 %{ if image == "slemicro55o" ~}
 
 write_files: ${ files ~}
@@ -656,6 +665,31 @@ runcmd:
   - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent dbus-tools"
 %{ endif ~}
 %{ endif ~}
+
+%{ if image == "almalinux10o" }
+yum_repos:
+  # repo for salt
+  # use `next` development repo while EL10 client tools channel doesn't exist
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/10/Everything/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-10&arch=$basearch
+    enabled: true
+    gpgcheck: false
+    name: epel
+
+runcmd:
+  # WORKAROUND: cloud-init in Alma 10 does not take care of the following
+  # TBD: check if needed as it's just copy from Alma 9 section
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools"
+%{ endif }
 
 %{ if image == "amazonlinux2o" ~}
 
