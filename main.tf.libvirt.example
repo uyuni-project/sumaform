@@ -46,8 +46,8 @@ module "server" {
   // connect_to_additional_network = true
   // if you want to use two networks
 
-  // If you want to run the containers on k3s rather than podman
-  // runtime = "k3s"
+  // If you want to run the containers on rke2 rather than podman
+  // runtime = "rke2"
 
   // To override the default container repository containing the images
   // container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/servercontainer/containers/uyuni"
