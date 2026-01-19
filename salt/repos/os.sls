@@ -131,11 +131,9 @@ os_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP6/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
-# uncomment when it goes LTSS
-#os_ltss_repo:
-#  pkgrepo.managed:
-#    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/SUSE/Updates/SLE-Product-SLES/15-SP6-LTSS/{{ grains.get("cpuarch") }}/update/
-#    - refresh: True
+os_ltss_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP6-LTSS/{{ grains.get("cpuarch") }}/update/
 
 {% elif '15.7' == grains['osrelease'] %}
 

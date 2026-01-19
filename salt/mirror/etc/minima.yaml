@@ -62,6 +62,7 @@ scc:
       # SLE 15-SP5 Products
       - SLE-Product-SLES15-SP5-Pool
       - SLE-Product-SLES15-SP5-Updates
+      - SLE-Product-SLES15-SP5-LTSS-Updates
       # SLE 15-SP5 Basic Modules
       - SLE-Module-Basesystem15-SP5-Pool
       - SLE-Module-Basesystem15-SP5-Updates
@@ -76,6 +77,7 @@ scc:
       # SLE 15-SP6 Products
       - SLE-Product-SLES15-SP6-Pool
       - SLE-Product-SLES15-SP6-Updates
+      - SLE-Product-SLES15-SP6-LTSS-Updates
       # SLE 15-SP6 Basic Modules
       - SLE-Module-Basesystem15-SP6-Pool
       - SLE-Module-Basesystem15-SP6-Updates
