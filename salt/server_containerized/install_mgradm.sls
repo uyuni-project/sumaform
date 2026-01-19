@@ -4,20 +4,11 @@ mgradm_config:
     - source: salt://server_containerized/mgradm.yaml
     - template: jinja
 
-{% set runtime = grains.get('container_runtime') | default('podman', true) %}
-{% set install_cmd = 'kubernetes' if runtime == 'k3s' else 'podman' %}
-
 mgradm_install:
   cmd.run:
-    - name: mgradm install {{ install_cmd }} --logLevel=debug --config /root/mgradm.yaml {{ grains.get("fqdn") }}
-    - env:
-      - KUBECONFIG: /etc/rancher/k3s/k3s.yaml
-{%- if grains.get('container_runtime') | default('podman', true) == 'podman' %}
+    - name: mgradm install podman --logLevel=debug --config /root/mgradm.yaml {{ grains['fqdn'] }}
     - unless: podman ps | grep uyuni-server
-{%- else %}
-    - unless: helm --kubeconfig /etc/rancher/k3s/k3s.yaml list | grep uyuni
-{%- endif %}
     - require:
       - sls: server_containerized.install_common
-      - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
+      - sls: server_containerized.install_podman
       - file: mgradm_config

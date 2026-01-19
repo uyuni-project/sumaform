@@ -14,7 +14,7 @@ variable "product_version" {
 }
 
 variable "runtime" {
-  description = "Where to run the containers. One of podman or k3s"
+  description = "Where to run the containers. One of podman, k3s, or rke2"
   default = "podman"
 }
 

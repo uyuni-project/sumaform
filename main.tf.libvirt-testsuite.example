@@ -98,8 +98,8 @@ module "cucumber_testsuite" {
     server_containerized = {
       name = "server"
 
-      # Uncomment to run the container on k3s rather than podman
-      # runtime = "k3s"
+      # Uncomment to run the container on rke2 rather than podman
+      # runtime = "rke2"
 
       # Override where to get the containers from
       # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
