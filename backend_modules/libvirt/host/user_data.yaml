@@ -897,7 +897,7 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse155armo" || image == "opensuse156armo" ~}
+%{ if image == "opensuse156armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo

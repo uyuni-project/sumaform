@@ -150,8 +150,6 @@ module "controller" {
     sle15sp6_terminal_mac    = var.sle15sp6_terminal_configuration["private_mac"]
     sle15sp7_buildhost       = length(var.sle15sp7_buildhost_configuration["hostnames"]) > 0 ? var.sle15sp7_buildhost_configuration["hostnames"][0] : null
     sle15sp7_terminal_mac    = var.sle15sp7_terminal_configuration["private_mac"]
-    opensuse155arm_minion    = length(var.opensuse155arm_minion_configuration["hostnames"]) > 0 ? var.opensuse155arm_minion_configuration["hostnames"][0] : null
-    opensuse155arm_sshminion = length(var.opensuse155arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse155arm_sshminion_configuration["hostnames"][0] : null
     opensuse156arm_minion    = length(var.opensuse156arm_minion_configuration["hostnames"]) > 0 ? var.opensuse156arm_minion_configuration["hostnames"][0] : null
     opensuse156arm_sshminion = length(var.opensuse156arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse156arm_sshminion_configuration["hostnames"][0] : null
     sle15sp5s390_minion      = length(var.sle15sp5s390_minion_configuration["hostnames"]) > 0 ? var.sle15sp5s390_minion_configuration["hostnames"][0] : null
