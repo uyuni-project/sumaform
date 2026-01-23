@@ -497,7 +497,7 @@ apt:
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 22.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
+  - systemctl restart ssh
 %{ if install_salt_bundle ~}
   - "apt-get -yq update"
   - "apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
@@ -546,7 +546,7 @@ runcmd:
   - systemctl restart systemd-networkd
   # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
+  - systemctl restart ssh
 %{ if install_salt_bundle ~}
   - "apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
