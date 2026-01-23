@@ -417,7 +417,7 @@ tools_additional_tools_update_repo:
     - name: /etc/apt/preferences.d/additional_tools_update_repo
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Head:MLMTools-Beta-Ubuntu{{ release }}
+            Pin: release l=Devel:Galaxy:Manager:Main:MLMTools-Beta-Ubuntu{{ release }}
             Pin-Priority: 800
 
 {% endif %} {# Devel Tools Repos #}

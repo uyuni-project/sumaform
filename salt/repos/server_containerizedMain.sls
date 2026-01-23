@@ -1,13 +1,13 @@
-{% if 'proxy_containerized' in grains.get('roles') %}
+{% if 'server_containerized' in grains.get('roles')  %}
 
 {% if grains.get("os") == 'SUSE' %}
 {% if grains['osfullname'] == 'SLES' %}
 
-proxy_devel_repo:
+server_devel_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.2-x86_64/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/
     - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head/images/repo/SUSE-Manager-Proxy-5.2-x86_64/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/repodata/repomd.xml.key
 
 ca_suse_repo:
   pkgrepo.managed:
@@ -31,6 +31,8 @@ containers_updates_repo:
 {% endif %}
 {% endif %}
 
+
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
+
