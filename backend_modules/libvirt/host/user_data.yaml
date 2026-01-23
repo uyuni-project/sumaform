@@ -336,15 +336,6 @@ zypper:
       gpgcheck: false
       name: tools_pool_repo
 
-%{ if image == "sles16o" ~}
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }SUSE/Products/SLE-Product-SLES/16.0/x86_64/product
-      enabled: 1
-      autorefresh: 1
-
 runcmd:
 # WORKAROUND: cloud-init in SLES 16 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
