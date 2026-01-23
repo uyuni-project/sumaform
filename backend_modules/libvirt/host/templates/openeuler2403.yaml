@@ -1,0 +1,19 @@
+#cloud-config
+
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+
+runcmd:
+  # Download from Hong Kong is excruciating slow...
+  - sed -i s/repo.openeuler.org/de-repo.openeuler.org/ /etc/yum.repos.d/openEuler.repo
+%{ if install_salt_bundle }
+  - dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent
+%{ else }
+  - dnf -y install salt-minion avahi nss-mdns qemu-guest-agent
+%{ endif }
+  - systemctl start qemu-guest-agent

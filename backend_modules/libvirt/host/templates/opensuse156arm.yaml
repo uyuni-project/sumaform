@@ -1,0 +1,20 @@
+#cloud-config
+
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+runcmd:
+  # WORKAROUND: cloud-init in opensuse156 does not take care of the following
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+  - systemctl restart sshd.service
+%{ if install_salt_bundle ~}
+  - "zypper -n in venv-salt-minion"
+%{ else ~}
+  - "zypper -n in salt-minion"
+%{ endif ~}
+  - "zypper removerepo --all"

@@ -1,0 +1,34 @@
+#cloud-config
+
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: epel
+  # repo for qemu-guest-agent
+  amazon2:
+    baseurl: https://cdn.amazonlinux.com/2/core/2.0/x86_64/6b0225ccc542f3834c95733dcf321ab9f1e77e6ca6817469771a8af7c49efe6c/
+    enabled: true
+    gpgcheck: false
+    name: amazon2
+
+runcmd:
+  # WORKAROUND: cloud-init in Amazon Linux 2023 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
+%{ if install_salt_bundle ~}
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
+%{ else ~}
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
+%{ endif ~}
+  - systemctl start qemu-guest-agent
