@@ -71,7 +71,7 @@ galaxy_key:
     {% set client_tools_repo =  grains.get("mirror") | default("dist.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
   {% endif %}
 {% else %}
-    {% set client_tools_repo =  grains.get("mirror") | default("dist.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
+    {% set client_tools_repo =  grains.get("mirror") | default("dist.suse.de", true) ~ '/ibs/Devel:/Galaxy:/Manager:/Main:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/' %}
 {% endif %}
 
 proxy_client_tools_repo:
