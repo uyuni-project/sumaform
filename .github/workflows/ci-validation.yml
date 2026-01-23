@@ -48,7 +48,7 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       with:
         fetch-depth: 1
-    - uses: opentofu/setup-opentofu@e95ccdd20623115bfd7d47df14a3250d6066a9d0 #v1.0.7
+    - uses: opentofu/setup-opentofu@9d84900f3238fab8cd84ce47d658d25dd008be2f #v1.0.8
       with:
         tofu_version: 1.10.7
     - name: Validate configuration using example files
