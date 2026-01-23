@@ -24,14 +24,42 @@ lock_firewalld_prometheus_config_leap_cmd:
      - name: zypper addlock firewalld-prometheus-config
 {% endif %}
 
-install_recommends:
+install_recommends_etc:
   file.comment:
     - name: /etc/zypp/zypp.conf
-    - regex: ^solver.onlyRequires =.*
+    - regex: '^solver\.onlyRequires =.*'
 {%- if grains['saltversioninfo'][0] >= 3005 %}
     - ignore_missing: True
-{% endif %}
-    - onlyif: grep ^solver.onlyRequires /etc/zypp/zypp.conf
+{%- endif %}
+    - onlyif: test -f /etc/zypp/zypp.conf && grep -q '^solver\.onlyRequires' /etc/zypp/zypp.conf
+
+install_recommends_usr_etc:
+  file.comment:
+    - name: /usr/etc/zypp/zypp.conf
+    - regex: '^solver\.onlyRequires =.*'
+{%- if grains['saltversioninfo'][0] >= 3005 %}
+    - ignore_missing: True
+{%- endif %}
+    - onlyif: test -f /usr/etc/zypp/zypp.conf && grep -q '^solver\.onlyRequires' /usr/etc/zypp/zypp.conf
+
+/etc/zypp/zypp.conf.d:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: '0755'
+
+/etc/zypp/zypp.conf.d/90-sumaform.conf:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: '0644'
+    - contents: |
+        [main]
+        solver.onlyRequires = false
+    - require:
+      - file: /etc/zypp/zypp.conf.d
+      - file: install_recommends_etc
+      - file: install_recommends_usr_etc
 
 {% endif %} {# grains['os'] == 'SUSE' #}
 

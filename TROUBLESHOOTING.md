@@ -214,9 +214,8 @@ rm -r .terraform/
 
 ## Q: Why are documentation files not installed after package installation?
 
-Sumaform uses JeOS and, by default, `zypper` is configured to not install docs.
-To change that behavior, edit `/etc/zypp/zypp.conf` and change the property `rpm.install.excludedocs = no`
-and re-install the package.
+Sumaform uses JeOS and, by default, zypper is configured not to install documentation.
+To change this behavior, create your own configuration file under the `/etc/zypp/zypp.conf.d/` directory and set the property `rpm.install.excludedocs = no`, then reinstall the package.
 
 ## Q: How do I workaround a "doesn't match any of the checksums previously recorded in the dependency lock file" error?
 
