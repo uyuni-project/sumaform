@@ -17,6 +17,8 @@
         {% set repo_path = 'AlmaLinux_8' %}
     {% elif grains['osrelease_info'][0] == 9 %}
         {% set repo_path = 'AlmaLinux_9' %}
+    {% elif grains['osrelease_info'][0] == 10 %}
+        {% set repo_path = 'AlmaLinux_10' %}
     {% endif %}
 {% elif grains['osfullname'] == 'CentOS Linux' %}
     {% if grains['osrelease_info'][0] == 7 %}
@@ -27,6 +29,8 @@
         {% set repo_path = 'SLE_12' %}
     {% elif grains['osrelease_info'][0] == 15 %}
         {% set repo_path = 'SLE_15' %}
+    {% elif grains['osrelease_info'][0] == 16 %}
+        {% set repo_path = 'SLFO' %}
     {% endif %}
 {% elif grains['osfullname'] == 'Leap' %}
     {% if grains['osrelease_info'][0] == 15 %}
@@ -38,6 +42,9 @@
     {% endif %}
     {% if grains['osrelease'] == '6.1' %}
         {% set repo_path = 'SLMicro61' %}
+    {% endif %}
+    {% if grains['osrelease'] == '6.2' %}
+        {% set repo_path = 'SLFO' %}
     {% endif %}
 {% endif %}
 
@@ -68,7 +75,7 @@ salt_bundle_testsuite_repo:
     - refresh: True
 
 install_salt_bundle_testsuite:
-{% if grains['os_family'] == 'Suse' and grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if grains.get('transactional', False) %}
   cmd.run:
     - name: transactional-update -c -n pkg in venv-salt-minion-testsuite
 {% else %}

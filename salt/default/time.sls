@@ -1,4 +1,4 @@
-{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if not grains.get('transactional', False) %}
 # Dependencies already satisfied by the images
 # https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos
 timezone_package:
@@ -15,7 +15,7 @@ timezone_symlink:
     - name: /etc/localtime
     - target: /usr/share/zoneinfo/{{ grains['timezone'] }}
     - force: true
-{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if not grains.get('transactional', False) %}
     - require:
       - pkg: timezone_package
 {% endif %}
@@ -47,7 +47,7 @@ ntpd_enable_service:
 
 {% else %}
 
-{% if not grains['osfullname'] in ['SLE Micro', 'SL-Micro'] %}
+{% if not grains.get('transactional', False) %}
 # Dependencies already satisfied by SLE Micro itself
 chrony_pkg:
   pkg.installed:

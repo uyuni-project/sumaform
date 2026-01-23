@@ -156,8 +156,15 @@ os_update_repo:
 {% endif %} {# '15.7' == grains['osrelease'] #}
 
 {% endif %} {# '15' in grains['osrelease'] #}
+
 {% endif %} {# Skip if SCC support or PAYG #}
 
+{% if grains['osfullname'] == 'SLES' and grains['osmajorrelease'] == 16 %}
+os_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/
+    - refresh: True
+{% endif %}
 
 {% endif %}{# grains['osfullname'] == 'SLES' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
