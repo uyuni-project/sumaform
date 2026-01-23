@@ -451,7 +451,7 @@ module "cucumber_testsuite" {
     ...
     dhcp-dns = {
       name = "dhcp-dns"
-      image = "opensuse155o"
+      image = "opensuse156o"
     }
     ...
   }
@@ -465,7 +465,7 @@ module "dhcp-dns" {
   source = "./modules/dhcp_dns"
 
   name = "dhcp-dns"
-  image = "opensuse155o"
+  image = "opensuse156o"
   hypervisor = { host = "hypervisor.example.org", user = "root", private_key = file("~/.ssh/id_ed25519") }
   private_hosts = [ module.proxy.configuration, module.sles12sp5-terminal.configuration, module.sles15sp4-terminal.configuration ]
 }
@@ -990,7 +990,7 @@ module "cucumber_testsuite" {
 A libvirt example is:
 
 ```hcl
-module "opensuse155arm_minion" {
+module "opensuse156arm_minion" {
   source = "./modules/minion"
   ...
   name = "nue-min-opensuse155arm"

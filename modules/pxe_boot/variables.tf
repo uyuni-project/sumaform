@@ -23,7 +23,7 @@ variable "private_name" {
 }
 
 variable "image" {
-  description = "an image name, e.g. sles12sp4 or opensuse155o"
+  description = "an image name, e.g. sles12sp4 or opensuse156o"
   type        = string
 }
 

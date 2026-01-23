@@ -8,9 +8,9 @@ variable "images" {
     "4.3-VM-nightly"  = "suma43VM-ign"
     "4.3-VM-released" = "suma43VM-ign"
     # Uyuni non-podman deprecated in September 2024:
-    "uyuni-master"    = "opensuse155o"
-    "uyuni-released"  = "opensuse155o"
-    "uyuni-pr"        = "opensuse155o"
+    "uyuni-master"    = "opensuse156o"
+    "uyuni-released"  = "opensuse156o"
+    "uyuni-pr"        = "opensuse156o"
   }
 }
 

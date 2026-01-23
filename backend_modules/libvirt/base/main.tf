@@ -17,7 +17,6 @@ locals {
     oraclelinux9o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL9/u0/x86_64/OL9U0_x86_64-kvm-b142.qcow"
     rocky8o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
     rocky9o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
-    opensuse155o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse156o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse160o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse155armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.aarch64-Cloud.qcow2"
