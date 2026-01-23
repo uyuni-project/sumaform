@@ -51,8 +51,26 @@ locals {
     host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
   container_repositories    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
+  container_images    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "container_image", null) if var.host_settings[host_key] != null }
+  httpd_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "httpd_container_image", null) if var.host_settings[host_key] != null }
+  salt_broker_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "salt_broker_container_image", null) if var.host_settings[host_key] != null }
+  squid_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "squid_container_image", null) if var.host_settings[host_key] != null }
+  ssh_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "ssh_container_image", null) if var.host_settings[host_key] != null }
+  tftpd_container_images = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "tftpd_container_image", null) if var.host_settings[host_key] != null }
   container_tags    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_tag", null) if var.host_settings[host_key] != null }
+  db_container_repositories    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_repository", null) if var.host_settings[host_key] != null }
+  db_container_images    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_image", null) if var.host_settings[host_key] != null }
+  db_container_tags    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_tag", null) if var.host_settings[host_key] != null }
   helm_chart_urls           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
@@ -73,6 +91,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
   scc_access_logging        = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
+  enable_oval_metadata     = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
@@ -133,7 +153,11 @@ module "server_containerized" {
   name                           = lookup(local.names, "server_containerized", "server")
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
   container_repository           = lookup(local.container_repositories, "server_containerized", "")
+  container_image                = lookup(local.container_images, "server_containerized", "")
   container_tag                  = lookup(local.container_tags, "server_containerized", "")
+  db_container_repository        = lookup(local.db_container_repositories, "server_containerized", "")
+  db_container_image             = lookup(local.db_container_images, "server_containerized", "")
+  db_container_tag               = lookup(local.db_container_tags, "server_containerized", "")
   auto_accept                    = false
   download_private_ssl_key       = false
   disable_firewall               = false
@@ -163,6 +187,7 @@ module "server_containerized" {
   repository_disk_size          = lookup(local.repository_disk_size, "server_containerized", 0)
   database_disk_size            = lookup(local.database_disk_size, "server_containerized", 0)
   large_deployment              = lookup(local.large_deployment, "server_containerized", true)
+  enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_containerized", false)
 }
 
 module "proxy" {
@@ -209,6 +234,11 @@ module "proxy_containerized" {
 
   runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
   container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
+  httpd_container_image  = lookup(local.httpd_container_images, "proxy_containerized", "")
+  salt_broker_container_image = lookup(local.salt_broker_container_images, "proxy_containerized", "")
+  squid_container_image  = lookup(local.squid_container_images, "proxy_containerized", "")
+  ssh_container_image    = lookup(local.ssh_container_images, "proxy_containerized", "")
+  tftpd_container_image  = lookup(local.tftpd_container_images, "proxy_containerized", "")
   container_tag          = lookup(local.container_tags, "proxy_containerized", "")
   helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
   server_configuration   = { hostname = local.server_full_name,
@@ -481,6 +511,8 @@ module "controller" {
   branch                   = var.branch
   git_username             = var.git_username
   git_password             = var.git_password
+  cc_ptf_username          = var.cc_ptf_username
+  cc_ptf_password          = var.cc_ptf_password
   git_repo                 = var.git_repo
   git_profiles_repo        = var.git_profiles_repo
   no_auth_registry         = var.no_auth_registry

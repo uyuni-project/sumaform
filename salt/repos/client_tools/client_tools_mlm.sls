@@ -1,35 +1,68 @@
 {# These states set up client tools repositories for all supported OSes #}
 {% set product_version = grains.get('product_version') | default('', true) %}
 {% if '5.1' in product_version or 'head' in product_version %}
-{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles')) %}
+{% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles') and 'controller' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
-
+{% if '16' in grains['osrelease'] %}
+# On MLM, we use SLE channels for Leap.
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/product/
+    # TODO: Add "product" folder on the path, when have it released.
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
+    - refresh: True
+
+# Devel Tools Repos
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+    - refresh: True
+    - priority: 98
+    - gpgcheck: 0
+
+{% endif %} {# 'nightly' in grains.get('product_version')#}
+{% endif %} {# if '16' in grains['osrelease'] #}
+
+{% if '15' in grains['osrelease'] %}
+tools_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 beta_tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
-
 {% endif %} {# 'beta' in grains.get('product_version') #}
+
+# Devel Tools Repos
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+    - refresh: True
+    - priority: 98
+    - gpgcheck: 0
+{% endif %} {# 'nightly' in grains.get('product_version')#}
+
+{% endif %} {# if '15' in grains['osrelease'] #}
 {% endif %} {# grains['osfullname'] == 'Leap' #}
+
 {% if grains['osfullname'] == 'SLES' %}
 
 {% if '12' in grains['osrelease'] %}
@@ -37,24 +70,24 @@ beta_tools_update_repo:
 # Release Tools Repos
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-12/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-12/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-12/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-12/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 # Beta Tools Repos
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-12/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-12/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 beta_tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-12/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-12/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 {% endif %} {# 'beta' in grains.get('product_version') #}
 
@@ -64,7 +97,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE12/images/repo/ManagerTools-SLE12-Pool-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE12/images/repo/ManagerTools-SLE12-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
 
@@ -72,7 +105,7 @@ tools_additional_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
 
@@ -85,24 +118,24 @@ tools_additional_repo:
 # Release Tools Repos
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 # Beta Tools Repos
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 beta_tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-15/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 {% endif %} {# 'beta' in grains.get('product_version') #}
 
@@ -111,7 +144,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
   - refresh: True
   - priority: 98
 
@@ -119,19 +152,39 @@ tools_additional_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# '15' in grains['osrelease'] #}
+
+{% if '16' in grains['osrelease'] %}
+
+# Release Tools Repos
+tools_pool_repo:
+  pkgrepo.managed:
+    # TODO: Add "product" folder on the path, when have it released.
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
+    - refresh: True
+
+# Devel Tools Repos
+tools_additional_repo:
+  pkgrepo.managed:
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+  - refresh: True
+  - priority: 98
+  - gpgcheck: 0
+
+{% endif %} {# '16' in grains['osrelease'] #}
+
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 
 # Release Tools Repos
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SL-Micro-6/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SL-Micro-6/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 # Devel Tools Repos
@@ -139,7 +192,7 @@ tools_pool_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SL-Micro-6/product/repo/Multi-Linux-ManagerTools-SL-Micro-6-{{ grains.get("cpuarch") }}/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SL-Micro-6/product/repo/Multi-Linux-ManagerTools-SL-Micro-6-{{ grains.get("cpuarch") }}/
   - refresh: True
   - priority: 98
 
@@ -147,7 +200,7 @@ tools_additional_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
 
@@ -158,23 +211,23 @@ tools_additional_repo:
 # Release Tools repo
 tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-Micro-5/{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-Micro-5/{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-Micro-5/{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/SLE-Micro-5/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 beta_tools_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-Micro-5//{{ grains.get("cpuarch") }}/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-Micro-5//{{ grains.get("cpuarch") }}/product/
     - refresh: True
 
 beta_tools_update_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-Micro-5//{{ grains.get("cpuarch") }}/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/SLE-Micro-5//{{ grains.get("cpuarch") }}/update/
     - refresh: True
 {% endif %} {# 'beta' in grains.get('product_version') #}
 
@@ -182,7 +235,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
   - refresh: True
   - priority: 98
 
@@ -190,7 +243,7 @@ tools_additional_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
 
@@ -216,24 +269,24 @@ tools_additional_repo:
 tools_pool_repo:
   pkgrepo.managed:
     - humanname: tools_pool_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/{{ grains.get("cpuarch") }}/product/
 
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/{{ grains.get("cpuarch") }}/update/
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
 beta_tools_pool_repo:
   pkgrepo.managed:
     - humanname: beta_tools_pool_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/{{ grains.get("cpuarch") }}/product/
 
 beta_tools_update_repo:
   pkgrepo.managed:
     - humanname: beta_tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/x86_64/update/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools-Beta/{{ rhlike_client_tools_prefix }}-{{ release }}/{{ grains.get("cpuarch") }}/update/
 
 {% endif %}
 
@@ -244,9 +297,9 @@ tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo
     {%- if release >= 8 %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/MultiLinuxManagerTools-EL-{{release}}-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/MultiLinuxManagerTools-EL-{{release}}-{{ grains.get("cpuarch") }}-Media1/
     {%- else %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/ManagerTools-EL{{release}}-POOL-x86_64-Media/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/ManagerTools-EL{{release}}-POOL-{{ grains.get("cpuarch") }}-Media/
     {%- endif %}
     - refresh: True
     - require:
@@ -263,9 +316,9 @@ tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo
     {%- if release >= 8 %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-EL-{{ release }}-Beta-x86_64-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-EL-{{ release }}-Beta-{{ grains.get("cpuarch") }}-Media1/
     {%- else %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/ManagerTools-Beta-EL{{ release }}-POOL-x86_64-Media/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL{{ release }}/images/repo/ManagerTools-Beta-EL{{ release }}-POOL-{{ grains.get("cpuarch") }}-Media/
     {%- endif %}
     - refresh: True
     - require:
@@ -291,7 +344,7 @@ clean_repo_metadata:
 {% set short_release = release | replace('.', '') %}
 
 # Release client tools
-{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Ubuntu-' + release + '/x86_64/update/' %}
+{% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Ubuntu-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
@@ -305,12 +358,12 @@ tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_update_repo
     - contents: |
             Package: *
-            Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Ubuntu-{{ release }}:x86_64:update
+            Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Ubuntu-{{ release }}:{{ grains.get("cpuarch") }}:update
             Pin-Priority: 800
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
-{% set beta_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Ubuntu-' + release + '/x86_64/update/' %}
+{% set beta_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Ubuntu-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 beta_tools_update_repo:
   pkgrepo.managed:
     - humanname: beta_tools_update_repo
@@ -324,14 +377,14 @@ beta_tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/beta_tools_update_repo
     - contents: |
             Package: *
-            Pin: release l=SUSE:Updates:MultiLinuxManagerTools-Beta:Ubuntu-{{ release }}:x86_64:update
+            Pin: release l=SUSE:Updates:MultiLinuxManagerTools-Beta:Ubuntu-{{ release }}:{{ grains.get("cpuarch") }}:update
             Pin-Priority: 800
 
 {% endif %}
 
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Ubuntu' + release + '/xUbuntu_' + release %}
+{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Ubuntu' + release + '/xUbuntu_' + release %}
 additional_tools_update_repo:
   pkgrepo.managed:
     - humanname: additional_tools_update_repo
@@ -350,7 +403,7 @@ additional_tools_update_repo_raised_priority:
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 
-{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release %}
+{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release %}
 additional_tools_update_repo:
   pkgrepo.managed:
     - humanname: additional_tools_update_repo
@@ -374,7 +427,7 @@ tools_additional_tools_update_repo:
 
 {% set release = grains.get('osrelease', None) %}
 
-{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Debian-' + release + '/x86_64/update/' %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("dist.suse.de/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Debian-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 
 tools_update_repo:
   pkgrepo.managed:
@@ -389,12 +442,12 @@ tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_update_repo
     - contents: |
         Package: *
-        Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Debian-{{ release }}:x86_64:update
+        Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Debian-{{ release }}:{{ grains.get("cpuarch") }}:update
         Pin-Priority: 800
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
-{% set beta_tools_update_repo_url = 'http://' + grains.get("mirror") | default("dist.nue.suse.com/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Debian-' + release + '/x86_64/update/' %}
+{% set beta_tools_update_repo_url = 'http://' + grains.get("mirror") | default("dist.suse.de/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Debian-' + release + '/' +  grains.get("cpuarch") + '/update/' %}
 beta_tools_update_repo_url:
   pkgrepo.managed:
     - humanname: beta_tools_update_repo_url
@@ -408,14 +461,14 @@ tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_update_repo
     - contents: |
         Package: *
-        Pin: release l=SUSE:Updates:MultiLinuxManagerTools-Beta:Debian-{{ release }}:x86_64:update
+        Pin: release l=SUSE:Updates:MultiLinuxManagerTools-Beta:Debian-{{ release }}:{{ grains.get("cpuarch") }}:update
         Pin-Priority: 800
 
 {% endif %} {# Beta Tools Repos #}
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 
-{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Debian' + release + '/Debian_' + release %}
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Debian' + release + '/Debian_' + release %}
 tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo
@@ -434,7 +487,7 @@ tools_additional_repo_raised_priority:
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 
-{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.nue.suse.com", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Debian' + release + '/Debian_' + release %}
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Debian' + release + '/Debian_' + release %}
 tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo

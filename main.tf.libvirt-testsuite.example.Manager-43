@@ -1,9 +1,9 @@
 terraform {
- required_version = "1.0.10"
+ required_version = ">= 1.6.0"
  required_providers {
    libvirt = {
      source = "dmacvicar/libvirt"
-     version = "0.8.1"
+     version = "0.8.3"
    }
  }
 }
@@ -38,7 +38,7 @@ module "cucumber_testsuite" {
   # "oraclelinux9o",
   # "rocky8o", "rocky9o",
   # "sles12sp5o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o",
-  # "ubuntu2004o", "ubuntu2204o", "ubuntu2404o"
+  # "ubuntu2204o", "ubuntu2404o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
   images = ["rocky9o", "opensuse156o", "sles15sp4o", "ubuntu2204o"]
@@ -62,7 +62,7 @@ module "cucumber_testsuite" {
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
   auth_registry_username = ""
   auth_registry_password = ""
-  git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/internal_prv"
+  git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/internal_slc"
 
   # define which VMs should be created and adjust their settings.
   # if you do not need a minion just comment it out.
@@ -76,7 +76,7 @@ module "cucumber_testsuite" {
   #      vcpu = 2
   #    }
   #    additional_repos = {
-  #      Test_repo = "http://dist.nue.suse.com/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP4/"
+  #      Test_repo = "http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/TEST/SLE_15_SP4/"
   #    }
   #    additional_packages = [ "vim" ]
   # }

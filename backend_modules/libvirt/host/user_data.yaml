@@ -11,16 +11,33 @@ chpasswd:
 zypper:
   repos:
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/saltstack:/bundle:/openSUSE_Tumbleweed/openSUSE_Tumbleweed/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
+    - id: ca_suse
+      name: ca_suse
+      baseurl:
+        http://${ use_mirror_images ? mirror: "download.opensuse.org" }/repositories/SUSE:/CA/openSUSE_Tumbleweed/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
 
 runcmd:
    # openssh-server-config-rootlogin is required to allow ssh root login with SELinux enabled
-  - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin
+%{ if testsuite ~}
+  - zypper --non-interactive install wget timezone expect bind-utils
+%{ endif ~}
+%{ if container_server ~}
+  - zypper --non-interactive install mgrctl mgradm uyuni-storage-setup-server netavark aardvark-dns
+%{ endif ~}
+%{ if container_proxy ~}
+  - zypper --non-interactive install mgrpxy
+%{ endif ~}
+  - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin which ca-certificates ca-certificates-suse
   - systemctl restart sshd
-%{endif}
+# end of Tumbleweed block
+%{ endif ~}
 
 %{ if image == "centos7o" ~}
 bootcmd:
@@ -137,16 +154,27 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" ~}
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse155-ci-pro" ~}
+
 zypper:
   repos:
     - id: tools_pool_repo
+%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+%{ endif ~}
+%{ if image == "opensuse160o" ~}
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
 
 runcmd:
+%{ if image == "opensuse160o" ~}
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+  - echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
+  - systemctl restart sshd
+%{ endif ~}
 %{ if container_server && testsuite ~}
   # Packages needed for the testsuite
   - "zypper -n in expect"
@@ -164,7 +192,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
@@ -186,7 +214,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP3/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
@@ -210,7 +238,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
@@ -232,7 +260,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
@@ -254,7 +282,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP6/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
@@ -276,7 +304,7 @@ zypper:
   repos:
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP7/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP7/x86_64/product
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
@@ -292,7 +320,34 @@ runcmd:
   - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
 %{ endif ~}
 %{ endif ~}
+  
+# TODO: ONCE AVAILABLE USE: /repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+%{ if image == "sles16o" ~}
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
 
+runcmd:
+# WORKAROUND: cloud-init in SLES 16 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
+  - echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
+  - systemctl restart sshd
+%{ if install_salt_bundle ~}
+  - "zypper -n in venv-salt-minion avahi avahi-lang nss-mdns qemu-guest-agent iptables"
+%{ else ~}
+  - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
+%{ endif ~}
+%{ endif ~}
+  
 %{ if image == "slemicro55o" ~}
 
 write_files: ${ files ~}
@@ -300,18 +355,10 @@ write_files: ${ files ~}
 zypper:
   repos:
 %{ if container_server ~}
-%{ if product_version == "head" ~}
-    - id: container_utils_repo
-      name: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-%{ endif ~}
 %{ if product_version == "5.0-nightly" ~}
     - id: container_utils_repo
       name: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Server-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -319,32 +366,23 @@ zypper:
 %{ if product_version == "5.0-released" ~}
     - id: container_utils_pool_repo
       name: container_utils_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SUSE-Manager-Server/5.0/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SUSE-Manager-Server/5.0/x86_64/product
       enabled: 1
       autorefresh: 1
       gpgcheck: false
     - id: container_utils_updates_repo
       name: container_utils_updates_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Updates/SUSE-Manager-Server/5.0/x86_64/update
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Updates/SUSE-Manager-Server/5.0/x86_64/update
       enabled: 1
       autorefresh: 1
       gpgcheck: false
 %{ endif ~}
 %{ endif ~}
 %{ if container_proxy ~}
-%{ if product_version == "head" ~}
-    - id: container_utils_repo
-      name: container_utils_repo
-#      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/SLE-Micro55/
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: false
-%{ endif ~}
 %{ if product_version == "5.0-nightly" ~}
     - id: container_utils_repo
       name: container_utils_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0/images/repo/SUSE-Manager-Proxy-5.0-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -352,13 +390,13 @@ zypper:
 %{ if product_version == "5.0-released" ~}
     - id: container_utils_pool_repo
       name: container_utils_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SUSE-Manager-Proxy/5.0/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SUSE-Manager-Proxy/5.0/x86_64/product
       enabled: 1
       autorefresh: 1
       gpgcheck: false
     - id: container_utils_updates_repo
       name: container_utils_updates_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Updates/SUSE-Manager-Proxy/5.0/x86_64/update
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Updates/SUSE-Manager-Proxy/5.0/x86_64/update
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -368,7 +406,7 @@ zypper:
     # Required only for wget
     - id: os_pool_repo
       name: os_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Module-Basesystem/15-SP5/x86_64/product
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -381,19 +419,19 @@ zypper:
       gpgcheck: false
     - id: micro_pool_repo
       name: micro_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Products/SLE-Micro/5.5/x86_64/product/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-Micro/5.5/x86_64/product/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
     - id: micro_update_repo
       name: micro_update_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/SUSE/Updates/SLE-Micro/5.5/x86_64/update/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Updates/SLE-Micro/5.5/x86_64/update/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
     - id: tools_pool_repo
       name: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs" }/Devel:/Galaxy:/Manager:/Head:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-x86_64-Media1/
       enabled: 1
       autorefresh: 1
       gpgcheck: false
@@ -425,50 +463,6 @@ runcmd:
   - [ transactional-update, --continue, --non-interactive, pkg, install, qemu-guest-agent, salt-minion, avahi ]
 %{ endif ~}
   - [ reboot ]
-%{ endif ~}
-
-%{ if image == "ubuntu2004o" ~}
-
-apt:
-  sources:
-    tools_pool_repo:
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2004-Uyuni-Client-Tools/xUbuntu_20.04/ /
-      key: |
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v1.4.5 (GNU/Linux)
-
-        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
-        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
-        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
-        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
-        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
-        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
-        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJnTV1tAhsDBQkQRFMYBgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqobCACZmP4jvLKA8hixwLbB
-        ws6UpppjKuZ1C29VlfydWW7Zh7YTlQEDweuaP++UTNpG4LFHYEG/h+0m2IiIK8pH
-        37fzKn+xZB+9SA/4hE3RsJhzwCYXxRnnSzahmagskTQp+vPQS571n8rmXbLQVIV8
-        VHOjY6CezItu5OAe4m0DVdS9u4LmikPwxV+irdJ1rMphBKzxccGFOmYFXKWWoEk7
-        VAD02fKgzLdoE6QX9ocIChmDM/fNwEK3us7RWEd2jxqUYdseTsa22clbuR3Dg6SB
-        E/oQa9zikECUNi4T19DnBpquBzBHlmfnGBtHPkq1KF7mNhdLhD28Atn0gpOGZOnd
-        VzV9iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
-        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =eJaK
-        -----END PGP PUBLIC KEY BLOCK-----
-
-runcmd:
-  # WORKAROUND: cloud-init in Ubuntu 20.04 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
-%{ if install_salt_bundle ~}
-  - "apt-get -yq update"
-  - "apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
-%{ else ~}
-  - "apt-get -yq update"
-  - "apt-get -yq install salt-minion avahi-daemon qemu-guest-agent"
-%{ endif ~}
-  - "rm -f /etc/apt/sources.list.d/tools_pool_repo.list"
-  - systemctl start qemu-guest-agent
 %{ endif ~}
 
 %{ if image == "ubuntu2204o" ~}

@@ -39,11 +39,34 @@ nm_config 2 eth1 manual
 # Set linux as password for root
 echo 'root:$6$3aQC9rrDLHiTf1yR$NoKe9tko0kFIpu0rQ2y/OzOOtbVvs0Amr2bx0T4cGf6aq8PG74EmVy8lSDJdbLVVFpOSzwELWyReRCiPHa7DG0' | chpasswd -e
 
+%{ if sshd_config_root_d }
+echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
+%{ else }
 echo "PermitRootLogin yes" > /etc/ssh/sshd_config
 echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config
 echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
-echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEPA8UvZ/6tTiL+MKGUAsHJuPlDpueeDmbuJ+0giOCY root@controller" > /root/.ssh/authorized_keys
+%{ endif }
 
 # Add a public ssh key and enable sshd
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEPA8UvZ/6tTiL+MKGUAsHJuPlDpueeDmbuJ+0giOCY root@controller" > /root/.ssh/authorized_keys
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFY000UPEvRSkiNiOXExo6JGB/lJA+tGPqBsl9k5/hzb" >> /root/.ssh/authorized_keys
+
 systemctl enable sshd.service
 systemctl restart sshd.service
+
+# Install packages
+PACKAGES=""
+
+%{ if install_salt_bundle }
+PACKAGES="$PACKAGES venv-salt-minion"
+%{ else }
+PACKAGES="$PACKAGES salt-minion"
+%{ endif }
+
+transactional-update --non-interactive --continue pkg in $PACKAGES
+
+# Leave a marker
+echo "Configured with combustion" > /var/lib/combustion.done
+
+reboot

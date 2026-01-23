@@ -1,5 +1,5 @@
-resource "null_resource" "domain" {
-  triggers = {
+resource "terraform_data" "domain" {
+  triggers_replace = {
     base_configuration            = yamlencode(var.base_configuration)
     name                          = var.name
     roles                         = yamlencode(var.roles)

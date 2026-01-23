@@ -73,47 +73,57 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/updat
 %{ endif } # end of image == "leapmicro55o" block
 
 %{ if image == "slmicro60o" }
-zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 
 # SL Micro 6.0 is being used in both Uyuni and SUSE Manager
 # we do not support yet Leap Micro 6.0, even in Uyuni
 %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
 %{ else }
-zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
+zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
 %{ endif }
 %{ endif } # end of image == "slmicro60o" block
 
 %{ if image == "slmicro61o" }
-  zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
+  zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
 
 # SL Micro 6.1 is being used in both Uyuni and SUSE Manager
 # we do not support yet Leap Micro 6.1, even in Uyuni
   %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
     zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
   %{ else }
-    zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
+    zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
   %{ endif }
 
   %{ if container_server || container_proxy }
     %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
       zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils_repo
     %{ else }
-        %{ if product_version == "5.1-released" || product_version == "5.1-nightly" }
+      %{ if product_version == "5.1-released" }
+        %{ if container_server }
+          zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Server/5.1/x86_64/product container_utils_repo
+        %{ endif }
+        %{ if container_proxy }
+          zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Proxy/5.1/x86_64/product/ container_utils_repo
+        %{ endif }
+      %{ else }
+        %{ if product_version == "5.1-nightly" }
           %{ if container_server }
-              zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com"}/ibs/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.1:/ToTest/product/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-              zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com"}/ibs/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.1:/ToTest/product/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
           %{ endif }
         %{ else }
+          # HEAD
           %{ if container_server }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
         %{ endif }
+      %{ endif }
     %{ endif }
   %{ endif }
 %{ endif } # end of image == "slmicro61o" block
@@ -133,7 +143,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE/P
 
 
 # Install packages
-PACKAGES="qemu-guest-agent avahi ca-certificates"
+PACKAGES="qemu-guest-agent avahi ca-certificates which"
 
 %{ if container_runtime == "podman" }
 PACKAGES="$PACKAGES podman netavark aardvark-dns"
@@ -152,7 +162,7 @@ PACKAGES="$PACKAGES mgradm mgrctl uyuni-storage-setup-server mgradm-bash-complet
 %{ endif }
 
 %{ if container_proxy }
-PACKAGES="$PACKAGES mgrpxy"
+PACKAGES="$PACKAGES mgrpxy mgrpxy-bash-completion"
 %{ endif }
 
 %{ if install_salt_bundle }
@@ -168,21 +178,19 @@ zypper --non-interactive update --no-recommends iptables
 # TEST SUITE SETUP ----------------
 
 %{ if testsuite }
-%{ if image == "leapmicro55o" }
+# For the testsuite we need the Test Packages repository always
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
+
+%{ if image == "leapmicro55o" }
 # Leap repos are required to install expect
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.6/repo/oss/ leap_pool_repo
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/oss/ leap_update_repo
 %{ endif } # end of image == "leapmicro55o" block
 
-%{ if image == "slmicro60o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
-%{ endif } # end of image == "slmicro60o" block
-
 %{ if image == "slmicro61o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 # Leap repos are required to install expect
-zypper ar --no-gpgcheck http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/16.0/repo/oss/ leap_pool_repo
+# WORKAROUND: Switch to direct repository until mirror is fixed.
+zypper ar --no-gpgcheck http://downloadcontent.opensuse.org/distribution/leap/16.0/repo/oss/ leap_pool_repo
 %{ endif } # end of image == "slmicro61o" block
 
 TEST_PACKAGES=""
@@ -191,13 +199,8 @@ TEST_PACKAGES="$TEST_PACKAGES expect bind-utils"
 %{ endif }
 TEST_PACKAGES="$TEST_PACKAGES andromeda-dummy milkyway-dummy virgo-dummy timezone wget"
 zypper --non-interactive install $TEST_PACKAGES
-
-# WORKAROUND
-# Installing the last version of suse-build-key harcoded until it is solved
-%{ if image == "slmicro61o" }
-zypper --non-interactive install --from os_pool_repo suse-build-key=12.0-slfo.1.1_3.1
-%{ endif }
-
+# cleanup - ignore errors for missing repos and suppress output
+zypper rr leap_pool_repo leap_update_repo >/dev/null 2>&1 || true
 %{ endif }
 
 # Disabling this timer safely by masking it (systemctl might still be unavailable during the Combustion phase)

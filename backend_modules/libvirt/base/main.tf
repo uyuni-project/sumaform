@@ -18,15 +18,16 @@ locals {
     rocky9o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
     opensuse155o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse156o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-Cloud.qcow2"
+    opensuse160o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse155armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.aarch64-Cloud.qcow2"
     opensuse156armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.aarch64-Cloud.qcow2"
-    sles15sp3o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP3-JeOS-GM/SLES15-SP3-JeOS.x86_64-15.3-OpenStack-Cloud-GM.qcow2"
-    sles15sp4o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP4-Minimal-GM/SLES15-SP4-Minimal-VM.x86_64-OpenStack-Cloud-GM.qcow2"
-    sles15sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP5-Minimal-GM/SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
-    sles15sp6o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP6-Minimal-GM/SLES15-SP6-Minimal-VM.x86_64-Cloud-GM.qcow2"
-    sles15sp7o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-15-SP7-Minimal-GM/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
-    sles12sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/install/SLE-12-SP5-JeOS-GM/SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
-    ubuntu2004o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/focal/current/focal-server-cloudimg-amd64.img"
+    sles15sp3o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP3-JeOS-GM/SLES15-SP3-JeOS.x86_64-15.3-OpenStack-Cloud-GM.qcow2"
+    sles15sp4o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP4-Minimal-GM/SLES15-SP4-Minimal-VM.x86_64-OpenStack-Cloud-GM.qcow2"
+    sles15sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP5-Minimal-GM/SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
+    sles15sp6o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP6-Minimal-GM/SLES15-SP6-Minimal-VM.x86_64-Cloud-GM.qcow2"
+    sles15sp7o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP7-Minimal-GM/SLES15-SP7-Minimal-VM.x86_64-Cloud-GM.qcow2"
+    sles16o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLES-16-GM/SLES-16.0-Minimal-VM.x86_64-Cloud-GM.qcow2"
+    sles12sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-12-SP5-JeOS-GM/SLES12-SP5-JeOS.x86_64-12.5-OpenStack-Cloud-GM.qcow2"
     ubuntu2204o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
     ubuntu2404o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/noble/current/noble-server-cloudimg-amd64.img"
     debian12o                = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.debian.org"}/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
@@ -38,7 +39,7 @@ locals {
     slemicro55o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_55/SLE-Micro.x86_64-sumaform.qcow2"
     slmicro60o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_60/SL-Micro.x86_64-sumaform.qcow2"
     slmicro61o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_61/SL-Micro.x86_64-sumaform.qcow2"
-    suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.nue.suse.com"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM-x86_64.qcow2"
+    suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM-x86_64.qcow2"
     leapmicro55o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap-micro/5.5/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
     tumbleweedo              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/tumbleweed/appliances/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"
   }
@@ -49,7 +50,7 @@ locals {
   additional_network = lookup(var.provider_settings, "additional_network", null)
 }
 
-resource "null_resource" "decompressed_images" {
+resource "terraform_data" "decompressed_images" {
   for_each = setintersection(local.compressed_images, local.images_used)
 
   provisioner "local-exec" {
@@ -74,11 +75,11 @@ resource "libvirt_volume" "volumes" {
   pool   = local.pool
 
   depends_on = [
-    null_resource.decompressed_images
+    terraform_data.decompressed_images
   ]
 }
 
-resource "null_resource" "cleanup_decompressed_images" {
+resource "terraform_data" "cleanup_decompressed_images" {
   provisioner "local-exec" {
     when = destroy
     command = "[ -d decompressed_images ] && rm -r decompressed_images/ || true"

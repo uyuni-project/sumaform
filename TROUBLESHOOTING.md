@@ -10,7 +10,7 @@ Error: Unreadable module directory
 Unable to evaluate directory symlink: lstat modules/backend: no such file or directory
 ```
 
-Terraform cannot find the path for the backend in use.
+OpenTofu cannot find the path for the backend in use.
 Create a symbolic link to the backend module directory inside the `modules` directory:
 
 ```bash
@@ -129,7 +129,7 @@ If you run into this error:
 
 `dial tcp 192.168.122.193:22: getsockopt: network is unreachable`
 
-during the `terraform apply`, it means Terraform was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking configuration. If you are using AWS, make sure your current IP is listed in the `ssh_allowed_ips` variable (or check it is whitelisted in AWS Console -> VPC -> Security Groups).
+during the `tofu apply`, it means OpenTofu was able to create a VM, but then is unable to log in via SSH do configure it. This is typically caused by network misconfiguration - `ping 192.168.122.193` should work but it does not. Please double check your networking configuration. If you are using AWS, make sure your current IP is listed in the `ssh_allowed_ips` variable (or check it is whitelisted in AWS Console -> VPC -> Security Groups).
 
 ## Q: how do I re-apply the Salt state that was used to provision the machine?
 
@@ -137,35 +137,36 @@ Run `sh /root/salt/highstate.sh`.
 
 ## Q: how to force the re-creation of a resource?
 
-A: you can use [Terraform's taint command](https://www.terraform.io/docs/commands/taint.html) to mark a resource to be re-created during the next `terraform apply`. To get the correct name of the module and resource use `terraform state list`:
+A: you can use [the -replace option with tofu apply command](https://opentofu.org/docs/cli/commands/taint/#recommended-alternative) to mark a resource to be re-created during the next `tofu apply`. To get the correct name of the module and resource use `tofu state list`:
 
 ```bash
-$ terraform state list
+$ tofu state list
 ...
 module.server.module.server.libvirt_volume.main_disk[0]
 
-$ terraform taint module.server.module.server.libvirt_volume.main_disk[0]
-Resource instance module.server.module.server.libvirt_volume.main_disk[0] has been marked as tainted.
+$ tofu apply -replace="module.server.module.server.libvirt_volume.main_disk[0]"
+
+Resource instance module.server.module.server.libvirt_volume.main_disk[0] will be replaced, as requested.
 ```
 
 ## Q: how to force the re-download of an image?
 
-A: see above, use the taint command as per the following example:
+A: see above, use the -replace option with tofu apply command as per the following example:
 
 ```bash
-$ terraform state list
+$ tofu state list
 ...
 module.base.libvirt_volume.volumes[2]
 
-$ terraform taint module.base.libvirt_volume.volumes[2]
-Resource instance module.base.libvirt_volume.volumes[2] has been marked as tainted.
+$ tofu apply -replace="module.base.libvirt_volume.volumes[2]"
+Resource instance module.base.libvirt_volume.volumes[2] will be replaced, as requested.
 ```
 
-Please note that any dependent volume and module should be tainted as well before applying (eg. if you are tainting the `sles12sp5` image, make sure you either have no VMs based on that OS or that they are all tainted).
+Please note that any dependent volume and module should be replaced as well before applying (eg. if you are replacing the `sles12sp5` image, make sure you either have no VMs based on that OS or that they are all replaced).
 
 ## Q: I get the error "* file: open /home/<user>/.ssh/id_ed25519.pub: no such file or directory in:"
 
-Terraform cannot find your SSH key in the default path `~/.ssh/id_ed25519.pub`. See [Accessing VMs](backend_modules/libvirt/README.md#accessing-vms) for details.
+OpenTofu cannot find your SSH key in the default path `~/.ssh/id_ed25519.pub`. See [Accessing VMs](backend_modules/libvirt/README.md#accessing-vms) for details.
 
 ## Q: how can I workaround an "libvirt_domain.domain: diffs didn't match during apply" libvirt error?
 
@@ -176,16 +177,16 @@ Error applying plan:
 
 1 error(s) occurred:
 
-libvirt_domain.domain: diffs didn't match during apply. This is a bug with Terraform and should be reported as a GitHub Issue.
+libvirt_domain.domain: diffs didn't match during apply. This is a bug with OpenTofu and should be reported as a GitHub Issue.
 ...
 Mismatch reason: attribute mismatch: network_interface.0.bridge
 ```
 
-This is a known issue, simply repeat the `terraform apply` command and it will go away.
+This is a known issue, simply repeat the `tofu apply` command and it will go away.
 
 ## Q: how do I workaround a "stat salt: no such file or directory" when applying the plan?
 
-If you run `terraform apply` from outside of the sumaform tree, you will get the error message:
+If you run `tofu apply` from outside of the sumaform tree, you will get the error message:
 
 ```bash
 Error applying plan:
@@ -201,11 +202,11 @@ A simple solution is to create a symbolic link pointing to the `salt` directory 
 
 If you want to work with more than one `main.tf` file, for example to use both a libvirt and an AWS configuration, you can follow [instructions in the README_ADVANCED.md file](README_ADVANCED.md#working-on-multiple-configuration-sets-workspaces-locally) to set up multiple workspaces.
 
-To change to another workspace just remove and create the corresponding links again, and then execute `terraform init`.
+To change to another workspace just remove and create the corresponding links again, and then execute `tofu init`.
 
 ## Q: Why do I get "is not a valid parameter" when I change between workspaces?
 
-When we change between workspaces,it may happen that `terraform init` throws "is not a valid parameter" errors, as if we actually didn't change to another workspace. To resolve this just remove the terraform cache:
+When we change between workspaces,it may happen that `tofu init` throws "is not a valid parameter" errors, as if we actually didn't change to another workspace. To resolve this just remove the terraform cache:
 
 ```bash
 rm -r .terraform/
@@ -219,61 +220,30 @@ and re-install the package.
 
 ## Q: How do I workaround a "doesn't match any of the checksums previously recorded in the dependency lock file" error?
 
-This error can occur during a `terraform init` execution:
+This error can occur during a `tofu init` execution:
 
 ```bash
-$ terraform init
+$ tofu init
 Initializing modules...
 
 Initializing the backend...
 
 Initializing provider plugins...
 - Reusing previous version of dmacvicar/libvirt from the dependency lock file
-- Reusing previous version of hashicorp/null from the dependency lock file
-- Reusing previous version of hashicorp/template from the dependency lock file
-- Using previously-installed hashicorp/template v2.2.0
-- Installing dmacvicar/libvirt v0.8.1...
-- Using previously-installed hashicorp/null v3.1.0
+- Installing dmacvicar/libvirt v0.8.3...
 ╷
 │ Error: Failed to install provider
 │ 
-│ Error while installing dmacvicar/libvirt v0.8.1: the local package for registry.terraform.io/dmacvicar/libvirt 0.8.1 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
+│ Error while installing dmacvicar/libvirt v0.8.3: the local package for registry.opentofu.org/dmacvicar/libvirt 0.8.3 doesn't match any of the checksums previously recorded in the dependency lock file (this might be because the available checksums are for packages
 │ targeting different platforms)
 ```
 
-Just delete the `.terraform.lock.hcl` file inside your sumaform folder and do another `terraform init` after that:
+Just delete the `.terraform.lock.hcl` file inside your sumaform folder and do another `tofu init` after that:
 
 ```bash
 rm .terraform.lock.hcl
-terraform init
+tofu init
 ```
 
-## Q: How do I workaround the "The provider dmacvicar/libvirt does not support resource type "libvirt_combustion" error".
-
-At the time of writing, the upstream `dmacvicar/libvirt` terraform provider does not support combustion. However, a [pull request](https://github.com/dmacvicar/terraform-provider-libvirt/pull/1068) was created to resolve this issue and an RPM of `terraform-provider-libvirt` that supports combustion is created and now hosted on the [sumaform repository](https://download.opensuse.org/repositories/systemsmanagement:/sumaform).
-
-1\. Add the sumaform repository
-
-```
-zypper ar -f https://download.opensuse.org/repositories/systemsmanagement:/sumaform/openSUSE_Leap_15.6 sumaform
-```
-
-Swap out `openSUSE_Leap_15.6` for `openSUSE_Leap_15.5` or `openSUSE_Tumbleweed` if you are using a different version of openSUSE.
-
-2\. Install `terraform-provider-libvirt` from sumaform
-
-```
-zypper in --repo sumaform terraform-provider-libvirt
-```
-
-3\. Edit your `.terraform.lock.hcl` and remove the following block:
-```
- provider "registry.terraform.io/dmacvicar/libvirt" {
-  ...
- }
-```
-
-4\. Finally, run `terraform init`
-
-See the terraform [docs](https://www.terraform.io/language/files/dependency-lock) for more information on the dependency
+See the OpenTofu [docs](https://opentofu.org/docs/language/files/dependency-lock/) for more information on the dependency
 lock file.

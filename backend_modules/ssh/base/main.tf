@@ -1,6 +1,6 @@
 
-resource "null_resource" "base" {
-  triggers = {
+resource "terraform_data" "base" {
+  triggers_replace = {
     cc_username          = var.cc_username
     cc_password          = var.cc_password
     timezone             = var.timezone

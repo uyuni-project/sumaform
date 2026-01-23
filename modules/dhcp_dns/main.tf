@@ -23,7 +23,7 @@ locals {
   repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.5/repo/oss"
 }
 
-resource "null_resource" "standalone_provisioning" {
+resource "terraform_data" "standalone_provisioning" {
 
   count = var.base_configuration["additional_network"] != null ? var.quantity : 0
 
@@ -31,7 +31,7 @@ resource "null_resource" "standalone_provisioning" {
     host                = "${local.prefix}.53"
     user                = "root"
     password            = "linux"
-    timeout             = "3m"
+    timeout             = "6m"
     bastion_host        = var.hypervisor != null ? var.hypervisor.host : null
     bastion_user        = var.hypervisor != null ? var.hypervisor.user : null
     bastion_private_key = var.hypervisor != null ? var.hypervisor.private_key : null
