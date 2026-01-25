@@ -67,7 +67,7 @@ module "server" {
   base_configuration = local.base_configuration
 
   name            = "server"
-  image           = "opensuse154o"
+  image           = "opensuse156o"
 
   provider_settings = {  }
 }
@@ -77,7 +77,7 @@ module "minion" {
   base_configuration = local.base_configuration
 
   name                 = "minion"
-  image                = "opensuse154o"
+  image                = "opensuse156o"
   server_configuration = module.server.configuration
 }
 

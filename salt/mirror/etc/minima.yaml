@@ -240,14 +240,6 @@ http:
     archs: [amd64]
 
   # openSUSE Leap
-  - url: http://download.opensuse.org/distribution/leap/15.5/repo/oss
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.5/oss
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.5/backports
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.5/sle
-    archs: [x86_64,aarch64]
   - url: http://download.opensuse.org/distribution/leap/15.6/repo/oss
     archs: [x86_64]
   - url: http://download.opensuse.org/update/leap/15.6/oss
@@ -274,15 +266,11 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP6
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.5
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.6
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_16.0
     archs: [x86_64]
   # Jenkins
-  - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.5
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.6
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/devel:/tools:/building/16.0

@@ -293,20 +293,6 @@ variable "sle15sp7_client_configuration" {
   }
 }
 
-variable "slemicro51_minion_configuration" {
-  description = "use module.<SLEMICRO51_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "slemicro51_sshminion_configuration" {
-  description = "use module.<SLEMICRO51_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "slemicro52_minion_configuration" {
   description = "use module.<SLEMICRO52_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -645,20 +631,6 @@ variable "sle15sp7_terminal_configuration" {
     private_ip = null
     private_name = null
     image = null
-  }
-}
-
-variable "opensuse155arm_minion_configuration" {
-  description = "use module.<OPENSUSE155ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "opensuse155arm_sshminion_configuration" {
-  description = "use module.<OPENSUSE155ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
   }
 }
 

@@ -10,7 +10,7 @@ chpasswd:
     root:linux
 %{ endif ~}
 
-%{ if image == "opensuse154o" || image == "opensuse155o" || image == "opensuse156o" || image == "tumbleweedo" ||~}
+%{ if image == "opensuse156o" || image == "tumbleweedo" ||~}
 runcmd:
   # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
   - zypper rm -y gettext-runtime-mini

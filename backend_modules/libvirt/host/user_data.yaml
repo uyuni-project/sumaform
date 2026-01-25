@@ -154,12 +154,12 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse155-ci-pro" ~}
+%{ if image == "opensuse156o" || image == "opensuse160o" ~}
 
 zypper:
   repos:
     - id: tools_pool_repo
-%{ if image == "opensuse155o" || image == "opensuse156o" || image == "opensuse155-ci-pro" ~}
+%{ if image == "opensuse156o" ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
 %{ endif ~}
 %{ if image == "opensuse160o" ~}
@@ -897,7 +897,7 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse155armo" || image == "opensuse156armo" ~}
+%{ if image == "opensuse156armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo

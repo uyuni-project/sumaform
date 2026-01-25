@@ -17,20 +17,6 @@ locals {
   key_file = lookup(var.provider_settings, "key_file", null)
 }
 
-data "azurerm_platform_image" "opensuse154o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "opensuse-leap-15-4"
-  sku       = "gen2"
-}
-
-data "azurerm_platform_image" "opensuse155o" {
-  location  = local.location
-  publisher = "suse"
-  offer     = "opensuse-leap-15-5"
-  sku       = "gen2"
-}
-
 data "azurerm_platform_image" "opensuse156o" {
   location  = local.location
   publisher = "suse"
@@ -142,8 +128,6 @@ locals {
     key_file             = local.key_file
     resource_group_name  = module.network.configuration.resource_group_name
     platform_image_info  = {
-      opensuse154o = { platform_image = data.azurerm_platform_image.opensuse154o },
-      opensuse155o = { platform_image = data.azurerm_platform_image.opensuse155o },
       opensuse156o = { platform_image = data.azurerm_platform_image.opensuse156o },
       sles15sp4o   = { platform_image = data.azurerm_platform_image.sles15sp4o },
       sles15sp5o   = { platform_image = data.azurerm_platform_image.sles15sp5o },
@@ -172,7 +156,7 @@ module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = "opensuse154o"
+  image                         = "opensuse156o"
   name                          = "bastion"
   connect_to_additional_network = true
   provider_settings = {

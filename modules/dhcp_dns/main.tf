@@ -19,8 +19,8 @@ locals {
   prefix               = join(".", local.add_net)
   reverse_prefix       = join(".", reverse(local.add_net))
   zypper               = "/usr/bin/zypper --non-interactive --gpg-auto-import-keys"
-  # Currently only for openSUSE 15.5:
-  repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.5/repo/oss"
+  # Currently only for openSUSE 15.6:
+  repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.6/repo/oss"
 }
 
 resource "terraform_data" "standalone_provisioning" {

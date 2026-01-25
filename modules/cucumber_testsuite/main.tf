@@ -264,7 +264,7 @@ module "dhcp_dns" {
 
   quantity           = contains(local.hosts, "dhcp_dns") ? 1 : 0
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "dhcp_dns", "opensuse155o")
+  image              = lookup(local.images, "dhcp_dns", "opensuse156o")
   name               = lookup(local.names, "dhcp_dns", "dhcp-dns")
 
   private_hosts      = [ local.proxy_configuration, module.pxeboot_minion.configuration ]

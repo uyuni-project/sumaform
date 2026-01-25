@@ -75,22 +75,6 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 
 # PRODUCT SETUP ----------------
 
-%{ if image == "leapmicro55o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_repo
-
-%{ if container_server || container_proxy }
-%{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils_repo
-%{ else }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/ container_utils_repo
-%{ endif }
-%{ endif }
-
-%{ if container_runtime == "k3s" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/sle/ sle_update_repo
-%{ endif }
-%{ endif } # end of image == "leapmicro55o" block
-
 %{ if image == "slmicro60o" }
 zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 
@@ -199,12 +183,6 @@ zypper --non-interactive update --no-recommends iptables
 %{ if testsuite }
 # For the testsuite we need the Test Packages repository always
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
-
-%{ if image == "leapmicro55o" }
-# Leap repos are required to install expect
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/distribution/leap/15.6/repo/oss/ leap_pool_repo
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/update/leap/15.6/oss/ leap_update_repo
-%{ endif } # end of image == "leapmicro55o" block
 
 %{ if image == "slmicro61o" }
 # Leap repos are required to install expect

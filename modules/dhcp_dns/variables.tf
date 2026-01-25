@@ -22,9 +22,9 @@ variable "private_hosts" {
 }
 
 variable "image" {
-  description = "an image name, e.g. sles12sp4 or opensuse155o"
+  description = "an image name, e.g. sles12sp4 or opensuse156o"
   type        = string
-  default     = "opensuse155o"
+  default     = "opensuse156o"
 }
 
 variable "hypervisor" {

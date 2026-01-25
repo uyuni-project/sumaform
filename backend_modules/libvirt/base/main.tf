@@ -17,10 +17,8 @@ locals {
     oraclelinux9o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL9/u0/x86_64/OL9U0_x86_64-kvm-b142.qcow"
     rocky8o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
     rocky9o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
-    opensuse155o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse156o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse160o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
-    opensuse155armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.5/appliances/openSUSE-Leap-15.5-Minimal-VM.aarch64-Cloud.qcow2"
     opensuse156armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.aarch64-Cloud.qcow2"
     sles15sp3o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP3-JeOS-GM/SLES15-SP3-JeOS.x86_64-15.3-OpenStack-Cloud-GM.qcow2"
     sles15sp4o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP4-Minimal-GM/SLES15-SP4-Minimal-VM.x86_64-OpenStack-Cloud-GM.qcow2"
@@ -32,8 +30,6 @@ locals {
     ubuntu2204o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/jammy/current/jammy-server-cloudimg-amd64.img"
     ubuntu2404o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud-images.ubuntu.com"}/noble/current/noble-server-cloudimg-amd64.img"
     debian12o                = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.debian.org"}/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2"
-    opensuse155-ci-pro       = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/libvirt/images/opensuse155-ci-pr.x86_64.qcow2"
-    slemicro51-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_51/SUSE-MicroOS.x86_64-sumaform.qcow2"
     slemicro52-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_52/SUSE-MicroOS.x86_64-sumaform.qcow2"
     slemicro53-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_53/SLE-Micro.x86_64-sumaform.qcow2"
     slemicro54-ign           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_54/SLE-Micro.x86_64-sumaform.qcow2"
@@ -42,7 +38,6 @@ locals {
     slmicro61o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_61/SL-Micro.x86_64-sumaform.qcow2"
     slmicro62o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SL-Micro-6.2-GM/SL-Micro.x86_64-6.2-Default-qcow-GM.qcow2"
     suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM-x86_64.qcow2"
-    leapmicro55o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap-micro/5.5/appliances/openSUSE-Leap-Micro.x86_64-Default-qcow.qcow2"
     tumbleweedo              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/tumbleweed/appliances/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"
   }
   compressed_images = toset(["openeuler2403o"])

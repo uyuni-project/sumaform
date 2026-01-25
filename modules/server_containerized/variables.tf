@@ -293,7 +293,7 @@ variable "connect_to_additional_network" {
 }
 
 variable "image" {
-  description = "An image name, e.g. slemicro55o or leapmicro55o"
+  description = "An image name, e.g. slemicro55o"
   type        = string
   default     = "default"
 }
