@@ -501,7 +501,7 @@ tools_additional_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_additional_repo
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Beta-Debian{{ release }}
+            Pin: release l=Devel:Galaxy:Manager:Main:MLMTools-Beta-Debian{{ release }}
             Pin-Priority: 800
 
 {% endif %} {# Devel Tools Repos #}
