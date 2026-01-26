@@ -1258,7 +1258,7 @@ module "dhcp_dns" {
   ) ? 1 : 0
   base_configuration = local.base_retail
   name               = "dhcp-dns"
-  image              = "opensuse155o"
+  image              = "opensuse156o"
   private_hosts = concat(
     module.proxy_containerized[*].configuration,
     module.sles15sp6_terminal[*].configuration,
