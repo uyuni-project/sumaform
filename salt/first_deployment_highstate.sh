@@ -3,12 +3,16 @@
 # Applies the "minimal" state in isolation to set the hostname and update Salt itself
 # then applies the highstate
 
+function is_transactional() {
+  command -v transactional-update >/dev/null 2>&1
+}
+
 FILE_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 # Force direct call module executors on MicroOS images
 MODULE_EXEC=""
-if test -f /sbin/transactional-update; then
-MODULE_EXEC="--module-executors=[direct_call]"
+if is_transactional; then
+    MODULE_EXEC="--module-executors=[direct_call]"
 fi
 
 if [ -x /usr/bin/venv-salt-call ]; then
