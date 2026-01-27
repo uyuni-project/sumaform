@@ -275,6 +275,7 @@ tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/MultiLinuxManagerTools/{{ rhlike_client_tools_prefix }}-{{ release }}/{{ grains.get("cpuarch") }}/update/
+    - gpgcheck: 0
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
 
