@@ -1,0 +1,21 @@
+#cloud-config
+
+zypper:
+  repos:
+    - id: os_pool_repo
+      name: os_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/SLE-SERVER/12-SP5/x86_64/product/
+      enabled: 1
+      autorefresh: 1
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+runcmd:
+%{ if install_salt_bundle ~}
+  - "zypper -n in venv-salt-minion avahi nss-mdns qemu-guest-agent"
+%{ else ~}
+  - "zypper -n in avahi nss-mdns qemu-guest-agent"
+%{ endif ~}

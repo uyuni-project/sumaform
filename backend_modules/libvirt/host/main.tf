@@ -50,7 +50,9 @@ locals {
     ignition = length(regexall("-ign$", var.image)) > 0
     add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
 
-  user_data = templatefile("${path.module}/user_data.yaml", {
+
+  # Consolidate variables passed to templates
+  template_vars = {
     image               = var.image
     use_mirror_images   = var.base_configuration["use_mirror_images"]
     mirror              = var.base_configuration["mirror"]
@@ -61,7 +63,50 @@ locals {
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
     product_version     = local.product_version
-  })
+  }
+
+  # Explicit Map: Image Name -> Template File
+  image_to_template = {
+    "almalinux10o"     = "almalinux10.yaml"
+    "almalinux8o"      = "almalinux8.yaml"
+    "almalinux9o"      = "almalinux9.yaml"
+    "amazonlinux2023o" = "amazonlinux2023.yaml"
+    "amazonlinux2o"    = "amazonlinux2.yaml"
+    "centos7o"         = "centos7.yaml"
+    "centos8o"         = "centos8.yaml"
+    "centos9o"         = "centos9.yaml"
+    "debian12o"        = "debian12.yaml"
+    "libertylinux9o"   = "libertylinux9.yaml"
+    "openeuler2403o"   = "openeuler2403.yaml"
+    "opensuse156armo"  = "opensuse156arm.yaml"
+    "opensuse156o"     = "opensuse156.yaml"
+    "opensuse160o"     = "opensuse160.yaml"
+    "oraclelinux8o"    = "oraclelinux8.yaml"
+    "oraclelinux9o"    = "oraclelinux9.yaml"
+    "rocky8o"          = "rocky8.yaml"
+    "rocky9o"          = "rocky9.yaml"
+    "slemicro55o"      = "slmicro55.yaml"
+    "sles12sp5o"       = "sles12sp5.yaml"
+    "sles15sp3o"       = "sles15sp3.yaml"
+    "sles15sp4o"       = "sles15sp4.yaml"
+    "sles15sp5o"       = "sles15sp5.yaml"
+    "sles15sp6o"       = "sles15sp6.yaml"
+    "sles15sp7o"       = "sles15sp7.yaml"
+    "sles16o"          = "sles16.yaml"
+    "tumbleweedo"      = "tumbleweed.yaml"
+    "ubuntu2204o"      = "ubuntu2204.yaml"
+    "ubuntu2404o"      = "ubuntu2404.yaml"
+  }
+
+  # Lookup logic
+  distro_template_file = lookup(local.image_to_template, var.image, null)
+
+  # Render the templates (Base is always rendered)
+  user_data_base = templatefile("${path.module}/templates/base.yaml", local.template_vars)
+
+  # Distro is rendered only if the image exists in our map
+  user_data_distro = local.distro_template_file != null ? templatefile("${path.module}/templates/${local.distro_template_file}", local.template_vars) : ""
+
 
   network_config = templatefile("${path.module}/network_config.yaml", {
     image            = var.image
@@ -89,6 +134,27 @@ locals {
   })
 
   ignition_file = templatefile("${path.module}/config.ign", {})
+} # end locals
+
+# Merge cloud-init config data parts
+data "cloudinit_config" "host_config" {
+  gzip          = false
+  base64_encode = false
+
+  # Part 1: Base Configuration
+  part {
+    filename     = "base.cfg"
+    content_type = "text/cloud-config"
+    content      = local.user_data_base
+  }
+  # Part 2: Distro Specifics
+  part {
+    filename     = "distro.cfg"
+    content_type = "text/cloud-config"
+    content      = local.user_data_distro
+    # "merge_type" ensures lists (like runcmd) are appended, not overwritten
+    merge_type   = "list(append)+dict(recurse_array)+str()"
+  }
 }
 
 resource "libvirt_volume" "main_disk" {
@@ -117,7 +183,7 @@ resource "libvirt_volume" "database_disk" {
 
 resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
-  user_data        = local.user_data
+  user_data        = data.cloudinit_config.host_config.rendered
   network_config   = local.network_config
   pool             = var.base_configuration["pool"]
   count            = local.cloud_init ? var.quantity : 0

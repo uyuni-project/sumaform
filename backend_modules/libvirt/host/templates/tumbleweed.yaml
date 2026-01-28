@@ -1,0 +1,30 @@
+#cloud-config
+
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+    - id: ca_suse
+      name: ca_suse
+      baseurl:
+        http://${ use_mirror_images ? mirror: "download.opensuse.org" }/repositories/SUSE:/CA/openSUSE_Tumbleweed/
+      enabled: 1
+      autorefresh: 1
+      gpgcheck: false
+
+runcmd:
+   # openssh-server-config-rootlogin is required to allow SSH root login with SELinux enabled
+%{ if testsuite ~}
+  - zypper --non-interactive install wget timezone expect bind-utils
+%{ endif ~}
+%{ if container_server ~}
+  - zypper --non-interactive install mgrctl mgradm uyuni-storage-setup-server netavark aardvark-dns
+%{ endif ~}
+%{ if container_proxy ~}
+  - zypper --non-interactive install mgrpxy
+%{ endif ~}
+  - zypper --non-interactive install venv-salt-minion avahi avahi-lang openssh-server-config-rootlogin which ca-certificates ca-certificates-suse
+  - systemctl restart sshd

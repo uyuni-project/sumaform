@@ -1,0 +1,25 @@
+#cloud-config
+
+yum_repos:
+  # repo for salt
+  tools_pool_repo:
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: tools_pool_repo
+  # repo for nss-mdns
+  epel:
+    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+    failovermethod: priority
+    enabled: true
+    gpgcheck: false
+    name: epel
+
+runcmd:
+%{ if install_salt_bundle ~}
+  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
+%{ else ~}
+  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
+%{ endif ~}

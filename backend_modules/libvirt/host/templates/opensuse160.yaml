@@ -1,0 +1,24 @@
+#cloud-config
+
+zypper:
+  repos:
+    - id: tools_pool_repo
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
+      enabled: true
+      gpgcheck: false
+      name: tools_pool_repo
+
+runcmd:
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
+  - echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
+  - systemctl restart sshd
+%{ if container_server && testsuite ~}
+  # Packages needed for the testsuite
+  - "zypper -n in expect"
+%{ endif ~}
+%{ if install_salt_bundle ~}
+  - "zypper -n in venv-salt-minion avahi nss-mdns"
+%{ else ~}
+  - "zypper -n in avahi nss-mdns"
+%{ endif ~}
+  - "zypper removerepo --all"
