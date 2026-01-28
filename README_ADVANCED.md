@@ -21,7 +21,7 @@ Legal values for work-in-progress software are:
 - `4.3-VM-nightly` (corresponds to the VM image in the Build Service project Devel:Galaxy:Manager:4.3)
 - `5.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.0)
 - `5.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.1)
-- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Head, uses SL Micro 6.1 as the base image for server)
+- `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Main, uses SL Micro 6.1 as the base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master, for `server` and `proxy` only works with openSUSE Leap image)
 
 **Important:** sumaform only supports containerized deployments for SUSE Manager versions 5.0 and later.

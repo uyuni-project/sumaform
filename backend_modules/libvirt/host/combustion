@@ -120,10 +120,10 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
         %{ else }
           # HEAD
           %{ if container_server }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
-            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Head/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
         %{ endif }
       %{ endif }
