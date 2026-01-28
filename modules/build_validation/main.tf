@@ -46,7 +46,7 @@ module "base_arm" {
 
   provider_settings = {
     pool   = "ssd"
-    bridge = "br1"
+    bridge = try(var.base_configurations.base_arm.bridge, "br1")
   }
 }
 
@@ -105,7 +105,7 @@ module "server" {
 
 module "server_containerized" {
   source             = "../server_containerized"
-  count               = lookup(var.environment_configuration, "server_containerized", null) != null ? 1 : 0
+  count              = lookup(var.environment_configuration, "server_containerized", null) != null ? 1 : 0
   base_configuration = local.base_core
   name               = var.environment_configuration.server_containerized.name
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server_containerized.image
