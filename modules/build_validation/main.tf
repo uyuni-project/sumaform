@@ -56,7 +56,6 @@ module "base_s390" {
   name_prefix     = var.environment_configuration.name_prefix
   domain          = var.platform_location_configuration[var.location].domain
   product_version = var.product_version
-
   testsuite = true
 }
 
