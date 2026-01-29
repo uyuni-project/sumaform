@@ -206,11 +206,11 @@ http:
     archs: [amd64]
 
   # SLE 12 (GA and all SPs) Manager Tools Main devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-x86_64-Media1
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-x86_64-Media1
     archs: [x86_64]
 
   # SLE 15 Manager Tools Main devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1
     archs: [x86_64]
 
   # SLES 16 Manager Tools Main devel
@@ -220,23 +220,23 @@ http:
     archs: [x86_64]
 
   # RES 7 Manager Tools Main devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-x86_64-Media
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-x86_64-Media
     archs: [x86_64]
 
   # RES 8 Manager Tools Main devel
-  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
+  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
     archs: [x86_64]
 
   # EL 9 Manager Tools Main devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-EL-9-Beta-x86_64-Media1
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-EL-9-Beta-x86_64-Media1
     archs: [x86_64]
 
   # Ubuntu 22.04 Manager Tools Main devel
-  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu22.04/xUbuntu_22.04-debbuild/
+  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Ubuntu22.04/xUbuntu_22.04-debbuild/
     archs: [amd64]
 
   # Ubuntu 24.04 Manager Tools Main devel
-  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu24.04/xUbuntu_24.04-debbuild/
+  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-Ubuntu24.04/xUbuntu_24.04-debbuild/
     archs: [amd64]
 
   # openSUSE Leap
