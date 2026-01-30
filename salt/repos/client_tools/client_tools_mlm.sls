@@ -406,7 +406,7 @@ additional_tools_update_repo_raised_priority:
 
 {% elif 'head' in grains.get('product_version') | default('', true) %}
 
-{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release %}
+{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release + "-debbuild" %}
 additional_tools_update_repo:
   pkgrepo.managed:
     - humanname: additional_tools_update_repo
