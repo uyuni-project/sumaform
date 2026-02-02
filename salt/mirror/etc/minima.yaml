@@ -224,11 +224,11 @@ http:
     archs: [x86_64]
 
   # RES 8 Manager Tools Main devel
-  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
+  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1
     archs: [x86_64]
 
   # EL 9 Manager Tools Main devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-EL-9-Beta-x86_64-Media1
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1
     archs: [x86_64]
 
   # Ubuntu 22.04 Manager Tools Main devel

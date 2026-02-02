@@ -316,9 +316,7 @@ tools_additional_repo:
 tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo
-    {%- if release > 8 %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-EL-{{ release }}-Beta-{{ grains.get("cpuarch") }}-Media1/
-    {%- elif release == 8 %}
+    {%- if release >= 8 %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL{{ release }}/images/repo/MultiLinuxManagerTools-Beta-EL-{{ release }}-{{ grains.get("cpuarch") }}-Media1/
     {%- else %}
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL{{ release }}/images/repo/ManagerTools-Beta-EL{{ release }}-POOL-{{ grains.get("cpuarch") }}-Media/
