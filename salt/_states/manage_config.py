@@ -48,8 +48,6 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
                 java.max_changelog_entries: 3
     """
 
-    name = Path(name)
-
     ret = {"name": name, "result": None, "changes": {}, "comment": ""}
 
     if not name:
@@ -61,6 +59,7 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
     if not isinstance(key_value, dict):
         return _error(ret, f"key_value must be a valid dictionary")
 
+    name = Path(name)
     file_path = name
 
     if mgrctl:
@@ -104,8 +103,8 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
             append_if_not_found=True,
             prepend_if_not_found=False,
             not_found_content=None,
-            backup=".bak",
-            dry_run=__opts__["test"],
+            backup=False,
+            dry_run=False,
             show_changes=True,
             ignore_if_missing=False,
             backslash_literal=False,
@@ -124,8 +123,8 @@ def manage_lines(name, key_value, mgrctl=False, regex_escape_keys=False):
             mgrctl_rc = __salt__["cmd.run_all"](cmd)
             rc = mgrctl_rc.get("retcode", -1)
         except Exception as e:
-            return _error(ret, "Error while trying to copy file with mgrctl:  {0}".format(e))
+            return _error(ret, "Error while trying to copy file to container with mgrctl:  {0}".format(e))
         if rc != 0:
-            return _error(ret, f"{cmd} failed with rc {rc}: {mgrctl_rc.get('stderr', -1)}")
+            return _error(ret, f"{cmd} failed with rc {rc}: {mgrctl_rc.get('stderr')}")
 
     return ret

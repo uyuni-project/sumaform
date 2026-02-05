@@ -35,7 +35,7 @@ large_deployment_tomcat_restart:
       - manage_config: large_deployment_edit_rhn
       - cmd: large_deployment_tune_tomcat_maxthreads
 
-{% if '5.1' in grains.get('product_version', '') or 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') or '5.1' in grains.get('product_version', '') %}
+{% if '5.1' in grains.get('product_version', '') or 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') %}
 large_deployment_increase_sshd_maxstartups:
   file.managed:
     - name: /etc/ssh/sshd_config.d/99-maxstartups.conf
