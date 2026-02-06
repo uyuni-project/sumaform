@@ -137,8 +137,19 @@ export PRODUCT="SUSE Multi-Linux Manager"
 export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
 
 #### Generate certificates for Google Chrome
-if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
-  wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
-  update-ca-certificates
-  certutil -d sql:/root/.pki/nssdb -A -t TC -n "susemanager" -i  /etc/pki/trust/anchors/$SERVER.cert
+. /etc/os-release
+if [[ "$ID_LIKE" == *"debian"* ]]; then
+    if [ ! -f /usr/local/share/ca-certificates/$SERVER.cert ]; then
+      (
+        wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /usr/local/share/ca-certificates/$SERVER.cert
+        sudo update-ca-certificates
+        certutil -d sql:/root/.pki/nssdb -A -t TC -n "susemanager" -i  /usr/local/share/ca-certificates/$SERVER.cert
+      ) >/dev/null 2>>/tmp/susemanager-cert-setup.err.log
+    fi
+else
+    if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
+      wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
+      update-ca-certificates
+      certutil -d sql:/root/.pki/nssdb -A -t TC -n "susemanager" -i  /etc/pki/trust/anchors/$SERVER.cert
+    fi
 fi
