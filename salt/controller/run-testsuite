@@ -1,6 +1,20 @@
 #! /bin/bash
 
-cd /root/spacewalk/testsuite
+# Define the container name
+CONTAINER="uyuni-controller"
+WORKDIR="/root/spacewalk/testsuite"
+
+# Helper to execute commands inside the container
+# We verify the container is running first
+if ! podman ps | grep -q "$CONTAINER"; then
+    echo "Error: Container $CONTAINER is not running."
+    exit 1
+fi
+
+run_in_container() {
+    # We source the environment variables before running the rake command
+    podman exec -t "$CONTAINER" /bin/bash -c "source /root/salt_env.sh && cd $WORKDIR && $*"
+}
 
 ABORT_ON_ERROR=1
 if [ "$1" = "-d" -o "$1" = "--dont-fail" ]; then
@@ -10,7 +24,7 @@ fi
 RESULT=0
 
 stage() {
-  rake "cucumber:$1"
+  run_in_container rake "cucumber:$1"
   if [ $? -ne 0 ]; then
     [ $ABORT_ON_ERROR -ne 0 ] && exit -1
     RESULT=1
@@ -18,12 +32,14 @@ stage() {
 }
 
 parallel_stage() {
-  rake "parallel:$1"
+  run_in_container rake "parallel:$1"
   if [ $? -ne 0 ]; then
     [ $ABORT_ON_ERROR -ne 0 ] && exit -1
     RESULT=1
   fi
 }
+
+# The rest of the logic remains identical, just calling the wrapper functions
 
 # normal run
 if [ -z "$1" ]; then

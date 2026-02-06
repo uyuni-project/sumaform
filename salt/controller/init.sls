@@ -2,6 +2,12 @@ include:
   - repos
   - controller.apache_https
 
+# Install Podman
+podman_pkg:
+  pkg.installed:
+    - name: podman
+
+# SSH Keys (Mounted into container later)
 ssh_private_key:
   file.managed:
     - name: /root/.ssh/id_ed25519
@@ -26,129 +32,20 @@ authorized_keys_controller:
     - source: salt://controller/id_ed25519.pub
     - makedirs: True
 
-cucumber_requisites:
-  pkg.installed:
-    - pkgs:
-      - gcc
-      - make
-      - wget
-      - libssh-devel
-      - python-devel
-      - ruby3.3
-      - ruby3.3-devel
-      - autoconf
-      - ca-certificates-mozilla
-      - automake
-      - libtool
-      - apache2-worker
-      - apache2-mod_nss
-      - cantarell-fonts
-      - git-core
-      - aaa_base-extras
-      - zlib-devel
-      - libxslt-devel
-      - mozilla-nss-tools
-      - postgresql-devel
-      - unzip
-    - require:
-      - sls: repos
-
-/usr/bin/ruby:
-  file.symlink:
-    - target: /usr/bin/ruby.ruby3.3
-    - force: True
-
-/usr/bin/gem:
-  file.symlink:
-    - target: /usr/bin/gem.ruby3.3
-    - force: True
-
-/usr/bin/irb:
-  file.symlink:
-    - target: /usr/bin/irb.ruby3.3
-    - force: True
-
-ruby_set_rake_version:
-  cmd.run:
-    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
-
-ruby_set_bundle_version:
-  cmd.run:
-    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
-
-ruby_set_rdoc_version:
-  cmd.run:
-    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
-
-ruby_set_ri_version:
-  cmd.run:
-    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
-
-install_chromium:
-  pkg.installed:
-  - name: chromium
-
-install_chromedriver:
-  pkg.installed:
-  - name: chromedriver
-
-create_syslink_for_chromedriver:
-  file.symlink:
-    - name: /usr/bin/chromedriver
-    - target: ../lib64/chromium/chromedriver
-    - force: True
-
-install_npm:
-  pkg.installed:
-    - name: npm-default
-
-install_gems_via_bundle:
-  cmd.run:
-    # Workaround: Force IPv4 as some rubygems.org IPv6 endpoints are timing out
-    - name: "export GEM_COMMAND_OPTIONS='--ipv4' && bundle.ruby3.3 install --gemfile Gemfile"
-    - cwd: /root/spacewalk/testsuite
-    - require:
-      - pkg: cucumber_requisites
-      - cmd: spacewalk_git_repository
-
-# https://github.com/gkushang/cucumber-html-reporter
-install_cucumber_html_reporter_via_npm:
-  cmd.run:
-    - name: npm install cucumber-html-reporter@7.2.0 --save-dev
-    - require:
-      - pkg: install_npm
-
-fix_cucumber_html_reporter_style:
-  file.append:
-    - name: /root/node_modules/cucumber-html-reporter/templates/_common/bootstrap.hierarchy/style.css
-    - text: |
-        .container {
-            width: 100%;
-        }
-    - require:
-      - cmd: install_cucumber_html_reporter_via_npm
-
+# Git Config (Mounted into container later)
 git_config:
   file.append:
-    - name: ~/.netrc
+    - name: /root/.netrc
     - text: |
-{%- if grains.get("git_username") and grains.get("git_password") %}
+        {%- if grains.get("git_username") and grains.get("git_password") %}
         machine github.com
         login {{ grains.get("git_username") }}
         password {{ grains.get("git_password") }}
         protocol https
-{%- endif %}
+        {%- endif %}
+    - makedirs: True
 
-netrc_mode:
-  file.managed:
-    - name: ~/.netrc
-    - user: root
-    - group: root
-    - mode: 600
-    - replace: False
-    - require:
-      - file: git_config
-
+# Clone Repository on Host (Mounted into container)
 spacewalk_git_repository:
   cmd.run:
 {%- set url = grains.get('git_repo') | default('default', true) %}
@@ -168,9 +65,21 @@ spacewalk_git_repository:
         git checkout
     - creates: /root/spacewalk
     - require:
-      - pkg: cucumber_requisites
-      - file: netrc_mode
+        - file: git_config
+        - pkg: podman_pkg # Ensure git is available (usually in base or via repos)
 
+# Environment Variables (Mounted into container)
+# We save this to a separate file to be sourced inside the container
+testsuite_env_vars:
+  file.managed:
+    - name: /root/salt_env.sh
+    - source: salt://controller/bashrc
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 755
+
+# Deploy the updated run-testsuite script
 cucumber_run_script:
   file.managed:
     - name: /usr/bin/run-testsuite
@@ -180,28 +89,7 @@ cucumber_run_script:
     - group: root
     - mode: 755
 
-testsuite_env_vars:
-  file.managed:
-    - name: /root/.bashrc
-    - source: salt://controller/bashrc
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 755
-
-extra_pkgs:
-  pkg.installed:
-    - pkgs:
-      - screen
-      - xauth
-    - require:
-      - sls: repos
-
-# needed together with the `xauth` package for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
-create_xauthority_file:
-  cmd.run:
-   - name: touch /root/.Xauthority
-
+# Chrome Cert DB directory on host (Mounted into container)
 chrome_certs:
   file.directory:
     - user:  root
@@ -212,44 +100,51 @@ chrome_certs:
 
 google_cert_db:
   cmd.run:
-   - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
-   - require:
-     - file: chrome_certs
-   - creates: /root/.pki/nssdb
-
-# Health-check testing
-health_check_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}/repodata/repomd.xml.key
-    - gpgcheck: 0
-    - refresh: True
-
-install_health_check:
-    pkg.installed:
-    - name: mgr-health-check
-    - resolve_capabilities: True
+    - name: certutil -d sql:/root/.pki/nssdb -N --empty-password
     - require:
-      - pkgrepo: health_check_repo
+        - file: chrome_certs
+    - creates: /root/.pki/nssdb
 
-# NFS mounted partition to store reports in a external Web Server
-{% if grains.get('web_server_hostname') %}
-nfs_client:
-  pkg.installed:
-    - name: nfs-client
-
-non_empty_fstab:
-  file.managed:
-    - name: /etc/fstab
-    - replace: false
-
-web_server_directory:
-  mount.mounted:
-    - name: /mnt/www
-    - device: {{ grains.get('web_server_hostname') }}:/srv/www/htdocs
-    - fstype: nfs
-    - mkmnt: True
+# Run the Controller Container
+# We use network mode 'host' so it shares the VM's IP and networking visibility
+uyuni_controller_container:
+  cmd.run:
+    - name: |
+        podman run -d \
+          --name uyuni-controller \
+          --network host \
+          --privileged \
+          -v /root/spacewalk:/root/spacewalk \
+          -v /root/.ssh:/root/.ssh \
+          -v /root/.netrc:/root/.netrc \
+          -v /root/salt_env.sh:/root/salt_env.sh \
+          -v /root/.pki:/root/.pki \
+          -v /etc/apache2/ssl.crt:/etc/apache2/ssl.crt \
+          -v /etc/apache2/ssl.key:/etc/apache2/ssl.key \
+          -v /usr/local/lib/https_server.py:/usr/local/lib/https_server.py \
+          ghcr.io/uyuni-project/uyuni/ci-test-controller-dev:master
+    - unless: podman inspect uyuni-controller >/dev/null 2>&1
     - require:
-        - file: /etc/fstab
-        - pkg: nfs_client
-{% endif %}
+        - pkg: podman_pkg
+        - cmd: spacewalk_git_repository
+        - file: testsuite_env_vars
+        - cmd: self_signed_cert  # From apache_https.sls
+
+# Configure Container Environment (Source variables, install missing NPM/Gems)
+configure_container:
+  cmd.run:
+    - name: |
+        # Append sourcing of salt env vars to container bashrc
+        podman exec uyuni-controller bash -c "grep -q 'salt_env.sh' /root/.bashrc || echo 'source /root/salt_env.sh' >> /root/.bashrc"
+
+        # Ensure gems are up to date with the cloned repo
+        podman exec -w /root/spacewalk/testsuite uyuni-controller bundle install
+    - require:
+        - cmd: uyuni_controller_container
+
+# Start the HTTPS Testsuite Server inside the container
+start_https_service_container:
+  cmd.run:
+    - name: podman exec -d uyuni-controller python3 /usr/local/lib/https_server.py
+    - require:
+        - cmd: configure_container
