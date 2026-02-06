@@ -104,9 +104,11 @@ install_npm:
 
 install_gems_via_bundle:
   cmd.run:
-    # Workaround: Force IPv4 as some rubygems.org IPv6 endpoints are timing out
-    - name: "export GEM_COMMAND_OPTIONS='--ipv4' && bundle.ruby3.3 install --gemfile Gemfile"
+    - name: bundle.ruby3.3 install --gemfile Gemfile
     - cwd: /root/spacewalk/testsuite
+    # WORKAROUND: Force IPv4 fallback as some rubygems.org IPv6 endpoints are timing out
+    - env:
+      - RUBYOPT: "-rresolv-replace"
     - require:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
