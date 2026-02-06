@@ -23,7 +23,7 @@ module "proxy_containerized" {
   connect_to_additional_network = true
   quantity                      = var.quantity
   base_configuration            = var.base_configuration
-  image                         = var.image == "default" || local.product_version == "head" ? var.images[local.product_version] : var.image
+  image                         = var.image == "default" ? var.images[local.product_version] : var.image
   name                          = var.name
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
