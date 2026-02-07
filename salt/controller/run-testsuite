@@ -6,7 +6,7 @@ WORKDIR="/root/spacewalk/testsuite"
 
 # Helper to execute commands inside the container
 # We verify the container is running first
-if ! podman ps | grep -q "$CONTAINER"; then
+if ! podman inspect -f '{{.State.Running}}' "$CONTAINER" 2>/dev/null | grep -q '^true$'; then
     echo "Error: Container $CONTAINER is not running."
     exit 1
 fi
