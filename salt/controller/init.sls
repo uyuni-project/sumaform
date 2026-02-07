@@ -146,5 +146,6 @@ configure_container:
 start_https_service_container:
   cmd.run:
     - name: podman exec -d uyuni-controller python3 /usr/local/lib/https_server.py
+    - unless: podman exec uyuni-controller pgrep -f https_server.py >/dev/null 2>&1
     - require:
         - cmd: configure_container
