@@ -12,8 +12,9 @@ if ! podman ps | grep -q "$CONTAINER"; then
 fi
 
 run_in_container() {
-    # We source the environment variables before running the rake command
-    podman exec -t "$CONTAINER" /bin/bash -c "source /root/salt_env.sh && cd $WORKDIR && $*"
+    # We source the environment variables before running the command,
+    # and preserve argument boundaries by passing them as positional parameters.
+    podman exec -t "$CONTAINER" /bin/bash -lc 'source /root/salt_env.sh && cd '"$WORKDIR"' && "$@"' bash "$@"
 }
 
 ABORT_ON_ERROR=1
