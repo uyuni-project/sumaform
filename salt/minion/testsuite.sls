@@ -6,6 +6,7 @@
 minion_cucumber_requisites:
   pkg.installed:
     - pkgs:
+      - mgr-cfg-actions
 {% if grains['install_salt_bundle'] %}
       - venv-salt-minion
 {% else %}
