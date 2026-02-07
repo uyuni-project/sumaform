@@ -77,7 +77,7 @@ testsuite_env_vars:
     - template: jinja
     - user: root
     - group: root
-    - mode: 755
+    - mode: 600
 
 # Deploy the updated run-testsuite script
 cucumber_run_script:
