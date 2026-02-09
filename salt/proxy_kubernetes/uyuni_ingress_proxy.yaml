@@ -1,0 +1,14 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-ingress-nginx
+  namespace: {{ namespace }}
+spec:
+  valuesContent: |-
+    controller:
+      config:
+        hsts: "false"
+    tcp:
+      4505: {{ namespace }}/salt:4505
+      4506: {{ namespace }}/salt:4506
+      8022: {{ namespace }}/ssh:8022

@@ -36,6 +36,11 @@ variable "name_prefix" {
   default     = ""
 }
 
+variable "helm_chart_url" {
+  description = "URL of the helm chart to use. Uses the released one by default."
+  default = "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2"
+}
+
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
   default     = ["centos7o", "opensuse156o", "opensuse160o", "slemicro55o", "slmicro60o", "slmicro61o", "rocky8o", "rocky9o", "sles12sp5o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "ubuntu2204o", "ubuntu2404o", "suma43VM-ign"]

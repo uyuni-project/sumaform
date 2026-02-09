@@ -59,6 +59,16 @@ variable "container_tag" {
   default = ""
 }
 
+variable "helm_chart_url" {
+  description = "URL of the helm chart to use. Uses the released one by default."
+  default = "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2"
+}
+
+variable "helm_chart_name" {
+  description = "Name of the helm chart to use. Uses the released one by default."
+  default = "proxy-helm"
+}
+
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
   default = {

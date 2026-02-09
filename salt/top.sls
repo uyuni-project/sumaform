@@ -10,6 +10,10 @@ base:
     - match: grain
     - server_containerized
 
+  'roles:server_kubernetes':
+    - match: grain
+    - server_kubernetes
+
   'roles:client':
     - match: grain
     - client
@@ -21,6 +25,10 @@ base:
   'roles:proxy_containerized':
     - match: grain
     - proxy_containerized
+
+  'roles:proxy_kubernetes':
+    - match: grain
+    - proxy_kubernetes
 
   'roles:minion':
     - match: grain
