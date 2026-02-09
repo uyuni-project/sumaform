@@ -23,7 +23,7 @@ module "proxy_containerized" {
   connect_to_additional_network = true
   quantity                      = var.quantity
   base_configuration            = var.base_configuration
-  image                         = var.image == "default" || local.product_version == "head" ? var.images[local.product_version] : var.image
+  image                         = var.image == "default" ? var.images[local.product_version] : var.image
   name                          = var.name
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
@@ -52,7 +52,9 @@ module "proxy_containerized" {
     ssh_container_image       = var.ssh_container_image
     tftpd_container_image     = var.tftpd_container_image
     container_tag             = var.container_tag
-    helm_chart_url            = var.helm_chart_url # Not yet implemented in sumaform salt states
+    helm_chart_url            = var.helm_chart_url
+    helm_chart_name           = var.helm_chart_name
+    ca_type                   = var.ca_type
     mirror                    = var.base_configuration["mirror"]
     avahi_reflector           = var.avahi_reflector
     main_disk_size            = var.main_disk_size
