@@ -32,6 +32,16 @@ variable "container_tag" {
   default = ""
 }
 
+variable "helm_chart_url" {
+  description = "Where to get the helm chart from. Uses the released one by default."
+  default = ""
+}
+
+variable "helm_chart_name" {
+  description = "Where to get the helm chart from. Uses the released one by default."
+  default = ""
+}
+
 variable "db_container_repository" {
   description = "Where to find the server database container images. Uses the released ones per default."
   default = ""

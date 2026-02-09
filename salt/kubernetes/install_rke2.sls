@@ -1,6 +1,3 @@
-include:
-  - server_containerized.install_common
-
 {% set osfullname = grains['osfullname'] %}
 {% if osfullname in ['Ubuntu'] %}
 {% set rke2_version = "v1.34.2+rke2r1" %}

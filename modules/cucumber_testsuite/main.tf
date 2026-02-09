@@ -71,8 +71,10 @@ locals {
     host_key => lookup(var.host_settings[host_key], "db_container_image", null) if var.host_settings[host_key] != null }
   db_container_tags    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "db_container_tag", null) if var.host_settings[host_key] != null }
-  helm_chart_urls           = { for host_key in local.hosts :
+  helm_chart_url           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
+  helm_chart_name           = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "helm_chart_name", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "main_disk_size", 200) if var.host_settings[host_key] != null }
   repository_disk_size      = { for host_key in local.hosts :
@@ -188,6 +190,10 @@ module "server_containerized" {
   database_disk_size            = lookup(local.database_disk_size, "server_containerized", 0)
   large_deployment              = lookup(local.large_deployment, "server_containerized", true)
   enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_containerized", false)
+
+  //Kubernetes
+  helm_chart_url         = lookup(local.helm_chart_url, "server_containerized", "")
+  helm_chart_name        = lookup(local.helm_chart_name, "server_containerized", "")
 }
 
 module "proxy" {
@@ -240,7 +246,6 @@ module "proxy_containerized" {
   ssh_container_image    = lookup(local.ssh_container_images, "proxy_containerized", "")
   tftpd_container_image  = lookup(local.tftpd_container_images, "proxy_containerized", "")
   container_tag          = lookup(local.container_tags, "proxy_containerized", "")
-  helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
   server_configuration   = { hostname = local.server_full_name,
                               username = "admin",
                               password = "admin",
@@ -257,6 +262,10 @@ module "proxy_containerized" {
   main_disk_size          = lookup(local.main_disk_size, "proxy_containerized", 200)
   repository_disk_size    = lookup(local.repository_disk_size, "proxy_containerized", 0)
   provider_settings       = lookup(local.provider_settings_by_host, "proxy_containerized", {})
+
+  //Kubernetes
+  helm_chart_url         = lookup(local.helm_chart_url, "proxy_containerized", "")
+  helm_chart_name        = lookup(local.helm_chart_name, "proxy_containerized", "")
 }
 
 module "dhcp_dns" {

@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2026 SUSE LLC
+# SPDX-FileContributor: Cédric Bosdonnat
+#
+# SPDX-License-Identifier: MIT
+
+# Default credentials, make sure to set them
+credentials:
+  admin:
+    user: admin
+    # password is the password for the product administrator user
+    password: {{ pass_product }}
+  db:
+    internal:
+      user: susemanager
+      # password is the password for the user of the internal database
+      password: {{ pass_db }}
+    admin:
+      user: postgres
+      # password is the password for the admin user of postgresql
+      password: {{ pass_postgres }}
+    reportdb:
+      user: pythia
+      # password is the password for the user of the report database
+      password: {{ pass_reportdb }}
+
+global:
+  # fqdn is the fully qualified name the server will answer as.
+  # Changing this value renames the server and changes the server FQDN in the database, handle with care.
+  # This value is required.
+  fqdn: {{ fqdn }}
+  ingress:
+    enabled: true
+    className: nginx
+
+traefik:
+  enabled: false
+
+ssl:
+  country: "DE"
+  province: "Bayern"
+  locality: "Nurnberg"
+  org: "Example"
+  orgUnit: "Test"
+  email: "admin@example.com"
+
+certManagerNamespace: {{ cert_manager_namespace }}
+
+# All the server helm chart values can be passed under this property
+server-helm: 
+  repository: {{ container_repository }}
+  pullPolicy: "Always"
+  ingress:
+    type: "nginx"
+
