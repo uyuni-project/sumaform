@@ -188,6 +188,16 @@ variable "container_proxy" {
   default = false
 }
 
+variable "kubernetes" {
+  description = "true to run the server and the proxy on kubernetes"
+  default = false
+}
+
+variable "use_devel_oci" {
+  description = "true to use devel OCIs"
+  default = false
+}
+
 variable "beta_enabled" {
   description = "Enable the mechanism to take into account beta channels"
   default     = false
