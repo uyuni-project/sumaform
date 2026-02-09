@@ -95,15 +95,21 @@ module "cucumber_testsuite" {
     controller = {
       name = "controller"
     }
-    server_containerized = {
-      name = "server"
+    server_kubernetes = {
+      name = "server_kubernetes"
 
-      # Uncomment to run the container on podman
-      # runtime = "podman"
+      # Kubernetes distro to run the container in.
+      # runtime = "rke2"
 
       # Override where to get the containers from
       # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
 
+      # Name of the helm chart. The last sting of the OCI url.
+      # helm_chart_name = "server-helm"
+
+      # Helm oci
+      # helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni"
+      
       # Override the default image names for Server and Database containers
       # container_image = "server"
       # db_container_image = "server-postgresql"
@@ -111,8 +117,27 @@ module "cucumber_testsuite" {
       # Define a specific container image tag to install
       # container_tag = "latest"
     }
-    proxy = {
-      name = "proxy"
+    proxy_kubernetes = {
+      name = "proxy_kubernetes"
+
+      # Kubernetes distro to run the container in.
+      # runtime = "rke2"
+
+      # Override where to get the containers from
+      # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
+
+      # Name of the helm chart. The last sting of the OCI url.
+      # helm_chart_name = "proxy-helm"
+
+      # Helm oci
+      # helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni"
+
+      # Override the default image names for Server and Database containers
+      # container_image = "server"
+      # db_container_image = "server-postgresql"
+
+      # Define a specific container image tag to install
+      # container_tag = "latest"
     }
     suse_client = {
       image = "sles15sp4o"
@@ -156,7 +181,6 @@ module "cucumber_testsuite" {
   #  uri = "qemu:///system"
   #  pool = "username_disks"
   #  bridge = "br0"
-  #  additional_network = "xxx.xxx.xxx.xxx/24"
   #}
 }
 

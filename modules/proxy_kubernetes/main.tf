@@ -1,13 +1,13 @@
 variable "images" {
   default = {
-    "head"           = "slmicro61o"
-    "5.0-released"   = "slemicro55o"
-    "5.0-nightly"    = "slemicro55o"
-    "5.1-released"   = "slmicro61o"
-    "5.1-nightly"    = "slmicro61o"
-    "uyuni-master"   = "tumbleweedo"
-    "uyuni-released" = "tumbleweedo"
-    "uyuni-pr"       = "tumbleweedo"
+    "head"           = "ubuntu2404o"
+    "5.0-released"   = "ubuntu2404o"
+    "5.0-nightly"    = "ubuntu2404o"
+    "5.1-released"   = "ubuntu2404o"
+    "5.1-nightly"    = "ubuntu2404o"
+    "uyuni-master"   = "ubuntu2404o"
+    "uyuni-released" = "ubuntu2404o"
+    "uyuni-pr"       = "ubuntu2404o"
   }
 }
 
@@ -15,10 +15,10 @@ locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 }
 
-module "proxy_containerized" {
+module "proxy_kubernetes" {
   source = "../host"
 
-  roles                         = var.roles
+  roles                         = ["proxy_kubernetes"]
   connect_to_base_network       = true
   connect_to_additional_network = true
   quantity                      = var.quantity
@@ -52,20 +52,23 @@ module "proxy_containerized" {
     ssh_container_image       = var.ssh_container_image
     tftpd_container_image     = var.tftpd_container_image
     container_tag             = var.container_tag
+    helm_chart_url            = var.helm_chart_url
+    helm_chart_name           = var.helm_chart_name
     mirror                    = var.base_configuration["mirror"]
     avahi_reflector           = var.avahi_reflector
     main_disk_size            = var.main_disk_size
     repository_disk_size      = var.repository_disk_size
     database_disk_size        = var.database_disk_size
     proxy_registration_code   = var.proxy_registration_code
+    use_devel_oci             = var.use_devel_oci
   }
 }
 
 output "configuration" {
   value = {
-    id                   = length(module.proxy_containerized.configuration["ids"]) > 0 ? module.proxy_containerized.configuration["ids"][0] : null
-    hostname             = length(module.proxy_containerized.configuration["hostnames"]) > 0 ? module.proxy_containerized.configuration["hostnames"][0] : null
-    private_mac          = length(module.proxy_containerized.configuration["private_macs"]) > 0 ? module.proxy_containerized.configuration["private_macs"][0]: null
+    id                   = length(module.proxy_kubernetes.configuration["ids"]) > 0 ? module.proxy_kubernetes.configuration["ids"][0] : null
+    hostname             = length(module.proxy_kubernetes.configuration["hostnames"]) > 0 ? module.proxy_kubernetes.configuration["hostnames"][0] : null
+    private_mac          = length(module.proxy_kubernetes.configuration["private_macs"]) > 0 ? module.proxy_kubernetes.configuration["private_macs"][0]: null
     private_ip           = 254
     private_name         = "proxy"
     username             = var.server_configuration["username"]

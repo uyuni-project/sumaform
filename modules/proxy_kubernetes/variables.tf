@@ -8,14 +8,14 @@ variable "name" {
 }
 
 variable "product_version" {
-  description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, 5.1-nightly, 5.1-released, head, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: head, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
   default     = null
 }
 
 variable "runtime" {
-  description = "Where to run the containers. One of podman, k3s, or rke2"
-  default = "podman"
+  description = "Where to run the containers."
+  default = "rke2"
 }
 
 variable "container_repository" {
@@ -57,6 +57,21 @@ variable "tftpd_container_image" {
 variable "container_tag" {
   description = "The container image tag to use."
   default = ""
+}
+
+variable "helm_chart_url" {
+  description = "URL of the helm chart to use. Uses the released one by default."
+  default = "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2"
+}
+
+variable "helm_chart_name" {
+  description = "Name of the helm chart to use. Uses the released one by default."
+  default = "proxy-helm"
+}
+
+variable "use_devel_oci" {
+  description = "Name of the helm chart to use. Uses the released one by default."
+  default = false
 }
 
 variable "server_configuration" {
