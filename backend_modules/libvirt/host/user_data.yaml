@@ -836,7 +836,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }//SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -887,7 +887,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
+    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }//SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
