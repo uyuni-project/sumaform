@@ -139,9 +139,9 @@ wait_until_apt_lock_file_unlock:
   cmd.run:
     - name: "test ! -f /var/lib/apt/lists/lock || ! lsof /var/lib/apt/lists/lock"
     - retry:
-      - attempts: 10
-      - interval: 5
-      - until: True
+        attempts: 10
+        interval: 5
+        until: True
 
 remove_no_install_recommends:
   file.absent:
