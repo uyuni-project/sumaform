@@ -3,6 +3,7 @@ include:
 
 {% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
 
+##  WORKAROUND
 ## We found a problem with the conmon package that triggers two errors: it overloads the HW of the 
 ##  host machine and the Uyuni CI gets stuck. Then we decided to downgrade the version of this
 ##  package meanwhile we file a bug of it to TW and the issue is solved.
