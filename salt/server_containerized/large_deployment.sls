@@ -2,13 +2,14 @@
 
 {% if grains.get('large_deployment') | default(false, true) %}
 
-large_deployment_increase_tasko_parallel_threads:
-  cmd.run:
-    - name: mgrctl exec 'echo "taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads = 3" >> /etc/rhn/rhn.conf'
-
-large_deployment_increase_hibernate_max_connections:
-  cmd.run:
-    - name: mgrctl exec 'echo "hibernate.c3p0.max_size = 100" >> /etc/rhn/rhn.conf'
+large_deployment_edit_rhn:
+  manage_config.manage_lines:
+    - name: /etc/rhn/rhn.conf
+    - mgrctl: True
+    - regex_escape_keys: True
+    - key_value:
+        hibernate.c3p0.max_size: 100
+        taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads: 3
 
 large_deployment_tune_tomcat_stylesheet_host:
   file.managed:
@@ -31,11 +32,10 @@ large_deployment_tomcat_restart:
   cmd.run:
     - name: mgrctl exec systemctl restart tomcat
     - watch:
-      - cmd: large_deployment_increase_tasko_parallel_threads
-      - cmd: large_deployment_increase_hibernate_max_connections
+      - manage_config: large_deployment_edit_rhn
       - cmd: large_deployment_tune_tomcat_maxthreads
 
-{% if '5.1' in grains.get('product_version', '') or 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') or '5.1' in grains.get('product_version', '') %}
+{% if '5.1' in grains.get('product_version', '') or 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') %}
 large_deployment_increase_sshd_maxstartups:
   file.managed:
     - name: /etc/ssh/sshd_config.d/99-maxstartups.conf
