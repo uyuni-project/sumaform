@@ -8,7 +8,9 @@ include:
   {% if runtime == 'podman' %}
   - server_containerized.install_mgradm
   {% elif runtime == 'rke2' %}
-  - server_containerized.install_kubernetes
+  - kubernetes.install_rke2
+  - kubernetes.install_helm
+  - server_containerized.install_kubernetes_server
   {% endif %}
   - server_containerized.initial_content
   - server_containerized.rhn

@@ -1,6 +1,3 @@
-include:
-  - repos
-
 ssh_private_key_proxy_containerized:
   file.managed:
     - name: /root/.ssh/id_ed25519
@@ -101,23 +98,18 @@ ca_suse:
 {% endif %}
 {% endif %}
 
-# This will only work if the proxy is part of the cucumber_testsuite module, otherwise the server might not be ready
-{% if grains.get('auto_configure') and grains.get('testsuite') %}
-generate_configuration_file_from_server:
-  cmd.run:
-    - name: |
-       ssh {{ grains['server'] }} "echo spacewalk > /root/spacewalk"
-       ssh {{ grains['server'] }} mgrctl cp /root/spacewalk server:/root/spacewalk
-       ssh {{ grains['server'] }} mgrctl exec -- spacecmd --nossl -u {{ grains.get('server_username') | default('admin', true) }} -p {{ grains.get('server_password') | default('admin', true) }} proxy_container_config_generate_cert -- --ca-pass /root/spacewalk -o /root/config.tar.gz {{ grains['hostname'] }}.{{ grains['domain'] }} {{ grains['server'] }} 2048 galaxy-noise@suse.de
-       ssh {{ grains['server'] }} mgrctl cp server:/root/config.tar.gz .
-       scp {{ grains['server'] }}:config.tar.gz /root/config.tar.gz
-       ssh {{ grains['server'] }} rm /root/config.tar.gz
-       ssh {{ grains['server'] }} mgrctl exec -ti -- rm /root/config.tar.gz
-    - cwd: /root
-    - creates: /root/config.tar.gz
 
-install_proxy_container:
-  cmd.run:
-    - name: |
-       mgrpxy install podman /root/config.tar.gz
-{% endif %}
+{% set runtime = grains.get('container_runtime') | default('podman', true) %}
+include:
+  - repos
+  {% if runtime == 'rke2'%}
+  - kubernetes.install_rke2
+  - kubernetes.install_helm
+  - proxy_containerized.install_kubernetes_proxy
+  {% else %}
+  {% if runtime == 'k3s'%}
+  - proxy_containerized.install_k3s
+  {% endif %}
+  - proxy_containerized.install_mgrpxy
+  {% endif %}
+

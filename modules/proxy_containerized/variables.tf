@@ -64,6 +64,16 @@ variable "helm_chart_url" {
   default = ""
 }
 
+variable "helm_chart_name" {
+  description = "Where to get the helm chart from. Uses the released one by default."
+  default = ""
+}
+
+variable "ca_type" {
+  description = "Which type of CA create for rke2 server and proxy: cert-manager, or openBao"
+  default = ""
+}
+
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
   default = {
