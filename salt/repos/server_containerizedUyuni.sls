@@ -3,7 +3,7 @@
 {% if grains['osfullname'] == 'openSUSE Tumbleweed' %}
 {% set repo = 'openSUSE_Tumbleweed' %}
 
-{% if 'uyuni' == grains['product_version'] %}
+{% if 'uyuni-released' == grains['product_version'] %}
 containerutils_uyuni_stable:
     pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/{{ repo }}/

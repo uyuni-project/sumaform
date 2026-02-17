@@ -1,6 +1,6 @@
 {% if 'proxy' in grains.get('roles') %}
 
-{% if 'uyuni' in grains['product_version'] %}
+{% if 'uyuni-released' in grains['product_version'] %}
 proxy_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-POOL-{{ grains.get("cpuarch") }}-Media1/
