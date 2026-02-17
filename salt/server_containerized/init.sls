@@ -19,7 +19,7 @@ include:
 
 restart_salt_master:
   cmd.run:
-    - name: mgrctl exec 'systemctl daemon-reload' && mgrctl exec 'systemctl restart salt-api salt-master'
+    - name: mgrctl exec 'systemctl restart salt-api salt-master'
     - require:
         - cmd: set_salt_log_level
 
