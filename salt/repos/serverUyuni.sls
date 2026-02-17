@@ -1,6 +1,6 @@
 {% if 'server' in grains.get('roles') %}
 
-{% if 'uyuni' in grains['product_version'] %}
+{% if 'uyuni-released' in grains['product_version'] %}
 server_pool_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-{{ grains.get("cpuarch") }}-Media1/
