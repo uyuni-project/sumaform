@@ -77,6 +77,7 @@ module "server_containerized" {
     publish_private_ssl_key        = var.publish_private_ssl_key
     auto_accept                    = var.auto_accept
     disable_auto_bootstrap         = var.disable_auto_bootstrap
+    disable_auto_channel_sync      = var.disable_auto_channel_sync
     large_deployment               = var.large_deployment
     string_registry                = var.string_registry
     beta_enabled                   = var.beta_enabled

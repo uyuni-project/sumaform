@@ -53,6 +53,11 @@ variable "disable_auto_bootstrap" {
   default     = false
 }
 
+variable "disable_auto_channel_sync" {
+  description = "disable the default channel synchronization after adding a repository to a channel"
+  default     = false
+}
+
 variable "auto_register" {
   description = "whether this Server should automatically register to another Server"
   default     = true
