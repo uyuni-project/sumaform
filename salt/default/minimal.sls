@@ -12,6 +12,7 @@ include:
   - repos.testsuite
   {% endif %}
   - default.time
+  - default.users
 
 minimal_package_update:
 {% if grains.get('transactional', False) %}
