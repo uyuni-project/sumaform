@@ -165,6 +165,18 @@ module "base" {
 }
 ```
 
+## Accessing the Virtual Machines
+
+### Default Admin User
+All systems deployed with the `minimal` Salt configuration include a default system administrator account for easier management and troubleshooting.
+
+* **Username:** `admin`
+* **Password:** `spacewalk`
+* **Shell:** `/bin/bash`
+* **Privileges:** Member of the `admin` group.
+
+You can use these credentials to log in via the serial console or SSH (if password authentication is enabled) to perform initial setup tasks.
+
 ## Advanced use
 
 - To run the Cucumber testsuite for Uyuni or SUSE Multi-Linux Manager, see [README_TESTING.md](README_TESTING.md)
