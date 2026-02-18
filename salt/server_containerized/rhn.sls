@@ -27,7 +27,7 @@ write_rhn_conf:
         {% endif %}
 
         {% if grains.get('disable_auto_channel_sync') | default(false, true) %}
-        java.unify_custom_channel_management = 0
+        java.unify_custom_channel_management: 0
         {% endif %}
 
         {% if 'head' in grains.get('product_version', '') and grains.get('beta_enabled') %}
