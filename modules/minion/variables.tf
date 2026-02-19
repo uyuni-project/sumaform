@@ -126,3 +126,14 @@ variable "sles_registration_code" {
   description = "SUMA SCC registration code to enable the SLES server"
   default     = null
 }
+
+variable "salt_log_level" {
+  description = "Set salt log_level"
+  type        = string
+  default     = "warning"
+
+  validation {
+    condition     = contains(["quiet", "critical", "error", "warning", "info", "profile", "debug", "trace", "garbage", "all"], var.salt_log_level)
+    error_message = "log_level must be one of: quiet, critical, error, warning, info, profile, debug, trace, garbage, all."
+  }
+}

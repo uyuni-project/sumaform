@@ -82,6 +82,7 @@ module "server_containerized" {
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
     enable_oval_metadata           = var.enable_oval_metadata
+    salt_log_level                 = var.salt_log_level
   }
 }
 
