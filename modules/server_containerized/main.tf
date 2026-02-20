@@ -53,6 +53,8 @@ module "server_containerized" {
     db_container_repository        = var.db_container_repository
     db_container_image             = var.db_container_image
     db_container_tag               = var.db_container_tag
+    helm_chart_url                 = var.helm_chart_url
+    helm_chart_name                = var.helm_chart_name  
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels
@@ -93,6 +95,8 @@ output "configuration" {
     username           = var.server_username
     password           = var.server_password
     runtime            = var.runtime
+    helm_chart_url     = var.helm_chart_url
+    helm_chart_name    = var.helm_chart_name
     product_version    = local.product_version
     first_user_present = true
   }

@@ -64,6 +64,11 @@ variable "helm_chart_url" {
   default = ""
 }
 
+variable "helm_chart_name" {
+  description = "Where to get the helm chart from. Uses the released one by default."
+  default = ""
+}
+
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
   default = {

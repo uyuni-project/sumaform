@@ -1,0 +1,20 @@
+
+
+#Pending to fullfil in following PRs
+
+global:
+  fqdn: {{ fqdn }}
+  ingress:
+    enabled: true
+    className: nginx
+
+traefik:
+  enabled: false
+
+certManagerNamespace: {{ cert_manager_namespace }}
+
+proxy-helm: 
+repository: {{ container_repository }}
+  pullPolicy: "Always"
+  ingress:
+    type: "nginx"
