@@ -82,6 +82,7 @@ module "server" {
     publish_private_ssl_key         = var.publish_private_ssl_key
     disable_download_tokens         = var.disable_download_tokens
     disable_auto_bootstrap          = var.disable_auto_bootstrap
+    disable_auto_channel_sync       = var.disable_auto_channel_sync
     auto_accept                     = var.auto_accept
     monitored                       = var.monitored
     from_email                      = var.from_email

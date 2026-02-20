@@ -188,6 +188,11 @@ variable "disable_auto_bootstrap" {
   default     = false
 }
 
+variable "disable_auto_channel_sync" {
+  description = "disable the default channel synchronization after adding a repository to a channel"
+  default     = false
+}
+
 variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default     = false

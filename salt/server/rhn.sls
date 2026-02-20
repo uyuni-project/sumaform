@@ -25,6 +25,9 @@ write_rhn_conf:
         {% if grains.get('disable_auto_bootstrap') | default(false, true) %}
         server.susemanager.auto_generate_bootstrap_repo: 0
         {% endif %}
+        {% if grains.get('disable_auto_channel_sync') | default(false, true) %}
+        java.unify_custom_channel_management = 0
+        {% endif %}
     - require:
       - sls: server
 

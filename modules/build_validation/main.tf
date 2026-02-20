@@ -94,6 +94,7 @@ module "server" {
   use_os_released_updates        = true
   disable_download_tokens        = false
   disable_auto_bootstrap         = true
+  disable_auto_channel_sync      = true
   large_deployment               = true
   ssh_key_path                   = "./salt/controller/id_ed25519.pub"
   from_email                     = "root@suse.de"
@@ -138,6 +139,8 @@ module "server_containerized" {
   use_os_released_updates        = true
   disable_download_tokens        = false
   large_deployment               = true
+  disable_auto_bootstrap         = true
+  disable_auto_channel_sync      = true
   ssh_key_path                   = "./salt/controller/id_ed25519.pub"
   from_email                     = "root@suse.de"
   provision                      = true
