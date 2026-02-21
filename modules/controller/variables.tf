@@ -7,6 +7,12 @@ variable "name" {
   type        = string
 }
 
+variable "image" {
+  description = "An image name, e.g. ubuntu2404o or opensuse156o"
+  type        = string
+  default     = null
+}
+
 variable "cc_ptf_username" {
   description = "username of SCC organization having PTFs available"
   type        = string

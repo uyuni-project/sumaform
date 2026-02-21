@@ -524,6 +524,7 @@ module "controller" {
   swap_file_size           = null
   beta_enabled             = var.beta_enabled
   web_server_hostname      = var.web_server_hostname
+  image                    = var.playwright_framework == true ? "ubuntu2404o" : "opensuse156o"
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)
