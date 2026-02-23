@@ -99,8 +99,7 @@ module "server" {
   from_email                     = "root@suse.de"
   accept_all_ssl_protocols       = true
 
-  //server_additional_repos
-
+  additional_repos               = var.server_additional_repos
 }
 
 module "server_containerized" {
@@ -144,8 +143,7 @@ module "server_containerized" {
   from_email                     = "root@suse.de"
   provision                      = true
 
-  //server_additional_repos
-
+  additional_repos               = var.server_additional_repos
 }
 
 module "proxy" {
@@ -170,8 +168,7 @@ module "proxy" {
   use_os_released_updates   = true
   ssh_key_path              = "./salt/controller/id_ed25519.pub"
 
-  //proxy_additional_repos
-
+  additional_repos          = var.proxy_additional_repos
 }
 
 module "proxy_containerized" {
@@ -193,8 +190,7 @@ module "proxy_containerized" {
   ssh_key_path         = "./salt/controller/id_ed25519.pub"
   provision            = true
 
-  //proxy_additional_repos
-
+  additional_repos     = var.proxy_additional_repos
 }
 
 module "sles12sp5_minion" {
