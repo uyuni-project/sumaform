@@ -68,7 +68,7 @@ locals {
     key_file = local.key_file
     iam_instance_profile = length(aws_iam_instance_profile.metering_full_access_instance_profile) > 0 ? aws_iam_instance_profile.metering_full_access_instance_profile[0].name : null
     ami_info = {
-      tumbleweedo                     = { ami = "ami-051c2269390cbb3f2" }, // custom Tumbleweed AMI                           }
+      tumbleweedo                     = { ami = data.aws_ami.tumbleweedo.image_id }, // custom Tumbleweed AMI                           }
       opensuse156o                    = { ami = data.aws_ami.opensuse156o.image_id },
       sles15sp4o                      = { ami = data.aws_ami.sles15sp4o.image_id },
       sles15sp5o                      = { ami = data.aws_ami.sles15sp5o.image_id },
