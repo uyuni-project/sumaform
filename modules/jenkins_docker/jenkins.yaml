@@ -1,0 +1,13 @@
+# jenkins.yaml - Jenkins Configuration as Code (JCasC)
+# Place this file at the root of your jenkins_docker folder
+# It will be automatically loaded by the configuration-as-code plugin
+
+jenkins:
+  systemMessage: "Jenkins configured automatically by JCasC"
+  numExecutors: 0  # Don't run jobs on controller
+
+# Unclassified settings
+unclassified:
+  location:
+    adminAddress: "admin@maxime-poc-host.mgr.suse.de"
+    url: "https://maxime-poc-host.mgr.suse.de"

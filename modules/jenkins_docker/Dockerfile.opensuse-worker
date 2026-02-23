@@ -1,0 +1,145 @@
+# openSUSE Leap 15.6 Jenkins JNLP Agent
+FROM opensuse/leap:15.6
+
+# Install Java 21 (required to run agent.jar), plus common build tools
+RUN zypper -n refresh && \
+    zypper -n install \
+        java-21-openjdk \
+        python311 \
+        python311-pip \
+        python311-devel \
+        git \
+        git-core \
+        git-lfs \
+        docker \
+        curl \
+        bash \
+        wget \
+        tar \
+        gzip \
+        openssh-clients \
+        openssh \
+        ca-certificates \
+        make \
+        nfs-client \
+        unzip \
+        gawk \
+        libffi-devel \
+        python-rpm-macros \
+        libxslt-tools \
+        mkisofs \
+        vim && \
+    zypper clean -a
+
+# Install OBS/OSC tools (may not be available in all repos)
+RUN zypper -n install \
+        osc \
+        python3-defusedxml \
+        python3-osc-tiny || \
+    echo "Warning: Some OBS tools not available, continuing..."
+
+# Install OBS services (optional - used for Salt promotion pipeline)
+RUN zypper -n install \
+        obs-service-download_url \
+        obs-service-extract_file \
+        obs-service-obs_scm || \
+    echo "Warning: OBS services not available, continuing..."
+
+# Create python3 symlink for python311
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python3
+
+# Install Python packages needed by terracumber and test suites
+RUN pip3.11 install \
+    paramiko \
+    pyyaml \
+    jinja2 \
+    requests \
+    pytest \
+    python-hcl2 \
+    pygit2
+
+# Install OpenTofu v1.10.7 (not available in openSUSE repos)
+RUN wget -q https://github.com/opentofu/opentofu/releases/download/v1.10.7/tofu_1.10.7_linux_amd64.tar.gz && \
+    tar -xzf tofu_1.10.7_linux_amd64.tar.gz -C /usr/bin && \
+    chmod +x /usr/bin/tofu && \
+    rm tofu_1.10.7_linux_amd64.tar.gz && \
+    tofu --version
+
+# Create jenkins group/user with fixed IDs to match controller expectations
+RUN groupadd -g 1000 jenkins && \
+    useradd -m -u 1000 -g jenkins -s /bin/bash jenkins && \
+    usermod -aG docker jenkins
+
+# Create .ssh directory and generate SSH keys for jenkins user
+RUN mkdir -p /home/jenkins/.ssh && \
+    chown jenkins:jenkins /home/jenkins/.ssh && \
+    chmod 700 /home/jenkins/.ssh
+
+# Create directories that need root permissions before switching to jenkins user
+RUN mkdir -p /usr/share/jenkins && \
+    chown jenkins:jenkins /usr/share/jenkins && \
+    mkdir -p /home/jenkins/workspace && \
+    chown jenkins:jenkins /home/jenkins/workspace
+
+# Switch to jenkins user to set up SSH keys
+USER jenkins
+
+# Copy SSH keys from host (these will be mounted via docker-compose)
+# Keys should be placed in ./ssh-keys/ directory on the host
+COPY --chown=jenkins:jenkins ssh-keys/id_ed25519 /home/jenkins/.ssh/id_ed25519
+COPY --chown=jenkins:jenkins ssh-keys/id_ed25519.pub /home/jenkins/.ssh/id_ed25519.pub
+
+# Set correct permissions on SSH keys
+RUN chmod 600 /home/jenkins/.ssh/id_ed25519 && \
+    chmod 644 /home/jenkins/.ssh/id_ed25519.pub
+
+# Generate RSA key for compatibility (optional - you can provide this too if needed)
+RUN ssh-keygen -t rsa -b 4096 -f /home/jenkins/.ssh/id_rsa -N '' -C "jenkins@opensuse-agent" && \
+    chmod 600 /home/jenkins/.ssh/id_rsa && \
+    chmod 644 /home/jenkins/.ssh/id_rsa.pub
+
+# Create SSH config with sensible defaults
+RUN echo "Host *" > /home/jenkins/.ssh/config && \
+    echo "    StrictHostKeyChecking accept-new" >> /home/jenkins/.ssh/config && \
+    echo "    UserKnownHostsFile /home/jenkins/.ssh/known_hosts" >> /home/jenkins/.ssh/config && \
+    chmod 600 /home/jenkins/.ssh/config
+
+# Add known SSH hosts
+RUN ssh-keyscan -t ed25519 github.com >> /home/jenkins/.ssh/known_hosts && \
+    echo "src.opensuse.org ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFKNThLRPznU5Io1KrAYHmYpaoLQEMGM9nwpKyYQCkPx" >> /home/jenkins/.ssh/known_hosts && \
+    echo "src.suse.de ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDkmQXh4J28Gm6dtv8PAQcHVTP3oocrowO+bbW5DNkc9" >> /home/jenkins/.ssh/known_hosts && \
+    chmod 644 /home/jenkins/.ssh/known_hosts
+
+# Configure git
+RUN git config --global user.email "galaxy-noise@suse.de" && \
+    git config --global user.name "jenkins" && \
+    git config --global branch.autosetuprebase always
+
+WORKDIR /home/jenkins
+
+# Agent startup:
+#   1. Wait for Jenkins to be reachable (retries up to ~2 min)
+#   2. Download the agent.jar from the controller
+#   3. Connect via JNLP using the secret from the environment
+#
+# Required environment variables (set in docker-compose.yml):
+#   JENKINS_URL        — e.g. http://jenkins:8080
+#   JENKINS_AGENT_NAME — the node name registered in Jenkins
+#   JENKINS_SECRET     — the JNLP secret from the controller
+ENTRYPOINT ["/bin/bash", "-c", "\
+  echo '--- Waiting for Jenkins at ${JENKINS_URL}...' && \
+  until curl -sf ${JENKINS_URL}/login > /dev/null 2>&1; do \
+    echo '    Jenkins not ready yet, retrying in 5s...'; \
+    sleep 5; \
+  done && \
+  echo '--- Jenkins is up. Downloading agent.jar...' && \
+  curl -sSLo /usr/share/jenkins/agent.jar ${JENKINS_URL}/jnlpJars/agent.jar && \
+  echo '--- SSH keys available:' && \
+  ls -la ~/.ssh/id_* && \
+  echo '--- Starting JNLP agent...' && \
+  exec java -jar /usr/share/jenkins/agent.jar \
+    -url ${JENKINS_URL} \
+    -name ${JENKINS_AGENT_NAME} \
+    -secret ${JENKINS_SECRET} \
+    -workDir /home/jenkins \
+"]
