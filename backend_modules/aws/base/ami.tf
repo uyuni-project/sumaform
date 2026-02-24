@@ -1,3 +1,19 @@
+data "aws_ami" "tumbleweedo" {
+  most_recent = true
+  owners      = ["self"] // custom built AMI
+
+  filter {
+    name   = "name"
+    values = ["openSUSE-Tumbleweed*"]
+  }
+
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+}
+
+
 data "aws_ami" "opensuse156o" {
   most_recent = true
   name_regex  = "^openSUSE-Leap-15-6-"
