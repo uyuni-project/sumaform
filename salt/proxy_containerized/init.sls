@@ -121,3 +121,14 @@ install_proxy_container:
     - name: |
        mgrpxy install podman /root/config.tar.gz
 {% endif %}
+
+{% if grains.get('testsuite', false) and grains.get('osfullname') not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
+testsuite_packages:
+  pkg.installed:
+    - pkgs:
+      - expect
+    {%- if 'build_image' not in grains.get('product_version', '') %}
+    - require:
+      - sls: repos
+    {%- endif %}
+{% endif %}
