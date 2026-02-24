@@ -112,7 +112,7 @@ mkdir -p jenkins_home workspace certs secrets
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout certs/jenkins.key \
   -out certs/jenkins.crt \
-  -subj "/CN=maxime-poc-host.mgr.suse.de"
+  -subj "/CN=jenkins.mgr.suse.de"
 
 # (Optional) Add credentials file for auto-loading
 cp /path/to/your/.credentials secrets/.credentials
@@ -146,7 +146,7 @@ bash init-jenkins.sh
 
 Open your browser and navigate to:
 ```
-https://maxime-poc-host.mgr.suse.de
+https://jenkins.mgr.suse.de
 ```
 
 Login with the credentials from your `.env` file.
@@ -516,7 +516,7 @@ Use the generated API token for programmatic access:
 # Store the token from init-jenkins.sh output
 JENKINS_USER="maxime"
 JENKINS_TOKEN="your-api-token-here"
-JENKINS_URL="https://maxime-poc-host.mgr.suse.de"
+JENKINS_URL="https://jenkins.mgr.suse.de"
 
 # Trigger a build
 curl -X POST "$JENKINS_URL/job/my-job/build" \

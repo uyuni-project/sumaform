@@ -9,5 +9,5 @@ jenkins:
 # Unclassified settings
 unclassified:
   location:
-    adminAddress: "admin@maxime-poc-host.mgr.suse.de"
-    url: "https://maxime-poc-host.mgr.suse.de"
+    adminAddress: "admin@jenkins.mgr.suse.de"
+    url: "https://jenkins.mgr.suse.de"

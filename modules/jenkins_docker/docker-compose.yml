@@ -24,7 +24,7 @@ services:
       - JENKINS_ADMIN_PASSWORD=${JENKINS_ADMIN_PASSWORD:-linux}
       - JENKINS_API_TOKEN_NAME=${JENKINS_API_TOKEN_NAME:-automation-token}
       - JENKINS_AGENT_NAME=${JENKINS_AGENT_NAME:-opensuse-agent}
-      - JENKINS_URL_PUBLIC=${JENKINS_URL_PUBLIC:-https://maxime-poc-host.mgr.suse.de}
+      - JENKINS_URL_PUBLIC=${JENKINS_URL_PUBLIC:-https://jenkins.mgr.suse.de}
       - CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
     restart: always
     networks:

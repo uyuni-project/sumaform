@@ -7,7 +7,7 @@ import jenkins.model.JenkinsLocationConfiguration
 def instance = Jenkins.get()
 def location = JenkinsLocationConfiguration.get()
 
-def jenkinsUrl = System.getenv('JENKINS_URL_PUBLIC') ?: 'https://maxime-poc-host.mgr.suse.de'
+def jenkinsUrl = System.getenv('JENKINS_URL_PUBLIC') ?: 'https://jenkins.mgr.suse.de'
 
 location.setUrl(jenkinsUrl)
 location.save()

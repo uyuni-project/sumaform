@@ -122,6 +122,6 @@ echo ">>> Step 4: Starting full stack (nginx + opensuse-worker)..."
 docker compose --env-file "${ENV_FILE}" up -d
 
 echo ""
-echo ">>> Done! Jenkins is available at https://maxime-poc-host.mgr.suse.de"
+echo ">>> Done! Jenkins is available at https://jenkins.mgr.suse.de"
 echo "    Login: ${JENKINS_USER} / ${JENKINS_PASS}"
 echo "    API token saved above — store it somewhere safe."
