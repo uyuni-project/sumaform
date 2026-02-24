@@ -129,21 +129,15 @@ custom_pillar_to_force_salt_bundle:
       - cmd: create_pillar_top_sls_to_assign_salt_bundle_config
 {% endif %}
 
-enable_salt_content_staging_window:
-  cmd.run:
-    - name: mgrctl exec 'sed '"'"'/java.salt_content_staging_window =/{h;s/= .*/= 0.033/};${x;/^$/{s//java.salt_content_staging_window = 0.033/;H};x}'"'"' -i /etc/rhn/rhn.conf'
-    - require:
-      - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-
-enable_salt_content_staging_advance:
-  cmd.run:
-    - name: mgrctl exec 'sed '"'"'/java.salt_content_staging_advance =/{h;s/= .*/= 0.05/};${x;/^$/{s//java.salt_content_staging_advance = 0.05/;H};x}'"'"' -i /etc/rhn/rhn.conf'
-    - require:
-      - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
-
-enable_kiwi_os_image_building:
-  cmd.run:
-    - name: mgrctl exec 'sed '"'"'/java.kiwi_os_image_building_enabled =/{h;s/= .*/= true/};${x;/^$/{s//java.kiwi_os_image_building_enabled = true/;H};x}'"'"' -i /etc/rhn/rhn.conf'
+write_to_rhn_conf:
+  manage_config.manage_lines:
+    - name: /etc/rhn/rhn.conf
+    - mgrctl: True
+    - regex_escape_keys: True
+    - key_value:
+        java.salt_content_staging_window: '0.033'
+        java.salt_content_staging_advance: '0.05'
+        java.kiwi_os_image_building_enabled: true
     - require:
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
@@ -151,9 +145,7 @@ tomcat_restart:
   cmd.run:
     - name: mgrctl exec systemctl restart tomcat
     - watch:
-      - cmd: enable_salt_content_staging_window
-      - cmd: enable_salt_content_staging_advance
-      - cmd: enable_kiwi_os_image_building
+      - manage_config: write_to_rhn_conf
 
 salt_event_service_file:
   file.managed:
