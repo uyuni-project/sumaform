@@ -122,7 +122,7 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -647,7 +647,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -726,7 +726,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -761,7 +761,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -791,7 +791,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -836,7 +836,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }//SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -887,7 +887,7 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }//SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
+    baseurl: http://${mirror}/SUSE/Products/MultiLinuxManagerTools/EL-9/x86_64/product/
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
