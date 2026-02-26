@@ -43,11 +43,11 @@ write_rhn_conf:
         java.cve_audit.enable_oval_metadata: true
         {% endif %}
 
-{% if grains.get('enable_oval_metadata') | default(false, true) %}
-oval_metadata_services_restart:
+manager_services_restart:
   cmd.run:
     - name: mgrctl exec systemctl restart tomcat taskomatic
-{% endif %}
+    - watch:
+      - manage_config: write_rhn_conf
 
 {% if 'nightly' in grains.get('product_version', '') %}
 change_web_version:
