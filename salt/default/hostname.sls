@@ -30,7 +30,7 @@ legacy_permanent_hostname:
     - follow_symlinks: False
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
-{% if grains['os_family'] == 'Suse' and grains["osfullname"] not in ['SL-Micro', 'openSUSE Tumbleweed'] and grains["osmajorrelease"] < 16 %}
+{% if grains['osfullname'] == 'openSUSE Tumbleweed' or (grains['osfullname'] != 'SL-Micro' and grains['osmajorrelease'] < 16) %}
 change_searchlist:
   file.replace:
     - name: /etc/sysconfig/network/config
@@ -39,7 +39,7 @@ change_searchlist:
 
 netconfig_update:
   cmd.run:
-    - name: netconfig update
+    - name: netconfig update -f
     - require:
       - file: change_searchlist
 {% else %}
