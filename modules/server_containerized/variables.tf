@@ -341,6 +341,7 @@ variable "server_mounted_mirror" {
 
 variable "forward_registration" {
   description = "Forward client registrations to SCC"
+  type        = bool
   default     = false
 }
 
