@@ -118,7 +118,7 @@ suse_staging_key_import:
 
 create_pillar_top_sls_to_assign_salt_bundle_config:
   cmd.run:
-    - name: mgrctl exec 'echo -e "base:\n  '"'"'*'"'"':\n    - salt_bundle_config" >/srv/pillar/top.sls'
+    - name: mgrctl exec "echo -e \"base:\n  '*':\n    - salt_bundle_config\" >/srv/pillar/top.sls"
     - require:
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
