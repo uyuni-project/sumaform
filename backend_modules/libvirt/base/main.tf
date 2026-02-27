@@ -36,7 +36,7 @@ locals {
     slemicro55o              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_55/SLE-Micro.x86_64-sumaform.qcow2"
     slmicro60o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_60/SL-Micro.x86_64-sumaform.qcow2"
     slmicro61o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_61/SL-Micro.x86_64-sumaform.qcow2"
-    slmicro62o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SL-Micro-6.2-GM/SL-Micro.x86_64-6.2-Default-qcow-GM.qcow2"
+    slmicro62o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/repositories/systemsmanagement:/sumaform:/images:/microos/images_62/SL-Micro.x86_64-sumaform.qcow2"
     suma43VM-ign             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/ibs/Devel:/Galaxy:/Manager:/4.3/images/SUSE-Manager-Server.x86_64-KVM-x86_64.qcow2"
     tumbleweedo              = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/tumbleweed/appliances/openSUSE-Tumbleweed-Minimal-VM.x86_64-Cloud.qcow2"
   }
