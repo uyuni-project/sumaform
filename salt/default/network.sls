@@ -19,7 +19,7 @@ ipv6_accept_ra_{{ iface }}:
 {% endif %}
 {% endfor %}
 
-{% if grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
+{% if grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] and grains['osrelease'] != '5.2' %}
 {% set ifname = 'eth0' %}
 {% if grains['osrelease'] == '6.2' %}
 {% set ifname = 'ens3' %}
@@ -77,7 +77,7 @@ ipv6_disable_all:
 
 {% endif %}
 
-{% if grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] and (grains['osrelease'] != '5.1' and grains['osrelease'] != '5.2') %}
+{% if grains['osfullname'] in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] and grains['osrelease'] != '5.2' %}
 {% set conname2 = salt.cmd.run_stdout('nmcli -g GENERAL.CONNECTION device show eth1', ignore_retcode=true) %}
 {% if conname2 != '' %}
 enable_dhcp_on_eth1:
