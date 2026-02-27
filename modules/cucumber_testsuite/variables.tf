@@ -197,3 +197,8 @@ variable "web_server_hostname" {
   description = "FQDN of the web server or leave the default for no web server"
   default = null
 }
+
+variable "playwright_framework" {
+  description = "Use Playwright Test Framework to run tests"
+  default     = false
+}
