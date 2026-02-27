@@ -2,7 +2,7 @@
 
 {% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
 uyuni-tools:
-  pkg.installed:
+  pkg.latest:
     - pkgs:
       - mgradm
       - mgrctl
