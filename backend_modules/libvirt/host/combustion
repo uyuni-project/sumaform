@@ -131,6 +131,19 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
   %{ endif }
 %{ endif } # end of image == "slmicro61o" block
 
+# SL Micro 6.2 is being used in both Uyuni and SUSE Manager
+# we do not support yet Leap Micro 6.2, even in Uyuni
+%{ if image == "slmicro62o" }
+  %{ if container_server || container_proxy }
+          %{ if container_server }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
+          %{ endif }
+          %{ if container_proxy }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
+          %{ endif }
+  %{ endif }
+%{ endif } # end of image == "slmicro62o" block
+
 # Add additional repository for host only if server or proxy
 %{ if container_server || container_proxy }
   for i in ${additional_repos}; do
