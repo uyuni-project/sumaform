@@ -30,24 +30,25 @@ legacy_permanent_hostname:
     - follow_symlinks: False
     - contents: {{ grains['hostname'] }}.{{ grains['domain'] }}
 
-{% if grains['os_family'] == 'Suse' and (grains['osfullname'] == 'openSUSE Tumbleweed' or (grains['osfullname'] != 'SL-Micro' and grains['osmajorrelease'] < 16)) %}
-change_searchlist:
+change_searchlist_netconfig:
   file.replace:
     - name: /etc/sysconfig/network/config
     - pattern: NETCONFIG_DNS_STATIC_SEARCHLIST=.*
     - repl: NETCONFIG_DNS_STATIC_SEARCHLIST="{{ grains['domain'] }}"
+    - onlyif: test -f /etc/sysconfig/network/config
 
 netconfig_update:
   cmd.run:
     - name: netconfig update -f
     - require:
-      - file: change_searchlist
-{% else %}
+      - file: change_searchlist_netconfig
+    - onlyif: test -f /etc/sysconfig/network/config
+
 change_searchlist:
   file.append:
     - name: /etc/resolv.conf
     - text: search {{ grains['domain'] }}
-{% endif %}
+    - unless: test -f /etc/sysconfig/network/config
 
 # set the hostname and FQDN name in /etc/hosts
 # this is not needed if a proper DNS server is in place, but when using avahi this
