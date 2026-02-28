@@ -61,7 +61,7 @@ ${ gpg_keys }
 
 # Add repositories
 %{ if image == "slmicro62o" || image == "sles16o" }
-zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/SUSE:/CA/16.0/ ca_suse
+zypper ar http://${ use_mirror_images ? mirror : "dist.nue.suse.com/ibs"}/SUSE:/CA/16.0/ ca_suse
 # Temporary use as a source of venv-salt-minion instead of not yet existing client tools repo
 zypper ar https://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/SLFO/SLFO/ salt_bundle_next
 %{ if image == "slmicro62o" }
