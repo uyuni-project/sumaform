@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jenkins-custom:latest
+    container_name: jenkins-controller
+    expose:
+      - "8080"
+    ports:
+      - "50000:50000"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - ./init.groovy.d:/var/jenkins_home/init.groovy.d:ro
+      - ./jenkins.yaml:/var/jenkins_home/jenkins.yaml:ro
+      - ./secrets/.credentials:/var/jenkins_home/secrets/.credentials:ro
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      # FIX 1: credentials must come from .env, not hardcoded here
+      - JENKINS_ADMIN_ID=${JENKINS_ADMIN_ID:-maxime}
+      - JENKINS_ADMIN_PASSWORD=${JENKINS_ADMIN_PASSWORD:-linux}
+      - JENKINS_API_TOKEN_NAME=${JENKINS_API_TOKEN_NAME:-automation-token}
+      - JENKINS_AGENT_NAME=${JENKINS_AGENT_NAME:-opensuse-agent}
+      - JENKINS_URL_PUBLIC=${JENKINS_URL_PUBLIC:-https://jenkins.mgr.suse.de}
+      - CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
+    restart: always
+    networks:
+      - internal_automation
+    # FIX 2: healthcheck so nginx and worker wait for Jenkins to actually be ready
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/login || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 60s
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: jenkins-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certs:/etc/nginx/ssl:ro
+    # FIX 3: wait for Jenkins to be healthy, not just started
+    depends_on:
+      jenkins:
+        condition: service_healthy
+    networks:
+      - internal_automation
+
+  opensuse-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.opensuse-worker
+    image: opensuse-jenkins-agent:latest
+    container_name: opensuse-worker
+    depends_on:
+      jenkins:
+        condition: service_healthy
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_AGENT_NAME=${JENKINS_AGENT_NAME:-opensuse-agent}
+      - JENKINS_SECRET=${AGENT_SECRET:?AGENT_SECRET must be set in .env — run init-jenkins.sh first}
+    volumes:
+      - ./workspace:/home/jenkins/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    # Add memory limits and swap to fix "Free Swap Space is 0" warning
+    mem_limit: 2g
+    memswap_limit: 3g  # Total memory + swap = 3GB (2GB mem + 1GB swap)
+    restart: always
+    networks:
+      - internal_automation
+
+networks:
+  internal_automation:
+    driver: bridge
