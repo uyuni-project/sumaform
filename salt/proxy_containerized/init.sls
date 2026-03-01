@@ -1,6 +1,3 @@
-include:
-  - repos
-
 ssh_private_key_proxy_containerized:
   file.managed:
     - name: /root/.ssh/id_ed25519
@@ -86,6 +83,7 @@ config_proxy_containerized:
           tag: {{ container_tag }}
     - makedirs: True
 
+
 {% if 'Micro' not in grains['osfullname'] %}
 install_mgr_tools:
   pkg.installed:
@@ -122,7 +120,7 @@ install_proxy_container:
        mgrpxy install podman /root/config.tar.gz
 {% endif %}
 
-{% if grains.get('testsuite', false) and grains.get('osfullname') not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
+{% if grains.get('testsuite', false) and grains.get('osfullname') not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro', 'Ubuntu'] %}
 testsuite_packages:
   pkg.installed:
     - pkgs:

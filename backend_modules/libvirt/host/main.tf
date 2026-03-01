@@ -29,12 +29,16 @@ locals {
     contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
+    contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
     contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
     contains(var.roles, "server_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
+    contains(var.roles, "server_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
     contains(var.roles, "proxy") ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy_containerized") ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "proxy_kubernetes") ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+    contains(var.roles, "proxy_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "pxe_boot")? { memory = 2048} : {},
     contains(var.roles, "mirror") ? { memory = 1024 } : {},
     contains(var.roles, "build_host") ? { vcpu = 2 } : {},
@@ -56,7 +60,9 @@ locals {
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
     container_server    = contains(var.roles, "server_containerized")
+    kubernetes_server    = contains(var.roles, "server_kubernetes")
     container_proxy     = contains(var.roles, "proxy_containerized")
+    kubernetes_proxy     = contains(var.roles, "proxy_kubernetes")
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
@@ -78,7 +84,9 @@ locals {
     mirror              = var.base_configuration["mirror"]
     install_salt_bundle = var.install_salt_bundle
     container_server    = contains(var.roles, "server_containerized")
+    kubernetes_server    = contains(var.roles, "server_kubernetes")
     container_proxy     = contains(var.roles, "proxy_containerized")
+    kubernetes_proxy    = contains(var.roles, "proxy_kubernetes")
     container_runtime   = local.container_runtime
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     additional_repos    = join(" ", [
@@ -300,8 +308,8 @@ resource "terraform_data" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
-        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
         provider                      = "libvirt"
       },
       var.grains))

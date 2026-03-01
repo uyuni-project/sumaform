@@ -15,7 +15,7 @@ locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 }
 
-module "proxy_containerized" {
+module "proxy_kubernetes" {
   source = "../host"
 
   roles                         = var.roles
@@ -52,6 +52,8 @@ module "proxy_containerized" {
     ssh_container_image       = var.ssh_container_image
     tftpd_container_image     = var.tftpd_container_image
     container_tag             = var.container_tag
+    helm_chart_url            = var.helm_chart_url
+    helm_chart_name           = var.helm_chart_name
     mirror                    = var.base_configuration["mirror"]
     avahi_reflector           = var.avahi_reflector
     main_disk_size            = var.main_disk_size
@@ -63,9 +65,9 @@ module "proxy_containerized" {
 
 output "configuration" {
   value = {
-    id                   = length(module.proxy_containerized.configuration["ids"]) > 0 ? module.proxy_containerized.configuration["ids"][0] : null
-    hostname             = length(module.proxy_containerized.configuration["hostnames"]) > 0 ? module.proxy_containerized.configuration["hostnames"][0] : null
-    private_mac          = length(module.proxy_containerized.configuration["private_macs"]) > 0 ? module.proxy_containerized.configuration["private_macs"][0]: null
+    id                   = length(module.proxy_kubernetes.configuration["ids"]) > 0 ? module.proxy_kubernetes.configuration["ids"][0] : null
+    hostname             = length(module.proxy_kubernetes.configuration["hostnames"]) > 0 ? module.proxy_kubernetes.configuration["hostnames"][0] : null
+    private_mac          = length(module.proxy_kubernetes.configuration["private_macs"]) > 0 ? module.proxy_kubernetes.configuration["private_macs"][0]: null
     private_ip           = 254
     private_name         = "proxy"
     username             = var.server_configuration["username"]
