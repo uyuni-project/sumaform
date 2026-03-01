@@ -13,10 +13,17 @@ remove_conmon_2.2.x:
   pkg.removed:
     - name: conmon
 
+transfer_conmon_rpm:
+  file.managed:
+    - name: /tmp/conmon-2.1.13-2.1.x86_64.rpm
+    - source: salt://server_containerized/conmon-2.1.13-2.1.x86_64.rpm
+
 install_conmon_2.1.x:
-  pkg.installed:
-    - sources:
-      - conmon: salt://server_containerized/conmon-2.1.13-2.1.x86_64.rpm
+  cmd.run:
+    - name: zypper --non-interactive --gpg-auto-import-keys install --oldpackage --allow-unsigned-rpm /tmp/conmon-2.1.13-2.1.x86_64.rpm
+    - unless: rpm -q conmon-2.1.13-2.1
+    - require:
+      - file: transfer_conmon_rpm
 
 {% endif %}
 
