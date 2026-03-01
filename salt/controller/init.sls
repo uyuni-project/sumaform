@@ -34,8 +34,8 @@ cucumber_requisites:
       - wget
       - libssh-devel
       - python-devel
-      - ruby3.3
-      - ruby3.3-devel
+      - ruby4.0
+      - ruby4.0-devel
       - autoconf
       - ca-certificates-mozilla
       - automake
@@ -55,34 +55,34 @@ cucumber_requisites:
 
 /usr/bin/ruby:
   file.symlink:
-    - target: /usr/bin/ruby.ruby3.3
+    - target: /usr/bin/ruby.ruby4.0
     - force: True
 
 /usr/bin/gem:
   file.symlink:
-    - target: /usr/bin/gem.ruby3.3
+    - target: /usr/bin/gem.ruby4.0
     - force: True
 
 /usr/bin/irb:
   file.symlink:
-    - target: /usr/bin/irb.ruby3.3
+    - target: /usr/bin/irb.ruby4.0
     - force: True
 
 ruby_set_rake_version:
   cmd.run:
-    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
+    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby4.0
 
 ruby_set_bundle_version:
   cmd.run:
-    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
+    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby4.0
 
 ruby_set_rdoc_version:
   cmd.run:
-    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
+    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby4.0
 
 ruby_set_ri_version:
   cmd.run:
-    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
+    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby4.0
 
 install_chromium:
   pkg.installed:
@@ -104,7 +104,7 @@ install_npm:
 
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby3.3 install --gemfile Gemfile
+    - name: bundle.ruby4.0 install --gemfile Gemfile
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
