@@ -200,7 +200,7 @@ zypper --non-interactive update --no-recommends iptables
 # For the testsuite we need the Test Packages repository always
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/ test_repo_rpm_pool
 
-%{ if image == "slmicro61o" }
+%{ if image == "slmicro61o" || image == "slmicro62o" }
 # Leap repos are required to install expect
 # WORKAROUND: Switch to direct repository until mirror is fixed.
 zypper ar --no-gpgcheck http://downloadcontent.opensuse.org/distribution/leap/16.0/repo/oss/ leap_pool_repo
