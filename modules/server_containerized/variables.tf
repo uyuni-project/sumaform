@@ -339,6 +339,12 @@ variable "server_mounted_mirror" {
   default     = null
 }
 
+variable "forward_registration" {
+  description = "Forward client registrations to SCC"
+  type        = bool
+  default     = false
+}
+
 variable "large_deployment" {
   description = "set up for a deployment with a great number of clients"
   type        = bool
