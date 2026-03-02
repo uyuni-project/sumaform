@@ -78,7 +78,7 @@ zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repos
 %{ if image == "slmicro60o" }
 zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.0/x86_64/product/ os_pool_repo
 
-# SL Micro 6.0 is being used in both Uyuni and SUSE Manager
+# SL Micro 6.0 is being used in both Uyuni and Multi-Linux Manager
 # we do not support yet Leap Micro 6.0, even in Uyuni
 %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
 zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
@@ -90,7 +90,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
 %{ if image == "slmicro61o" }
   zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SL-Micro/6.1/x86_64/product/ os_pool_repo
 
-# SL Micro 6.1 is being used in both Uyuni and SUSE Manager
+# SL Micro 6.1 is being used in both Uyuni and Multi-Linux Manager
 # we do not support yet Leap Micro 6.1, even in Uyuni
   %{ if product_version == "uyuni-master" || product_version == "uyuni-released" || product_version == "uyuni-pr" }
     zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org"}/repositories/systemsmanagement:/Uyuni:/Master:/SLMicro6-Uyuni-Client-Tools/SL-Micro6/ client_tools_repo
@@ -131,16 +131,19 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
   %{ endif }
 %{ endif } # end of image == "slmicro61o" block
 
-# SL Micro 6.2 is being used in both Uyuni and SUSE Manager
+# SL Micro 6.2 is being used in both Uyuni and Multi-Linux Manager
 # we do not support yet Leap Micro 6.2, even in Uyuni
 %{ if image == "slmicro62o" }
   %{ if container_server || container_proxy }
+    # Still embryonary; only HEAD case considered for now
+    %{ if product_version == "head" }
           %{ if container_server }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
+    %{ endif }
   %{ endif }
 %{ endif } # end of image == "slmicro62o" block
 
