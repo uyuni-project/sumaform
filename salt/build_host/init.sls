@@ -43,6 +43,22 @@ update_ca_truststore_registry_build_host:
 
 {% elif '15' in grains['osrelease'] %}
 
+{% if '7' in grains['osrelease'] %}
+
+# In SLES 15 SP7 cloud image this file is present and blocks password access for root
+remove_permit_root_login_config:
+  file.absent:
+    - name: /etc/ssh/sshd_config.d/51-permit-root-login.conf
+
+ssh_service_restart:
+  service.running:
+    - name: sshd
+    - reload: True
+    - watch:
+      - file: remove_permit_root_login_config
+
+{% endif %}
+
 {# Do not run update-ca-certificates on SLE 15 because there is    #}
 {# already a systemd unit that watches for changes and runs it:    #}
 {#   /usr/lib/systemd/system/ca-certificates.path                  #}
