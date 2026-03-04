@@ -20,6 +20,7 @@ locals {
     opensuse156o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse160o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
     opensuse156armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.aarch64-Cloud.qcow2"
+    opensuse160armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.aarch64-Cloud.qcow2"
     sles15sp3o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP3-JeOS-GM/SLES15-SP3-JeOS.x86_64-15.3-OpenStack-Cloud-GM.qcow2"
     sles15sp4o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP4-Minimal-GM/SLES15-SP4-Minimal-VM.x86_64-OpenStack-Cloud-GM.qcow2"
     sles15sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP5-Minimal-GM/SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
