@@ -37,7 +37,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = ["opensuse156armo"]
+  images          = ["opensuse156armo", "opensuse16armo"]
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
@@ -493,6 +493,27 @@ module "opensuse156arm_minion" {
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
+module "opensuse160arm_minion" {
+  providers = {
+    libvirt = libvirt.host_arm
+  }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "opensuse160arm_minion", null) != null ? 1 : 0
+  base_configuration = module.base_arm.configuration
+  name               = "${var.environment_configuration.opensuse160arm_minion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "opensuse160armo"
+  provider_settings = {
+    mac            = var.environment_configuration.opensuse160arm_minion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse160arm_minion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
 module "sles15sp5s390_minion" {
   source             = "../../backend_modules/feilong/host"
   count              = lookup(var.environment_configuration, "sles15sp5s390_minion", null) != null ? 1 : 0
@@ -915,6 +936,26 @@ module "opensuse156arm_sshminion" {
   provider_settings = {
     mac            = var.environment_configuration.opensuse156arm_sshminion.mac
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse156arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+  }
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
+module "opensuse160arm_sshminion" {
+  providers = {
+    libvirt = libvirt.host_arm
+  }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "opensuse160arm_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_arm.configuration
+  name               = "${var.environment_configuration.opensuse160arm_sshminion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "opensuse160armo"
+  provider_settings = {
+    mac            = var.environment_configuration.opensuse160arm_sshminion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse160arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
     xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
@@ -1370,6 +1411,9 @@ module "controller" {
 
   opensuse156arm_minion_configuration    = length(module.opensuse156arm_minion) > 0 ? module.opensuse156arm_minion[0].configuration : local.empty_minion_config
   opensuse156arm_sshminion_configuration = length(module.opensuse156arm_sshminion) > 0 ? module.opensuse156arm_sshminion[0].configuration : local.empty_minion_config
+
+  opensuse160arm_minion_configuration    = length(module.opensuse160arm_minion) > 0 ? module.opensuse160arm_minion[0].configuration : local.empty_minion_config
+  opensuse160arm_sshminion_configuration = length(module.opensuse160arm_sshminion) > 0 ? module.opensuse160arm_sshminion[0].configuration : local.empty_minion_config
 
   sle15sp5s390_minion_configuration    = length(module.sles15sp5s390_minion) > 0 ? module.sles15sp5s390_minion[0].configuration : local.empty_minion_config
   sle15sp5s390_sshminion_configuration = length(module.sles15sp5s390_sshminion) > 0 ? module.sles15sp5s390_sshminion[0].configuration : local.empty_minion_config
