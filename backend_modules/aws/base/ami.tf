@@ -21,7 +21,7 @@ data "aws_ami" "tumbleweedo" {
 
 data "aws_ami" "opensuse156o" {
   most_recent = true
-  name_regex  = "^openSUSE-Leap-15-6-"
+  name_regex  = "^openSUSE-Leap-15.6-"
   owners      = ["679593333241"]
 
   filter {
