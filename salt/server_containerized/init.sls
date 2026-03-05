@@ -5,11 +5,7 @@ include:
   {% endif %}
   - server_containerized.install_{{ runtime }}
   - server_containerized.additional_disks
-  {% if runtime == 'podman' %}
   - server_containerized.install_mgradm
-  {% elif runtime == 'rke2' %}
-  - server_containerized.install_kubernetes
-  {% endif %}
   - server_containerized.initial_content
   - server_containerized.rhn
   - server_containerized.large_deployment

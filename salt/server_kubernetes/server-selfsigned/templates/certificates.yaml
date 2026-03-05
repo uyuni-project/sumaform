@@ -1,0 +1,159 @@
+# SPDX-FileCopyrightText: 2026 SUSE LLC
+# SPDX-FileContributor: Cédric Bosdonnat
+#
+# SPDX-License-Identifier: MIT
+
+# Root issuer generating self-signed certificates
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: uyuni-root-issuer
+  namespace: {{ required "certManagerNamespace is needed!" .Values.certManagerNamespace }}
+  labels:
+    app.kubernetes.io/part-of: uyuni
+spec:
+  selfSigned: {}
+---
+# Certificate definition for the CA.
+# The self-signed issuer will create the uyuni-ca matching it
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uyuni-ca
+  namespace: {{ required "certManagerNamespace is needed!" .Values.certManagerNamespace }}
+  labels:
+    app.kubernetes.io/part-of: uyuni
+spec:
+  isCA: true
+  subject:
+    countries: [{{ .Values.ssl.country }}]
+    provinces: [{{ .Values.ssl.province }}]
+    localities: [{{ .Values.ssl.locality }}]
+    organizations: [{{ .Values.ssl.org }}]
+    organizationalUnits: [{{ .Values.ssl.orgUnit }}]
+  emailAddresses: 
+    - {{ .Values.ssl.email }}
+  commonName: {{ required "global.fqdn is required!" .Values.global.fqdn }}
+  dnsNames:
+    - {{ required "global.fqdn is required!" .Values.global.fqdn }}
+  secretName: uyuni-ca 
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
+  issuerRef:
+    name: uyuni-root-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+# trust-manager bundle to create an uyuni-ca configmap from the uyuni-ca secret
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: uyuni-ca
+spec:
+  sources:
+    - secret:
+        name: "uyuni-ca"
+        key: "ca.crt"
+  target:
+    configMap:
+      key: "ca.crt"
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: {{ .Release.Namespace | quote }}
+---
+# trust-manager bundle to create a db-ca configmap from the uyuni-ca secret
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: db-ca
+spec:
+  sources:
+    - secret:
+        name: "uyuni-ca"
+        key: "ca.crt"
+  target:
+    configMap:
+      key: "ca.crt"
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: {{ .Release.Namespace | quote }}
+---
+# A cluster issuer is needed to generate certificates in the uyuni namespace
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: uyuni-issuer 
+  labels:
+    app.kubernetes.io/part-of: uyuni
+spec:
+  ca:
+    secretName: uyuni-ca
+---
+# Certificate for apache, using the CA issuer
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: uyuni-cert
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app.kubernetes.io/part-of: uyuni
+spec:
+  secretName: uyuni-cert
+  secretTemplate:
+    labels:
+      app.kubernetes.io/part-of: uyuni
+  isCA: false
+  usages:
+  - server auth
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+    rotationPolicy: Always
+  dnsNames:
+    - {{ required "global.fqdn is required!" .Values.global.fqdn }}
+  issuerRef:
+    name: uyuni-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# Certificate for the DB, using the CA issuer
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: db-cert
+  namespace: "{{ .Release.Namespace }}"
+  labels:
+    app.kubernetes.io/part-of: uyuni
+spec:
+  secretName: db-cert
+  secretTemplate:
+    labels:
+      app.kubernetes.io/part-of: uyuni
+  isCA: false
+  subject:
+    countries: [{{ .Values.ssl.country }}]
+    provinces: [{{ .Values.ssl.province }}]
+    localities: [{{ .Values.ssl.locality }}]
+    organizations: [{{ .Values.ssl.org }}]
+    organizationalUnits: [{{ .Values.ssl.orgUnit }}]
+  commonName: reportdb
+  emailAddresses: 
+    - {{ .Values.ssl.email }}
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+    rotationPolicy: Always
+  usages:
+  - server auth
+  dnsNames:
+    - db
+    - reportdb
+    - {{ required "global.fqdn is required!" .Values.global.fqdn }}
+  issuerRef:
+    name: uyuni-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

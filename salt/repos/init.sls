@@ -8,8 +8,10 @@ include:
   - repos.minion
   - repos.proxy
   - repos.proxy_containerized
+  - repos.proxy_kubernetes
   - repos.server
   - repos.server_containerized
+  - repos.server_kubernetes
   - repos.build_host
   - repos.virthost
   - repos.testsuite

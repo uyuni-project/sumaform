@@ -71,8 +71,10 @@ locals {
     host_key => lookup(var.host_settings[host_key], "db_container_image", null) if var.host_settings[host_key] != null }
   db_container_tags    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "db_container_tag", null) if var.host_settings[host_key] != null }
-  helm_chart_urls           = { for host_key in local.hosts :
+  helm_chart_url           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
+  helm_chart_name           = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "helm_chart_name", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "main_disk_size", 200) if var.host_settings[host_key] != null }
   repository_disk_size      = { for host_key in local.hosts :
@@ -95,14 +97,14 @@ locals {
     host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
-  server_configuration      = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
-  proxy_configuration       = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
+  server_configuration      = var.kubernetes ? module.server_kubernetes[0].configuration : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
+  proxy_configuration       = var.kubernetes ? module.proxy_kubernetes[0].configuration : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
 }
 
 module "server" {
   source                         = "../server"
 
-  count = var.container_server ? 0 : 1
+  count = var.kubernetes ? 0 : (var.container_server ? 0 : 1)
 
   base_configuration             = module.base.configuration
   image                          = lookup(local.images, "server", "default")
@@ -146,7 +148,7 @@ module "server" {
 module "server_containerized" {
   source                         = "../server_containerized"
 
-  count = var.container_server ? 1 : 0
+  count = var.kubernetes ? 0 : (var.container_server ? 1 : 0)
 
   base_configuration             = module.base.configuration
   image                          = lookup(local.images, "server_containerized", "default")
@@ -188,12 +190,65 @@ module "server_containerized" {
   database_disk_size            = lookup(local.database_disk_size, "server_containerized", 0)
   large_deployment              = lookup(local.large_deployment, "server_containerized", true)
   enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_containerized", false)
+
+}
+
+module "server_kubernetes" {
+  source                         = "../server_kubernetes"
+
+  count = var.kubernetes ? 1 : 0
+
+  base_configuration             = module.base.configuration
+  image                          = lookup(local.images, "server_kubernetes", "default")
+  name                           = lookup(local.names, "server_kubernetes", "server")
+  runtime                        = lookup(local.runtimes, "server_kubernetes", "podman")
+  container_repository           = lookup(local.container_repositories, "server_kubernetes", "")
+  container_image                = lookup(local.container_images, "server_kubernetes", "")
+  container_tag                  = lookup(local.container_tags, "server_kubernetes", "")
+  db_container_repository        = lookup(local.db_container_repositories, "server_kubernetes", "")
+  db_container_image             = lookup(local.db_container_images, "server_kubernetes", "")
+  db_container_tag               = lookup(local.db_container_tags, "server_kubernetes", "")
+  auto_accept                    = false
+  download_private_ssl_key       = false
+  disable_firewall               = false
+  allow_postgres_connections     = false
+  skip_changelog_import          = false
+  mgr_sync_autologin             = false
+  create_sample_channel          = false
+  create_sample_activation_key   = false
+  create_sample_bootstrap_script = false
+  publish_private_ssl_key        = false
+  disable_download_tokens        = false
+  //forward_registration           = false
+  use_os_released_updates        = false
+  beta_enabled                   = var.beta_enabled
+  install_salt_bundle            = lookup(local.install_salt_bundle, "server_kubernetes", true)
+  ssh_key_path                   = "./salt/controller/id_ed25519.pub"
+  from_email                     = var.from_email
+  additional_repos               = lookup(local.additional_repos, "server_kubernetes", {})
+  additional_repos_only          = lookup(local.additional_repos_only, "server_kubernetes", false)
+  additional_packages            = lookup(local.additional_packages, "server_kubernetes", [])
+  //login_timeout                  = var.login_timeout
+
+  //saltapi_tcpdump               = var.saltapi_tcpdump
+  provider_settings             = lookup(local.provider_settings_by_host, "server_kubernetes", {})
+  server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_kubernetes", {})
+  main_disk_size                = lookup(local.main_disk_size, "server_kubernetes", 200)
+  repository_disk_size          = lookup(local.repository_disk_size, "server_kubernetes", 0)
+  database_disk_size            = lookup(local.database_disk_size, "server_kubernetes", 0)
+  large_deployment              = lookup(local.large_deployment, "server_kubernetes", true)
+  enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_kubernetes", false)
+
+  //Kubernetes
+  helm_chart_name        = lookup(local.helm_chart_name, "server_kubernetes", "")
+  helm_chart_url        = lookup(local.helm_chart_url, "server_kubernetes", "")
+  use_devel_oci         = var.use_devel_oci
 }
 
 module "proxy" {
   source = "../proxy"
 
-  count = var.container_proxy ? 0 : 1
+  count = var.kubernetes ? 0 : (var.container_proxy ? 0 : 1)
 
   quantity = contains(local.hosts, "proxy") ? 1 : 0
 
@@ -225,7 +280,7 @@ module "proxy_containerized" {
   depends_on = [module.server_containerized]
   source = "../proxy_containerized"
 
-  count = var.container_proxy ? 1 : 0
+  count = var.kubernetes ? 0 : (var.container_proxy ? 1 : 0)
   quantity = contains(local.hosts, "proxy_containerized") ? 1 : 0
 
   base_configuration     = module.base.configuration
@@ -240,7 +295,6 @@ module "proxy_containerized" {
   ssh_container_image    = lookup(local.ssh_container_images, "proxy_containerized", "")
   tftpd_container_image  = lookup(local.tftpd_container_images, "proxy_containerized", "")
   container_tag          = lookup(local.container_tags, "proxy_containerized", "")
-  helm_chart_url         = lookup(local.helm_chart_urls, "proxy_containerized", "")
   server_configuration   = { hostname = local.server_full_name,
                               username = "admin",
                               password = "admin",
@@ -257,7 +311,51 @@ module "proxy_containerized" {
   main_disk_size          = lookup(local.main_disk_size, "proxy_containerized", 200)
   repository_disk_size    = lookup(local.repository_disk_size, "proxy_containerized", 0)
   provider_settings       = lookup(local.provider_settings_by_host, "proxy_containerized", {})
+
 }
+
+module "proxy_kubernetes" {
+  depends_on = [module.server_kubernetes]
+  source = "../proxy_kubernetes"
+
+  count = var.kubernetes ? 1 : 0
+  quantity = contains(local.hosts, "proxy_kubernetes") ? 1 : 0
+
+  base_configuration     = module.base.configuration
+  image                  = lookup(local.images, "proxy_kubernetes", "default")
+  name                   = lookup(local.names, "proxy_kubernetes", "proxy")
+
+  runtime                = lookup(local.runtimes, "proxy_kubernetes", "podman")
+  container_repository   = lookup(local.container_repositories, "proxy_kubernetes", "")
+  httpd_container_image  = lookup(local.httpd_container_images, "proxy_kubernetes", "")
+  salt_broker_container_image = lookup(local.salt_broker_container_images, "proxy_kubernetes", "")
+  squid_container_image  = lookup(local.squid_container_images, "proxy_kubernetes", "")
+  ssh_container_image    = lookup(local.ssh_container_images, "proxy_kubernetes", "")
+  tftpd_container_image  = lookup(local.tftpd_container_images, "proxy_kubernetes", "")
+  container_tag          = lookup(local.container_tags, "proxy_kubernetes", "")
+  server_configuration   = { hostname = local.server_full_name,
+                              username = "admin",
+                              password = "admin",
+                              create_first_user = lookup(local.create_first_user, "server_kubernetes", false) }
+
+  auto_configure          = lookup(local.auto_configure, "proxy_kubernetes", false)
+
+  ssh_key_path            = "./salt/controller/id_ed25519.pub"
+  install_salt_bundle     = lookup(local.install_salt_bundle, "proxy_kubernetes", true)
+  use_os_released_updates = false
+  additional_repos        = lookup(local.additional_repos, "proxy_kubernetes", {})
+  additional_repos_only   = lookup(local.additional_repos_only, "proxy_kubernetes", false)
+  additional_packages     = lookup(local.additional_packages, "proxy_kubernetes", [])
+  main_disk_size          = lookup(local.main_disk_size, "proxy_kubernetes", 200)
+  repository_disk_size    = lookup(local.repository_disk_size, "proxy_kubernetes", 0)
+  provider_settings       = lookup(local.provider_settings_by_host, "proxy_kubernetes", {})
+
+  //Kubernetes
+  helm_chart_name        = lookup(local.helm_chart_name, "proxy_kubernetes", "")
+  helm_chart_url        = lookup(local.helm_chart_url, "proxy_kubernetes", "")
+  use_devel_oci         = var.use_devel_oci
+}
+
 
 module "dhcp_dns" {
   source             = "../dhcp_dns"
@@ -534,8 +632,8 @@ module "controller" {
 output "configuration" {
   value = {
     base = module.base.configuration
-    server = var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration
-    proxy = var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration
+    server = var.kubernetes ? module.server_kubernetes[0].configuration : (var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
+    proxy = var.kubernetes ? module.proxy_kubernetes[0].configuration : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
     suse_client = module.suse_client.configuration
     suse_minion = module.suse_minion.configuration
     suse_sshminion = module.suse_sshminion.configuration
