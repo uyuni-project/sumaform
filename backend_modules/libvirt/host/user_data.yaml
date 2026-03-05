@@ -910,11 +910,15 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse156armo" ~}
+%{ if image == "opensuse156armo" || image == "opensuse160armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
+%{ if image == "opensuse156armo" ~}
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.6/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
+%{ endif ~}     
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -926,11 +930,7 @@ runcmd:
   - "zypper -n in salt-minion"
 %{ endif ~}
   - "zypper removerepo --all"
-%{ endif ~}
-
-%{ if image == "opensuse156armo" ~}
-runcmd:
-  # WORKAROUND: cloud-init in opensuse156 does not take care of the following
+  # WORKAROUND: cloud-init in opensuse 15.6 and 16.0 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
 %{ endif ~}
