@@ -134,7 +134,7 @@ export PRODUCT="SUSE Multi-Linux Manager"
 {% endif %}
 
 # Ruby specific settings
-export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
+export GEM_PATH="/usr/lib64/ruby/gems/4.0.0"
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
