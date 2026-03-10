@@ -112,8 +112,14 @@ variable "module_base_configurations" {
   description = "Module base configurations"
 }
 
-variable "private_key_path" {
+variable "private_ssh_key_path" {
   type        = string
   default     = "~/.ssh/id_ed25519"
   description = "Path to private key used for ssh access"
+}
+
+variable "public_ssh_key_path" {
+  type        = string
+  default     = "./salt/controller/id_ed25519.pub"
+  description = "Path to public key used for ssh access"
 }
