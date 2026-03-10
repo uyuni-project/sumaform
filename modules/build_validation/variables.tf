@@ -111,3 +111,9 @@ variable "module_base_configurations" {
   type        = map(any)
   description = "Module base configurations"
 }
+
+variable "private_key_path" {
+  type        = string
+  default     = "~/.ssh/id_ed25519"
+  description = "Path to private key used for ssh access"
+}
