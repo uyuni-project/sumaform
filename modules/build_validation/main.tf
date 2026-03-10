@@ -38,6 +38,7 @@ module "base_arm" {
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
   images          = ["opensuse156armo"]
+  ssh_key_path    = var.public_ssh_key_path
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
