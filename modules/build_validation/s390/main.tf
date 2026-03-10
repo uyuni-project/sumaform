@@ -6,12 +6,6 @@ terraform {
   }
 }
 
-provider "feilong" {
-  connector   = "https://feilong.mgr.suse.de"
-  admin_token = var.zvm_admin_token
-  local_user  = "jenkins@jenkins-worker.mgr.suse.de"
-}
-
 module "base_s390" {
   source = "../../../backend_modules/feilong/base"
 

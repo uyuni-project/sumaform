@@ -20,6 +20,12 @@ provider "libvirt" {
   uri   = "qemu+tcp://suma-arm.mgr.suse.de/system"
 }
 
+provider "feilong" {
+  alias       = "zvm"
+  connector   = "https://feilong.mgr.suse.de"
+  admin_token = var.zvm_admin_token
+  local_user  = "jenkins@jenkins-worker.mgr.suse.de"
+}
 
 module "base_arm" {
   providers = {
@@ -485,7 +491,10 @@ module "s390" {
   count  = local.deploy_s390 ? 1 : 0
   source = "./s390"
 
-  zvm_admin_token = var.zvm_admin_token
+  providers = {
+    feilong = feilong.zvm
+  }
+
   name_prefix     = var.environment_configuration.name_prefix
   domain          = var.platform_location_configuration[var.location].domain
   product_version = var.product_version
