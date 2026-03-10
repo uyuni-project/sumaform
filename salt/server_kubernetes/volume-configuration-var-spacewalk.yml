@@ -1,0 +1,18 @@
+# The size of the volume is defined in this file: https://github.com/uyuni-project/uyuni/blob/master/containers/server-helm/README.md
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: var-spacewalk
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+
+  claimRef:
+    namespace: kube-system
+    name: var-spacewalk
+
+  hostPath:
+    path: /var/lib/rancher/rke2/storage/var-spacewalk
