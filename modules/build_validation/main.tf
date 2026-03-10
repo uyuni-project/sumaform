@@ -20,11 +20,6 @@ provider "libvirt" {
   uri   = "qemu+tcp://suma-arm.mgr.suse.de/system"
 }
 
-provider "feilong" {
-  connector   = local.deploy_s390 ? "https://feilong.mgr.suse.de" : ""
-  admin_token = local.deploy_s390 ? var.zvm_admin_token : ""
-  local_user  = local.deploy_s390 ? "jenkins@jenkins-worker.mgr.suse.de" : ""
-}
 
 module "base_arm" {
   providers = {
@@ -52,16 +47,6 @@ module "base_arm" {
   }
 }
 
-module "base_s390" {
-  count  = local.deploy_s390 ? 1 : 0
-  source = "../../backend_modules/feilong/base"
-
-  name_prefix     = var.environment_configuration.name_prefix
-  domain          = var.platform_location_configuration[var.location].domain
-  product_version = var.product_version
-
-  testsuite = true
-}
 
 module "server" {
   count               = lookup(var.environment_configuration, "server", null) != null ? 1 : 0
@@ -496,24 +481,17 @@ module "opensuse156arm_minion" {
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
-module "sles15sp5s390_minion" {
-  source             = "../../backend_modules/feilong/host"
-  count              = lookup(var.environment_configuration, "sles15sp5s390_minion", null) != null ? 1 : 0
-  base_configuration = module.base_s390[0].configuration
+module "s390" {
+  count  = local.deploy_s390 ? 1 : 0
+  source = "./s390"
 
-  name  = var.environment_configuration.sles15sp5s390_minion.name
-  image = "s15s5-minimal-2part-xfs"
+  zvm_admin_token = var.zvm_admin_token
+  name_prefix     = var.environment_configuration.name_prefix
+  domain          = var.platform_location_configuration[var.location].domain
+  product_version = var.product_version
 
-  provider_settings = {
-    userid      = var.environment_configuration.sles15sp5s390_minion.userid
-    os_version  = "sles15.5"
-    mac         = var.environment_configuration.sles15sp5s390_minion.mac
-    ssh_user    = "sles"
-    vswitch     = "VSUMA"
-  }
-
-  use_os_released_updates = false
-  ssh_key_path            = "./salt/controller/id_ed25519.pub"
+  sles15sp5s390_minion_configuration    = lookup(var.environment_configuration, "sles15sp5s390_minion", null)
+  sles15sp5s390_sshminion_configuration = lookup(var.environment_configuration, "sles15sp5s390_sshminion", null)
 }
 
 // This is an x86_64 SLES 15 SP5 minion (like sles15sp5-minion),
@@ -926,25 +904,6 @@ module "opensuse156arm_sshminion" {
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
-module "sles15sp5s390_sshminion" {
-  source             = "../../backend_modules/feilong/host"
-  count              = lookup(var.environment_configuration, "sles15sp5s390_sshminion", null) != null ? 1 : 0
-  base_configuration = module.base_s390[0].configuration
-
-  name  = var.environment_configuration.sles15sp5s390_sshminion.name
-  image = "s15s5-minimal-2part-xfs"
-
-  provider_settings = {
-    userid      = var.environment_configuration.sles15sp5s390_sshminion.userid
-    os_version  = "sles15.5"
-    mac         = var.environment_configuration.sles15sp5s390_sshminion.mac
-    ssh_user    = "sles"
-    vswitch     = "VSUMA"
-  }
-
-  use_os_released_updates = false
-  ssh_key_path            = "./salt/controller/id_ed25519.pub"
-}
 
 module "sles12sp5_client" {
   providers = { libvirt = libvirt.host_old_sle }
@@ -1374,8 +1333,8 @@ module "controller" {
   opensuse156arm_minion_configuration    = length(module.opensuse156arm_minion) > 0 ? module.opensuse156arm_minion[0].configuration : local.empty_minion_config
   opensuse156arm_sshminion_configuration = length(module.opensuse156arm_sshminion) > 0 ? module.opensuse156arm_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp5s390_minion_configuration    = length(module.sles15sp5s390_minion) > 0 ? module.sles15sp5s390_minion[0].configuration : local.empty_minion_config
-  sle15sp5s390_sshminion_configuration = length(module.sles15sp5s390_sshminion) > 0 ? module.sles15sp5s390_sshminion[0].configuration : local.empty_minion_config
+  sle15sp5s390_minion_configuration    = local.deploy_s390 ? module.s390[0].sles15sp5s390_minion_configuration : local.empty_minion_config
+  sle15sp5s390_sshminion_configuration = local.deploy_s390 ? module.s390[0].sles15sp5s390_sshminion_configuration : local.empty_minion_config
 
   salt_migration_minion_configuration = length(module.salt_migration_minion) > 0 ? module.salt_migration_minion[0].configuration : local.empty_minion_config
 
