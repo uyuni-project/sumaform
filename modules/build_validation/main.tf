@@ -1,4 +1,6 @@
 locals {
+  deploy_s390 = lookup(var.environment_configuration, "sles15sp5s390_minion", null) != null
+
   base_core = var.module_base_configurations["default"]
   base_old_sle = lookup(var.module_base_configurations, "old_sle", local.base_core)
   base_new_sle = lookup(var.module_base_configurations, "new_sle", local.base_core)
@@ -19,9 +21,9 @@ provider "libvirt" {
 }
 
 provider "feilong" {
-  connector   = "https://feilong.mgr.suse.de"
-  admin_token = var.zvm_admin_token
-  local_user  = "jenkins@jenkins-worker.mgr.suse.de"
+  connector   = local.deploy_s390 ? "https://feilong.mgr.suse.de" : ""
+  admin_token = local.deploy_s390 ? var.zvm_admin_token : ""
+  local_user  = local.deploy_s390 ? "jenkins@jenkins-worker.mgr.suse.de" : ""
 }
 
 module "base_arm" {
@@ -51,6 +53,7 @@ module "base_arm" {
 }
 
 module "base_s390" {
+  count  = local.deploy_s390 ? 1 : 0
   source = "../../backend_modules/feilong/base"
 
   name_prefix     = var.environment_configuration.name_prefix
@@ -496,7 +499,7 @@ module "opensuse156arm_minion" {
 module "sles15sp5s390_minion" {
   source             = "../../backend_modules/feilong/host"
   count              = lookup(var.environment_configuration, "sles15sp5s390_minion", null) != null ? 1 : 0
-  base_configuration = module.base_s390.configuration
+  base_configuration = module.base_s390[0].configuration
 
   name  = var.environment_configuration.sles15sp5s390_minion.name
   image = "s15s5-minimal-2part-xfs"
@@ -926,7 +929,7 @@ module "opensuse156arm_sshminion" {
 module "sles15sp5s390_sshminion" {
   source             = "../../backend_modules/feilong/host"
   count              = lookup(var.environment_configuration, "sles15sp5s390_sshminion", null) != null ? 1 : 0
-  base_configuration = module.base_s390.configuration
+  base_configuration = module.base_s390[0].configuration
 
   name  = var.environment_configuration.sles15sp5s390_sshminion.name
   image = "s15s5-minimal-2part-xfs"
