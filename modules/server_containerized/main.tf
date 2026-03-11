@@ -3,6 +3,7 @@
 variable "images" {
   default = {
     "head"           = "slmicro61o"
+    "head-staging"   = "slmicro61o"
     "5.0-released"   = "slemicro55o"
     "5.0-nightly"    = "slemicro55o"
     "5.1-released"   = "slmicro61o"

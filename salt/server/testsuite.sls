@@ -55,7 +55,7 @@ test_repo_debian_updates:
 {% endif %}
 
 # modify Cobbler to be executed from remote-machines..
-{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "4.3-released", "4.3-nightly", "4.3-pr", "4.3-VM-nightly", "4.3-VM-released" ] %}
+{% set products_using_new_cobbler_version = ["uyuni-master", "uyuni-released", "uyuni-pr", "head", "head-staging", "4.3-released", "4.3-nightly", "4.3-pr", "4.3-VM-nightly", "4.3-VM-released" ] %}
 {% set cobbler_use_settings_yaml = grains.get('product_version') | default('', true) in products_using_new_cobbler_version %}
 {% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
 cobbler_configuration:
