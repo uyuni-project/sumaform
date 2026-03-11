@@ -4,6 +4,7 @@ include:
   {% if runtime == 'rke2' %}
   - kubernetes_common.install_rke2
   - kubernetes_common.install_helm
+  - server_kubernetes.set-persistent-volumes
   - kubernetes_common.set_up_local-path-provisioner
   {% endif %}
   - server_kubernetes.install_kubernetes_server
