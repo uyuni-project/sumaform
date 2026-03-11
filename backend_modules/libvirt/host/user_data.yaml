@@ -332,6 +332,7 @@ runcmd:
 %{ else ~}
   - "zypper -n in avahi avahi-lang nss-mdns qemu-guest-agent iptables"
 %{ endif ~}
+  - "zypper -n removerepo --all"
 %{ endif ~}
   
 # TODO: ONCE AVAILABLE USE: /repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
