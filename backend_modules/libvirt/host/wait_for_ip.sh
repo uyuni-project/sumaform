@@ -1,22 +1,20 @@
 #!/bin/bash
-# wait_for_ip.sh <domain_name>
+# wait_for_ssh.sh <domain_name> <hypervisor_uri>
 
 DOMAIN=$1
+HYPERVISOR_URI=$2
 RETRIES=100
 SLEEP_INTERVAL=10
 
-if [ -z "$DOMAIN" ]; then
-    echo "Usage: $0 <domain_name>"
+if [ -z "$DOMAIN" ] || [ -z "$HYPERVISOR_URI" ]; then
+    echo "Usage: $0 <domain_name> <hypervisor_uri>"
     exit 1
 fi
 
-echo "Starting wait for routable IP on domain: $DOMAIN"
+echo "Waiting for routable IP on domain: $DOMAIN via $HYPERVISOR_URI"
 
 for ((i=1; i<=RETRIES; i++)); do
-    # 1. Get addresses via QEMU agent
-    # 2. Filter out fe80 (IPv6 Link-Local) and 169.254 (IPv4 APIPA)
-    # 3. Extract the first valid IP
-    IP=$(virsh domifaddr "$DOMAIN" --source agent 2>/dev/null | \
+    IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>/dev/null | \
          grep -E "v4|v6" | \
          grep -vE "fe80|169\.254" | \
          awk '{print $4}' | cut -d/ -f1 | head -n1)
@@ -30,5 +28,5 @@ for ((i=1; i<=RETRIES; i++)); do
     sleep "$SLEEP_INTERVAL"
 done
 
-echo "Error: Timed out waiting for a routable IP address for $DOMAIN."
+echo "Error: Timed out waiting for routable IP for $DOMAIN"
 exit 1

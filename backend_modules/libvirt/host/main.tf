@@ -234,8 +234,7 @@ resource "terraform_data" "wait_for_ip" {
   depends_on = [libvirt_domain.domain]
 
   provisioner "local-exec" {
-    // Pass the domain name as an argument to the script
-    command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name}"
+    command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name} ${var.provider_settings["uri"]}"
   }
 }
 
