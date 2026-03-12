@@ -27,6 +27,8 @@ locals {
     xslt            = null
   },
       contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
+      // Inject RNG via XSLT for SLES15 to solve boot latency/entropy starvation
+      length(regexall("sles15", var.image)) > 0 ? { xslt = file("${path.module}/rng.xsl") } : {},
       contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
       contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
       contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
@@ -220,11 +222,6 @@ resource "libvirt_domain" "domain" {
     listen_type    = "address"
     listen_address = "0.0.0.0"
     autoport       = true
-  }
-
-  rng {
-    type    = "random"
-    backend = "/dev/urandom"
   }
 
   xml {
