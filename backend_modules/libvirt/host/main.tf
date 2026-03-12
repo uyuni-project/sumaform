@@ -257,12 +257,8 @@ resource "terraform_data" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    # FIX: Prioritize IPv4 and handle empty lists gracefully during boot
-    host = try(
-      [for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if can(regex("^[0-9.]+$", ip))][0],
-      libvirt_domain.domain[count.index].network_interface[0].addresses[0],
-      "127.0.0.1"
-    )
+    // Skip local links
+    host = try([for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if !can(regex("^(fe80|169\\.254)", ip))][0], null)
 
     user     = "root"
     password = "linux"
