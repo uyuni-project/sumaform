@@ -27,7 +27,7 @@ echo "Starting wait for routable IP on domain: $DOMAIN via $HYPERVISOR_URI"
 for ((i=1; i<=RETRIES; i++)); do
     IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>&1 | \
          grep -E "v4|v6" | \
-         grep -vE "fe80|169\.254" | \
+         grep -vE "fe80|169\.254|127\.|::1|^0\.0\.0\.0$|^::$" | \
          awk '{print $4}' | cut -d/ -f1 | head -n1)
 
     if [ -n "$IP" ]; then
