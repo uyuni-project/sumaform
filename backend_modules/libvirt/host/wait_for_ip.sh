@@ -1,17 +1,23 @@
 #!/bin/bash
-# wait_for_ssh.sh <domain_name> <hypervisor_uri>
+# wait_for_ip.sh <domain_name> [hypervisor_uri]
+# If hypervisor_uri is not provided, falls back to LIBVIRT_DEFAULT_URI env variable
 
 DOMAIN=$1
-HYPERVISOR_URI=$2
+HYPERVISOR_URI=${2:-$LIBVIRT_DEFAULT_URI}
 RETRIES=100
 SLEEP_INTERVAL=10
 
-if [ -z "$DOMAIN" ] || [ -z "$HYPERVISOR_URI" ]; then
-    echo "Usage: $0 <domain_name> <hypervisor_uri>"
+if [ -z "$DOMAIN" ]; then
+    echo "Usage: $0 <domain_name> [hypervisor_uri]"
     exit 1
 fi
 
-echo "Waiting for routable IP on domain: $DOMAIN via $HYPERVISOR_URI"
+if [ -z "$HYPERVISOR_URI" ]; then
+    echo "Error: No hypervisor URI provided and LIBVIRT_DEFAULT_URI is not set"
+    exit 1
+fi
+
+echo "Starting wait for routable IP on domain: $DOMAIN via $HYPERVISOR_URI"
 
 for ((i=1; i<=RETRIES; i++)); do
     IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>/dev/null | \
@@ -28,5 +34,5 @@ for ((i=1; i<=RETRIES; i++)); do
     sleep "$SLEEP_INTERVAL"
 done
 
-echo "Error: Timed out waiting for routable IP for $DOMAIN"
+echo "Error: Timed out waiting for a routable IP address for $DOMAIN."
 exit 1
