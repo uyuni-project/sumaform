@@ -227,8 +227,18 @@ resource "libvirt_domain" "domain" {
   }
 }
 
-resource "terraform_data" "provisioning" {
+resource "terraform_data" "wait_for_ip" {
+  count      = var.provision ? var.quantity : 0
   depends_on = [libvirt_domain.domain]
+
+  provisioner "local-exec" {
+    // Pass the domain name as an argument to the script
+    command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name}"
+  }
+}
+
+resource "terraform_data" "provisioning" {
+  depends_on = [terraform_data.wait_for_ip]
 
   triggers_replace = {
     main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
@@ -316,7 +326,17 @@ resource "terraform_data" "provisioning" {
   provisioner "remote-exec" {
     inline = [
       "bash /root/salt/wait_for_salt.sh",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       "bash /root/salt/first_deployment_highstate.sh",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
       "bash /root/salt/post_provisioning_cleanup.sh",
     ]
   }
