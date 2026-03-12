@@ -117,13 +117,21 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
           %{ if container_proxy }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.1/images/repo/Multi-Linux-Manager-Proxy-5.1-x86_64/ container_utils_repo
           %{ endif }
-        %{ else }
-          # HEAD
+        %{ endif }
+        %{ if product_version == "head" }
           %{ if container_server }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
+          %{ endif }
+        %{ endif }
+        %{ if product_version == "head-staging" }
+          %{ if container_server }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.2:/ToTest/product/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
+          %{ endif }
+          %{ if container_proxy }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.2:/ToTest/product/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
         %{ endif }
       %{ endif }
@@ -135,13 +143,21 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
 # we do not support yet Leap Micro 6.2, even in Uyuni
 %{ if image == "slmicro62o" }
   %{ if container_server || container_proxy }
-    # Still embryonary; only HEAD case considered for now
+    # Still embryonary; only "head" and "head-staging" cases considered for now
     %{ if product_version == "head" }
           %{ if container_server }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
           %{ endif }
           %{ if container_proxy }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
+          %{ endif }
+    %{ endif }
+    %{ if product_version == "head-staging" }
+          %{ if container_server }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.2:/ToTest/product/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
+          %{ endif }
+          %{ if container_proxy }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.2:/ToTest/product/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
           %{ endif }
     %{ endif }
   %{ endif }

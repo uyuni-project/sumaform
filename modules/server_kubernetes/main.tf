@@ -3,6 +3,7 @@
 variable "images" {
   default = {
     "head"           = "ubuntu2404o"
+    "head-staging"   = "ubuntu2404o"
     "5.0-released"   = "ubuntu2404o"
     "5.0-nightly"    = "ubuntu2404o"
     "5.1-released"   = "ubuntu2404o"
