@@ -2,7 +2,7 @@
 # wait_for_ip.sh <domain_name>
 
 DOMAIN=$1
-RETRIES=50
+RETRIES=100
 SLEEP_INTERVAL=5
 
 if [ -z "$DOMAIN" ]; then
