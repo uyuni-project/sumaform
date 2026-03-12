@@ -4,8 +4,8 @@
 
 DOMAIN=$1
 HYPERVISOR_URI=${2:-$LIBVIRT_DEFAULT_URI}
-RETRIES=100
-SLEEP_INTERVAL=10
+RETRIES=50
+SLEEP_INTERVAL=5
 
 if [ -z "$DOMAIN" ]; then
     echo "Usage: $0 <domain_name> [hypervisor_uri]"
