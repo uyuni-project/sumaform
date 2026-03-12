@@ -116,5 +116,6 @@ output "configuration" {
     bastion_password    = lookup(var.provider_settings, "bastion_password", null)
     bastion_private_key = lookup(var.provider_settings, "bastion_private_key", null)
     bastion_certificate = lookup(var.provider_settings, "bastion_certificate", null)
+    libvirt_uri         = lookup(var.provider_settings, "libvirt_uri", "qemu:///system")
   }
 }
