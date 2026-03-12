@@ -259,12 +259,9 @@ resource "terraform_data" "provisioning" {
   connection {
     # FIX: Prioritize IPv4 and handle empty lists gracefully during boot
     host = try(
-      element([
-        for ip in libvirt_domain.domain[count.index].network_interface[0].addresses :
-        ip if length(regexall("^[0-9.]+$", ip)) > 0
-      ], 0),
-      # If no IPv4 is found, fallback to the first available IP to allow retry logic
-        length(libvirt_domain.domain[count.index].network_interface[0].addresses) > 0 ? libvirt_domain.domain[count.index].network_interface[0].addresses[0] : "127.0.0.1"
+      [for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if can(regex("^[0-9.]+$", ip))][0],
+      libvirt_domain.domain[count.index].network_interface[0].addresses[0],
+      "127.0.0.1"
     )
 
     user     = "root"
