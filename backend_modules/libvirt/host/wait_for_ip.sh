@@ -17,10 +17,15 @@ if [ -z "$HYPERVISOR_URI" ]; then
     exit 1
 fi
 
+if ! command -v virsh &>/dev/null; then
+    echo "Error: virsh not found. Please install libvirt-client."
+    exit 1
+fi
+
 echo "Starting wait for routable IP on domain: $DOMAIN via $HYPERVISOR_URI"
 
 for ((i=1; i<=RETRIES; i++)); do
-    IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>/dev/null | \
+    IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>&1 | \
          grep -E "v4|v6" | \
          grep -vE "fe80|169\.254" | \
          awk '{print $4}' | cut -d/ -f1 | head -n1)
