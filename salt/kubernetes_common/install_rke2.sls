@@ -12,6 +12,7 @@ tls-san_setup_file:
     - contents: |
         tls-san:
           - "{{ grains.get("fqdn") }}"
+        ingress-controller: traefik
     - makedirs: True
 
 {% if pkg_map.get(osfullname) != '' %}
