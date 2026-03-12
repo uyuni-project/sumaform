@@ -262,7 +262,10 @@ resource "terraform_data" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
+    host = element([
+      for ip in libvirt_domain.domain[count.index].network_interface[0].addresses :
+      ip if length(regexall("^[0-9.]+$", ip)) > 0
+    ], 0)
     user     = "root"
     password = "linux"
     // ssh connection through a bastion host
