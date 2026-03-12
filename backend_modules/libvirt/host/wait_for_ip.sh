@@ -3,7 +3,7 @@
 
 DOMAIN=$1
 RETRIES=100
-SLEEP_INTERVAL=5
+SLEEP_INTERVAL=10
 
 if [ -z "$DOMAIN" ]; then
     echo "Usage: $0 <domain_name>"
