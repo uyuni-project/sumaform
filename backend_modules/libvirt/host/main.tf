@@ -236,6 +236,11 @@ resource "terraform_data" "wait_for_ip" {
   provisioner "local-exec" {
     command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name} ${var.base_configuration["libvirt_uri"]}"
   }
+
+  # Store the IP so provisioning can reference it
+  triggers_replace = {
+    domain_name = libvirt_domain.domain[count.index].name
+  }
 }
 
 resource "terraform_data" "provisioning" {
@@ -268,8 +273,8 @@ resource "terraform_data" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    // Skip local links
-    host = try([for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if !can(regex("^(fe80|169\\.254)", ip))][0], null)
+    // Read IP from the file written by wait_for_ip.sh
+    host     = trimspace(file("/tmp/${libvirt_domain.domain[count.index].name}.ip"))
 
     user     = "root"
     password = "linux"
