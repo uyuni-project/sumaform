@@ -62,7 +62,7 @@ locals {
     container_server    = contains(var.roles, "server_containerized")
     server_kubernetes    = contains(var.roles, "server_kubernetes")
     container_proxy     = contains(var.roles, "proxy_containerized")
-    proxy_kubernetes     = contains(var.roles, "proxy_kubernetes")
+    proxy_kubernetes    = contains(var.roles, "proxy_kubernetes")
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
@@ -220,6 +220,11 @@ resource "libvirt_domain" "domain" {
     listen_type    = "address"
     listen_address = "0.0.0.0"
     autoport       = true
+  }
+
+  rng {
+    type    = "random"
+    backend = "/dev/urandom"
   }
 
   xml {
