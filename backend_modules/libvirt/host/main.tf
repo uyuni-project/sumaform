@@ -238,8 +238,18 @@ resource "terraform_data" "wait_for_ip" {
   }
 }
 
-resource "terraform_data" "provisioning" {
+// Use data external to read the IP written by wait_for_ip.sh at apply time.
+// This avoids reading from Terraform state (network_interface[0].addresses)
+// which is unreliable on bridged networks where wait_for_lease fires on
+// non-routable addresses (fe80, IPv6 auto) before DHCPv4 completes.
+data "external" "ip" {
+  count      = var.provision ? var.quantity : 0
   depends_on = [terraform_data.wait_for_ip]
+  program    = ["bash", "${path.module}/get_ip.sh", libvirt_domain.domain[count.index].name]
+}
+
+resource "terraform_data" "provisioning" {
+  depends_on = [terraform_data.wait_for_ip, data.external.ip]
 
   triggers_replace = {
     main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
@@ -268,8 +278,8 @@ resource "terraform_data" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    // Skip non-routable addresses (link-local, loopback, APIPA)
-    host     = try([for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if !can(regex("^(fe80|169[.]254|127[.]|::1$|^::$)", ip))][0], null)
+    // Use IP found by wait_for_ip.sh via QEMU agent, passed through data external get_ip.sh
+    host     = data.external.ip[count.index].result["ip"]
 
     user     = "root"
     password = "linux"
