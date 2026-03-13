@@ -142,8 +142,16 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
 # SL Micro 6.2 is being used in both Uyuni and Multi-Linux Manager
 # we do not support yet Leap Micro 6.2, even in Uyuni
 %{ if image == "slmicro62o" }
+  # Still embryonary; only some cases are considered for now
   %{ if container_server || container_proxy }
-    # Still embryonary; only "head" and "head-staging" cases considered for now
+    %{ if product_version == "5.2-released" }
+          %{ if container_server }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Server/5.2/x86_64/product container_utils_repo
+          %{ endif }
+          %{ if container_proxy }
+            zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Proxy/5.2/x86_64/product/ container_utils_repo
+          %{ endif }
+    %{ endif }
     %{ if product_version == "head" }
           %{ if container_server }
             zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
