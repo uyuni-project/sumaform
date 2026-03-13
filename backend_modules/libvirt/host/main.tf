@@ -237,10 +237,11 @@ resource "terraform_data" "wait_for_ip" {
     command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name} ${var.base_configuration["libvirt_uri"]}"
   }
 
-  # Store the IP so provisioning can reference it
-  triggers_replace = {
-    domain_name = libvirt_domain.domain[count.index].name
-  }
+  // Read the IP written by the script and store it as this resource's input
+  // so provisioning can reference it via terraform_data.wait_for_ip[count.index].output
+  input = trimspace(run_after_apply(
+    "/tmp/${libvirt_domain.domain[count.index].name}.ip"
+  ))
 }
 
 resource "terraform_data" "provisioning" {
