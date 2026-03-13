@@ -28,12 +28,6 @@ global:
   # Changing this value renames the server and changes the server FQDN in the database, handle with care.
   # This value is required.
   fqdn: {{ fqdn }}
-  ingress:
-    enabled: true
-    className: nginx
-
-traefik:
-  enabled: false
 
 ssl:
   country: "DE"
@@ -49,6 +43,4 @@ certManagerNamespace: {{ cert_manager_namespace }}
 server-helm: 
   repository: {{ container_repository }}
   pullPolicy: "Always"
-  ingress:
-    type: "nginx"
 

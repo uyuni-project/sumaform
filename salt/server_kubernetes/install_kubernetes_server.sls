@@ -24,6 +24,18 @@ install_dependencies_helm_server:
     - refresh: True
 {% endif %}
 
+copy_traefik_installation_file:
+  file.managed:
+  - name: /root/kubernetes-crd-definition-v1.yml
+  - source: salt://server_kubernetes/kubernetes-crd-definition-v1.yml
+  - makedirs: true
+
+install_traefik:
+  cmd.run:
+    - name: kubectl apply -f /root/kubernetes-crd-definition-v1.yml
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
+
 copy_helm_charts_directory:
   file.recurse:
     - name: {{ self_signed_path }}
@@ -59,25 +71,6 @@ copy_manifest_uyuni_ingress:
     - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
     - source: salt://server_kubernetes/uyuni-ingress.yaml
     - template: jinja
-    - defaults:
-        namespace: {{ rke2_namespace }}
-
-copy_traefik_installation_file:
-  file.managed:
-  - name: /root/kubernetes-crd-definition-v1.yml
-  - source: salt://server_kubernetes/kubernetes-crd-definition-v1.yml
-  - makedirs: true
-
-# In principle we are not using Traefik as ingress controller, but it has dependencies in common and fails if isn't installed
-install_traefik:
-  cmd.run:
-    - name: kubectl apply -f /root/kubernetes-crd-definition-v1.yml
-    - env:
-      - KUBECONFIG: {{ kubeconfig }}
-
-
-### Even if we decided to use local_path_provisioner, we agreed in having var-spacewalk and var-pgsql in separated volumes
-##### Pending to add var-spacewalk and var-pgsql in different volumes
 
 transfer_python_management_file:
   file.managed:
@@ -96,7 +89,7 @@ build_helm_dependencies:
 
 install_uyuni_on_kubernetes:
   cmd.run:
-  - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n {{ rke2_namespace }}
+  - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni
   - cwd: {{ helm_chart_directory }}
   - env:
     - KUBECONFIG: {{ kubeconfig }}
