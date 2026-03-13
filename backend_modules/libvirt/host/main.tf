@@ -236,12 +236,6 @@ resource "terraform_data" "wait_for_ip" {
   provisioner "local-exec" {
     command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name} ${var.base_configuration["libvirt_uri"]}"
   }
-
-  // Read the IP written by the script and store it as this resource's input
-  // so provisioning can reference it via terraform_data.wait_for_ip[count.index].output
-  input = trimspace(run_after_apply(
-    "/tmp/${libvirt_domain.domain[count.index].name}.ip"
-  ))
 }
 
 resource "terraform_data" "provisioning" {
@@ -274,8 +268,8 @@ resource "terraform_data" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    // Read IP from the file written by wait_for_ip.sh
-    host     = trimspace(file("/tmp/${libvirt_domain.domain[count.index].name}.ip"))
+    // Skip non-routable addresses (link-local, loopback, APIPA)
+    host     = try([for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if !can(regex("^(fe80|169\.254|127\.|::1$|^::$)", ip))][0], null)
 
     user     = "root"
     password = "linux"
