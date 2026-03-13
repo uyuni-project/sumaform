@@ -269,7 +269,7 @@ resource "terraform_data" "provisioning" {
 
   connection {
     // Skip non-routable addresses (link-local, loopback, APIPA)
-    host     = try([for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if !can(regex("^(fe80|169\.254|127\.|::1$|^::$)", ip))][0], null)
+    host     = try([for ip in libvirt_domain.domain[count.index].network_interface[0].addresses : ip if !can(regex("^(fe80|169[.]254|127[.]|::1$|^::$)", ip))][0], null)
 
     user     = "root"
     password = "linux"
