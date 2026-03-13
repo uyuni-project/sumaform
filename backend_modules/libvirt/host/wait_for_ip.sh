@@ -1,12 +1,14 @@
 #!/bin/bash
 # wait_for_ip.sh <domain_name> [hypervisor_uri]
 # Waits until a routable IP is visible via the QEMU agent.
+# On success, writes the IP to /tmp/<domain_name>.ip for get_ip.sh to read.
 # Note: --source lease is not used as bridged networks do not have libvirt-managed DHCP.
 
 DOMAIN=$1
 HYPERVISOR_URI=${2:-$LIBVIRT_DEFAULT_URI}
-RETRIES=50
-SLEEP_INTERVAL=5
+RETRIES=100
+SLEEP_INTERVAL=10
+IP_FILE="/tmp/${DOMAIN}.ip"
 
 if [ -z "$DOMAIN" ]; then
     echo "Usage: $0 <domain_name> [hypervisor_uri]"
@@ -33,6 +35,7 @@ for ((i=1; i<=RETRIES; i++)); do
 
     if [ -n "$AGENT_IP" ]; then
         echo "Success: Found routable IP $AGENT_IP"
+        echo "$AGENT_IP" > "$IP_FILE"
         exit 0
     fi
 
