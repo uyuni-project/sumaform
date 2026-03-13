@@ -229,27 +229,17 @@ resource "libvirt_domain" "domain" {
   }
 }
 
-resource "terraform_data" "wait_for_ip" {
-  count      = var.provision ? var.quantity : 0
-  depends_on = [libvirt_domain.domain]
-
-  provisioner "local-exec" {
-    command = "bash ${path.module}/wait_for_ip.sh ${libvirt_domain.domain[count.index].name} ${var.base_configuration["libvirt_uri"]}"
-  }
-}
-
-// Use data external to read the IP written by wait_for_ip.sh at apply time.
-// This avoids reading from Terraform state (network_interface[0].addresses)
-// which is unreliable on bridged networks where wait_for_lease fires on
-// non-routable addresses (fe80, IPv6 auto) before DHCPv4 completes.
+// data external calls wait_for_ip.sh which polls the QEMU agent until a routable
+// IP is found and returns it as JSON. This avoids reading network_interface[0].addresses
+// from Terraform state which is unreliable on bridged networks.
 data "external" "ip" {
   count      = var.provision ? var.quantity : 0
-  depends_on = [terraform_data.wait_for_ip]
-  program    = ["bash", "${path.module}/get_ip.sh", libvirt_domain.domain[count.index].name]
+  depends_on = [libvirt_domain.domain]
+  program    = ["bash", "${path.module}/wait_for_ip.sh", libvirt_domain.domain[count.index].name, var.base_configuration["libvirt_uri"]]
 }
 
 resource "terraform_data" "provisioning" {
-  depends_on = [terraform_data.wait_for_ip, data.external.ip]
+  depends_on = [data.external.ip]
 
   triggers_replace = {
     main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
