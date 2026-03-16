@@ -1,10 +1,9 @@
 {% set osfullname = grains['osfullname'] %}
-{% if osfullname in ['Ubuntu'] %}
+{% if osfullname in ['Ubuntu', 'openSUSE Tumbleweed', 'SLES'] %}
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
-{% set rke2_namespace = "kube-system" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
@@ -12,12 +11,10 @@
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 
+# For future packages
+{% set pkg_map = {} %}
 
-{% set pkg_map = {
-    'Ubuntu': 'python3-yaml'
-} %}
-
-{% if pkg_map.get(osfullname) != '' %}
+{% if osfullname in pkg_map %}
 install_dependencies_helm_server:
   pkg.latest:
     - name: {{ pkg_map.get(osfullname) }}
@@ -86,6 +83,12 @@ build_helm_dependencies:
   cmd.run:
   - name: helm dependencies build
   - cwd: {{ self_signed_path }}
+
+create_uyuni_namespace:
+  cmd.run: 
+  - name: kubectl create namespace uyuni
+  - env:
+    - KUBECONFIG: {{ kubeconfig }}
 
 install_uyuni_on_kubernetes:
   cmd.run:
