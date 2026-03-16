@@ -1274,7 +1274,7 @@ module "monitoring_server" {
   count              = lookup(var.environment_configuration, "monitoring_server", null) != null ? 1 : 0
   base_configuration = local.base_retail
   name               = var.environment_configuration.monitoring_server.name
-  image              = "sles15sp7o"
+  image = lookup(var.environment_configuration.monitoring_server, "image", "sles15sp7o")
   provider_settings = {
     mac    = var.environment_configuration.monitoring_server.mac
     memory = 2048
