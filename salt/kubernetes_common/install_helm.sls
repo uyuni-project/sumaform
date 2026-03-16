@@ -1,13 +1,14 @@
 {% set osfullname = grains['osfullname'] %}
-{% if osfullname in ['Ubuntu'] %}
+{% if osfullname in ['Ubuntu', 'openSUSE Tumbleweed', 'SLES'] %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_version = "v1.19.2" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set pkg_map = {
-    'Ubuntu': 'python3-yaml'
+    'Ubuntu': 'python3-yaml',
+    'openSUSE Tumbleweed': 'openssl'
 } %}
 
-{% if pkg_map.get(osfullname) != '' %}
+{% if osfullname in pkg_map %}
 install_dependencies_helm:
   pkg.latest:
     - name: {{ pkg_map.get(osfullname) }}

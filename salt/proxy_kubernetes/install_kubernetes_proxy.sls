@@ -1,6 +1,5 @@
 {% set osfullname = grains['osfullname'] %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
-{% set rke2_namespace = "kube-system" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
@@ -9,13 +8,11 @@
 {% set self_signed_path = "/root/helm-charts/selfsigned" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 
-{% if osfullname in ['Ubuntu'] %}
+{% if osfullname in ['Ubuntu', 'openSUSE Tumbleweed', 'SLES'] %}
 
-{% set pkg_map = {
-    'Ubuntu': ''
-} %}
+{% set pkg_map = {} %}
 
-{% if pkg_map.get(osfullname) != '' %}
+{% if osfullname in pkg_map %}
 install_dependencies_helm_proxy:
   pkg.latest:
     - name: {{ pkg_map.get(osfullname) }}
@@ -27,9 +24,6 @@ copy_manifest_uyuni_ingress_proxy:
   file.managed:
     - name: /var/lib/rancher/rke2/server/manifests/uyuni_ingress_proxy.yaml
     - source: salt://proxy_kubernetes/uyuni_ingress_proxy.yaml
-    - template: jinja
-    - defaults:
-        namespace: {{ rke2_namespace }}
 
 mkdir_helm_dir:
   cmd.run:

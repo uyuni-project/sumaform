@@ -1,10 +1,16 @@
 {% set osfullname = grains['osfullname'] %}
-{% if osfullname in ['Ubuntu'] %}
+{% if osfullname in ['Ubuntu', 'openSUSE Tumbleweed', 'SLES'] %}
 {% set rke2_version = "v1.34.2+rke2r1" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
-{% set pkg_map = {
-    'Ubuntu': ''
-} %}
+# For future packages
+{% set pkg_map = {} %}
+
+{% if osfullname in pkg_map %}
+install_dependencies:
+  pkg.latest:
+    - name: {{ pkg_map.get(osfullname) }}
+    - refresh: True
+{% endif %}
 
 tls-san_setup_file:
   file.managed:
@@ -14,13 +20,6 @@ tls-san_setup_file:
           - "{{ grains.get("fqdn") }}"
         ingress-controller: traefik
     - makedirs: True
-
-{% if pkg_map.get(osfullname) != '' %}
-install_dependencies:
-  pkg.latest:
-    - name: {{ pkg_map.get(osfullname) }}
-    - refresh: True
-{% endif %}
 
 rke2_install:
   cmd.run:
