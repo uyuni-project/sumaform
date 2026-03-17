@@ -334,8 +334,7 @@ runcmd:
 %{ endif ~}
   - "zypper -n removerepo --all"
 %{ endif ~}
-  
-# TODO: ONCE AVAILABLE USE: /repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+
 %{ if image == "sles16o" ~}
 zypper:
   repos:
@@ -345,7 +344,7 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo

@@ -55,17 +55,15 @@ tools_update_repo:
 
 {% if '16' in grains['osrelease'] %}
 
-# TODO: Uncomment when released
-#tools_pool_repo:
-#  pkgrepo.managed:
-#    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
-#    - refresh: True
+tools_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+    - refresh: True
 
 {% if 'uyuni-master' in grains.get('product_version') | default('', true) %}
 
 tools_update_repo:
   pkgrepo.managed:
-    # TODO: Review why still not available
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
     - refresh: True
     - gpgcheck: 1

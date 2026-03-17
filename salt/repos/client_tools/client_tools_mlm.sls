@@ -10,8 +10,7 @@
 # On MLM, we use SLE channels for Leap.
 tools_pool_repo:
   pkgrepo.managed:
-    # TODO: Add "product" folder on the path, when have it released.
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/product
     - refresh: True
 
 # Devel Tools Repos
@@ -164,8 +163,7 @@ tools_additional_repo:
 # Release Tools Repos
 tools_pool_repo:
   pkgrepo.managed:
-    # TODO: Add "product" folder on the path, when have it released.
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/product
     - refresh: True
 
 # Devel Tools Repos
