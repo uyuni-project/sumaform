@@ -74,6 +74,21 @@ variable "use_devel_oci" {
   default = false
 }
 
+variable "install_mlm_proxy" {
+  description = "true to install MLM proxy"
+  default = true
+}
+
+variable "install_traefik" {
+  description = "true to install Traefik"
+  default = true
+}
+
+variable "install_local_path_provisioner" {
+  description = "true to install local-path-provisioner"
+  default = true
+}
+
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
   default = {

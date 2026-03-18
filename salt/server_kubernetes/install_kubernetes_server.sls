@@ -21,18 +21,6 @@ install_dependencies_helm_server:
     - refresh: True
 {% endif %}
 
-copy_traefik_installation_file:
-  file.managed:
-  - name: /root/kubernetes-crd-definition-v1.yml
-  - source: salt://server_kubernetes/kubernetes-crd-definition-v1.yml
-  - makedirs: true
-
-install_traefik:
-  cmd.run:
-    - name: kubectl apply -f /root/kubernetes-crd-definition-v1.yml
-    - env:
-      - KUBECONFIG: {{ kubeconfig }}
-
 copy_helm_charts_directory:
   file.recurse:
     - name: {{ self_signed_path }}
@@ -79,6 +67,8 @@ update_oci_app_version:
   cmd.run:
   - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} -f {{ oci_vars_path }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
 
+{% if grains.get('install_mlm_server') == true %}
+
 build_helm_dependencies:
   cmd.run:
   - name: helm dependencies build
@@ -96,5 +86,7 @@ install_uyuni_on_kubernetes:
   - cwd: {{ helm_chart_directory }}
   - env:
     - KUBECONFIG: {{ kubeconfig }}
+
+{% endif %}
 
 {% endif %}

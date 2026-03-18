@@ -40,28 +40,31 @@ module "proxy_kubernetes" {
   product_version               = local.product_version
 
   grains = {
-    server                    = var.server_configuration["hostname"]
-    server_username           = var.server_configuration["username"]
-    server_password           = var.server_configuration["password"]
-    auto_configure            = var.auto_configure
-    container_runtime         = var.runtime
-    container_repository      = var.container_repository
-    string_registry           = var.string_registry
-    httpd_container_image     = var.httpd_container_image
-    salt_broker_container_image = var.salt_broker_container_image
-    squid_container_image     = var.squid_container_image
-    ssh_container_image       = var.ssh_container_image
-    tftpd_container_image     = var.tftpd_container_image
-    container_tag             = var.container_tag
-    helm_chart_url            = var.helm_chart_url
-    helm_chart_name           = var.helm_chart_name
-    mirror                    = var.base_configuration["mirror"]
-    avahi_reflector           = var.avahi_reflector
-    main_disk_size            = var.main_disk_size
-    repository_disk_size      = var.repository_disk_size
-    database_disk_size        = var.database_disk_size
-    proxy_registration_code   = var.proxy_registration_code
-    use_devel_oci             = var.use_devel_oci
+    server                          = var.server_configuration["hostname"]
+    server_username                 = var.server_configuration["username"]
+    server_password                 = var.server_configuration["password"]
+    auto_configure                  = var.auto_configure
+    container_runtime               = var.runtime
+    container_repository            = var.container_repository
+    string_registry                 = var.string_registry
+    httpd_container_image           = var.httpd_container_image
+    salt_broker_container_image     = var.salt_broker_container_image
+    squid_container_image           = var.squid_container_image
+    ssh_container_image             = var.ssh_container_image
+    tftpd_container_image           = var.tftpd_container_image
+    container_tag                   = var.container_tag
+    helm_chart_url                  = var.helm_chart_url
+    helm_chart_name                 = var.helm_chart_name
+    mirror                          = var.base_configuration["mirror"]
+    avahi_reflector                 = var.avahi_reflector
+    main_disk_size                  = var.main_disk_size
+    repository_disk_size            = var.repository_disk_size
+    database_disk_size              = var.database_disk_size
+    proxy_registration_code         = var.proxy_registration_code
+    use_devel_oci                   = var.use_devel_oci
+    install_mlm_proxy               = var.install_mlm_proxy
+    install_traefik                 = var.install_traefik
+    install_local_path_provisioner  = var.install_local_path_provisioner
   }
 }
 

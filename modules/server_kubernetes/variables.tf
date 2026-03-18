@@ -47,6 +47,21 @@ variable "use_devel_oci" {
   default = false
 }
 
+variable "install_mlm_server" {
+  description = "true to install MLM server"
+  default = true
+}
+
+variable "install_traefik" {
+  description = "true to install Traefik"
+  default = true
+}
+
+variable "install_local_path_provisioner" {
+  description = "true to install local-path-provisioner"
+  default = true
+}
+
 variable "db_container_repository" {
   description = "Where to find the server database container images. Uses the released ones per default."
   default = ""
