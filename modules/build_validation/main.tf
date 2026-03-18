@@ -37,7 +37,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = ["opensuse156armo", "opensuse16armo"]
+  images          = ["opensuse156armo", "opensuse160armo"]
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
