@@ -334,8 +334,7 @@ runcmd:
 %{ endif ~}
   - "zypper -n removerepo --all"
 %{ endif ~}
-  
-# TODO: ONCE AVAILABLE USE: /repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
+
 %{ if image == "sles16o" ~}
 zypper:
   repos:
@@ -345,7 +344,7 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/
+      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE16-Uyuni-Client-Tools/SLE_16/
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -528,8 +527,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      # TODO: change to Stable: when the tools are published
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
