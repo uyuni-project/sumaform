@@ -198,6 +198,26 @@ variable "use_devel_oci" {
   default = false
 }
 
+variable "install_mlm_server" {
+  description = "true to just install the RKE2 MLM server"
+  default = true
+}
+
+variable "install_mlm_proxy" {
+  description = "true to just install the RKE2 MLM proxy"
+  default = true
+}
+
+variable "install_traefik" {
+  description = "true to install Traefik"
+  default = true
+}
+
+variable "install_local_path_provisioner" {
+  description = "true to install local-path-provisioner"
+  default = true
+}
+
 variable "beta_enabled" {
   description = "Enable the mechanism to take into account beta channels"
   default     = false

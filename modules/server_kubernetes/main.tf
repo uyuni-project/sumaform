@@ -87,6 +87,9 @@ module "server_kubernetes" {
     additional_repos               = var.additional_repos
     enable_oval_metadata           = var.enable_oval_metadata
     use_devel_oci                  = var.use_devel_oci
+    install_mlm_server             = var.install_mlm_server
+    install_traefik                = var.install_traefik
+    install_local_path_provisioner = var.install_local_path_provisioner
   }
 }
 

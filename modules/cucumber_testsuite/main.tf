@@ -240,9 +240,12 @@ module "server_kubernetes" {
   enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_kubernetes", false)
 
   //Kubernetes
-  helm_chart_name        = lookup(local.helm_chart_name, "server_kubernetes", "")
-  helm_chart_url        = lookup(local.helm_chart_url, "server_kubernetes", "")
-  use_devel_oci         = var.use_devel_oci
+  helm_chart_name                 = lookup(local.helm_chart_name, "server_kubernetes", "")
+  helm_chart_url                  = lookup(local.helm_chart_url, "server_kubernetes", "")
+  use_devel_oci                   = var.use_devel_oci
+  install_mlm_server              = var.install_mlm_server
+  install_traefik                 = var.install_traefik
+  install_local_path_provisioner  = var.install_local_path_provisioner
 }
 
 module "proxy" {
@@ -351,9 +354,12 @@ module "proxy_kubernetes" {
   provider_settings       = lookup(local.provider_settings_by_host, "proxy_kubernetes", {})
 
   //Kubernetes
-  helm_chart_name        = lookup(local.helm_chart_name, "proxy_kubernetes", "")
-  helm_chart_url        = lookup(local.helm_chart_url, "proxy_kubernetes", "")
-  use_devel_oci         = var.use_devel_oci
+  helm_chart_name                 = lookup(local.helm_chart_name, "proxy_kubernetes", "")
+  helm_chart_url                  = lookup(local.helm_chart_url, "proxy_kubernetes", "")
+  use_devel_oci                   = var.use_devel_oci
+  install_mlm_proxy               = var.install_mlm_proxy
+  install_traefik                 = var.install_traefik
+  install_local_path_provisioner  = var.install_local_path_provisioner
 }
 
 

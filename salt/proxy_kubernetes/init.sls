@@ -31,12 +31,15 @@ ssh_config_proxy_kubernetes:
     - group: root
     - mode: 700
 
-{% set runtime = grains.get('container_runtime') | default('podman', true) %}
-
 include:
-  {% if runtime == 'rke2' %}
   - kubernetes_common.install_rke2
   - kubernetes_common.install_helm
+  {% if grains.get('install_local_path_provisioner') == true %}
   - kubernetes_common.set_up_local-path-provisioner
   {% endif %}
+  {% if grains.get('install_traefik') == true %}
+  - kubernetes_common.install_traefik
+  {% endif %}
+  {% if grains.get('install_mlm_proxy') == true %}
   - proxy_kubernetes.install_kubernetes_proxy
+  {% endif %}
