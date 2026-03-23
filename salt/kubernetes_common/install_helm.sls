@@ -32,6 +32,14 @@ install_cert_manager:
     - env:
       - KUBECONFIG: {{ kubeconfig }}
 
+check_cert_manager_installation:
+  cmd.run:
+    - name: 'helm status cert-manager --namespace {{ cert_manager_namespace }} | grep -q "STATUS: deployed"'
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
+    - require:
+      - cmd: install_cert_manager
+
 install_trust_manager:
   cmd.run:
     - name: |
@@ -41,5 +49,13 @@ install_trust_manager:
           --wait
     - env:
       - KUBECONFIG: {{ kubeconfig }}
+
+check_trust_manager_installation:
+  cmd.run:
+    - name: 'helm status trust-manager --namespace {{ cert_manager_namespace }} | grep -q "STATUS: deployed"'
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
+    - require:
+      - cmd: install_trust_manager
 
 {% endif %}

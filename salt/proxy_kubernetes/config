@@ -1,3 +1,10 @@
 Host *
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null
+
+Host *-server.mgr.suse.de
+    HostName pablo-server.mgr.suse.de
+    User root
+    IdentityFile ~/.ssh/id_ed25519_proxy
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
