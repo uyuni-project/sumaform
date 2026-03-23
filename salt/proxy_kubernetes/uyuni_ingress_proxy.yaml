@@ -1,14 +1,31 @@
 apiVersion: helm.cattle.io/v1
 kind: HelmChartConfig
 metadata:
-  name: rke2-ingress-nginx
-  namespace: {{ namespace }}
+  name: rke2-traefik
+  namespace: kube-system
 spec:
   valuesContent: |-
-    controller:
-      config:
-        hsts: "false"
-    tcp:
-      4505: {{ namespace }}/salt:4505
-      4506: {{ namespace }}/salt:4506
-      8022: {{ namespace }}/ssh:8022
+    ports:
+      ssh:
+        port: 8022
+        expose:
+          default: true
+        exposedPort: 8022
+        protocol: TCP
+        hostPort: 8022
+      salt-publish:
+        port: 4505
+        expose:
+          default: true
+        exposedPort: 4505
+        protocol: TCP
+        hostPort: 4505
+        containerPort: 4505
+      salt-request:
+        port: 4506
+        expose:
+          default: true
+        exposedPort: 4506
+        protocol: TCP
+        hostPort: 4506
+        containerPort: 4506

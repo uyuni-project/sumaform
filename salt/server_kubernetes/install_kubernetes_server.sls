@@ -7,12 +7,12 @@
 {% set cert_manager_namespace = "cert-manager" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
-{% set oci_vars_path = "/etc/profile.d/oci_var.sh" %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 
-# For future packages
-{% set pkg_map = {} %}
+{% set pkg_map = {
+  'openSUSE Tumbleweed' : 'jq'
+} %}
 
 {% if osfullname in pkg_map %}
 install_dependencies_helm_server:
@@ -20,6 +20,22 @@ install_dependencies_helm_server:
     - name: {{ pkg_map.get(osfullname) }}
     - refresh: True
 {% endif %}
+
+
+ssh_public_key_proxy_kubernetes_server_exchange:
+  file.managed:
+    - name: /root/.ssh/id_ed25519_proxy.pub
+    - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+key_exchange_kubernetes_server:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
+    - makedirs: True
 
 copy_helm_charts_directory:
   file.recurse:
@@ -65,7 +81,7 @@ transfer_python_management_file:
 
 update_oci_app_version:
   cmd.run:
-  - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} -f {{ oci_vars_path }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
+  - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
 
 {% if grains.get('install_mlm_server') == true %}
 
@@ -74,16 +90,16 @@ build_helm_dependencies:
   - name: helm dependencies build
   - cwd: {{ self_signed_path }}
 
-create_uyuni_namespace:
-  cmd.run: 
-  - name: kubectl create namespace uyuni
-  - env:
-    - KUBECONFIG: {{ kubeconfig }}
-
 install_uyuni_on_kubernetes:
   cmd.run:
   - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni
   - cwd: {{ helm_chart_directory }}
+  - env:
+    - KUBECONFIG: {{ kubeconfig }}
+
+save_pod_as_env_variable:
+  cmd.run:
+  - name: echo export Server_pod="$(kubectl get pods -n uyuni --no-headers | grep uyuni | grep -v setup | awk '{print $1}')" > /etc/profile.d/pod_server.sh
   - env:
     - KUBECONFIG: {{ kubeconfig }}
 
