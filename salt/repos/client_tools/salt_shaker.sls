@@ -1,4 +1,4 @@
-{% if not grains.get('product_version') and 'salt_testenv' in grains.get('roles') %}
+{% if 'salt_testenv' in grains.get('roles') %}
 
 {% if grains['osfullname'] == 'SLES' and '15' in grains['osrelease'] %}
 shaker_tools_pool_repo:
