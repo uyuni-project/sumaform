@@ -12,6 +12,7 @@ module "salt_testenv" {
   image                         = var.image
   provider_settings             = var.provider_settings
   install_salt_bundle           = var.install_salt_bundle
+  product_version               = var.product_version
 
   grains = {
     mirror                  = var.base_configuration["mirror"]
