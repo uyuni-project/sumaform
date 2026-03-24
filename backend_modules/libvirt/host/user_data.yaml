@@ -335,7 +335,7 @@ runcmd:
   - "zypper -n removerepo --all"
 %{ endif ~}
 
-%{ if image == "sles16o" ~}
+%{ if image == "sles160o" ~}
 zypper:
   repos:
     - id: os_pool_repo
