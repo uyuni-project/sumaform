@@ -62,5 +62,5 @@ variable "install_salt_bundle" {
 variable "product_version" {
   description = "Product version to set in grains (prevents uyuni-specific states from running)"
   type        = string
-  default     = "head"
+  default     = "salt_testenv"
 }
