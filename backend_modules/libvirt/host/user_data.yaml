@@ -731,6 +731,13 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
+  # repo for venv-salt-minion from SUSE Maintenance
+  suse_maintenance_43018:
+    baseurl: http://download.suse.de/ibs/SUSE:/Maintenance:/43018/SUSE_Updates_EL_9-CLIENT-TOOLS_x86_64/
+    enabled: true
+    gpgcheck: false
+    name: suse_maintenance_43018
+    priority: 1
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
