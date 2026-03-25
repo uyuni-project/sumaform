@@ -30,7 +30,7 @@ for ((i=1; i<=RETRIES; i++)); do
     AGENT_IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>&1 | \
         awk '/ipv4|ipv6/ {print $4}' | \
         cut -d/ -f1 | \
-        grep -Ev '^fe80:|^169\.254\.|^127\.|^::1$' | \
+        grep -Ev '^fe80:|^169\.254\.|^127\.|^::1$|^10\.89\.|^192\.168\.' | \
         head -n1)
 
     if [ -n "$AGENT_IP" ]; then
