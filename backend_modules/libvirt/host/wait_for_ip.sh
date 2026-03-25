@@ -28,9 +28,10 @@ echo "Starting wait for routable IP on domain: $DOMAIN via $HYPERVISOR_URI" >&2
 
 for ((i=1; i<=RETRIES; i++)); do
     AGENT_IP=$(virsh -c "$HYPERVISOR_URI" domifaddr "$DOMAIN" --source agent 2>&1 | \
-         grep -E "v4|v6" | \
-         grep -vE "fe80|169\.254|127\.|::1|^0\.0\.0\.0$|^::$" | \
-         awk '{print $4}' | cut -d/ -f1 | head -n1)
+        awk '/ipv4|ipv6/ {print $4}' | \
+        cut -d/ -f1 | \
+        grep -Ev '^fe80:|^169\.254\.|^127\.|^::1$' | \
+        head -n1)
 
     if [ -n "$AGENT_IP" ]; then
         echo "Success: Found routable IP $AGENT_IP" >&2
