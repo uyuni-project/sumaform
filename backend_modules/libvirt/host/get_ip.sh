@@ -16,7 +16,7 @@ if [ ! -f "$IP_FILE" ]; then
     exit 1
 fi
 
-IP=$(cat "$IP_FILE" | tr -d '[:space:]')
+IP=$(tr -d '[:space:]' < "$IP_FILE")
 
 if [ -z "$IP" ]; then
     echo "Error: IP file is empty at $IP_FILE" >&2

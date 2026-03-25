@@ -34,7 +34,7 @@ for ((i=1; i<=RETRIES; i++)); do
 
     if [ -n "$AGENT_IP" ]; then
         echo "Success: Found routable IP $AGENT_IP" >&2
-        // Return JSON to stdout for Terraform data external
+        # Return JSON to stdout for Terraform data external
         echo "{\"ip\": \"${AGENT_IP}\"}"
         exit 0
     fi
