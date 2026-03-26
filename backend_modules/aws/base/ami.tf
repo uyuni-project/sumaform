@@ -210,7 +210,7 @@ data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
 
   filter {
     name   = "product-code"
-    values = ["c48fapw1f0e4tvjukevqlbmf4"]
+    values = ["edzw7u0hrnz8xh6ai8biz1umd"]
   }
 }
 
@@ -237,7 +237,7 @@ data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
 
   filter {
     name   = "product-code"
-    values = ["umnofojstehgl6jnp9nspg7g"]
+    values = ["c5h1s4dq5sj2xbpil20ww8w0f"]
   }
 }
 
