@@ -731,13 +731,14 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-  # repo for venv-salt-minion from SUSE Maintenance
-  suse_maintenance_43018:
-    baseurl: http://download.suse.de/ibs/SUSE:/Maintenance:/43018/SUSE_Updates_EL_9-CLIENT-TOOLS_x86_64/
+  # repo for venv-salt-minion from Uyuni Master (only venv-salt-minion allowed)
+  uyuni_master_el9:
+    baseurl: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/x86_64/
     enabled: true
     gpgcheck: false
-    name: suse_maintenance_43018
+    name: uyuni_master_el9
     priority: 1
+    includepkgs: venv-salt-minion
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
@@ -773,13 +774,14 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-  # repo for venv-salt-minion from SUSE Maintenance
-  suse_maintenance_43018:
-    baseurl: http://download.suse.de/ibs/SUSE:/Maintenance:/43018/SUSE_Updates_EL_9-CLIENT-TOOLS_x86_64/
+  # repo for venv-salt-minion from Uyuni Master (only venv-salt-minion allowed)
+  uyuni_master_el9:
+    baseurl: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/x86_64/
     enabled: true
     gpgcheck: false
-    name: suse_maintenance_43018
+    name: uyuni_master_el9
     priority: 1
+    includepkgs: venv-salt-minion
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -855,13 +857,14 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-  # repo for venv-salt-minion from SUSE Maintenance
-  suse_maintenance_43018:
-    baseurl: http://download.suse.de/ibs/SUSE:/Maintenance:/43018/SUSE_Updates_EL_9-CLIENT-TOOLS_x86_64/
+  # repo for venv-salt-minion from Uyuni Master (only venv-salt-minion allowed)
+  uyuni_master_el9:
+    baseurl: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/x86_64/
     enabled: true
     gpgcheck: false
-    name: suse_maintenance_43018
+    name: uyuni_master_el9
     priority: 1
+    includepkgs: venv-salt-minion
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
@@ -913,13 +916,14 @@ yum_repos:
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
-  # repo for venv-salt-minion from SUSE Maintenance
-  suse_maintenance_43018:
-    baseurl: http://download.suse.de/ibs/SUSE:/Maintenance:/43018/SUSE_Updates_EL_9-CLIENT-TOOLS_x86_64/
+  # repo for venv-salt-minion from Uyuni Master (only venv-salt-minion allowed)
+  uyuni_master_el9:
+    baseurl: https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/x86_64/
     enabled: true
     gpgcheck: false
-    name: suse_maintenance_43018
+    name: uyuni_master_el9
     priority: 1
+    includepkgs: venv-salt-minion
   # repo for nss-mdns
   epel:
     baseurl: http://download.fedoraproject.org/pub/epel/9/Everything/$basearch
