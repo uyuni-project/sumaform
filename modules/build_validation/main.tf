@@ -295,6 +295,23 @@ module "sles15sp7_minion" {
   ssh_key_path            = var.public_ssh_key_path
 }
 
+module "sles160_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "sles160_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.sles160_minion.name
+  image              = "sles160o"
+  provider_settings = {
+    mac    = var.environment_configuration.sles160_minion.mac
+    memory = 4096
+  }
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "alma8_minion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
@@ -664,6 +681,23 @@ module "slmicro61_minion" {
   ssh_key_path            = var.public_ssh_key_path
 }
 
+module "slmicro62_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "slmicro62_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slmicro62_minion.name
+  image              = "slmicro62o"
+  provider_settings = {
+    mac    = var.environment_configuration.slmicro62_minion.mac
+    memory = 2048
+  }
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "sles12sp5_sshminion" {
   providers = { libvirt = libvirt.host_old_sle }
   source             = "../sshminion"
@@ -751,6 +785,21 @@ module "sles15sp7_sshminion" {
   image              = "sles15sp7o"
   provider_settings = {
     mac    = var.environment_configuration.sles15sp7_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
+module "sles160_sshminion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "sles160_sshminion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.sles160_sshminion.name
+  image              = "sles160o"
+  provider_settings = {
+    mac    = var.environment_configuration.sles160_sshminion.mac
     memory = 4096
   }
   use_os_released_updates = false
@@ -980,6 +1029,21 @@ module "sles15sp5s390_sshminion" {
     vswitch     = "VSUMA"
   }
 
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
+module "slmicro62_sshminion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "slmicro62_sshminion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slmicro62_sshminion.name
+  image              = "slmicro62o"
+  provider_settings = {
+    mac    = var.environment_configuration.slmicro62_sshminion.mac
+    memory = 2048
+  }
   use_os_released_updates = false
   ssh_key_path            = var.public_ssh_key_path
 }
@@ -1367,6 +1431,8 @@ module "controller" {
 
   sle15sp7_minion_configuration    = length(module.sles15sp7_minion) > 0 ? module.sles15sp7_minion[0].configuration : local.empty_minion_config
   sle15sp7_sshminion_configuration = length(module.sles15sp7_sshminion) > 0 ? module.sles15sp7_sshminion[0].configuration : local.empty_minion_config
+  sle160_minion_configuration      = length(module.sles160_minion) > 0 ? module.sles160_minion[0].configuration : local.empty_minion_config
+  sle160_sshminion_configuration   = length(module.sles160_sshminion) > 0 ? module.sles160_sshminion[0].configuration : local.empty_minion_config
 
   sle12sp5_client_configuration    = length(module.sles12sp5_client) > 0 ? module.sles12sp5_client[0].configuration : local.empty_minion_config
   sle15sp3_client_configuration    = length(module.sles15sp3_client) > 0 ? module.sles15sp3_client[0].configuration : local.empty_minion_config
@@ -1426,6 +1492,8 @@ module "controller" {
   slemicro55_minion_configuration = length(module.slemicro55_minion) > 0 ? module.slemicro55_minion[0].configuration : local.empty_minion_config
   slmicro60_minion_configuration  = length(module.slmicro60_minion) > 0 ? module.slmicro60_minion[0].configuration : local.empty_minion_config
   slmicro61_minion_configuration  = length(module.slmicro61_minion) > 0 ? module.slmicro61_minion[0].configuration : local.empty_minion_config
+  slmicro62_minion_configuration  = length(module.slmicro62_minion) > 0 ? module.slmicro62_minion[0].configuration : local.empty_minion_config
+  slmicro62_sshminion_configuration = length(module.slmicro62_sshminion) > 0 ? module.slmicro62_sshminion[0].configuration : local.empty_minion_config
 
   sle15sp6_buildhost_configuration = length(module.sles15sp6_buildhost) > 0 ? module.sles15sp6_buildhost[0].configuration : local.empty_minion_config
   sle15sp7_buildhost_configuration = length(module.sles15sp7_buildhost) > 0 ? module.sles15sp7_buildhost[0].configuration : local.empty_minion_config
