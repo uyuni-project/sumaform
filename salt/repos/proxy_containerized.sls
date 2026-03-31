@@ -5,6 +5,8 @@ include:
   - repos.proxy_containerized50
   {% elif '5.1' in grains.get('product_version') %}
   - repos.proxy_containerized51
+  {% elif '5.2' in grains.get('product_version') %}
+  - repos.proxy_containerized52
   {%- elif 'head' in grains['product_version'] %}
   - repos.proxy_containerizedMain
   {%- else %}

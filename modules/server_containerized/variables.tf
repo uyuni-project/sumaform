@@ -48,7 +48,7 @@ variable "db_container_tag" {
 }
 
 variable "product_version" {
-  description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, 5.1-nightly, 5.1-released, head, head-staging, uyuni-master, uyuni-released, uyuni-pr"
+  description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, 5.1-nightly, 5.1-released, 5.2-released, head, head-staging, uyuni-master, uyuni-released, uyuni-pr"
   type        = string
   default     = null
 }

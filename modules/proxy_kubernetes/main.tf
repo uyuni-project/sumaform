@@ -6,6 +6,7 @@ variable "images" {
     "5.0-nightly"    = "ubuntu2404o"
     "5.1-released"   = "ubuntu2404o"
     "5.1-nightly"    = "ubuntu2404o"
+    "5.2-released"   = "ubuntu2404o"
     "uyuni-master"   = "ubuntu2404o"
     "uyuni-released" = "ubuntu2404o"
     "uyuni-pr"       = "ubuntu2404o"

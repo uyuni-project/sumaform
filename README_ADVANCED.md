@@ -13,6 +13,7 @@ Legal values for released software are:
 - `4.3-VM-released` (latest released maintenance update for SUSE Manager 4.3 virtual machine)
 - `5.0-released` (latest released maintenance update for SUSE Manager 5.0 and Tools)
 - `5.1-released` (latest released maintenance update for Multi Linux Manager 5.1 and Tools)
+- `5.2-released` (latest released maintenance update for Multi Linux Manager 5.2 and Tools)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
