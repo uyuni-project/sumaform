@@ -9,6 +9,9 @@ variable "testsuite-branch" {
     "5.0-nightly"    = "Manager-5.0"
     "5.1-released"   = "Manager-5.1"
     "5.1-nightly"    = "Manager-5.1"
+    #TODO: use final value
+    "5.2-released"   = "master"
+    # "5.2-released"   = "Manager-5.2"
     "head"           = "master"
     "head-staging"   = "master"
     "uyuni-master"   = "master"
