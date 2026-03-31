@@ -35,6 +35,19 @@ runcmd:
 
 %{ endif ~}
 
+%{ if image == "opensuse160o" ~}
+runcmd:
+%{ if install_salt_bundle ~}
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
+%{ else ~}
+  - zypper in --allow-vendor-change --no-confirm salt-minion
+%{ endif ~}
+  - zypper removerepo --all
+  - zypper --non-interactive modifyservice --disable openSUSE || true
+  - zypper --non-interactive removeservice openSUSE || true
+
+%{ endif ~}
+
 %{ if image == "sles15" ~}
 zypper:
   repos:
@@ -58,7 +71,7 @@ packages: ["salt-minion"]
 
 %{ endif ~}
 
-%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "slesforsap15sp5-paygo" || image == "sles15sp6-paygo" ~}
+%{ if image == "sles15sp5-paygo" || image == "sles12sp5-paygo" || image == "slesforsap15sp5-paygo" || image == "sles15sp6-paygo" || image == "sles15sp7-paygo" || image == "sles160-paygo" ~}
 packages: ["salt-minion"]
 
 %{ endif ~}

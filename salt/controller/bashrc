@@ -48,6 +48,10 @@ grains.get('sle12sp5_paygo_minion') }}" {% else %}# no SLE12SP5_PAYGO minion def
 grains.get('sle15sp5_paygo_minion') }}" {% else %}# no SLE15SP5_PAYGO minion defined {% endif %}
 {% if grains.get('sle15sp6_paygo_minion') | default(false, true) %}export SLE15SP6_PAYGO_MINION="{{
 grains.get('sle15sp6_paygo_minion') }}" {% else %}# no SLE15SP6_PAYGO minion defined {% endif %}
+{% if grains.get('sle15sp7_paygo_minion') | default(false, true) %}export SLE15SP7_PAYGO_MINION="{{
+grains.get('sle15sp7_paygo_minion') }}" {% else %}# no SLE15SP7_PAYGO minion defined {% endif %}
+{% if grains.get('sle160_paygo_minion') | default(false, true) %}export SLE160_PAYGO_MINION="{{
+grains.get('sle160_paygo_minion') }}" {% else %}# no SLE160_PAYGO minion defined {% endif %}
 {% if grains.get('sleforsap15sp5_paygo_minion') | default(false, true) %}export SLEFORSAP15SP5_PAYGO_MINION="{{
 grains.get('sleforsap15sp5_paygo_minion') }}" {% else %}# no SLEFORSAP15SP5_PAYGO minion defined {% endif %}
 {% if grains.get('sle12sp5_minion') | default(false, true) %}export SLE12SP5_MINION="{{ grains.get('sle12sp5_minion')
