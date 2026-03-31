@@ -1,16 +1,28 @@
 {% if 'client' in grains.get('roles') or 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') %}
-# WORKAROUND: Leap 15.6 and SL-Micro 6.0 are using a different sshd_config. To be reviewed.
-{% if grains['osfullname'] in ['openSUSE Tumbleweed'] or ( grains['osfullname'] in ['SLES', 'Leap'] and grains['osrelease'] in ['16.0'] )%}
-sshd_change_challengeresponseauthentication_tumbleweed:
-  file.managed:
-    - name: /etc/ssh/sshd_config.d/root.conf
-    - contents: |
-        ChallengeResponseAuthentication yes
-{% elif not ( grains['osfullname'] in ['Leap', 'SL-Micro', 'openSUSE Tumbleweed'] and grains['osrelease'] in ['15.6', '6.0', '6.1'] ) %}
+
+{% if grains['osfullname'] == 'openSUSE Tumbleweed' %}
+  {% set sshd_config = "etc/ssh/sshd_config.d/root.conf" %}
+{% elif grains['osfullname'] == 'SLES' or grains['osfullname'] == 'Leap' %}
+  {% if grains['osrelease'] == '16.0' %}
+    {% set sshd_config = "etc/ssh/sshd_config.d/root.conf" %}
+  {% else %}
+    {% set sshd_config = "/etc/ssh/sshd_config" %}
+  {% endif %}
+{% elif grains['osfullname'] == 'SL-Micro' %}
+  {% if grains['osrelease'] == '6.2' %}
+    {% set sshd_config = "etc/ssh/sshd_config.d/root.conf" %}
+  {% else %}
+    {% set sshd_config = "/etc/ssh/sshd_config" %}
+  {% endif %}
+{% else %}
+  {% set sshd_config = "/etc/ssh/sshd_config" %}
+{% endif %}
+
 sshd_change_challengeresponseauthentication:
   file.replace:
-    - name: /etc/ssh/sshd_config
+    - name: {{sshd_config}}
     - pattern: "^ChallengeResponseAuthentication.*"
     - repl: "ChallengeResponseAuthentication yes"
-{% endif %}
+    - append_if_not_found: True
+
 {% endif %}
