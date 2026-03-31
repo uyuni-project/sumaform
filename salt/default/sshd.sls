@@ -2,14 +2,14 @@
 
 {% set sshd_config = "/etc/ssh/sshd_config" %}
 {% if grains['osfullname'] == 'openSUSE Tumbleweed' %}
-  {% set sshd_config = "etc/ssh/sshd_config.d/root.conf" %}
+  {% set sshd_config = "/etc/ssh/sshd_config.d/root.conf" %}
 {% elif grains['osfullname'] == 'SLES' or grains['osfullname'] == 'Leap' %}
   {% if grains['osrelease'] == '16.0' %}
-    {% set sshd_config = "etc/ssh/sshd_config.d/root.conf" %}
+    {% set sshd_config = "/etc/ssh/sshd_config.d/root.conf" %}
   {% endif %}
 {% elif grains['osfullname'] == 'SL-Micro' %}
   {% if grains['osrelease'] == '6.0' or grains['osrelease'] == '6.1' or grains['osrelease'] == '6.2' %}
-    {% set sshd_config = "etc/ssh/sshd_config.d/root.conf" %}
+    {% set sshd_config = "/etc/ssh/sshd_config.d/root.conf" %}
   {% endif %}
 {% endif %}
 
