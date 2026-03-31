@@ -83,6 +83,8 @@ module "controller" {
     sle12sp5_paygo_minion    = length(var.sle12sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_paygo_minion_configuration["hostnames"][0] : null
     sle15sp5_paygo_minion    = length(var.sle15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp5_paygo_minion_configuration["hostnames"][0] : null
     sle15sp6_paygo_minion    = length(var.sle15sp6_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp6_paygo_minion_configuration["hostnames"][0] : null
+    sle15sp7_paygo_minion    = length(var.sle15sp7_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp7_paygo_minion_configuration["hostnames"][0] : null
+    sle160_paygo_minion      = length(var.sle160_paygo_minion_configuration["hostnames"]) > 0 ? var.sle160_paygo_minion_configuration["hostnames"][0] : null
     sleforsap15sp5_paygo_minion = length(var.sleforsap15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sleforsap15sp5_paygo_minion_configuration["hostnames"][0] : null
     sle12sp5_minion          = length(var.sle12sp5_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_minion_configuration["hostnames"][0] : null
     sle12sp5_sshminion       = length(var.sle12sp5_sshminion_configuration["hostnames"]) > 0 ? var.sle12sp5_sshminion_configuration["hostnames"][0] : null

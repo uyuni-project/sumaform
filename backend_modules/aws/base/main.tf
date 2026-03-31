@@ -70,6 +70,7 @@ locals {
     ami_info = {
       tumbleweedo                     = { ami = one(data.aws_ami.tumbleweedo[*].image_id) }, // custom Tumbleweed AMI                           }
       opensuse156o                    = { ami = data.aws_ami.opensuse156o.image_id },
+      opensuse160o                    = { ami = data.aws_ami.opensuse160o.image_id },
       sles15sp4o                      = { ami = data.aws_ami.sles15sp4o.image_id },
       sles15sp5o                      = { ami = data.aws_ami.sles15sp5o.image_id },
       sles15sp6o                      = { ami = data.aws_ami.sles15sp6o.image_id },
@@ -77,6 +78,7 @@ locals {
       sles15sp5-paygo                 = { ami = data.aws_ami.sles15sp5-paygo.image_id },
       sles15sp6-paygo                 = { ami = data.aws_ami.sles15sp6-paygo.image_id },
       sles15sp7-paygo                 = { ami = data.aws_ami.sles15sp7-paygo.image_id },
+      sles160-paygo                   = { ami = data.aws_ami.sles160-paygo.image_id },
       slesforsap15sp5-paygo           = { ami = data.aws_ami.slesforsap15sp5-paygo.image_id },
       smlm-server-51-x86_64-ltd-paygo = { ami = data.aws_ami.smlm-server-51-x86_64-ltd-paygo.image_id },
       smlm-server-51-arm64-ltd-paygo  = { ami = data.aws_ami.smlm-server-51-arm64-ltd-paygo.image_id },

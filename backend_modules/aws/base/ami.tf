@@ -40,6 +40,27 @@ data "aws_ami" "opensuse156o" {
   }
 }
 
+data "aws_ami" "opensuse160o" {
+  most_recent = true
+  name_regex  = "^openSUSE-Leap-16-0-"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "sles15sp4o" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp4-byos-v"
@@ -148,6 +169,27 @@ data "aws_ami" "sles15sp6o" {
 data "aws_ami" "sles15sp7-paygo" {
   most_recent = true
   name_regex  = "^suse-sles-15-sp7-v[0-9]*-hvm"
+  owners      = ["013907871322"] // aws-marketplace
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+data "aws_ami" "sles160-paygo" {
+  most_recent = true
+  name_regex  = "^suse-sles-16-v[0-9]*-hvm"
   owners      = ["013907871322"] // aws-marketplace
 
   filter {

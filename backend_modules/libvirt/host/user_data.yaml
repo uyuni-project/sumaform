@@ -185,6 +185,10 @@ runcmd:
   - "zypper -n in avahi nss-mdns"
 %{ endif ~}
   - "zypper removerepo --all"
+%{ if image == "opensuse160o" ~}
+  - "zypper --non-interactive modifyservice --disable openSUSE || true"
+  - "zypper --non-interactive removeservice openSUSE || true"
+%{ endif ~}
 %{ endif ~}
 
 %{ if image == "sles12sp5o" ~}
@@ -929,6 +933,10 @@ runcmd:
   - "zypper -n in salt-minion"
 %{ endif ~}
   - "zypper removerepo --all"
+%{ if image == "opensuse160armo" ~}
+  - "zypper --non-interactive modifyservice --disable openSUSE || true"
+  - "zypper --non-interactive removeservice openSUSE || true"
+%{ endif ~}
   # WORKAROUND: cloud-init in opensuse 15.6 and 16.0 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
