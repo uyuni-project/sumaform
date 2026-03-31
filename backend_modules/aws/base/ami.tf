@@ -42,7 +42,7 @@ data "aws_ami" "opensuse156o" {
 
 data "aws_ami" "opensuse160o" {
   most_recent = true
-  name_regex  = "^openSUSE-Leap-16.0-"
+  name_regex  = "^openSUSE-Leap-16-0-"
   owners      = ["679593333241"]
 
   filter {
