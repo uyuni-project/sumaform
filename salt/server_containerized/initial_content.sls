@@ -29,6 +29,7 @@ scc_data_refresh:
     - args: "{{ server_username }} {{ server_password }}"
     - require:
       - cmd: mgradm_install
+    - unless: test -z "{{ grains.get('cc_username') or '' }}"
 
 {% if grains.get('channels') %}
 add_channels:
