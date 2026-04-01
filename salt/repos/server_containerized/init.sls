@@ -1,16 +1,16 @@
-{% if 'proxy_containerized' in grains.get('roles') %}
+{% if 'server_containerized' in grains.get('roles') %}
 
 include:
   {% if '5.0' in grains.get('product_version') %}
-  - repos.proxy_containerized50
+  - repos.server_containerized.server_containerized50
   {% elif '5.1' in grains.get('product_version') %}
-  - repos.proxy_containerized51
+  - repos.server_containerized.server_containerized51
   {% elif '5.2' in grains.get('product_version') %}
-  - repos.proxy_containerized52
+  - repos.server_containerized.server_containerized52
   {%- elif 'head' in grains['product_version'] %}
-  - repos.proxy_containerizedMain
+  - repos.server_containerized.server_containerizedMain
   {%- else %}
-  - repos.proxy_containerizedUyuni
+  - repos.server_containerized.server_containerizedUyuni
   {%- endif %}
 
 {% endif %}
