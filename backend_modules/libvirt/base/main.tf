@@ -11,7 +11,7 @@ locals {
     centos7o                 = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.centos.org"}/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
     centos8o                 = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.centos.org"}/centos/8/x86_64/images/CentOS-8-GenericCloud-8.2.2004-20200611.2.x86_64.qcow2"
     centos9o                 = "${var.use_mirror_images ? "http://${var.mirror}" : "http://cloud.centos.org"}/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-20220829.0.x86_64.qcow2"
-    libertylinux9o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://zenon.suse.de"}/download/sll9.1-cloud/sll9.1-cloud.img"
+    libertylinux9o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://zenon.suse.de"}/download/suma/sll9.5-cloud.qcow2"
     openeuler2403o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://repo.openeuler.org"}/openEuler-24.03-LTS-SP1/virtual_machine_img/x86_64/openEuler-24.03-LTS-SP1-x86_64.qcow2.xz"
     oraclelinux8o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL8/u6/x86_64/OL8U6_x86_64-kvm-b126.qcow"
     oraclelinux9o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL9/u5/x86_64/OL9U5_x86_64-kvm-b253.qcow2"
