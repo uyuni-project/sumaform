@@ -7,11 +7,11 @@ locals {
   combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {
-        path = "/etc/gpg_keys/${key}"
-        content = filebase64("salt/default/gpg_keys/${key}")
-        encoding = "b64"
-        owner = "root:root"
-        permissions = "0700"
+      path = "/etc/gpg_keys/${key}"
+      content = filebase64("salt/default/gpg_keys/${key}")
+      encoding = "b64"
+      owner = "root:root"
+      permissions = "0700"
     }
   ]
   container_runtime = lookup(var.grains, "container_runtime", "")
@@ -25,34 +25,36 @@ locals {
     mac             = null
     cpu_model       = "custom"
     xslt            = null
-    },
-    contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
-    contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
-    contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
-    contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
-    contains(var.roles, "server_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
-    contains(var.roles, "server_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
-    contains(var.roles, "proxy") ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "proxy_containerized") ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "proxy_kubernetes") ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "proxy_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "proxy_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "pxe_boot")? { memory = 2048} : {},
-    contains(var.roles, "mirror") ? { memory = 1024 } : {},
-    contains(var.roles, "build_host") ? { vcpu = 2 } : {},
-    contains(var.roles, "controller") ? { memory = 2048 } : {},
-    contains(var.roles, "grafana") ? { memory = 4096 } : {},
-    contains(var.roles, "salt_testenv") ? { memory = 4096, vcpu = 2 } : {},
-    contains(var.roles, "virthost") ? { memory = 4096, vcpu = 3 } : {},
-    contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
-    var.provider_settings,
-    contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
-    contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
-    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image)
-    ignition = length(regexall("-ign$", var.image)) > 0
-    add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
+  },
+  contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
+  // Inject RNG via XSLT for SLES15 to solve boot latency/entropy starvation
+  length(regexall("sles15", var.image)) > 0 ? { xslt = file("${path.module}/rng.xsl") } : {},
+  contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
+  contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
+  contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
+  contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
+  contains(var.roles, "server_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
+  contains(var.roles, "server_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
+  contains(var.roles, "proxy") ? { memory = 2048, vcpu = 2 } : {},
+  contains(var.roles, "proxy_containerized") ? { memory = 2048, vcpu = 2 } : {},
+  contains(var.roles, "proxy_kubernetes") ? { memory = 2048, vcpu = 2 } : {},
+  contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+  contains(var.roles, "proxy_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+  contains(var.roles, "proxy_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
+  contains(var.roles, "pxe_boot") ? { memory = 2048 } : {},
+  contains(var.roles, "mirror") ? { memory = 1024 } : {},
+  contains(var.roles, "build_host") ? { vcpu = 2 } : {},
+  contains(var.roles, "controller") ? { memory = 2048 } : {},
+  contains(var.roles, "grafana") ? { memory = 4096 } : {},
+  contains(var.roles, "salt_testenv") ? { memory = 4096, vcpu = 2 } : {},
+  contains(var.roles, "virthost") ? { memory = 4096, vcpu = 3 } : {},
+  contains(var.roles, "jenkins") ? { memory = 16384, vcpu = 4 } : {},
+  var.provider_settings,
+  contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
+  contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
+  cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image)
+  ignition = length(regexall("-ign$", var.image)) > 0
+  add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
 
   user_data = templatefile("${path.module}/user_data.yaml", {
     image               = var.image
@@ -62,7 +64,7 @@ locals {
     container_server    = contains(var.roles, "server_containerized")
     server_kubernetes    = contains(var.roles, "server_kubernetes")
     container_proxy     = contains(var.roles, "proxy_containerized")
-    proxy_kubernetes     = contains(var.roles, "proxy_kubernetes")
+    proxy_kubernetes    = contains(var.roles, "proxy_kubernetes")
     testsuite           = lookup(var.base_configuration, "testsuite", false)
     files               = jsonencode(local.gpg_keys)
     additional_repos    = jsonencode(var.additional_repos)
@@ -117,7 +119,6 @@ resource "libvirt_volume" "data_disk" {
 
 resource "libvirt_volume" "database_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-database-disk"
-  // needs to be converted to bytes
   size  = var.second_additional_disk_size * 1024 * 1024 * 1024
   pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
   count = var.second_additional_disk_size > 0 ? var.quantity : 0
@@ -161,9 +162,9 @@ resource "libvirt_domain" "domain" {
   // base disk + additional disks if any
   dynamic "disk" {
     for_each = concat(
-      length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
-      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : [],
-      length(libvirt_volume.database_disk) == var.quantity ? [{"volume_id" : libvirt_volume.database_disk[count.index].id}] : []
+        length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
+        length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : [],
+        length(libvirt_volume.database_disk) == var.quantity ? [{"volume_id" : libvirt_volume.database_disk[count.index].id}] : []
     )
     content {
       volume_id = disk.value.volume_id
@@ -192,8 +193,8 @@ resource "libvirt_domain" "domain" {
           "mac"            = null
         },
       ],
-      var.connect_to_base_network ? 0 : 1,
-      var.base_configuration["additional_network"] != null && var.connect_to_additional_network ? 2 : 1,
+        var.connect_to_base_network ? 0 : 1,
+        var.base_configuration["additional_network"] != null && var.connect_to_additional_network ? 2 : 1,
     )
     content {
       wait_for_lease = network_interface.value.wait_for_lease
@@ -208,23 +209,19 @@ resource "libvirt_domain" "domain" {
     type           = "pty"
     target_port    = "0"
     target_type    = "serial"
-    source_host    = null
-    source_service = null
   }
 
   console {
     type           = "pty"
     target_port    = "1"
     target_type    = "virtio"
-    source_host    = null
-    source_service = null
   }
 
   graphics {
-    type        = "spice"
-    listen_type = "address"
+    type           = "spice"
+    listen_type    = "address"
     listen_address = "0.0.0.0"
-    autoport    = true
+    autoport       = true
   }
 
   xml {
@@ -232,8 +229,17 @@ resource "libvirt_domain" "domain" {
   }
 }
 
-resource "terraform_data" "provisioning" {
+// data external calls wait_for_ip.sh which polls the QEMU agent until a routable
+// IP is found and returns it as JSON. This avoids reading network_interface[0].addresses
+// from Terraform state which is unreliable on bridged networks.
+data "external" "ip" {
+  count      = var.provision ? var.quantity : 0
   depends_on = [libvirt_domain.domain]
+  program    = ["bash", "${path.module}/wait_for_ip.sh", libvirt_domain.domain[count.index].name, var.base_configuration["libvirt_uri"]]
+}
+
+resource "terraform_data" "provisioning" {
+  depends_on = [data.external.ip]
 
   triggers_replace = {
     main_volume_id = length(libvirt_volume.main_disk) == var.quantity ? libvirt_volume.main_disk[count.index].id : null
@@ -256,13 +262,15 @@ resource "terraform_data" "provisioning" {
         authorized_keys           = var.ssh_key_path
         gpg_keys                  = var.gpg_keys
         ipv6                      = var.ipv6
-    })
+      })
   }
 
   count = var.provision ? var.quantity : 0
 
   connection {
-    host     = libvirt_domain.domain[count.index].network_interface[0].addresses[0]
+    // Use IP found by wait_for_ip.sh via QEMU agent, passed through data external get_ip.sh
+    host     = data.external.ip[count.index].result["ip"]
+
     user     = "root"
     password = "linux"
     // ssh connection through a bastion host
@@ -300,8 +308,8 @@ resource "terraform_data" "provisioning" {
         swap_file_size            = var.swap_file_size
         product_version           = local.product_version
         authorized_keys = concat(
-          var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
-          var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
+            var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
+            var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
         )
         gpg_keys                      = var.gpg_keys
         connect_to_base_network       = var.connect_to_base_network
