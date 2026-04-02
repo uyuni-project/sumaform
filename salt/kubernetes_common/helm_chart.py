@@ -57,7 +57,6 @@ class HelmChart:
 def parse_cli_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Manage Helm OCI parameters and Chart.yaml updates")
     parser.add_argument("-o", "--oci", required=True, help="OCI path (e.g., oci://registry/chart)")
-    parser.add_argument("-f", "--file-output", required=True, help="File for exported env variables")
     parser.add_argument("-c", "--chart-file", required=True, help="Path to local Chart.yaml")
     parser.add_argument("--devel", action="store_true", help="Use development versions (helm show chart --devel)")
     return parser.parse_args()
