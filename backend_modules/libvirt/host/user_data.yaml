@@ -788,6 +788,14 @@ runcmd:
     enabled=1
     gpgcheck=0
     EOF
+  - |
+    cat <<EOF > /etc/yum.repos.d/appstream_updates.repo
+    [liberty-9-appstream]
+    name=Liberty Linux 9 AppStream Updates
+    baseurl=http://${ use_mirror_images ? mirror : "updates.suse.de" }/SUSE/Updates/SLL-AS/9/x86_64/update/
+    enabled=1
+    gpgcheck=0
+    EOF
 
   # WORKAROUND: cloud-init in Liberty9 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
