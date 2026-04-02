@@ -14,7 +14,7 @@ locals {
     libertylinux9o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://zenon.suse.de"}/download/sll9.1-cloud/sll9.1-cloud.img"
     openeuler2403o           = "${var.use_mirror_images ? "http://${var.mirror}" : "http://repo.openeuler.org"}/openEuler-24.03-LTS-SP1/virtual_machine_img/x86_64/openEuler-24.03-LTS-SP1-x86_64.qcow2.xz"
     oraclelinux8o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL8/u6/x86_64/OL8U6_x86_64-kvm-b126.qcow"
-    oraclelinux9o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL9/u0/x86_64/OL9U0_x86_64-kvm-b142.qcow"
+    oraclelinux9o            = "${var.use_mirror_images ? "http://${var.mirror}" : "http://yum.oracle.com"}/templates/OracleLinux/OL9/u5/x86_64/OL9U5_x86_64-kvm-b253.qcow2"
     rocky8o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
     rocky9o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
     opensuse156o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-Cloud.qcow2"
