@@ -904,7 +904,7 @@ yum_repos:
 
 runcmd:
   # WORKAROUND: cloud-init in Oracle 9 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
   - systemctl restart sshd
 %{ if install_salt_bundle ~}
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar"
