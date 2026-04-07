@@ -1,5 +1,11 @@
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 
+create_uyuni_namespace:
+  cmd.run: 
+  - name: kubectl create namespace uyuni
+  - env:
+    - KUBECONFIG: {{ kubeconfig }}
+
 copy_var_spacewalk_file:
   file.managed:
     - name: /root/volume-configuration-var-spacewalk.yml
