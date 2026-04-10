@@ -1,4 +1,5 @@
 include:
+  - repos
   - kubernetes_common.install_rke2
   - kubernetes_common.install_helm
   - proxy_kubernetes.config_node

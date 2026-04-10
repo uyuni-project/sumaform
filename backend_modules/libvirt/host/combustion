@@ -98,7 +98,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
     zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Products/SUSE-Manager-Tools-For-SL-Micro/6/x86_64/product/ tools_pool_repo
   %{ endif }
 
-  %{ if container_server || container_proxy || server_kubernetes || proxy_kubernetes }
+  %{ if container_server || container_proxy }
     %{ if product_version == "uyuni-master" || product_version == "uyuni-pr" }
       zypper ar http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Leap_16.0/ container_utils_repo
     %{ endif }
@@ -127,18 +127,18 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
       %{ endif }
     %{ endif }
     %{ if product_version == "head" }
-      %{ if container_server || server_kubernetes }
+      %{ if container_server }
         zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
       %{ endif }
-      %{ if container_proxy || proxy_kubernetes }
+      %{ if container_proxy }
         zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
       %{ endif }
     %{ endif }
     %{ if product_version == "head-staging" }
-      %{ if container_server || server_kubernetes }
+      %{ if container_server }
         zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.2:/ToTest/product/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
       %{ endif }
-      %{ if container_proxy || proxy_kubernetes }
+      %{ if container_proxy }
         zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE:/SLFO:/Products:/Multi-Linux-Manager:/5.2:/ToTest/product/repo/Multi-Linux-Manager-Proxy-5.2-x86_64/ container_utils_repo
       %{ endif }
     %{ endif }
@@ -178,7 +178,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
 %{ endif } # end of image == "slmicro62o" block
 
 # Add additional repository for host only if server or proxy
-%{ if container_server || container_proxy || server_kubernetes || proxy_kubernetes }
+%{ if container_server || container_proxy }
   for i in ${additional_repos}; do
     name=$(echo $i | cut -d= -f1)
     url=$(echo $i | cut -d= -f2)
@@ -202,7 +202,7 @@ PACKAGES="$PACKAGES podman netavark aardvark-dns"
 PACKAGES="$PACKAGES helm"
 %{ endif }
 
-%{ if container_server || container_proxy || server_kubernetes || proxy_kubernetes }
+%{ if container_server || container_proxy }
 PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
 %{ endif }
 

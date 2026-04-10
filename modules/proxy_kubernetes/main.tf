@@ -1,15 +1,15 @@
 variable "images" {
   default = {
-    "head"           = "ubuntu2404o"
-    "head-staging"   = "ubuntu2404o"
-    "5.0-released"   = "ubuntu2404o"
-    "5.0-nightly"    = "ubuntu2404o"
-    "5.1-released"   = "ubuntu2404o"
-    "5.1-nightly"    = "ubuntu2404o"
-    "5.2-released"   = "ubuntu2404o"
-    "uyuni-master"   = "ubuntu2404o"
-    "uyuni-released" = "ubuntu2404o"
-    "uyuni-pr"       = "ubuntu2404o"
+    "head"           = "sles15sp7o"
+    "head-staging"   = "sles15sp7o"
+    "5.0-released"   = "sles15sp7o"
+    "5.0-nightly"    = "sles15sp7o"
+    "5.1-released"   = "sles15sp7o"
+    "5.1-nightly"    = "sles15sp7o"
+    "5.2-released"   = "sles15sp7o"
+    "uyuni-master"   = "tumbleweedo"
+    "uyuni-released" = "tumbleweedo"
+    "uyuni-pr"       = "tumbleweedo"
   }
 }
 
@@ -57,6 +57,7 @@ module "proxy_kubernetes" {
     helm_chart_url                  = var.helm_chart_url
     helm_chart_name                 = var.helm_chart_name
     mirror                          = var.base_configuration["mirror"]
+    use_mirror_images               = var.base_configuration["use_mirror_images"]
     avahi_reflector                 = var.avahi_reflector
     main_disk_size                  = var.main_disk_size
     repository_disk_size            = var.repository_disk_size
