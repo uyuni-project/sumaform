@@ -1,5 +1,5 @@
-
 include:
+  - repos
   - kubernetes_common.install_rke2
   - kubernetes_common.install_helm
   - server_kubernetes.set-persistent-volumes

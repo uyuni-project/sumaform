@@ -2,16 +2,16 @@
 
 variable "images" {
   default = {
-    "head"           = "ubuntu2404o"
-    "head-staging"   = "ubuntu2404o"
-    "5.0-released"   = "ubuntu2404o"
-    "5.0-nightly"    = "ubuntu2404o"
-    "5.1-released"   = "ubuntu2404o"
-    "5.1-nightly"    = "ubuntu2404o"
-    "5.2-released"   = "ubuntu2404o"
-    "uyuni-master"   = "ubuntu2404o"
-    "uyuni-released" = "ubuntu2404o"
-    "uyuni-pr"       = "ubuntu2404o"
+    "head"           = "sles15sp7o"
+    "head-staging"   = "sles15sp7o"
+    "5.0-released"   = "sles15sp7o"
+    "5.0-nightly"    = "sles15sp7o"
+    "5.1-released"   = "sles15sp7o"
+    "5.1-nightly"    = "sles15sp7o"
+    "5.2-released"   = "sles15sp7o"
+    "uyuni-master"   = "tumbleweedo"
+    "uyuni-released" = "tumbleweedo"
+    "uyuni-pr"       = "tumbleweedo"
   }
 }
 
@@ -61,6 +61,7 @@ module "server_kubernetes" {
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels
     mirror                         = var.base_configuration["mirror"]
+    use_mirror_images              = var.base_configuration["use_mirror_images"]
     server_mounted_mirror          = var.server_mounted_mirror
     server_username                = var.server_username
     server_password                = var.server_password
