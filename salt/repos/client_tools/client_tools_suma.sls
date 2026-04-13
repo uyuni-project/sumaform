@@ -83,14 +83,6 @@ tools_update_repo:
 ## Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
-{% if 'client' in grains.get('roles') %}
-tools_trad_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
-    - refresh: True
-    - priority: 98
-{% endif %}
-
 tools_additional_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE12-SUSE-Manager-Tools/images/repo/SLE-12-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
@@ -115,14 +107,6 @@ tools_update_repo:
 
 ## Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-
-{% if 'client' in grains.get('roles') %}
-tools_trad_repo:
-  pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/SLE15-SUSE-Manager-Tools/images/repo/SLE-15-Manager-Tools-POOL-{{ grains.get("cpuarch") }}-Media1/
-  - refresh: True
-  - priority: 98
-{% endif %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -221,21 +205,6 @@ tools_pool_repo:
 
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-
-{% if 'client' in grains.get('roles') %}
-tools_update_trad_repo:
-  pkgrepo.managed:
-    - humanname: tools_update_repo
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.0:/{{ rhlike_client_tools_prefix }}{{ release }}-SUSE-Manager-Tools/SUSE_{{ rhlike_client_tools_prefix }}-{{ release }}_Update_standard/
-    - refresh: True
-    - require:
-      - cmd: galaxy_key
-    {% if release >= 9 %}
-      - cmd: suse_el9_key
-    {% else %}
-      - cmd: suse_res7_key
-    {% endif %}
-{% endif %}
 
 tools_update_repo:
   pkgrepo.managed:
