@@ -1,4 +1,4 @@
-%{ if image == "debian12o" || image == "amazonlinux2023o" }
+%{ if image == "debian12o" || image == "debian13o" || image == "amazonlinux2023o" }
 network:
   version: 2
   ethernets:

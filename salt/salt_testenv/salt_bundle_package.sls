@@ -3,6 +3,8 @@
         {% set repo_path = 'Debian_11' %}
     {% elif grains['osrelease'] == '12' %}
         {% set repo_path = 'Debian_12' %}
+    {% elif grains['osrelease'] == '13' %}
+        {% set repo_path = 'Debian_13' %}
     {% endif %}
 {% elif grains['osfullname'] == 'Ubuntu' %}
     {% if grains['osrelease'] == '20.04' %}
@@ -67,6 +69,7 @@ salt_bundle_testsuite_repo:
     - file: /etc/apt/sources.list.d/salt_bundle_testsuite_repo.list
     - name: deb http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/ /
     - key_url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/Release.key
+    - trusted: True
 {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/
     - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:{{ salt_flavor_path }}:testsuite/{{ repo_path }}/repodata/repomd.xml.key
