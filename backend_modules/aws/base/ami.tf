@@ -189,7 +189,7 @@ data "aws_ami" "sles15sp7-paygo" {
 
 data "aws_ami" "sles160-paygo" {
   most_recent = true
-  name_regex  = "^suse-sles-16-v[0-9]*-hvm"
+  name_regex  = "^suse-sles-16-0-v[0-9]*-hvm"
   owners      = ["013907871322"] // aws-marketplace
 
   filter {
@@ -252,7 +252,7 @@ data "aws_ami" "smlm-server-51-x86_64-ltd-paygo" {
 
   filter {
     name   = "product-code"
-    values = ["c48fapw1f0e4tvjukevqlbmf4"]
+    values = ["edzw7u0hrnz8xh6ai8biz1umd"]
   }
 }
 
@@ -279,7 +279,7 @@ data "aws_ami" "smlm-server-51-arm64-ltd-paygo" {
 
   filter {
     name   = "product-code"
-    values = ["umnofojstehgl6jnp9nspg7g"]
+    values = ["c5h1s4dq5sj2xbpil20ww8w0f"]
   }
 }
 
@@ -306,7 +306,7 @@ data "aws_ami" "smlm-proxy-51-arm64-byos" {
 
   filter {
     name   = "product-code"
-    values = ["713zi40zqboecsjmlxkf31iin"]
+    values = ["3c2f64ek99oxbofdsaq9n15qe"]
   }
 }
 
@@ -332,7 +332,7 @@ data "aws_ami" "smlm-proxy-51-x86_64-byos" {
 
   filter {
     name   = "product-code"
-    values = ["q26lvbne2lnivd97mlx43j4u"]
+    values = ["6krjrn7glbptegx23rjuvr1u1"]
   }
 }
 
@@ -465,7 +465,7 @@ data "aws_ami" "ubuntu2404" {
 
 data "aws_ami" "rhel8" {
   most_recent = true
-  name_regex  = "^RHEL-8.9.0_HVM-"
+  name_regex  = "^RHEL-8.10.0_HVM-"
   owners      = ["309956199498"]
 
   filter {
