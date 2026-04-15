@@ -222,7 +222,11 @@ cloudinit-user-data-{{ os_type }}:
         # on the server to be able to onboard the nested VM
         - zypper --non-interactive ar "http://download.opensuse.org/tumbleweed/repo/oss/" os_pool_repo
         - zypper --non-interactive ar "http://download.opensuse.org/update/tumbleweed/" os_update_repo
+        {% if 'uyuni-main' == grains.get('product_version') -%}
+        - zypper --non-interactive ar -p 98 "http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/openSUSE_Tumbleweed/" tools_pool_repo
+        {% else -%}
         - zypper --non-interactive ar -p 98 "http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/" tools_pool_repo
+        {% endif -%}
         - zypper --non-interactive --gpg-auto-import-keys ref
         - zypper --non-interactive install venv-salt-minion
         - rm /etc/venv-salt-minion/minion

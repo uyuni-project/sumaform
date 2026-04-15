@@ -3,17 +3,25 @@
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles') and 'controller' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
-{% set uyuni_version = 'Master' if grains.get('product_version', '') == 'uyuni-master' else 'Stable' %}
+{% set uyuni_version = 'Master' if grains.get('product_version', '') == 'uyuni-master' else 'Stable' if grains.get('product_version', '') == 'uyuni-released' else 'Main' %}
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}
 {% set leap_version = grains['osrelease'].split('.')[0] %}
 tools_pool_repo:
   pkgrepo.managed:
+  {% if uyuni_version == "Main" %}
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/openSUSE_Leap_{{ leap_version }}.0/
+  {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_{{ leap_version }}-Uyuni-Client-Tools/openSUSE_Leap_{{ leap_version }}.0/
+  {% endif %}
     - refresh: True
     - gpgcheck: 1
+  {% if uyuni_version == "Main" %}
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/openSUSE_Leap_{{ leap_version }}.0/repodata/repomd.xml.key
+  {% else %}
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/openSUSE_Leap_{{ leap_version }}-Uyuni-Client-Tools/openSUSE_Leap_{{ leap_version }}.0/repodata/repomd.xml.key
+  {% endif %}
 {% endif %} {# grains['osfullname'] == 'Leap' #}
 {% if grains['osfullname'] == 'SLES' %}
 
@@ -28,6 +36,13 @@ tools_pool_repo:
 tools_update_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE12-Uyuni-Client-Tools/SLE_12/
+    - refresh: True
+    - priority: 98
+{% endif %}
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_12/
     - refresh: True
     - priority: 98
 {% endif %}
@@ -51,6 +66,17 @@ tools_update_repo:
 
 {% endif %}
 
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_15/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_15/repodata/repomd.xml.key
+
+{% endif %}
+
 {% endif %} {# '15' in grains['osrelease'] #}
 
 {% if '16' in grains['osrelease'] %}
@@ -68,6 +94,17 @@ tools_update_repo:
     - refresh: True
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE16-Uyuni-Client-Tools/SLE_16/repodata/repomd.xml.key
+
+{% endif %}
+
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_16/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_16/repodata/repomd.xml.key
 
 {% endif %}
 
@@ -98,6 +135,16 @@ tools_update_repo:
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/repodata/repomd.xml.key
 {% endif %}
+
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+
+tools_update_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_15/
+    - refresh: True
+    - gpgcheck: 1
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/SLE_15/repodata/repomd.xml.key
+{% endif %}
 {% endif %} {# grains['osfullname'] == 'SLE Micro' #}
 {% endif %} {# grains['os'] == 'SUSE' #}
 
@@ -127,10 +174,15 @@ tools_update_repo:
     - gpgcheck: 1
     - gpgkey: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/repodata/repomd.xml.key
 {% else %}
+  {% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/{{ rhlike_client_tools_prefix }}_{{ release }}/
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
+  {% else %}
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
+  {% endif %}
     - refresh: True
     - gpgcheck: 1
-    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/{{ uyuni_version }}:/{{ rhlike_client_tools_prefix }}{{ release }}-Uyuni-Client-Tools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
     - require:
       - cmd: uyuni_key
 {% endif %}
@@ -146,7 +198,11 @@ clean_repo_metadata:
 {% set release = grains.get('osrelease', None) %}
 {% set short_release = release | replace('.', '') %}
 
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_' + release %}
+{% else %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/' + uyuni_version + ':/Ubuntu' + short_release + '-Uyuni-Client-Tools/xUbuntu_' + release %}
+{% endif %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
@@ -160,7 +216,11 @@ tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_update_repo
     - contents: |
             Package: *
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) -%}
+            Pin: release l=systemsmanagement:Uyuni:Main:UyuniTools
+{% else -%}
             Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Ubuntu{{ short_release }}-Uyuni-Client-Tools
+{% endif -%}
             Pin-Priority: 800
 
 {% endif %} {# grains['os'] == 'Ubuntu' #}
@@ -168,7 +228,11 @@ tools_update_repo_raised_priority:
 {% if grains['os'] == 'Debian' %}
 
 {% set release = grains.get('osrelease', None) %}
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
+{% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/Debian_' + release %}
+{% else %}
 {% set tools_repo_url = 'http://' + grains.get("mirror") | default("download.opensuse.org", true) + '/repositories/systemsmanagement:/Uyuni:/' + uyuni_version + ':/Debian' + release + '-Uyuni-Client-Tools/Debian_' + release %}
+{% endif %}
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
@@ -183,7 +247,11 @@ tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_update_repo
     - contents: |
         Package: *
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) -%}
+        Pin: release l=systemsmanagement:Uyuni:Main:UyuniTools
+{% else -%}
         Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Debian{{ release }}-Uyuni-Client-Tools
+{% endif -%}
         Pin-Priority: 800
 
 {% endif %} {# grains['os'] == 'Debian' #}
