@@ -20,7 +20,7 @@ containerutils_uyuni_master:
 {% endif %}
 
 {% if 'uyuni-main' == grains.get('product_version') %}
-containerutils_uyuni_master:
+containerutils_uyuni_main:
     pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/ContainerUtils/{{ repo }}/
     - refresh: True

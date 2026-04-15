@@ -368,9 +368,9 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/EL_9/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_22.04/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_22.04-debbuild/
     archs: [amd64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_24.04/
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_24.04-debbuild/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/Debian_12-debbuild/
     archs: [amd64]
