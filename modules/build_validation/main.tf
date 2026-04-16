@@ -79,7 +79,7 @@ module "server" {
   database_disk_size   = 150
 
   server_mounted_mirror          = var.platform_location_configuration[var.location].mirror
-  java_debugging                 = false
+  java_debugging                 = true
   auto_accept                    = false
   monitored                      = true
   disable_firewall               = false
@@ -124,7 +124,7 @@ module "server_containerized" {
   container_tag                  = "latest"
   beta_enabled                   = false
   server_mounted_mirror          = var.platform_location_configuration[var.location].mirror
-  java_debugging                 = false
+  java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false
   allow_postgres_connections     = false
