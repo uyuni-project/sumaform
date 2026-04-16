@@ -98,7 +98,7 @@ suse_res7_key:
       - file: suse_res7_key
 {% endif %}
 
-{% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-released' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
+{% if 'uyuni-master' in grains.get('product_version', '') or 'uyuni-main' in grains.get('product_version', '') or 'uyuni-released' in grains.get('product_version', '') or 'uyuni-pr' in grains.get('product_version', '') %}
 
 uyuni_key:
   file.managed:

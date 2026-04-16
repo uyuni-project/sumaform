@@ -19,6 +19,14 @@ containerutils_uyuni_master:
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{{ repo }}/repodata/repomd.xml.key
 {% endif %}
 
+{% if 'uyuni-main' == grains.get('product_version') %}
+containerutils_uyuni_main:
+    pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/ContainerUtils/{{ repo }}/
+    - refresh: True
+    - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/ContainerUtils/{{ repo }}/repodata/repomd.xml.key
+{% endif %}
+
 {% endif %}
 {% endif %}
 

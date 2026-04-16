@@ -61,6 +61,9 @@ http:
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
 
+  - url:  http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/openSUSE_Leap_15.0/
+    archs: [x86_64]
+
   - url:  http://dist.suse.de/ibs/SUSE/Products/EL/9-CLIENT-TOOLS/x86_64/product/
     archs: [x86_64]
 

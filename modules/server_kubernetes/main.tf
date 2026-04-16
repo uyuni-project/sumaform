@@ -10,6 +10,7 @@ variable "images" {
     "5.1-nightly"    = "sles15sp7o"
     "5.2-released"   = "sles15sp7o"
     "uyuni-master"   = "tumbleweedo"
+    "uyuni-main"     = "tumbleweedo"
     "uyuni-released" = "tumbleweedo"
     "uyuni-pr"       = "tumbleweedo"
   }

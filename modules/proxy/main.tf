@@ -8,6 +8,7 @@ variable "images" {
     "4.3-VM-released"= "sles15sp4o"
     # Uyuni non-podman deprecated in September 2024:
     "uyuni-master"   = "opensuse156o"
+    "uyuni-main"     = "opensuse156o"
     "uyuni-released" = "opensuse156o"
     "uyuni-pr"       = "opensuse156o"
   }
