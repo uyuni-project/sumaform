@@ -179,7 +179,7 @@ resource "libvirt_domain" "domain" {
     for_each = slice(
       [
         {
-          "wait_for_lease" = true
+          "wait_for_lease" = false
           "network_name"   = var.base_configuration["network_name"]
           "network_id"     = null
           "bridge"         = var.base_configuration["bridge"]
