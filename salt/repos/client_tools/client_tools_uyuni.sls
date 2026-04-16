@@ -3,7 +3,7 @@
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles') and 'controller' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
 
-{% set uyuni_version = 'Master' if grains.get('product_version', '') == 'uyuni-master' else 'Stable' if grains.get('product_version', '') == 'uyuni-released' else 'Main' %}
+{% set uyuni_version = 'Master' if grains.get('product_version', '') == 'uyuni-master' else 'Main' if grains.get('product_version', '') == 'uyuni-main' else 'Stable' %}
 
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osfullname'] == 'Leap' %}

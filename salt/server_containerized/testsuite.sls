@@ -69,7 +69,7 @@ authorized_keys_buildhost:
     - source: salt://build_host/keys/id_ed25519.pub
     - makedirs: True
 
-{%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-pr', 'uyuni-released'] %}
+{%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-main', 'uyuni-pr', 'uyuni-released'] %}
 uyuni_key_copy_host:
   file.managed:
     - name: /tmp/uyuni.key
@@ -108,7 +108,7 @@ suse_staging_key_import:
 
 {% endif %}
 
-{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-pr", "head", "head-staging", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released", "5.2-released"] %}
+{% set products_to_use_salt_bundle = ["uyuni-master", "uyuni-main", "uyuni-pr", "head", "head-staging", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released", "5.2-released"] %}
 {% if grains.get('product_version') | default('', true) in products_to_use_salt_bundle %}
 
 # The following states are needed to ensure "venv-salt-minion" is used during bootstrapping,
