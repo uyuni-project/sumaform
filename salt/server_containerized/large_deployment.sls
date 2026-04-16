@@ -24,7 +24,7 @@ large_deployment_tune_tomcat_stylesheet_copy:
 
 large_deployment_tune_tomcat_maxthreads:
   cmd.run:
-    - name: mgrctl exec 'xsltproc /tmp/large_deployment_tune_tomcat.xslt /etc/tomcat/server.xml > /tmp/tomcat_server.xml && mv /tmp/tomcat_server.xml /etc/tomcat/server.xml'
+    - name: mgrctl exec 'xsltproc /tmp/large_deployment_tune_tomcat.xslt /etc/tomcat/server.xml > /tmp/tomcat_server.xml && cp /tmp/tomcat_server.xml /etc/tomcat/server.xml'
     - onchanges:
       - cmd: large_deployment_tune_tomcat_stylesheet_copy
 
