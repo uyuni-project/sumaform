@@ -214,14 +214,17 @@ tools_update_repo:
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
     - contents: |
             Package: *
-{% if 'uyuni-main' in grains.get('product_version') | default('', true) -%}
             Pin: release l=systemsmanagement:Uyuni:Main:UyuniTools
-{% else -%}
-            Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Ubuntu{{ short_release }}-Uyuni-Client-Tools
-{% endif -%}
             Pin-Priority: 800
+{% else %}
+    - contents: |
+            Package: *
+            Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Ubuntu{{ short_release }}-Uyuni-Client-Tools
+            Pin-Priority: 800
+{% endif %}
 
 {% endif %} {# grains['os'] == 'Ubuntu' #}
 
@@ -245,14 +248,17 @@ tools_update_repo:
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) -%}
     - contents: |
         Package: *
-{% if 'uyuni-main' in grains.get('product_version') | default('', true) -%}
         Pin: release l=systemsmanagement:Uyuni:Main:UyuniTools
-{% else -%}
-        Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Debian{{ release }}-Uyuni-Client-Tools
-{% endif -%}
         Pin-Priority: 800
+{% else -%}
+    - contents: |
+        Package: *
+        Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Debian{{ release }}-Uyuni-Client-Tools
+        Pin-Priority: 800
+{% endif -%}
 
 {% endif %} {# grains['os'] == 'Debian' #}
 {% endif %} {# no client tools on server or proxy #}
