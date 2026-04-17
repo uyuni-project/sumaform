@@ -56,7 +56,6 @@ module "proxy_kubernetes" {
     tftpd_container_image           = var.tftpd_container_image
     container_tag                   = var.container_tag
     helm_chart_url                  = var.helm_chart_url
-    helm_chart_name                 = var.helm_chart_name
     mirror                          = var.base_configuration["mirror"]
     use_mirror_images               = var.base_configuration["use_mirror_images"]
     avahi_reflector                 = var.avahi_reflector

@@ -37,11 +37,6 @@ variable "helm_chart_url" {
   default = "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2"
 }
 
-variable "helm_chart_name" {
-  description = "Name of the helm chart to use. Uses the released one by default."
-  default = "server-helm"
-}
-
 variable "use_devel_oci" {
   description = "true to use devel OCIs"
   default = false

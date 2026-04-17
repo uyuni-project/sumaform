@@ -4,8 +4,10 @@
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
-{% set helm_chart_name = grains.get('helm_chart_name') %}
-{% set helm_chart_url = grains.get('helm_chart_url') %}
+{% set helm_chart_full = grains.get('helm_chart_url') %}
+{% set helm_chart_parts = helm_chart_full.rsplit('/', 1) %}
+{% set helm_chart_repository = helm_chart_parts[0] %}
+{% set helm_chart_name = helm_chart_parts[1] %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 
@@ -40,7 +42,7 @@ copy_chart_proxy:
     - template: jinja
     - context:
         oci_name: {{ helm_chart_name }}
-        oci_repository: {{ helm_chart_url }}
+        oci_repository: {{ helm_chart_repository }}
 
 copy_values_proxy:
   file.managed:
@@ -60,7 +62,7 @@ transfer_python_management_file:
 
 update_oci_app_version_proxy:
   cmd.run:
-  - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
+  - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_full }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
 
 {% if grains.get('install_mlm_proxy') == true %}
 

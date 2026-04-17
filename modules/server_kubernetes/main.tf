@@ -57,7 +57,6 @@ module "server_kubernetes" {
     db_container_image             = var.db_container_image
     db_container_tag               = var.db_container_tag
     helm_chart_url                 = var.helm_chart_url
-    helm_chart_name                = var.helm_chart_name  
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels

@@ -73,8 +73,6 @@ locals {
     host_key => lookup(var.host_settings[host_key], "db_container_tag", null) if var.host_settings[host_key] != null }
   helm_chart_url           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
-  helm_chart_name           = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "helm_chart_name", null) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "main_disk_size", 200) if var.host_settings[host_key] != null }
   repository_disk_size      = { for host_key in local.hosts :
@@ -240,7 +238,6 @@ module "server_kubernetes" {
   enable_oval_metadata          = lookup(local.enable_oval_metadata, "server_kubernetes", false)
 
   //Kubernetes
-  helm_chart_name                 = lookup(local.helm_chart_name, "server_kubernetes", "")
   helm_chart_url                  = lookup(local.helm_chart_url, "server_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
   install_mlm_server              = var.install_mlm_server
@@ -354,7 +351,6 @@ module "proxy_kubernetes" {
   provider_settings       = lookup(local.provider_settings_by_host, "proxy_kubernetes", {})
 
   //Kubernetes
-  helm_chart_name                 = lookup(local.helm_chart_name, "proxy_kubernetes", "")
   helm_chart_url                  = lookup(local.helm_chart_url, "proxy_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
   install_mlm_proxy               = var.install_mlm_proxy
