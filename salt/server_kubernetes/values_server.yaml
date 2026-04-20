@@ -43,4 +43,9 @@ certManagerNamespace: {{ cert_manager_namespace }}
 server-helm: 
   repository: {{ container_repository }}
   pullPolicy: "Always"
+{% if app_armor_name %}
+  server:
+    apparmorProfile: {{ app_armor_name }}
+{% endif %}
+
 

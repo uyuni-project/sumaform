@@ -1,0 +1,50 @@
+#include <tunables/global>
+
+profile k8s-systemd-uyuni flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  # Standard container permissions
+  file,
+  network,
+  capability,
+  ptrace,
+  unix,
+
+  # Deny writes to critical kernel interfaces that systemd doesn't need to change
+  deny /sys/firmware/** rwklx,
+  deny /sys/kernel/debug/** rwklx,
+
+  # Broadly allow the specific flag combinations used for systemd hardening
+  # This covers /dev/pts/, /dev/mqueue/, and the previous /etc/ errors.
+  mount options=(ro, nosuid, noexec, nodev, remount, bind) -> **,
+  mount options=(ro, nosuid, noexec, remount, bind) -> **,
+  mount options=(ro, nosuid, nodev, remount, bind) -> **,
+  mount options=(ro, nosuid, remount, bind) -> **,
+  mount options=(ro, remount, bind) -> **,
+
+  # Allow mount propagation (Required for systemd to function at all)
+  mount options=(rw, rslave) -> **,
+  mount options=(rw, slave) -> **,
+  mount options=(rw, shared) -> **,
+
+  # Specific filesystem types for systemd's API mounts
+  mount fstype=tmpfs options=(rw, nosuid, nodev, noexec) -> /tmp/,
+  mount fstype=tmpfs options=(rw, nosuid, nodev) -> /tmp/,
+  mount fstype=tmpfs -> /run/**,
+  mount fstype=cgroup2 -> /sys/fs/cgroup/,
+  mount fstype=mqueue -> /dev/mqueue/,
+  mount fstype=fusectl -> /sys/fs/fuse/connections/,
+  mount fstype=devpts -> /dev/pts/,
+
+  # Generic remounts (for general compatibility)
+  mount options=(rw, remount) -> **,
+  mount options=(ro, remount) -> **, 
+  
+  # Required for the uyuni server container specifically
+  /sys/fs/cgroup/** rw,
+  /run/** rw,
+  /var/** rw,
+  # Allow reading the various config volumes mapped in the chart
+  /etc/** r,
+}

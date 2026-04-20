@@ -1,5 +1,10 @@
 {% set osfullname = grains['osfullname'] %}
-{% if osfullname in ['Ubuntu', 'openSUSE Tumbleweed', 'SLES'] %}
+{% set osrelease = grains['osrelease'] %}
+{% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
+{% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
+{% set is_supported_os = is_sles_15_7 or is_tumbleweed %}
+
+{% if is_supported_os %}
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
@@ -37,11 +42,26 @@ key_exchange_kubernetes_server:
     - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
     - makedirs: True
 
+## Configure apparmor profile for RKE2
+
+{% if is_sles_15_7 %}
+configure_apparmor_profile_rke2:
+  file.managed:
+    - name: /etc/apparmor.d/k8s-systemd-uyuni
+    - source: salt://server_kubernetes/k8s-systemd-uyuni
+
+apply_apparmor_profile:
+  cmd.run:
+    - name: apparmor_parser -r /etc/apparmor.d/k8s-systemd-uyuni
+
+{% endif %}
+
 copy_helm_charts_directory:
   file.recurse:
     - name: {{ self_signed_path }}
     - source: salt://server_kubernetes/server-selfsigned
     - user: root
+    - group: root
 
 copy_value_yaml_file:
   file.managed:
@@ -56,6 +76,7 @@ copy_value_yaml_file:
         fqdn: {{ grains.get("fqdn") }}
         cert_manager_namespace: {{ cert_manager_namespace }}
         container_repository: {{ grains.get("container_repository")}}
+        app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 else '' }}
 
 copy_chart_yaml_file:
   file.managed:
@@ -98,10 +119,13 @@ install_uyuni_on_kubernetes:
     - KUBECONFIG: {{ kubeconfig }}
 
 save_pod_as_env_variable:
-  cmd.run:
-  - name: echo export Server_pod="$(kubectl get pods -n uyuni --no-headers | grep uyuni | grep -v setup | awk '{print $1}')" > /etc/profile.d/pod_server.sh
-  - env:
-    - KUBECONFIG: {{ kubeconfig }}
+  file.managed:
+    - name: /usr/local/bin/get_server_pod_name
+    - source: salt://server_kubernetes/get_server_pod_name
+    - template: jinja
+    - mode: 700
+    - user: root
+    - group: root
 
 {% endif %}
 
