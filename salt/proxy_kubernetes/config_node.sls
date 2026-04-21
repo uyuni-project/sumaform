@@ -144,13 +144,13 @@ generate_proxy_config_file:
   cmd.run:
   - name: |
       ssh {{ grains['server'] }} "kubectl get secret \$ProxyName -n \$Namespace -o jsonpath=\"{.data['ca\\.crt']}\" | base64 -d > /root/ca.crt"
-      ssh {{ grains['server'] }} "kubectl cp /root/ca.crt \$Namespace/\$Server_pod:/ca.crt"
+      ssh {{ grains['server'] }} "kubectl cp /root/ca.crt \$Namespace/\$(get_server_pod_name):/ca.crt"
       ssh {{ grains['server'] }} "kubectl get secret \$ProxyName -n \$Namespace  -o jsonpath=\"{.data['tls\\.crt']}\" | base64 -d > /root/tls.crt"
-      ssh {{ grains['server'] }} "kubectl cp /root/tls.crt \$Namespace/\$Server_pod:/tls.crt"
+      ssh {{ grains['server'] }} "kubectl cp /root/tls.crt \$Namespace/\$(get_server_pod_name):/tls.crt"
       ssh {{ grains['server'] }} "kubectl get secret \$ProxyName -n \$Namespace  -o jsonpath=\"{.data['tls\\.key']}\" | base64 -d > /root/tls.key"
-      ssh {{ grains['server'] }} "kubectl cp /root/tls.key \$Namespace/\$Server_pod:/tls.key"
-      ssh {{ grains['server'] }} "kubectl exec \$Server_pod -n \$Namespace --  spacecmd -u admin -p admin proxy_container_config -- {{ ProxyFQDN }} {{ grains['server'] }} 2048 galaxy-noise@suse.com ca.crt tls.crt tls.key"
-      ssh {{ grains['server'] }} "kubectl cp \$Namespace/\$Server_pod:/config.tar.gz /root/config.tar.gz"
+      ssh {{ grains['server'] }} "kubectl cp /root/tls.key \$Namespace/\$(get_server_pod_name):/tls.key"
+      ssh {{ grains['server'] }} "kubectl exec \$(get_server_pod_name) -n \$Namespace --  spacecmd -u admin -p admin proxy_container_config -- {{ ProxyFQDN }} {{ grains['server'] }} 2048 galaxy-noise@suse.com ca.crt tls.crt tls.key"
+      ssh {{ grains['server'] }} "kubectl cp \$Namespace/\$(get_server_pod_name):/config.tar.gz /root/config.tar.gz"
       scp {{ grains['server'] }}:/root/config.tar.gz /root/config.tar.gz
   - cwd: /root
   - env:

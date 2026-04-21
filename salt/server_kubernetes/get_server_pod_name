@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source /etc/profile.d/rke2_vars.sh
+kubectl get pods -n uyuni --no-headers | grep uyuni | grep -v setup | awk '{print $1}'
+
