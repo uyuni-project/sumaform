@@ -22,6 +22,15 @@ minimal_package_update:
 {% else %}
     - name: transactional-update -n -c package up zypper libzypp salt-minion
 {% endif %}
+{% elif grains['os_family'] == 'RedHat' and grains.get('osmajorrelease', 0) | int >= 10 %}
+  {# EL10+: rpm-sequoia DEFAULT rejects some OBS signing certs during dnf transaction test; use crypto-policies LEGACY for this dnf invocation only. #}
+  cmd.run:
+{% if grains['install_salt_bundle'] %}
+    - name: RPM_SEQUOIA_CRYPTO_POLICY=/usr/share/crypto-policies/LEGACY/rpm-sequoia.txt dnf -y upgrade venv-salt-minion
+{% else %}
+    - name: RPM_SEQUOIA_CRYPTO_POLICY=/usr/share/crypto-policies/LEGACY/rpm-sequoia.txt dnf -y upgrade salt-minion
+{% endif %}
+    - order: last
 {% else %}
   pkg.latest:
     - pkgs:

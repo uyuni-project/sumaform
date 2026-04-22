@@ -134,6 +134,21 @@ runcmd:
   - dnf -y install venv-salt-minion
 %{ endif ~}
 
+%{ if image == "rocky10" ~}
+runcmd:
+  - |
+    cat <<EOF > /etc/yum.repos.d/temp_tools_pool_repo.repo
+    [temp_tools_pool_repo]
+    name=temp_tools_pool_repo
+    baseurl=http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+    enabled=1
+    gpgcheck=0
+    EOF
+  - dnf clean all
+  - dnf repolist
+  - dnf -y install venv-salt-minion
+%{ endif ~}
+
 %{ if image == "centos7" || image == "rhel7" ~}
 yum_repos:
   # repo for salt

@@ -68,33 +68,47 @@ install_recommends_usr_etc:
 
 {% set release = grains.get('osmajorrelease', None)|int() %}
 
-{% if release < 10 %}
+{# EL10 reuses EL9-era key material until a dedicated salt/default/gpg_keys/suse_el10.key is added. #}
+{% if release < 11 %}
 {# Soon this key will be used for all non-suse repos. When it happens, replace galaxy_key with this #}
+{# EL10+: RPM_SEQUOIA_CRYPTO_POLICY=crypto-policies LEGACY so rpm --import accepts older OpenPGP certs under rpm-sequoia. #}
 suse_el9_key:
   file.managed:
     - name: /tmp/suse_el9.key
     - source: salt://default/gpg_keys/suse_el9.key
-  cmd.wait:
+  cmd.run:
     - name: rpm --import /tmp/suse_el9.key
-    - watch:
+{% if release >= 10 %}
+    - env:
+        RPM_SEQUOIA_CRYPTO_POLICY: /usr/share/crypto-policies/LEGACY/rpm-sequoia.txt
+{% endif %}
+    - require:
       - file: suse_el9_key
 
 galaxy_key:
   file.managed:
     - name: /tmp/galaxy.key
     - source: salt://default/gpg_keys/galaxy.key
-  cmd.wait:
+  cmd.run:
     - name: rpm --import /tmp/galaxy.key
-    - watch:
+{% if release >= 10 %}
+    - env:
+        RPM_SEQUOIA_CRYPTO_POLICY: /usr/share/crypto-policies/LEGACY/rpm-sequoia.txt
+{% endif %}
+    - require:
       - file: galaxy_key
 
 suse_res7_key:
   file.managed:
     - name: /tmp/suse_res7.key
     - source: salt://default/gpg_keys/suse_res7.key
-  cmd.wait:
+  cmd.run:
     - name: rpm --import /tmp/suse_res7.key
-    - watch:
+{% if release >= 10 %}
+    - env:
+        RPM_SEQUOIA_CRYPTO_POLICY: /usr/share/crypto-policies/LEGACY/rpm-sequoia.txt
+{% endif %}
+    - require:
       - file: suse_res7_key
 {% endif %}
 
@@ -104,9 +118,13 @@ uyuni_key:
   file.managed:
     - name: /tmp/uyuni.key
     - source: salt://default/gpg_keys/uyuni.key
-  cmd.wait:
+  cmd.run:
     - name: rpm --import /tmp/uyuni.key
-    - watch:
+{% if release >= 10 %}
+    - env:
+        RPM_SEQUOIA_CRYPTO_POLICY: /usr/share/crypto-policies/LEGACY/rpm-sequoia.txt
+{% endif %}
+    - require:
       - file: uyuni_key
 
 {% endif %}

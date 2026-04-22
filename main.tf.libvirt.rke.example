@@ -34,17 +34,22 @@ module "cucumber_testsuite" {
   # define what images should be used and uploaded
   # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
   # the following images are e.g. available:
-  # "almalinux8o", "almalinux9o",
+  # "almalinux8o", "almalinux9o", "almalinux10o",
   # "amazonlinux2o", "amazonlinux2023o",
-  # "centos7o", "centos8o", "centos9o",
+  # "centos7", "centos7o", "centos8o", "centos9o",
+  # "debian12o", "debian13o",
   # "libertylinux9o",
   # "openeuler2403o",
-  # "opensuse156o",
-  # "oraclelinux9o",
-  # "rocky8o", "rocky9o",
-  # "sles12sp5o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o",
+  # "opensuse156o", "opensuse160o",
+  # "opensuse156armo", "opensuse160armo",
+  # "oraclelinux8o", "oraclelinux9o", "oraclelinux10o",
+  # "rocky8o", "rocky9o", "rocky10o",
+  # "sles12sp5o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o",
+  # "slemicro52-ign", "slemicro53-ign", "slemicro54-ign", "slemicro55o",
+  # "slmicro60o", "slmicro61o", "slmicro62o",
+  # "suma43VM-ign",
+  # "tumbleweedo",
   # "ubuntu2204o", "ubuntu2404o"
-  # "tumbleweedo"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
   # https://github.com/uyuni-project/sumaform/blob/master/modules/cucumber_testsuite/main.tf
   # images = ["rocky9o", "opensuse156o", "sles15sp4o", "ubuntu2204o", "tumbleweedo"]

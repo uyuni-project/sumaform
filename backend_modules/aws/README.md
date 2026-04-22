@@ -67,6 +67,31 @@ provider_settings = {
 ...
 ```
 
+### Supported `image` values
+
+The supported AWS `image` values are defined in `backend_modules/aws/base/main.tf` in the `ami_info` map.
+
+Unless overridden there, the default SSH user is `ec2-user`. Current exceptions are:
+
+- `rocky8`, `rocky10`: `rocky`
+- `ubuntu2204`, `ubuntu2404`: `ubuntu`
+
+Supported values:
+
+- openSUSE and SUSE:
+  `tumbleweedo`, `opensuse156o`, `opensuse160o`, `sles12sp5`, `sles12sp5-paygo`, `sles15sp4o`, `sles15sp5o`, `sles15sp6o`, `sles15sp7o`, `sles15sp5-paygo`, `sles15sp6-paygo`, `sles15sp7-paygo`, `sles160-paygo`, `slesforsap15sp5-paygo`
+- RHEL-like and Ubuntu:
+  `rocky8`, `rocky10`, `rhel8`, `rhel9`, `ubuntu2204`, `ubuntu2404`
+- Multi-Linux Manager marketplace images:
+  `smlm-server-51-x86_64-ltd-paygo`, `smlm-server-51-arm64-ltd-paygo`, `smlm-proxy-51-x86_64-byos`, `smlm-proxy-51-arm64-byos`
+
+Caveats:
+
+- `tumbleweedo` is looked up only in `eu-central-1`.
+- The `*-arm64-*` Multi-Linux Manager images require an arm64-compatible EC2 instance type.
+- Not every `ami_info` entry follows the same bootstrap path in `backend_modules/aws/host/user_data.yaml`; some images rely on different provisioning behavior such as combustion.
+- For custom AMIs or raw `ami-*` IDs, see `README_ADVANCED.md`.
+
 ### Host modules
 
 Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:

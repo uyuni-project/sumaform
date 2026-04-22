@@ -145,6 +145,10 @@ scc:
       - RES8-Manager-Tools-Updates
       - Ubuntu-22.04-SUSE-Manager-Tools
       - Ubuntu 24.04-SUSE-Manager-Tools
+      - Debian-12-SUSE-Manager-Tools
+      - Debian-13-SUSE-Manager-Tools
+      - ManagerTools-Debian12-Updates
+      - ManagerTools-Debian13-Updates
       # SUSE Manager Beta Tools
       - SLE-Manager-Tools12-Pool-Beta
       - SLE-Manager-Tools12-Updates-Beta
@@ -155,6 +159,10 @@ scc:
       - RES8-Manager-Tools-Updates-Beta
       - Ubuntu-22.04-SUSE-Manager-Tools-Beta
       - Ubuntu-24.04-SUSE-Manager-Tools-Beta
+      - Debian-12-SUSE-Manager-Tools-Beta
+      - Debian-13-SUSE-Manager-Tools-Beta
+      - ManagerTools-Debian12-Beta-Updates
+      - ManagerTools-Debian13-Beta-Updates
     archs: [x86_64, amd64]
 
 http:
@@ -232,6 +240,10 @@ http:
   - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1
     archs: [x86_64]
 
+  # EL 10 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL10/images/repo/MultiLinuxManagerTools-Beta-EL-10-x86_64-Media1
+    archs: [x86_64]
+
   # Ubuntu 22.04 Manager Tools Main devel
   - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu22.04/xUbuntu_22.04-debbuild/
     archs: [amd64]
@@ -304,11 +316,15 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL10-Uyuni-Client-Tools/EL_10/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian13-Uyuni-Client-Tools/Debian_13/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
     archs: [amd64]
@@ -336,11 +352,15 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian13-Uyuni-Client-Tools/Debian_13/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
     archs: [amd64]
@@ -368,11 +388,15 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/EL_9/
     archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/EL_10/
+    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_22.04-debbuild/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/xUbuntu_24.04-debbuild/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/Debian_12-debbuild/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/Debian_13-debbuild/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/openSUSE_Tumbleweed/
     archs: [amd64]

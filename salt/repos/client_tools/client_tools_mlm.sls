@@ -433,8 +433,9 @@ tools_update_repo:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
     - refresh: True
-    - name: deb {{ tools_repo_url }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-update-{{ release }}.gpg] {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
+    - aptkey: False
 
 tools_update_repo_raised_priority:
   file.managed:
@@ -452,8 +453,9 @@ beta_tools_update_repo_url:
     - humanname: beta_tools_update_repo_url
     - file: /etc/apt/sources.list.d/beta_tools_update_repo_url.list
     - refresh: True
-    - name: deb {{ beta_tools_update_repo_url }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-beta-update-{{ release }}.gpg] {{ beta_tools_update_repo_url }} /
     - key_url: {{ beta_tools_update_repo_url }}/Release.key
+    - aptkey: False
 
 tools_update_repo_raised_priority:
   file.managed:
@@ -473,8 +475,9 @@ tools_additional_repo:
     - humanname: tools_additional_repo
     - file: /etc/apt/sources.list.d/tools_additional_repo.list
     - refresh: True
-    - name: deb {{ tools_additional_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-devel-51-{{ release }}.gpg] {{ tools_additional_repo }} /
     - key_url: {{ tools_additional_repo }}/Release.key
+    - aptkey: False
 
 tools_additional_repo_raised_priority:
   file.managed:
@@ -492,8 +495,9 @@ tools_additional_repo:
     - humanname: tools_additional_repo
     - file: /etc/apt/sources.list.d/tools_additional_repo.list
     - refresh: True
-    - name: deb {{ tools_additional_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-devel-main-{{ release }}.gpg] {{ tools_additional_repo }} /
     - key_url: {{ tools_additional_repo }}/Release.key
+    - aptkey: False
 
 tools_additional_repo_raised_priority:
   file.managed:

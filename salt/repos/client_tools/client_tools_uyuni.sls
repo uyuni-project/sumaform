@@ -168,12 +168,6 @@ tools_update_repo:
 tools_update_repo:
   pkgrepo.managed:
     - humanname: tools_update_repo
-{% if release == 10 %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/
-    - refresh: True
-    - gpgcheck: 1
-    - gpgkey: http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/bundle:/next:/AlmaLinux10/AlmaLinux_10/repodata/repomd.xml.key
-{% else %}
   {% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/{{ rhlike_client_tools_prefix }}_{{ release }}/
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Main:/UyuniTools/{{ rhlike_client_tools_prefix }}_{{ release }}/repodata/repomd.xml.key
@@ -185,7 +179,6 @@ tools_update_repo:
     - gpgcheck: 1
     - require:
       - cmd: uyuni_key
-{% endif %}
 
 clean_repo_metadata:
   cmd.run:

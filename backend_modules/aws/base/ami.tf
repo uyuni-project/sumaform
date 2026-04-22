@@ -421,6 +421,27 @@ data "aws_ami" "rocky9" {
   }
 }
 
+data "aws_ami" "rocky10" {
+  most_recent = true
+  name_regex  = "^Rocky-10-EC2-Base-10"
+  owners      = ["792107900819"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
 data "aws_ami" "ubuntu2204" {
   most_recent = true
   name_regex  = "^ubuntu/images/hvm-ssd/ubuntu-jammy-22.04"
