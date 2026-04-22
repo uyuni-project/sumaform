@@ -252,3 +252,16 @@ web_server_directory:
         - file: /etc/fstab
         - pkg: nfs_client
 {% endif %}
+
+node_exporter:
+  pkg.installed:
+    - name: golang-github-prometheus-node_exporter
+    - require:
+      - sls: repos
+
+node_exporter_service:
+  service.running:
+    - name: prometheus-node_exporter
+    - enable: True
+    - require:
+      - pkg: node_exporter
