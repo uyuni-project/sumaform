@@ -1380,7 +1380,7 @@ module "controller" {
   name               = var.environment_configuration.controller.name
   provider_settings = {
     mac    = var.environment_configuration.controller.mac
-    memory = length(var.environment_configuration.controller.memory) > 0 ? var.environment_configuration.controller.memory : 16384
+    memory = var.environment_configuration.controller.memory != null ? var.environment_configuration.controller.memory : 16384
     vcpu   = 8
   }
   swap_file_size = null
