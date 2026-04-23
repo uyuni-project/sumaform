@@ -265,3 +265,15 @@ node_exporter_service:
     - enable: True
     - require:
       - pkg: node_exporter
+
+augment_ulimits:
+  file.managed:
+    - name: /etc/security/limits.conf
+    - source: salt://controller/limits.conf
+
+augment_mmaps:
+  file.managed:
+    - name: /etc/sysctl.conf
+    - source: salt://controller/sysctl.conf
+  cmd.run:
+    - name: sysctl -p
