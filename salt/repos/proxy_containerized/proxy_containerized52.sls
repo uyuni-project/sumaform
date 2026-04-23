@@ -49,6 +49,10 @@ container_utils_updates_repo:
     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/Multi-Linux-Manager-Proxy-SLE/5.2/{{ grains.get("cpuarch") }}/update/repodata/repomd.xml.key
 {% endif %}
 
+{% endif %}
+{% endif %}
+{% endif %}
+
 # WORKAROUND: see github:saltstack/salt#10852
 {{ sls }}_nop:
   test.nop: []
