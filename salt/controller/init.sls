@@ -104,7 +104,7 @@ install_npm:
 
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby3.3 install --gemfile Gemfile
+    - name: bundle.ruby3.3 install --gemfile Gemfile --jobs 1
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
