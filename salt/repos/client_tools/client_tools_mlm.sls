@@ -100,7 +100,7 @@ tools_additional_repo:
     - refresh: True
     - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -147,7 +147,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -194,7 +194,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -237,7 +237,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -309,7 +309,7 @@ tools_additional_repo:
       - cmd: suse_res7_key
     {% endif %}
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -400,7 +400,7 @@ additional_tools_update_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Ubuntu{{ release }}
             Pin-Priority: 800
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 {% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release + '-debbuild' %}
 additional_tools_update_repo:
@@ -487,7 +487,7 @@ tools_additional_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Debian{{ release }}
             Pin-Priority: 800
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 {% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Debian' + release + '/Debian_' + release %}
 tools_additional_repo:
