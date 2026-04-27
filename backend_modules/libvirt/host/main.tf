@@ -5,7 +5,7 @@ locals {
   product      = lookup(var.provider_settings, "product", "Genuine")
   // List of images that can benefit from cpu passthrough or host-model.
   // In particular, opensuse156o covers the controller and sles15sp7o is required for the upgrade test to sles160o
-  x86_64_v2_images = ["opensuse156o", "almalinux10o", "almalinux9o", "amazonlinux2023o", "libertylinux9o", "openeuler2403o", "oraclelinux9o", "rocky9o", "sles15sp7o", "sles160o", "opensuse160o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "ubuntu2404o"]
+  x86_64_v2_images = ["opensuse156o", "almalinux10o", "almalinux9o", "amazonlinux2023o", "libertylinux9o", "openeuler2403o", "oraclelinux9o", "oraclelinux10o", "rocky9o", "rocky10o", "sles15sp7o", "sles160o", "opensuse160o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "ubuntu2404o"]
   combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {

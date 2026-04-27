@@ -67,6 +67,18 @@ module "server" {
   base_configuration = local.base_configuration
 
   name            = "server"
+  # supported image values are:
+  # "tumbleweedo",
+  # "opensuse156o", "opensuse160o",
+  # "sles12sp5", "sles12sp5-paygo",
+  # "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o",
+  # "sles15sp5-paygo", "sles15sp6-paygo", "sles15sp7-paygo", "sles160-paygo",
+  # "slesforsap15sp5-paygo",
+  # "rocky8", "rocky10",
+  # "rhel8", "rhel9",
+  # "ubuntu2204", "ubuntu2404",
+  # "smlm-server-51-x86_64-ltd-paygo", "smlm-server-51-arm64-ltd-paygo",
+  # "smlm-proxy-51-x86_64-byos", "smlm-proxy-51-arm64-byos"
   image           = "opensuse156o"
 
   provider_settings = {  }
@@ -77,6 +89,7 @@ module "minion" {
   base_configuration = local.base_configuration
 
   name                 = "minion"
+  # use the same supported image values as listed above
   image                = "opensuse156o"
   server_configuration = module.server.configuration
 }

@@ -16,15 +16,19 @@ This separation means:
 
 ## Dynamic resource creation
 
-Each node in `main.tf` is guarded by a `count` expression that checks whether the corresponding key exists in the `ENVIRONMENT_CONFIGURATION` map supplied by the tfvars file:
+Each node in `main.tf` is guarded by a `count` expression that checks whether the corresponding key exists in the map from assembled tfvars (`ENVIRONMENT_CONFIGURATION`), bound in the module as `var.environment_configuration`:
 
 ```hcl
 module "sles15sp7_minion" {
-  count  = lookup(var.ENVIRONMENT_CONFIGURATION, "sles15sp7_minion", null) != null ? 1 : 0
-  source = "../host"
+  count  = lookup(var.environment_configuration, "sles15sp7_minion", null) != null ? 1 : 0
+  source = "../minion"
 
-  mac  = var.ENVIRONMENT_CONFIGURATION["sles15sp7_minion"].mac
-  name = "${lookup(var.ENVIRONMENT_CONFIGURATION, "name_prefix", "")}${var.ENVIRONMENT_CONFIGURATION["sles15sp7_minion"].name}"
+  name  = var.environment_configuration.sles15sp7_minion.name
+  image = "sles15sp7o"
+  provider_settings = {
+    mac    = var.environment_configuration.sles15sp7_minion.mac
+    memory = 4096
+  }
   ...
 }
 ```
@@ -33,11 +37,18 @@ If the key is absent from the tfvars file the module is not created (`count = 0`
 
 ## Input variables
 
-The module receives two variables, both populated from the assembled `terraform.tfvars`.
+The module receives variables populated from the assembled `terraform.tfvars`.
 
 ### `ENVIRONMENT_CONFIGURATION`
 
 A map describing every node in the environment plus a few environment-wide settings. The **presence of a key** is what controls whether a node is deployed.
+
+Assembled `terraform.tfvars` from susemanager-ci use the name `ENVIRONMENT_CONFIGURATION`. The sumaform module declares the Terraform variable `environment_configuration` (used as `var.environment_configuration` in [modules/build_validation/main.tf](modules/build_validation/main.tf)); the pipeline supplies the payload under the uppercase key expected by the root/wrapper configuration.
+
+Required entries:
+
+- `controller`
+- one of `server` or `server_containerized`
 
 Most nodes only require `mac` and `name`. Some have additional optional fields:
 
@@ -45,8 +56,9 @@ Most nodes only require `mac` and `name`. Some have additional optional fields:
 |---|---|
 | `server_containerized`, `proxy_containerized` | `image` (base OS image), `string_registry` (bool) |
 | `sles15sp5s390_minion`, `sles15sp5s390_sshminion` | `userid` (z/VM user ID) |
+| `monitoring_server` | optional `image` override |
 
-The map also contains three non-node scalar values: `product_version`, `name_prefix`, and `url_prefix`.
+The map currently uses `name_prefix` as its BV-wide scalar. `product_version` is a separate module variable in `modules/build_validation/variables.tf`, and `url_prefix` is not consumed directly by the sumaform module.
 
 A trimmed example (see susemanager-ci for full files like [head](https://github.com/SUSE/susemanager-ci/blob/master/terracumber_config/tf_files/tfvars/build-validation-tfvars/mlmhead_build_validation_nue.tfvars)):
 
@@ -79,6 +91,18 @@ ENVIRONMENT_CONFIGURATION = {
     mac  = "xx:xx:xx:xx:xx:xx"
     name = "rocky8-minion"
   }
+  alma10_minion = {
+    mac  = "xx:xx:xx:xx:xx:xx"
+    name = "alma10-minion"
+  }
+  oracle10_minion = {
+    mac  = "xx:xx:xx:xx:xx:xx"
+    name = "oracle10-minion"
+  }
+  rocky10_minion = {
+    mac  = "xx:xx:xx:xx:xx:xx"
+    name = "rocky10-minion"
+  }
   ubuntu2404_sshminion = {
     mac  = "xx:xx:xx:xx:xx:xx"
     name = "ubuntu2404-sshminion"
@@ -97,9 +121,24 @@ ENVIRONMENT_CONFIGURATION = {
 }
 ```
 
+### Deployable node keys
+
+Which nodes can be toggled is defined by `lookup(var.environment_configuration, "<key>", null)` (and related patterns) in [modules/build_validation/main.tf](modules/build_validation/main.tf). That file is the authoritative list of keys; adding or removing a node type is done there. Variable shape is declared in [modules/build_validation/variables.tf](modules/build_validation/variables.tf).
+
+Some SLE Micro / SL Micro `*_sshminion` modules exist only as commented-out workarounds in [modules/build_validation/main.tf](modules/build_validation/main.tf) and are not deployable in BV until uncommented.
+
+**Special notes**
+
+- `salt_migration_minion` is a dedicated SLES 15 SP5 minion used to test migration from OS Salt to Salt bundle and is deployed with `install_salt_bundle = false`.
+- `slemicro52_minion`, `slemicro53_minion`, and `slemicro54_minion` are kept with `install_salt_bundle = false` because of the in-file workaround comment.
+- `opensuse156arm_*` and `opensuse160arm_*` get their location-specific extension and FQDN handling from the module code.
+- `opensuse160arm_minion` and `opensuse160arm_sshminion` currently use `./salt/controller/id_ed25519.pub` directly for `ssh_key_path` in the module code.
+
 ### `BASE_CONFIGURATIONS`
 
-A map of hypervisor connection details. The number of entries depends on the deployment site:
+A map of hypervisor connection details. The number of entries depends on the deployment site.
+
+Assembled tfvars use `BASE_CONFIGURATIONS`. The sumaform module declares `base_configurations` (and derives `module_base_configurations` internally from that input); see [modules/build_validation/variables.tf](modules/build_validation/variables.tf).
 
 - **Single-provider sites** (e.g. Nuremberg/Prague): one `base_core` entry, plus architecture-specific entries like `base_arm` if ARM nodes are present.
 - **Multi-provider sites** (e.g. SLC/backup): one entry per hypervisor, allowing VMs to be distributed across machines.
@@ -148,7 +187,7 @@ Because the libvirt provider requires explicit aliases for each hypervisor, `mai
 
 ## Variable declarations
 
-Variable type definitions for `ENVIRONMENT_CONFIGURATION` and `BASE_CONFIGURATIONS` live in susemanager-ci:
+Variable type definitions for the upstream `ENVIRONMENT_CONFIGURATION` and `BASE_CONFIGURATIONS` aliases live in susemanager-ci:
 
 ```
 susemanager-ci/terracumber_config/tf_files/variables/build-validation-variables.tf

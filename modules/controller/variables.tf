@@ -482,6 +482,20 @@ variable "rocky9_sshminion_configuration" {
   }
 }
 
+variable "rocky10_minion_configuration" {
+  description = "use module.<ROCKY10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rocky10_sshminion_configuration" {
+  description = "use module.<ROCKY10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "rhel9_minion_configuration" {
   description = "use module.<RHEL9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -524,6 +538,20 @@ variable "alma9_sshminion_configuration" {
   }
 }
 
+variable "alma10_minion_configuration" {
+  description = "use module.<ALMA10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "alma10_sshminion_configuration" {
+  description = "use module.<ALMA10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "oracle9_minion_configuration" {
   description = "use module.<ORACLE9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -533,6 +561,20 @@ variable "oracle9_minion_configuration" {
 
 variable "oracle9_sshminion_configuration" {
   description = "use module.<ORACLE9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "oracle10_minion_configuration" {
+  description = "use module.<ORACLE10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "oracle10_sshminion_configuration" {
+  description = "use module.<ORACLE10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
@@ -589,6 +631,20 @@ variable "debian12_minion_configuration" {
 
 variable "debian12_sshminion_configuration" {
   description = "use module.<DEBIAN12_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "debian13_minion_configuration" {
+  description = "use module.<DEBIAN13_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "debian13_sshminion_configuration" {
+  description = "use module.<DEBIAN13_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

@@ -167,7 +167,7 @@ provider_settings = {
 
 ## Only upload a subset of available images
 
-By default all known base OS images are uploaded to the libvirt host (currently several versions of SLES and CentOS). It is possible to limit the OS selection in order to avoid wasting space and bandwidth, if the needed OSs are known a priori.
+By default a broad subset of base OS images is uploaded to the libvirt host. You can limit which images are uploaded to save disk space and bandwidth when you already know which operating systems you need.
 
 In order to do that use the `images` variable in the `base` module, like in the following example:
 
@@ -176,11 +176,11 @@ module "base" {
   source = "./modules/base"
 
   ...
-  images = ["centos7", "sles12sp5"]
+  images = ["centos7o", "sles12sp5o"]
 }
 ```
 
-The list of all supported images is available in "backend_modules/libvirt/base/variables.tf".
+Supported image names are the keys of the `local.image_urls` map in [backend_modules/libvirt/base/main.tf](base/main.tf). The default list of images uploaded when `images` is left unset is the `default` value of `variable "images"` in [backend_modules/libvirt/base/variables.tf](base/variables.tf).
 
 
 ## DNS and DHCP without Avahi

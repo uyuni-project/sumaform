@@ -132,6 +132,10 @@ grains.get('slmicro61_sshminion') }}" {% else %}# no SLMICRO61 ssh minion define
 %}# no ALMA9 minion defined {% endif %}
 {% if grains.get('alma9_sshminion') | default(false, true) %}export ALMA9_SSHMINION="{{ grains.get('alma9_sshminion')
 }}" {% else %}# no ALMA9 ssh minion defined {% endif %}
+{% if grains.get('alma10_minion') | default(false, true) %}export ALMA10_MINION="{{ grains.get('alma10_minion') }}" {% else
+%}# no ALMA10 minion defined {% endif %}
+{% if grains.get('alma10_sshminion') | default(false, true) %}export ALMA10_SSHMINION="{{ grains.get('alma10_sshminion')
+}}" {% else %}# no ALMA10 ssh minion defined {% endif %}
 {% if grains.get('centos7_minion') | default(false, true) %}export CENTOS7_MINION="{{ grains.get('centos7_minion') }}"
 {% else %}# no CENTOS7 minion defined {% endif %}
 {% if grains.get('centos7_sshminion') | default(false, true) %}export CENTOS7_SSHMINION="{{
@@ -150,6 +154,10 @@ grains.get('openeuler2403_sshminion') }}" {% else %}# no OPENEULER2403 ssh minio
 {% else %}# no ORACLE9 minion defined {% endif %}
 {% if grains.get('oracle9_sshminion') | default(false, true) %}export ORACLE9_SSHMINION="{{
 grains.get('oracle9_sshminion') }}" {% else %}# no ORACLE9 ssh minion defined {% endif %}
+{% if grains.get('oracle10_minion') | default(false, true) %}export ORACLE10_MINION="{{ grains.get('oracle10_minion') }}"
+{% else %}# no ORACLE10 minion defined {% endif %}
+{% if grains.get('oracle10_sshminion') | default(false, true) %}export ORACLE10_SSHMINION="{{
+grains.get('oracle10_sshminion') }}" {% else %}# no ORACLE10 ssh minion defined {% endif %}
 {% if grains.get('rhel9_minion') | default(false, true) %}export RHEL9_MINION="{{ grains.get('rhel9_minion') }}" {% else
 %}# no RHEL9 minion defined {% endif %}
 {% if grains.get('rhel9_sshminion') | default(false, true) %}export RHEL9_SSHMINION="{{ grains.get('rhel9_sshminion')
@@ -162,6 +170,10 @@ else %}# no ROCKY8 minion defined {% endif %}
 else %}# no ROCKY9 minion defined {% endif %}
 {% if grains.get('rocky9_sshminion') | default(false, true) %}export ROCKY9_SSHMINION="{{ grains.get('rocky9_sshminion')
 }}" {% else %}# no ROCKY9 ssh minion defined {% endif %}
+{% if grains.get('rocky10_minion') | default(false, true) %}export ROCKY10_MINION="{{ grains.get('rocky10_minion') }}" {%
+else %}# no ROCKY10 minion defined {% endif %}
+{% if grains.get('rocky10_sshminion') | default(false, true) %}export ROCKY10_SSHMINION="{{ grains.get('rocky10_sshminion')
+}}" {% else %}# no ROCKY10 ssh minion defined {% endif %}
 {% if grains.get('amazon2023_minion') | default(false, true) %}export AMAZON2023_MINION="{{
 grains.get('amazon2023_minion') }}" {% else %}# no AMAZON2023 minion defined {% endif %}
 {% if grains.get('amazon2023_sshminion') | default(false, true) %}export AMAZON2023_SSHMINION="{{
@@ -178,6 +190,10 @@ grains.get('ubuntu2404_sshminion') }}" {% else %}# no UBUNTU2404 ssh minion defi
 }}" {% else %}# no DEBIAN12 minion defined {% endif %}
 {% if grains.get('debian12_sshminion') | default(false, true) %}export DEBIAN12_SSHMINION="{{
 grains.get('debian12_sshminion') }}" {% else %}# no DEBIAN12 ssh minion defined {% endif %}
+{% if grains.get('debian13_minion') | default(false, true) %}export DEBIAN13_MINION="{{ grains.get('debian13_minion')
+}}" {% else %}# no DEBIAN13 minion defined {% endif %}
+{% if grains.get('debian13_sshminion') | default(false, true) %}export DEBIAN13_SSHMINION="{{
+grains.get('debian13_sshminion') }}" {% else %}# no DEBIAN13 ssh minion defined {% endif %}
 {% if grains.get('sle15sp3_buildhost') | default(false, true) %}export SLE15SP3_BUILDHOST="{{
 grains.get('sle15sp3_buildhost') }}" {% else %}# no SLE15SP3 buildhost defined {% endif %}
 {% if grains.get('sle15sp3_terminal_mac') | default(false, true) %}export SLE15SP3_TERMINAL_MAC="{{

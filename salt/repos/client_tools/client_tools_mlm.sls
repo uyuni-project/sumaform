@@ -100,7 +100,7 @@ tools_additional_repo:
     - refresh: True
     - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -147,7 +147,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -194,7 +194,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -237,7 +237,7 @@ tools_additional_repo:
   - refresh: True
   - priority: 98
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -309,7 +309,7 @@ tools_additional_repo:
       - cmd: suse_res7_key
     {% endif %}
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 tools_additional_repo:
   pkgrepo.managed:
@@ -400,7 +400,7 @@ additional_tools_update_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Ubuntu{{ release }}
             Pin-Priority: 800
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 {% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release + '-debbuild' %}
 additional_tools_update_repo:
@@ -433,8 +433,9 @@ tools_update_repo:
     - humanname: tools_update_repo
     - file: /etc/apt/sources.list.d/tools_update_repo.list
     - refresh: True
-    - name: deb {{ tools_repo_url }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-update-{{ release }}.gpg] {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
+    - aptkey: False
 
 tools_update_repo_raised_priority:
   file.managed:
@@ -452,8 +453,9 @@ beta_tools_update_repo_url:
     - humanname: beta_tools_update_repo_url
     - file: /etc/apt/sources.list.d/beta_tools_update_repo_url.list
     - refresh: True
-    - name: deb {{ beta_tools_update_repo_url }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-beta-update-{{ release }}.gpg] {{ beta_tools_update_repo_url }} /
     - key_url: {{ beta_tools_update_repo_url }}/Release.key
+    - aptkey: False
 
 tools_update_repo_raised_priority:
   file.managed:
@@ -473,8 +475,9 @@ tools_additional_repo:
     - humanname: tools_additional_repo
     - file: /etc/apt/sources.list.d/tools_additional_repo.list
     - refresh: True
-    - name: deb {{ tools_additional_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-devel-51-{{ release }}.gpg] {{ tools_additional_repo }} /
     - key_url: {{ tools_additional_repo }}/Release.key
+    - aptkey: False
 
 tools_additional_repo_raised_priority:
   file.managed:
@@ -484,7 +487,7 @@ tools_additional_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Debian{{ release }}
             Pin-Priority: 800
 
-{% elif 'head' in grains.get('product_version') | default('', true) %}
+{% elif 'head' == grains.get('product_version') | default('', true) %}
 
 {% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Debian' + release + '/Debian_' + release %}
 tools_additional_repo:
@@ -492,8 +495,9 @@ tools_additional_repo:
     - humanname: tools_additional_repo
     - file: /etc/apt/sources.list.d/tools_additional_repo.list
     - refresh: True
-    - name: deb {{ tools_additional_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-devel-main-{{ release }}.gpg] {{ tools_additional_repo }} /
     - key_url: {{ tools_additional_repo }}/Release.key
+    - aptkey: False
 
 tools_additional_repo_raised_priority:
   file.managed:

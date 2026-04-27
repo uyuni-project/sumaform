@@ -39,10 +39,11 @@ refresh_test_repos:
 
 test_repo_deb_pool:
   pkgrepo.managed:
-    - name: deb http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/ /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-uyuni-test-deb-pool.gpg] http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/ /
     - refresh: True
     - file: /etc/apt/sources.list.d/test_repo_deb_pool.list
     - key_url: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/Release.key
+    - aptkey: False
 
 {% endif %}
 {% endif %}

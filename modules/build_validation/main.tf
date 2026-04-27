@@ -344,6 +344,22 @@ module "alma9_minion" {
   ssh_key_path            = var.public_ssh_key_path
 }
 
+module "alma10_minion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "alma10_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.alma10_minion.name
+  image              = "almalinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.alma10_minion.mac
+    memory = 4096
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "amazon2023_minion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
@@ -408,6 +424,22 @@ module "oracle9_minion" {
   ssh_key_path            = var.public_ssh_key_path
 }
 
+module "oracle10_minion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "oracle10_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.oracle10_minion.name
+  image              = "oraclelinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.oracle10_minion.mac
+    memory = 4096
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "rocky8_minion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
@@ -433,6 +465,22 @@ module "rocky9_minion" {
   image              = "rocky9o"
   provider_settings = {
     mac    = var.environment_configuration.rocky9_minion.mac
+    memory = 4096
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
+module "rocky10_minion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rocky10_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rocky10_minion.name
+  image              = "rocky10o"
+  provider_settings = {
+    mac    = var.environment_configuration.rocky10_minion.mac
     memory = 4096
   }
   auto_connect_to_master  = false
@@ -481,6 +529,23 @@ module "debian12_minion" {
   image              = "debian12o"
   provider_settings = {
     mac    = var.environment_configuration.debian12_minion.mac
+    memory = 4096
+  }
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
+module "debian13_minion" {
+  providers = { libvirt = libvirt.host_deblike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "debian13_minion", null) != null ? 1 : 0
+  base_configuration = local.host_deblike
+  name               = var.environment_configuration.debian13_minion.name
+  image              = "debian13o"
+  provider_settings = {
+    mac    = var.environment_configuration.debian13_minion.mac
     memory = 4096
   }
 
@@ -836,6 +901,21 @@ module "alma9_sshminion" {
   ssh_key_path            = var.public_ssh_key_path
 }
 
+module "alma10_sshminion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "alma10_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.alma10_sshminion.name
+  image              = "almalinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.alma10_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "amazon2023_sshminion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
@@ -897,6 +977,21 @@ module "oracle9_sshminion" {
   ssh_key_path            = var.public_ssh_key_path
 }
 
+module "oracle10_sshminion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "oracle10_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.oracle10_sshminion.name
+  image              = "oraclelinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.oracle10_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "rocky8_sshminion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
@@ -922,6 +1017,21 @@ module "rocky9_sshminion" {
   image              = "rocky9o"
   provider_settings = {
     mac    = var.environment_configuration.rocky9_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
+module "rocky10_sshminion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "rocky10_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rocky10_sshminion.name
+  image              = "rocky10o"
+  provider_settings = {
+    mac    = var.environment_configuration.rocky10_sshminion.mac
     memory = 4096
   }
   use_os_released_updates = false
@@ -967,6 +1077,21 @@ module "debian12_sshminion" {
   image              = "debian12o"
   provider_settings = {
     mac    = var.environment_configuration.debian12_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.public_ssh_key_path
+}
+
+module "debian13_sshminion" {
+  providers = { libvirt = libvirt.host_deblike }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "debian13_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_deblike
+  name               = var.environment_configuration.debian13_sshminion.name
+  image              = "debian13o"
+  provider_settings = {
+    mac    = var.environment_configuration.debian13_sshminion.mac
     memory = 4096
   }
   use_os_released_updates = false
@@ -1266,6 +1391,22 @@ module "centos7_client" {
 //
 //}
 
+module "slmicro62_sshminion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "slmicro62_sshminion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slmicro62_sshminion.name
+  image              = "slmicro62o"
+  provider_settings = {
+    mac    = var.environment_configuration.slmicro62_sshminion.mac
+    memory = 2048
+  }
+  use_os_released_updates = false
+
+  ssh_key_path            = var.public_ssh_key_path
+}
+
 module "sles15sp6_buildhost" {
   providers = { libvirt = libvirt.host_retail }
   source             = "../build_host"
@@ -1433,6 +1574,9 @@ module "controller" {
   alma9_minion_configuration    = length(module.alma9_minion) > 0 ? module.alma9_minion[0].configuration : local.empty_minion_config
   alma9_sshminion_configuration = length(module.alma9_sshminion) > 0 ? module.alma9_sshminion[0].configuration : local.empty_minion_config
 
+  alma10_minion_configuration    = length(module.alma10_minion) > 0 ? module.alma10_minion[0].configuration : local.empty_minion_config
+  alma10_sshminion_configuration = length(module.alma10_sshminion) > 0 ? module.alma10_sshminion[0].configuration : local.empty_minion_config
+
   amazon2023_minion_configuration    = length(module.amazon2023_minion) > 0 ? module.amazon2023_minion[0].configuration : local.empty_minion_config
   amazon2023_sshminion_configuration = length(module.amazon2023_sshminion) > 0 ? module.amazon2023_sshminion[0].configuration : local.empty_minion_config
 
@@ -1445,11 +1589,17 @@ module "controller" {
   oracle9_minion_configuration    = length(module.oracle9_minion) > 0 ? module.oracle9_minion[0].configuration : local.empty_minion_config
   oracle9_sshminion_configuration = length(module.oracle9_sshminion) > 0 ? module.oracle9_sshminion[0].configuration : local.empty_minion_config
 
+  oracle10_minion_configuration    = length(module.oracle10_minion) > 0 ? module.oracle10_minion[0].configuration : local.empty_minion_config
+  oracle10_sshminion_configuration = length(module.oracle10_sshminion) > 0 ? module.oracle10_sshminion[0].configuration : local.empty_minion_config
+
   rocky8_minion_configuration    = length(module.rocky8_minion) > 0 ? module.rocky8_minion[0].configuration : local.empty_minion_config
   rocky8_sshminion_configuration = length(module.rocky8_sshminion) > 0 ? module.rocky8_sshminion[0].configuration : local.empty_minion_config
 
   rocky9_minion_configuration    = length(module.rocky9_minion) > 0 ? module.rocky9_minion[0].configuration : local.empty_minion_config
   rocky9_sshminion_configuration = length(module.rocky9_sshminion) > 0 ? module.rocky9_sshminion[0].configuration : local.empty_minion_config
+
+  rocky10_minion_configuration    = length(module.rocky10_minion) > 0 ? module.rocky10_minion[0].configuration : local.empty_minion_config
+  rocky10_sshminion_configuration = length(module.rocky10_sshminion) > 0 ? module.rocky10_sshminion[0].configuration : local.empty_minion_config
 
   ubuntu2204_minion_configuration    = length(module.ubuntu2204_minion) > 0 ? module.ubuntu2204_minion[0].configuration : local.empty_minion_config
   ubuntu2204_sshminion_configuration = length(module.ubuntu2204_sshminion) > 0 ? module.ubuntu2204_sshminion[0].configuration : local.empty_minion_config
@@ -1459,6 +1609,8 @@ module "controller" {
 
   debian12_minion_configuration    = length(module.debian12_minion) > 0 ? module.debian12_minion[0].configuration : local.empty_minion_config
   debian12_sshminion_configuration = length(module.debian12_sshminion) > 0 ? module.debian12_sshminion[0].configuration : local.empty_minion_config
+  debian13_minion_configuration    = length(module.debian13_minion) > 0 ? module.debian13_minion[0].configuration : local.empty_minion_config
+  debian13_sshminion_configuration = length(module.debian13_sshminion) > 0 ? module.debian13_sshminion[0].configuration : local.empty_minion_config
 
   opensuse156arm_minion_configuration    = length(module.opensuse156arm_minion) > 0 ? module.opensuse156arm_minion[0].configuration : local.empty_minion_config
   opensuse156arm_sshminion_configuration = length(module.opensuse156arm_sshminion) > 0 ? module.opensuse156arm_sshminion[0].configuration : local.empty_minion_config
@@ -1478,6 +1630,7 @@ module "controller" {
   slmicro60_minion_configuration  = length(module.slmicro60_minion) > 0 ? module.slmicro60_minion[0].configuration : local.empty_minion_config
   slmicro61_minion_configuration  = length(module.slmicro61_minion) > 0 ? module.slmicro61_minion[0].configuration : local.empty_minion_config
   slmicro62_minion_configuration  = length(module.slmicro62_minion) > 0 ? module.slmicro62_minion[0].configuration : local.empty_minion_config
+  slmicro62_sshminion_configuration = length(module.slmicro62_sshminion) > 0 ? module.slmicro62_sshminion[0].configuration : local.empty_minion_config
 
   sle15sp6_buildhost_configuration = length(module.sles15sp6_buildhost) > 0 ? module.sles15sp6_buildhost[0].configuration : local.empty_minion_config
   sle15sp7_buildhost_configuration = length(module.sles15sp7_buildhost) > 0 ? module.sles15sp7_buildhost[0].configuration : local.empty_minion_config
