@@ -130,6 +130,7 @@ fix_cucumber_html_reporter_style:
 git_config:
   file.append:
     - name: ~/.netrc
+    - show_changes: False
     - text: |
 {%- if grains.get("git_username") and grains.get("git_password") %}
         machine github.com
