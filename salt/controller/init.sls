@@ -102,22 +102,14 @@ install_gems_via_bundle:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
 
-# https://github.com/gkushang/cucumber-html-reporter
-install_cucumber_html_reporter_via_npm:
+# https://github.com/WasiqB/multiple-cucumber-html-reporter
+# Replaces cucumber-html-reporter
+# Preserves JSON execution order, supports filter by passed/failed/skipped
+install_multiple_cucumber_html_reporter_via_npm:
   cmd.run:
-    - name: npm install cucumber-html-reporter@7.2.0 --save-dev
+    - name: npm install multiple-cucumber-html-reporter@3.7.0 --save-dev
     - require:
       - pkg: install_npm
-
-fix_cucumber_html_reporter_style:
-  file.append:
-    - name: /root/node_modules/cucumber-html-reporter/templates/_common/bootstrap.hierarchy/style.css
-    - text: |
-        .container {
-            width: 100%;
-        }
-    - require:
-      - cmd: install_cucumber_html_reporter_via_npm
 
 git_config:
   file.append:
