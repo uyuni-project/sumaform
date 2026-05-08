@@ -1,9 +1,10 @@
 {% set osfullname = grains['osfullname'] %}
 {% set osrelease = grains['osrelease'] %}
 {% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
+{% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
 {% set is_ubuntu = osfullname == 'Ubuntu' %}
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
-{% set is_supported_os = is_sles_15_7 or is_ubuntu or is_tumbleweed %}
+{% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 
 {% if is_supported_os %}
 {% set helm_chart_directory = "/root/helm-charts" %}
@@ -59,7 +60,7 @@ apply_apparmor_profile:
 
 ## Configure SELinux for RKE2
 
-{% if is_tumbleweed %}
+{% if is_tumbleweed or is_slmicro_6_2 %}
 
 copy_systemdcontainerpolicy_te:
   file.managed:
@@ -148,7 +149,7 @@ install_uyuni_on_kubernetes:
   - env:
     - KUBECONFIG: {{ kubeconfig }}
 
-save_pod_as_env_variable:
+save_script_to_get_pod_name:
   file.managed:
     - name: /usr/local/bin/get_server_pod_name
     - source: salt://server_kubernetes/get_server_pod_name
