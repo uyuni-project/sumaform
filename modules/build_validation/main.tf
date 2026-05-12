@@ -60,6 +60,9 @@ module "base_s390" {
 
   ssh_key_path    = var.public_ssh_key_path
   testsuite       = true
+  provider_settings = {
+    key_file = var.private_ssh_key_path
+  }
 }
 
 module "server" {
