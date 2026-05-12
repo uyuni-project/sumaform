@@ -61,7 +61,7 @@ module "base_s390" {
   ssh_key_path    = var.public_ssh_key_path
   testsuite       = true
   provider_settings = {
-    key_file = var.private_ssh_key_path
+    key_file = "/home/jenkins/.ssh/id_ed25519.controller"
   }
 }
 
