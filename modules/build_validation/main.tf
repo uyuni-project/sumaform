@@ -48,6 +48,7 @@ module "base_arm" {
     pool   = "ssd"
     bridge = try(var.base_configurations.base_arm.bridge, "br1")
   }
+  ssh_key_path = var.public_ssh_key_path
 }
 
 module "base_s390" {
@@ -57,7 +58,8 @@ module "base_s390" {
   domain          = var.platform_location_configuration[var.location].domain
   product_version = var.product_version
 
-  testsuite = true
+  ssh_key_path    = var.public_ssh_key_path
+  testsuite       = true
 }
 
 module "server" {
