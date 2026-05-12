@@ -1,16 +1,18 @@
 {% set osfullname = grains['osfullname'] %}
 {% set osrelease = grains['osrelease'] %}
 {% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
+{% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
 {% set is_ubuntu = osfullname == 'Ubuntu' %}
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
-{% set is_supported_os = is_sles_15_7 or is_ubuntu or is_tumbleweed %}
+{% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_version = "v1.19.2" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set pkg_map = {
     'Ubuntu': ['python3-yaml'],
-    'openSUSE Tumbleweed': ['openssl', 'git']
+    'openSUSE Tumbleweed': ['openssl', 'git'],
+    'SUSE Linux Micro': ['git']
 } %}
 
 {% if osfullname in pkg_map %}

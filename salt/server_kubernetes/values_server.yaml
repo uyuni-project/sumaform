@@ -43,6 +43,8 @@ certManagerNamespace: {{ cert_manager_namespace }}
 server-helm: 
   repository: {{ container_repository }}
   pullPolicy: "Always"
+  tftp:
+    enable: true
 {% if app_armor_name %}
   server:
     apparmorProfile: {{ app_armor_name }}

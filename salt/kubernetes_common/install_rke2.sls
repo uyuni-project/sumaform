@@ -1,9 +1,10 @@
 {% set osfullname = grains['osfullname'] %}
 {% set osrelease = grains['osrelease'] %}
 {% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
+{% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
 {% set is_ubuntu = osfullname == 'Ubuntu' %}
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
-{% set is_supported_os = is_sles_15_7 or is_ubuntu or is_tumbleweed %}
+{% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
 {% set rke2_version = "v1.34.2+rke2r1" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
@@ -33,12 +34,25 @@ tls-san_setup_file:
         {% endif %}
     - makedirs: True
 
+
 rke2_install:
   cmd.run:
     - name: curl -sfL https://get.rke2.io | sh -
     - env:
       - INSTALL_RKE2_VERSION: "{{ rke2_version }}"
+      {% if is_slmicro_6_2 %}
+      - INSTALL_RKE2_METHOD: rpm
+      - INSTALL_RKE2_SELINUX: true
+      {% endif %}
     - unless: systemctl is-active rke2-server
+
+{% if is_slmicro_6_2 %}
+apply_transition_rke2:
+  cmd.run:
+    - name: transactional-update apply
+    - require:
+      - cmd: rke2_install
+{% endif %}
 
 rke2_server_enable:
   service.enabled:
@@ -62,12 +76,20 @@ rke2_server_start:
       - pkg: rke2_selinux_install
       {% endif %}
 
+rke2_server_wait_until_active:
+  cmd.run:
+    - name: timeout 300 bash -c 'until systemctl is-active --quiet rke2-server; do sleep 5; done'
+    - require:
+      - service: rke2_server_start
+
 link_kubectl_rke2:
   file.symlink:
     - name: /usr/local/bin/kubectl
     - target: /var/lib/rancher/rke2/bin/kubectl
     - force: True
     - makedirs: True
+    - require:
+      - cmd: rke2_server_wait_until_active
 
 link_crictl_rke2:
   file.symlink:
@@ -75,6 +97,8 @@ link_crictl_rke2:
     - target: /var/lib/rancher/rke2/bin/crictl
     - force: True
     - makedirs: True
+    - require:
+      - cmd: rke2_server_wait_until_active
 
 link_ctr_rke2:
   file.symlink:
@@ -82,6 +106,8 @@ link_ctr_rke2:
     - target: /var/lib/rancher/rke2/bin/ctr
     - force: True
     - makedirs: True
+    - require:
+      - cmd: rke2_server_wait_until_active
 
 variables_rke2:
   file.managed:
