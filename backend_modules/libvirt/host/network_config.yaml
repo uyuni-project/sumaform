@@ -1,24 +1,41 @@
-%{ if image == "debian12o" || image == "debian13o" || image == "amazonlinux2023o" }
+%{ if image == "debian12o" || image == "debian13o" || image == "amazonlinux2023o" || image == "ubuntu2404o" || image == "ubuntu2204o" }
 network:
   version: 2
   ethernets:
     ens3:
+%{ if dhcp_dns }
+      dhcp4: false
+      dhcp6: false
+      addresses: ['${dhcp_dns_address}/24']
+%{ else }
       dhcp4: true
+      dhcp6: false
+%{ endif }
 %{ else }
 network:
+%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse156armo" || image == "opensuse160armo" }
+  version: 2
+  ethernets:
+    eth0:
+%{ if dhcp_dns }
+      dhcp4: false
+      dhcp6: false
+      addresses: ['${dhcp_dns_address}/24']
+%{ else }
+      dhcp4: true
+      dhcp6: false
+%{ endif }
+%{ else }
   version: 1
   config:
   - type: physical
-%{ if image == "ubuntu2404o" || image == "ubuntu2204o" || image == "slmicro62o" }
-    name: ens3
-%{ else }
     name: eth0
-%{ endif }
     subnets:
 %{ if dhcp_dns }
       - type: static
         address: ${dhcp_dns_address}
 %{ else }
       - type: dhcp4
+%{ endif }
 %{ endif }
 %{ endif }
