@@ -7,6 +7,16 @@ chpasswd:
   list: |
      root:linux
 
+%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse156armo" || image == "opensuse160armo" ~}
+bootcmd:
+  # Disable IPv6 SLAAC before wicked starts (cloud-init-local runs before wicked.service)
+  # Without this, the kernel assigns SLAAC addresses from RA packets, and Terraform
+  # picks them up as the SSH target, causing "network is unreachable" failures.
+  - mkdir -p /etc/sysctl.d
+  - "printf 'net.ipv6.conf.all.disable_ipv6=1\\nnet.ipv6.conf.default.disable_ipv6=1\\n' > /etc/sysctl.d/70-disable-ipv6.conf"
+  - sysctl -p /etc/sysctl.d/70-disable-ipv6.conf
+%{ endif ~}
+
 %{ if image == "tumbleweedo" ~}
 zypper:
   repos:
