@@ -202,7 +202,7 @@ PACKAGES="$PACKAGES podman netavark aardvark-dns"
 PACKAGES="$PACKAGES helm"
 %{ endif }
 
-%{ if container_server || container_proxy }
+%{ if container_server || container_proxy || server_kubernetes || proxy_kubernetes }
 PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
 %{ endif }
 
