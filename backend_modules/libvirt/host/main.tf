@@ -98,7 +98,10 @@ locals {
     product_version = local.product_version
   })
 
-  ignition_file = templatefile("${path.module}/config.ign", {})
+  ignition_file = templatefile("${path.module}/config.ign", {
+    dhcp_dns         = contains(var.roles, "dhcp_dns")
+    dhcp_dns_address = join(".", concat(local.add_net, ["53"]))
+  })
 }
 
 resource "libvirt_volume" "main_disk" {

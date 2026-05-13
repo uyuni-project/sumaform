@@ -7,5 +7,29 @@
         "passwordHash": "ZIy6Ivgw8UdAs"
       }
     ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/sysctl.d/70-disable-ipv6.conf",
+        "overwrite": true,
+        "contents": {
+          "source": "data:,net.ipv6.conf.all.disable_ipv6%3D1%0Anet.ipv6.conf.default.disable_ipv6%3D1%0A"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/sysconfig/network/ifcfg-eth0",
+        "overwrite": true,
+        "contents": {
+%{ if dhcp_dns ~}
+          "source": "data:,BOOTPROTO%3D'static'%0AIPADDR%3D'${dhcp_dns_address}'%0ASTARTMODE%3D'auto'%0AUSERCONTROL%3D'no'%0AIPV6INIT%3Dno%0AIPV6_AUTOCONF%3Dno%0A"
+%{ else ~}
+          "source": "data:,BOOTPROTO%3D'dhcp'%0ASTARTMODE%3D'auto'%0AUSERCONTROL%3D'no'%0AIPV6INIT%3Dno%0AIPV6_AUTOCONF%3Dno%0A"
+%{ endif ~}
+        },
+        "mode": 420
+      }
+    ]
   }
 }
