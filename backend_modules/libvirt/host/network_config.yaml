@@ -20,10 +20,12 @@ network:
 %{ if dhcp_dns }
       dhcp4: false
       dhcp6: false
+      accept-ra: false
       addresses: ['${dhcp_dns_address}/24']
 %{ else }
       dhcp4: true
       dhcp6: false
+      accept-ra: false
 %{ endif }
 %{ else }
   version: 1
