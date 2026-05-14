@@ -198,6 +198,11 @@ variable "use_devel_oci" {
   default = false
 }
 
+variable "java_debugging_on_rke2" {
+  description = "Enable Java debugging on RKE2"
+  default     = false
+}
+
 variable "install_mlm_server" {
   description = "true to just install the RKE2 MLM server"
   default = true

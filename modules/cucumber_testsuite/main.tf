@@ -244,6 +244,7 @@ module "server_kubernetes" {
   helm_chart_url                  = lookup(local.helm_chart_url, "server_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
   install_mlm_server              = var.install_mlm_server
+  java_debugging_on_rke2          = var.java_debugging_on_rke2
   install_traefik                 = var.install_traefik
   install_local_path_provisioner  = var.install_local_path_provisioner
 }

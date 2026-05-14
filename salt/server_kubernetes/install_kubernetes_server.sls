@@ -124,6 +124,8 @@ copy_manifest_uyuni_ingress:
     - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
     - source: salt://server_kubernetes/uyuni-ingress.yaml
     - template: jinja
+    - context:
+        java_debugging_on_rke2: {{ grains.get("java_debugging_on_rke2", false) }}
 
 transfer_python_management_file:
   file.managed:
