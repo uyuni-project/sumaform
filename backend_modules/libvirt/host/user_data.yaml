@@ -7,20 +7,6 @@ chpasswd:
   list: |
      root:linux
 
-%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse156armo" || image == "opensuse160armo" ~}
-bootcmd:
-  # Disable IPv6 RA acceptance before wicked/NetworkManager starts.
-  # Without this, the kernel assigns global SLAAC addresses from RA packets, and
-  # OpenTofu picks them up as the SSH target before IPv4 is ready, causing
-  # "network is unreachable" failures during provisioning.
-  # We disable only RA acceptance (not all IPv6) so NetworkManager can still
-  # manage IPv6 link-local (fe80::) addresses normally. Blanket disable_ipv6=1
-  # causes NM to get EPERM on every link-local attempt and retry every 2s,
-  # which delays IPv4 DHCP by 4+ minutes on subsequent reboots.
-  - mkdir -p /etc/sysctl.d
-  - "printf 'net.ipv6.conf.all.accept_ra=0\\nnet.ipv6.conf.default.accept_ra=0\\n' > /etc/sysctl.d/70-disable-ipv6.conf"
-  - sysctl -p /etc/sysctl.d/70-disable-ipv6.conf
-%{ endif ~}
 
 %{ if image == "tumbleweedo" ~}
 zypper:
