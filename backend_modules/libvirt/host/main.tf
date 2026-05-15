@@ -265,13 +265,26 @@ resource "terraform_data" "provisioning" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 40"
+    command = <<-EOF
+      HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
+      IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
+      if [ -z "$IP" ]; then
+        echo "ERROR: no DNS A record found for $HOST" >&2
+        exit 1
+      fi
+      for i in $(seq 1 24); do
+        nc -z -w5 "$IP" 22 2>/dev/null && exit 0
+        sleep 5
+      done
+      echo "ERROR: timed out waiting for SSH on $HOST ($IP)" >&2
+      exit 1
+    EOF
   }
 
   count = var.provision ? var.quantity : 0
 
   connection {
-    host     = [for addr in libvirt_domain.domain[count.index].network_interface[0].addresses : addr if !can(regex(":", addr))][0]
+    host     = local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
     user     = "root"
     password = "linux"
     // ssh connection through a bastion host
