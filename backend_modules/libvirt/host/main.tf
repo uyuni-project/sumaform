@@ -267,7 +267,7 @@ resource "terraform_data" "provisioning" {
   provisioner "local-exec" {
     command = <<-EOF
       HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
-      IP=$(dig +short A "$HOST" 2>/dev/null | head -1)
+      IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
       if [ -z "$IP" ]; then
         echo "ERROR: no DNS A record found for $HOST" >&2
         exit 1
