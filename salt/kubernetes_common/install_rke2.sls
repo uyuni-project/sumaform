@@ -6,7 +6,7 @@
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
-{% set rke2_version = "v1.34.2+rke2r1" %}
+{% set rke2_version = "v1.35.4+rke2r1" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 
 {% set pkg_map = {

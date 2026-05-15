@@ -52,6 +52,11 @@ variable "install_mlm_server" {
   default = true
 }
 
+variable "java_debugging_on_rke2" {
+  description = "Enable Java debugging on RKE2"
+  default     = false
+}
+
 variable "install_traefik" {
   description = "true to install Traefik"
   default = true

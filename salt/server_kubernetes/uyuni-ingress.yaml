@@ -32,7 +32,7 @@ spec:
         protocol: TCP
         hostPort: 4506
         containerPort: 4506
-      # Only if java debugging is enabled
+{% if java_debugging_on_rke2 == true %}
       tasko-debug:
         port: 8001
         expose:
@@ -54,3 +54,4 @@ spec:
         exposedPort: 8003
         protocol: TCP
         hostPort: 8003
+{% endif %}
