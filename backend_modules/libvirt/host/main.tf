@@ -267,13 +267,16 @@ resource "terraform_data" "provisioning" {
   provisioner "local-exec" {
     command = <<-EOF
       HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
+      IP=$(dig +short A "$HOST" 2>/dev/null | head -1)
+      if [ -z "$IP" ]; then
+        echo "ERROR: no DNS A record found for $HOST" >&2
+        exit 1
+      fi
       for i in $(seq 1 24); do
-        for ADDR in $(getent ahosts "$HOST" 2>/dev/null | awk '{print $1}' | sort -u); do
-          nc -z -w5 "$ADDR" 22 2>/dev/null && exit 0
-        done
+        nc -z -w5 "$IP" 22 2>/dev/null && exit 0
         sleep 5
       done
-      echo "ERROR: timed out waiting for SSH on $HOST" >&2
+      echo "ERROR: timed out waiting for SSH on $HOST ($IP)" >&2
       exit 1
     EOF
   }
