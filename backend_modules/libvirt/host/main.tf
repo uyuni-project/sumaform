@@ -267,11 +267,21 @@ resource "terraform_data" "provisioning" {
   provisioner "local-exec" {
     command = <<-EOF
       HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
+      IPV4=""
       for i in $(seq 1 60); do
-        nc -4 -z -w5 "$HOST" 22 2>/dev/null && exit 0
+        IPV4=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1}' | head -1)
+        [ -n "$IPV4" ] && break
         sleep 5
       done
-      echo "ERROR: timed out waiting for SSH on $HOST" >&2
+      if [ -z "$IPV4" ]; then
+        echo "ERROR: timed out waiting for DNS A record for $HOST" >&2
+        exit 1
+      fi
+      for i in $(seq 1 60); do
+        nc -z -w5 "$IPV4" 22 2>/dev/null && exit 0
+        sleep 5
+      done
+      echo "ERROR: timed out waiting for SSH on $HOST ($IPV4)" >&2
       exit 1
     EOF
   }
