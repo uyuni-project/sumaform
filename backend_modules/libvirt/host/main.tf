@@ -265,13 +265,21 @@ resource "terraform_data" "provisioning" {
   }
 
   provisioner "local-exec" {
-    command = "sleep 40"
+    command = <<-EOF
+      HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
+      for i in $(seq 1 60); do
+        nc -4 -z -w5 "$HOST" 22 2>/dev/null && exit 0
+        sleep 5
+      done
+      echo "ERROR: timed out waiting for SSH on $HOST" >&2
+      exit 1
+    EOF
   }
 
   count = var.provision ? var.quantity : 0
 
   connection {
-    host     = [for addr in libvirt_domain.domain[count.index].network_interface[0].addresses : addr if !can(regex(":", addr))][0]
+    host     = local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
     user     = "root"
     password = "linux"
     // ssh connection through a bastion host
