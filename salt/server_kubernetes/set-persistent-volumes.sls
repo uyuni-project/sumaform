@@ -16,3 +16,14 @@ apply_var_spacewalk_file:
     - name: kubectl apply -f /root/volume-configuration-var-spacewalk.yml
     - env:
       - KUBECONFIG: {{ kubeconfig }}
+
+copy_var_pgsql_file:
+  file.managed:
+    - name: /root/volume-configuration-var-pgsql.yml
+    - source: salt://server_kubernetes/volume-configuration-var-pgsql.yml
+
+apply_var_pgsql_file:
+  cmd.run:
+    - name: kubectl apply -f /root/volume-configuration-var-pgsql.yml
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
