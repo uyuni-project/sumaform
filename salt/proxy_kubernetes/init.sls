@@ -7,6 +7,9 @@ include:
   {% if grains.get('install_local_path_provisioner') == true and storage_backend == 'local-path' %}
   - kubernetes_common.set_up_local-path-provisioner
   {% endif %}
+  {% if grains.get('install_nfs_provisioner') == true and storage_backend == 'nfs' %}
+  - kubernetes_common.set_up_nfs_provisioner
+  {% endif %}
   {% if grains.get('install_traefik') == true %}
   - kubernetes_common.install_traefik
   {% endif %}

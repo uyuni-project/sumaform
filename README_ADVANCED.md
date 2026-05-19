@@ -956,6 +956,23 @@ module "server" {
 With any non-`local-path` backend, sumaform does not install `local-path-provisioner` and does not create the static `var-spacewalk` hostPath PersistentVolume unless `kubernetes_create_static_var_spacewalk_pv` is explicitly set.
 Set `kubernetes_storage_class = null` to rely on the cluster's default StorageClass.
 
+For NFS, sumaform can also install the NFS subdir external provisioner and create the StorageClass. This is opt-in so existing deployments that already provide an NFS StorageClass keep working unchanged:
+
+```hcl
+module "server" {
+  source             = "./modules/server_kubernetes"
+  base_configuration = module.base.configuration
+
+  name                       = "server"
+  kubernetes_storage_backend = "nfs"
+  install_nfs_provisioner    = true
+  nfs_storage_server         = "nfs.example.com"
+  nfs_storage_path           = "/srv/sumaform"
+}
+```
+
+With `install_nfs_provisioner = true`, `kubernetes_storage_class = null` defaults to `nfs-client`. Set `kubernetes_storage_class` explicitly to use a different StorageClass name.
+
 The local-path backend can also be tuned without changing the default behavior:
 
 ```hcl

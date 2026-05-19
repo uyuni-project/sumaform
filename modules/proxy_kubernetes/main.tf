@@ -17,7 +17,9 @@ variable "images" {
 locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
   kubernetes_storage_class = var.kubernetes_storage_class != null ? var.kubernetes_storage_class : (
-    var.kubernetes_storage_backend == "local-path" ? "local-path" : null
+    var.kubernetes_storage_backend == "local-path" ? "local-path" : (
+      var.kubernetes_storage_backend == "nfs" && var.install_nfs_provisioner ? "nfs-client" : null
+    )
   )
 }
 
@@ -71,11 +73,20 @@ module "proxy_kubernetes" {
     install_mlm_proxy               = var.install_mlm_proxy
     install_traefik                 = var.install_traefik
     install_local_path_provisioner  = var.install_local_path_provisioner
+    install_nfs_provisioner         = var.install_nfs_provisioner
     kubernetes_storage_backend            = var.kubernetes_storage_backend
     kubernetes_storage_class              = local.kubernetes_storage_class
     local_path_provisioner_path           = var.local_path_provisioner_path
     local_path_provisioner_default_class  = var.local_path_provisioner_default_class
     local_path_provisioner_reclaim_policy = var.local_path_provisioner_reclaim_policy
+    nfs_storage_server                    = var.nfs_storage_server
+    nfs_storage_path                      = var.nfs_storage_path
+    nfs_provisioner_namespace             = var.nfs_provisioner_namespace
+    nfs_provisioner_name                  = var.nfs_provisioner_name
+    nfs_provisioner_image                 = var.nfs_provisioner_image
+    nfs_provisioner_default_class         = var.nfs_provisioner_default_class
+    nfs_provisioner_reclaim_policy        = var.nfs_provisioner_reclaim_policy
+    nfs_provisioner_archive_on_delete     = var.nfs_provisioner_archive_on_delete
   }
 }
 

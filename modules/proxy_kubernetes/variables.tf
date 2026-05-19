@@ -89,8 +89,13 @@ variable "install_local_path_provisioner" {
   default = true
 }
 
+variable "install_nfs_provisioner" {
+  description = "true to install the NFS subdir external provisioner when kubernetes_storage_backend is nfs"
+  default     = false
+}
+
 variable "kubernetes_storage_backend" {
-  description = "Storage backend for Kubernetes PVCs. Use local-path to let sumaform install Rancher's local-path provisioner. Other values expect a pre-existing StorageClass."
+  description = "Storage backend for Kubernetes PVCs. Use local-path to let sumaform install Rancher's local-path provisioner. Use nfs with install_nfs_provisioner to install an NFS provisioner. Other values expect a pre-existing StorageClass."
   default     = "local-path"
 
   validation {
@@ -117,6 +122,46 @@ variable "local_path_provisioner_default_class" {
 variable "local_path_provisioner_reclaim_policy" {
   description = "Reclaim policy for the local-path StorageClass."
   default     = "Delete"
+}
+
+variable "nfs_storage_server" {
+  description = "Hostname or IP address of the NFS server used by the NFS provisioner."
+  default     = null
+}
+
+variable "nfs_storage_path" {
+  description = "Export path on the NFS server used by the NFS provisioner."
+  default     = null
+}
+
+variable "nfs_provisioner_namespace" {
+  description = "Kubernetes namespace where the NFS provisioner is installed."
+  default     = "nfs-provisioner"
+}
+
+variable "nfs_provisioner_name" {
+  description = "Provisioner identifier used by the NFS provisioner and StorageClass."
+  default     = "sumaform.io/nfs-subdir-external-provisioner"
+}
+
+variable "nfs_provisioner_image" {
+  description = "Container image used for the NFS subdir external provisioner."
+  default     = "registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2"
+}
+
+variable "nfs_provisioner_default_class" {
+  description = "true to mark the NFS StorageClass as the cluster default when it is installed."
+  default     = false
+}
+
+variable "nfs_provisioner_reclaim_policy" {
+  description = "Reclaim policy for the NFS StorageClass."
+  default     = "Delete"
+}
+
+variable "nfs_provisioner_archive_on_delete" {
+  description = "true to archive dynamically provisioned NFS directories when PVCs are deleted."
+  default     = true
 }
 
 variable "server_configuration" {
