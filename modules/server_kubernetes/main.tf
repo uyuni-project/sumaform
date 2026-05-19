@@ -94,6 +94,13 @@ module "server_kubernetes" {
     java_debugging_on_rke2         = var.java_debugging_on_rke2
     install_traefik                = var.install_traefik
     install_local_path_provisioner = var.install_local_path_provisioner
+    kubernetes_storage_backend                = var.kubernetes_storage_backend
+    kubernetes_storage_class                  = var.kubernetes_storage_class
+    local_path_provisioner_path               = var.local_path_provisioner_path
+    local_path_provisioner_default_class      = var.local_path_provisioner_default_class
+    local_path_provisioner_reclaim_policy     = var.local_path_provisioner_reclaim_policy
+    kubernetes_create_static_var_spacewalk_pv = var.kubernetes_create_static_var_spacewalk_pv
+    kubernetes_var_spacewalk_host_path        = var.kubernetes_var_spacewalk_host_path
   }
 }
 

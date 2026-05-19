@@ -1,4 +1,6 @@
 # The size of the volume is defined in this file: https://github.com/uyuni-project/uyuni/blob/master/containers/server-helm/README.md
+{% set storage_class = grains.get('kubernetes_storage_class') or 'local-path' %}
+{% set var_spacewalk_host_path = grains.get('kubernetes_var_spacewalk_host_path') or '/var/lib/rancher/rke2/storage/var-spacewalk' %}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -8,11 +10,13 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
+  {% if storage_class %}
+  storageClassName: "{{ storage_class }}"
+  {% endif %}
 
   claimRef:
     namespace: uyuni
     name: var-spacewalk
 
   hostPath:
-    path: /var/lib/rancher/rke2/storage/var-spacewalk
+    path: "{{ var_spacewalk_host_path }}"
