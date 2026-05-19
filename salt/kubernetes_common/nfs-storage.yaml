@@ -1,0 +1,138 @@
+{% set storage_class = grains.get('kubernetes_storage_class') or 'nfs-client' %}
+{% set namespace = grains.get('nfs_provisioner_namespace') or 'nfs-provisioner' %}
+{% set provisioner_name = grains.get('nfs_provisioner_name') or 'sumaform.io/nfs-subdir-external-provisioner' %}
+{% set provisioner_image = grains.get('nfs_provisioner_image') or 'registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2' %}
+{% set nfs_server = grains.get('nfs_storage_server') %}
+{% set nfs_path = grains.get('nfs_storage_path') %}
+{% set reclaim_policy = grains.get('nfs_provisioner_reclaim_policy') or 'Delete' %}
+{% set archive_on_delete = grains.get('nfs_provisioner_archive_on_delete', true) %}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ namespace }}"
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nfs-subdir-external-provisioner
+  namespace: "{{ namespace }}"
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-subdir-external-provisioner-runner
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims/status"]
+    verbs: ["update", "patch"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: run-nfs-subdir-external-provisioner
+subjects:
+  - kind: ServiceAccount
+    name: nfs-subdir-external-provisioner
+    namespace: "{{ namespace }}"
+roleRef:
+  kind: ClusterRole
+  name: nfs-subdir-external-provisioner-runner
+  apiGroup: rbac.authorization.k8s.io
+
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-nfs-subdir-external-provisioner
+  namespace: "{{ namespace }}"
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: leader-locking-nfs-subdir-external-provisioner
+  namespace: "{{ namespace }}"
+subjects:
+  - kind: ServiceAccount
+    name: nfs-subdir-external-provisioner
+    namespace: "{{ namespace }}"
+roleRef:
+  kind: Role
+  name: leader-locking-nfs-subdir-external-provisioner
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-subdir-external-provisioner
+  namespace: "{{ namespace }}"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-subdir-external-provisioner
+  template:
+    metadata:
+      labels:
+        app: nfs-subdir-external-provisioner
+    spec:
+      serviceAccountName: nfs-subdir-external-provisioner
+      containers:
+        - name: nfs-subdir-external-provisioner
+          image: "{{ provisioner_image }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PROVISIONER_NAME
+              value: "{{ provisioner_name }}"
+            - name: NFS_SERVER
+              value: "{{ nfs_server }}"
+            - name: NFS_PATH
+              value: "{{ nfs_path }}"
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: "{{ nfs_server }}"
+            path: "{{ nfs_path }}"
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "{{ storage_class }}"
+provisioner: "{{ provisioner_name }}"
+parameters:
+  archiveOnDelete: "{% if archive_on_delete %}true{% else %}false{% endif %}"
+reclaimPolicy: "{{ reclaim_policy }}"
+allowVolumeExpansion: true
+volumeBindingMode: Immediate

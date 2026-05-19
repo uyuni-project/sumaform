@@ -935,6 +935,59 @@ module "server" {
 }
 ```
 
+## Kubernetes storage
+
+The `server_kubernetes` and `proxy_kubernetes` modules install Rancher's `local-path-provisioner` by default and use the `local-path` StorageClass for Kubernetes persistent volume claims.
+This preserves the single-node test-lab behavior.
+
+To use a pre-existing StorageClass, for example one provided by NFS, Longhorn, OpenEBS, Rook/Ceph, or a cloud CSI driver, set the Kubernetes storage backend to one of `external`, `nfs`, `longhorn`, `openebs`, `rook-ceph`, or `cloud` and provide the StorageClass name:
+
+```hcl
+module "server" {
+  source             = "./modules/server_kubernetes"
+  base_configuration = module.base.configuration
+
+  name                       = "server"
+  kubernetes_storage_backend = "external"
+  kubernetes_storage_class   = "longhorn"
+}
+```
+
+With any non-`local-path` backend, sumaform does not install `local-path-provisioner` and does not create the static `var-spacewalk` hostPath PersistentVolume unless `kubernetes_create_static_var_spacewalk_pv` is explicitly set.
+Set `kubernetes_storage_class = null` to rely on the cluster's default StorageClass.
+
+For NFS, sumaform can also install the NFS subdir external provisioner and create the StorageClass. This is opt-in so existing deployments that already provide an NFS StorageClass keep working unchanged:
+
+```hcl
+module "server" {
+  source             = "./modules/server_kubernetes"
+  base_configuration = module.base.configuration
+
+  name                       = "server"
+  kubernetes_storage_backend = "nfs"
+  install_nfs_provisioner    = true
+  nfs_storage_server         = "nfs.example.com"
+  nfs_storage_path           = "/srv/sumaform"
+}
+```
+
+With `install_nfs_provisioner = true`, `kubernetes_storage_class = null` defaults to `nfs-client`. Set `kubernetes_storage_class` explicitly to use a different StorageClass name.
+
+The local-path backend can also be tuned without changing the default behavior:
+
+```hcl
+module "server" {
+  source             = "./modules/server_kubernetes"
+  base_configuration = module.base.configuration
+
+  name                                 = "server"
+  kubernetes_storage_backend           = "local-path"
+  kubernetes_storage_class             = "local-path"
+  local_path_provisioner_path          = "/opt/local-path-provisioner"
+  local_path_provisioner_default_class = true
+}
+```
+
 ## Large deployments
 
 By default to support the load in our test suites, when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option.

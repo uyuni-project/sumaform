@@ -63,8 +63,93 @@ variable "install_traefik" {
 }
 
 variable "install_local_path_provisioner" {
-  description = "true to install local-path-provisioner"
+  description = "true to install local-path-provisioner when kubernetes_storage_backend is local-path"
   default = true
+}
+
+variable "install_nfs_provisioner" {
+  description = "true to install the NFS subdir external provisioner when kubernetes_storage_backend is nfs"
+  default     = false
+}
+
+variable "kubernetes_storage_backend" {
+  description = "Storage backend for Kubernetes PVCs. Use local-path to let sumaform install Rancher's local-path provisioner. Use nfs with install_nfs_provisioner to install an NFS provisioner. Other values expect a pre-existing StorageClass."
+  default     = "local-path"
+
+  validation {
+    condition     = contains(["local-path", "external", "nfs", "longhorn", "openebs", "rook-ceph", "cloud"], var.kubernetes_storage_backend)
+    error_message = "kubernetes_storage_backend must be one of: local-path, external, nfs, longhorn, openebs, rook-ceph, cloud."
+  }
+}
+
+variable "kubernetes_storage_class" {
+  description = "StorageClass name used by Kubernetes PVCs. Set to null to use the backend default, or the cluster default for externally managed backends."
+  default     = null
+}
+
+variable "local_path_provisioner_path" {
+  description = "Host path used by Rancher's local-path provisioner for dynamically provisioned volumes."
+  default     = "/opt/local-path-provisioner"
+}
+
+variable "local_path_provisioner_default_class" {
+  description = "true to mark the local-path StorageClass as the cluster default when it is installed."
+  default     = true
+}
+
+variable "local_path_provisioner_reclaim_policy" {
+  description = "Reclaim policy for the local-path StorageClass."
+  default     = "Delete"
+}
+
+variable "nfs_storage_server" {
+  description = "Hostname or IP address of the NFS server used by the NFS provisioner."
+  default     = null
+}
+
+variable "nfs_storage_path" {
+  description = "Export path on the NFS server used by the NFS provisioner."
+  default     = null
+}
+
+variable "nfs_provisioner_namespace" {
+  description = "Kubernetes namespace where the NFS provisioner is installed."
+  default     = "nfs-provisioner"
+}
+
+variable "nfs_provisioner_name" {
+  description = "Provisioner identifier used by the NFS provisioner and StorageClass."
+  default     = "sumaform.io/nfs-subdir-external-provisioner"
+}
+
+variable "nfs_provisioner_image" {
+  description = "Container image used for the NFS subdir external provisioner."
+  default     = "registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2"
+}
+
+variable "nfs_provisioner_default_class" {
+  description = "true to mark the NFS StorageClass as the cluster default when it is installed."
+  default     = false
+}
+
+variable "nfs_provisioner_reclaim_policy" {
+  description = "Reclaim policy for the NFS StorageClass."
+  default     = "Delete"
+}
+
+variable "nfs_provisioner_archive_on_delete" {
+  description = "true to archive dynamically provisioned NFS directories when PVCs are deleted."
+  default     = true
+}
+
+variable "kubernetes_create_static_var_spacewalk_pv" {
+  description = "Whether to create the static var-spacewalk PersistentVolume. Leave null to enable it only with the local-path backend."
+  default     = null
+}
+
+variable "kubernetes_var_spacewalk_host_path" {
+  description = "Host path used by the static var-spacewalk PersistentVolume."
+  default     = "/var/lib/rancher/rke2/storage/var-spacewalk"
 }
 
 variable "db_container_repository" {
