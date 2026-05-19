@@ -3,6 +3,36 @@
 #
 # SPDX-License-Identifier: MIT
 
+{% set kubernetes_storage_class = grains.get('kubernetes_storage_class') %}
+{% set server_volume_names = [
+  'ca-certs',
+  'etc-apache2',
+  'etc-cobbler',
+  'etc-postfix',
+  'etc-rhn',
+  'etc-salt',
+  'etc-sssd',
+  'etc-sysconfig',
+  'etc-systemd-multi',
+  'etc-systemd-sockets',
+  'etc-tomcat',
+  'root',
+  'run-salt-master',
+  'srv-formulametadata',
+  'srv-pillar',
+  'srv-salt',
+  'srv-spacewalk',
+  'srv-susemanager',
+  'srv-tftpboot',
+  'srv-www',
+  'var-cache',
+  'var-cobbler',
+  'var-log',
+  'var-pgsql',
+  'var-salt',
+  'var-search',
+  'var-spacewalk',
+] %}
 # Default credentials, make sure to set them
 credentials:
   admin:
@@ -45,9 +75,15 @@ server-helm:
   pullPolicy: "Always"
   tftp:
     enable: true
+{% if kubernetes_storage_class %}
+  db:
+    volumes:
+{% for volume_name in server_volume_names %}
+      {{ volume_name }}:
+        storageClass: "{{ kubernetes_storage_class }}"
+{% endfor %}
+{% endif %}
 {% if app_armor_name %}
   server:
     apparmorProfile: {{ app_armor_name }}
 {% endif %}
-
-

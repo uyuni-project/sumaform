@@ -16,6 +16,9 @@ variable "images" {
 
 locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+  kubernetes_storage_class = var.kubernetes_storage_class != null ? var.kubernetes_storage_class : (
+    var.kubernetes_storage_backend == "local-path" ? "local-path" : null
+  )
 }
 
 module "proxy_kubernetes" {
@@ -68,6 +71,11 @@ module "proxy_kubernetes" {
     install_mlm_proxy               = var.install_mlm_proxy
     install_traefik                 = var.install_traefik
     install_local_path_provisioner  = var.install_local_path_provisioner
+    kubernetes_storage_backend            = var.kubernetes_storage_backend
+    kubernetes_storage_class              = local.kubernetes_storage_class
+    local_path_provisioner_path           = var.local_path_provisioner_path
+    local_path_provisioner_default_class  = var.local_path_provisioner_default_class
+    local_path_provisioner_reclaim_policy = var.local_path_provisioner_reclaim_policy
   }
 }
 

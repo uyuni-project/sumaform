@@ -95,6 +95,24 @@ locals {
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
   enable_oval_metadata     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
+  kubernetes_storage_backend = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "kubernetes_storage_backend", var.kubernetes_storage_backend) if var.host_settings[host_key] != null }
+  kubernetes_storage_class = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "kubernetes_storage_class", var.kubernetes_storage_class) if var.host_settings[host_key] != null }
+  effective_kubernetes_storage_class = { for host_key in local.hosts :
+    host_key => lookup(local.kubernetes_storage_class, host_key, null) != null ? lookup(local.kubernetes_storage_class, host_key, null) : (
+      lookup(local.kubernetes_storage_backend, host_key, var.kubernetes_storage_backend) == "local-path" ? "local-path" : null
+    ) if var.host_settings[host_key] != null }
+  local_path_provisioner_path = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "local_path_provisioner_path", var.local_path_provisioner_path) if var.host_settings[host_key] != null }
+  local_path_provisioner_default_class = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "local_path_provisioner_default_class", var.local_path_provisioner_default_class) if var.host_settings[host_key] != null }
+  local_path_provisioner_reclaim_policy = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "local_path_provisioner_reclaim_policy", var.local_path_provisioner_reclaim_policy) if var.host_settings[host_key] != null }
+  kubernetes_create_static_var_spacewalk_pv = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "kubernetes_create_static_var_spacewalk_pv", var.kubernetes_create_static_var_spacewalk_pv) if var.host_settings[host_key] != null }
+  kubernetes_var_spacewalk_host_path = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "kubernetes_var_spacewalk_host_path", var.kubernetes_var_spacewalk_host_path) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.kubernetes ? module.server_kubernetes[0].configuration : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
@@ -247,6 +265,13 @@ module "server_kubernetes" {
   java_debugging_on_rke2          = var.java_debugging_on_rke2
   install_traefik                 = var.install_traefik
   install_local_path_provisioner  = var.install_local_path_provisioner
+  kubernetes_storage_backend      = lookup(local.kubernetes_storage_backend, "server_kubernetes", var.kubernetes_storage_backend)
+  kubernetes_storage_class        = lookup(local.effective_kubernetes_storage_class, "server_kubernetes", var.kubernetes_storage_class)
+  local_path_provisioner_path     = lookup(local.local_path_provisioner_path, "server_kubernetes", var.local_path_provisioner_path)
+  local_path_provisioner_default_class = lookup(local.local_path_provisioner_default_class, "server_kubernetes", var.local_path_provisioner_default_class)
+  local_path_provisioner_reclaim_policy = lookup(local.local_path_provisioner_reclaim_policy, "server_kubernetes", var.local_path_provisioner_reclaim_policy)
+  kubernetes_create_static_var_spacewalk_pv = lookup(local.kubernetes_create_static_var_spacewalk_pv, "server_kubernetes", var.kubernetes_create_static_var_spacewalk_pv)
+  kubernetes_var_spacewalk_host_path = lookup(local.kubernetes_var_spacewalk_host_path, "server_kubernetes", var.kubernetes_var_spacewalk_host_path)
 }
 
 module "proxy" {
@@ -361,6 +386,11 @@ module "proxy_kubernetes" {
   install_mlm_proxy               = var.install_mlm_proxy
   install_traefik                 = var.install_traefik
   install_local_path_provisioner  = var.install_local_path_provisioner
+  kubernetes_storage_backend      = lookup(local.kubernetes_storage_backend, "proxy_kubernetes", var.kubernetes_storage_backend)
+  kubernetes_storage_class        = lookup(local.effective_kubernetes_storage_class, "proxy_kubernetes", var.kubernetes_storage_class)
+  local_path_provisioner_path     = lookup(local.local_path_provisioner_path, "proxy_kubernetes", var.local_path_provisioner_path)
+  local_path_provisioner_default_class = lookup(local.local_path_provisioner_default_class, "proxy_kubernetes", var.local_path_provisioner_default_class)
+  local_path_provisioner_reclaim_policy = lookup(local.local_path_provisioner_reclaim_policy, "proxy_kubernetes", var.local_path_provisioner_reclaim_policy)
 }
 
 
