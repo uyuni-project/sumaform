@@ -234,8 +234,8 @@ variable "kubernetes_storage_backend" {
 }
 
 variable "kubernetes_storage_class" {
-  description = "StorageClass name used by Kubernetes PVCs. Set to null to rely on the cluster default StorageClass."
-  default     = "local-path"
+  description = "StorageClass name used by Kubernetes PVCs. Set to null to use the backend default, or the cluster default for externally managed backends."
+  default     = null
 }
 
 variable "local_path_provisioner_path" {
