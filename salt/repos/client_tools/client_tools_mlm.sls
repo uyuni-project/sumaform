@@ -17,7 +17,7 @@ tools_pool_repo:
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
     - refresh: True
     - priority: 98
     - gpgcheck: 0
@@ -53,7 +53,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
     - gpgcheck: 0
@@ -96,7 +96,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE12/images/repo/ManagerTools-SLE12-Pool-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE12/images/repo/ManagerTools-SLE12-Pool-{{ grains.get("cpuarch") }}-Media1/
     - refresh: True
     - priority: 98
 
@@ -143,7 +143,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
   - refresh: True
   - priority: 98
 
@@ -169,7 +169,7 @@ tools_pool_repo:
 # Devel Tools Repos
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE-16.0/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
   - refresh: True
   - priority: 98
   - gpgcheck: 0
@@ -190,7 +190,7 @@ tools_pool_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLMicro-6/product/repo/Multi-Linux-ManagerTools-SL-Micro-6-{{ grains.get("cpuarch") }}/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SL-Micro-6/product/repo/Multi-Linux-ManagerTools-SL-Micro-6-{{ grains.get("cpuarch") }}/
   - refresh: True
   - priority: 98
 
@@ -233,7 +233,7 @@ beta_tools_update_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
   - refresh: True
   - priority: 98
 
@@ -296,9 +296,9 @@ tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo
     {%- if release >= 8 %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL{{release}}/images/repo/MultiLinuxManagerTools-EL-{{release}}-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/MultiLinuxManagerTools-EL-{{release}}-{{ grains.get("cpuarch") }}-Media1/
     {%- else %}
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL{{release}}/images/repo/ManagerTools-EL{{release}}-POOL-{{ grains.get("cpuarch") }}-Media/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-EL{{release}}/images/repo/ManagerTools-EL{{release}}-POOL-{{ grains.get("cpuarch") }}-Media/
     {%- endif %}
     - refresh: True
     - require:
@@ -383,7 +383,7 @@ beta_tools_update_repo_raised_priority:
 
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
-{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-Ubuntu' + release + '/xUbuntu_' + release %}
+{% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Ubuntu' + release + '/xUbuntu_' + release %}
 additional_tools_update_repo:
   pkgrepo.managed:
     - humanname: additional_tools_update_repo
@@ -397,7 +397,7 @@ additional_tools_update_repo_raised_priority:
     - name: /etc/apt/preferences.d/additional_tools_update_repo
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Stable:MLMTools-Ubuntu{{ release }}
+            Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Ubuntu{{ release }}
             Pin-Priority: 800
 
 {% elif 'head' == grains.get('product_version') | default('', true) %}
@@ -469,13 +469,13 @@ tools_update_repo_raised_priority:
 
 {% if 'nightly' in grains.get('product_version') | default('', true) %}
 
-{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-Debian' + release + '/Debian_' + release %}
+{% set tools_additional_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/5.1:/MLMTools-Debian' + release + '/Debian_' + release %}
 tools_additional_repo:
   pkgrepo.managed:
     - humanname: tools_additional_repo
     - file: /etc/apt/sources.list.d/tools_additional_repo.list
     - refresh: True
-    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-devel-stable-{{ release }}.gpg] {{ tools_additional_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-debian-tools-devel-51-{{ release }}.gpg] {{ tools_additional_repo }} /
     - key_url: {{ tools_additional_repo }}/Release.key
     - aptkey: False
 
@@ -484,7 +484,7 @@ tools_additional_repo_raised_priority:
     - name: /etc/apt/preferences.d/tools_additional_repo
     - contents: |
             Package: *
-            Pin: release l=Devel:Galaxy:Manager:Stable:MLMTools-Debian{{ release }}
+            Pin: release l=Devel:Galaxy:Manager:5.1:MLMTools-Debian{{ release }}
             Pin-Priority: 800
 
 {% elif 'head' == grains.get('product_version') | default('', true) %}
