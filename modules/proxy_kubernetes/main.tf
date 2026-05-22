@@ -66,6 +66,9 @@ module "proxy_kubernetes" {
     proxy_registration_code         = var.proxy_registration_code
     use_devel_oci                   = var.use_devel_oci
     install_mlm_proxy               = var.install_mlm_proxy
+    install_rke2                    = var.install_rke2
+    install_helm                    = var.install_helm
+    install_cert_manager            = var.install_cert_manager
     install_traefik                 = var.install_traefik
     install_local_path_provisioner  = var.install_local_path_provisioner
   }

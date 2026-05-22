@@ -31,6 +31,17 @@ module "cucumber_testsuite" {
   cc_ptf_username = ""
   cc_ptf_password = ""
 
+  # RKE2 variables
+  kubernetes                     = true
+  use_devel_oci                  = true
+  install_mlm_server             = true
+  install_mlm_proxy              = true
+  install_traefik                = true
+  install_local_path_provisioner = true
+  install_rke2                   = true
+  install_helm                   = true
+  install_cert_manager           = true
+
   # define what images should be used and uploaded
   # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
   # the following images are e.g. available:

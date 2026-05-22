@@ -1,8 +1,12 @@
 include:
   - repos
+  {% if grains.get('install_rke2') == true %}
   - kubernetes_common.install_rke2
-  - kubernetes_common.install_helm
   - proxy_kubernetes.config_node
+  {% endif %}
+  {% if grains.get('install_helm') == true %}
+  - kubernetes_common.install_helm
+  {% endif %}
   {% if grains.get('install_local_path_provisioner') == true %}
   - kubernetes_common.set_up_local-path-provisioner
   {% endif %}

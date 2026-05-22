@@ -26,6 +26,8 @@ helm_install_package:
   cmd.run:
     - name: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
 
+{% if grains.get('install_cert_manager') == true and grains.get('install_rke2') == true %}
+
 install_cert_manager:
   cmd.run:
     - name: |
@@ -64,5 +66,7 @@ check_trust_manager_installation:
       - KUBECONFIG: {{ kubeconfig }}
     - require:
       - cmd: install_trust_manager
+
+{% endif %}
 
 {% endif %}
