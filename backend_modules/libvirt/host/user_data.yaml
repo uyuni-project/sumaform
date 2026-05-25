@@ -469,6 +469,9 @@ runcmd:
   # Packages needed for the testsuite
   - [ transactional-update, --continue, --non-interactive, pkg, install, wget, timezone, expect, ca-certificates ]
 %{ endif ~}
+%{ if container_server || container_proxy ~}
+  - [ transactional-update, --continue, --non-interactive, up ]
+%{ endif ~}
 %{ if container_server || server_kubernetes ~}
   - [ transactional-update, --continue, --non-interactive, pkg, install, mgrctl, mgradm, uyuni-storage-setup-server, netavark, aardvark-dns, ca-certificates-suse, podman ]
 %{ endif ~}
