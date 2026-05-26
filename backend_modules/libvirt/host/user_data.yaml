@@ -29,7 +29,7 @@ runcmd:
 %{ if testsuite ~}
   - zypper --non-interactive install wget timezone expect bind-utils
 %{ endif ~}
-%{ if container_server ~}
+%{ if container_server || server_kubernetes ~}
   - zypper --non-interactive install mgrctl mgradm uyuni-storage-setup-server netavark aardvark-dns
 %{ endif ~}
 %{ if container_proxy ~}
