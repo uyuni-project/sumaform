@@ -80,6 +80,8 @@ module "controller" {
     catch_timeout_message     = var.catch_timeout_message
     beta_enabled              = var.beta_enabled
     web_server_hostname       = var.web_server_hostname
+    install_kubectl_helm      = var.install_kubectl_helm
+    kubeconfig_content        = var.kubeconfig_path != null ? base64encode(file(var.kubeconfig_path)) : ""
 
     sle12sp5_paygo_minion    = length(var.sle12sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle12sp5_paygo_minion_configuration["hostnames"][0] : null
     sle15sp5_paygo_minion    = length(var.sle15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sle15sp5_paygo_minion_configuration["hostnames"][0] : null

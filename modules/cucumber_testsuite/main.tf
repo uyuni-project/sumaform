@@ -629,6 +629,8 @@ module "controller" {
   swap_file_size           = null
   beta_enabled             = var.beta_enabled
   web_server_hostname      = var.web_server_hostname
+  install_kubectl_helm     = var.install_kubectl_helm
+  kubeconfig_path          = var.kubeconfig_path
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)

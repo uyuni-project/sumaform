@@ -223,6 +223,16 @@ variable "install_local_path_provisioner" {
   default = true
 }
 
+variable "install_kubectl_helm" {
+  description = "true to install kubectl and helm on the controller"
+  default = false
+}
+
+variable "kubeconfig_path" {
+  description = "Path to a kubeconfig file on the host running Terraform; its contents will be copied to /root/.kube/config on the controller. Leave null to skip."
+  default = null
+}
+
 variable "beta_enabled" {
   description = "Enable the mechanism to take into account beta channels"
   default     = false

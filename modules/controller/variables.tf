@@ -885,3 +885,13 @@ variable "web_server_hostname" {
   description = "FQDN of the web server or leave the default for no web server"
   default = null
 }
+
+variable "install_kubectl_helm" {
+  description = "true to install kubectl and helm on the controller"
+  default = false
+}
+
+variable "kubeconfig_path" {
+  description = "Path to a kubeconfig file on the host running Terraform; its contents will be copied to /root/.kube/config on the controller. Leave null to skip."
+  default = null
+}
