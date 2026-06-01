@@ -48,7 +48,22 @@ variable "use_devel_oci" {
 }
 
 variable "install_mlm_server" {
-  description = "true to install MLM server"
+  description = "true to install the MLM server. The flags install_rke2 and install_helm must be true as well to install it"
+  default = true
+}
+
+variable "install_rke2" {
+  description = "true to install RKE2"
+  default = true
+}
+
+variable "install_helm" {
+  description = "true to install Helm"
+  default = true
+}
+
+variable "install_cert_manager" {
+  description = "true to install cert_manager and trust_manager"
   default = true
 }
 

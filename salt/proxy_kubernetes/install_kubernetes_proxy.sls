@@ -29,12 +29,6 @@ install_dependencies_helm_proxy:
     - refresh: True
 {% endif %}
 
-
-copy_manifest_uyuni_ingress_proxy:
-  file.managed:
-    - name: /var/lib/rancher/rke2/server/manifests/uyuni_ingress_proxy.yaml
-    - source: salt://proxy_kubernetes/uyuni_ingress_proxy.yaml
-
 mkdir_helm_dir:
   cmd.run:
     - name: mkdir -p {{ self_signed_path }}
@@ -64,33 +58,42 @@ transfer_python_management_file:
   - source: salt://kubernetes_common/helm_chart.py
   - makedirs: true
 
+{% if grains.get('install_helm') == true %}
+
 update_oci_app_version_proxy:
   cmd.run:
-  - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
+    - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
 
-{% if grains.get('install_mlm_proxy') == true %}
+{% if grains.get('install_rke2') == true and grains.get('install_mlm_proxy') == true %}
+
+copy_manifest_uyuni_ingress_proxy:
+  file.managed:
+    - name: /var/lib/rancher/rke2/server/manifests/uyuni_ingress_proxy.yaml
+    - source: salt://proxy_kubernetes/uyuni_ingress_proxy.yaml
 
 build_helm_dependencies:
   cmd.run:
-  - name: helm dependencies build
-  - cwd: {{ self_signed_path }}
+    - name: helm dependencies build
+    - cwd: {{ self_signed_path }}
 
 copy_config_tar:
   cmd.run:
-  - name: cp -r /root/config.tar.gz {{ helm_chart_directory }}
+    - name: cp -r /root/config.tar.gz {{ helm_chart_directory }}
 
 uncompress_config_tar:
   cmd.run:
-  - name: tar -xf {{ helm_chart_directory }}/config.tar.gz -C {{ helm_chart_directory }}/
-  - cwd: {{ helm_chart_directory }}
+    - name: tar -xf {{ helm_chart_directory }}/config.tar.gz -C {{ helm_chart_directory }}/
+    - cwd: {{ helm_chart_directory }}
 
 install_uyuni_on_kubernetes:
   cmd.run:
-  - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
-  - cwd: {{ helm_chart_directory }}
-  - env:
-    - KUBECONFIG: {{ kubeconfig }}
+    - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
+    - cwd: {{ helm_chart_directory }}
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
 
+
+{% endif %}
 
 {% endif %}
 

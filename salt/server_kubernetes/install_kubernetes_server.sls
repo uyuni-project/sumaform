@@ -44,6 +44,47 @@ key_exchange_kubernetes_server:
     - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
     - makedirs: True
 
+copy_helm_charts_directory:
+  file.recurse:
+    - name: {{ self_signed_path }}
+    - source: salt://server_kubernetes/server-selfsigned
+    - user: root
+    - group: root
+
+copy_value_yaml_file:
+  file.managed:
+    - name: {{ self_signed_path }}/values.yaml
+    - source: salt://server_kubernetes/values_server.yaml
+    - template: jinja
+    - context:
+        pass_product: admin
+        pass_db: admin
+        pass_postgres: admin
+        pass_reportdb: admin
+        fqdn: {{ grains.get("fqdn") }}
+        cert_manager_namespace: {{ cert_manager_namespace }}
+        container_repository: {{ grains.get("container_repository")}}
+        app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 or is_ubuntu else '' }}
+
+copy_chart_yaml_file:
+  file.managed:
+    - name: {{ self_signed_path }}/Chart.yaml
+    - source: salt://server_kubernetes/Chart_server.yaml
+    - template: jinja
+    - context:
+        oci_name: {{ helm_chart_name }}
+        oci_repository: {{ helm_chart_url }}
+
+{% if grains.get('install_rke2') == true and grains.get('install_helm') == true %}
+
+copy_manifest_uyuni_ingress:
+  file.managed:
+    - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
+    - source: salt://server_kubernetes/uyuni-ingress.yaml
+    - template: jinja
+    - context:
+        java_debugging_on_rke2: {{ grains.get("java_debugging_on_rke2", false) }}
+
 ## Configure apparmor profile for RKE2
 
 {% if is_sles_15_7 or is_ubuntu %}
@@ -87,46 +128,6 @@ execute_semodule_install:
 
 {% endif %}
 
-copy_helm_charts_directory:
-  file.recurse:
-    - name: {{ self_signed_path }}
-    - source: salt://server_kubernetes/server-selfsigned
-    - user: root
-    - group: root
-
-copy_value_yaml_file:
-  file.managed:
-    - name: {{ self_signed_path }}/values.yaml
-    - source: salt://server_kubernetes/values_server.yaml
-    - template: jinja
-    - context:
-        pass_product: admin
-        pass_db: admin
-        pass_postgres: admin
-        pass_reportdb: admin
-        fqdn: {{ grains.get("fqdn") }}
-        cert_manager_namespace: {{ cert_manager_namespace }}
-        container_repository: {{ grains.get("container_repository")}}
-        app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 or is_ubuntu else '' }}
-
-copy_chart_yaml_file:
-  file.managed:
-    - name: {{ self_signed_path }}/Chart.yaml
-    - source: salt://server_kubernetes/Chart_server.yaml
-    - template: jinja
-    - context:
-        oci_name: {{ helm_chart_name }}
-        oci_repository: {{ helm_chart_url }}
-
-
-copy_manifest_uyuni_ingress:
-  file.managed:
-    - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
-    - source: salt://server_kubernetes/uyuni-ingress.yaml
-    - template: jinja
-    - context:
-        java_debugging_on_rke2: {{ grains.get("java_debugging_on_rke2", false) }}
-
 transfer_python_management_file:
   file.managed:
   - name: {{ python_helm_chart_path }}
@@ -135,21 +136,21 @@ transfer_python_management_file:
 
 update_oci_app_version:
   cmd.run:
-  - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
+    - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
 
 {% if grains.get('install_mlm_server') == true %}
 
 build_helm_dependencies:
   cmd.run:
-  - name: helm dependencies build
-  - cwd: {{ self_signed_path }}
+    - name: helm dependencies build
+    - cwd: {{ self_signed_path }}
 
 install_uyuni_on_kubernetes:
   cmd.run:
-  - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni
-  - cwd: {{ helm_chart_directory }}
-  - env:
-    - KUBECONFIG: {{ kubeconfig }}
+    - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni
+    - cwd: {{ helm_chart_directory }}
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
 
 save_script_to_get_pod_name:
   file.managed:
@@ -159,6 +160,8 @@ save_script_to_get_pod_name:
     - mode: 700
     - user: root
     - group: root
+
+{% endif %}
 
 {% endif %}
 

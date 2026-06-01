@@ -204,7 +204,22 @@ variable "java_debugging_on_rke2" {
 }
 
 variable "install_mlm_server" {
-  description = "true to just install the RKE2 MLM server"
+  description = "true to install the RKE2 MLM server"
+  default = true
+}
+
+variable "install_rke2" {
+  description = "true to install RKE2"
+  default = true
+}
+
+variable "install_helm" {
+  description = "true to install Helm"
+  default = true
+}
+
+variable "install_cert_manager" {
+  description = "true to install cert_manager and trust_manager"
   default = true
 }
 
