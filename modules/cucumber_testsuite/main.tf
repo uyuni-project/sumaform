@@ -642,6 +642,25 @@ module "controller" {
   provider_settings = lookup(local.provider_settings_by_host, "controller", {})
 }
 
+#### Example module
+##
+## module "example_module" {
+##  # Folder where the salt states are localted
+##  source             = "../example_module"
+##  
+##  # This flag indicates if the module is present or not
+##  quantity = contains(local.hosts, "example_module") ? 1 : 0
+##
+##  # Configuration
+##  base_configuration = module.base.configuration
+##  
+##  # Base OS of the image
+##  image              = lookup(local.images, "example_module", "sles15sp4o")
+##
+##  # Name of the module
+##  name   = lookup(local.names, "example_module", "example_module")
+## }
+
 output "configuration" {
   value = {
     base = module.base.configuration
