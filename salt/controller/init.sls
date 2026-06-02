@@ -261,3 +261,33 @@ augment_mmaps:
     - source: salt://controller/sysctl.conf
   cmd.run:
     - name: sysctl -p
+
+{% if grains.get('install_kubectl_helm') == true %}
+
+install_kubectl:
+  pkg.installed:
+    - name: kubernetes-client
+
+install_helm_on_controller:
+  cmd.run:
+    - name: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+    - unless: command -v helm
+
+{% endif %}
+
+{% if grains.get('kubeconfig_content') %}
+
+kube_directory:
+  file.directory:
+    - name: /root/.kube
+    - user: root
+    - group: root
+    - mode: 700
+
+write_kubeconfig:
+  cmd.run:
+    - name: 'printf "%s" "{{ grains.get("kubeconfig_content") }}" | base64 -d > /root/.kube/config && chmod 600 /root/.kube/config'
+    - require:
+      - file: kube_directory
+
+{% endif %}
