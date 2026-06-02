@@ -43,11 +43,21 @@ certManagerNamespace: {{ cert_manager_namespace }}
 server-helm: 
   repository: {{ container_repository }}
   pullPolicy: "Always"
+{% if deploy_tftp %}
   tftp:
     enable: true
+{% endif %}
 {% if app_armor_name %}
   server:
     apparmorProfile: {{ app_armor_name }}
+{% endif %}
+{% if deploy_coco_attestation %}
+  coco:
+    replicas: 2
+{% endif %}
+{% if deploy_saline %}
+  saline:
+    enable: true
 {% endif %}
 
 

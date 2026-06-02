@@ -91,6 +91,9 @@ module "server_kubernetes" {
     enable_oval_metadata           = var.enable_oval_metadata
     use_devel_oci                  = var.use_devel_oci
     install_mlm_server             = var.install_mlm_server
+    deploy_coco_attestation        = var.deploy_coco_attestation
+    deploy_saline                  = var.deploy_saline
+    deploy_tftp                    = var.deploy_tftp
     install_rke2                   = var.install_rke2
     install_helm                   = var.install_helm
     install_cert_manager           = var.install_cert_manager
