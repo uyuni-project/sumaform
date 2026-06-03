@@ -95,6 +95,14 @@ locals {
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
   enable_oval_metadata     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
+  nfs_export_path          = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "export_path", "/srv/nfs") if var.host_settings[host_key] != null }
+  nfs_allowed_cidr         = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "allowed_cidr", "0.0.0.0/0") if var.host_settings[host_key] != null }
+  nfs_export_options       = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "export_options", "rw,sync,no_subtree_check,no_root_squash") if var.host_settings[host_key] != null }
+  nfs_data_disk_size       = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "data_disk_size", 0) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.kubernetes ? module.server_kubernetes[0].configuration : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
@@ -634,6 +642,25 @@ module "controller" {
   provider_settings = lookup(local.provider_settings_by_host, "controller", {})
 }
 
+module "nfs_server" {
+  source = "../nfs_server"
+  count  = contains(local.hosts, "nfs_server") ? 1 : 0
+
+  base_configuration = module.base.configuration
+  name               = lookup(local.names, "nfs_server", "nfs")
+  image              = lookup(local.images, "nfs_server", "opensuse156o")
+
+  export_path    = lookup(local.nfs_export_path,    "nfs_server", "/srv/nfs")
+  allowed_cidr   = lookup(local.nfs_allowed_cidr,   "nfs_server", "0.0.0.0/0")
+  export_options = lookup(local.nfs_export_options, "nfs_server", "rw,sync,no_subtree_check,no_root_squash")
+  data_disk_size = lookup(local.nfs_data_disk_size, "nfs_server", 0)
+
+  additional_repos      = lookup(local.additional_repos, "nfs_server", {})
+  additional_repos_only = lookup(local.additional_repos_only, "nfs_server", false)
+  additional_packages   = lookup(local.additional_packages, "nfs_server", [])
+  provider_settings     = lookup(local.provider_settings_by_host, "nfs_server", {})
+}
+
 #### Example module
 ##
 ## module "example_module" {
@@ -668,5 +695,6 @@ output "configuration" {
     kvm_host = module.kvm_host.configuration
     monitoring_server = module.monitoring_server.configuration
     controller = module.controller.configuration
+    nfs_server = length(module.nfs_server) > 0 ? module.nfs_server[0].configuration : null
   }
 }
