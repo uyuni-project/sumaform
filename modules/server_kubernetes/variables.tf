@@ -52,6 +52,21 @@ variable "install_mlm_server" {
   default = true
 }
 
+variable "deploy_coco_attestation" {
+  description = "true to set up the coco attestation container"
+  default = true
+}
+
+variable "deploy_saline" {
+  description = "true to set up the saline container"
+  default = true
+}
+
+variable "deploy_tftp" {
+  description = "true to enable the TFTP service in the server helm values"
+  default = true
+}
+
 variable "install_rke2" {
   description = "true to install RKE2"
   default = true

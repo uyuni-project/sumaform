@@ -64,6 +64,9 @@ copy_value_yaml_file:
         fqdn: {{ grains.get("fqdn") }}
         cert_manager_namespace: {{ cert_manager_namespace }}
         container_repository: {{ grains.get("container_repository")}}
+        deploy_coco_attestation: {{ grains.get("deploy_coco_attestation") }}
+        deploy_saline: {{ grains.get("deploy_saline") }}
+        deploy_tftp: {{ grains.get("deploy_tftp") }}
         app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 or is_ubuntu else '' }}
 
 copy_chart_yaml_file:
