@@ -118,13 +118,13 @@ yum_repos:
 packages: ["venv-salt-minion", "dbus-tools"]
 %{ endif ~}
 
-%{ if image == "rocky8" ~}
+%{ if image == "rocky9" ~}
 runcmd:
   - |
     cat <<EOF > /etc/yum.repos.d/temp_tools_pool_repo.repo
     [temp_tools_pool_repo]
     name=temp_tools_pool_repo
-    baseurl=http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    baseurl=http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
     failovermethod=priority
     enabled=1
     gpgcheck=0
