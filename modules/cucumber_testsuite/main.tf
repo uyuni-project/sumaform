@@ -467,7 +467,7 @@ module "rhlike_minion" {
   quantity = contains(local.hosts, "rhlike_minion") ? 1 : 0
 
   base_configuration = module.base.configuration
-  image              = lookup(local.images, "rhlike_minion", "rocky8o")
+  image              = lookup(local.images, "rhlike_minion", "rocky9o")
   name               = lookup(local.names, "rhlike_minion", "rhlike-minion")
 
   server_configuration   = local.minimal_configuration
