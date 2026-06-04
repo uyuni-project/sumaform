@@ -132,6 +132,9 @@ runcmd:
   - yum clean all
   - yum repolist
   - dnf -y install venv-salt-minion
+  # WORKAROUND: cloud-init in Rocky9 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
 %{ endif ~}
 
 %{ if image == "rocky10" ~}
@@ -147,6 +150,9 @@ runcmd:
   - dnf clean all
   - dnf repolist
   - dnf -y install venv-salt-minion
+  # WORKAROUND: cloud-init in Rocky 10 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - systemctl restart sshd
 %{ endif ~}
 
 %{ if image == "centos7" || image == "rhel7" ~}
