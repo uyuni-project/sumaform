@@ -1,6 +1,6 @@
-{% if grains.get('server-hub-peripheral') | default(false, true) %}
+{% if grains.get('server_hub_peripheral') | default(false, true) %}
 
-{% set hub_fqdn = grains['server-hub-peripheral'] %}
+{% set hub_fqdn = grains['server_hub_peripheral'] %}
 {% set peripheral_fqdn = grains['fqdn'] %}
 
 hub_ssl_build_dir:
