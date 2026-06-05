@@ -4,7 +4,7 @@
 
 hub_peripheral_generate_cert_{{ peripheral_fqdn }}:
   cmd.run:
-    - name: mgrctl exec "rhn-ssl-tool --gen-server --dir=/root/ssl-build --set-hostname={{ peripheral_fqdn }} --set-cname=reportdb --set-cname=db"
+    - name: mgrctl exec "rhn-ssl-tool --gen-server --dir=/root/ssl-build --set-hostname={{ peripheral_fqdn }} --set-cname=reportdb --set-cname=db --password=spacewalk"
     - unless: mgrctl exec "test -f /root/ssl-build/{{ peripheral_fqdn }}/server.crt"
     - require:
       - cmd: mgradm_install
