@@ -356,3 +356,19 @@ variable "enable_oval_metadata" {
   type        = bool
   default     = false
 }
+
+variable "server_hub_main" {
+  description = "install as a hub server, enabling the hub XMLRPC API (adds --hubxmlrpc-replicas 1)"
+  type        = bool
+  default     = false
+}
+
+variable "hub_peripheral_fqdns" {
+  description = "list of peripheral server FQDNs to pre-generate SSL certificates for on this hub"
+  default     = []
+}
+
+variable "server_hub_peripheral" {
+  description = "FQDN of the hub server this peripheral connects to; leave null for non-peripheral servers"
+  default     = null
+}
