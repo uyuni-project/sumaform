@@ -331,7 +331,7 @@ resource "terraform_data" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") || contains(var.roles, "nfs_server") ? "vdb" : null
         second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
         provider                      = "libvirt"
       },
