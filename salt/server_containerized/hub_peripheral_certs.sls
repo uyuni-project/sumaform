@@ -5,16 +5,17 @@
 hub_peripheral_generate_cert_{{ peripheral_fqdn }}:
   cmd.run:
     - name: mgrctl exec "rhn-ssl-tool --gen-server --dir=/root/ssl-build --set-hostname={{ peripheral_fqdn }} --set-cname=reportdb --set-cname=db --password=spacewalk"
-    - unless: mgrctl exec "test -f /root/ssl-build/{{ peripheral_fqdn }}/server.crt"
+    - unless: mgrctl exec "find /root/ssl-build -maxdepth 2 -name 'server.crt' -path '*{{ peripheral_fqdn.split('.')[0] }}*' | grep -q ."
     - require:
       - cmd: mgradm_install
 
 hub_peripheral_publish_cert_{{ peripheral_fqdn }}:
   cmd.run:
     - name: |
-        mgrctl exec "cp /root/ssl-build/{{ peripheral_fqdn }}/server.crt /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.crt && chmod 644 /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.crt"
+        CERT_DIR=$(mgrctl exec "find /root/ssl-build -maxdepth 1 -type d -name '{{ peripheral_fqdn.split('.')[0] }}*' | head -1")
+        mgrctl exec "cp ${CERT_DIR}/server.crt /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.crt && chmod 644 /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.crt"
         mgrctl exec "sha512sum /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.crt > /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.crt.sha512"
-        mgrctl exec "cp /root/ssl-build/{{ peripheral_fqdn }}/server.key /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.key && chmod 644 /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.key"
+        mgrctl exec "cp ${CERT_DIR}/server.key /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.key && chmod 644 /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.key"
         mgrctl exec "sha512sum /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.key > /srv/www/htdocs/pub/peripheral-{{ peripheral_fqdn }}-server.key.sha512"
     - onchanges:
       - cmd: hub_peripheral_generate_cert_{{ peripheral_fqdn }}
