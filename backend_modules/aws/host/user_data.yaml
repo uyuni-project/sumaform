@@ -101,7 +101,7 @@ yum_repos:
 packages: ["venv-salt-minion", "dbus-tools"]
 runcmd:
   # WORKAROUND: rhel9 change ssh security for ssh key
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
   - systemctl restart sshd
 
 %{ endif ~}
@@ -133,7 +133,7 @@ runcmd:
   - yum repolist
   - dnf -y install venv-salt-minion
   # WORKAROUND: cloud-init in Rocky9 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
   - systemctl restart sshd
 %{ endif ~}
 
@@ -151,7 +151,7 @@ runcmd:
   - dnf repolist
   - dnf -y install venv-salt-minion
   # WORKAROUND: cloud-init in Rocky 10 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
   - systemctl restart sshd
 %{ endif ~}
 
@@ -198,7 +198,7 @@ apt:
 
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
   # not an error, Ubuntu/Debian Systemd unit file was always called ssh.service and they now dropped the 'd' alias
   - systemctl restart ssh
 
@@ -235,7 +235,7 @@ apt:
 
 runcmd:
   # WORKAROUND: cloud-init in Ubuntu 22.04 does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/50-cloud-init.conf
   - systemctl restart sshd
 
 
