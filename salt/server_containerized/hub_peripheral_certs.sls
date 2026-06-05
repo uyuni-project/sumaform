@@ -1,5 +1,12 @@
 {% if grains.get('hub_peripheral_fqdns') | default([], true) %}
 
+hub_ca_cert_checksum:
+  cmd.run:
+    - name: mgrctl exec "sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512 && chmod 644 /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512"
+    - unless: mgrctl exec "test -f /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512"
+    - require:
+      - cmd: mgradm_install
+
 {% for peripheral_fqdn in grains.get('hub_peripheral_fqdns', []) %}
 
 hub_peripheral_generate_cert_{{ peripheral_fqdn }}:
@@ -8,6 +15,7 @@ hub_peripheral_generate_cert_{{ peripheral_fqdn }}:
     - unless: mgrctl exec "find /root/ssl-build -maxdepth 2 -name 'server.crt' -path '*{{ peripheral_fqdn.split('.')[0] }}*' | grep -q ."
     - require:
       - cmd: mgradm_install
+      - cmd: hub_ca_cert_checksum
 
 hub_peripheral_publish_cert_{{ peripheral_fqdn }}:
   cmd.run:
