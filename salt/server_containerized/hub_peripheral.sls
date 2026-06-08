@@ -2,6 +2,8 @@
 
 {% set hub_fqdn = grains['server_hub_peripheral'] %}
 {% set peripheral_fqdn = grains['fqdn'] %}
+{% set server_username = grains.get('server_username') | default('admin', true) %}
+{% set server_password = grains.get('server_password') | default('admin', true) %}
 
 hub_ssl_build_dir:
   file.directory:
@@ -64,5 +66,35 @@ mgradm_install:
       - file: hub_peripheral_server_cert
       - file: hub_peripheral_server_key
       - cmd: hub_ca_trust_update
+
+hub_peripheral_register:
+  cmd.run:
+    - name: |
+        python3 << 'PYEOF'
+        import xmlrpc.client, ssl
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        hub = xmlrpc.client.ServerProxy("https://{{ hub_fqdn }}/rpc/api", context=ctx)
+        s = hub.auth.login("{{ server_username }}", "{{ server_password }}")
+        with open("/root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT") as f:
+            ca = f.read()
+        hub.sync.hub.registerPeripheral(s, "{{ peripheral_fqdn }}", "{{ server_username }}", "{{ server_password }}", ca)
+        hub.auth.logout(s)
+        PYEOF
+    - unless: |
+        python3 << 'PYEOF'
+        import xmlrpc.client, ssl, sys
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        hub = xmlrpc.client.ServerProxy("https://{{ hub_fqdn }}/rpc/api", context=ctx)
+        s = hub.auth.login("{{ server_username }}", "{{ server_password }}")
+        servers = hub.sync.hub.listPeripheralServers(s)
+        hub.auth.logout(s)
+        sys.exit(0 if any(p.get("fqdn") == "{{ peripheral_fqdn }}" for p in servers) else 1)
+        PYEOF
+    - require:
+      - cmd: mgradm_install
 
 {% endif %}
