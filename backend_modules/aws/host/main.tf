@@ -72,7 +72,7 @@ locals {
 resource "aws_eip" "host_eip" {
   count = local.host_eip ? var.quantity : 0
 
-  vpc = true
+  domain = "vpc"
   tags = {
     Name = "${local.resource_name_prefix}-host-eip${var.quantity > 1 ? "-${count.index + 1}" : ""}"
 
