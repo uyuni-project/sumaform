@@ -2,7 +2,7 @@ data "aws_region" "current" {}
 
 data "aws_ami" "tumbleweedo" {
   # Only execute this lookup if the region is eu-central-1 (Frankfurt)
-  count = data.aws_region.current.name == "eu-central-1" ? 1 : 0
+  count = data.aws_region.current.id == "eu-central-1" ? 1 : 0
 
   most_recent = true
   owners      = ["self"] // custom built AMI

@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "main" {
 resource "aws_eip" "nat_eip" {
   count = var.create_network ? 1 : 0
 
-  vpc = true
+  domain = "vpc"
   tags = {
     Name = "${var.name_prefix}nat-eip"
   }
