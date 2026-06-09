@@ -272,3 +272,8 @@ variable "web_server_hostname" {
   description = "FQDN of the web server or leave the default for no web server"
   default = null
 }
+
+variable "use_os_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default     = false
+}
