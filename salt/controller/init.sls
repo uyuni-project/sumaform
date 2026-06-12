@@ -114,6 +114,7 @@ install_multiple_cucumber_html_reporter_via_npm:
 git_config:
   file.append:
     - name: ~/.netrc
+    - show_changes: False
     - text: |
 {%- if grains.get("git_username") and grains.get("git_password") %}
         machine github.com
