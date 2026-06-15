@@ -112,9 +112,15 @@ variable "module_base_configurations" {
   description = "Module base configurations"
 }
 
-variable "private_ssh_key_path" {
+variable "hypervisor_private_ssh_key_path" {
   type        = string
   default     = "~/.ssh/id_ed25519"
+  description = "Path to private key used to access hypervisor (dhcp deployment)"
+}
+
+variable "private_ssh_key_path" {
+  type        = string
+  default     = "./salt/controller/id_ed25519"
   description = "Path to private key used for ssh access"
 }
 
