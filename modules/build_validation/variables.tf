@@ -118,16 +118,16 @@ variable "hypervisor_private_ssh_key_path" {
   description = "Path to private key used to access hypervisor (dhcp deployment)"
 }
 
-variable "private_ssh_key_path" {
+variable "controller_private_ssh_key_path" {
   type        = string
   default     = "./salt/controller/id_ed25519"
-  description = "Path to private key used for ssh access"
+  description = "Path to private ssh key used for minion connection"
 }
 
-variable "public_ssh_key_path" {
+variable "controller_public_ssh_key_path" {
   type        = string
   default     = "./salt/controller/id_ed25519.pub"
-  description = "Path to public key used for ssh access"
+  description = "Path to public ssh key used for minion connection"
 }
 
 variable "s390_local_user" {
