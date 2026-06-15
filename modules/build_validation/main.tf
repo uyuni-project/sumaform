@@ -1498,7 +1498,7 @@ module "dhcp_dns" {
   hypervisor = {
     host        = var.base_configurations.base_core.hypervisor
     user        = "root"
-    private_key = file(var.private_ssh_key_path)
+    private_key = file(var.hypervisor_private_ssh_key_path)
   }
 }
 
