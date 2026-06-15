@@ -21,7 +21,7 @@ provider "libvirt" {
 provider "feilong" {
   connector   = "https://feilong.mgr.suse.de"
   admin_token = var.zvm_admin_token
-  local_user  = "jenkins@jenkins-worker.mgr.suse.de"
+  local_user  = var.s390_local_user
 }
 
 module "base_arm" {
