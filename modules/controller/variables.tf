@@ -50,6 +50,27 @@ variable "proxy_configuration" {
   }
 }
 
+variable "server2_configuration" {
+  description = "use module.<SERVER2_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostname = null
+  }
+}
+
+variable "server3_configuration" {
+  description = "use module.<SERVER3_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostname = null
+  }
+}
+
+variable "server4_configuration" {
+  description = "use module.<SERVER4_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostname = null
+  }
+}
+
 variable "client_configuration" {
   description = "use module.<CLIENT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
