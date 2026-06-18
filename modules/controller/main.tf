@@ -53,6 +53,11 @@ module "controller" {
 
     server            = var.server_configuration["hostname"]
     proxy             = var.proxy_configuration["hostname"]
+    proxy2            = var.proxy2_configuration["hostname"]
+    proxy3            = var.proxy3_configuration["hostname"]
+    server2           = var.server2_configuration["hostname"]
+    server3           = var.server3_configuration["hostname"]
+    server4           = var.server4_configuration["hostname"]
     client            = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
     minion            = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
     build_host        = length(var.buildhost_configuration["hostnames"]) > 0 ? var.buildhost_configuration["hostnames"][0] : null
