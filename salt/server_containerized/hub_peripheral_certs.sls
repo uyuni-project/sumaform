@@ -1,3 +1,11 @@
+# NOTE: temporary, test-only mechanism. The hub generates each peripheral's
+# server certificate and key and publishes them under /pub so the peripheral can
+# fetch them over HTTP. This exposes the peripheral private key on the hub's
+# public endpoint and is only acceptable on sumaform's trusted, ephemeral test
+# networks. The built-in publish/download_private_ssl_key path does not fit here
+# (it is gated to the minion role and distributes the CA key for self-signing
+# rather than per-host server certs). Replace with a secure transfer if this ever
+# needs to leave a test environment.
 {% if grains.get('hub_peripheral_fqdns') | default([], true) %}
 
 hub_ca_cert_checksum:

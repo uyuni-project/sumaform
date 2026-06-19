@@ -6,10 +6,10 @@ import ssl
 import sys
 import xmlrpc.client
 
-HUB_FQDN = "{{ hub_fqdn }}"
-PERIPHERAL_FQDN = "{{ peripheral_fqdn }}"
-USERNAME = "{{ server_username }}"
-PASSWORD = "{{ server_password }}"
+HUB_FQDN = {{ hub_fqdn | tojson }}
+PERIPHERAL_FQDN = {{ peripheral_fqdn | tojson }}
+USERNAME = {{ server_username | tojson }}
+PASSWORD = {{ server_password | tojson }}
 HUB_CA = "/root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT"
 
 # Validate the hub certificate against the hub CA we already downloaded.
