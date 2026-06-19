@@ -2,7 +2,17 @@
 
 # base hosts
 export SERVER="{{ grains.get('server') }}"
+{% if grains.get('server2') | default(false, true) %}export SERVER2="{{ grains.get('server2') }}" {% else %}# no server2 defined
+{% endif %}
+{% if grains.get('server3') | default(false, true) %}export SERVER3="{{ grains.get('server3') }}" {% else %}# no server3 defined
+{% endif %}
+{% if grains.get('server4') | default(false, true) %}export SERVER4="{{ grains.get('server4') }}" {% else %}# no server4 defined
+{% endif %}
 {% if grains.get('proxy') | default(false, true) %}export PROXY="{{ grains.get('proxy') }}" {% else %}# no proxy defined
+{% endif %}
+{% if grains.get('proxy2') | default(false, true) %}export PROXY2="{{ grains.get('proxy2') }}" {% else %}# no proxy2 defined
+{% endif %}
+{% if grains.get('proxy3') | default(false, true) %}export PROXY3="{{ grains.get('proxy3') }}" {% else %}# no proxy3 defined
 {% endif %}
 {% if grains.get('client') | default(false, true) %}export CLIENT="{{ grains.get('client') }}"{% else %}# no client defined
 {% endif %}
