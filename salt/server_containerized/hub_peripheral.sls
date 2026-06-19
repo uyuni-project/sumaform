@@ -35,7 +35,7 @@ hub_peripheral_server_key:
       - file: hub_ssl_build_dir
 
 hub_ca_trust_anchor:
-  file.managed:
+  file.copy:
     - name: /etc/pki/trust/anchors/RHN-ORG-TRUSTED-SSL-CERT.pem
     - source: /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
     - require:
@@ -67,34 +67,37 @@ mgradm_install:
       - file: hub_peripheral_server_key
       - cmd: hub_ca_trust_update
 
+hub_peripheral_register_script:
+  file.managed:
+    - name: /root/register_peripheral.py
+    - source: salt://server_containerized/register_peripheral.py
+    - mode: '0700'
+    - template: jinja
+    - context:
+        hub_fqdn: {{ hub_fqdn }}
+        peripheral_fqdn: {{ peripheral_fqdn }}
+        server_username: {{ server_username }}
+        server_password: {{ server_password }}
+
+hub_peripheral_check_script:
+  file.managed:
+    - name: /root/check_peripheral_registered.py
+    - source: salt://server_containerized/check_peripheral_registered.py
+    - mode: '0700'
+    - template: jinja
+    - context:
+        hub_fqdn: {{ hub_fqdn }}
+        peripheral_fqdn: {{ peripheral_fqdn }}
+        server_username: {{ server_username }}
+        server_password: {{ server_password }}
+
 hub_peripheral_register:
   cmd.run:
-    - name: |
-        python3 << 'PYEOF'
-        import xmlrpc.client, ssl
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        hub = xmlrpc.client.ServerProxy("https://{{ hub_fqdn }}/rpc/api", context=ctx)
-        s = hub.auth.login("{{ server_username }}", "{{ server_password }}")
-        with open("/root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT") as f:
-            ca = f.read()
-        hub.sync.hub.registerPeripheral(s, "{{ peripheral_fqdn }}", "{{ server_username }}", "{{ server_password }}", ca)
-        hub.auth.logout(s)
-        PYEOF
-    - unless: |
-        python3 << 'PYEOF'
-        import xmlrpc.client, ssl, sys
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        hub = xmlrpc.client.ServerProxy("https://{{ hub_fqdn }}/rpc/api", context=ctx)
-        s = hub.auth.login("{{ server_username }}", "{{ server_password }}")
-        servers = hub.sync.hub.listPeripheralServers(s)
-        hub.auth.logout(s)
-        sys.exit(0 if any(p.get("fqdn") == "{{ peripheral_fqdn }}" for p in servers) else 1)
-        PYEOF
+    - name: python3 /root/register_peripheral.py
+    - unless: python3 /root/check_peripheral_registered.py
     - require:
       - cmd: mgradm_install
+      - file: hub_peripheral_register_script
+      - file: hub_peripheral_check_script
 
 {% endif %}

@@ -365,10 +365,12 @@ variable "server_hub_main" {
 
 variable "hub_peripheral_fqdns" {
   description = "list of peripheral server FQDNs to pre-generate SSL certificates for on this hub"
+  type        = list(string)
   default     = []
 }
 
 variable "server_hub_peripheral" {
   description = "FQDN of the hub server this peripheral connects to; leave null for non-peripheral servers"
+  type        = string
   default     = null
 }
