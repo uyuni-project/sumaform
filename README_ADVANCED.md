@@ -594,6 +594,50 @@ module "slave" {
 
 Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for OpenTofu to resolve dependencies correctly, as dependency cycles are not permitted.
 
+## Hub and peripheral servers
+
+A containerized server can be deployed as a Hub, and one or more other servers as its peripherals. The Hub server is installed with the Hub XML-RPC API enabled, generates the SSL material for each peripheral and publishes it, and each peripheral fetches that material, installs with it, and registers itself to the Hub.
+
+Three variables on the `server_containerized` module drive this:
+
+- `server_hub_main` (bool, default `false`) — install this server as a Hub, enabling the Hub XML-RPC API (`mgradm install ... --hubxmlrpc-replicas 1`).
+- `hub_peripheral_fqdns` (list of strings, default `[]`) — set on the Hub, the list of peripheral FQDNs to pre-generate and publish SSL certificates for.
+- `server_hub_peripheral` (string, default `null`) — set on each peripheral, the FQDN of the Hub it should fetch certificates from and register to.
+
+Example with a Hub and two peripherals:
+
+```hcl
+module "hub" {
+  source             = "./modules/server_containerized"
+  base_configuration = module.base_core.configuration
+
+  name                 = "hub"
+  product_version      = "head"
+  server_hub_main      = true
+  hub_peripheral_fqdns = [local.prh1_hostname, local.prh2_hostname]
+}
+
+module "prh1" {
+  source             = "./modules/server_containerized"
+  base_configuration = module.base_core.configuration
+
+  name                  = "prh1"
+  product_version       = "head"
+  server_hub_peripheral = module.hub.configuration.hostname
+}
+
+module "prh2" {
+  source             = "./modules/server_containerized"
+  base_configuration = module.base_core.configuration
+
+  name                  = "prh2"
+  product_version       = "head"
+  server_hub_peripheral = module.hub.configuration.hostname
+}
+```
+
+As with ISS, note that the peripherals reference the Hub through its module output (`module.hub.configuration.hostname`), while the Hub lists the peripheral FQDNs from `local` values. This avoids a dependency cycle between the modules, so the peripheral FQDNs must be known up front (e.g. computed in `locals`) rather than read back from the peripheral modules' outputs.
+
 ## Working on multiple configuration sets (workspaces) locally
 
 OpenTofu supports working on multiple infrastructure resource groups with the same set of files through the concept of [workspaces](https://opentofu.org/docs/cli/workspaces/). Unfortunately those are not supported for the default filesystem backend and do not really work well with different `main.tf` files, which is often needed in sumaform.

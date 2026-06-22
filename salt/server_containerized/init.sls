@@ -6,6 +6,8 @@ include:
   - server_containerized.install_{{ runtime }}
   - server_containerized.additional_disks
   - server_containerized.install_mgradm
+  - server_containerized.hub_peripheral_certs
+  - server_containerized.hub_peripheral
   - server_containerized.initial_content
   - server_containerized.rhn
   - server_containerized.large_deployment
