@@ -1,12 +1,8 @@
 variable "images" {
   default = {
-    "head"           = "sles15sp7o"
-    "head-staging"   = "sles15sp7o"
-    "5.0-released"   = "sles15sp7o"
-    "5.0-nightly"    = "sles15sp7o"
-    "5.1-released"   = "sles15sp7o"
-    "5.1-nightly"    = "sles15sp7o"
-    "5.2-released"   = "sles15sp7o"
+    "head"           = "slmicro62o"
+    "head-staging"   = "slmicro62o"
+    "5.2-released"   = "slmicro62o"
     "uyuni-master"   = "tumbleweedo"
     "uyuni-main"     = "tumbleweedo"
     "uyuni-released" = "tumbleweedo"
