@@ -7,10 +7,10 @@ locals {
   base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
-  proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_proxy_config)
+  proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_server_proxy_config)
   empty_minion_config = { ids = [], hostnames = [], macaddrs = [], private_macs = [], ipaddrs = [] }
   empty_terminal_config = { private_mac = null, private_ip = null, private_name = null, image = null }
-  empty_proxy_config = { hostname = null }
+  empty_server_proxy_config = { hostname = null }
 }
 
 provider "libvirt" {
@@ -151,6 +151,51 @@ module "server_containerized" {
   additional_repos               = var.server_additional_repos
 }
 
+module "server2_containerized" {
+  source             = "./bv_server_containerized"
+  count              = lookup(var.environment_configuration, "server2_containerized", null) != null ? 1 : 0
+  base_configuration = local.base_core
+  name               = var.environment_configuration.server2_containerized.name
+  mac                = var.environment_configuration.server2_containerized.mac
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.server2_containerized.image
+  string_registry    = var.environment_configuration.server2_containerized.string_registry
+  mirror             = var.platform_location_configuration[var.location].mirror
+  container_repository = var.server_container_repository
+  container_image      = var.server_container_image
+  additional_repos   = var.server_additional_repos
+  ssh_key_path       = var.controller_public_ssh_key_path
+}
+
+module "server3_containerized" {
+  source             = "./bv_server_containerized"
+  count              = lookup(var.environment_configuration, "server3_containerized", null) != null ? 1 : 0
+  base_configuration = local.base_core
+  name               = var.environment_configuration.server3_containerized.name
+  mac                = var.environment_configuration.server3_containerized.mac
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.server3_containerized.image
+  string_registry    = var.environment_configuration.server3_containerized.string_registry
+  mirror             = var.platform_location_configuration[var.location].mirror
+  container_repository = var.server_container_repository
+  container_image      = var.server_container_image
+  additional_repos   = var.server_additional_repos
+  ssh_key_path       = var.controller_public_ssh_key_path
+}
+
+module "server4_containerized" {
+  source             = "./bv_server_containerized"
+  count              = lookup(var.environment_configuration, "server4_containerized", null) != null ? 1 : 0
+  base_configuration = local.base_core
+  name               = var.environment_configuration.server4_containerized.name
+  mac                = var.environment_configuration.server4_containerized.mac
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.server4_containerized.image
+  string_registry    = var.environment_configuration.server4_containerized.string_registry
+  mirror             = var.platform_location_configuration[var.location].mirror
+  container_repository = var.server_container_repository
+  container_image      = var.server_container_image
+  additional_repos   = var.server_additional_repos
+  ssh_key_path       = var.controller_public_ssh_key_path
+}
+
 module "proxy" {
   providers = { libvirt = libvirt.host_retail }
   source               = "../proxy"
@@ -196,6 +241,34 @@ module "proxy_containerized" {
   provision            = true
 
   additional_repos     = var.proxy_additional_repos
+}
+
+module "proxy2_containerized" {
+  providers = { libvirt = libvirt.host_retail }
+  source             = "./bv_proxy_containerized"
+  count              = lookup(var.environment_configuration, "proxy2_containerized", null) != null ? 1 : 0
+  base_configuration = local.base_retail
+  name               = var.environment_configuration.proxy2_containerized.name
+  mac                = var.environment_configuration.proxy2_containerized.mac
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy2_containerized.image
+  string_registry    = var.environment_configuration.proxy2_containerized.string_registry
+  container_repository = var.proxy_container_repository
+  additional_repos   = var.proxy_additional_repos
+  ssh_key_path       = var.controller_public_ssh_key_path
+}
+
+module "proxy3_containerized" {
+  providers = { libvirt = libvirt.host_retail }
+  source             = "./bv_proxy_containerized"
+  count              = lookup(var.environment_configuration, "proxy3_containerized", null) != null ? 1 : 0
+  base_configuration = local.base_retail
+  name               = var.environment_configuration.proxy3_containerized.name
+  mac                = var.environment_configuration.proxy3_containerized.mac
+  image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy3_containerized.image
+  string_registry    = var.environment_configuration.proxy3_containerized.string_registry
+  container_repository = var.proxy_container_repository
+  additional_repos   = var.proxy_additional_repos
+  ssh_key_path       = var.controller_public_ssh_key_path
 }
 
 module "sles12sp5_minion" {
@@ -1542,8 +1615,14 @@ module "controller" {
   branch            = var.cucumber_branch
   git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/temporary"
 
-  server_configuration = local.server_configuration
-  proxy_configuration  = local.proxy_configuration
+  server_configuration  = local.server_configuration
+  proxy_configuration   = local.proxy_configuration
+
+  server2_configuration = length(module.server2_containerized) > 0 ? module.server2_containerized[0].configuration : local.empty_server_proxy_config
+  server3_configuration = length(module.server3_containerized) > 0 ? module.server3_containerized[0].configuration : local.empty_server_proxy_config
+  server4_configuration = length(module.server4_containerized) > 0 ? module.server4_containerized[0].configuration : local.empty_server_proxy_config
+  proxy2_configuration  = length(module.proxy2_containerized) > 0 ? module.proxy2_containerized[0].configuration : local.empty_server_proxy_config
+  proxy3_configuration  = length(module.proxy3_containerized) > 0 ? module.proxy3_containerized[0].configuration : local.empty_server_proxy_config
 
   sle12sp5_minion_configuration    = length(module.sles12sp5_minion) > 0 ? module.sles12sp5_minion[0].configuration : local.empty_minion_config
   sle12sp5_sshminion_configuration = length(module.sles12sp5_sshminion) > 0 ? module.sles12sp5_sshminion[0].configuration : local.empty_minion_config
@@ -1648,7 +1727,7 @@ module "controller" {
 
 output "configuration" {
   value = {
-    controller           = module.controller.configuration
-    server_configuration = local.server_configuration
+    controller            = module.controller.configuration
+    server_configuration  = local.server_configuration
   }
 }
