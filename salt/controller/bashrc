@@ -268,6 +268,7 @@ export PRODUCT="SUSE Multi-Linux Manager"
 
 # Ruby specific settings
 export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
+export PLAYWRIGHT_CLI_EXECUTABLE_PATH=/usr/local/bin/playwright
 
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
