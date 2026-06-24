@@ -76,23 +76,47 @@ ruby_set_ri_version:
   cmd.run:
     - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
 
+# Distro Chromium is kept ONLY to provide the shared libraries (libgbm, NSS, fonts, ...)
+# that the Playwright-managed Chromium needs. It is not the browser Playwright launches.
 install_chromium:
   pkg.installed:
   - name: chromium
 
-install_chromedriver:
-  pkg.installed:
-  - name: chromedriver
-
-create_syslink_for_chromedriver:
-  file.symlink:
-    - name: /usr/bin/chromedriver
-    - target: ../lib64/chromium/chromedriver
-    - force: True
+# --- Playwright (replaces chromedriver) -------------------------------------
 
 install_npm:
   pkg.installed:
     - name: npm-default
+
+# Node Playwright CLI + driver. Must match playwright-ruby-client (1.60.0).
+install_playwright_cli:
+  cmd.run:
+    - name: npm install -g playwright@1.60.0
+    - unless: test -x /usr/local/bin/playwright
+    - require:
+      - pkg: install_npm
+
+# Download the CDP-matched Chromium build managed by Playwright (into /root/.cache/ms-playwright).
+# Do NOT add --with-deps: unsupported on openSUSE/zypper. OS libs come from the chromium pkg above.
+playwright_install_chromium:
+  cmd.run:
+    - name: /usr/local/bin/playwright install chromium
+    - env:
+      - HOME: /root
+    - creates: /root/.cache/ms-playwright
+    - require:
+      - cmd: install_playwright_cli
+      - pkg: install_chromium
+
+# Point playwright-ruby-client at the global CLI for every login shell.
+playwright_cli_env:
+  file.managed:
+    - name: /etc/profile.d/playwright.sh
+    - mode: 644
+    - contents: |
+        export PLAYWRIGHT_CLI_EXECUTABLE_PATH=/usr/local/bin/playwright
+
+# ----------------------------------------------------------------------------
 
 install_gems_via_bundle:
   cmd.run:
@@ -180,7 +204,7 @@ extra_pkgs:
     - require:
       - sls: repos
 
-# needed together with the `xauth` package for debugging with chromedriver in non-headlesss mode with `export DEBUG=1`
+# needed together with the `xauth` package for debugging with Playwright in non-headless mode with `export DEBUG=1`
 create_xauthority_file:
   cmd.run:
    - name: touch /root/.Xauthority
