@@ -90,9 +90,17 @@ module "server_kubernetes" {
     scc_slmicro_pass               = var.scc_slmicro_pass
     install_mlm_server             = var.install_mlm_server
     deploy_coco_attestation        = var.deploy_coco_attestation
+    coco_container_image           = var.coco_container_image
+    coco_container_tag             = var.coco_container_tag
     deploy_saline                  = var.deploy_saline
+    saline_container_image         = var.saline_container_image
+    saline_container_tag           = var.saline_container_tag
     deploy_hub_api                 = var.deploy_hub_api
+    hub_api_container_image        = var.hub_api_container_image
+    hub_api_container_tag          = var.hub_api_container_tag
     deploy_tftp                    = var.deploy_tftp
+    tftpd_container_image          = var.tftpd_container_image
+    tftpd_container_tag            = var.tftpd_container_tag
     install_rke2                   = var.install_rke2
     install_helm                   = var.install_helm
     install_cert_manager           = var.install_cert_manager
