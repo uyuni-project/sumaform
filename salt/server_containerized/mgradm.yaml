@@ -42,6 +42,46 @@ pgsql:
   tag: {{ grains.get('db_container_tag') }}
   {% endif %}
 {% endif %}
+saline:
+  replicas: 1
+{%- if grains.get('saline_container_image') or grains.get('saline_container_tag') %}
+  {%- if grains.get('saline_container_image') %}
+  image: {{ grains.get('saline_container_image') }}
+  {% endif %}
+  {%- if grains.get('saline_container_tag') %}
+  tag: {{ grains.get('saline_container_tag') }}
+  {% endif %}
+{% endif %}
+coco:
+  replicas: 1
+{%- if grains.get('coco_container_image') or grains.get('coco_container_tag') %}
+  {%- if grains.get('coco_container_image') %}
+  image: {{ grains.get('coco_container_image') }}
+  {% endif %}
+  {%- if grains.get('coco_container_tag') %}
+  tag: {{ grains.get('coco_container_tag') }}
+  {% endif %}
+{% endif %}
+hubxmlrpc:
+  replicas: 1
+{%- if grains.get('hub_xmlrpc_container_image') or grains.get('hub_xmlrpc_container_tag') %}
+  {%- if grains.get('hub_xmlrpc_container_image') %}
+  image: {{ grains.get('hub_xmlrpc_container_image') }}
+  {% endif %}
+  {%- if grains.get('hub_xmlrpc_container_tag') %}
+  tag: {{ grains.get('hub_xmlrpc_container_tag') }}
+  {% endif %}
+{% endif %}
+tftpd:
+  enable: true
+{%- if grains.get('tftpd_container_image') or grains.get('tftpd_container_tag') %}
+  {%- if grains.get('tftpd_container_image') %}
+  image: {{ grains.get('tftpd_container_image') }}
+  {% endif %}
+  {%- if grains.get('tftpd_container_tag') %}
+  tag: {{ grains.get('tftpd_container_tag') }}
+  {% endif %}
+{% endif %}
 {%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
 {%- if runtime == 'podman' %}
 {%- if mirror_hostname %}
@@ -52,9 +92,6 @@ mirror: /srv/mirror
 volumes:
   mirror: mirror
 {%- endif %}
-kubernetes:
-  uyuni:
-    namespace: uyuni
 {%- endif %}
 {%- if grains.get("java_debugging") %}
 debug:

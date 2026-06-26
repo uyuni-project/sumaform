@@ -56,6 +56,14 @@ module "server_containerized" {
     db_container_repository        = var.db_container_repository
     db_container_image             = var.db_container_image
     db_container_tag               = var.db_container_tag
+    saline_container_image         = var.saline_container_image
+    saline_container_tag           = var.saline_container_tag
+    coco_container_image           = var.coco_container_image
+    coco_container_tag             = var.coco_container_tag
+    hub_xmlrpc_container_image     = var.hub_xmlrpc_container_image
+    hub_xmlrpc_container_tag       = var.hub_xmlrpc_container_tag
+    tftpd_container_image          = var.tftpd_container_image
+    tftpd_container_tag            = var.tftpd_container_tag
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels
