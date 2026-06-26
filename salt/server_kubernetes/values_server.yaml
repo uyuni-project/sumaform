@@ -51,6 +51,10 @@ server-helm:
   server:
     apparmorProfile: {{ app_armor_name }}
 {% endif %}
+{% if selinuxType %}
+  server:
+    selinuxType: {{ selinuxType }}
+{% endif %}
 {% if deploy_coco_attestation %}
   coco:
     replicas: 2
