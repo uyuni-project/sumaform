@@ -68,6 +68,7 @@ copy_value_yaml_file:
         deploy_saline: {{ grains.get("deploy_saline") }}
         deploy_tftp: {{ grains.get("deploy_tftp") }}
         app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 or is_ubuntu else '' }}
+        selinuxType: {{ 'uyuni_container_t' if is_tumbleweed or is_slmicro_6_2 else '' }}
 
 copy_chart_yaml_file:
   file.managed:
