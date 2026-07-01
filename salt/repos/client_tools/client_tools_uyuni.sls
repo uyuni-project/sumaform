@@ -235,8 +235,9 @@ tools_update_repo:
     - file: /etc/apt/sources.list.d/tools_update_repo.list
     # We only have one shared Client Tools repository
     - refresh: True
-    - name: deb {{ tools_repo_url }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-uyuni-debian-tools-update-{{ release }}.gpg] {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
+    - aptkey: False
 
 tools_update_repo_raised_priority:
   file.managed:
