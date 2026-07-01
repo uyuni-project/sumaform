@@ -235,23 +235,24 @@ tools_update_repo:
     - file: /etc/apt/sources.list.d/tools_update_repo.list
     # We only have one shared Client Tools repository
     - refresh: True
-    - name: deb {{ tools_repo_url }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-uyuni-debian-tools-update-{{ release }}.gpg] {{ tools_repo_url }} /
     - key_url: {{ tools_repo_url }}/Release.key
+    - aptkey: False
 
 tools_update_repo_raised_priority:
   file.managed:
     - name: /etc/apt/preferences.d/tools_update_repo
-{% if 'uyuni-main' in grains.get('product_version') | default('', true) -%}
+{% if 'uyuni-main' in grains.get('product_version') | default('', true) %}
     - contents: |
         Package: *
         Pin: release l=systemsmanagement:Uyuni:Main:UyuniTools
         Pin-Priority: 800
-{% else -%}
+{% else %}
     - contents: |
         Package: *
         Pin: release l=systemsmanagement:Uyuni:{{ uyuni_version }}:Debian{{ release }}-Uyuni-Client-Tools
         Pin-Priority: 800
-{% endif -%}
+{% endif %}
 
 {% endif %} {# grains['os'] == 'Debian' #}
 {% endif %} {# no client tools on server or proxy #}
