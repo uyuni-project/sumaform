@@ -38,6 +38,10 @@ base:
     - match: grain
     - mirror
 
+  'roles:nfs_server':
+    - match: grain
+    - nfs_server
+
   'roles:controller':
     - match: grain
     - controller
