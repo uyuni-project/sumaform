@@ -47,6 +47,12 @@ variable "use_devel_oci" {
   default = false
 }
 
+variable "scc_slmicro_pass" {
+  description = "SCC registration key for SL-Micro"
+  type        = string
+  default     = null
+}
+
 variable "install_mlm_server" {
   description = "true to install the MLM server. The flags install_rke2 and install_helm must be true as well to install it"
   default = true

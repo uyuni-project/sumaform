@@ -53,9 +53,10 @@ module "server_kubernetes" {
     db_container_image             = var.db_container_image
     db_container_tag               = var.db_container_tag
     helm_chart_url                 = var.helm_chart_url
-    helm_chart_name                = var.helm_chart_name  
+    helm_chart_name                = var.helm_chart_name
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
+    scc_slmicro_pass               = var.scc_slmicro_pass
     channels                       = var.channels
     mirror                         = var.base_configuration["mirror"]
     use_mirror_images              = var.base_configuration["use_mirror_images"]
@@ -86,6 +87,7 @@ module "server_kubernetes" {
     additional_repos               = var.additional_repos
     enable_oval_metadata           = var.enable_oval_metadata
     use_devel_oci                  = var.use_devel_oci
+    scc_slmicro_pass               = var.scc_slmicro_pass
     install_mlm_server             = var.install_mlm_server
     deploy_coco_attestation        = var.deploy_coco_attestation
     deploy_saline                  = var.deploy_saline

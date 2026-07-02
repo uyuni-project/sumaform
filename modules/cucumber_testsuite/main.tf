@@ -95,6 +95,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
   enable_oval_metadata     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
+  scc_slmicro_pass     = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "scc_slmicro_pass", null) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
   server_configuration      = var.kubernetes ? module.server_kubernetes[0].configuration : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
@@ -230,6 +232,7 @@ module "server_kubernetes" {
   helm_chart_name                 = lookup(local.helm_chart_name, "server_kubernetes", "")
   helm_chart_url                  = lookup(local.helm_chart_url, "server_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
+  scc_slmicro_pass                = var.scc_slmicro_pass
   install_mlm_server              = var.install_mlm_server
   deploy_coco_attestation         = var.deploy_coco_attestation
   deploy_saline                   = var.deploy_saline

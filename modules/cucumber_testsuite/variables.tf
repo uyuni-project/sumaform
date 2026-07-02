@@ -198,6 +198,12 @@ variable "use_devel_oci" {
   default = false
 }
 
+variable "scc_slmicro_pass" {
+  description = "SCC registration key for SL-Micro"
+  type        = string
+  default     = null
+}
+
 variable "java_debugging_on_rke2" {
   description = "Enable Java debugging on RKE2"
   default     = false
