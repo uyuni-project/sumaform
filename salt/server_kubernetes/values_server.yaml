@@ -57,10 +57,14 @@ server-helm:
 {% endif %}
 {% if deploy_coco_attestation %}
   coco:
-    replicas: 2
+    replicas: 1
 {% endif %}
 {% if deploy_saline %}
   saline:
+    enable: true
+{% endif %}
+{% if deploy_hub_api %}
+  hubAPI:
     enable: true
 {% endif %}
 

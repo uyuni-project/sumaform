@@ -233,6 +233,7 @@ module "server_kubernetes" {
   install_mlm_server              = var.install_mlm_server
   deploy_coco_attestation         = var.deploy_coco_attestation
   deploy_saline                   = var.deploy_saline
+  deploy_hub_api                  = var.deploy_hub_api
   deploy_tftp                     = var.deploy_tftp
   install_rke2                    = var.install_rke2
   install_helm                    = var.install_helm
