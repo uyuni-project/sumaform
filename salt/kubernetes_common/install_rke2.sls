@@ -20,6 +20,18 @@ install_dependencies:
     - refresh: True
 {% endif %}
 
+{% if is_slmicro_6_2 %}
+
+register_to_scc:
+  cmd.run:
+    - name: transactional-update register -r {{ grains.get('cc_password') }}
+
+apply_transition_scc:
+  cmd.run:
+    - name: transactional-update apply
+
+{% endif %}
+
 tls-san_setup_file:
   file.managed:
     - name: /etc/rancher/rke2/config.yaml
@@ -27,7 +39,7 @@ tls-san_setup_file:
         tls-san:
           - "{{ grains.get("fqdn") }}"
         ingress-controller: traefik
-        {% if is_tumbleweed %}
+        {% if is_tumbleweed or is_slmicro_6_2 %}
         selinux: true
         kubelet-arg:
           - "seccomp-default=true"
@@ -45,6 +57,9 @@ rke2_install:
       - INSTALL_RKE2_SELINUX: true
       {% endif %}
     - unless: systemctl is-active rke2-server
+    - require:
+      - cmd: register_to_scc
+      - cmd: apply_transition_scc
 
 {% if is_slmicro_6_2 %}
 apply_transition_rke2:
@@ -60,6 +75,10 @@ rke2_server_enable:
     - require:
       - cmd: rke2_install
       - file: tls-san_setup_file
+      {% if is_slmicro_6_2 %}
+      - cmd: register_to_scc
+      - cmd: apply_transition_scc
+      {% endif %}
 
 {% if is_tumbleweed %}
 rke2_selinux_install:
