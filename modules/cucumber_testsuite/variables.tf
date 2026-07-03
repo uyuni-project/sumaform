@@ -218,6 +218,11 @@ variable "deploy_saline" {
   default = true
 }
 
+variable "deploy_hub_api" {
+  description = "true to set up the hub API container"
+  default = true
+}
+
 variable "deploy_tftp" {
   description = "true to enable the TFTP service in the server helm values"
   default = true
