@@ -267,13 +267,23 @@ resource "terraform_data" "provisioning" {
   provisioner "local-exec" {
     command = <<-EOF
       HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
-      IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
+
+      # 1) Resolve via nsswitch (/etc/hosts, mDNS, DNS...) - IPv4 only
+      IP=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1; exit}')
+
+      # 2) Fallback: direct DNS query
       if [ -z "$IP" ]; then
-        echo "ERROR: no DNS A record found for $HOST" >&2
-        exit 1
+        IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
       fi
+
+      # 3) Last resort: let nc resolve the name itself, forced to IPv4
+      if [ -z "$IP" ]; then
+        echo "WARN: could not pre-resolve $HOST to an IPv4 address, trying by name" >&2
+        IP="$HOST"
+      fi
+
       for i in $(seq 1 24); do
-        nc -z -w5 "$IP" 22 2>/dev/null && exit 0
+        nc -4 -z -w5 "$IP" 22 2>/dev/null && exit 0
         sleep 5
       done
       echo "ERROR: timed out waiting for SSH on $HOST ($IP)" >&2
