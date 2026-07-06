@@ -6,8 +6,9 @@
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
-{% set rke2_version = "v1.35.4+rke2r1" %}
+{% set rke2_version = "v1.35.6+rke2r1" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
+{% set cri_config_file = "/etc/rancher/rke2/crictl.yaml" %}
 
 {% set pkg_map = {
   'openSUSE Tumbleweed' : ['checkpolicy', 'policycoreutils', 'container-selinux']
@@ -49,13 +50,8 @@ tls-san_setup_file:
 
 rke2_install:
   cmd.run:
-    - name: curl -sfL https://get.rke2.io | sh -
-    - env:
-      - INSTALL_RKE2_VERSION: "{{ rke2_version }}"
-      {% if is_slmicro_6_2 %}
-      - INSTALL_RKE2_METHOD: rpm
-      - INSTALL_RKE2_SELINUX: true
-      {% endif %}
+    - name: |
+        curl -sfL https://get.rke2.io | sudo INSTALL_RKE2_VERSION="{{ rke2_version }}" {% if is_slmicro_6_2 %}INSTALL_RKE2_METHOD=rpm INSTALL_RKE2_SELINUX=true {% endif %}sh -
     - unless: systemctl is-active rke2-server
     {% if is_slmicro_6_2  and grains.get('scc_slmicro_pass') %} 
     - require:
@@ -69,6 +65,14 @@ apply_transition_rke2:
     - name: transactional-update apply
     - require:
       - cmd: rke2_install
+
+reboot_for_rke2:
+  module.run:
+    - name: system.reboot
+    - at_time: 1
+    - require:
+      - cmd: apply_transition_rke2
+    - unless: systemctl is-active rke2-server
 {% endif %}
 
 rke2_server_enable:
@@ -80,6 +84,7 @@ rke2_server_enable:
       {% if is_slmicro_6_2 and grains.get('scc_slmicro_pass') %}
       - cmd: register_to_scc
       - cmd: apply_transition_scc
+      - cmd: apply_transition_rke2
       {% endif %}
 
 {% if is_tumbleweed %}
@@ -93,6 +98,7 @@ rke2_server_start:
     - name: rke2-server
     - require:
       - service: rke2_server_enable
+      - cmd: rke2_install
       {% if is_tumbleweed %}
       - pkg: rke2_selinux_install
       {% endif %}
@@ -136,6 +142,7 @@ variables_rke2:
     - contents: |
         export PATH=$PATH:/opt/rke2/bin
         export KUBECONFIG={{ kubeconfig }}
+        export CRI_CONFIG_FILE={{ cri_config_file }}
 
 
 {% endif %}
