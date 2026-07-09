@@ -885,6 +885,12 @@ variable "catch_timeout_message" {
   default     = false
 }
 
+variable "prometheus_push_gateway_url" {
+  description = "URL of the Prometheus push gateway for quality intelligence metrics"
+  type        = string
+  default     = null
+}
+
 variable "beta_enabled" {
   description = "Enable the mechanism to take into account beta channels"
   default     = false

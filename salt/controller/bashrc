@@ -269,6 +269,12 @@ export PRODUCT="SUSE Multi-Linux Manager"
 # Ruby specific settings
 export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
 
+{% if grains.get('prometheus_push_gateway_url') | default(false, true) %}
+export QUALITY_INTELLIGENCE="true"
+export PROMETHEUS_PUSH_GATEWAY_URL="{{ grains.get('prometheus_push_gateway_url') }}"
+{% else %}# no Quality Intelligence configured
+{% endif %}
+
 #### Generate certificates for Google Chrome
 if [ ! -f /etc/pki/trust/anchors/$SERVER.cert ]; then
   wget http://$SERVER/pub/RHN-ORG-TRUSTED-SSL-CERT -O /etc/pki/trust/anchors/$SERVER.cert
