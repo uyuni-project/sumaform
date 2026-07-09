@@ -148,6 +148,8 @@ module "server_containerized" {
   from_email                     = "root@suse.de"
   provision                      = true
 
+  server_hub_main                = try(var.environment_configuration.server_containerized.server_hub_main, false)
+
   additional_repos               = var.server_additional_repos
 }
 
