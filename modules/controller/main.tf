@@ -83,6 +83,7 @@ module "controller" {
     product_version           = local.product_version
     container_runtime         = lookup(var.server_configuration, "runtime", "")
     catch_timeout_message     = var.catch_timeout_message
+    prometheus_push_gateway_url = var.prometheus_push_gateway_url
     beta_enabled              = var.beta_enabled
     web_server_hostname       = var.web_server_hostname
     install_kubectl_helm      = var.install_kubectl_helm

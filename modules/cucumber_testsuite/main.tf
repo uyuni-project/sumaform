@@ -632,6 +632,8 @@ module "controller" {
   install_kubectl_helm     = var.install_kubectl_helm
   kubeconfig_path          = var.kubeconfig_path
 
+  prometheus_push_gateway_url = var.prometheus_push_gateway_url
+
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)
   additional_packages = lookup(local.additional_packages, "controller", [])

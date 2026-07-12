@@ -288,3 +288,9 @@ variable "use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos"
   default     = false
 }
+
+variable "prometheus_push_gateway_url" {
+  description = "URL of the Prometheus push gateway for quality intelligence metrics"
+  type        = string
+  default     = null
+}
