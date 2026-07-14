@@ -265,18 +265,40 @@ resource "terraform_data" "provisioning" {
   }
 
   provisioner "local-exec" {
+    environment = {
+      HOST          = local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
+      IP_FROM_LEASE = local.overwrite_fqdn == "" ? join(" ", libvirt_domain.domain[count.index].network_interface[0].addresses) : ""
+    }
     command = <<-EOF
-      HOST="${local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"}"
+      IP=""
 
-      # 1) Resolve via nsswitch (/etc/hosts, mDNS, DNS...) - IPv4 only
-      IP=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1; exit}')
+      # 1) Use IP from libvirt DHCP lease (works for local, static-DHCP, and Avahi setups
+      #    since Avahi VMs still get a DHCP IP — avoids mDNS resolution on the Terraform host)
+      if [ -n "$IP_FROM_LEASE" ]; then
+        for addr in $IP_FROM_LEASE; do
+          if echo "$addr" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
+            IP="$addr"
+            break
+          fi
+        done
+      fi
 
-      # 2) Fallback: direct DNS query
+      # 2) Resolve via nsswitch (/etc/hosts, mDNS, DNS...) - IPv4 only
+      if [ -z "$IP" ]; then
+        IP=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1; exit}')
+      fi
+
+      # 3) avahi-resolve fallback for .local domains (when lease IP unavailable)
+      if [ -z "$IP" ] && command -v avahi-resolve >/dev/null 2>&1; then
+        IP=$(avahi-resolve --name "$HOST" 2>/dev/null | awk '{print $2}' | head -1)
+      fi
+
+      # 4) Direct DNS query fallback
       if [ -z "$IP" ]; then
         IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
       fi
 
-      # 3) Last resort: let nc resolve the name itself, forced to IPv4
+      # 5) Last resort: let nc resolve the name itself, forced to IPv4
       if [ -z "$IP" ]; then
         echo "WARN: could not pre-resolve $HOST to an IPv4 address, trying by name" >&2
         IP="$HOST"
