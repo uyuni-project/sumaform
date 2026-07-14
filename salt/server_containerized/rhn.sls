@@ -38,6 +38,10 @@ write_rhn_conf:
         java.salt_presence_ping_timeout: 6
         {% endif %}
 
+        {% if not grains.get('mirror') %}
+        server.satellite.reposync_download_threads: 2
+        {% endif %}
+
         {# see https://documentation.suse.com/multi-linux-manager/5.1/en/docs/administration/auditing.html#_oval #}
         {% if grains.get('enable_oval_metadata') | default(false, true) %}
         java.cve_audit.enable_oval_metadata: true
