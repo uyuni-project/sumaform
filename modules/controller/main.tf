@@ -85,8 +85,19 @@ module "controller" {
     prometheus_push_gateway_url = var.prometheus_push_gateway_url
     beta_enabled              = var.beta_enabled
     web_server_hostname       = var.web_server_hostname
-    install_kubectl_helm      = var.install_kubectl_helm
-    kubeconfig_content        = var.kubeconfig_path != null ? base64encode(file(var.kubeconfig_path)) : ""
+    install_kubectl_helm                         = var.install_kubectl_helm
+    kubeconfig_content                           = var.kubeconfig_path != null ? base64encode(file(var.kubeconfig_path)) : ""
+    install_kubernetes_server_on_external_cluster = var.install_kubernetes_server_on_external_cluster
+    kubernetes_server_fqdn                       = var.kubernetes_server_fqdn
+    kubernetes_server_helm_chart_name            = var.kubernetes_server_helm_chart_name
+    kubernetes_server_helm_chart_url             = var.kubernetes_server_helm_chart_url
+    kubernetes_server_container_repository       = var.kubernetes_server_container_repository
+    use_devel_oci                                = var.use_devel_oci
+    install_cert_manager                         = var.install_cert_manager
+    deploy_coco_attestation                      = var.deploy_coco_attestation
+    deploy_saline                                = var.deploy_saline
+    deploy_hub_api                               = var.deploy_hub_api
+    deploy_tftp                                  = var.deploy_tftp
 
     sles12sp5_paygo_minion    = length(var.sles12sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sles12sp5_paygo_minion_configuration["hostnames"][0] : null
     sles15sp5_paygo_minion    = length(var.sles15sp5_paygo_minion_configuration["hostnames"]) > 0 ? var.sles15sp5_paygo_minion_configuration["hostnames"][0] : null

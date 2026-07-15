@@ -1019,6 +1019,31 @@ module "server_kubernetes" {
 ```
 
 The same settings can be set globally on the `cucumber_testsuite` module or per host in `host_settings` for `server_kubernetes`.
+## External Kubernetes clusters
+
+The Kubernetes testsuite path can install the Uyuni server into an existing Kubernetes or RKE2 cluster instead of creating a Sumaform-managed RKE2 server VM.
+Set `kubernetes_cluster_mode` to `external`, provide a kubeconfig from the machine running OpenTofu, and choose the FQDN that the server should use.
+
+```hcl
+module "cucumber_testsuite" {
+  source = "./modules/cucumber_testsuite"
+
+  kubernetes = true
+
+  kubernetes_cluster_mode             = "external"
+  kubernetes_external_server_hostname = "uyuni.example.org"
+  kubeconfig_path                     = "/home/user/.kube/config"
+
+  # Optional. The external mode enables this automatically on the controller.
+  install_kubectl_helm = true
+}
+```
+
+In external mode Sumaform installs `kubectl` and Helm on the controller, copies the kubeconfig to `/root/.kube/config`, and runs the Uyuni server Helm install from the controller.
+It does not create a `server_kubernetes` VM, install RKE2, or use `/etc/rancher/rke2/rke2.yaml`.
+The target cluster must already provide the required ingress/load-balancer and storage setup; if `install_cert_manager` is true, Sumaform installs cert-manager and trust-manager into the external cluster before installing Uyuni.
+
+This mode currently covers the Uyuni server deployment. Do not combine it with `proxy_kubernetes`; Kubernetes proxy deployments still use the Sumaform-managed RKE2 proxy workflow.
 
 ## Large deployments
 
