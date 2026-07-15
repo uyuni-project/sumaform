@@ -1,6 +1,9 @@
 include:
   - repos
   - controller.apache_https
+  {% if grains.get('install_kubernetes_server_on_external_cluster') == true %}
+  - controller.install_kubernetes_server
+  {% endif %}
 
 ssh_private_key:
   file.managed:
