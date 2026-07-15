@@ -7,8 +7,8 @@
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
-{% set storage_class = grains.get('kubernetes_storage_class') or 'local-path' %}
-{% set local_path = grains.get('local_path_provisioner_path') or '/opt/local-path-provisioner' %}
+{% set storage_class = grains.get('kubernetes_storage_class') | default('local-path', true) %}
+{% set local_path = grains.get('local_path_provisioner_path') | default('/opt/local-path-provisioner', true) %}
 {% set default_class = grains.get('local_path_provisioner_default_class', true) %}
 {% set pkg_map = {} %}
 

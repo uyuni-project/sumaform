@@ -300,22 +300,22 @@ variable "install_traefik" {
 }
 
 variable "install_local_path_provisioner" {
-  description = "true to install local-path-provisioner when kubernetes_storage_backend is local-path"
+  description = "true to install local-path-provisioner. On the Kubernetes server this only applies when kubernetes_storage_backend is local-path"
   default = true
 }
 
 variable "kubernetes_storage_backend" {
-  description = "Storage backend for Kubernetes PVCs. local-path installs Rancher's local-path provisioner; other values expect an existing StorageClass."
+  description = "Storage backend for the Kubernetes server PVCs. local-path installs Rancher's local-path provisioner; external expects an existing StorageClass."
   default     = "local-path"
 
   validation {
-    condition     = contains(["local-path", "external", "nfs", "longhorn", "openebs", "rook-ceph", "cloud"], var.kubernetes_storage_backend)
-    error_message = "kubernetes_storage_backend must be one of: local-path, external, nfs, longhorn, openebs, rook-ceph, cloud."
+    condition     = contains(["local-path", "external"], var.kubernetes_storage_backend)
+    error_message = "kubernetes_storage_backend must be one of: local-path, external."
   }
 }
 
 variable "kubernetes_storage_class" {
-  description = "StorageClass name used by Kubernetes PVCs. Leave null to use local-path for the local-path backend or the cluster default for external backends."
+  description = "StorageClass name used by the Kubernetes server PVCs. Leave null to use local-path for the local-path backend or the cluster default for the external backend."
   type        = string
   default     = null
 }

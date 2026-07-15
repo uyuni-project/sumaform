@@ -431,11 +431,6 @@ module "proxy_kubernetes" {
   install_cert_manager            = var.install_cert_manager
   install_traefik                 = var.install_traefik
   install_local_path_provisioner  = var.install_local_path_provisioner
-  kubernetes_storage_backend            = lookup(local.kubernetes_storage_backend, "proxy_kubernetes", var.kubernetes_storage_backend)
-  kubernetes_storage_class              = lookup(local.kubernetes_storage_class, "proxy_kubernetes", var.kubernetes_storage_class)
-  local_path_provisioner_path           = lookup(local.local_path_provisioner_path, "proxy_kubernetes", var.local_path_provisioner_path)
-  local_path_provisioner_default_class  = lookup(local.local_path_provisioner_default_class, "proxy_kubernetes", var.local_path_provisioner_default_class)
-  local_path_provisioner_reclaim_policy = lookup(local.local_path_provisioner_reclaim_policy, "proxy_kubernetes", var.local_path_provisioner_reclaim_policy)
 }
 
 

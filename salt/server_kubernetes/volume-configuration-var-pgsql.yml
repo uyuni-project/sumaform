@@ -1,6 +1,6 @@
-{% set storage_class = grains.get('kubernetes_storage_class') or 'local-path' %}
-{% set local_path = grains.get('local_path_provisioner_path') or '/opt/local-path-provisioner' %}
-{% set var_pgsql_host_path = grains.get('kubernetes_var_pgsql_host_path') or local_path ~ '/var-pgsql18' %}
+{% set storage_class = grains.get('kubernetes_storage_class') | default('local-path', true) %}
+{% set local_path = grains.get('local_path_provisioner_path') | default('/opt/local-path-provisioner', true) %}
+{% set var_pgsql_host_path = grains.get('kubernetes_var_pgsql_host_path') | default(local_path ~ '/var-pgsql18', true) %}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -12,11 +12,7 @@ spec:
     storage: 50Gi
   accessModes:
     - ReadWriteOnce
-{% if storage_class == '-' %}
-  storageClassName: ""
-{% else %}
   storageClassName: "{{ storage_class }}"
-{% endif %}
 
   claimRef:
     namespace: uyuni
