@@ -947,6 +947,11 @@ variable "kubernetes_server_fqdn" {
   default     = null
 }
 
+variable "kubernetes_server_ip" {
+  description = "IP address of the Uyuni server FQDN when installing into an external Kubernetes cluster. When set, a matching /etc/hosts entry is created on the controller, for FQDNs not covered by DNS"
+  default     = null
+}
+
 variable "kubernetes_server_helm_chart_name" {
   description = "Name of the Uyuni server Helm chart used for external Kubernetes cluster installs"
   default     = "server-helm"

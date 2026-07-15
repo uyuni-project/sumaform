@@ -90,6 +90,7 @@ module "controller" {
     kubeconfig_content                           = var.kubeconfig_path != null ? base64encode(file(var.kubeconfig_path)) : ""
     install_kubernetes_server_on_external_cluster = var.install_kubernetes_server_on_external_cluster
     kubernetes_server_fqdn                       = var.kubernetes_server_fqdn
+    kubernetes_server_ip                         = var.kubernetes_server_ip
     helm_chart_name                              = var.kubernetes_server_helm_chart_name
     helm_chart_url                               = var.kubernetes_server_helm_chart_url
     container_registry                           = var.kubernetes_server_container_registry

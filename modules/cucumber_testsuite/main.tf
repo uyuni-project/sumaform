@@ -682,6 +682,7 @@ module "controller" {
 
   install_kubernetes_server_on_external_cluster = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.install_mlm_server : false) : false
   kubernetes_server_fqdn                        = local.external_kubernetes_server
+  kubernetes_server_ip                          = var.kubernetes_external_server_ip
   kubernetes_server_helm_chart_name             = coalesce(lookup(local.helm_chart_name, "server_kubernetes", null), "server-helm")
   kubernetes_server_helm_chart_url              = coalesce(lookup(local.helm_chart_url, "server_kubernetes", null), "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2")
   kubernetes_server_container_registry          = lookup(local.container_registries, "server_kubernetes", null) != null ? lookup(local.container_registries, "server_kubernetes", null) : ""

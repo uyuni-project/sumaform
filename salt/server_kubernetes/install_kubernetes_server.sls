@@ -52,6 +52,13 @@ key_exchange_kubernetes_server:
 
 {% else %}
 
+{% if grains.get('kubernetes_server_ip') %}
+external_kubernetes_server_hosts_entry:
+  host.present:
+    - name: {{ server_fqdn }}
+    - ip: {{ grains.get('kubernetes_server_ip') }}
+{% endif %}
+
 install_external_kubernetes_dependencies:
   pkg.installed:
     - pkgs:

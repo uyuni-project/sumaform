@@ -208,6 +208,11 @@ variable "kubernetes_external_server_hostname" {
   default     = null
 }
 
+variable "kubernetes_external_server_ip" {
+  description = "IP address for kubernetes_external_server_hostname. When set, a matching /etc/hosts entry is created on the controller, for FQDNs not covered by DNS."
+  default     = null
+}
+
 variable "use_devel_oci" {
   description = "true to use devel OCIs"
   default = false

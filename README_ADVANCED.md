@@ -994,6 +994,10 @@ module "cucumber_testsuite" {
   kubernetes_external_server_hostname = "uyuni.example.org"
   kubeconfig_path                     = "/home/user/.kube/config"
 
+  # Optional. When the FQDN is not covered by DNS, this adds a matching
+  # /etc/hosts entry on the controller.
+  kubernetes_external_server_ip = "192.168.1.100"
+
   # Optional. The external mode enables this automatically on the controller.
   install_kubectl_helm = true
 }
