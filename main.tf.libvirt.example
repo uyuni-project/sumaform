@@ -8,7 +8,12 @@ terraform {
  }
 }
 
+// On same OSes, Libvirtd has moved from the old, monolithic, daemon (libvirtd) to a modular approach.
+// If you need or want to enable the modular daemons, follow the 5 steps in the "Switching to modular daemons" section
+// at https://libvirt.org/daemons.html#switching-to-modular-daemons to do so.
 provider "libvirt" {
+  // uri = "qemu:///system?socket=/run/libvirt/virtqemud-sock" for the modular daemons.
+  // Or run systemctl start virtproxyd.socket to maintain backcompatibility with the UNIX socket path of the monolithic daemon.
   uri = "qemu:///system"
 }
 
