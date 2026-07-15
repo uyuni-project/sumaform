@@ -65,9 +65,17 @@ copy_value_yaml_file:
         cert_manager_namespace: {{ cert_manager_namespace }}
         container_repository: {{ grains.get("container_repository")}}
         deploy_coco_attestation: {{ grains.get("deploy_coco_attestation") }}
+        coco_container_image: {{ grains.get("coco_container_image") }}
+        coco_container_tag: {{ grains.get("coco_container_tag") }}
         deploy_saline: {{ grains.get("deploy_saline") }}
+        saline_container_image: {{ grains.get("saline_container_image") }}
+        saline_container_tag: {{ grains.get("saline_container_tag") }}
         deploy_hub_api: {{ grains.get("deploy_hub_api") }}
+        hub_api_container_image: {{ grains.get("hub_api_container_image") }}
+        hub_api_container_tag: {{ grains.get("hub_api_container_tag") }}
         deploy_tftp: {{ grains.get("deploy_tftp") }}
+        tftpd_container_image: {{ grains.get("tftpd_container_image") }}
+        tftpd_container_tag: {{ grains.get("tftpd_container_tag") }}
         app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 or is_ubuntu else '' }}
         selinuxType: {{ 'uyuni_container_t' if is_tumbleweed or is_slmicro_6_2 else '' }}
 

@@ -63,9 +63,29 @@ variable "deploy_coco_attestation" {
   default = true
 }
 
+variable "coco_container_image" {
+  description = "The coco container image to use."
+  default = ""
+}
+
+variable "coco_container_tag" {
+  description = "The coco container tag to use."
+  default = ""
+}
+
 variable "deploy_saline" {
   description = "true to set up the saline container"
   default = true
+}
+
+variable "saline_container_image" {
+  description = "The saline container image to use."
+  default = ""
+}
+
+variable "saline_container_tag" {
+  description = "The saline container image tag to use."
+  default = ""
 }
 
 variable "deploy_hub_api" {
@@ -73,9 +93,29 @@ variable "deploy_hub_api" {
   default = true
 }
 
+variable "hub_api_container_image" {
+  description = "The hub-xmlrpc container image to use."
+  default = ""
+}
+
+variable "hub_api_container_tag" {
+  description = "The hub-xmlrpc container image tag to use."
+  default = ""
+}
+
 variable "deploy_tftp" {
   description = "true to enable the TFTP service in the server helm values"
   default = true
+}
+
+variable "tftpd_container_image" {
+  description = "The tftpd container image to use."
+  default = ""
+}
+
+variable "tftpd_container_tag" {
+  description = "The tftpd container image tag to use."
+  default = ""
 }
 
 variable "install_rke2" {

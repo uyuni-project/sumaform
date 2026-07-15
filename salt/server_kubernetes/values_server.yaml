@@ -46,6 +46,12 @@ server-helm:
 {% if deploy_tftp %}
   tftp:
     enable: true
+    {% if tftpd_container_image %}
+    image: {{ tftpd_container_image }}
+    {% endif %}
+    {% if tftpd_container_tag %}
+    tag: {{ tftpd_container_tag }}
+    {% endif %}
 {% endif %}
 {% if app_armor_name %}
   server:
@@ -58,14 +64,32 @@ server-helm:
 {% if deploy_coco_attestation %}
   coco:
     replicas: 1
+    {% if coco_container_image %}
+    image: {{ coco_container_image }}
+    {% endif %}
+    {% if coco_container_tag %}
+    tag: {{ coco_container_tag }}
+    {% endif %}
 {% endif %}
 {% if deploy_saline %}
   saline:
     enable: true
+    {% if saline_container_image %}
+    image: {{ saline_container_image }}
+    {% endif %}
+    {% if saline_container_tag %}
+    tag: {{ saline_container_tag }}
+    {% endif %}
 {% endif %}
 {% if deploy_hub_api %}
   hubAPI:
     enable: true
+    {% if hub_api_container_image %}
+    image: {{ hub_api_container_image }}
+    {% endif %}
+    {% if hub_api_container_tag %}
+    tag: {{ hub_api_container_tag }}
+    {% endif %}
 {% endif %}
 
 

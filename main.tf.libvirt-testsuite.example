@@ -78,6 +78,13 @@ module "cucumber_testsuite" {
   auth_registry_password = ""
   git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/internal_slc"
 
+  ## Extra containers variables
+  deploy_saline                  = true
+  deploy_coco_attestation        = true
+  deploy_hub_api                 = true
+  deploy_tftp                    = true
+
+
   # define which VMs should be created and adjust their settings.
   # if you do not need a minion just comment it out.
   # example:

@@ -47,6 +47,66 @@ variable "db_container_tag" {
   default = ""
 }
 
+variable "deploy_saline" {
+  description = "Add the saline replica to the deployment."
+  default = true
+}
+
+variable "saline_container_image" {
+  description = "The saline container image to use."
+  default = ""
+}
+
+variable "saline_container_tag" {
+  description = "The saline container image tag to use."
+  default = ""
+}
+
+variable "deploy_coco_attestation" {
+  description = "Add the coco attestation replica to the deployment."
+  default = true
+}
+
+variable "coco_container_image" {
+  description = "The coco container image to use."
+  default = ""
+}
+
+variable "coco_container_tag" {
+  description = "The coco container tag to use."
+  default = ""
+}
+
+variable "deploy_hub_api" {
+  description = "Add the hub-xmlrpc API container."
+  default = true
+}
+
+variable "hub_api_container_image" {
+  description = "The hub-xmlrpc container image to use."
+  default = ""
+}
+
+variable "hub_api_container_tag" {
+  description = "The hub-xmlrpc container image tag to use."
+  default = ""
+}
+
+variable "deploy_tftp" {
+  description = "Add the tftpd container."
+  default = true
+}
+
+variable "tftpd_container_image" {
+  description = "The tftpd container image to use."
+  default = ""
+}
+
+variable "tftpd_container_tag" {
+  description = "The tftpd container image tag to use."
+  default = ""
+}
+
 variable "product_version" {
   description = "One of: 4.3-released, 4.3-nightly, 4.3-pr, 4.3-build_image, 4.3-VM-nightly, 4.3-VM-released, 5.0-nightly, 5.0-released, 5.1-nightly, 5.1-released, 5.2-released, head, head-staging, uyuni-master, uyuni-main, uyuni-released, uyuni-pr"
   type        = string
