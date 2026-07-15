@@ -1,3 +1,7 @@
+{% set storage_class = grains.get('kubernetes_storage_class') or 'local-path' %}
+{% set local_path = grains.get('local_path_provisioner_path') or '/opt/local-path-provisioner' %}
+{% set reclaim_policy = grains.get('local_path_provisioner_reclaim_policy') or 'Delete' %}
+{% set default_class = grains.get('local_path_provisioner_default_class', true) %}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -115,10 +119,12 @@ spec:
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: local-path
+  name: "{{ storage_class }}"
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "{{ default_class | lower }}"
 provisioner: rancher.io/local-path
 volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
+reclaimPolicy: "{{ reclaim_policy }}"
 
 ---
 kind: ConfigMap
@@ -132,7 +138,7 @@ data:
             "nodePathMap":[
             {
                     "node":"DEFAULT_PATH_FOR_NON_LISTED_NODES",
-                    "paths":["/opt/local-path-provisioner"]
+                    "paths":["{{ local_path }}"]
             }
             ]
     }

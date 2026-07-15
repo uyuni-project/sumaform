@@ -3,6 +3,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+{% set kubernetes_storage_class = grains.get('kubernetes_storage_class') %}
+
 # Default credentials, make sure to set them
 credentials:
   admin:
@@ -43,6 +45,10 @@ certManagerNamespace: {{ cert_manager_namespace }}
 server-helm: 
   repository: {{ container_registry }}
   pullPolicy: "Always"
+{% if kubernetes_storage_class %}
+  volumes:
+    storageClass: "{{ kubernetes_storage_class }}"
+{% endif %}
 {% if deploy_tftp %}
   tftp:
     enable: true

@@ -1,3 +1,5 @@
+{% set kubernetes_storage_class = grains.get('kubernetes_storage_class') %}
+
 global:
   fqdn: {{ fqdn }}
 
@@ -7,3 +9,8 @@ certManagerNamespace: {{ cert_manager_namespace }}
 proxy-helm: 
   repository: {{ container_registry }}
   pullPolicy: "Always"
+{% if kubernetes_storage_class %}
+  volumes:
+    squid:
+      storageClass: "{{ kubernetes_storage_class }}"
+{% endif %}

@@ -1,3 +1,6 @@
+{% set storage_class = grains.get('kubernetes_storage_class') or 'local-path' %}
+{% set local_path = grains.get('local_path_provisioner_path') or '/opt/local-path-provisioner' %}
+{% set var_pgsql_host_path = grains.get('kubernetes_var_pgsql_host_path') or local_path ~ '/var-pgsql18' %}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -9,13 +12,17 @@ spec:
     storage: 50Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
+{% if storage_class == '-' %}
+  storageClassName: ""
+{% else %}
+  storageClassName: "{{ storage_class }}"
+{% endif %}
 
   claimRef:
     namespace: uyuni
     name: var-pgsql18
   hostPath:
-    path: /opt/local-path-provisioner/var-pgsql18
+    path: "{{ var_pgsql_host_path }}"
     type: DirectoryOrCreate
   persistentVolumeReclaimPolicy: Delete
   volumeMode: Filesystem
