@@ -20,6 +20,7 @@ variable "image" {
 variable "string_registry" {
   description = "set the registry in string variable in mgradm.yaml"
   type        = bool
+  default     = true
 }
 
 variable "use_mirror" {
@@ -64,7 +65,7 @@ variable "vcpu" {
 
 variable "repository_disk_size" {
   description = "repository disk size"
-  default = 500
+  default = 3072
 }
 
 variable "database_disk_size" {
@@ -75,6 +76,26 @@ variable "database_disk_size" {
 variable "deploy_coco_attestation" {
   description = "Add the coco attestation replica to the deployment."
   default     = true
+}
+
+variable "main_disk_size" {
+  description = "Size of main disk, defined in GiB"
+  default = 100
+}
+
+variable "disable_auto_bootstrap" {
+  description = "disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
+  default = true
+}
+
+variable "disable_auto_channel_sync" {
+  description = "disable automatic channel synchronization after product synchronization"
+  default = true
+}
+
+variable "use_os_released_updates" {
+  description = "Apply all updates from SUSE Linux Enterprise repos"
+  default = true
 }
 
 variable "deploy_saline" {
