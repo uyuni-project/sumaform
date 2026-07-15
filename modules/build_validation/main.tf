@@ -119,7 +119,7 @@ module "server_containerized" {
     vcpu   = 10
   }
   runtime              = "podman"
-  container_repository = var.server_container_repository
+  container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   main_disk_size       = 100
 
@@ -162,7 +162,7 @@ module "server2_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server2_containerized.image
   string_registry    = var.environment_configuration.server2_containerized.string_registry
   mirror             = var.platform_location_configuration[var.location].mirror
-  container_repository = var.server_container_repository
+  container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   additional_repos   = var.server_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
@@ -177,7 +177,7 @@ module "server3_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server3_containerized.image
   string_registry    = var.environment_configuration.server3_containerized.string_registry
   mirror             = var.platform_location_configuration[var.location].mirror
-  container_repository = var.server_container_repository
+  container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   additional_repos   = var.server_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
@@ -192,7 +192,7 @@ module "server4_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server4_containerized.image
   string_registry    = var.environment_configuration.server4_containerized.string_registry
   mirror             = var.platform_location_configuration[var.location].mirror
-  container_repository = var.server_container_repository
+  container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   additional_repos   = var.server_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
@@ -236,7 +236,7 @@ module "proxy_containerized" {
   }
   string_registry      = var.environment_configuration.proxy_containerized.string_registry
   runtime              = "podman"
-  container_repository = var.proxy_container_repository
+  container_registry   = var.proxy_container_registry
   container_tag        = "latest"
   auto_configure       = false
   ssh_key_path         = var.controller_public_ssh_key_path
@@ -254,7 +254,7 @@ module "proxy2_containerized" {
   mac                = var.environment_configuration.proxy2_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy2_containerized.image
   string_registry    = var.environment_configuration.proxy2_containerized.string_registry
-  container_repository = var.proxy_container_repository
+  container_registry   = var.proxy_container_registry
   additional_repos   = var.proxy_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
 }
@@ -268,7 +268,7 @@ module "proxy3_containerized" {
   mac                = var.environment_configuration.proxy3_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy3_containerized.image
   string_registry    = var.environment_configuration.proxy3_containerized.string_registry
-  container_repository = var.proxy_container_repository
+  container_registry   = var.proxy_container_registry
   additional_repos   = var.proxy_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
 }

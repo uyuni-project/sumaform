@@ -10,7 +10,7 @@ module "server_containerized" {
     vcpu   = var.vcpu
   }
   runtime              = "podman"
-  container_repository = var.container_repository
+  container_registry   = var.container_registry
   container_image      = var.container_image
   main_disk_size       = 100
 

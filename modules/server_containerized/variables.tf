@@ -17,7 +17,7 @@ variable "runtime" {
   default = "podman"
 }
 
-variable "container_repository" {
+variable "container_registry" {
   description = "Where to find the server container images. Uses the released ones per default."
   default = ""
 }
@@ -32,7 +32,7 @@ variable "container_tag" {
   default = ""
 }
 
-variable "db_container_repository" {
+variable "db_container_registry" {
   description = "Where to find the server database container images. Uses the released ones per default."
   default = ""
 }

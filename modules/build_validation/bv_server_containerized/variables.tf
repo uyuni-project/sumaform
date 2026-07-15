@@ -27,7 +27,7 @@ variable "mirror" {
   default     = null
 }
 
-variable "container_repository" {
+variable "container_registry" {
   description = "where to find the server container images"
   default     = ""
 }

@@ -121,7 +121,7 @@ module "cucumber_testsuite" {
       # runtime = "rke2"
 
       # Override where to get the containers from
-      # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
+      # container_registry = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
 
       # Name of the helm chart. The last sting of the OCI url.
       # helm_chart_name = "server-helm"
@@ -143,7 +143,7 @@ module "cucumber_testsuite" {
       # runtime = "rke2"
 
       # Override where to get the containers from
-      # container_repository = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
+      # container_registry = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
 
       # Name of the helm chart. The last sting of the OCI url.
       # helm_chart_name = "proxy-helm"

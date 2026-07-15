@@ -10,7 +10,7 @@ module "proxy_containerized" {
   }
   string_registry      = var.string_registry
   runtime              = "podman"
-  container_repository = var.container_repository
+  container_registry   = var.container_registry
   container_tag        = "latest"
   auto_configure       = false
   ssh_key_path         = var.ssh_key_path

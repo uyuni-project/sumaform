@@ -22,7 +22,7 @@ variable "string_registry" {
   type        = bool
 }
 
-variable "container_repository" {
+variable "container_registry" {
   description = "where to find the proxy container images"
   default     = ""
 }

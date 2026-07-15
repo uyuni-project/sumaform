@@ -5,5 +5,5 @@ global:
 certManagerNamespace: {{ cert_manager_namespace }}
 
 proxy-helm: 
-  repository: {{ container_repository }}
+  repository: {{ container_registry }}
   pullPolicy: "Always"

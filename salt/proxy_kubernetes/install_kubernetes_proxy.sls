@@ -50,7 +50,7 @@ copy_values_proxy:
     - context:
       fqdn: {{ grains.get("fqdn")}}
       cert_manager_namespace: {{ cert_manager_namespace}}
-      container_repository:  {{ grains.get("container_repository")}}
+      container_registry:  {{ grains.get("container_registry")}}
 
 transfer_python_management_file:
   file.managed:

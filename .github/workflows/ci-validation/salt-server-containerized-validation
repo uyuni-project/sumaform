@@ -47,7 +47,7 @@ create_sample_activation_key: true
 create_sample_bootstrap_script: true
 publish_private_ssl_key: true
 testsuite: true
-container_repository: containers.example.com
+container_registry: containers.example.com
 container_runtime: podman
 provision: true
 EOF

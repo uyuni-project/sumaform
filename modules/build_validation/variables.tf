@@ -57,7 +57,7 @@ variable "scc_ptf_password" {
   default = null
 }
 
-variable "server_container_repository" {
+variable "server_container_registry" {
   type = string
   description = "Server container registry path, not needed for 4.3"
   default = ""
@@ -69,7 +69,7 @@ variable "server_additional_repos" {
   default     = {}
 }
 
-variable "proxy_container_repository" {
+variable "proxy_container_registry" {
   type = string
   description = "Proxy container registry path, not needed for 4.3"
   default = ""

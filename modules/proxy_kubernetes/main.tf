@@ -43,7 +43,7 @@ module "proxy_kubernetes" {
     server_password                 = var.server_configuration["password"]
     auto_configure                  = var.auto_configure
     container_runtime               = var.runtime
-    container_repository            = var.container_repository
+    container_registry              = var.container_registry
     string_registry                 = var.string_registry
     httpd_container_image           = var.httpd_container_image
     salt_broker_container_image     = var.salt_broker_container_image
@@ -80,7 +80,7 @@ output "configuration" {
     username             = var.server_configuration["username"]
     password             = var.server_configuration["password"]
     runtime              = var.runtime
-    container_repository = var.container_repository
+    container_registry   = var.container_registry
     auto_configure       = var.auto_configure
   }
 }
