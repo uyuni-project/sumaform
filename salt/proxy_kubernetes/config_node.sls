@@ -79,7 +79,7 @@ create_uyuni_namespace_proxy:
   cmd.run:
   - name : kubectl create namespace {{ Namespace }}
   - env:
-    - KUBECONFIG: {{ kubeconfig }}
+      - KUBECONFIG: {{ kubeconfig }}
 
 #####################################################
 ################ Setup proxy certs ##################
@@ -99,9 +99,9 @@ copy_certs_generator:
     - source: salt://proxy_kubernetes/proxy-gen-certs.yaml
     - template: jinja
     - context:
-      ProxyFQDN: {{ ProxyFQDN }}
-      Namespace: {{ Namespace }}
-      ProxyName: {{ ProxyName }}
+        ProxyFQDN: {{ ProxyFQDN }}
+        Namespace: {{ Namespace }}
+        ProxyName: {{ ProxyName }}
 
 check_ssh_communication:
   cmd.run:
@@ -140,7 +140,7 @@ key_exchange_between_clusters:
         kubectl apply -f -
   - cwd: /root
   - env:
-    - KUBECONFIG: {{ kubeconfig }}
+      - KUBECONFIG: {{ kubeconfig }}
   - require:
       - cmd: apply_and_transfer_env_variables
       - file: ssh_private_key_proxy_kubernetes_for_server
@@ -160,7 +160,7 @@ generate_proxy_config_file:
       scp {{ grains['server'] }}:/root/config.tar.gz /root/config.tar.gz
   - cwd: /root
   - env:
-    - KUBECONFIG: {{ kubeconfig }}
+      - KUBECONFIG: {{ kubeconfig }}
   - require:
       - cmd: apply_and_transfer_env_variables
       - file: ssh_private_key_proxy_kubernetes_for_server
@@ -175,7 +175,7 @@ copy_uyuni_ca:
       kubectl create configmap uyuni-ca -n $Namespace --from-file=ca.crt=root-ca.crt
   - cwd: /root
   - env:
-    - KUBECONFIG: {{ kubeconfig }}
+      - KUBECONFIG: {{ kubeconfig }}
   - require:
       - file: ssh_private_key_proxy_kubernetes_for_server
       - file: ssh_config_proxy_kubernetes

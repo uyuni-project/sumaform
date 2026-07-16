@@ -49,13 +49,12 @@ tls-san_setup_file:
 
 rke2_install:
   cmd.run:
-    - name: curl -sfL https://get.rke2.io | sh -
+    - name: curl -sfL https://get.rke2.io | sudo INSTALL_RKE2_VERSION="{{ rke2_version }}" sh -
     - env:
-      - INSTALL_RKE2_VERSION: "{{ rke2_version }}"
-      {% if is_slmicro_6_2 %}
-      - INSTALL_RKE2_METHOD: rpm
-      - INSTALL_RKE2_SELINUX: true
-      {% endif %}
+        {% if is_slmicro_6_2 %}
+        - INSTALL_RKE2_METHOD: rpm
+        - INSTALL_RKE2_SELINUX: true
+        {% endif %}
     - unless: systemctl is-active rke2-server
     {% if is_slmicro_6_2  and grains.get('scc_slmicro_pass') %} 
     - require:
