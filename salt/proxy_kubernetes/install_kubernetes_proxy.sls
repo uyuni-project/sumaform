@@ -48,9 +48,9 @@ copy_values_proxy:
     - source: salt://proxy_kubernetes/values_proxy.yaml
     - template: jinja
     - context:
-      fqdn: {{ grains.get("fqdn")}}
-      cert_manager_namespace: {{ cert_manager_namespace}}
-      container_registry:  {{ grains.get("container_registry")}}
+        fqdn: {{ grains.get("fqdn")}}
+        cert_manager_namespace: {{ cert_manager_namespace}}
+        container_registry: {{ grains.get("container_registry")}}
 
 transfer_python_management_file:
   file.managed:
