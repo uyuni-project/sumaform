@@ -6,7 +6,7 @@
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
-{% set rke2_version = "v1.35.4+rke2r1" %}
+{% set rke2_version = "v1.35.6+rke2r1" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 
 {% set pkg_map = {
@@ -46,6 +46,12 @@ tls-san_setup_file:
         {% endif %}
     - makedirs: True
 
+rke2_config_file_exists:
+  file.exists:
+    - name: /etc/rancher/rke2/config.yaml
+    - require:
+      - file: tls-san_setup_file
+
 
 rke2_install:
   cmd.run:
@@ -56,6 +62,8 @@ rke2_install:
       - INSTALL_RKE2_METHOD: rpm
       - INSTALL_RKE2_SELINUX: true
       {% endif %}
+    - require:
+      - file: rke2_config_file_exists
     - unless: systemctl is-active rke2-server
     {% if is_slmicro_6_2  and grains.get('scc_slmicro_pass') %} 
     - require:
@@ -71,11 +79,24 @@ apply_transition_rke2:
       - cmd: rke2_install
 {% endif %}
 
+rke2_wait_for_service_unit:
+  cmd.run:
+    - name: timeout 300 bash -c 'until systemctl list-unit-files | grep -q "^rke2-server.service"; do sleep 5; done'
+    - require:
+      {% if is_slmicro_6_2 %}
+      - cmd: apply_transition_rke2
+      {% else %}
+      - cmd: rke2_install
+      {% endif %}
+
 rke2_server_enable:
   service.enabled:
     - name: rke2-server
     - require:
-      - cmd: rke2_install
+      {% if is_slmicro_6_2 %}
+      - cmd: apply_transition_rke2
+      {% endif %}
+      - cmd: rke2_wait_for_service_unit
       - file: tls-san_setup_file
       {% if is_slmicro_6_2 and grains.get('scc_slmicro_pass') %}
       - cmd: register_to_scc
