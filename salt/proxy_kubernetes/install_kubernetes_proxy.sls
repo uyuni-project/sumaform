@@ -68,8 +68,8 @@ update_oci_app_version_proxy:
 
 copy_manifest_uyuni_ingress_proxy:
   file.managed:
-    - name: /var/lib/rancher/rke2/server/manifests/uyuni_ingress_proxy.yaml
-    - source: salt://proxy_kubernetes/uyuni_ingress_proxy.yaml
+    - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress-proxy.yaml
+    - source: salt://proxy_kubernetes/uyuni-ingress-proxy.yaml
 
 build_helm_dependencies:
   cmd.run:

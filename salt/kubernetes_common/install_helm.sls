@@ -37,15 +37,16 @@ install_cert_manager:
           --namespace {{ cert_manager_namespace }} \
           --create-namespace \
           --set crds.enabled=true \
+          --timeout 10m0s \
           --wait
     - env:
-      - KUBECONFIG: {{ kubeconfig }}
+        - KUBECONFIG: {{ kubeconfig }}
 
 check_cert_manager_installation:
   cmd.run:
     - name: 'helm status cert-manager --namespace {{ cert_manager_namespace }} | grep -q "STATUS: deployed"'
     - env:
-      - KUBECONFIG: {{ kubeconfig }}
+        - KUBECONFIG: {{ kubeconfig }}
     - require:
       - cmd: install_cert_manager
 
@@ -57,13 +58,15 @@ install_trust_manager:
           --namespace {{ cert_manager_namespace }} \
           --wait
     - env:
-      - KUBECONFIG: {{ kubeconfig }}
+        - KUBECONFIG: {{ kubeconfig }}
+    - require:
+      - cmd: install_cert_manager
 
 check_trust_manager_installation:
   cmd.run:
     - name: 'helm status trust-manager --namespace {{ cert_manager_namespace }} | grep -q "STATUS: deployed"'
     - env:
-      - KUBECONFIG: {{ kubeconfig }}
+        - KUBECONFIG: {{ kubeconfig }}
     - require:
       - cmd: install_trust_manager
 
