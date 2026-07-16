@@ -63,11 +63,4 @@ ssh_service_restart:
 {# already a systemd unit that watches for changes and runs it:    #}
 {#   /usr/lib/systemd/system/ca-certificates.path                  #}
 
-{% if "opensuse" not in grains['oscodename']|lower %}
-
-cloud_flavor_check:
-  pkg.installed:
-    - name: python-instance-billing-flavor-check
-
-{% endif %}
 {% endif %}
