@@ -35,8 +35,8 @@ ssh_config_proxy_containerized:
     - mode: 700
 
 # Note: In our registries we don't have released and not released versions at this point in time
-{% if grains.get('container_repository') %}
-  {% set container_repository = grains.get('container_repository') %}
+{% if grains.get('container_registry') %}
+  {% set container_registry = grains.get('container_registry') %}
 {% endif %}
 
 {% if grains.get('container_tag') %}
@@ -51,12 +51,12 @@ config_proxy_containerized:
   file.managed:
     - name: /etc/uyuni/uyuni-tools.yaml
     - contents: |
-        {% if container_repository %}
+        {% if container_registry %}
         {% if grains.get('string_registry') | default(false, true) %}
-        registry: {{ container_repository }}
+        registry: {{ container_registry }}
         {% else %}
         registry:
-          host: {{ container_repository }}
+          host: {{ container_registry }}
         {% endif %}
         {% endif %}
         httpd:

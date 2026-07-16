@@ -51,10 +51,10 @@ module "server_containerized" {
 
   grains = {
     container_runtime              = var.runtime
-    container_repository           = var.container_repository
+    container_registry             = var.container_registry
     container_image                = var.container_image
     container_tag                  = var.container_tag
-    db_container_repository        = var.db_container_repository
+    db_container_registry          = var.db_container_registry
     db_container_image             = var.db_container_image
     db_container_tag               = var.db_container_tag
     deploy_saline                  = var.deploy_saline

@@ -63,7 +63,7 @@ copy_value_yaml_file:
         pass_reportdb: admin
         fqdn: {{ grains.get("fqdn") }}
         cert_manager_namespace: {{ cert_manager_namespace }}
-        container_repository: {{ grains.get("container_repository")}}
+        container_registry: {{ grains.get("container_registry")}}
         deploy_coco_attestation: {{ grains.get("deploy_coco_attestation") }}
         coco_container_image: {{ grains.get("coco_container_image") }}
         coco_container_tag: {{ grains.get("coco_container_tag") }}

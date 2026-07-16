@@ -41,7 +41,7 @@ certManagerNamespace: {{ cert_manager_namespace }}
 
 # All the server helm chart values can be passed under this property
 server-helm: 
-  repository: {{ container_repository }}
+  repository: {{ container_registry }}
   pullPolicy: "Always"
 {% if deploy_tftp %}
   tftp:

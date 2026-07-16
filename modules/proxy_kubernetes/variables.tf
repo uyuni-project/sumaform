@@ -18,7 +18,7 @@ variable "runtime" {
   default = "rke2"
 }
 
-variable "container_repository" {
+variable "container_registry" {
   description = "Where to find the proxy container images. Uses the released ones per default."
   default = ""
 }

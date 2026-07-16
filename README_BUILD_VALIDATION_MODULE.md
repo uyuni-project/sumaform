@@ -197,6 +197,6 @@ This file is passed to Terraform alongside the tfvars file and the wrapper templ
 
 ## Relationship to susemanager-ci
 
-All environment-specific configuration is stored in susemanager-ci. Before deploying, the Jenkins pipeline runs `prepare_tfvars.py` to assemble the final `terraform.tfvars` from the static per-environment tfvars file, `location.tfvars`, and dynamic values injected from Jenkins (container repositories, Cucumber branch, product version overrides, etc.).
+All environment-specific configuration is stored in susemanager-ci. Before deploying, the Jenkins pipeline runs `prepare_tfvars.py` to assemble the final `terraform.tfvars` from the static per-environment tfvars file, `location.tfvars`, and dynamic values injected from Jenkins (container registries, Cucumber branch, product version overrides, etc.).
 
 See the [susemanager-ci terracumber_config README](https://github.com/SUSE/susemanager-ci/blob/master/terracumber_config/README.md) for the full picture of how configuration flows from susemanager-ci into this module.

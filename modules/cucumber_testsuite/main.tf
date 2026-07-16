@@ -49,8 +49,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "sles_registration_code", null) if var.host_settings[host_key] != null }
   runtimes                  = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "runtime", "podman") if var.host_settings[host_key] != null }
-  container_repositories    = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "container_repository", null) if var.host_settings[host_key] != null }
+  container_registries      = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "container_registry", null) if var.host_settings[host_key] != null }
   container_images    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_image", null) if var.host_settings[host_key] != null }
   httpd_container_images = { for host_key in local.hosts :
@@ -69,8 +69,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "tftpd_container_tag", null) if var.host_settings[host_key] != null }
   container_tags    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "container_tag", null) if var.host_settings[host_key] != null }
-  db_container_repositories    = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "db_container_repository", null) if var.host_settings[host_key] != null }
+  db_container_registries      = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "db_container_registry", null) if var.host_settings[host_key] != null }
   db_container_images    = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "db_container_image", null) if var.host_settings[host_key] != null }
   db_container_tags    = { for host_key in local.hosts :
@@ -178,10 +178,10 @@ module "server_containerized" {
   image                          = lookup(local.images, "server_containerized", "default")
   name                           = lookup(local.names, "server_containerized", "server")
   runtime                        = lookup(local.runtimes, "server_containerized", "podman")
-  container_repository           = lookup(local.container_repositories, "server_containerized", "")
+  container_registry             = lookup(local.container_registries, "server_containerized", "")
   container_image                = lookup(local.container_images, "server_containerized", "")
   container_tag                  = lookup(local.container_tags, "server_containerized", "")
-  db_container_repository        = lookup(local.db_container_repositories, "server_containerized", "")
+  db_container_registry          = lookup(local.db_container_registries, "server_containerized", "")
   db_container_image             = lookup(local.db_container_images, "server_containerized", "")
   db_container_tag               = lookup(local.db_container_tags, "server_containerized", "")
   deploy_coco_attestation        = var.deploy_coco_attestation
@@ -238,10 +238,10 @@ module "server_kubernetes" {
   image                          = lookup(local.images, "server_kubernetes", "default")
   name                           = lookup(local.names, "server_kubernetes", "server")
   runtime                        = lookup(local.runtimes, "server_kubernetes", "podman")
-  container_repository           = lookup(local.container_repositories, "server_kubernetes", "")
+  container_registry             = lookup(local.container_registries, "server_kubernetes", "")
   container_image                = lookup(local.container_images, "server_kubernetes", "")
   container_tag                  = lookup(local.container_tags, "server_kubernetes", "")
-  db_container_repository        = lookup(local.db_container_repositories, "server_kubernetes", "")
+  db_container_registry          = lookup(local.db_container_registries, "server_kubernetes", "")
   db_container_image             = lookup(local.db_container_images, "server_kubernetes", "")
   db_container_tag               = lookup(local.db_container_tags, "server_kubernetes", "")
   beta_enabled                   = var.beta_enabled
@@ -332,7 +332,7 @@ module "proxy_containerized" {
   name                   = lookup(local.names, "proxy_containerized", "proxy")
 
   runtime                = lookup(local.runtimes, "proxy_containerized", "podman")
-  container_repository   = lookup(local.container_repositories, "proxy_containerized", "")
+  container_registry     = lookup(local.container_registries, "proxy_containerized", "")
   httpd_container_image  = lookup(local.httpd_container_images, "proxy_containerized", "")
   salt_broker_container_image = lookup(local.salt_broker_container_images, "proxy_containerized", "")
   squid_container_image  = lookup(local.squid_container_images, "proxy_containerized", "")
@@ -370,7 +370,7 @@ module "proxy_kubernetes" {
   name                   = lookup(local.names, "proxy_kubernetes", "proxy")
 
   runtime                = lookup(local.runtimes, "proxy_kubernetes", "podman")
-  container_repository   = lookup(local.container_repositories, "proxy_kubernetes", "")
+  container_registry     = lookup(local.container_registries, "proxy_kubernetes", "")
   httpd_container_image  = lookup(local.httpd_container_images, "proxy_kubernetes", "")
   salt_broker_container_image = lookup(local.salt_broker_container_images, "proxy_kubernetes", "")
   squid_container_image  = lookup(local.squid_container_images, "proxy_kubernetes", "")

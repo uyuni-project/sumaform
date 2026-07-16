@@ -17,7 +17,7 @@ variable "runtime" {
   default = "rke2"
 }
 
-variable "container_repository" {
+variable "container_registry" {
   description = "Where to find the server container images. Uses the released ones per default."
   default = ""
 }
@@ -148,7 +148,7 @@ variable "install_local_path_provisioner" {
   default = true
 }
 
-variable "db_container_repository" {
+variable "db_container_registry" {
   description = "Where to find the server database container images. Uses the released ones per default."
   default = ""
 }
