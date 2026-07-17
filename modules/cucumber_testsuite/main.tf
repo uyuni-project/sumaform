@@ -710,7 +710,7 @@ module "controller" {
   kubernetes_server_fqdn                        = local.external_kubernetes_server
   kubernetes_server_helm_chart_name             = coalesce(lookup(local.helm_chart_name, "server_kubernetes", null), "server-helm")
   kubernetes_server_helm_chart_url              = coalesce(lookup(local.helm_chart_url, "server_kubernetes", null), "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2")
-  kubernetes_server_container_repository        = lookup(local.container_repositories, "server_kubernetes", null) != null ? lookup(local.container_repositories, "server_kubernetes", null) : ""
+  kubernetes_server_container_registry          = lookup(local.container_registries, "server_kubernetes", null) != null ? lookup(local.container_registries, "server_kubernetes", null) : ""
   use_devel_oci                                 = var.use_devel_oci
   install_cert_manager                          = var.install_cert_manager
   deploy_coco_attestation                       = var.deploy_coco_attestation

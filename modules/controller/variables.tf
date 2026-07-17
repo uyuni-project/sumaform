@@ -957,8 +957,8 @@ variable "kubernetes_server_helm_chart_url" {
   default     = "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2"
 }
 
-variable "kubernetes_server_container_repository" {
-  description = "Container repository used by the Uyuni server Helm values for external Kubernetes cluster installs"
+variable "kubernetes_server_container_registry" {
+  description = "Container registry used by the Uyuni server Helm values for external Kubernetes cluster installs"
   default     = ""
 }
 

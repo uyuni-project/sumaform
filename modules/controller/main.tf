@@ -91,7 +91,7 @@ module "controller" {
     kubernetes_server_fqdn                       = var.kubernetes_server_fqdn
     helm_chart_name                              = var.kubernetes_server_helm_chart_name
     helm_chart_url                               = var.kubernetes_server_helm_chart_url
-    container_repository                         = var.kubernetes_server_container_repository
+    container_registry                           = var.kubernetes_server_container_registry
     use_devel_oci                                = var.use_devel_oci
     install_cert_manager                         = var.install_cert_manager
     deploy_coco_attestation                      = var.deploy_coco_attestation

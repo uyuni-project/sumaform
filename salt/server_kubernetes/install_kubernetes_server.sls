@@ -76,6 +76,7 @@ install_cert_manager_on_external_kubernetes:
           --namespace {{ cert_manager_namespace }} \
           --create-namespace \
           --set crds.enabled=true \
+          --timeout 10m0s \
           --wait
     - unless: KUBECONFIG={{ kubeconfig }} helm status cert-manager --namespace {{ cert_manager_namespace }}
     - env:
