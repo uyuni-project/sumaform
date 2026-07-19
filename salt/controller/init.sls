@@ -2,6 +2,9 @@ include:
   - repos
   - controller.apache_https
   {% if grains.get('install_kubernetes_server_on_external_cluster') == true %}
+  {% if grains.get('install_cert_manager') == true %}
+  - kubernetes_common.install_helm
+  {% endif %}
   - server_kubernetes.install_kubernetes_server
   {% endif %}
 
