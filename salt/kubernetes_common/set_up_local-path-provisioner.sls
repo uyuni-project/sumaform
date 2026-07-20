@@ -21,10 +21,10 @@ install_dependencies_helm_provisioner:
 
 copy_local-path-storage_installation_file:
   file.managed:
-  - name: /root/local-path-storage.yaml
-  - source: salt://kubernetes_common/local-path-storage.yaml
-  - template: jinja
-  - makedirs: true
+    - name: /root/local-path-storage.yaml
+    - source: salt://kubernetes_common/local-path-storage.yaml
+    - template: jinja
+    - makedirs: true
 
 install_local_path_provisioner:
   cmd.run:
@@ -38,7 +38,7 @@ install_local_path_provisioner:
 set_local-path-storage-file-as-default:
   cmd.run:
     - name: |
-        kubectl patch storageclass {{ storage_class }} -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+        kubectl patch storageclass "{{ storage_class }}" -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     - env:
       - KUBECONFIG: {{ kubeconfig }}
     - require:
@@ -49,11 +49,11 @@ set_local-path-storage-file-as-default:
 
 create_local-path-provisioner_directory:
   file.directory:
-    - name: {{ local_path }}
+    - name: "{{ local_path }}"
 
 set_local-path-provisioner_selinux_tags:
   cmd.run:
-    - name: restorecon -R -v {{ local_path }}
+    - name: restorecon -R -v "{{ local_path }}"
     - require:
       - file: create_local-path-provisioner_directory
     - env:

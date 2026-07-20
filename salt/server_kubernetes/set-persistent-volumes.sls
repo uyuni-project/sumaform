@@ -11,10 +11,10 @@
 
 create_uyuni_namespace:
   cmd.run:
-  - name: kubectl create namespace uyuni
-  - env:
-    - KUBECONFIG: {{ kubeconfig }}
-  - unless: KUBECONFIG={{ kubeconfig }} kubectl get namespace uyuni
+    - name: kubectl create namespace uyuni
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
+    - unless: kubectl get namespace uyuni
 
 {% if create_static_var_spacewalk_pv %}
 copy_var_spacewalk_file:
