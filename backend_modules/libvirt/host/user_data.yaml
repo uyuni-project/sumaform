@@ -54,7 +54,15 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-x86_64-Media/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL7/images/repo/ManagerTools-EL7-POOL-x86_64-Media/
+%{ endif ~}
+%{ endif ~}
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -85,7 +93,15 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL8/images/repo/MultiLinuxManagerTools-EL-8-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -126,7 +142,15 @@ bootcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -204,7 +228,15 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE12/images/repo/ManagerTools-SLE12-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -226,7 +258,15 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -250,7 +290,15 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -285,7 +333,15 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -307,7 +363,15 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -329,7 +393,15 @@ zypper:
       enabled: 1
       autorefresh: 1
     - id: tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
@@ -668,7 +740,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL8/images/repo/MultiLinuxManagerTools-EL-8-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -692,7 +772,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -719,7 +807,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL10/images/repo/MultiLinuxManagerTools-Beta-EL-10-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL10/images/repo/MultiLinuxManagerTools-EL-10-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -744,7 +840,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-x86_64-Media/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL7/images/repo/ManagerTools-EL7-POOL-x86_64-Media/
+%{ endif ~}
+%{ endif ~}
     failovermethod: priority
     enabled: true
     gpgcheck: false
@@ -770,7 +874,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -808,7 +920,15 @@ runcmd:
     cat <<EOF > /etc/yum.repos.d/tools_pool_repo.repo
     [tools_pool_repo]
     name=tools_pool_repo
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl=http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl=http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-EL-9-Beta-x86_64-Media1/
+%{ else ~}
+    baseurl=http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled=1
     gpgcheck=0
     EOF
@@ -854,7 +974,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -874,7 +1002,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL8/images/repo/MultiLinuxManagerTools-EL-8-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -899,7 +1035,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -926,7 +1070,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL10/images/repo/MultiLinuxManagerTools-Beta-EL-10-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL10/images/repo/MultiLinuxManagerTools-EL-10-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -953,7 +1105,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL8/images/repo/MultiLinuxManagerTools-EL-8-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -977,7 +1137,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -1004,7 +1172,15 @@ runcmd:
 yum_repos:
   # repo for salt
   tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
     baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+%{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL10/images/repo/MultiLinuxManagerTools-Beta-EL-10-x86_64-Media1/
+%{ else ~}
+    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL10/images/repo/MultiLinuxManagerTools-EL-10-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
     enabled: true
     gpgcheck: false
     name: tools_pool_repo
@@ -1032,10 +1208,18 @@ zypper:
   repos:
     - id: tools_pool_repo
 %{ if image == "opensuse156armo" ~}
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
 %{ else ~}
+%{ if contains(["5.2-nightly", "5.2-released", "head", "head-staging"], product_version) ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Head:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
+%{ else ~}
+      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
+%{ endif ~}
+%{ endif ~}
+%{ else ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
-%{ endif ~}     
+%{ endif ~}
       enabled: true
       gpgcheck: false
       name: tools_pool_repo
