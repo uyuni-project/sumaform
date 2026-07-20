@@ -128,7 +128,7 @@ module "server_containerized" {
   database_disk_size             = 150
   container_tag                  = "latest"
   beta_enabled                   = false
-  server_mounted_mirror          = var.platform_location_configuration[var.location].mirror
+  server_mounted_mirror          = try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false
@@ -161,7 +161,7 @@ module "server2_containerized" {
   mac                = var.environment_configuration.server2_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server2_containerized.image
   string_registry    = var.environment_configuration.server2_containerized.string_registry
-  mirror             = var.platform_location_configuration[var.location].mirror
+  mirror             = try(var.environment_configuration.server2_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   additional_repos   = var.server_additional_repos
@@ -176,7 +176,7 @@ module "server3_containerized" {
   mac                = var.environment_configuration.server3_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server3_containerized.image
   string_registry    = var.environment_configuration.server3_containerized.string_registry
-  mirror             = var.platform_location_configuration[var.location].mirror
+  mirror             = try(var.environment_configuration.server3_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   additional_repos   = var.server_additional_repos
@@ -191,7 +191,7 @@ module "server4_containerized" {
   mac                = var.environment_configuration.server4_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server4_containerized.image
   string_registry    = var.environment_configuration.server4_containerized.string_registry
-  mirror             = var.platform_location_configuration[var.location].mirror
+  mirror             = try(var.environment_configuration.server4_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   additional_repos   = var.server_additional_repos
