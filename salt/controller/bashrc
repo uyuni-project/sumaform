@@ -20,7 +20,7 @@ export SERVER="{{ grains.get('server') }}"
 {% endif %}
 {% if grains.get('build_host') | default(false, true) %}export BUILD_HOST="{{ grains.get('build_host') }}"{% else %}# no build host defined
 {% endif %}
-{% if grains.get('ssh_minion') | default(false, true) %}export SSH_MINION="{{ grains.get('ssh_minion') }}" {% else %}# no SSH minion defined
+{% if grains.get('sshminion') | default(false, true) %}export SSHMINION="{{ grains.get('sshminion') }}" {% else %}# no SSH minion defined
 {% endif %}
 {% if grains.get('redhat_minion') | default(false, true) %}export RHLIKE_MINION="{{ grains.get('redhat_minion') }}" {%
 else %}# no RedHat-like minion defined {% endif %}
