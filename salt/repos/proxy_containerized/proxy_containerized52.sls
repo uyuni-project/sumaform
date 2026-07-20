@@ -17,6 +17,15 @@
 #     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/Multi-Linux-Manager-Proxy/5.2/{{ grains.get("cpuarch") }}/update/repodata/repomd.xml.key
 {% endif %}
 
+{% if '5.2-nightly' in grains['product_version'] %}
+# Commented out because we already add this repo in cloud-init:
+# manager52_repo:
+#   pkgrepo.managed:
+#     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images/repo/Multi-Linux-Manager-Proxy-5.2-{{ grains.get("cpuarch") }}
+#     - refresh: True
+#     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images/repo/Multi-Linux-Manager-Proxy-5.2-{{ grains.get("cpuarch") }}/repodata/repomd.xml.key
+{% endif %}
+
 {% elif grains['osfullname'] == 'SLES' %}
 ca_suse_repo:
   pkgrepo.managed:
@@ -47,6 +56,14 @@ container_utils_updates_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/Multi-Linux-Manager-Proxy-SLE/5.2/{{ grains.get("cpuarch") }}/update
     - refresh: True
     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/Multi-Linux-Manager-Proxy-SLE/5.2/{{ grains.get("cpuarch") }}/update/repodata/repomd.xml.key
+{% endif %}
+
+{% if '5.2-nightly' in grains['product_version'] %}
+manager52_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images-SP7/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1
+    - refresh: True
+    - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images-SP7/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1/repodata/repomd.xml.key
 {% endif %}
 
 {% endif %}
