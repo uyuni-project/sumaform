@@ -1055,3 +1055,7 @@ runcmd:
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
 %{ endif ~}
+
+runcmd:
+  # Log a list of installed RPM/DEB packages for the debuigging purposes
+  - "rpm --version &>/dev/null && rpm -qa | sort >/installed_packages.txt || dpkg --list | grep '^ii' >/installed_packages.txt"
