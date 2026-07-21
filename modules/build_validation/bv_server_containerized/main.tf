@@ -39,6 +39,10 @@ module "server_containerized" {
   from_email                     = "root@suse.de"
   provision                      = true
 
+  deploy_coco_attestation = var.deploy_coco_attestation
+  deploy_saline           = var.deploy_saline
+  deploy_hub_api          = var.deploy_hub_api
+
   additional_repos = var.additional_repos
 }
 

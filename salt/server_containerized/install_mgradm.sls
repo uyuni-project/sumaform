@@ -7,7 +7,7 @@ mgradm_config:
 {% if not (grains.get('server_hub_peripheral') | default(false, true)) %}
 mgradm_install:
   cmd.run:
-    - name: mgradm install podman --logLevel=debug --config /root/mgradm.yaml {{ grains['fqdn'] }}{% if grains.get('server_hub_main') | default(false, true) %} --hubxmlrpc-replicas 1{% endif %}
+    - name: mgradm install podman --logLevel=debug --config /root/mgradm.yaml {{ grains['fqdn'] }}
     - unless: podman ps | grep uyuni-server
     - require:
       - sls: server_containerized.install_common

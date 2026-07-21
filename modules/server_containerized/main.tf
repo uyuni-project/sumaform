@@ -99,7 +99,6 @@ module "server_containerized" {
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
     enable_oval_metadata           = var.enable_oval_metadata
-    server_hub_main                = var.server_hub_main
     hub_peripheral_fqdns           = var.hub_peripheral_fqdns
     server_hub_peripheral          = var.server_hub_peripheral
   }

@@ -148,7 +148,9 @@ module "server_containerized" {
   from_email                     = "root@suse.de"
   provision                      = true
 
-  server_hub_main                = try(var.environment_configuration.server_containerized.server_hub_main, false)
+  deploy_coco_attestation        = try(var.environment_configuration.server_containerized.deploy_coco_attestation, true)
+  deploy_saline                  = try(var.environment_configuration.server_containerized.deploy_saline, true)
+  deploy_hub_api                 = try(var.environment_configuration.server_containerized.deploy_hub_api, true)
 
   additional_repos               = var.server_additional_repos
 }
@@ -164,6 +166,9 @@ module "server2_containerized" {
   mirror             = try(var.environment_configuration.server2_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
+  deploy_coco_attestation = try(var.environment_configuration.server2_containerized.deploy_coco_attestation, true)
+  deploy_saline           = try(var.environment_configuration.server2_containerized.deploy_saline, true)
+  deploy_hub_api          = try(var.environment_configuration.server2_containerized.deploy_hub_api, true)
   additional_repos   = var.server_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
 }
@@ -179,6 +184,9 @@ module "server3_containerized" {
   mirror             = try(var.environment_configuration.server3_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
+  deploy_coco_attestation = try(var.environment_configuration.server3_containerized.deploy_coco_attestation, true)
+  deploy_saline           = try(var.environment_configuration.server3_containerized.deploy_saline, true)
+  deploy_hub_api          = try(var.environment_configuration.server3_containerized.deploy_hub_api, true)
   additional_repos   = var.server_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
 }
@@ -194,6 +202,9 @@ module "server4_containerized" {
   mirror             = try(var.environment_configuration.server4_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
+  deploy_coco_attestation = try(var.environment_configuration.server4_containerized.deploy_coco_attestation, true)
+  deploy_saline           = try(var.environment_configuration.server4_containerized.deploy_saline, true)
+  deploy_hub_api          = try(var.environment_configuration.server4_containerized.deploy_hub_api, true)
   additional_repos   = var.server_additional_repos
   ssh_key_path       = var.controller_public_ssh_key_path
 }

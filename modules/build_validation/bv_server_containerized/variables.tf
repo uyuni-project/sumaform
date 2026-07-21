@@ -67,4 +67,19 @@ variable "database_disk_size" {
   default = 150
 }
 
+variable "deploy_coco_attestation" {
+  description = "Add the coco attestation replica to the deployment."
+  default     = true
+}
+
+variable "deploy_saline" {
+  description = "Add the saline replica to the deployment."
+  default     = true
+}
+
+variable "deploy_hub_api" {
+  description = "Add the hub-xmlrpc API container."
+  default     = true
+}
+
 
