@@ -1058,4 +1058,4 @@ runcmd:
 
 runcmd:
   # Log a list of installed RPM/DEB packages for the debuigging purposes
-  - "rpm --version &>/dev/null && rpm -qa | sort >/installed_packages.txt || dpkg --list | grep 'ii' >/installed_packages.txt"
+  - "rpm --version &>/dev/null && rpm -qa | sort >/installed_packages.txt || dpkg --list | grep '^ii' >/installed_packages.txt"
