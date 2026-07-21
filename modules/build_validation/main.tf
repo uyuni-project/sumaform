@@ -1549,7 +1549,7 @@ module "sles15sp6_terminal" {
     product      = "ProLiant DL360 Gen9"
   }
   private_ip   = 6
-  private_name = "sle15sp6terminal"
+  private_name = "sles15sp6terminal"
 }
 
 module "sles15sp7_terminal" {
@@ -1566,7 +1566,7 @@ module "sles15sp7_terminal" {
     product      = "ProLiant DL580 Gen9"
   }
   private_ip   = 7
-  private_name = "sle15sp7terminal"
+  private_name = "sles15sp7terminal"
 }
 
 module "dhcp_dns" {
@@ -1640,32 +1640,32 @@ module "controller" {
   proxy2_configuration  = length(module.proxy2_containerized) > 0 ? module.proxy2_containerized[0].configuration : local.empty_server_proxy_config
   proxy3_configuration  = length(module.proxy3_containerized) > 0 ? module.proxy3_containerized[0].configuration : local.empty_server_proxy_config
 
-  sle12sp5_minion_configuration    = length(module.sles12sp5_minion) > 0 ? module.sles12sp5_minion[0].configuration : local.empty_minion_config
-  sle12sp5_sshminion_configuration = length(module.sles12sp5_sshminion) > 0 ? module.sles12sp5_sshminion[0].configuration : local.empty_minion_config
+  sles12sp5_minion_configuration    = length(module.sles12sp5_minion) > 0 ? module.sles12sp5_minion[0].configuration : local.empty_minion_config
+  sles12sp5_sshminion_configuration = length(module.sles12sp5_sshminion) > 0 ? module.sles12sp5_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp3_minion_configuration    = length(module.sles15sp3_minion) > 0 ? module.sles15sp3_minion[0].configuration : local.empty_minion_config
-  sle15sp3_sshminion_configuration = length(module.sles15sp3_sshminion) > 0 ? module.sles15sp3_sshminion[0].configuration : local.empty_minion_config
+  sles15sp3_minion_configuration    = length(module.sles15sp3_minion) > 0 ? module.sles15sp3_minion[0].configuration : local.empty_minion_config
+  sles15sp3_sshminion_configuration = length(module.sles15sp3_sshminion) > 0 ? module.sles15sp3_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp4_minion_configuration    = length(module.sles15sp4_minion) > 0 ? module.sles15sp4_minion[0].configuration : local.empty_minion_config
-  sle15sp4_sshminion_configuration = length(module.sles15sp4_sshminion) > 0 ? module.sles15sp4_sshminion[0].configuration : local.empty_minion_config
+  sles15sp4_minion_configuration    = length(module.sles15sp4_minion) > 0 ? module.sles15sp4_minion[0].configuration : local.empty_minion_config
+  sles15sp4_sshminion_configuration = length(module.sles15sp4_sshminion) > 0 ? module.sles15sp4_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp5_minion_configuration    = length(module.sles15sp5_minion) > 0 ? module.sles15sp5_minion[0].configuration : local.empty_minion_config
-  sle15sp5_sshminion_configuration = length(module.sles15sp5_sshminion) > 0 ? module.sles15sp5_sshminion[0].configuration : local.empty_minion_config
+  sles15sp5_minion_configuration    = length(module.sles15sp5_minion) > 0 ? module.sles15sp5_minion[0].configuration : local.empty_minion_config
+  sles15sp5_sshminion_configuration = length(module.sles15sp5_sshminion) > 0 ? module.sles15sp5_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp6_minion_configuration    = length(module.sles15sp6_minion) > 0 ? module.sles15sp6_minion[0].configuration : local.empty_minion_config
-  sle15sp6_sshminion_configuration = length(module.sles15sp6_sshminion) > 0 ? module.sles15sp6_sshminion[0].configuration : local.empty_minion_config
+  sles15sp6_minion_configuration    = length(module.sles15sp6_minion) > 0 ? module.sles15sp6_minion[0].configuration : local.empty_minion_config
+  sles15sp6_sshminion_configuration = length(module.sles15sp6_sshminion) > 0 ? module.sles15sp6_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp7_minion_configuration    = length(module.sles15sp7_minion) > 0 ? module.sles15sp7_minion[0].configuration : local.empty_minion_config
-  sle15sp7_sshminion_configuration = length(module.sles15sp7_sshminion) > 0 ? module.sles15sp7_sshminion[0].configuration : local.empty_minion_config
-  sle160_minion_configuration      = length(module.sles160_minion) > 0 ? module.sles160_minion[0].configuration : local.empty_minion_config
-  sle160_sshminion_configuration   = length(module.sles160_sshminion) > 0 ? module.sles160_sshminion[0].configuration : local.empty_minion_config
+  sles15sp7_minion_configuration    = length(module.sles15sp7_minion) > 0 ? module.sles15sp7_minion[0].configuration : local.empty_minion_config
+  sles15sp7_sshminion_configuration = length(module.sles15sp7_sshminion) > 0 ? module.sles15sp7_sshminion[0].configuration : local.empty_minion_config
+  sles160_minion_configuration      = length(module.sles160_minion) > 0 ? module.sles160_minion[0].configuration : local.empty_minion_config
+  sles160_sshminion_configuration   = length(module.sles160_sshminion) > 0 ? module.sles160_sshminion[0].configuration : local.empty_minion_config
 
-  sle12sp5_client_configuration    = length(module.sles12sp5_client) > 0 ? module.sles12sp5_client[0].configuration : local.empty_minion_config
-  sle15sp3_client_configuration    = length(module.sles15sp3_client) > 0 ? module.sles15sp3_client[0].configuration : local.empty_minion_config
-  sle15sp4_client_configuration    = length(module.sles15sp4_client) > 0 ? module.sles15sp4_client[0].configuration : local.empty_minion_config
-  sle15sp5_client_configuration    = length(module.sles15sp5_client) > 0 ? module.sles15sp5_client[0].configuration : local.empty_minion_config
-  sle15sp6_client_configuration    = length(module.sles15sp6_client) > 0 ? module.sles15sp6_client[0].configuration : local.empty_minion_config
-  sle15sp7_client_configuration    = length(module.sles15sp7_client) > 0 ? module.sles15sp7_client[0].configuration : local.empty_minion_config
+  sles12sp5_client_configuration    = length(module.sles12sp5_client) > 0 ? module.sles12sp5_client[0].configuration : local.empty_minion_config
+  sles15sp3_client_configuration    = length(module.sles15sp3_client) > 0 ? module.sles15sp3_client[0].configuration : local.empty_minion_config
+  sles15sp4_client_configuration    = length(module.sles15sp4_client) > 0 ? module.sles15sp4_client[0].configuration : local.empty_minion_config
+  sles15sp5_client_configuration    = length(module.sles15sp5_client) > 0 ? module.sles15sp5_client[0].configuration : local.empty_minion_config
+  sles15sp6_client_configuration    = length(module.sles15sp6_client) > 0 ? module.sles15sp6_client[0].configuration : local.empty_minion_config
+  sles15sp7_client_configuration    = length(module.sles15sp7_client) > 0 ? module.sles15sp7_client[0].configuration : local.empty_minion_config
   centos7_client_configuration     = length(module.centos7_client) > 0 ? module.centos7_client[0].configuration : local.empty_minion_config
 
   alma8_minion_configuration    = length(module.alma8_minion) > 0 ? module.alma8_minion[0].configuration : local.empty_minion_config
@@ -1718,8 +1718,8 @@ module "controller" {
   opensuse160arm_minion_configuration    = length(module.opensuse160arm_minion) > 0 ? module.opensuse160arm_minion[0].configuration : local.empty_minion_config
   opensuse160arm_sshminion_configuration = length(module.opensuse160arm_sshminion) > 0 ? module.opensuse160arm_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp5s390_minion_configuration    = length(module.sles15sp5s390_minion) > 0 ? module.sles15sp5s390_minion[0].configuration : local.empty_minion_config
-  sle15sp5s390_sshminion_configuration = length(module.sles15sp5s390_sshminion) > 0 ? module.sles15sp5s390_sshminion[0].configuration : local.empty_minion_config
+  sles15sp5s390_minion_configuration    = length(module.sles15sp5s390_minion) > 0 ? module.sles15sp5s390_minion[0].configuration : local.empty_minion_config
+  sles15sp5s390_sshminion_configuration = length(module.sles15sp5s390_sshminion) > 0 ? module.sles15sp5s390_sshminion[0].configuration : local.empty_minion_config
 
   salt_migration_minion_configuration = length(module.salt_migration_minion) > 0 ? module.salt_migration_minion[0].configuration : local.empty_minion_config
 
@@ -1732,11 +1732,11 @@ module "controller" {
   slmicro62_minion_configuration  = length(module.slmicro62_minion) > 0 ? module.slmicro62_minion[0].configuration : local.empty_minion_config
   slmicro62_sshminion_configuration = length(module.slmicro62_sshminion) > 0 ? module.slmicro62_sshminion[0].configuration : local.empty_minion_config
 
-  sle15sp6_buildhost_configuration = length(module.sles15sp6_buildhost) > 0 ? module.sles15sp6_buildhost[0].configuration : local.empty_minion_config
-  sle15sp7_buildhost_configuration = length(module.sles15sp7_buildhost) > 0 ? module.sles15sp7_buildhost[0].configuration : local.empty_minion_config
+  sles15sp6_buildhost_configuration = length(module.sles15sp6_buildhost) > 0 ? module.sles15sp6_buildhost[0].configuration : local.empty_minion_config
+  sles15sp7_buildhost_configuration = length(module.sles15sp7_buildhost) > 0 ? module.sles15sp7_buildhost[0].configuration : local.empty_minion_config
 
-  sle15sp6_terminal_configuration = length(module.sles15sp6_terminal) > 0 ? module.sles15sp6_terminal[0].configuration : local.empty_terminal_config
-  sle15sp7_terminal_configuration = length(module.sles15sp7_terminal) > 0 ? module.sles15sp7_terminal[0].configuration : local.empty_terminal_config
+  sles15sp6_terminal_configuration = length(module.sles15sp6_terminal) > 0 ? module.sles15sp6_terminal[0].configuration : local.empty_terminal_config
+  sles15sp7_terminal_configuration = length(module.sles15sp7_terminal) > 0 ? module.sles15sp7_terminal[0].configuration : local.empty_terminal_config
 
   monitoringserver_configuration = length(module.monitoring_server) > 0 ? module.monitoring_server[0].configuration : local.empty_minion_config
 }
