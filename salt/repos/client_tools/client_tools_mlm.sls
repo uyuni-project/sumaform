@@ -400,8 +400,7 @@ additional_tools_update_repo_raised_priority:
             Pin: release l=Devel:Galaxy:Manager:Stable:MLMTools-Ubuntu{{ release }}
             Pin-Priority: 800
 
-{# WORKAROUND: disable because of https://bugzilla.suse.com/show_bug.cgi?id=1271613
-{% elif 'head' == grains.get('product_version') | default('', true) %}
+{% elif False %} {# WORKAROUND: disable because of https://bugzilla.suse.com/show_bug.cgi?id=1271613 - was: 'head' == grains.get('product_version') #}
 
 {% set additional_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de", true) + '/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu' + release + '/xUbuntu_' + release + '-debbuild' %}
 additional_tools_update_repo:
@@ -419,7 +418,6 @@ tools_additional_tools_update_repo:
             Package: *
             Pin: release l=Devel:Galaxy:Manager:Main:MLMTools-Beta-Ubuntu{{ release }}
             Pin-Priority: 800
-#}
 
 {% endif %} {# Devel Tools Repos #}
 {% endif %} {# grains['os'] == 'Ubuntu' #}
