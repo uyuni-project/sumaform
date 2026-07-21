@@ -394,9 +394,9 @@ variable "volume_provider_settings" {
   default     = {}
 }
 
-variable "mirror" {
-  description = "Override for the mirror grain, defaults to base_configuration mirror"
-  default     = null
+variable "use_mirror" {
+  description = "whether to configure the mirror grain"
+  default     = true
 }
 
 variable "server_mounted_mirror" {
