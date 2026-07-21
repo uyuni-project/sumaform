@@ -163,7 +163,8 @@ module "server2_containerized" {
   mac                = var.environment_configuration.server2_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server2_containerized.image
   string_registry    = var.environment_configuration.server2_containerized.string_registry
-  mirror             = try(var.environment_configuration.server2_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
+  use_mirror         = try(var.environment_configuration.server2_containerized.use_mirror, true)
+  mirror             = var.platform_location_configuration[var.location].mirror
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   deploy_coco_attestation = try(var.environment_configuration.server2_containerized.deploy_coco_attestation, true)
@@ -181,7 +182,8 @@ module "server3_containerized" {
   mac                = var.environment_configuration.server3_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server3_containerized.image
   string_registry    = var.environment_configuration.server3_containerized.string_registry
-  mirror             = try(var.environment_configuration.server3_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
+  use_mirror         = try(var.environment_configuration.server3_containerized.use_mirror, true)
+  mirror             = var.platform_location_configuration[var.location].mirror
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   deploy_coco_attestation = try(var.environment_configuration.server3_containerized.deploy_coco_attestation, true)
@@ -199,7 +201,8 @@ module "server4_containerized" {
   mac                = var.environment_configuration.server4_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server4_containerized.image
   string_registry    = var.environment_configuration.server4_containerized.string_registry
-  mirror             = try(var.environment_configuration.server4_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
+  use_mirror         = try(var.environment_configuration.server4_containerized.use_mirror, true)
+  mirror             = var.platform_location_configuration[var.location].mirror
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   deploy_coco_attestation = try(var.environment_configuration.server4_containerized.deploy_coco_attestation, true)

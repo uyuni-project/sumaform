@@ -72,7 +72,7 @@ module "server_containerized" {
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels
-    mirror                         = var.mirror != null ? var.mirror : var.base_configuration["mirror"]
+    mirror                         = var.use_mirror ? var.base_configuration["mirror"] : null
     server_mounted_mirror          = var.server_mounted_mirror
     server_username                = var.server_username
     server_password                = var.server_password

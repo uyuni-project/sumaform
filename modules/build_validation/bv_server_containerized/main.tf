@@ -19,8 +19,8 @@ module "server_containerized" {
   database_disk_size             = var.database_disk_size
   container_tag                  = "latest"
   beta_enabled                   = false
-  mirror                         = var.mirror
-  server_mounted_mirror          = var.mirror
+  use_mirror                     = var.use_mirror
+  server_mounted_mirror          = var.use_mirror ? var.mirror : null
   java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false

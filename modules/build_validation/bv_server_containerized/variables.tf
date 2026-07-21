@@ -22,6 +22,11 @@ variable "string_registry" {
   type        = bool
 }
 
+variable "use_mirror" {
+  description = "whether to configure the mirror grain and mount the mirror"
+  default     = true
+}
+
 variable "mirror" {
   description = "hostname of a mounted mirror (for server_mounted_mirror)"
   default     = null
