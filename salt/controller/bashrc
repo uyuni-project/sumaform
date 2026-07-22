@@ -267,7 +267,7 @@ export PRODUCT="SUSE Multi-Linux Manager"
 {% endif %}
 
 # Ruby specific settings
-export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
+export GEM_PATH="/usr/lib64/ruby/gems/3.4.0"
 export PLAYWRIGHT_CLI_EXECUTABLE_PATH=/usr/local/bin/playwright
 
 {% if grains.get('prometheus_push_gateway_url') | default(false, true) %}
