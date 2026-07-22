@@ -225,6 +225,11 @@ google_cert_db:
    - creates: /root/.pki/nssdb
 
 # Health-check testing
+# TODO(SUSE/spacewalk#31270): temporarily skipped on Leap 16 until the
+# health-check package is built for openSUSE Leap 16.0 in OBS
+# (systemsmanagement:Uyuni:healthcheck:Stable has no Stable/16.0 repo yet).
+# Remove this guard to re-enable before merging the Leap 16 controller migration.
+{% if not (grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16) %}
 health_check_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
@@ -238,6 +243,7 @@ install_health_check:
     - resolve_capabilities: True
     - require:
       - pkgrepo: health_check_repo
+{% endif %}
 
 # NFS mounted partition to store reports in a external Web Server
 {% if grains.get('web_server_hostname') %}
