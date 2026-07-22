@@ -22,9 +22,9 @@ export SERVER="{{ grains.get('server') }}"
 {% endif %}
 {% if grains.get('sshminion') | default(false, true) %}export SSHMINION="{{ grains.get('sshminion') }}" {% else %}# no SSH minion defined
 {% endif %}
-{% if grains.get('redhat_minion') | default(false, true) %}export RHLIKE_MINION="{{ grains.get('redhat_minion') }}" {%
+{% if grains.get('rhlike_minion') | default(false, true) %}export RHLIKE_MINION="{{ grains.get('rhlike_minion') }}" {%
 else %}# no RedHat-like minion defined {% endif %}
-{% if grains.get('debian_minion') | default(false, true) %}export DEBLIKE_MINION="{{ grains.get('debian_minion') }}" {%
+{% if grains.get('deblike_minion') | default(false, true) %}export DEBLIKE_MINION="{{ grains.get('deblike_minion') }}" {%
 else %}# no Debian-like minion defined {% endif %}
 {% if grains.get('pxeboot_mac') | default(false, true) %}export PXEBOOT_MAC="{{ grains.get('pxeboot_mac') }}" {% else
 %}# no PXE boot MAC defined {% endif %}

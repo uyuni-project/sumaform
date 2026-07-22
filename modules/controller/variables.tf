@@ -115,15 +115,15 @@ variable "sshminion_configuration" {
   }
 }
 
-variable "redhat_configuration" {
-  description = "use module.<REDHAT_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+variable "rhlike_configuration" {
+  description = "use module.<RHLIKE_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "debian_configuration" {
-  description = "use module.<DEBIAN_NAME>.configuration, see main.tf.libvirt-testsuite.example"
+variable "deblike_configuration" {
+  description = "use module.<DEBLIKE_NAME>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

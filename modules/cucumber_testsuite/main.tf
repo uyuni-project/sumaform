@@ -648,9 +648,8 @@ module "controller" {
   client_configuration           = contains(local.hosts, "suse_client") ? module.suse_client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   minion_configuration           = contains(local.hosts, "suse_minion") ? module.suse_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   sshminion_configuration        = contains(local.hosts, "suse_sshminion") ? module.suse_sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  # TODO: rename redhat_configuration and debian_configuration to rhlike_configuration and deblike_configuration once the renaming is done: https://github.com/SUSE/spacewalk/issues/25062
-  redhat_configuration           = contains(local.hosts, "rhlike_minion") ? module.rhlike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
-  debian_configuration           = contains(local.hosts, "deblike_minion") ? module.deblike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  rhlike_configuration           = contains(local.hosts, "rhlike_minion") ? module.rhlike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
+  deblike_configuration          = contains(local.hosts, "deblike_minion") ? module.deblike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   buildhost_configuration        = contains(local.hosts, "build_host") ? module.build_host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   pxeboot_configuration          = contains(local.hosts, "pxeboot_minion") ? module.pxeboot_minion.configuration : { private_mac = null, private_ip = null, private_name = null, image = null }
   kvmhost_configuration          = contains(local.hosts, "kvm_host") ? module.kvm_host.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
