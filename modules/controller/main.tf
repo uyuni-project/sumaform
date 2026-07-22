@@ -60,8 +60,8 @@ module "controller" {
     client            = length(var.client_configuration["hostnames"]) > 0 ? var.client_configuration["hostnames"][0] : null
     minion            = length(var.minion_configuration["hostnames"]) > 0 ? var.minion_configuration["hostnames"][0] : null
     build_host        = length(var.buildhost_configuration["hostnames"]) > 0 ? var.buildhost_configuration["hostnames"][0] : null
-    redhat_minion     = length(var.redhat_configuration["hostnames"]) > 0 ? var.redhat_configuration["hostnames"][0] : null
-    debian_minion     = length(var.debian_configuration["hostnames"]) > 0 ? var.debian_configuration["hostnames"][0] : null
+    rhlike_minion     = length(var.rhlike_configuration["hostnames"]) > 0 ? var.rhlike_configuration["hostnames"][0] : null
+    deblike_minion    = length(var.deblike_configuration["hostnames"]) > 0 ? var.deblike_configuration["hostnames"][0] : null
     sshminion         = length(var.sshminion_configuration["hostnames"]) > 0 ? var.sshminion_configuration["hostnames"][0] : null
     pxeboot_mac       = var.pxeboot_configuration["private_mac"]
     kvm_host          = length(var.kvmhost_configuration["hostnames"]) > 0 ? var.kvmhost_configuration["hostnames"][0] : null
