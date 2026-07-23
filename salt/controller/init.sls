@@ -237,9 +237,7 @@ google_cert_db:
 
 # Health-check testing
 # TODO(SUSE/spacewalk#31270): temporarily skipped on Leap 16 until the
-# health-check package is built for openSUSE Leap 16.0 in OBS
-# (systemsmanagement:Uyuni:healthcheck:Stable/openSUSE_Leap_16.0 - Leap repos
-# use the openSUSE_Leap_X.Y naming, SLE repos use the bare X.Y version).
+# health-check package is built for openSUSE Leap 16.0 in OBS.
 # Remove this guard to re-enable before merging the Leap 16 controller migration.
 {% if not (grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16) %}
 health_check_repo:
