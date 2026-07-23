@@ -21,9 +21,9 @@
 # Commented out because we already add this repo in cloud-init:
 # manager52_repo:
 #   pkgrepo.managed:
-#     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images/repo/Multi-Linux-Manager-Server-5.2-{{ grains.get("cpuarch") }}
+#     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2:/MLM-Products/images/repo/Multi-Linux-Manager-Server-5.2-{{ grains.get("cpuarch") }}
 #     - refresh: True
-#     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images/repo/Multi-Linux-Manager-Server-5.2-{{ grains.get("cpuarch") }}/repodata/repomd.xml.key
+#     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2:/MLM-Products/images/repo/Multi-Linux-Manager-Server-5.2-{{ grains.get("cpuarch") }}/repodata/repomd.xml.key
 {% endif %}
 
 {% elif grains['osfullname'] == 'SLES' %}
@@ -66,9 +66,6 @@ manager52_repo:
     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images-SP7/repo/SUSE-Multi-Linux-Manager-Server-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1/repodata/repomd.xml.key
 {% endif %}
 
-{% endif %}
-{% endif %}
-{% endif %}
 {% endif %}
 {% endif %}
 {% endif %}

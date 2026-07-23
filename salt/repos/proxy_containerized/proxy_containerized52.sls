@@ -21,9 +21,9 @@
 # Commented out because we already add this repo in cloud-init:
 # manager52_repo:
 #   pkgrepo.managed:
-#     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images/repo/Multi-Linux-Manager-Proxy-5.2-{{ grains.get("cpuarch") }}
+#     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2:/MLM-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-{{ grains.get("cpuarch") }}
 #     - refresh: True
-#     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images/repo/Multi-Linux-Manager-Proxy-5.2-{{ grains.get("cpuarch") }}/repodata/repomd.xml.key
+#     - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2:/MLM-Products/images/repo/Multi-Linux-Manager-Proxy-5.2-{{ grains.get("cpuarch") }}/repodata/repomd.xml.key
 {% endif %}
 
 {% elif grains['osfullname'] == 'SLES' %}
