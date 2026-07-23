@@ -1,5 +1,4 @@
 {% if grains['os'] == 'SUSE' and (
-      'controller' in grains.get('roles') or
       'grafana' in grains.get('roles') or
       'mirror' in grains.get('roles') or
       grains.get('evil_minion_count') or
@@ -26,18 +25,12 @@
 {% endif %}
 {% endif %}
 
-{# TEMP(SUSE/spacewalk#31270): systemsmanagement:sumaform:tools has no working Leap 16 build
-   yet (most packages fail/unresolvable in the 16.0 repo). The controller only needs
-   node_exporter from this family and gets it from the Leap 16 base repo, so skip adding the
-   broken/near-empty tools repo on Leap 16 until it is rebuilt. Remove this guard to re-enable. #}
-{% if not (grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16) %}
 tools_repo:
   pkgrepo.managed:
     - baseurl: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/
     - refresh: True
     - gpgcheck: 1
     - gpgkey: http://{{ grains.get("mirror") | default("downloadcontent.opensuse.org", true) }}/repositories/systemsmanagement:/sumaform:/tools/{{path}}/repodata/repomd.xml.key
-{% endif %}
 
 {% endif %}
 
