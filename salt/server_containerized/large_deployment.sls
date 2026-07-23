@@ -28,7 +28,7 @@ large_deployment_tune_tomcat_maxthreads:
     - onchanges:
       - cmd: large_deployment_tune_tomcat_stylesheet_copy
 
-{% if '5.1' in grains.get('product_version', '') or 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') %}
+{% if grains.get('product_version', '') | regex_search('5\.1|5\.2|uyuni|head') %}
 large_deployment_increase_sshd_maxstartups:
   file.managed:
     - name: /etc/ssh/sshd_config.d/99-maxstartups.conf
@@ -53,7 +53,7 @@ reload_sshd:
     - watch:
       - file: large_deployment_increase_sshd_maxstartups
 
-{% if 'uyuni' in grains.get('product_version', '') or 'head' in grains.get('product_version', '') or '5.1' in grains.get('product_version', '') %}
+{% if grains.get('product_version', '') | regex_search('5\.1|5\.2|uyuni|head') %}
 large_deployment_increase_database_max_connections_db_container:
   cmd.run:
     - name: podman exec uyuni-db sed -i "s/max_connections = .*/max_connections = 400/" /var/lib/pgsql/data/postgresql.conf
