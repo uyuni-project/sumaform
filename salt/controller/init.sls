@@ -32,11 +32,11 @@ cucumber_requisites:
       - gcc
       - make
       - wget
-      - ruby3.3
-      - ruby3.3-devel
+      - ruby3.4
+      - ruby3.4-devel
+      - ruby3.4-devel-extra
       - ca-certificates-mozilla
       - apache2-worker
-      - apache2-mod_nss
       - cantarell-fonts
       - git-core
       - aaa_base-extras
@@ -47,34 +47,45 @@ cucumber_requisites:
 
 /usr/bin/ruby:
   file.symlink:
-    - target: /usr/bin/ruby.ruby3.3
+    - target: /usr/bin/ruby.ruby3.4
     - force: True
 
 /usr/bin/gem:
   file.symlink:
-    - target: /usr/bin/gem.ruby3.3
+    - target: /usr/bin/gem.ruby3.4
     - force: True
 
 /usr/bin/irb:
   file.symlink:
-    - target: /usr/bin/irb.ruby3.3
+    - target: /usr/bin/irb.ruby3.4
     - force: True
 
+# On Leap 16 the default /usr/bin/{rake,bundle,rdoc,ri} are ELF wrappers and
+# ruby3.4 registers no update-alternatives group, so point them at the Ruby
+# script variants (*.ruby.ruby3.4) via symlinks instead of `update-alternatives`.
 ruby_set_rake_version:
-  cmd.run:
-    - name: update-alternatives --set rake /usr/bin/rake.ruby.ruby3.3
+  file.symlink:
+    - name: /usr/bin/rake
+    - target: /usr/bin/rake.ruby.ruby3.4
+    - force: True
 
 ruby_set_bundle_version:
-  cmd.run:
-    - name: update-alternatives --set bundle /usr/bin/bundle.ruby.ruby3.3
+  file.symlink:
+    - name: /usr/bin/bundle
+    - target: /usr/bin/bundle.ruby.ruby3.4
+    - force: True
 
 ruby_set_rdoc_version:
-  cmd.run:
-    - name: update-alternatives --set rdoc /usr/bin/rdoc.ruby.ruby3.3
+  file.symlink:
+    - name: /usr/bin/rdoc
+    - target: /usr/bin/rdoc.ruby.ruby3.4
+    - force: True
 
 ruby_set_ri_version:
-  cmd.run:
-    - name: update-alternatives --set ri /usr/bin/ri.ruby.ruby3.3
+  file.symlink:
+    - name: /usr/bin/ri
+    - target: /usr/bin/ri.ruby.ruby3.4
+    - force: True
 
 # Distro Chromium is kept ONLY to provide the shared libraries (libgbm, NSS, fonts, ...)
 # that the Playwright-managed Chromium needs. It is not the browser Playwright launches.
@@ -120,7 +131,7 @@ playwright_cli_env:
 
 install_gems_via_bundle:
   cmd.run:
-    - name: bundle.ruby.ruby3.3 install --gemfile Gemfile
+    - name: bundle.ruby.ruby3.4 install --gemfile Gemfile
     - cwd: /root/spacewalk/testsuite
     - require:
       - pkg: cucumber_requisites
@@ -225,10 +236,15 @@ google_cert_db:
    - creates: /root/.pki/nssdb
 
 # Health-check testing
+{% if grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16 %}
+{% set health_check_path = 'openSUSE_Leap_' + grains['osrelease'] %}
+{% else %}
+{% set health_check_path = grains.get("osrelease") %}
+{% endif %}
 health_check_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}/repodata/repomd.xml.key
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ health_check_path }}
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ health_check_path }}/repodata/repomd.xml.key
     - gpgcheck: 0
     - refresh: True
 
