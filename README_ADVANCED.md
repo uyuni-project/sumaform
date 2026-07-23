@@ -979,6 +979,47 @@ module "server" {
 }
 ```
 
+## Kubernetes storage
+
+The `server_kubernetes` and `cucumber_testsuite` modules use Rancher's `local-path` StorageClass by default.
+This preserves the existing single-node test-lab behavior: sumaform installs the local-path provisioner, marks the StorageClass as default, and creates static hostPath PersistentVolumes for the server database and `/var/spacewalk` volumes.
+
+To use an existing Kubernetes StorageClass from another storage provider, set the storage backend to `external` and provide the StorageClass name:
+
+```hcl
+module "server_kubernetes" {
+  source             = "./modules/server_kubernetes"
+  base_configuration = module.base.configuration
+
+  name                       = "server"
+  kubernetes_storage_backend = "external"
+  kubernetes_storage_class   = "my-storage-class"
+}
+```
+
+With the `external` backend, sumaform does not install the local-path provisioner and does not create the static local hostPath PersistentVolumes by default.
+The `external` backend is externally managed storage: sumaform does not install any storage provider for it.
+The configured StorageClass is passed to the Uyuni Helm chart PVCs under `server-helm.volumes.storageClass`, so the selected storage provider must already exist in the cluster.
+Set `kubernetes_storage_class = null` to rely on the cluster's default StorageClass.
+
+The local-path backend can also be tuned without changing the default behavior:
+
+```hcl
+module "server_kubernetes" {
+  source             = "./modules/server_kubernetes"
+  base_configuration = module.base.configuration
+
+  name                                  = "server"
+  kubernetes_storage_backend            = "local-path"
+  kubernetes_storage_class              = "local-path"
+  local_path_provisioner_path           = "/opt/local-path-provisioner"
+  local_path_provisioner_default_class  = true
+  local_path_provisioner_reclaim_policy = "Delete"
+}
+```
+
+The same settings can be set globally on the `cucumber_testsuite` module or per host in `host_settings` for `server_kubernetes`.
+
 ## Large deployments
 
 By default to support the load in our test suites, when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option.

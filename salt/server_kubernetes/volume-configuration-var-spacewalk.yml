@@ -1,3 +1,6 @@
+{% set storage_class = grains.get('kubernetes_storage_class') | default('local-path', true) %}
+{% set local_path = grains.get('local_path_provisioner_path') | default('/opt/local-path-provisioner', true) %}
+{% set var_spacewalk_host_path = grains.get('kubernetes_var_spacewalk_host_path') | default(local_path ~ '/var-spacewalk', true) %}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -9,13 +12,13 @@ spec:
     storage: 100Gi
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
+  storageClassName: "{{ storage_class }}"
 
   claimRef:
     namespace: uyuni
     name: var-spacewalk
   hostPath:
-    path: /opt/local-path-provisioner/var-spacewalk
+    path: "{{ var_spacewalk_host_path }}"
     type: DirectoryOrCreate
   persistentVolumeReclaimPolicy: Delete
   volumeMode: Filesystem

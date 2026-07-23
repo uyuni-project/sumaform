@@ -144,8 +144,59 @@ variable "install_traefik" {
 }
 
 variable "install_local_path_provisioner" {
-  description = "true to install local-path-provisioner"
+  description = "true to install local-path-provisioner when kubernetes_storage_backend is local-path"
   default = true
+}
+
+variable "kubernetes_storage_backend" {
+  description = "Storage backend for Kubernetes PVCs. local-path installs Rancher's local-path provisioner; external expects an existing StorageClass."
+  default     = "local-path"
+
+  validation {
+    condition     = contains(["local-path", "external"], var.kubernetes_storage_backend)
+    error_message = "kubernetes_storage_backend must be one of: local-path, external."
+  }
+}
+
+variable "kubernetes_storage_class" {
+  description = "StorageClass name used by Kubernetes PVCs. Leave null to use local-path for the local-path backend or the cluster default for the external backend."
+  type        = string
+  default     = null
+}
+
+variable "local_path_provisioner_path" {
+  description = "Host path used by Rancher's local-path provisioner for dynamically provisioned volumes."
+  default     = "/opt/local-path-provisioner"
+}
+
+variable "local_path_provisioner_default_class" {
+  description = "true to mark the local-path StorageClass as the cluster default when it is installed."
+  default     = true
+}
+
+variable "local_path_provisioner_reclaim_policy" {
+  description = "Reclaim policy for the local-path StorageClass."
+  default     = "Delete"
+}
+
+variable "kubernetes_create_static_var_spacewalk_pv" {
+  description = "Whether to create the static var-spacewalk hostPath PersistentVolume. Leave null to enable it only with the local-path backend."
+  default     = null
+}
+
+variable "kubernetes_create_static_var_pgsql_pv" {
+  description = "Whether to create the static var-pgsql18 hostPath PersistentVolume. Leave null to enable it only with the local-path backend."
+  default     = null
+}
+
+variable "kubernetes_var_spacewalk_host_path" {
+  description = "Host path used by the static var-spacewalk PersistentVolume."
+  default     = null
+}
+
+variable "kubernetes_var_pgsql_host_path" {
+  description = "Host path used by the static var-pgsql18 PersistentVolume."
+  default     = null
 }
 
 variable "db_container_registry" {
