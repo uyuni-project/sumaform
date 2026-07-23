@@ -242,8 +242,8 @@ google_cert_db:
 {% if not (grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16) %}
 health_check_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ 'openSUSE_Leap_' if grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16 else '' }}{{ grains.get("osrelease") }}
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ 'openSUSE_Leap_' if grains['osfullname'] == 'Leap' and grains['osrelease'] | int >= 16 else '' }}{{ grains.get("osrelease") }}/repodata/repomd.xml.key
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}/repodata/repomd.xml.key
     - gpgcheck: 0
     - refresh: True
 
