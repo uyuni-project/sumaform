@@ -936,3 +936,58 @@ variable "kubeconfig_path" {
   description = "Path to a kubeconfig file on the host running Terraform; its contents will be copied to /root/.kube/config on the controller. Leave null to skip."
   default = null
 }
+
+variable "install_kubernetes_server_on_external_cluster" {
+  description = "true to install the Kubernetes Uyuni server from the controller using /root/.kube/config"
+  default     = false
+}
+
+variable "kubernetes_server_fqdn" {
+  description = "FQDN used by the Uyuni server when installing into an external Kubernetes cluster"
+  default     = null
+}
+
+variable "kubernetes_server_helm_chart_name" {
+  description = "Name of the Uyuni server Helm chart used for external Kubernetes cluster installs"
+  default     = "server-helm"
+}
+
+variable "kubernetes_server_helm_chart_url" {
+  description = "URL of the Uyuni server Helm chart used for external Kubernetes cluster installs"
+  default     = "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2"
+}
+
+variable "kubernetes_server_container_registry" {
+  description = "Container registry used by the Uyuni server Helm values for external Kubernetes cluster installs"
+  default     = ""
+}
+
+variable "use_devel_oci" {
+  description = "true to use devel OCIs for external Kubernetes cluster installs"
+  default     = false
+}
+
+variable "install_cert_manager" {
+  description = "true to install cert-manager and trust-manager when installing into an external Kubernetes cluster"
+  default     = true
+}
+
+variable "deploy_coco_attestation" {
+  description = "true to set up the coco attestation container when installing into an external Kubernetes cluster"
+  default     = true
+}
+
+variable "deploy_saline" {
+  description = "true to set up the saline container when installing into an external Kubernetes cluster"
+  default     = true
+}
+
+variable "deploy_hub_api" {
+  description = "true to set up the hub API container when installing into an external Kubernetes cluster"
+  default     = true
+}
+
+variable "deploy_tftp" {
+  description = "true to enable the TFTP service in external Kubernetes cluster Helm values"
+  default     = true
+}

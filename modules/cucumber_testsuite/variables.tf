@@ -193,6 +193,21 @@ variable "kubernetes" {
   default = false
 }
 
+variable "kubernetes_cluster_mode" {
+  description = "Kubernetes deployment mode. managed creates the RKE2 server VM; external installs the server into an existing cluster from the controller."
+  default     = "managed"
+
+  validation {
+    condition     = contains(["managed", "external"], var.kubernetes_cluster_mode)
+    error_message = "kubernetes_cluster_mode must be either managed or external."
+  }
+}
+
+variable "kubernetes_external_server_hostname" {
+  description = "FQDN used by the Uyuni server when kubernetes_cluster_mode is external. Leave null to use the default sumaform server FQDN."
+  default     = null
+}
+
 variable "use_devel_oci" {
   description = "true to use devel OCIs"
   default = false
