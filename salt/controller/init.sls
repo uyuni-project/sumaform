@@ -3,6 +3,9 @@ include:
   - controller.apache_https
 
 {% set ruby_version = '3.4' if grains['osrelease'] == '16.0' else '3.3' %}
+# WORKAROUND: remove once healthcheck is available for Leap 16 too.
+# Right now Tumbleweed has a version for which we can satisfy the dependencies
+{% set healthcheck_os = 'openSUSE_Tumbleweed' if grains['osrelease'] == '16.0' else grains['osrelease'] %}
 
 ssh_private_key:
   file.managed:
@@ -229,8 +232,8 @@ google_cert_db:
 # Health-check testing
 health_check_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}
-    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ grains.get("osrelease") }}/repodata/repomd.xml.key
+    - baseurl: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ healthcheck_os }}
+    - gpgkey: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{{ healthcheck_os }}/repodata/repomd.xml.key
     - gpgcheck: 0
     - refresh: True
 
