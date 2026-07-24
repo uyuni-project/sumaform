@@ -1,4 +1,13 @@
 {% if grains.get('testsuite') | default(false, true) %}
+{% set skip_server_install = grains.get('skip_server_install') | default(false, true) %}
+
+authorized_keys_buildhost:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://build_host/keys/id_ed25519.pub
+    - makedirs: True
+
+{% if not skip_server_install %}
 
 minima_download:
   cmd.run:
@@ -62,12 +71,6 @@ cobbler_restart:
     - name: mgrctl exec systemctl restart cobblerd
     - require:
       - cmd: cobbler_configuration
-
-authorized_keys_buildhost:
-  file.append:
-    - name: /root/.ssh/authorized_keys
-    - source: salt://build_host/keys/id_ed25519.pub
-    - makedirs: True
 
 {%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-main', 'uyuni-pr', 'uyuni-released'] %}
 uyuni_key_copy_host:
@@ -163,5 +166,7 @@ dump_salt_event_log_start:
     - name: mgrctl exec systemctl start salt-events.service
     - require:
       - cmd: dump_salt_event_log
+
+{% endif %}
 
 {% endif %}

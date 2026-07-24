@@ -433,3 +433,9 @@ variable "server_hub_peripheral" {
   type        = string
   default     = null
 }
+
+variable "skip_server_install" {
+  description = "Do not install and configure the server container; only prepare the host (podman, mgradm, mgradm.yaml). Used when the Uyuni testsuite performs the installation itself."
+  type        = bool
+  default     = false
+}

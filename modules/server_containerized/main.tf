@@ -101,6 +101,7 @@ module "server_containerized" {
     enable_oval_metadata           = var.enable_oval_metadata
     hub_peripheral_fqdns           = var.hub_peripheral_fqdns
     server_hub_peripheral          = var.server_hub_peripheral
+    skip_server_install            = var.skip_server_install
   }
 }
 
