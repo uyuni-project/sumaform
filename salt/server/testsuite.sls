@@ -6,43 +6,6 @@ include:
 # There products already have salt, prevent version conflicts by not updating/downgrading them
 {% set products_with_preinstalled_salt = [ "build_image", "paygo", "4.3-VM-nightly", "4.3-VM-released" ] %}
 
-minima:
-  archive.extracted:
-    - name: /usr/bin
-    - source: https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz
-    - source_hash: https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz.sha512
-    - archive_format: tar
-    - enforce_toplevel: false
-    - keep: True
-    - overwrite: True
-
-test_repo_rpm_updates:
-  cmd.run:
-    - name: minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
-    - require:
-      - archive: minima
-
-test_repo_appstream:
-  cmd.run:
-    - name: minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
-            path: /srv/www/htdocs/pub/TestRepoAppStream
-    - require:
-      - archive: minima
-
-another_test_repo:
-  file.symlink:
-    - name: /srv/www/htdocs/pub/AnotherRepo
-    - target: TestRepoRpmUpdates
-    - require:
-      - cmd: test_repo_rpm_updates
-
 test_repo_debian_updates:
   cmd.script:
     - name: salt://server/download_ubuntu_repo.sh
