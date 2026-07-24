@@ -2,7 +2,7 @@ data "aws_region" "current" {}
 
 data "aws_ami" "tumbleweedo" {
   # Only execute this lookup if the region is eu-central-1 (Frankfurt)
-  count = data.aws_region.current.id == "eu-central-1" ? 1 : 0
+  count = data.aws_region.current.region == "eu-central-1" ? 1 : 0
 
   most_recent = true
   owners      = ["self"] // custom built AMI
@@ -15,28 +15,6 @@ data "aws_ami" "tumbleweedo" {
   filter {
     name   = "state"
     values = ["available"]
-  }
-}
-
-
-data "aws_ami" "opensuse156o" {
-  most_recent = true
-  name_regex  = "^openSUSE-Leap-15.6-"
-  owners      = ["679593333241"]
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
   }
 }
 
