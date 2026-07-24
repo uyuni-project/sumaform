@@ -70,12 +70,6 @@ grains.get('slesforsap15sp5_paygo_minion') }}" {% else %}# no SLESFORSAP15SP5_PA
 grains.get('sles12sp5_sshminion') }}" {% else %}# no SLES12SP5 ssh minion defined {% endif %}
 {% if grains.get('sles12sp5_client') | default(false, true) %}export SLES12SP5_CLIENT="{{ grains.get('sles12sp5_client')
 }}" {% else %}# no SLES12SP5 client defined {% endif %}
-{% if grains.get('sles15sp3_minion') | default(false, true) %}export SLES15SP3_MINION="{{ grains.get('sles15sp3_minion')
-}}" {% else %}# no SLES15SP3 minion defined {% endif %}
-{% if grains.get('sles15sp3_sshminion') | default(false, true) %}export SLES15SP3_SSHMINION="{{
-grains.get('sles15sp3_sshminion') }}" {% else %}# no SLES15SP3 ssh minion defined {% endif %}
-{% if grains.get('sles15sp3_client') | default(false, true) %}export SLES15SP3_CLIENT="{{ grains.get('sles15sp3_client')
-}}" {% else %}# no SLES15SP3 client defined {% endif %}
 {% if grains.get('sles15sp4_client') | default(false, true) %}export SLES15SP4_CLIENT="{{ grains.get('sles15sp4_client')
 }}" {% else %}# no SLES15SP4 client defined {% endif %}
 {% if grains.get('sles15sp4_minion') | default(false, true) %}export SLES15SP4_MINION="{{ grains.get('sles15sp4_minion')
@@ -204,10 +198,6 @@ grains.get('debian12_sshminion') }}" {% else %}# no DEBIAN12 ssh minion defined 
 }}" {% else %}# no DEBIAN13 minion defined {% endif %}
 {% if grains.get('debian13_sshminion') | default(false, true) %}export DEBIAN13_SSHMINION="{{
 grains.get('debian13_sshminion') }}" {% else %}# no DEBIAN13 ssh minion defined {% endif %}
-{% if grains.get('sles15sp3_buildhost') | default(false, true) %}export SLES15SP3_BUILDHOST="{{
-grains.get('sles15sp3_buildhost') }}" {% else %}# no SLES15SP3 buildhost defined {% endif %}
-{% if grains.get('sles15sp3_terminal_mac') | default(false, true) %}export SLES15SP3_TERMINAL_MAC="{{
-grains.get('sles15sp3_terminal_mac') }}" {% else %}# no SLES15SP3 terminal MAC defined {% endif %}
 {% if grains.get('sles15sp4_buildhost') | default(false, true) %}export SLES15SP4_BUILDHOST="{{
 grains.get('sles15sp4_buildhost') }}" {% else %}# no SLES15SP4 buildhost defined {% endif %}
 {% if grains.get('sles15sp4_terminal_mac') | default(false, true) %}export SLES15SP4_TERMINAL_MAC="{{

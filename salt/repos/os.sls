@@ -53,39 +53,7 @@ os_ltss_repo:
 {% if '15' in grains['osrelease'] %}
 {% if not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true)) %} ## Skip if SCC support or PAYG
 
-{% if '15.2' == grains['osrelease'] %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP2/{{ grains.get("cpuarch") }}/product/
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP2/{{ grains.get("cpuarch") }}/update/
-    - refresh: True
-
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP2-LTSS/{{ grains.get("cpuarch") }}/update/
-
-{% elif '15.3' == grains['osrelease'] %}
-
-os_pool_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/SLE-Module-Basesystem/15-SP3/{{ grains.get("cpuarch") }}/product/
-    - refresh: True
-
-os_update_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Module-Basesystem/15-SP3/{{ grains.get("cpuarch") }}/update/
-    - refresh: True
-
-os_ltss_repo:
-  pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Product-SLES/15-SP3-LTSS/{{ grains.get("cpuarch") }}/update/
-
-{% elif '15.4' == grains['osrelease'] %}
+{% if '15.4' == grains['osrelease'] %}
 
 os_pool_repo:
   pkgrepo.managed:

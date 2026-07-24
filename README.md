@@ -174,7 +174,6 @@ module "base" {
     "rocky9o",
     "rocky10o",
     "sles12sp5o",
-    "sles15sp3o",
     "sles15sp4o",
     "sles15sp5o",
     "sles15sp6o",
