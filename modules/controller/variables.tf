@@ -835,6 +835,11 @@ variable "ipv6" {
   }
 }
 
+variable "image" {
+  description = "An image name, e.g. sles12sp4 or opensuse156o"
+  type        = string
+}
+
 variable "git_profiles_repo" {
   description = "URL of git repository with alternate Docker and Kiwi profiles, see README_ADVANCED.md"
   default     = "default"
