@@ -667,9 +667,11 @@ module "monitoring_server" {
 
 module "controller" {
   source = "../controller"
-  name   = lookup(local.names, "controller", "controller")
 
-  base_configuration             = module.base.configuration
+  base_configuration = module.base.configuration
+  image              = lookup(local.images, "controller", "opensuse156o")
+  name               = lookup(local.names, "controller", "controller")
+
   server_configuration           = local.server_configuration
   proxy_configuration            = local.proxy_configuration
   client_configuration           = contains(local.hosts, "suse_client") ? module.suse_client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
