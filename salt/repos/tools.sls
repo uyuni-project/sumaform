@@ -7,7 +7,7 @@
 ) %}
 
 {% if grains['osfullname'] == 'Leap' %}
-{% set path = 'openSUSE_Leap_' + grains['osrelease'] %}
+{% set path = grains['osrelease'] if grains['osrelease'] == '16.0' else 'openSUSE_Leap_' + grains['osrelease'] %}
 {% endif %}
 
 {% if grains['osfullname'] != 'Leap' %}
