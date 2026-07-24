@@ -44,6 +44,8 @@ module "server_containerized" {
   deploy_saline           = var.deploy_saline
   deploy_hub_api          = var.deploy_hub_api
 
+  skip_server_install   = var.skip_server_install
+
   additional_repos = var.additional_repos
 }
 

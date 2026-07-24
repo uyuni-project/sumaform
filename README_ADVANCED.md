@@ -1048,6 +1048,25 @@ module "server_containerized" {
 }
 ```
 
+## Skipping server installation (testsuite-driven install)
+
+By default, sumaform installs the server container via `mgradm install` during provisioning.
+Set `skip_server_install = true` to skip this step: sumaform will prepare the host
+(repositories, podman, mgradm binary, `/root/mgradm.yaml`, additional disks, and testsuite
+SSH key) but will not run `mgradm install` or apply any post-install configuration.
+The Uyuni testsuite is then responsible for running `mgradm install` and all subsequent setup.
+
+```hcl
+module "server_containerized" {
+  ...
+  skip_server_install = true
+  ...
+}
+```
+
+Do not combine `skip_server_install = true` with `server_hub_peripheral` or a non-empty
+`hub_peripheral_fqdns` — those flows require the server container to be running during provisioning.
+
 ## Using a different FQDN
 
 Normally, the fully qualified domain name (FQDN) is derived from `name` variable. However, some providers, like AWS cloud provider, impose a naming scheme that does not always match this mechanism. You may also want a name for libvirt that differs from the hostname part of the FQDN. The `overwrite_fqdn` variable allows the FQDN to diverge from the value normally derived from the name.

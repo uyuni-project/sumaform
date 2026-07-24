@@ -4,7 +4,7 @@ mgradm_config:
     - source: salt://server_containerized/mgradm.yaml
     - template: jinja
 
-{% if not (grains.get('server_hub_peripheral') | default(false, true)) %}
+{% if not (grains.get('server_hub_peripheral') | default(false, true)) and not (grains.get('skip_server_install') | default(false, true)) %}
 mgradm_install:
   cmd.run:
     - name: mgradm install podman --logLevel=debug --config /root/mgradm.yaml {{ grains['fqdn'] }}
