@@ -7,10 +7,24 @@ apache2_service_stopped:
     - name: apache2
     - enable: False
 
-# Install Apache SSL package (needed for certificate generation tools)
-apache2_ssl_package:
+# Install standard Apache and OpenSSL tools (needed for certificate generation tools)
+apache2_base_packages:
   pkg.installed:
-    - name: apache2-mod_nss
+    - pkgs:
+      - apache2
+      - openssl
+
+apache2_ssl_directories:
+  file.directory:
+    - names:
+      - /etc/apache2/ssl.key
+      - /etc/apache2/ssl.crt
+    - user: root
+    - group: root
+    - mode: 755
+    - makedirs: True
+    - require:
+      - pkg: apache2_base_packages
 
 # Generate Self-Signed Certificate (used by Python script)
 self_signed_cert:
@@ -22,7 +36,7 @@ self_signed_cert:
         -subj '/CN={{ server_name }}/O=Controller/OU=Testsuite'
     - unless: test -f /etc/apache2/ssl.crt/selfsigned.crt
     - require:
-      - pkg: apache2_ssl_package
+      - file: apache2_ssl_directories
 
 # Manage the Python Script file
 https_python_script_file:

@@ -36,7 +36,6 @@ cucumber_requisites:
       - ruby3.3-devel
       - ca-certificates-mozilla
       - apache2-worker
-      - apache2-mod_nss
       - cantarell-fonts
       - git-core
       - aaa_base-extras
