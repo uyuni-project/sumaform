@@ -72,16 +72,16 @@ For some modules like `minion`, `image` is mandatory and OpenTofu will refuse to
 
 For other modules like `server` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
 
-The following example creates a SUSE Manager server using "nightly" packages from version 5.0 based on SLES 15 SP3:
+The following example creates a SUSE Manager server using "nightly" packages from version 5.1 based on SLES 15 SP7:
 
 ```hcl
 module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
 
-  image = "sles15sp3o"
+  image = "sles15sp7o"
   name = "server"
-  product_version = "5.0-nightly"
+  product_version = "5.1-nightly"
 }
 ```
 
@@ -351,13 +351,13 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "5.0-nightly"
-  channels = ["sles15-sp3-pool-x86_64", "sles15-sp3-updates-x86_64"]
+  product_version = "5.1-nightly"
+  channels = ["sles15-sp7-pool-x86_64", "sles15-sp7-updates-x86_64"]
   wait_for_reposync = true
   cloned_channels = [
-    { channels = ["sles15-sp3-pool-x86_64", "sles15-sp3-updates-x86_64"],
-      prefix   = "cloned-2017-q3",
-      date     = "2017-09-30"
+    { channels = ["sles15-sp7-pool-x86_64", "sles15-sp7-updates-x86_64"],
+      prefix   = "cloned-2026-q3",
+      date     = "2026-09-30"
     }
   ]
 }

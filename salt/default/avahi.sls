@@ -4,21 +4,11 @@ include:
 {% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
 # TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES < SLES15SP4
-{% if grains['osfullname'] == 'SLES' and grains['osrelease'] != '15.7' and grains['osrelease'] != '15.6' and grains['osrelease'] != '15.5' and grains['osrelease'] != '15.4' %}
+{% if grains['osfullname'] == 'SLES' and grains['osrelease'] == '12.5' %}
 custom_avahi_repo:
   pkgrepo.managed:
     - humanname: custom_avahi_repo
-    {% if grains['osrelease'] == '12.5' %}
     - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP5/
-    {% elif grains['osrelease'] == '15.3' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP3/
-    {% elif grains['osrelease'] == '15.4' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.7/SLE_15_SP4/
-    {% elif grains['osrelease'] == '15.5' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.8/SLE_15_SP5/
-    {% elif grains['osrelease'] == '15.6' %}
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.8/SLE_15_SP6/
-    {% endif %}
     - enabled: True
     - refresh: True
     - priority: 95

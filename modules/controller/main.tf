@@ -97,9 +97,6 @@ module "controller" {
     sles12sp5_minion          = length(var.sles12sp5_minion_configuration["hostnames"]) > 0 ? var.sles12sp5_minion_configuration["hostnames"][0] : null
     sles12sp5_sshminion       = length(var.sles12sp5_sshminion_configuration["hostnames"]) > 0 ? var.sles12sp5_sshminion_configuration["hostnames"][0] : null
     sles12sp5_client          = length(var.sles12sp5_client_configuration["hostnames"]) > 0 ? var.sles12sp5_client_configuration["hostnames"][0] : null
-    sles15sp3_minion          = length(var.sles15sp3_minion_configuration["hostnames"]) > 0 ? var.sles15sp3_minion_configuration["hostnames"][0] : null
-    sles15sp3_sshminion       = length(var.sles15sp3_sshminion_configuration["hostnames"]) > 0 ? var.sles15sp3_sshminion_configuration["hostnames"][0] : null
-    sles15sp3_client          = length(var.sles15sp3_client_configuration["hostnames"]) > 0 ? var.sles15sp3_client_configuration["hostnames"][0] : null
     sles15sp4_client          = length(var.sles15sp4_client_configuration["hostnames"]) > 0 ? var.sles15sp4_client_configuration["hostnames"][0] : null
     sles15sp4_minion          = length(var.sles15sp4_minion_configuration["hostnames"]) > 0 ? var.sles15sp4_minion_configuration["hostnames"][0] : null
     sles15sp4_sshminion       = length(var.sles15sp4_sshminion_configuration["hostnames"]) > 0 ? var.sles15sp4_sshminion_configuration["hostnames"][0] : null
@@ -164,8 +161,6 @@ module "controller" {
     debian12_sshminion       = length(var.debian12_sshminion_configuration["hostnames"]) > 0 ? var.debian12_sshminion_configuration["hostnames"][0] : null
     debian13_minion          = length(var.debian13_minion_configuration["hostnames"]) > 0 ? var.debian13_minion_configuration["hostnames"][0] : null
     debian13_sshminion       = length(var.debian13_sshminion_configuration["hostnames"]) > 0 ? var.debian13_sshminion_configuration["hostnames"][0] : null
-    sles15sp3_buildhost       = length(var.sles15sp3_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp3_buildhost_configuration["hostnames"][0] : null
-    sles15sp3_terminal_mac    = var.sles15sp3_terminal_configuration["private_mac"]
     sles15sp4_buildhost       = length(var.sles15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp4_buildhost_configuration["hostnames"][0] : null
     sles15sp4_terminal_mac    = var.sles15sp4_terminal_configuration["private_mac"]
     sles15sp6_buildhost       = length(var.sles15sp6_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp6_buildhost_configuration["hostnames"][0] : null
