@@ -58,6 +58,20 @@ if [ "$1" = "essential" ]; then
   stage init_clients
 fi
 
+# package download benchmark
+if [ "$1" = "package-download-benchmark" ]; then
+  if [ -z "${UYUNI_BENCH_MINIONS:-}" ]; then
+    echo "UYUNI_BENCH_MINIONS must be set; expected a non-empty JSON array" >&2
+    exit 1
+  fi
+  if [ -z "${UYUNI_BENCH_PACKAGES:-}" ]; then
+    echo "UYUNI_BENCH_PACKAGES must be set; expected a non-empty JSON array" >&2
+    exit 1
+  fi
+  unset PROFILE TAGS CUCUMBER_OPTS FEATURE
+  stage kubernetes_package_download_benchmark
+fi
+
 # prepare reference host
 if [ "$1" = "refhost" ]; then
   stage refhost

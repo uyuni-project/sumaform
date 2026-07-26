@@ -18,6 +18,10 @@ export SERVER="{{ grains.get('server') }}"
 {% endif %}
 {% if grains.get('minion') | default(false, true) %}export MINION="{{ grains.get('minion') }}"{% else %}# no minion defined
 {% endif %}
+{% if grains.get('minions') | default(false, true) %}export UYUNI_BENCH_MINIONS='{{ grains.get('minions') | tojson }}'{% else %}# no benchmark minions defined
+{% endif %}
+{% if grains.get('kubernetes_storage_class') | default(false, true) %}export UYUNI_BENCH_STORAGE_CLASS="{{ grains.get('kubernetes_storage_class') }}"{% else %}# no Kubernetes storage class defined
+{% endif %}
 {% if grains.get('build_host') | default(false, true) %}export BUILD_HOST="{{ grains.get('build_host') }}"{% else %}# no build host defined
 {% endif %}
 {% if grains.get('sshminion') | default(false, true) %}export SSHMINION="{{ grains.get('sshminion') }}" {% else %}# no SSH minion defined

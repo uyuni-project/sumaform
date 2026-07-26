@@ -106,6 +106,79 @@ You can detach from the session at anytime using the key sequence `^A d`. To re-
 ssh -t head-ctl.tf.local screen -r
 ```
 
+## Running the package download benchmark
+
+The package download benchmark starts from the Sumaform controller and targets
+traditional Salt minions managed by Uyuni. It works with the existing managed
+and external Kubernetes cluster modes. This benchmark entry point does not add
+cluster lifecycle management: applying Sumaform can perform the deployment
+selected by those existing modes, but running the benchmark does not provision
+the cluster, deploy Uyuni, provision or onboard minions, synchronize
+repositories, subscribe systems to channels, or select packages. Before running
+it:
+
+- provision the minions, register them with Uyuni, and subscribe them to channels
+  that contain the requested packages;
+- synchronize the required channel content before the benchmark;
+- provide each package as an exact `[name, arch, evr]` tuple that is installable
+  on every selected minion;
+- set `install_kubectl_helm = true` and provide `kubeconfig_path` so the
+  controller can access the cluster;
+- deploy exactly one Ready Uyuni server pod in the `uyuni` namespace with the
+  `app.kubernetes.io/component=server` label and an `uyuni` container.
+
+For this benchmark, the `cucumber_testsuite` module supports provisioning
+multiple `suse_minion` hosts with the libvirt backend:
+
+```hcl
+host_settings = {
+  suse_minion = {
+    quantity = 10
+  }
+}
+```
+
+`quantity` defaults to one when `suse_minion` is present. Sumaform exports all
+generated minion hostnames as a JSON array in `UYUNI_BENCH_MINIONS`; the
+existing `MINION` variable remains the first hostname for compatibility. The
+quantity-to-Salt-ID mapping used by this benchmark is currently validated only
+with libvirt.
+
+The storage class is optional result metadata, not a benchmark dependency. On
+the controller, provide the exact arbitrary StorageClass name when comparing
+storage backends, provide the exact package tuples as JSON, and start only the
+benchmark runset:
+
+```bash
+export UYUNI_BENCH_STORAGE_CLASS="example-storage-class"
+export UYUNI_BENCH_PACKAGES='[
+  ["rclone","x86_64","0:1.74.1-bp156.2.9.1"],
+  ["restic","x86_64","0:0.18.0-bp156.2.6.1"]
+]'
+run-testsuite package-download-benchmark
+```
+
+For managed Kubernetes deployments, Sumaform exports the effective
+`server_kubernetes.kubernetes_storage_class` value, including the `local-path`
+default. For external clusters, it exports only an explicitly configured
+StorageClass; it does not infer a class from the managed-cluster backend
+default. An explicit shell value still overrides the metadata for a run. If an
+external cluster uses its default StorageClass without an explicit name in
+Sumaform, set the metadata value manually.
+
+For an explicitly selected set of already managed traditional minions, override
+the generated value with exact Salt IDs:
+
+```bash
+export UYUNI_BENCH_MINIONS='["minion-1.tf.local","minion-2.tf.local"]'
+```
+
+Both JSON arrays must be non-empty. The benchmark feature validates their
+structure before changing client caches. The runner clears `PROFILE`, `TAGS`,
+`CUCUMBER_OPTS`, and `FEATURE`, then executes only the
+`kubernetes_package_download_benchmark` runset; it does not run the normal setup
+or repository synchronization stages.
+
 ## Using Salt Bundle (venv-salt-minion) in "Head" and "Uyuni"
 
 Currently, our `head` and `uyuni-master` testing deployments require the Salt Bundle (`venv-salt-minion` package) to be installed on each client instance and some other tunings, before the testsuite is started. Also, bear in mind that the `head` setup requires a containerized setup - use `server_containerized` and `proxy_containerized` modules (refer to the `main.tf.libvirt-testsuite.example` file to see how to configure this). To be sure that all necessary adjustments are in place for the testsuite to run for HEAD or Uyuni, you need to set some flags on each of your instances (except for the server/ server_containerized instance) in your `main.tf` file:
