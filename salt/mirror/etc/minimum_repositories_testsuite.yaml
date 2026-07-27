@@ -55,9 +55,6 @@ http:
   - url:  http://dist.suse.de/ibs/SUSE/Updates/SLE-Manager-Tools/15/x86_64/update/
     archs: [x86_64]
 
-  - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3/
-    archs: [x86_64]
-
   - url:  http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
 

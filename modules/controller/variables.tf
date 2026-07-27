@@ -223,27 +223,6 @@ variable "sles12sp5_client_configuration" {
   }
 }
 
-variable "sles15sp3_minion_configuration" {
-  description = "use module.<SLES15SP3_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sles15sp3_sshminion_configuration" {
-  description = "use module.<SLES15SP3_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "sles15sp3_client_configuration" {
-  description = "use module.<SLES15SP3_CLIENT>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "sles15sp4_minion_configuration" {
   description = "use module.<SLES15SP4_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -685,13 +664,6 @@ variable "debian13_sshminion_configuration" {
   }
 }
 
-variable "sles15sp3_buildhost_configuration" {
-  description = "use module.<SLES15SP3_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "sles15sp4_buildhost_configuration" {
   description = "use module.<SLES15SP4_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -710,16 +682,6 @@ variable "sles15sp7_buildhost_configuration" {
   description = "use module.<SLES15SP7_BUILDHOST>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
-  }
-}
-
-variable "sles15sp3_terminal_configuration" {
-  description = "use module.<SLES15SP3_TERMINAL>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    private_mac = null
-    private_ip = null
-    private_name = null
-    image = null
   }
 }
 

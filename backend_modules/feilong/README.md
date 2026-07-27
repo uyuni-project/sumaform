@@ -67,7 +67,7 @@ An example follows:
 ```hcl-terraform
 ...
 provider_settings = {
-  userid   = "S15SP3"
+  userid   = "S15SP7"
   mac      = "02:3a:fc:44:55:66"
   ssh_user = "sles"
 }

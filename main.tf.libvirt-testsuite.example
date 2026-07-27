@@ -44,7 +44,7 @@ module "cucumber_testsuite" {
   # "opensuse156armo", "opensuse160armo",
   # "oraclelinux8o", "oraclelinux9o", "oraclelinux10o",
   # "rocky8o", "rocky9o", "rocky10o",
-  # "sles12sp5o", "sles15sp3o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o",
+  # "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o",
   # "slemicro52-ign", "slemicro53-ign", "slemicro54-ign", "slemicro55o",
   # "slmicro60o", "slmicro61o", "slmicro62o",
   # "suma43VM-ign",

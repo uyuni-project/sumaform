@@ -303,24 +303,6 @@ module "sles12sp5_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "sles15sp3_minion" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../minion"
-  count              = lookup(var.environment_configuration, "sles15sp3_minion", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp3_minion.name
-  image              = "sles15sp3o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp3_minion.mac
-    memory = 4096
-  }
-
-
-  auto_connect_to_master  = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "sles15sp4_minion" {
   providers = { libvirt = libvirt.host_new_sle }
   source             = "../minion"
@@ -874,21 +856,6 @@ module "sles12sp5_sshminion" {
   gpg_keys                = ["default/gpg_keys/galaxy.key"]
 }
 
-module "sles15sp3_sshminion" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../sshminion"
-  count              = lookup(var.environment_configuration, "sles15sp3_sshminion", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp3_sshminion.name
-  image              = "sles15sp3o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp3_sshminion.mac
-    memory = 4096
-  }
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "sles15sp4_sshminion" {
   providers = { libvirt = libvirt.host_new_sle }
   source             = "../sshminion"
@@ -1269,23 +1236,6 @@ module "sles12sp5_client" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "sles15sp3_client" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "sles15sp3_client", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp3_client.name
-  image              = "sles15sp3o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp3_client.mac
-    memory = 4096
-  }
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "sles15sp4_client" {
   providers = { libvirt = libvirt.host_new_sle }
   source             = "../client"
@@ -1643,9 +1593,6 @@ module "controller" {
   sles12sp5_minion_configuration    = length(module.sles12sp5_minion) > 0 ? module.sles12sp5_minion[0].configuration : local.empty_minion_config
   sles12sp5_sshminion_configuration = length(module.sles12sp5_sshminion) > 0 ? module.sles12sp5_sshminion[0].configuration : local.empty_minion_config
 
-  sles15sp3_minion_configuration    = length(module.sles15sp3_minion) > 0 ? module.sles15sp3_minion[0].configuration : local.empty_minion_config
-  sles15sp3_sshminion_configuration = length(module.sles15sp3_sshminion) > 0 ? module.sles15sp3_sshminion[0].configuration : local.empty_minion_config
-
   sles15sp4_minion_configuration    = length(module.sles15sp4_minion) > 0 ? module.sles15sp4_minion[0].configuration : local.empty_minion_config
   sles15sp4_sshminion_configuration = length(module.sles15sp4_sshminion) > 0 ? module.sles15sp4_sshminion[0].configuration : local.empty_minion_config
 
@@ -1661,7 +1608,6 @@ module "controller" {
   sles160_sshminion_configuration   = length(module.sles160_sshminion) > 0 ? module.sles160_sshminion[0].configuration : local.empty_minion_config
 
   sles12sp5_client_configuration    = length(module.sles12sp5_client) > 0 ? module.sles12sp5_client[0].configuration : local.empty_minion_config
-  sles15sp3_client_configuration    = length(module.sles15sp3_client) > 0 ? module.sles15sp3_client[0].configuration : local.empty_minion_config
   sles15sp4_client_configuration    = length(module.sles15sp4_client) > 0 ? module.sles15sp4_client[0].configuration : local.empty_minion_config
   sles15sp5_client_configuration    = length(module.sles15sp5_client) > 0 ? module.sles15sp5_client[0].configuration : local.empty_minion_config
   sles15sp6_client_configuration    = length(module.sles15sp6_client) > 0 ? module.sles15sp6_client[0].configuration : local.empty_minion_config

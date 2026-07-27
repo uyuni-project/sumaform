@@ -7,30 +7,10 @@ scc:
   password: {{ grains.get("cc_password") }}
   repositories:
     - names:
-      # Required for SLED testing
-      - SLE-15-GA-Desktop-NVIDIA-Driver
-      - SLE-15-SP2-Desktop-NVIDIA-Driver
       # SLE 12-SP5
       - SLES12-SP5-Pool
       - SLES12-SP5-Updates
       - SLES12-SP5-LTSS-Updates
-      # SLE 15-SP3 Products
-      - SLE-Product-SLES15-SP3-Pool
-      - SLE-Product-SLES15-SP3-Updates
-      - SLE-Product-SLES15-SP3-LTSS-Updates
-      # SLE 15-SP3 Basic Modules
-      - SLE-Module-Basesystem15-SP3-Pool
-      - SLE-Module-Basesystem15-SP3-Updates
-      - SLE-Module-Server-Applications15-SP3-Pool
-      - SLE-Module-Server-Applications15-SP3-Updates
-      - SLE-Module-Web-Scripting15-SP3-Pool
-      - SLE-Module-Web-Scripting15-SP3-Updates
-      - SLE-Module-Desktop-Applications15-SP3-Pool
-      - SLE-Module-Desktop-Applications15-SP3-Updates
-      - SLE-Module-DevTools15-SP3-Pool
-      - SLE-Module-DevTools15-SP3-Updates
-      - SLE-Module-Python2-15-SP3-Pool
-      - SLE-Module-Python2-15-SP3-Update
       # SLE Micro
       - SLE-Micro-5.2-Pool
       - SLE-Micro-5.2-Updates
@@ -112,12 +92,6 @@ scc:
       # SLE Container Module
       - SLE-Module-Containers12-Pool
       - SLE-Module-Containers12-Updates
-      - SLE-Module-Containers15-Pool
-      - SLE-Module-Containers15-Updates
-      - SLE-Module-Containers15-SP2-Pool
-      - SLE-Module-Containers15-SP2-Updates
-      - SLE-Module-Containers15-SP3-Pool
-      - SLE-Module-Containers15-SP3-Updates
       - SLE-Module-Containers15-SP4-Pool
       - SLE-Module-Containers15-SP4-Updates
       # SUSE Manager Server
@@ -169,14 +143,6 @@ http:
   # RES 7
   #- url: https://nu.novell.com/repo/$RCE/RES7/x86_64
   # #  archs: [x86_64]
-
-  # Required for SLED testing
-  - url: https://download.nvidia.com/suse/sle15sp3
-  - url: https://download.nvidia.com/suse/sle15sp4
-  - url: https://download.nvidia.com/suse/sle15sp5
-  - url: https://download.nvidia.com/suse/sle15sp6
-  - url: https://download.nvidia.com/suse/sle15sp7
-  - url: https://download.nvidia.com/suse/sle16
 
   # SUSE Manager 4.3 devel
   - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3/SLE_15_SP4
@@ -271,8 +237,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
 
   # Software for sumaformed Virtual Machines
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP3
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP4
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP5
