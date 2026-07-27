@@ -1022,7 +1022,9 @@ The same settings can be set globally on the `cucumber_testsuite` module or per 
 ## External Kubernetes clusters
 
 The Kubernetes testsuite path can install the Uyuni server into an existing Kubernetes or RKE2 cluster instead of creating a Sumaform-managed RKE2 server VM.
-Set `kubernetes_cluster_mode` to `external`, provide a kubeconfig from the machine running OpenTofu, and choose the FQDN that the server should use.
+Set `kubernetes_cluster_mode` to `external` and provide a kubeconfig from the machine running OpenTofu.
+
+No `server_kubernetes` and no `proxy_kubernetes` VM is created in this mode, so the server and proxy configurations the other hosts depend on have to be provided from your own `main.tf`.
 
 ```hcl
 module "cucumber_testsuite" {
@@ -1030,9 +1032,28 @@ module "cucumber_testsuite" {
 
   kubernetes = true
 
-  kubernetes_cluster_mode             = "external"
-  kubernetes_external_server_hostname = "uyuni.example.org"
-  kubeconfig_path                     = "/home/user/.kube/config"
+  kubernetes_cluster_mode = "external"
+  kubeconfig_path         = "/home/user/.kube/config"
+
+  kubernetes_external_server_configuration = {
+    id                 = null
+    hostname           = "uyuni.example.org"
+    username           = "admin"
+    password           = "admin"
+    runtime            = "rke2"
+    product_version    = "uyuni-master"
+    first_user_present = true
+  }
+
+  kubernetes_external_proxy_configuration = {
+    id           = null
+    hostname     = null
+    private_mac  = null
+    private_ip   = 254
+    private_name = "proxy"
+    username     = "admin"
+    password     = "admin"
+  }
 
   # Optional. The external mode enables this automatically on the controller.
   install_kubectl_helm = true

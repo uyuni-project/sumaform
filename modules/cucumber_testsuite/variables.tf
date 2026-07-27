@@ -203,8 +203,13 @@ variable "kubernetes_cluster_mode" {
   }
 }
 
-variable "kubernetes_external_server_hostname" {
-  description = "FQDN used by the Uyuni server when kubernetes_cluster_mode is external. Leave null to use the default sumaform server FQDN."
+variable "kubernetes_external_server_configuration" {
+  description = "Server configuration used when kubernetes_cluster_mode is external. No server VM is created in that mode, so it has to be provided from the caller main.tf."
+  default     = null
+}
+
+variable "kubernetes_external_proxy_configuration" {
+  description = "Proxy configuration used when kubernetes_cluster_mode is external. No proxy VM is created in that mode, so it has to be provided from the caller main.tf."
   default     = null
 }
 
