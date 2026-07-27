@@ -1,4 +1,4 @@
-%{ if image == "debian12o" || image == "debian13o" || image == "amazonlinux2023o" || image == "ubuntu2204o" || image == "ubuntu2404o" || image == "ubuntu2604o" }
+%{ if image == "debian12o" || image == "debian13o" || image == "amazonlinux2023o" || image == "raspios13o" || image == "ubuntu2204o" || image == "ubuntu2404o" || image == "ubuntu2604o" }
 network:
   version: 2
   ethernets:
