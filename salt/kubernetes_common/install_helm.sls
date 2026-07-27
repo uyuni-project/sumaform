@@ -1,12 +1,14 @@
 {% set osfullname = grains['osfullname'] %}
 {% set osrelease = grains['osrelease'] %}
+{# In external cluster mode this sls runs on the controller against /root/.kube/config #}
+{% set is_external_cluster = grains.get('install_kubernetes_server_on_external_cluster') == true %}
 {% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
 {% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
 {% set is_ubuntu = osfullname == 'Ubuntu' %}
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
-{% if is_supported_os %}
-{% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
+{% if is_supported_os or is_external_cluster %}
+{% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_version = "v1.19.2" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set pkg_map = {
@@ -22,11 +24,13 @@ install_dependencies_helm:
     - refresh: True
 {% endif %}
 
+{% if not is_external_cluster %}
 helm_install_package:
   cmd.run:
     - name: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+{% endif %}
 
-{% if grains.get('install_cert_manager') == true and grains.get('install_rke2') == true %}
+{% if grains.get('install_cert_manager') == true and (grains.get('install_rke2') == true or is_external_cluster) %}
 
 install_cert_manager:
   cmd.run:
@@ -41,6 +45,14 @@ install_cert_manager:
           --wait
     - env:
         - KUBECONFIG: {{ kubeconfig }}
+    {% if is_external_cluster %}
+    - unless: helm status cert-manager --namespace {{ cert_manager_namespace }}
+    - require:
+      # install_helm_on_controller is defined in controller/init.sls, which includes this state
+      - cmd: install_helm_on_controller
+      # external_kubernetes_kubeconfig is defined in server_kubernetes/install_kubernetes_server.sls
+      - file: external_kubernetes_kubeconfig
+    {% endif %}
 
 check_cert_manager_installation:
   cmd.run:
@@ -59,6 +71,9 @@ install_trust_manager:
           --wait
     - env:
         - KUBECONFIG: {{ kubeconfig }}
+    {% if is_external_cluster %}
+    - unless: helm status trust-manager --namespace {{ cert_manager_namespace }}
+    {% endif %}
     - require:
       - cmd: install_cert_manager
 

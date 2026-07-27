@@ -1,24 +1,29 @@
 {% set osfullname = grains['osfullname'] %}
 {% set osrelease = grains['osrelease'] %}
-{% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
-{% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
-{% set is_ubuntu = osfullname == 'Ubuntu' %}
-{% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
+{# In external cluster mode this state runs on the controller against /root/.kube/config, so RKE2 host specifics are skipped. #}
+{% set is_external_cluster = grains.get('install_kubernetes_server_on_external_cluster') == true %}
+{% set is_sles_15_7 = not is_external_cluster and osfullname == 'SLES' and osrelease == '15.7' %}
+{% set is_slmicro_6_2 = not is_external_cluster and osfullname == 'SL-Micro' and osrelease == '6.2' %}
+{% set is_ubuntu = not is_external_cluster and osfullname == 'Ubuntu' %}
+{% set is_tumbleweed = not is_external_cluster and osfullname == 'openSUSE Tumbleweed' %}
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 
-{% if is_supported_os %}
+{% if is_supported_os or is_external_cluster %}
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
-{% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
+{% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
+{% set server_fqdn = (grains.get('kubernetes_server_fqdn') or grains.get('server')) if is_external_cluster else grains.get('fqdn') %}
 
+{# python3-PyYAML: in external cluster mode the Leap controller runs kubernetes_common/helm_chart.py #}
 {% set pkg_map = {
-  'openSUSE Tumbleweed' : 'jq'
+  'openSUSE Tumbleweed' : 'jq',
+  'Leap' : 'python3-PyYAML'
 } %}
 
 {% if osfullname in pkg_map %}
@@ -28,6 +33,7 @@ install_dependencies_helm_server:
     - refresh: True
 {% endif %}
 
+{% if not is_external_cluster %}
 
 ssh_public_key_proxy_kubernetes_server_exchange:
   file.managed:
@@ -43,6 +49,35 @@ key_exchange_kubernetes_server:
     - name: /root/.ssh/authorized_keys
     - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
     - makedirs: True
+
+{% else %}
+
+external_kubernetes_kubeconfig:
+  file.exists:
+    - name: {{ kubeconfig }}
+    {% if grains.get('kubeconfig_content') %}
+    - require:
+      # write_kubeconfig is defined in controller/init.sls, which includes this state
+      - cmd: write_kubeconfig
+    {% endif %}
+
+create_external_kubernetes_uyuni_namespace:
+  cmd.run:
+    - name: kubectl create namespace uyuni
+    - unless: kubectl get namespace uyuni
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
+    - require:
+      # install_kubectl is defined in controller/init.sls, which includes this state
+      - pkg: install_kubectl
+      - file: external_kubernetes_kubeconfig
+      {% if grains.get('install_cert_manager') == true %}
+      # defined in kubernetes_common/install_helm.sls, included from controller/init.sls
+      - cmd: check_cert_manager_installation
+      - cmd: check_trust_manager_installation
+      {% endif %}
+
+{% endif %}
 
 copy_helm_charts_directory:
   file.recurse:
@@ -61,9 +96,13 @@ copy_value_yaml_file:
         pass_db: admin
         pass_postgres: admin
         pass_reportdb: admin
-        fqdn: {{ grains.get("fqdn") }}
+        fqdn: {{ server_fqdn }}
         cert_manager_namespace: {{ cert_manager_namespace }}
+        {% if is_external_cluster %}
+        container_registry: "{{ grains.get("container_registry") | default('', true) }}"
+        {% else %}
         container_registry: {{ grains.get("container_registry")}}
+        {% endif %}
         deploy_coco_attestation: {{ grains.get("deploy_coco_attestation") }}
         coco_container_image: {{ grains.get("coco_container_image") }}
         coco_container_tag: {{ grains.get("coco_container_tag") }}
@@ -88,8 +127,9 @@ copy_chart_yaml_file:
         oci_name: {{ helm_chart_name }}
         oci_repository: {{ helm_chart_url }}
 
-{% if grains.get('install_rke2') == true and grains.get('install_helm') == true %}
+{% if (grains.get('install_rke2') == true and grains.get('install_helm') == true) or is_external_cluster %}
 
+{% if not is_external_cluster %}
 copy_manifest_uyuni_ingress:
   file.managed:
     - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
@@ -97,6 +137,7 @@ copy_manifest_uyuni_ingress:
     - template: jinja
     - context:
         java_debugging_on_rke2: {{ grains.get("java_debugging_on_rke2", false) }}
+{% endif %}
 
 ## Configure apparmor profile for RKE2
 
@@ -150,13 +191,26 @@ transfer_python_management_file:
 update_oci_app_version:
   cmd.run:
     - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
+    {% if is_external_cluster %}
+    - require:
+      {% if osfullname in pkg_map %}
+      - pkg: install_dependencies_helm_server
+      {% endif %}
+      - cmd: install_helm_on_controller
+      - file: transfer_python_management_file
+      - file: copy_chart_yaml_file
+    {% endif %}
 
-{% if grains.get('install_mlm_server') == true %}
+{% if grains.get('install_mlm_server') == true or is_external_cluster %}
 
 build_helm_dependencies:
   cmd.run:
     - name: helm dependencies build
     - cwd: {{ self_signed_path }}
+    {% if is_external_cluster %}
+    - require:
+      - cmd: update_oci_app_version
+    {% endif %}
 
 install_uyuni_on_kubernetes:
   cmd.run:
@@ -164,6 +218,12 @@ install_uyuni_on_kubernetes:
     - cwd: {{ helm_chart_directory }}
     - env:
       - KUBECONFIG: {{ kubeconfig }}
+    {% if is_external_cluster %}
+    - require:
+      - cmd: build_helm_dependencies
+      - file: copy_value_yaml_file
+      - cmd: create_external_kubernetes_uyuni_namespace
+    {% endif %}
 
 save_script_to_get_pod_name:
   file.managed:

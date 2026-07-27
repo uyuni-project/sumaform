@@ -193,6 +193,26 @@ variable "kubernetes" {
   default = false
 }
 
+variable "kubernetes_cluster_mode" {
+  description = "Kubernetes deployment mode. managed creates the RKE2 server VM; external installs the server into an existing cluster from the controller."
+  default     = "managed"
+
+  validation {
+    condition     = contains(["managed", "external"], var.kubernetes_cluster_mode)
+    error_message = "kubernetes_cluster_mode must be either managed or external."
+  }
+}
+
+variable "kubernetes_external_server_configuration" {
+  description = "Server configuration used when kubernetes_cluster_mode is external. No server VM is created in that mode, so it has to be provided from the caller main.tf."
+  default     = null
+}
+
+variable "kubernetes_external_proxy_configuration" {
+  description = "Proxy configuration used when kubernetes_cluster_mode is external. No proxy VM is created in that mode, so it has to be provided from the caller main.tf."
+  default     = null
+}
+
 variable "use_devel_oci" {
   description = "true to use devel OCIs"
   default = false

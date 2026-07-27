@@ -139,8 +139,8 @@ locals {
     host_key => lookup(var.host_settings[host_key], "kubernetes_var_pgsql_host_path", var.kubernetes_var_pgsql_host_path) if var.host_settings[host_key] != null }
 
   minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
-  server_configuration      = var.kubernetes ? module.server_kubernetes[0].configuration : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
-  proxy_configuration       = var.kubernetes ? module.proxy_kubernetes[0].configuration : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
+  server_configuration      = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_server_configuration : module.server_kubernetes[0].configuration) : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
+  proxy_configuration       = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_proxy_configuration : module.proxy_kubernetes[0].configuration) : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
 }
 
 module "server" {
@@ -250,7 +250,7 @@ module "server_containerized" {
 module "server_kubernetes" {
   source                         = "../server_kubernetes"
 
-  count = var.kubernetes ? 1 : 0
+  count = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? 0 : 1) : 0
 
   base_configuration             = module.base.configuration
   image                          = lookup(local.images, "server_kubernetes", "default")
@@ -389,7 +389,7 @@ module "proxy_kubernetes" {
   depends_on = [module.server_kubernetes]
   source = "../proxy_kubernetes"
 
-  count = var.kubernetes ? 1 : 0
+  count = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? 0 : 1) : 0
   quantity = contains(local.hosts, "proxy_kubernetes") ? 1 : 0
 
   base_configuration     = module.base.configuration
@@ -703,6 +703,18 @@ module "controller" {
 
   prometheus_push_gateway_url = var.prometheus_push_gateway_url
 
+  install_kubernetes_server_on_external_cluster = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.install_mlm_server : false) : false
+  kubernetes_server_fqdn                        = try(var.kubernetes_external_server_configuration["hostname"], null)
+  kubernetes_server_helm_chart_name             = coalesce(lookup(local.helm_chart_name, "server_kubernetes", null), "server-helm")
+  kubernetes_server_helm_chart_url              = coalesce(lookup(local.helm_chart_url, "server_kubernetes", null), "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2")
+  kubernetes_server_container_registry          = lookup(local.container_registries, "server_kubernetes", null) != null ? lookup(local.container_registries, "server_kubernetes", null) : ""
+  use_devel_oci                                 = var.use_devel_oci
+  install_cert_manager                          = var.install_cert_manager
+  deploy_coco_attestation                       = var.deploy_coco_attestation
+  deploy_saline                                 = var.deploy_saline
+  deploy_hub_api                                = var.deploy_hub_api
+  deploy_tftp                                   = var.deploy_tftp
+
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)
   additional_packages = lookup(local.additional_packages, "controller", [])
@@ -731,8 +743,8 @@ module "controller" {
 output "configuration" {
   value = {
     base = module.base.configuration
-    server = var.kubernetes ? module.server_kubernetes[0].configuration : (var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
-    proxy = var.kubernetes ? module.proxy_kubernetes[0].configuration : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
+    server = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_server_configuration : module.server_kubernetes[0].configuration) : (var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
+    proxy = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_proxy_configuration : module.proxy_kubernetes[0].configuration) : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
     suse_client = module.suse_client.configuration
     suse_minion = module.suse_minion.configuration
     suse_sshminion = module.suse_sshminion.configuration

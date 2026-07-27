@@ -1,5 +1,8 @@
 #!/bin/bash
 
+{% if grains.get('install_kubernetes_server_on_external_cluster') == true %}
+export KUBECONFIG=/root/.kube/config
+{% else %}
 source /etc/profile.d/rke2_vars.sh
+{% endif %}
 kubectl get pods -n uyuni --no-headers | grep uyuni | grep -v setup | awk '{print $1}'
-
