@@ -454,6 +454,20 @@ variable "liberty9_sshminion_configuration" {
   }
 }
 
+variable "liberty10_minion_configuration" {
+  description = "use module.<LIBERTY10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "liberty10_sshminion_configuration" {
+  description = "use module.<LIBERTY10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "openeuler2403_minion_configuration" {
   description = "use module.<OPENEULER2403_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -673,6 +687,20 @@ variable "debian13_minion_configuration" {
 
 variable "debian13_sshminion_configuration" {
   description = "use module.<DEBIAN13_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "raspios13_minion_configuration" {
+  description = "use module.<RASPIOS13_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "raspios13_sshminion_configuration" {
+  description = "use module.<RASPIOS13_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

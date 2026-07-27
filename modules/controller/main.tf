@@ -148,6 +148,8 @@ module "controller" {
     alma10_sshminion         = length(var.alma10_sshminion_configuration["hostnames"]) > 0 ? var.alma10_sshminion_configuration["hostnames"][0] : null
     liberty9_minion          = length(var.liberty9_minion_configuration["hostnames"]) > 0 ? var.liberty9_minion_configuration["hostnames"][0] : null
     liberty9_sshminion       = length(var.liberty9_sshminion_configuration["hostnames"]) > 0 ? var.liberty9_sshminion_configuration["hostnames"][0] : null
+    liberty10_minion         = length(var.liberty10_minion_configuration["hostnames"]) > 0 ? var.liberty10_minion_configuration["hostnames"][0] : null
+    liberty10_sshminion      = length(var.liberty10_sshminion_configuration["hostnames"]) > 0 ? var.liberty10_sshminion_configuration["hostnames"][0] : null
     openeuler2403_minion     = length(var.openeuler2403_minion_configuration["hostnames"]) > 0 ? var.openeuler2403_minion_configuration["hostnames"][0] : null
     openeuler2403_sshminion  = length(var.openeuler2403_sshminion_configuration["hostnames"]) > 0 ? var.openeuler2403_sshminion_configuration["hostnames"][0] : null
     oracle9_minion           = length(var.oracle9_minion_configuration["hostnames"]) > 0 ? var.oracle9_minion_configuration["hostnames"][0] : null
@@ -174,18 +176,20 @@ module "controller" {
     debian12_sshminion       = length(var.debian12_sshminion_configuration["hostnames"]) > 0 ? var.debian12_sshminion_configuration["hostnames"][0] : null
     debian13_minion          = length(var.debian13_minion_configuration["hostnames"]) > 0 ? var.debian13_minion_configuration["hostnames"][0] : null
     debian13_sshminion       = length(var.debian13_sshminion_configuration["hostnames"]) > 0 ? var.debian13_sshminion_configuration["hostnames"][0] : null
-    sles15sp4_buildhost       = length(var.sles15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp4_buildhost_configuration["hostnames"][0] : null
-    sles15sp4_terminal_mac    = var.sles15sp4_terminal_configuration["private_mac"]
-    sles15sp6_buildhost       = length(var.sles15sp6_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp6_buildhost_configuration["hostnames"][0] : null
-    sles15sp6_terminal_mac    = var.sles15sp6_terminal_configuration["private_mac"]
-    sles15sp7_buildhost       = length(var.sles15sp7_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp7_buildhost_configuration["hostnames"][0] : null
-    sles15sp7_terminal_mac    = var.sles15sp7_terminal_configuration["private_mac"]
+    raspios13_minion         = length(var.raspios13_minion_configuration["hostnames"]) > 0 ? var.raspios13_minion_configuration["hostnames"][0] : null
+    raspios13_sshminion      = length(var.raspios13_sshminion_configuration["hostnames"]) > 0 ? var.raspios13_sshminion_configuration["hostnames"][0] : null
+    sles15sp4_buildhost      = length(var.sles15sp4_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp4_buildhost_configuration["hostnames"][0] : null
+    sles15sp4_terminal_mac   = var.sles15sp4_terminal_configuration["private_mac"]
+    sles15sp6_buildhost      = length(var.sles15sp6_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp6_buildhost_configuration["hostnames"][0] : null
+    sles15sp6_terminal_mac   = var.sles15sp6_terminal_configuration["private_mac"]
+    sles15sp7_buildhost      = length(var.sles15sp7_buildhost_configuration["hostnames"]) > 0 ? var.sles15sp7_buildhost_configuration["hostnames"][0] : null
+    sles15sp7_terminal_mac   = var.sles15sp7_terminal_configuration["private_mac"]
     opensuse156arm_minion    = length(var.opensuse156arm_minion_configuration["hostnames"]) > 0 ? var.opensuse156arm_minion_configuration["hostnames"][0] : null
     opensuse156arm_sshminion = length(var.opensuse156arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse156arm_sshminion_configuration["hostnames"][0] : null
     opensuse160arm_minion    = length(var.opensuse160arm_minion_configuration["hostnames"]) > 0 ? var.opensuse160arm_minion_configuration["hostnames"][0] : null
     opensuse160arm_sshminion = length(var.opensuse160arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse160arm_sshminion_configuration["hostnames"][0] : null
-    sles15sp5s390_minion      = length(var.sles15sp5s390_minion_configuration["hostnames"]) > 0 ? var.sles15sp5s390_minion_configuration["hostnames"][0] : null
-    sles15sp5s390_sshminion   = length(var.sles15sp5s390_sshminion_configuration["hostnames"]) > 0 ? var.sles15sp5s390_sshminion_configuration["hostnames"][0] : null
+    sles15sp5s390_minion     = length(var.sles15sp5s390_minion_configuration["hostnames"]) > 0 ? var.sles15sp5s390_minion_configuration["hostnames"][0] : null
+    sles15sp5s390_sshminion  = length(var.sles15sp5s390_sshminion_configuration["hostnames"]) > 0 ? var.sles15sp5s390_sshminion_configuration["hostnames"][0] : null
     salt_migration_minion    = length(var.salt_migration_minion_configuration["hostnames"]) > 0 ? var.salt_migration_minion_configuration["hostnames"][0] : null
   }
 
