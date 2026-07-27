@@ -190,6 +190,7 @@ module "base" {
     "tumbleweedo",
     "ubuntu2204o",
     "ubuntu2404o",
+    "ubuntu2604o"
   ]
 # ...
 }

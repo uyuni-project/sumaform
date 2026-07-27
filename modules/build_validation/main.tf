@@ -596,6 +596,22 @@ module "ubuntu2404_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
+module "ubuntu2604_minion" {
+  providers = { libvirt = libvirt.host_deblike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "ubuntu2604_minion", null) != null ? 1 : 0
+  base_configuration = local.host_deblike
+  name               = var.environment_configuration.ubuntu2604_minion.name
+  image              = "ubuntu2604o"
+  provider_settings = {
+    mac    = var.environment_configuration.ubuntu2604_minion.mac
+    memory = 4096
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
 module "debian12_minion" {
   providers = { libvirt = libvirt.host_deblike }
   source             = "../minion"
@@ -1129,6 +1145,21 @@ module "ubuntu2404_sshminion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
+module "ubuntu2604_sshminion" {
+  providers = { libvirt = libvirt.host_deblike }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "ubuntu2604_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_deblike
+  name               = var.environment_configuration.ubuntu2604_sshminion.name
+  image              = "ubuntu2604o"
+  provider_settings = {
+    mac    = var.environment_configuration.ubuntu2604_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
 module "debian12_sshminion" {
   providers = { libvirt = libvirt.host_deblike }
   source             = "../sshminion"
@@ -1652,6 +1683,9 @@ module "controller" {
 
   ubuntu2404_minion_configuration    = length(module.ubuntu2404_minion) > 0 ? module.ubuntu2404_minion[0].configuration : local.empty_minion_config
   ubuntu2404_sshminion_configuration = length(module.ubuntu2404_sshminion) > 0 ? module.ubuntu2404_sshminion[0].configuration : local.empty_minion_config
+
+  ubuntu2604_minion_configuration    = length(module.ubuntu2604_minion) > 0 ? module.ubuntu2604_minion[0].configuration : local.empty_minion_config
+  ubuntu2604_sshminion_configuration = length(module.ubuntu2604_sshminion) > 0 ? module.ubuntu2604_sshminion[0].configuration : local.empty_minion_config
 
   debian12_minion_configuration    = length(module.debian12_minion) > 0 ? module.debian12_minion[0].configuration : local.empty_minion_config
   debian12_sshminion_configuration = length(module.debian12_sshminion) > 0 ? module.debian12_sshminion[0].configuration : local.empty_minion_config
