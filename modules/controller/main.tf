@@ -157,6 +157,8 @@ module "controller" {
     ubuntu2204_sshminion     = length(var.ubuntu2204_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2204_sshminion_configuration["hostnames"][0] : null
     ubuntu2404_minion        = length(var.ubuntu2404_minion_configuration["hostnames"]) > 0 ? var.ubuntu2404_minion_configuration["hostnames"][0] : null
     ubuntu2404_sshminion     = length(var.ubuntu2404_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2404_sshminion_configuration["hostnames"][0] : null
+    ubuntu2604_minion        = length(var.ubuntu2604_minion_configuration["hostnames"]) > 0 ? var.ubuntu2604_minion_configuration["hostnames"][0] : null
+    ubuntu2604_sshminion     = length(var.ubuntu2604_sshminion_configuration["hostnames"]) > 0 ? var.ubuntu2604_sshminion_configuration["hostnames"][0] : null
     debian12_minion          = length(var.debian12_minion_configuration["hostnames"]) > 0 ? var.debian12_minion_configuration["hostnames"][0] : null
     debian12_sshminion       = length(var.debian12_sshminion_configuration["hostnames"]) > 0 ? var.debian12_sshminion_configuration["hostnames"][0] : null
     debian13_minion          = length(var.debian13_minion_configuration["hostnames"]) > 0 ? var.debian13_minion_configuration["hostnames"][0] : null
