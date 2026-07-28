@@ -575,7 +575,7 @@ runcmd:
 apt:
   sources:
     tools_pool_repo:
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2604-Uyuni-Client-Tools/xUbuntu_24.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2604-Uyuni-Client-Tools/xUbuntu_26.04/ /
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -604,7 +604,7 @@ runcmd:
   - sed -i 's/eth0:/ens3:/' /etc/netplan/50-cloud-init.yaml
   - netplan apply
   - systemctl restart systemd-networkd
-  # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
+  # WORKAROUND: cloud-init in Ubuntu 26.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart ssh
 %{ if install_salt_bundle ~}
