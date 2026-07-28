@@ -38,7 +38,6 @@ mirror: mirror.tf.local
 testsuite: true
 minion: suse-minion-1.tf.local
 minions: ['suse-minion-1.tf.local', 'suse-minion-2.tf.local']
-kubernetes_storage_class: nfs-csi
 EOF
 
 cat > testconfig/minion <<EOF
@@ -54,6 +53,5 @@ salt-call cp.get_template salt://controller/bashrc "$rendered_bashrc" template=j
 grep -F "export UYUNI_BENCH_MINIONS=" "$rendered_bashrc" || exit 1
 grep -F "suse-minion-1.tf.local" "$rendered_bashrc" || exit 1
 grep -F "suse-minion-2.tf.local" "$rendered_bashrc" || exit 1
-grep -F 'export UYUNI_BENCH_STORAGE_CLASS="nfs-csi"' "$rendered_bashrc" || exit 1
 
 salt-call state.show_highstate --local --file-root=salt/ --config-dir=testconfig --retcode-passthrough

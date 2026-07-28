@@ -125,11 +125,6 @@ locals {
     host_key => lookup(var.host_settings[host_key], "kubernetes_storage_backend", var.kubernetes_storage_backend) if var.host_settings[host_key] != null }
   kubernetes_storage_class = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "kubernetes_storage_class", var.kubernetes_storage_class) if var.host_settings[host_key] != null }
-  server_kubernetes_storage_backend          = lookup(local.kubernetes_storage_backend, "server_kubernetes", var.kubernetes_storage_backend)
-  configured_server_kubernetes_storage_class = lookup(local.kubernetes_storage_class, "server_kubernetes", var.kubernetes_storage_class)
-  server_kubernetes_storage_class = local.configured_server_kubernetes_storage_class != null ? local.configured_server_kubernetes_storage_class : (
-    var.kubernetes_cluster_mode == "managed" && local.server_kubernetes_storage_backend == "local-path" ? "local-path" : null
-  )
   local_path_provisioner_path = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "local_path_provisioner_path", var.local_path_provisioner_path) if var.host_settings[host_key] != null }
   local_path_provisioner_default_class = { for host_key in local.hosts :
@@ -312,8 +307,8 @@ module "server_kubernetes" {
   java_debugging_on_rke2          = var.java_debugging_on_rke2
   install_traefik                 = var.install_traefik
   install_local_path_provisioner  = var.install_local_path_provisioner
-  kubernetes_storage_backend                = local.server_kubernetes_storage_backend
-  kubernetes_storage_class                  = local.server_kubernetes_storage_class
+  kubernetes_storage_backend                = lookup(local.kubernetes_storage_backend, "server_kubernetes", var.kubernetes_storage_backend)
+  kubernetes_storage_class                  = lookup(local.kubernetes_storage_class, "server_kubernetes", var.kubernetes_storage_class)
   local_path_provisioner_path               = lookup(local.local_path_provisioner_path, "server_kubernetes", var.local_path_provisioner_path)
   local_path_provisioner_default_class      = lookup(local.local_path_provisioner_default_class, "server_kubernetes", var.local_path_provisioner_default_class)
   local_path_provisioner_reclaim_policy     = lookup(local.local_path_provisioner_reclaim_policy, "server_kubernetes", var.local_path_provisioner_reclaim_policy)
@@ -707,7 +702,6 @@ module "controller" {
   web_server_hostname      = var.web_server_hostname
   install_kubectl_helm     = var.install_kubectl_helm
   kubeconfig_path          = var.kubeconfig_path
-  kubernetes_storage_class = var.kubernetes ? local.server_kubernetes_storage_class : null
 
   prometheus_push_gateway_url = var.prometheus_push_gateway_url
 

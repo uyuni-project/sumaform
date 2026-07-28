@@ -953,9 +953,3 @@ variable "deploy_tftp" {
   description = "true to enable the TFTP service in external Kubernetes cluster Helm values"
   default     = true
 }
-
-variable "kubernetes_storage_class" {
-  description = "StorageClass name copied to the controller for Kubernetes server configuration and benchmark metadata"
-  type        = string
-  default     = null
-}
