@@ -46,29 +46,12 @@ tls-san_setup_file:
         {% endif %}
     - makedirs: True
 
+{% if not is_slmicro_6_2 %}
 
 rke2_install:
   cmd.run:
     - name: curl -sfL https://get.rke2.io | sudo INSTALL_RKE2_VERSION="{{ rke2_version }}" sh -
-    - env:
-        {% if is_slmicro_6_2 %}
-        - INSTALL_RKE2_METHOD: rpm
-        - INSTALL_RKE2_SELINUX: true
-        {% endif %}
     - unless: systemctl is-active rke2-server
-    {% if is_slmicro_6_2  and grains.get('scc_slmicro_pass') %} 
-    - require:
-      - cmd: register_to_scc
-      - cmd: apply_transition_scc
-    {% endif %}
-
-{% if is_slmicro_6_2 %}
-apply_transition_rke2:
-  cmd.run:
-    - name: transactional-update apply
-    - require:
-      - cmd: rke2_install
-{% endif %}
 
 rke2_server_enable:
   service.enabled:
@@ -76,10 +59,6 @@ rke2_server_enable:
     - require:
       - cmd: rke2_install
       - file: tls-san_setup_file
-      {% if is_slmicro_6_2 and grains.get('scc_slmicro_pass') %}
-      - cmd: register_to_scc
-      - cmd: apply_transition_scc
-      {% endif %}
 
 {% if is_tumbleweed %}
 rke2_selinux_install:
@@ -129,12 +108,15 @@ link_ctr_rke2:
     - require:
       - cmd: rke2_server_wait_until_active
 
+{% endif %}
+
 variables_rke2:
   file.managed:
     - name: /etc/profile.d/rke2_vars.sh
     - contents: |
         export PATH=$PATH:/opt/rke2/bin
         export KUBECONFIG={{ kubeconfig }}
+        export RKE2_VERSION={{ rke2_version }}
 
 
 {% endif %}
