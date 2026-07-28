@@ -37,7 +37,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = ["opensuse156armo", "opensuse160armo"]
+  images          = ["opensuse156armo", "opensuse160armo", "raspios13o"]
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
@@ -662,23 +662,6 @@ module "debian13_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "raspios13_minion" {
-  providers = { libvirt = libvirt.host_deblike }
-  source             = "../minion"
-  count              = lookup(var.environment_configuration, "raspios13_minion", null) != null ? 1 : 0
-  base_configuration = local.host_deblike
-  name               = var.environment_configuration.raspios13_minion.name
-  image              = "raspios13o"
-  provider_settings = {
-    mac    = var.environment_configuration.raspios13_minion.mac
-    memory = 4096
-  }
-
-  auto_connect_to_master  = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "opensuse156arm_minion" {
   providers = {
     libvirt = libvirt.host_arm
@@ -719,6 +702,27 @@ module "opensuse160arm_minion" {
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
+module "raspios13_minion" {
+  providers = {
+    libvirt = libvirt.host_arm
+  }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "raspios13_minion", null) != null ? 1 : 0
+  base_configuration = module.base_arm.configuration
+  name               = "${var.environment_configuration.raspios13_minion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "raspios13o"
+  provider_settings = {
+    mac            = var.environment_configuration.raspios13_minion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.raspios13_minion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
 }
 
 module "sles15sp5s390_minion" {
@@ -1238,21 +1242,6 @@ module "debian13_sshminion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "raspios13_sshminion" {
-  providers = { libvirt = libvirt.host_deblike }
-  source             = "../sshminion"
-  count              = lookup(var.environment_configuration, "raspios13_sshminion", null) != null ? 1 : 0
-  base_configuration = local.host_deblike
-  name               = var.environment_configuration.raspios13_sshminion.name
-  image              = "raspios13o"
-  provider_settings = {
-    mac    = var.environment_configuration.raspios13_sshminion.mac
-    memory = 4096
-  }
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "opensuse156arm_sshminion" {
   providers = {
     libvirt = libvirt.host_arm
@@ -1291,6 +1280,26 @@ module "opensuse160arm_sshminion" {
   }
   use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
+module "raspios13_sshminion" {
+  providers = {
+    libvirt = libvirt.host_arm
+  }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "raspios13_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_arm.configuration
+  name               = "${var.environment_configuration.raspios13_sshminion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "raspios13o"
+  provider_settings = {
+    mac            = var.environment_configuration.raspios13_sshminion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.raspios13_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
 }
 
 module "sles15sp5s390_sshminion" {
@@ -1745,17 +1754,17 @@ module "controller" {
   ubuntu2604_minion_configuration    = length(module.ubuntu2604_minion) > 0 ? module.ubuntu2604_minion[0].configuration : local.empty_minion_config
   ubuntu2604_sshminion_configuration = length(module.ubuntu2604_sshminion) > 0 ? module.ubuntu2604_sshminion[0].configuration : local.empty_minion_config
 
-  debian12_minion_configuration     = length(module.debian12_minion) > 0 ? module.debian12_minion[0].configuration : local.empty_minion_config
-  debian12_sshminion_configuration  = length(module.debian12_sshminion) > 0 ? module.debian12_sshminion[0].configuration : local.empty_minion_config
-  debian13_minion_configuration     = length(module.debian13_minion) > 0 ? module.debian13_minion[0].configuration : local.empty_minion_config
-  debian13_sshminion_configuration  = length(module.debian13_sshminion) > 0 ? module.debian13_sshminion[0].configuration : local.empty_minion_config
-  raspios13_minion_configuration    = length(module.raspios13_minion) > 0 ? module.raspios13_minion[0].configuration : local.empty_minion_config
-  raspios13_sshminion_configuration = length(module.raspios13_sshminion) > 0 ? module.raspios13_sshminion[0].configuration : local.empty_minion_config
+  debian12_minion_configuration    = length(module.debian12_minion) > 0 ? module.debian12_minion[0].configuration : local.empty_minion_config
+  debian12_sshminion_configuration = length(module.debian12_sshminion) > 0 ? module.debian12_sshminion[0].configuration : local.empty_minion_config
+  debian13_minion_configuration    = length(module.debian13_minion) > 0 ? module.debian13_minion[0].configuration : local.empty_minion_config
+  debian13_sshminion_configuration = length(module.debian13_sshminion) > 0 ? module.debian13_sshminion[0].configuration : local.empty_minion_config
 
   opensuse156arm_minion_configuration    = length(module.opensuse156arm_minion) > 0 ? module.opensuse156arm_minion[0].configuration : local.empty_minion_config
   opensuse156arm_sshminion_configuration = length(module.opensuse156arm_sshminion) > 0 ? module.opensuse156arm_sshminion[0].configuration : local.empty_minion_config
   opensuse160arm_minion_configuration    = length(module.opensuse160arm_minion) > 0 ? module.opensuse160arm_minion[0].configuration : local.empty_minion_config
   opensuse160arm_sshminion_configuration = length(module.opensuse160arm_sshminion) > 0 ? module.opensuse160arm_sshminion[0].configuration : local.empty_minion_config
+  raspios13_minion_configuration         = length(module.raspios13_minion) > 0 ? module.raspios13_minion[0].configuration : local.empty_minion_config
+  raspios13_sshminion_configuration      = length(module.raspios13_sshminion) > 0 ? module.raspios13_sshminion[0].configuration : local.empty_minion_config
 
   sles15sp5s390_minion_configuration    = length(module.sles15sp5s390_minion) > 0 ? module.sles15sp5s390_minion[0].configuration : local.empty_minion_config
   sles15sp5s390_sshminion_configuration = length(module.sles15sp5s390_sshminion) > 0 ? module.sles15sp5s390_sshminion[0].configuration : local.empty_minion_config
