@@ -131,7 +131,7 @@ Some SLE Micro / SL Micro `*_sshminion` modules exist only as commented-out work
 
 - `salt_migration_minion` is a dedicated SLES 15 SP5 minion used to test migration from OS Salt to Salt bundle and is deployed with `install_salt_bundle = false`.
 - `slemicro52_minion`, `slemicro53_minion`, and `slemicro54_minion` are kept with `install_salt_bundle = false` because of the in-file workaround comment.
-- `opensuse156arm_*` and `opensuse160arm_*` get their location-specific extension and FQDN handling from the module code.
+- `opensuse156arm_*`, `opensuse160arm_*`, and `raspios13_*` get their location-specific extension and FQDN handling from the module code.
 - `opensuse160arm_minion` and `opensuse160arm_sshminion` currently use `./salt/controller/id_ed25519.pub` directly for `ssh_key_path` in the module code.
 
 ### `BASE_CONFIGURATIONS`
