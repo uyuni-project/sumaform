@@ -1,5 +1,4 @@
 {% if grains['os'] == 'SUSE' and (
-      'controller' in grains.get('roles') or
       'grafana' in grains.get('roles') or
       'mirror' in grains.get('roles') or
       grains.get('evil_minion_count') or
