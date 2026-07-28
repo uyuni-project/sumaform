@@ -37,7 +37,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = ["opensuse156armo", "opensuse160armo"]
+  images          = ["opensuse156armo", "opensuse160armo", "raspios13o"]
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
@@ -484,6 +484,22 @@ module "liberty9_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
+module "liberty10_minion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "liberty10_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.liberty10_minion.name
+  image              = "libertylinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.liberty10_minion.mac
+    memory = 4096
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
 module "oracle9_minion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
@@ -686,6 +702,27 @@ module "opensuse160arm_minion" {
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
+module "raspios13_minion" {
+  providers = {
+    libvirt = libvirt.host_arm
+  }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "raspios13_minion", null) != null ? 1 : 0
+  base_configuration = module.base_arm.configuration
+  name               = "${var.environment_configuration.raspios13_minion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "raspios13o"
+  provider_settings = {
+    mac            = var.environment_configuration.raspios13_minion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.raspios13_minion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
 }
 
 module "sles15sp5s390_minion" {
@@ -1039,6 +1076,21 @@ module "liberty9_sshminion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
+module "liberty10_sshminion" {
+  providers = { libvirt = libvirt.host_rhlike }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "liberty10_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.liberty10_sshminion.name
+  image              = "libertylinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.liberty10_sshminion.mac
+    memory = 4096
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
 module "oracle9_sshminion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../sshminion"
@@ -1228,6 +1280,26 @@ module "opensuse160arm_sshminion" {
   }
   use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
+module "raspios13_sshminion" {
+  providers = {
+    libvirt = libvirt.host_arm
+  }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "raspios13_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_arm.configuration
+  name               = "${var.environment_configuration.raspios13_sshminion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "raspios13o"
+  provider_settings = {
+    mac            = var.environment_configuration.raspios13_sshminion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.raspios13_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+  }
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
 }
 
 module "sles15sp5s390_sshminion" {
@@ -1643,14 +1715,12 @@ module "controller" {
   sles15sp5_client_configuration    = length(module.sles15sp5_client) > 0 ? module.sles15sp5_client[0].configuration : local.empty_minion_config
   sles15sp6_client_configuration    = length(module.sles15sp6_client) > 0 ? module.sles15sp6_client[0].configuration : local.empty_minion_config
   sles15sp7_client_configuration    = length(module.sles15sp7_client) > 0 ? module.sles15sp7_client[0].configuration : local.empty_minion_config
-  centos7_client_configuration     = length(module.centos7_client) > 0 ? module.centos7_client[0].configuration : local.empty_minion_config
+  centos7_client_configuration      = length(module.centos7_client) > 0 ? module.centos7_client[0].configuration : local.empty_minion_config
 
-  alma8_minion_configuration    = length(module.alma8_minion) > 0 ? module.alma8_minion[0].configuration : local.empty_minion_config
-  alma8_sshminion_configuration = length(module.alma8_sshminion) > 0 ? module.alma8_sshminion[0].configuration : local.empty_minion_config
-
-  alma9_minion_configuration    = length(module.alma9_minion) > 0 ? module.alma9_minion[0].configuration : local.empty_minion_config
-  alma9_sshminion_configuration = length(module.alma9_sshminion) > 0 ? module.alma9_sshminion[0].configuration : local.empty_minion_config
-
+  alma8_minion_configuration     = length(module.alma8_minion) > 0 ? module.alma8_minion[0].configuration : local.empty_minion_config
+  alma8_sshminion_configuration  = length(module.alma8_sshminion) > 0 ? module.alma8_sshminion[0].configuration : local.empty_minion_config
+  alma9_minion_configuration     = length(module.alma9_minion) > 0 ? module.alma9_minion[0].configuration : local.empty_minion_config
+  alma9_sshminion_configuration  = length(module.alma9_sshminion) > 0 ? module.alma9_sshminion[0].configuration : local.empty_minion_config
   alma10_minion_configuration    = length(module.alma10_minion) > 0 ? module.alma10_minion[0].configuration : local.empty_minion_config
   alma10_sshminion_configuration = length(module.alma10_sshminion) > 0 ? module.alma10_sshminion[0].configuration : local.empty_minion_config
 
@@ -1660,30 +1730,27 @@ module "controller" {
   centos7_minion_configuration    = length(module.centos7_minion) > 0 ? module.centos7_minion[0].configuration : local.empty_minion_config
   centos7_sshminion_configuration = length(module.centos7_sshminion) > 0 ? module.centos7_sshminion[0].configuration : local.empty_minion_config
 
-  liberty9_minion_configuration    = length(module.liberty9_minion) > 0 ? module.liberty9_minion[0].configuration : local.empty_minion_config
-  liberty9_sshminion_configuration = length(module.liberty9_sshminion) > 0 ? module.liberty9_sshminion[0].configuration : local.empty_minion_config
+  liberty9_minion_configuration     = length(module.liberty9_minion) > 0 ? module.liberty9_minion[0].configuration : local.empty_minion_config
+  liberty9_sshminion_configuration  = length(module.liberty9_sshminion) > 0 ? module.liberty9_sshminion[0].configuration : local.empty_minion_config
+  liberty10_minion_configuration    = length(module.liberty10_minion) > 0 ? module.liberty10_minion[0].configuration : local.empty_minion_config
+  liberty10_sshminion_configuration = length(module.liberty10_sshminion) > 0 ? module.liberty10_sshminion[0].configuration : local.empty_minion_config
 
-  oracle9_minion_configuration    = length(module.oracle9_minion) > 0 ? module.oracle9_minion[0].configuration : local.empty_minion_config
-  oracle9_sshminion_configuration = length(module.oracle9_sshminion) > 0 ? module.oracle9_sshminion[0].configuration : local.empty_minion_config
-
+  oracle9_minion_configuration     = length(module.oracle9_minion) > 0 ? module.oracle9_minion[0].configuration : local.empty_minion_config
+  oracle9_sshminion_configuration  = length(module.oracle9_sshminion) > 0 ? module.oracle9_sshminion[0].configuration : local.empty_minion_config
   oracle10_minion_configuration    = length(module.oracle10_minion) > 0 ? module.oracle10_minion[0].configuration : local.empty_minion_config
   oracle10_sshminion_configuration = length(module.oracle10_sshminion) > 0 ? module.oracle10_sshminion[0].configuration : local.empty_minion_config
 
-  rocky8_minion_configuration    = length(module.rocky8_minion) > 0 ? module.rocky8_minion[0].configuration : local.empty_minion_config
-  rocky8_sshminion_configuration = length(module.rocky8_sshminion) > 0 ? module.rocky8_sshminion[0].configuration : local.empty_minion_config
-
-  rocky9_minion_configuration    = length(module.rocky9_minion) > 0 ? module.rocky9_minion[0].configuration : local.empty_minion_config
-  rocky9_sshminion_configuration = length(module.rocky9_sshminion) > 0 ? module.rocky9_sshminion[0].configuration : local.empty_minion_config
-
+  rocky8_minion_configuration     = length(module.rocky8_minion) > 0 ? module.rocky8_minion[0].configuration : local.empty_minion_config
+  rocky8_sshminion_configuration  = length(module.rocky8_sshminion) > 0 ? module.rocky8_sshminion[0].configuration : local.empty_minion_config
+  rocky9_minion_configuration     = length(module.rocky9_minion) > 0 ? module.rocky9_minion[0].configuration : local.empty_minion_config
+  rocky9_sshminion_configuration  = length(module.rocky9_sshminion) > 0 ? module.rocky9_sshminion[0].configuration : local.empty_minion_config
   rocky10_minion_configuration    = length(module.rocky10_minion) > 0 ? module.rocky10_minion[0].configuration : local.empty_minion_config
   rocky10_sshminion_configuration = length(module.rocky10_sshminion) > 0 ? module.rocky10_sshminion[0].configuration : local.empty_minion_config
 
   ubuntu2204_minion_configuration    = length(module.ubuntu2204_minion) > 0 ? module.ubuntu2204_minion[0].configuration : local.empty_minion_config
   ubuntu2204_sshminion_configuration = length(module.ubuntu2204_sshminion) > 0 ? module.ubuntu2204_sshminion[0].configuration : local.empty_minion_config
-
   ubuntu2404_minion_configuration    = length(module.ubuntu2404_minion) > 0 ? module.ubuntu2404_minion[0].configuration : local.empty_minion_config
   ubuntu2404_sshminion_configuration = length(module.ubuntu2404_sshminion) > 0 ? module.ubuntu2404_sshminion[0].configuration : local.empty_minion_config
-
   ubuntu2604_minion_configuration    = length(module.ubuntu2604_minion) > 0 ? module.ubuntu2604_minion[0].configuration : local.empty_minion_config
   ubuntu2604_sshminion_configuration = length(module.ubuntu2604_sshminion) > 0 ? module.ubuntu2604_sshminion[0].configuration : local.empty_minion_config
 
@@ -1694,22 +1761,23 @@ module "controller" {
 
   opensuse156arm_minion_configuration    = length(module.opensuse156arm_minion) > 0 ? module.opensuse156arm_minion[0].configuration : local.empty_minion_config
   opensuse156arm_sshminion_configuration = length(module.opensuse156arm_sshminion) > 0 ? module.opensuse156arm_sshminion[0].configuration : local.empty_minion_config
-
   opensuse160arm_minion_configuration    = length(module.opensuse160arm_minion) > 0 ? module.opensuse160arm_minion[0].configuration : local.empty_minion_config
   opensuse160arm_sshminion_configuration = length(module.opensuse160arm_sshminion) > 0 ? module.opensuse160arm_sshminion[0].configuration : local.empty_minion_config
+  raspios13_minion_configuration         = length(module.raspios13_minion) > 0 ? module.raspios13_minion[0].configuration : local.empty_minion_config
+  raspios13_sshminion_configuration      = length(module.raspios13_sshminion) > 0 ? module.raspios13_sshminion[0].configuration : local.empty_minion_config
 
   sles15sp5s390_minion_configuration    = length(module.sles15sp5s390_minion) > 0 ? module.sles15sp5s390_minion[0].configuration : local.empty_minion_config
   sles15sp5s390_sshminion_configuration = length(module.sles15sp5s390_sshminion) > 0 ? module.sles15sp5s390_sshminion[0].configuration : local.empty_minion_config
 
   salt_migration_minion_configuration = length(module.salt_migration_minion) > 0 ? module.salt_migration_minion[0].configuration : local.empty_minion_config
 
-  slemicro52_minion_configuration = length(module.slemicro52_minion) > 0 ? module.slemicro52_minion[0].configuration : local.empty_minion_config
-  slemicro53_minion_configuration = length(module.slemicro53_minion) > 0 ? module.slemicro53_minion[0].configuration : local.empty_minion_config
-  slemicro54_minion_configuration = length(module.slemicro54_minion) > 0 ? module.slemicro54_minion[0].configuration : local.empty_minion_config
-  slemicro55_minion_configuration = length(module.slemicro55_minion) > 0 ? module.slemicro55_minion[0].configuration : local.empty_minion_config
-  slmicro60_minion_configuration  = length(module.slmicro60_minion) > 0 ? module.slmicro60_minion[0].configuration : local.empty_minion_config
-  slmicro61_minion_configuration  = length(module.slmicro61_minion) > 0 ? module.slmicro61_minion[0].configuration : local.empty_minion_config
-  slmicro62_minion_configuration  = length(module.slmicro62_minion) > 0 ? module.slmicro62_minion[0].configuration : local.empty_minion_config
+  slemicro52_minion_configuration  = length(module.slemicro52_minion) > 0 ? module.slemicro52_minion[0].configuration : local.empty_minion_config
+  slemicro53_minion_configuration  = length(module.slemicro53_minion) > 0 ? module.slemicro53_minion[0].configuration : local.empty_minion_config
+  slemicro54_minion_configuration  = length(module.slemicro54_minion) > 0 ? module.slemicro54_minion[0].configuration : local.empty_minion_config
+  slemicro55_minion_configuration  = length(module.slemicro55_minion) > 0 ? module.slemicro55_minion[0].configuration : local.empty_minion_config
+  slmicro60_minion_configuration   = length(module.slmicro60_minion) > 0 ? module.slmicro60_minion[0].configuration : local.empty_minion_config
+  slmicro61_minion_configuration   = length(module.slmicro61_minion) > 0 ? module.slmicro61_minion[0].configuration : local.empty_minion_config
+  slmicro62_minion_configuration   = length(module.slmicro62_minion) > 0 ? module.slmicro62_minion[0].configuration : local.empty_minion_config
   slmicro62_sshminion_configuration = length(module.slmicro62_sshminion) > 0 ? module.slmicro62_sshminion[0].configuration : local.empty_minion_config
 
   sles15sp6_buildhost_configuration = length(module.sles15sp6_buildhost) > 0 ? module.sles15sp6_buildhost[0].configuration : local.empty_minion_config

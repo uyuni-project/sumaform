@@ -152,6 +152,10 @@ grains.get('centos7_sshminion') }}" {% else %}# no CENTOS7 ssh minion defined {%
 }}" {% else %}# no LIBERTY9 minion defined {% endif %}
 {% if grains.get('liberty9_sshminion') | default(false, true) %}export LIBERTY9_SSHMINION="{{
 grains.get('liberty9_sshminion') }}" {% else %}# no LIBERTY9 ssh minion defined {% endif %}
+{% if grains.get('liberty10_minion') | default(false, true) %}export LIBERTY10_MINION="{{ grains.get('liberty10_minion')
+}}" {% else %}# no LIBERTY10 minion defined {% endif %}
+{% if grains.get('liberty10_sshminion') | default(false, true) %}export LIBERTY10_SSHMINION="{{
+grains.get('liberty10_sshminion') }}" {% else %}# no LIBERTY10 ssh minion defined {% endif %}
 {% if grains.get('openeuler2403_minion') | default(false, true) %}export OPENEULER2403_MINION="{{
 grains.get('openeuler2403_minion') }}" {% else %}# no OPENEULER2403 minion defined {% endif %}
 {% if grains.get('openeuler2403_sshminion') | default(false, true) %}export OPENEULER2403_SSHMINION="{{
@@ -200,6 +204,10 @@ grains.get('debian12_sshminion') }}" {% else %}# no DEBIAN12 ssh minion defined 
 }}" {% else %}# no DEBIAN13 minion defined {% endif %}
 {% if grains.get('debian13_sshminion') | default(false, true) %}export DEBIAN13_SSHMINION="{{
 grains.get('debian13_sshminion') }}" {% else %}# no DEBIAN13 ssh minion defined {% endif %}
+{% if grains.get('raspios13_minion') | default(false, true) %}export RASPIOS13_MINION="{{ grains.get('raspios13_minion')
+}}" {% else %}# no RASPIOS13 minion defined {% endif %}
+{% if grains.get('raspios13_sshminion') | default(false, true) %}export RASPIOS13_SSHMINION="{{
+grains.get('raspios13_sshminion') }}" {% else %}# no RASPIOS13 ssh minion defined {% endif %}
 {% if grains.get('sles15sp4_buildhost') | default(false, true) %}export SLES15SP4_BUILDHOST="{{
 grains.get('sles15sp4_buildhost') }}" {% else %}# no SLES15SP4 buildhost defined {% endif %}
 {% if grains.get('sles15sp4_terminal_mac') | default(false, true) %}export SLES15SP4_TERMINAL_MAC="{{
@@ -259,7 +267,7 @@ export PRODUCT="SUSE Multi-Linux Manager"
 {% endif %}
 
 # Ruby specific settings
-export GEM_PATH="/usr/lib64/ruby/gems/3.3.0"
+export GEM_PATH="/usr/lib64/ruby/gems/3.4.0"
 export PLAYWRIGHT_CLI_EXECUTABLE_PATH=/usr/local/bin/playwright
 
 {% if grains.get('prometheus_push_gateway_url') | default(false, true) %}

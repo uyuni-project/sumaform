@@ -649,7 +649,7 @@ apt:
 
 %{ endif ~}
 
-%{ if image == "debian13o" ~}
+%{ if image == "debian13o" || image == "raspios13o" ~}
 apt:
   sources:
     tools_pool_repo:
@@ -679,7 +679,7 @@ apt:
 
 %{ endif ~}
 
-%{ if image == "debian12o" || image == "debian13o" ~}
+%{ if image == "debian12o" || image == "debian13o" || image == "raspios13o" ~}
 
 
 bootcmd:

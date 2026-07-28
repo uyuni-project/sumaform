@@ -10,7 +10,7 @@ variable "platform_location_configuration" {
 
 variable location {
   type = string
-  description = "Platform location, nue or slc1"
+  description = "Platform location, prg2 or slc1"
 }
 
 variable "cucumber_gitrepo" {

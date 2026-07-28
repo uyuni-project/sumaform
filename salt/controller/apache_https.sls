@@ -7,22 +7,19 @@ apache2_service_stopped:
     - name: apache2
     - enable: False
 
-# Install Apache SSL package (needed for certificate generation tools)
-apache2_ssl_package:
-  pkg.installed:
-    - name: apache2-mod_nss
-
-# Generate Self-Signed Certificate (used by Python script)
+# Generate Self-Signed Certificate (used by Python script).
+# Note: apache2-mod_nss was dropped in Leap 16. The cert is generated with
+# openssl and served by the Python script (apache is stopped), so we only need
+# to make sure the SSL directories exist.
 self_signed_cert:
   cmd.run:
     - name: |
+        mkdir -p /etc/apache2/ssl.key /etc/apache2/ssl.crt
         openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -keyout /etc/apache2/ssl.key/selfsigned.key \
         -out /etc/apache2/ssl.crt/selfsigned.crt \
         -subj '/CN={{ server_name }}/O=Controller/OU=Testsuite'
     - unless: test -f /etc/apache2/ssl.crt/selfsigned.crt
-    - require:
-      - pkg: apache2_ssl_package
 
 # Manage the Python Script file
 https_python_script_file:
