@@ -176,7 +176,8 @@ Each of the hosts (including `server` and `controller` which are always present)
 - `additional_grains` to add or overwrite salt grains on salt minions. Map of key value
 - `image` to use a different base image
 
-The `suse_minion` host also accepts `quantity` to create multiple minions:
+With the libvirt backend, the `suse_minion` host also accepts `quantity` to
+create multiple minions:
 
 ```hcl
 host_settings = {

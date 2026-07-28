@@ -50,8 +50,10 @@ echo
 
 rendered_bashrc="$PWD/testconfig/controller-bashrc"
 salt-call cp.get_template salt://controller/bashrc "$rendered_bashrc" template=jinja --local --file-root=salt/ --config-dir=testconfig --retcode-passthrough || exit $?
-grep -F "export UYUNI_BENCH_MINIONS=" "$rendered_bashrc" || exit 1
-grep -F "suse-minion-1.tf.local" "$rendered_bashrc" || exit 1
-grep -F "suse-minion-2.tf.local" "$rendered_bashrc" || exit 1
+grep -F 'export MINION="suse-minion-1.tf.local"' "$rendered_bashrc" || exit 1
+inventory_line="$(grep '^export UYUNI_BENCH_MINIONS=' "$rendered_bashrc")" || exit 1
+inventory_json="${inventory_line#export UYUNI_BENCH_MINIONS=\'}"
+inventory_json="${inventory_json%\'}"
+test "$(printf '%s\n' "$inventory_json" | jq -c .)" = '["suse-minion-1.tf.local","suse-minion-2.tf.local"]' || exit 1
 
 salt-call state.show_highstate --local --file-root=salt/ --config-dir=testconfig --retcode-passthrough

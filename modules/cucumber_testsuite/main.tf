@@ -23,8 +23,7 @@ locals {
   proxy_full_name           = "${var.name_prefix}proxy.${var.domain}"
 
   hosts                     = keys(var.host_settings)
-  quantities                = { for host_key in local.hosts :
-    host_key => coalesce(lookup(var.host_settings[host_key], "quantity", null), 1) if var.host_settings[host_key] != null }
+  suse_minion_settings      = lookup(var.host_settings, "suse_minion", null)
   provider_settings_by_host = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "provider_settings", {}) if var.host_settings[host_key] != null }
   additional_repos          = { for host_key in local.hosts :
@@ -474,7 +473,7 @@ module "suse_client" {
 module "suse_minion" {
   source             = "../minion"
 
-  quantity = lookup(local.quantities, "suse_minion", 0)
+  quantity = local.suse_minion_settings == null ? 0 : coalesce(lookup(local.suse_minion_settings, "quantity", null), 1)
   base_configuration = module.base.configuration
   image              = lookup(local.images, "suse_minion", "sles15sp4o")
   name               = lookup(local.names, "suse_minion", "suse-minion")
