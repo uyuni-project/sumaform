@@ -87,4 +87,8 @@ variable "deploy_hub_api" {
   default     = true
 }
 
-
+variable "skip_server_install" {
+  description = "Do not install and configure the server container; only prepare the host (podman, mgradm, mgradm.yaml). Used when the Uyuni testsuite performs the installation itself."
+  type        = bool
+  default     = false
+}
