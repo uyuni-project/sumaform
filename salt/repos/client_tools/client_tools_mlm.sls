@@ -343,6 +343,8 @@ clean_repo_metadata:
 {% set short_release = release | replace('.', '') %}
 
 # Release client tools
+{# WORKAROUND: remove when we hit first MU for 5.2 #}
+{% if release != "26.04" %}
 {% set tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools/Ubuntu-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 tools_update_repo:
   pkgrepo.managed:
@@ -359,8 +361,11 @@ tools_update_repo_raised_priority:
             Package: *
             Pin: release l=SUSE:Updates:MultiLinuxManagerTools:Ubuntu-{{ release }}:{{ grains.get("cpuarch") }}:update
             Pin-Priority: 800
+{% endif %} {# release != "26.04" #}
 
 {% if 'beta' in grains.get('product_version') | default('', true) %}
+{# WORKAROUND: remove when we hit first MU for 5.2 #}
+{% if release != "26.04" %}
 
 {% set beta_tools_update_repo = 'http://' + grains.get("mirror") | default("dist.suse.de/ibs", true) + '/SUSE/Updates/MultiLinuxManagerTools-Beta/Ubuntu-' + release + '/' + grains.get("cpuarch") + '/update/' %}
 beta_tools_update_repo:
@@ -378,6 +383,7 @@ beta_tools_update_repo_raised_priority:
             Package: *
             Pin: release l=SUSE:Updates:MultiLinuxManagerTools-Beta:Ubuntu-{{ release }}:{{ grains.get("cpuarch") }}:update
             Pin-Priority: 800
+{% endif %} {# release != "26.04" #}
 
 {% endif %}
 
