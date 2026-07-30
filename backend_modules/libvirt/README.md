@@ -69,6 +69,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | manufacturer    | string         | `Intel`                                                      | The System Management BIOS manufacturer                     |
 | product         | string         | `Genuine`                                                    | The System Management BIOS product                          |
 | xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                |
+| use_dhcp_ip     | bool           | `false`                                                      | Use the DHCP lease IP for SSH connections instead of DNS resolution. Set to `true` for VMs not declared in your DNS infrastructure. See [Connecting to VMs not in DNS](../../README_ADVANCED.md#connecting-to-vms-not-in-dns) |
 
 An example follows:
 
