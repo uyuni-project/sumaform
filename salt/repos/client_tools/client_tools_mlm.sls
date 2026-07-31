@@ -188,9 +188,14 @@ tools_pool_repo:
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
 
+# WORKAROUND: this project publishes its product repository under a "Beta" name,
+# unlike every other Stable: tools project, because SL Micro 6 client tools are
+# still fed from Devel:Galaxy:Manager:5.1:MLMTools-SL-Micro-6. Drop the "Beta"
+# infix once SL Micro 6.0 and 6.1 move to the full git workflow
+# see https://github.com/SUSE/spacewalk/issues/31465
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLMicro-6/product/repo/Multi-Linux-ManagerTools-SL-Micro-6-{{ grains.get("cpuarch") }}/
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLMicro-6/product/repo/Multi-Linux-ManagerTools-Beta-SL-Micro-6-{{ grains.get("cpuarch") }}/
   - refresh: True
   - priority: 98
 
