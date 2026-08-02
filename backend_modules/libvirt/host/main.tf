@@ -27,6 +27,7 @@ locals {
     mac             = null
     cpu_model       = "custom"
     xslt            = null
+    use_dhcp_ip     = false
     },
     contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
@@ -268,12 +269,12 @@ resource "terraform_data" "provisioning" {
     environment = {
       HOST          = local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
       IP_FROM_LEASE = local.overwrite_fqdn == "" ? join(" ", libvirt_domain.domain[count.index].network_interface[0].addresses) : ""
+      USE_DHCP_IP   = local.provider_settings["use_dhcp_ip"] ? "true" : "false"
     }
     command = <<-EOF
       IP=""
 
-      # 1) Use IP from libvirt DHCP lease (works for local, static-DHCP, and Avahi setups
-      #    since Avahi VMs still get a DHCP IP — avoids mDNS resolution on the Terraform host)
+      # Extract IPv4 from libvirt DHCP lease if available
       if [ -n "$IP_FROM_LEASE" ]; then
         for addr in $IP_FROM_LEASE; do
           if echo "$addr" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'; then
@@ -283,25 +284,27 @@ resource "terraform_data" "provisioning" {
         done
       fi
 
-      # 2) Resolve via nsswitch (/etc/hosts, mDNS, DNS...) - IPv4 only
-      if [ -z "$IP" ]; then
-        IP=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1; exit}')
-      fi
-
-      # 3) avahi-resolve fallback for .local domains (when lease IP unavailable)
-      if [ -z "$IP" ] && command -v avahi-resolve >/dev/null 2>&1; then
-        IP=$(avahi-resolve --name "$HOST" 2>/dev/null | awk '{print $2}' | head -1)
-      fi
-
-      # 4) Direct DNS query fallback
-      if [ -z "$IP" ]; then
-        IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
-      fi
-
-      # 5) Last resort: let nc resolve the name itself, forced to IPv4
-      if [ -z "$IP" ]; then
-        echo "WARN: could not pre-resolve $HOST to an IPv4 address, trying by name" >&2
-        IP="$HOST"
+      if [ "$USE_DHCP_IP" = "true" ]; then
+        # DHCP IP mode: use lease IP directly, no DNS resolution
+        if [ -z "$IP" ]; then
+          echo "ERROR: no IPv4 address in DHCP lease for $HOST" >&2
+          exit 1
+        fi
+      else
+        # DNS mode: fall back through resolution methods if lease IP unavailable
+        if [ -z "$IP" ]; then
+          IP=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1; exit}')
+        fi
+        if [ -z "$IP" ] && command -v avahi-resolve >/dev/null 2>&1; then
+          IP=$(avahi-resolve --name "$HOST" 2>/dev/null | awk '{print $2}' | head -1)
+        fi
+        if [ -z "$IP" ]; then
+          IP=$(host -t A "$HOST" 2>/dev/null | awk '/has address/{print $4}' | head -1)
+        fi
+        if [ -z "$IP" ]; then
+          echo "WARN: could not pre-resolve $HOST to an IPv4 address, trying by name" >&2
+          IP="$HOST"
+        fi
       fi
 
       for i in $(seq 1 24); do
@@ -316,7 +319,11 @@ resource "terraform_data" "provisioning" {
   count = var.provision ? var.quantity : 0
 
   connection {
-    host     = local.overwrite_fqdn != "" ? local.overwrite_fqdn : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
+    host     = local.overwrite_fqdn != "" ? local.overwrite_fqdn : (
+      local.provider_settings["use_dhcp_ip"]
+      ? [for addr in libvirt_domain.domain[count.index].network_interface[0].addresses : addr if !can(regex(":", addr))][0]
+      : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
+    )
     user     = "root"
     password = "linux"
     // ssh connection through a bastion host

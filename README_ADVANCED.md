@@ -14,7 +14,7 @@ Legal values for released software are:
 - `5.0-released` (latest released maintenance update for SUSE Manager 5.0 and Tools)
 - `5.1-released` (latest released maintenance update for Multi Linux Manager 5.1 and Tools)
 - `5.2-released` (latest released maintenance update for Multi Linux Manager 5.2 and Tools)
-- `uyuni-released` (latest released version for Uyuni Server, Proxy and Tools, from systemsmanagement:Uyuni:Stable)
+- `uyuni-released` (latest released version for Uyuni Server, Proxy, and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
 
@@ -1173,6 +1173,32 @@ and inside the VM:
 suma-bv-43-min-opensuse156arm.mgr.suse.de
 ```
 
+
+## Connecting to VMs not in DNS
+
+By default, Terraform resolves the VM's FQDN via DNS to establish SSH connections during provisioning. This is the safest approach when VMs are declared in our infrastructure's DNS, as it always yields the correct routable IP even if the DHCP lease contains an unroutable address.
+
+If you deploy VMs without declaring them in DNS, provisioning will fail because the FQDN cannot be resolved. In that case, set `use_dhcp_ip = true` in `provider_settings` to instruct Terraform to connect directly using the IP address obtained from the libvirt DHCP lease:
+
+```hcl
+module "suse_manager" {
+  source = "./modules/suse_manager"
+  ...
+  provider_settings = {
+    use_dhcp_ip = true
+  }
+  ...
+}
+```
+
+**When to use each mode:**
+
+| Mode | `use_dhcp_ip` | Use when |
+|------|---------------|----------|
+| DNS (default) | `false` | VMs are declared in DNS; DHCP lease IP may be unroutable |
+| DHCP IP | `true` | VMs are not declared in DNS; DHCP lease IP is routable |
+
+Note that `use_dhcp_ip = true` requires the DHCP lease IP to be directly reachable from the Terraform host. If the lease IP is unroutable in your setup, declare the VM in DNS and use the default mode instead.
 
 ## Debugging facilities
 
