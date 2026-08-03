@@ -35,20 +35,20 @@ change_searchlist_netconfig:
     - name: /etc/sysconfig/network/config
     - pattern: NETCONFIG_DNS_STATIC_SEARCHLIST=.*
     - repl: NETCONFIG_DNS_STATIC_SEARCHLIST="{{ grains['domain'] }}"
-    - onlyif: test -f /etc/sysconfig/network/config
+    - onlyif: test -f /etc/sysconfig/network/config && command -v netconfig
 
 netconfig_update:
   cmd.run:
     - name: netconfig update -f
     - require:
       - file: change_searchlist_netconfig
-    - onlyif: test -f /etc/sysconfig/network/config
+    - onlyif: test -f /etc/sysconfig/network/config && command -v netconfig
 
 change_searchlist:
   file.append:
     - name: /etc/resolv.conf
     - text: search {{ grains['domain'] }}
-    - unless: test -f /etc/sysconfig/network/config
+    - unless: test -f /etc/sysconfig/network/config && command -v netconfig
 
 # set the hostname and FQDN name in /etc/hosts
 # this is not needed if a proper DNS server is in place, but when using avahi this
