@@ -2,6 +2,7 @@
 
 include:
   - repos
+  - server_kubernetes.additional_disk
   {% if grains.get('install_rke2') == true %}
   - kubernetes_common.install_rke2
   - server_kubernetes.set-persistent-volumes
