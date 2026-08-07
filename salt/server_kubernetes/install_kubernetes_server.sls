@@ -234,6 +234,18 @@ save_script_to_get_pod_name:
     - user: root
     - group: root
 
+{# helm returns as soon as the release is recorded, so without this the proxy
+   states race ahead and run kubectl exec against a pod that has no running
+   container yet. No --timeout: the deployment's progressDeadlineSeconds bounds
+   the wait, and passing a longer one only looks like it does something. #}
+wait_for_uyuni_server_pod:
+  cmd.run:
+    - name: kubectl rollout status deployment/uyuni -n uyuni
+    - env:
+      - KUBECONFIG: {{ kubeconfig }}
+    - require:
+      - cmd: install_uyuni_on_kubernetes
+
 {% endif %}
 
 {% endif %}
