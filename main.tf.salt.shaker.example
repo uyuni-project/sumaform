@@ -1,0 +1,71 @@
+terraform {
+  required_version = ">= 1.6.0"
+  required_providers {
+    libvirt = {
+      source = "dmacvicar/libvirt"
+      version = "0.8.3"
+    }
+  }
+}
+
+module "base" {
+  source = "./modules/base"
+
+  //  cc_username = var.SCC_USER
+  //  cc_password = var.SCC_PASSWORD
+  //  use_avahi   = false
+  //  domain      = ""
+
+  // provider_settings = {
+  //  pool               = "ssd"
+  //  network_name       = null
+  //  bridge             = "br1"
+  //}
+
+  images = [ "almalinux10o", "slmicro61o", "sles15sp7o", "tumbleweedo", "ubuntu2204o" ]
+}
+
+module "salt-shaker-products-next_1" {
+  source             = "./modules/salt_testenv"
+  base_configuration = module.base.configuration
+
+  name               = "salt-shaker-saltstack-tumbleweed"
+  image              = "tumbleweedo"
+  salt_obs_flavor    = "saltstack"
+}
+
+module "salt-shaker-products-next_2" {
+  source             = "./modules/salt_testenv"
+  base_configuration = module.base.configuration
+
+  name               = "salt-shaker-products-next-slmicro61"
+  image              = "slmicro61o"
+  salt_obs_flavor    = "saltstack:products:next"
+}
+
+module "salt-shaker-products-next_3" {
+  source             = "./modules/salt_testenv"
+  base_configuration = module.base.configuration
+
+  name               = "salt-shaker-products-next-almalinux10-bundle"
+  image              = "almalinux10o"
+  salt_obs_flavor    = "saltstack:products:next"
+}
+
+module "salt-shaker-products-testing_1" {
+  source             = "./modules/salt_testenv"
+  base_configuration = module.base.configuration
+
+  name               = "salt-shaker-products-testing-sles15sp7"
+  image              = "sles15sp7o"
+  salt_obs_flavor    = "saltstack:products:testing"
+}
+
+module "salt-shaker-products-testing_2" {
+  source             = "./modules/salt_testenv"
+  base_configuration = module.base.configuration
+
+  name               = "salt-shaker-products-testing-ubuntu2204-bundle"
+  image              = "ubuntu2204o"
+  salt_obs_flavor    = "saltstack:products:testing"
+}
