@@ -135,6 +135,7 @@ copy_manifest_uyuni_ingress:
     - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
     - source: salt://server_kubernetes/uyuni-ingress.yaml
     - template: jinja
+    - makedirs: True
     - context:
         java_debugging_on_rke2: {{ grains.get("java_debugging_on_rke2", false) }}
 {% endif %}
@@ -188,6 +189,7 @@ transfer_python_management_file:
   - source: salt://kubernetes_common/helm_chart.py
   - makedirs: true
 
+{% if not is_slmicro_6_2 %}
 update_oci_app_version:
   cmd.run:
     - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
@@ -200,9 +202,11 @@ update_oci_app_version:
       - file: transfer_python_management_file
       - file: copy_chart_yaml_file
     {% endif %}
+{% endif %}
 
 {% if grains.get('install_mlm_server') == true or is_external_cluster %}
 
+{% if not is_slmicro_6_2 %}
 build_helm_dependencies:
   cmd.run:
     - name: helm dependencies build
@@ -225,6 +229,8 @@ install_uyuni_on_kubernetes:
       - cmd: create_external_kubernetes_uyuni_namespace
     {% endif %}
 
+{% endif %}
+
 save_script_to_get_pod_name:
   file.managed:
     - name: /usr/local/bin/get_server_pod_name
@@ -233,6 +239,26 @@ save_script_to_get_pod_name:
     - mode: 700
     - user: root
     - group: root
+
+
+variables_server_kubernetes:
+  file.managed:
+    - name: /etc/profile.d/server_kubernetes_vars.sh
+    - contents: |
+        export PYTHON_HELM_CHART_PATH={{ python_helm_chart_path }}
+        export HELM_CHART_DIRECTORY={{ helm_chart_directory }}
+        {% if is_slmicro_6_2 %}
+        export UYUNI_NOT_INSTALLED=true
+        {% endif %}
+
+{% if is_slmicro_6_2 %}
+rhn_conf_server_kubernetes:
+  file.managed:
+    - name: /etc/rhn/rhn.conf
+    - makedirs: true
+    - contents: |
+        java.hostname={{ server_fqdn }}
+{% endif %}
 
 {% endif %}
 

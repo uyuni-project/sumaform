@@ -75,11 +75,6 @@ ssh_config_proxy_kubernetes:
     - group: root
     - mode: 700
 
-create_uyuni_namespace_proxy:
-  cmd.run:
-  - name : kubectl create namespace {{ Namespace }}
-  - env:
-      - KUBECONFIG: {{ kubeconfig }}
 
 #####################################################
 ################ Setup proxy certs ##################
@@ -102,6 +97,14 @@ copy_certs_generator:
         ProxyFQDN: {{ ProxyFQDN }}
         Namespace: {{ Namespace }}
         ProxyName: {{ ProxyName }}
+
+{% if not is_slmicro_6_2 %}
+
+create_uyuni_namespace_proxy:
+  cmd.run:
+  - name : kubectl create namespace {{ Namespace }}
+  - env:
+      - KUBECONFIG: {{ kubeconfig }}
 
 check_ssh_communication:
   cmd.run:
@@ -179,5 +182,7 @@ copy_uyuni_ca:
   - require:
       - file: ssh_private_key_proxy_kubernetes_for_server
       - file: ssh_config_proxy_kubernetes
+
+{% endif %}
 
 {% endif %}

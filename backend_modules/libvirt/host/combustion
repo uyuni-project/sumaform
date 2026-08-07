@@ -190,7 +190,7 @@ PACKAGES="$PACKAGES helm"
 PACKAGES="$PACKAGES bash-completion ca-certificates-suse"
 %{ endif }
 
-%{ if container_server || server_kubernetes }
+%{ if container_server }
 PACKAGES="$PACKAGES mgradm mgrctl uyuni-storage-setup-server mgradm-bash-completion mgrctl-bash-completion"
 %{ endif }
 

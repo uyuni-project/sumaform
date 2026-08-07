@@ -60,16 +60,18 @@ transfer_python_management_file:
 
 {% if grains.get('install_helm') == true %}
 
+copy_manifest_uyuni_ingress_proxy:
+  file.managed:
+    - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress-proxy.yaml
+    - source: salt://proxy_kubernetes/uyuni-ingress-proxy.yaml
+    - makedirs: True
+
+{% if not is_slmicro_6_2 %}
 update_oci_app_version_proxy:
   cmd.run:
     - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
 
 {% if grains.get('install_rke2') == true and grains.get('install_mlm_proxy') == true %}
-
-copy_manifest_uyuni_ingress_proxy:
-  file.managed:
-    - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress-proxy.yaml
-    - source: salt://proxy_kubernetes/uyuni-ingress-proxy.yaml
 
 build_helm_dependencies:
   cmd.run:
@@ -85,13 +87,14 @@ uncompress_config_tar:
     - name: tar -xf {{ helm_chart_directory }}/config.tar.gz -C {{ helm_chart_directory }}/
     - cwd: {{ helm_chart_directory }}
 
-install_uyuni_on_kubernetes:
+install_uyuni_proxy_on_kubernetes:
   cmd.run:
-    - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
+    - name: helm upgrade --install uyuni-proxy ./selfsigned -f ./selfsigned/values.yaml -n uyuni --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
     - cwd: {{ helm_chart_directory }}
     - env:
       - KUBECONFIG: {{ kubeconfig }}
 
+{% endif %}
 
 {% endif %}
 
