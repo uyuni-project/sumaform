@@ -966,6 +966,12 @@ variable "kubernetes_server_container_registry" {
   default     = ""
 }
 
+variable "kubernetes_server_storage_class" {
+  description = "StorageClass used by the Uyuni server when installing into an external Kubernetes cluster"
+  type        = string
+  default     = null
+}
+
 variable "use_devel_oci" {
   description = "true to use devel OCIs for external Kubernetes cluster installs"
   default     = false

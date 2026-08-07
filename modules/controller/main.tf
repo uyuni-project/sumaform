@@ -92,6 +92,7 @@ module "controller" {
     helm_chart_name                              = var.kubernetes_server_helm_chart_name
     helm_chart_url                               = var.kubernetes_server_helm_chart_url
     container_registry                           = var.kubernetes_server_container_registry
+    kubernetes_storage_class                     = var.kubernetes_server_storage_class
     use_devel_oci                                = var.use_devel_oci
     install_cert_manager                         = var.install_cert_manager
     deploy_coco_attestation                      = var.deploy_coco_attestation
