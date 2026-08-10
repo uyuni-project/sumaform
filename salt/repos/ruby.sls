@@ -1,4 +1,5 @@
 {% if grains['os'] == 'SUSE' and ('controller' in grains.get('roles')) %}
+{% set repo_version = grains['osrelease'] %}
 
 ruby_add_devel_repository:
     pkgrepo.managed:

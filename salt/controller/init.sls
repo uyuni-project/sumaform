@@ -143,6 +143,7 @@ install_gems_via_bundle:
       - pkg: cucumber_requisites
       - cmd: spacewalk_git_repository
 
+
 # https://github.com/WasiqB/multiple-cucumber-html-reporter
 # Replaces cucumber-html-reporter
 # Preserves JSON execution order, supports filter by passed/failed/skipped
