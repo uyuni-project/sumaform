@@ -37,6 +37,8 @@ runcmd:
 
 %{ if image == "opensuse160o" ~}
 runcmd:
+  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/ client_tools_tmp
+  - zypper ref
 %{ if install_salt_bundle ~}
   - zypper in --allow-vendor-change --no-confirm venv-salt-minion
 %{ else ~}
