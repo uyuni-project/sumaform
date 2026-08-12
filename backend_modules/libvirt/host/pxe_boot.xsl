@@ -51,11 +51,18 @@
     </xsl:element>
   </xsl:template>
 
-  <!-- Boot order = 1 for network -->
+  <!-- Boot order = 1 for network, with the legacy BIOS iPXE option ROM -->
+  <!-- qemu defaults to efi-virtio.rom, which on SLE 16.1 hypervisors holds only
+       EFI images. SeaBIOS then has no network boot device and the terminal
+       silently boots from its disk instead of PXE booting. -->
   <xsl:template match="/domain/devices/interface[@type = 'network']">
     <xsl:element name="interface">
       <xsl:apply-templates select="node()|@*"/>
       <xsl:text>  </xsl:text>
+      <xsl:element name="rom">
+        <xsl:attribute name="file">/usr/share/qemu/pxe-virtio.rom</xsl:attribute>
+      </xsl:element>
+      <xsl:text>&#x0A;      </xsl:text>
       <xsl:element name="boot">
         <xsl:attribute name="order">1</xsl:attribute>
       </xsl:element>
