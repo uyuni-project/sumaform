@@ -4,7 +4,7 @@ locals {
   provider_settings    = merge({
     host     = null
     user     = "root"
-    password = "linux"
+    password = var.vm_password
     port     = 22
     type     = "ssh"
     // only supportted in ssh connection

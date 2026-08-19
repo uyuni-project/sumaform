@@ -131,3 +131,10 @@ variable "product_version" {
   type        = string
   default     = null
 }
+
+variable "vm_password" {
+  description = "password for SSH connection to provisioned VMs"
+  type        = string
+  default     = "linux"
+  sensitive   = true
+}
