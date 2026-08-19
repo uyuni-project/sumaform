@@ -95,6 +95,7 @@ module "mirror" {
 //}
 
 output "configuration" {
+  sensitive = true
   value = {
     base          = module.base.configuration
     mirror        = module.mirror.configuration
