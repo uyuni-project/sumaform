@@ -166,10 +166,22 @@ grains.get('oracle9_sshminion') }}" {% else %}# no ORACLE9 ssh minion defined {%
 {% else %}# no ORACLE10 minion defined {% endif %}
 {% if grains.get('oracle10_sshminion') | default(false, true) %}export ORACLE10_SSHMINION="{{
 grains.get('oracle10_sshminion') }}" {% else %}# no ORACLE10 ssh minion defined {% endif %}
+{% if grains.get('rhel7_minion') | default(false, true) %}export RHEL7_MINION="{{ grains.get('rhel7_minion') }}" {% else
+%}# no RHEL7 minion defined {% endif %}
+{% if grains.get('rhel7_sshminion') | default(false, true) %}export RHEL7_SSHMINION="{{ grains.get('rhel7_sshminion')
+}}" {% else %}# no RHEL7 ssh minion defined {% endif %}
+{% if grains.get('rhel8_minion') | default(false, true) %}export RHEL8_MINION="{{ grains.get('rhel8_minion') }}" {% else
+%}# no RHEL8 minion defined {% endif %}
+{% if grains.get('rhel8_sshminion') | default(false, true) %}export RHEL8_SSHMINION="{{ grains.get('rhel8_sshminion')
+}}" {% else %}# no RHEL8 ssh minion defined {% endif %}
 {% if grains.get('rhel9_minion') | default(false, true) %}export RHEL9_MINION="{{ grains.get('rhel9_minion') }}" {% else
 %}# no RHEL9 minion defined {% endif %}
 {% if grains.get('rhel9_sshminion') | default(false, true) %}export RHEL9_SSHMINION="{{ grains.get('rhel9_sshminion')
 }}" {% else %}# no RHEL9 ssh minion defined {% endif %}
+{% if grains.get('rhel10_minion') | default(false, true) %}export RHEL10_MINION="{{ grains.get('rhel10_minion') }}" {%
+else %}# no RHEL10 minion defined {% endif %}
+{% if grains.get('rhel10_sshminion') | default(false, true) %}export RHEL10_SSHMINION="{{ grains.get('rhel10_sshminion')
+}}" {% else %}# no RHEL10 ssh minion defined {% endif %}
 {% if grains.get('rocky8_minion') | default(false, true) %}export ROCKY8_MINION="{{ grains.get('rocky8_minion') }}" {%
 else %}# no ROCKY8 minion defined {% endif %}
 {% if grains.get('rocky8_sshminion') | default(false, true) %}export ROCKY8_SSHMINION="{{ grains.get('rocky8_sshminion')

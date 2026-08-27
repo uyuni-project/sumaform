@@ -1,0 +1,33 @@
+{%- set version = grains['rhel_version'] | string -%}
+{%- set pkg_manager = 'yum' if version == '7' else 'dnf' -%}
+FROM registry.access.redhat.com/ubi{{ version }}/ubi-init:latest
+
+LABEL maintainer="MLM QE"
+LABEL description="UBI {{ version }} init image with sshd enabled"
+
+{% if version == '7' %}COPY centos7.repo /etc/yum.repos.d/centos7.repo
+
+{% endif %}RUN {{ pkg_manager }} install -y \
+      openssh-server openssh-clients cpio tar gzip procps-ng \
+      hostname logrotate policycoreutils{% if version != '7' %} systemd-udev{% endif %} && \
+    {{ pkg_manager }} clean all
+
+RUN systemctl enable sshd
+
+RUN echo 'root:linux' | chpasswd
+
+RUN ssh-keygen -A
+
+COPY authorized_keys /root/.ssh/authorized_keys
+
+RUN chmod 0700 /root/.ssh && chmod 0600 /root/.ssh/authorized_keys
+
+RUN sed -i 's/^session.*required.*pam_loginuid.so/#&/' /etc/pam.d/sshd
+
+RUN sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config; \
+    grep -q '^PermitRootLogin yes' /etc/ssh/sshd_config || echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
+RUN sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config; \
+    grep -q '^PasswordAuthentication yes' /etc/ssh/sshd_config || echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+
+EXPOSE 22

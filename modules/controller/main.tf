@@ -153,8 +153,14 @@ module "controller" {
     oracle9_sshminion        = length(var.oracle9_sshminion_configuration["hostnames"]) > 0 ? var.oracle9_sshminion_configuration["hostnames"][0] : null
     oracle10_minion          = length(var.oracle10_minion_configuration["hostnames"]) > 0 ? var.oracle10_minion_configuration["hostnames"][0] : null
     oracle10_sshminion       = length(var.oracle10_sshminion_configuration["hostnames"]) > 0 ? var.oracle10_sshminion_configuration["hostnames"][0] : null
+    rhel7_minion             = length(var.rhel7_minion_configuration["hostnames"]) > 0 ? var.rhel7_minion_configuration["hostnames"][0] : null
+    rhel7_sshminion          = length(var.rhel7_sshminion_configuration["hostnames"]) > 0 ? var.rhel7_sshminion_configuration["hostnames"][0] : null
+    rhel8_minion             = length(var.rhel8_minion_configuration["hostnames"]) > 0 ? var.rhel8_minion_configuration["hostnames"][0] : null
+    rhel8_sshminion          = length(var.rhel8_sshminion_configuration["hostnames"]) > 0 ? var.rhel8_sshminion_configuration["hostnames"][0] : null
     rhel9_minion             = length(var.rhel9_minion_configuration["hostnames"]) > 0 ? var.rhel9_minion_configuration["hostnames"][0] : null
     rhel9_sshminion          = length(var.rhel9_sshminion_configuration["hostnames"]) > 0 ? var.rhel9_sshminion_configuration["hostnames"][0] : null
+    rhel10_minion            = length(var.rhel10_minion_configuration["hostnames"]) > 0 ? var.rhel10_minion_configuration["hostnames"][0] : null
+    rhel10_sshminion         = length(var.rhel10_sshminion_configuration["hostnames"]) > 0 ? var.rhel10_sshminion_configuration["hostnames"][0] : null
     rocky8_minion            = length(var.rocky8_minion_configuration["hostnames"]) > 0 ? var.rocky8_minion_configuration["hostnames"][0] : null
     rocky8_sshminion         = length(var.rocky8_sshminion_configuration["hostnames"]) > 0 ? var.rocky8_sshminion_configuration["hostnames"][0] : null
     rocky9_minion            = length(var.rocky9_minion_configuration["hostnames"]) > 0 ? var.rocky9_minion_configuration["hostnames"][0] : null
