@@ -6,10 +6,11 @@
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
 {% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
 {% if is_supported_os %}
-{% set Namespace = "uyuni" %}
-{% set ProxyFQDN = grains.get("fqdn") %}
-{% set ProxyName = "proxy-cert" %}
-{% set ProxyCertVarsFile = "/etc/profile.d/proxy_certs_vars.sh" %}
+{% set proxy_namespace = "uyuni" %}
+{% set proxy_FQDN = grains.get("fqdn") %}
+{% set server_FQDN = grains.get("server") %}
+{% set proxy_name = "proxy-cert" %}
+{% set proxy_cert_vars_file = "/etc/profile.d/proxy_certs_vars.sh" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 
 {% set pkg_map = {
@@ -47,6 +48,10 @@ authorized_keys_proxy_kubernetes:
     - source: salt://proxy_kubernetes/id_ed25519.pub
     - makedirs: True
 
+authorized_keys_proxy_server:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://server_kubernetes/server_keys/id_ed25519_server_kubernetes.pub
 
 ssh_private_key_proxy_kubernetes_for_server:
   file.managed:
@@ -75,18 +80,14 @@ ssh_config_proxy_kubernetes:
     - group: root
     - mode: 700
 
-
-#####################################################
-################ Setup proxy certs ##################
-#####################################################
-
 setup_environmental_variables_in_proxy:
   file.managed:
-    - name: {{ ProxyCertVarsFile }}
+    - name: {{ proxy_cert_vars_file }}
     - contents: |
-        export Namespace={{ Namespace }}
-        export ProxyName={{ ProxyName }}
-
+        export PROXY_NAMESPACE={{ proxy_namespace }}
+        export PROXY_NAME={{ proxy_name }}
+        export PROXY_FQDN={{ proxy_FQDN }}
+        export SERVER_FQDN={{ server_FQDN }}
 
 copy_certs_generator:
   file.managed:
@@ -94,17 +95,19 @@ copy_certs_generator:
     - source: salt://proxy_kubernetes/proxy-gen-certs.yaml
     - template: jinja
     - context:
-        ProxyFQDN: {{ ProxyFQDN }}
-        Namespace: {{ Namespace }}
-        ProxyName: {{ ProxyName }}
+        proxy_FQDN: {{ proxy_FQDN }}
+        proxy_namespace: {{ proxy_namespace }}
+        proxy_name: {{ proxy_name }}
 
-{% if not is_slmicro_6_2 %}
-
-create_uyuni_namespace_proxy:
+apply_and_transfer_env_variables:
   cmd.run:
-  - name : kubectl create namespace {{ Namespace }}
-  - env:
-      - KUBECONFIG: {{ kubeconfig }}
+  - name: |
+      scp {{ proxy_cert_vars_file }} {{ grains['server'] }}:{{ proxy_cert_vars_file }}
+  - cwd: /root
+  - require:
+      - file: setup_environmental_variables_in_proxy
+      - file: ssh_private_key_proxy_kubernetes_for_server
+      - file: ssh_config_proxy_kubernetes
 
 check_ssh_communication:
   cmd.run:
@@ -112,6 +115,18 @@ check_ssh_communication:
     - require:
       - file: ssh_private_key_proxy_kubernetes_for_server
       - file: ssh_config_proxy_kubernetes
+
+#####################################################
+################ Setup proxy certs ##################
+#####################################################
+
+{% if not is_slmicro_6_2 %}
+
+create_uyuni_namespace_proxy:
+  cmd.run:
+  - name : kubectl create namespace {{ proxy_namespace }}
+  - env:
+      - KUBECONFIG: {{ kubeconfig }}
 
 generate_configuration_certs_file_from_server:
   cmd.run:
@@ -123,22 +138,13 @@ generate_configuration_certs_file_from_server:
       - file: ssh_private_key_proxy_kubernetes_for_server
       - file: ssh_config_proxy_kubernetes
 
-apply_and_transfer_env_variables:
-  cmd.run:
-  - name: |
-      scp {{ ProxyCertVarsFile }} {{ grains['server'] }}:{{ ProxyCertVarsFile }}
-  - cwd: /root
-  - require:
-      - file: ssh_private_key_proxy_kubernetes_for_server
-      - file: ssh_config_proxy_kubernetes
-
 key_exchange_between_clusters:
   cmd.run:
   - name: |
-      source {{ ProxyCertVarsFile }}
-      ssh {{ grains['server'] }} "kubectl get secret -n $Namespace -o yaml $ProxyName" | \
-        sed -e "s/name: $ProxyName/name: proxy-cert/" \
-        -e "s/namespace: $Namespace/namespace: $Namespace/" \
+      source {{ proxy_cert_vars_file }}
+      ssh {{ grains['server'] }} "kubectl get secret -n $PROXY_NAMESPACE -o yaml $PROXY_NAME" | \
+        sed -e "s/name: $PROXY_NAME/name: proxy-cert/" \
+        -e "s/namespace: $PROXY_NAMESPACE/namespace: $PROXY_NAMESPACE/" \
         -e "/\(uid\)\|\(resourceVersion\)\|\(creationTimestamp\)\|\(cert-manager\)/d" | \
         kubectl apply -f -
   - cwd: /root
@@ -152,14 +158,14 @@ key_exchange_between_clusters:
 generate_proxy_config_file:
   cmd.run:
   - name: |
-      ssh {{ grains['server'] }} "kubectl get secret \$ProxyName -n \$Namespace -o jsonpath=\"{.data['ca\\.crt']}\" | base64 -d > /root/ca.crt"
-      ssh {{ grains['server'] }} "kubectl cp /root/ca.crt \$Namespace/\$(get_server_pod_name):/ca.crt"
-      ssh {{ grains['server'] }} "kubectl get secret \$ProxyName -n \$Namespace  -o jsonpath=\"{.data['tls\\.crt']}\" | base64 -d > /root/tls.crt"
-      ssh {{ grains['server'] }} "kubectl cp /root/tls.crt \$Namespace/\$(get_server_pod_name):/tls.crt"
-      ssh {{ grains['server'] }} "kubectl get secret \$ProxyName -n \$Namespace  -o jsonpath=\"{.data['tls\\.key']}\" | base64 -d > /root/tls.key"
-      ssh {{ grains['server'] }} "kubectl cp /root/tls.key \$Namespace/\$(get_server_pod_name):/tls.key"
-      ssh {{ grains['server'] }} "kubectl exec \$(get_server_pod_name) -n \$Namespace --  spacecmd -u admin -p admin proxy_container_config -- {{ ProxyFQDN }} {{ grains['server'] }} 2048 galaxy-noise@suse.com ca.crt tls.crt tls.key"
-      ssh {{ grains['server'] }} "kubectl cp \$Namespace/\$(get_server_pod_name):/config.tar.gz /root/config.tar.gz"
+      ssh {{ grains['server'] }} "kubectl get secret \$PROXY_NAME -n \$PROXY_NAMESPACE -o jsonpath=\"{.data['ca\\.crt']}\" | base64 -d > /root/ca.crt"
+      ssh {{ grains['server'] }} "kubectl cp /root/ca.crt \$PROXY_NAMESPACE/\$(get_server_pod_name):/ca.crt"
+      ssh {{ grains['server'] }} "kubectl get secret \$PROXY_NAME -n \$PROXY_NAMESPACE  -o jsonpath=\"{.data['tls\\.crt']}\" | base64 -d > /root/tls.crt"
+      ssh {{ grains['server'] }} "kubectl cp /root/tls.crt \$PROXY_NAMESPACE/\$(get_server_pod_name):/tls.crt"
+      ssh {{ grains['server'] }} "kubectl get secret \$PROXY_NAME -n \$PROXY_NAMESPACE  -o jsonpath=\"{.data['tls\\.key']}\" | base64 -d > /root/tls.key"
+      ssh {{ grains['server'] }} "kubectl cp /root/tls.key \$PROXY_NAMESPACE/\$(get_server_pod_name):/tls.key"
+      ssh {{ grains['server'] }} "kubectl exec \$(get_server_pod_name) -n \$PROXY_NAMESPACE --  spacecmd -u admin -p admin proxy_container_config -- \$PROXY_FQDN {{ grains['server'] }} 2048 galaxy-noise@suse.com ca.crt tls.crt tls.key"
+      ssh {{ grains['server'] }} "kubectl cp \$PROXY_NAMESPACE/\$(get_server_pod_name):/config.tar.gz /root/config.tar.gz"
       scp {{ grains['server'] }}:/root/config.tar.gz /root/config.tar.gz
   - cwd: /root
   - env:
@@ -172,10 +178,10 @@ generate_proxy_config_file:
 copy_uyuni_ca:
   cmd.run:
   - name: |
-      source {{ ProxyCertVarsFile }}
-      ssh {{ grains['server'] }} "kubectl get cm -n $Namespace uyuni-ca -o \"jsonpath={.data.ca\\.crt}\" >root-ca.crt"
+      source {{ proxy_cert_vars_file }}
+      ssh {{ grains['server'] }} "kubectl get cm -n $PROXY_NAMESPACE uyuni-ca -o \"jsonpath={.data.ca\\.crt}\" >root-ca.crt"
       scp {{ grains['server'] }}:root-ca.crt root-ca.crt
-      kubectl create configmap uyuni-ca -n $Namespace --from-file=ca.crt=root-ca.crt
+      kubectl create configmap uyuni-ca -n $PROXY_NAMESPACE --from-file=ca.crt=root-ca.crt
   - cwd: /root
   - env:
       - KUBECONFIG: {{ kubeconfig }}

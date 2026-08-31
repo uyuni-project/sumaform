@@ -1,12 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ ProxyName}}
-  namespace: {{ Namespace }}
+  name: {{ proxy_name}}
+  namespace: {{ proxy_namespace }}
   labels:
     app.kubernetes.io/part-of: uyuni
 spec:
-  secretName: {{ ProxyName}}
+  secretName: {{ proxy_name}}
   secretTemplate:
     labels:
       app.kubernetes.io/part-of: uyuni
@@ -19,8 +19,8 @@ spec:
     size: 2048
     rotationPolicy: Always
   dnsNames:
-    - {{ ProxyFQDN }}
-  commonName: {{ ProxyFQDN }}
+    - {{ proxy_FQDN }}
+  commonName: {{ proxy_FQDN }}
   issuerRef:
     name: "uyuni-issuer"
     kind: ClusterIssuer

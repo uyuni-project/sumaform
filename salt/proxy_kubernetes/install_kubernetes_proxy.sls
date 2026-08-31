@@ -7,6 +7,7 @@
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
+{% set proxy_namespace = "uyuni" %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 {% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
@@ -28,6 +29,18 @@ install_dependencies_helm_proxy:
     - name: {{ pkg_map.get(osfullname) }}
     - refresh: True
 {% endif %}
+
+variables_proxy_kubernetes:
+  file.managed:
+    - name: /etc/profile.d/proxy_kubernetes_vars.sh
+    - contents: |
+        export PYTHON_HELM_CHART_PATH={{ python_helm_chart_path }}
+        export HELM_CHART_DIRECTORY={{ helm_chart_directory }}
+        export SELF_SIGNED_PATH={{ self_signed_path }}
+        export VALUES_YAML_PATH={{ values_yaml_path }}
+        export HELM_CHART_NAME={{ helm_chart_name }}
+        export HELM_CHART_URL={{ helm_chart_url }}
+        export DEVEL_FLAG={{ devel_flag }}
 
 mkdir_helm_dir:
   cmd.run:
@@ -89,7 +102,7 @@ uncompress_config_tar:
 
 install_uyuni_proxy_on_kubernetes:
   cmd.run:
-    - name: helm upgrade --install uyuni-proxy ./selfsigned -f ./selfsigned/values.yaml -n uyuni --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
+    - name: helm upgrade --install uyuni-proxy {{ self_signed_path }} -f {{ values_yaml_path }} -n {{ proxy_namespace }} --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
     - cwd: {{ helm_chart_directory }}
     - env:
       - KUBECONFIG: {{ kubeconfig }}

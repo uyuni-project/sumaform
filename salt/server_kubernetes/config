@@ -1,0 +1,5 @@
+Host *-proxy.mgr.suse.de
+    User root
+    IdentityFile ~/.ssh/id_ed25519_server_kubernetes
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
