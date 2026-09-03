@@ -118,6 +118,12 @@ variables_rke2:
         export KUBECONFIG={{ kubeconfig }}
         export RKE2_VERSION={{ rke2_version }}
 
+supportconfig_plugin:
+  file.managed:
+    - name: /usr/local/bin/kubectl-mlm_supportconfig
+    - source: https://raw.githubusercontent.com/uyuni-project/uyuni/refs/heads/master/containers/mlm-supportconfig/kubectl-mlm_supportconfig
+    - source_hash: https://raw.githubusercontent.com/uyuni-project/uyuni/refs/heads/master/containers/mlm-supportconfig/kubectl-mlm_supportconfig.sha512
+    - mode: 0755
 
 {% endif %}
 
