@@ -524,6 +524,34 @@ variable "rocky10_sshminion_configuration" {
   }
 }
 
+variable "rhel7_minion_configuration" {
+  description = "use module.<RHEL7_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rhel7_sshminion_configuration" {
+  description = "use module.<RHEL7_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rhel8_minion_configuration" {
+  description = "use module.<RHEL8_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rhel8_sshminion_configuration" {
+  description = "use module.<RHEL8_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "rhel9_minion_configuration" {
   description = "use module.<RHEL9_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -533,6 +561,20 @@ variable "rhel9_minion_configuration" {
 
 variable "rhel9_sshminion_configuration" {
   description = "use module.<RHEL9_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rhel10_minion_configuration" {
+  description = "use module.<RHEL10_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "rhel10_sshminion_configuration" {
+  description = "use module.<RHEL10_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

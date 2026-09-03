@@ -537,6 +537,90 @@ module "oracle10_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
+module "rhel7_minion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel7_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel7_minion.name
+  image              = "centos7o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel7_minion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "7"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel8_minion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel8_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel8_minion.name
+  image              = "almalinux8o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel8_minion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "8"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel9_minion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel9_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel9_minion.name
+  image              = "almalinux9o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel9_minion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "9"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel10_minion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel10_minion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel10_minion.name
+  image              = "almalinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel10_minion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "10"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
 module "rocky8_minion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
@@ -1122,6 +1206,90 @@ module "oracle10_sshminion" {
     mac    = var.environment_configuration.oracle10_sshminion.mac
     memory = 4096
   }
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel7_sshminion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel7_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel7_sshminion.name
+  image              = "centos7o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel7_sshminion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "7"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel8_sshminion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel8_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel8_sshminion.name
+  image              = "almalinux8o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel8_sshminion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "8"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel9_sshminion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel9_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel9_sshminion.name
+  image              = "almalinux9o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel9_sshminion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "9"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "rhel10_sshminion" {
+  providers          = { libvirt = libvirt.host_rhlike }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "rhel10_sshminion", null) != null ? 1 : 0
+  base_configuration = local.host_rhlike
+  name               = var.environment_configuration.rhel10_sshminion.name
+  image              = "almalinux10o"
+  provider_settings = {
+    mac    = var.environment_configuration.rhel10_sshminion.mac
+    memory = 4096
+  }
+  roles = ["rhel_container"]
+  additional_grains = {
+    rhel_version       = "10"
+    container_ssh_port = 2222
+  }
+  auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1744,6 +1912,15 @@ module "controller" {
   oracle9_sshminion_configuration  = length(module.oracle9_sshminion) > 0 ? module.oracle9_sshminion[0].configuration : local.empty_minion_config
   oracle10_minion_configuration    = length(module.oracle10_minion) > 0 ? module.oracle10_minion[0].configuration : local.empty_minion_config
   oracle10_sshminion_configuration = length(module.oracle10_sshminion) > 0 ? module.oracle10_sshminion[0].configuration : local.empty_minion_config
+
+  rhel7_minion_configuration     = length(module.rhel7_minion) > 0 ? module.rhel7_minion[0].configuration : local.empty_minion_config
+  rhel7_sshminion_configuration  = length(module.rhel7_sshminion) > 0 ? module.rhel7_sshminion[0].configuration : local.empty_minion_config
+  rhel8_minion_configuration     = length(module.rhel8_minion) > 0 ? module.rhel8_minion[0].configuration : local.empty_minion_config
+  rhel8_sshminion_configuration  = length(module.rhel8_sshminion) > 0 ? module.rhel8_sshminion[0].configuration : local.empty_minion_config
+  rhel9_minion_configuration     = length(module.rhel9_minion) > 0 ? module.rhel9_minion[0].configuration : local.empty_minion_config
+  rhel9_sshminion_configuration  = length(module.rhel9_sshminion) > 0 ? module.rhel9_sshminion[0].configuration : local.empty_minion_config
+  rhel10_minion_configuration    = length(module.rhel10_minion) > 0 ? module.rhel10_minion[0].configuration : local.empty_minion_config
+  rhel10_sshminion_configuration = length(module.rhel10_sshminion) > 0 ? module.rhel10_sshminion[0].configuration : local.empty_minion_config
 
   rocky8_minion_configuration     = length(module.rocky8_minion) > 0 ? module.rocky8_minion[0].configuration : local.empty_minion_config
   rocky8_sshminion_configuration  = length(module.rocky8_sshminion) > 0 ? module.rocky8_sshminion[0].configuration : local.empty_minion_config

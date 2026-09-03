@@ -34,6 +34,10 @@ base:
     - match: grain
     - minion
 
+  'roles:rhel_container':
+    - match: grain
+    - rhel_container
+
   'roles:mirror':
     - match: grain
     - mirror
