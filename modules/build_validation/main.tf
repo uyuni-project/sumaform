@@ -13,17 +13,6 @@ locals {
   empty_server_proxy_config = { hostname = null }
 }
 
-provider "libvirt" {
-  alias = "host_arm"
-  uri   = "qemu+tcp://suma-arm.mgr.suse.de/system"
-}
-
-provider "feilong" {
-  connector   = "https://feilong.mgr.suse.de"
-  admin_token = var.zvm_admin_token
-  local_user  = var.s390_local_user
-}
-
 module "base_arm" {
   providers = {
     libvirt = libvirt.host_arm
