@@ -198,7 +198,7 @@ tools_additional_repo:
 
 tools_additional_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-{{ grains.get("cpuarch") }}-Media1/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SL-Micro-6/product/repo/Multi-Linux-ManagerTools-Beta-SL-Micro-6-{{ grains.get("cpuarch") }}/
     - refresh: True
     - priority: 98
 
