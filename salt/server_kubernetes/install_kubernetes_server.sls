@@ -14,6 +14,7 @@
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
 {% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_namespace = "cert-manager" %}
+{% set server_namespace = "uyuni" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
@@ -50,6 +51,24 @@ key_exchange_kubernetes_server:
     - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
     - makedirs: True
 
+ssh_private_key_proxy_kubernetes_for_server:
+  file.managed:
+    - name: /root/.ssh/id_ed25519_server_kubernetes
+    - source: salt://server_kubernetes/server_keys/id_ed25519_server_kubernetes
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+ssh_config_server_kubernetes:
+  file.managed:
+    - name: /root/.ssh/config
+    - source: salt://server_kubernetes/config
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
 {% else %}
 
 external_kubernetes_kubeconfig:
@@ -63,8 +82,8 @@ external_kubernetes_kubeconfig:
 
 create_external_kubernetes_uyuni_namespace:
   cmd.run:
-    - name: kubectl create namespace uyuni
-    - unless: kubectl get namespace uyuni
+    - name: kubectl create namespace {{ server_namespace }}
+    - unless: kubectl get namespace {{ server_namespace }}
     - env:
       - KUBECONFIG: {{ kubeconfig }}
     - require:
@@ -218,7 +237,7 @@ build_helm_dependencies:
 
 install_uyuni_on_kubernetes:
   cmd.run:
-    - name: helm upgrade --install uyuni ./selfsigned -f ./selfsigned/values.yaml -n uyuni
+    - name: helm upgrade --install uyuni {{ self_signed_path }} -f {{ values_yaml_path }} -n {{ server_namespace }}
     - cwd: {{ helm_chart_directory }}
     - env:
       - KUBECONFIG: {{ kubeconfig }}
@@ -235,7 +254,7 @@ install_uyuni_on_kubernetes:
    the wait, and passing a longer one only looks like it does something. #}
 wait_for_uyuni_server_pod:
   cmd.run:
-    - name: kubectl rollout status deployment/uyuni -n uyuni
+    - name: kubectl rollout status deployment/uyuni -n {{ server_namespace }}
     - env:
       - KUBECONFIG: {{ kubeconfig }}
     - require:
@@ -264,8 +283,10 @@ variables_server_kubernetes:
         export PYTHON_HELM_CHART_PATH={{ python_helm_chart_path }}
         export HELM_CHART_DIRECTORY={{ helm_chart_directory }}
         export SELF_SIGNED_PATH={{ self_signed_path }}
+        export VALUES_YAML_PATH={{ values_yaml_path }}
         export HELM_CHART_NAME={{ helm_chart_name }}
         export HELM_CHART_URL={{ helm_chart_url }}
         export DEVEL_FLAG={{ devel_flag }}
+        export SERVER_NAMESPACE={{ server_namespace }}
 
 {% endif %}
