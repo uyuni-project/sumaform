@@ -5,17 +5,13 @@ locals {
   host_rhlike  = lookup(var.module_base_configurations, "rhlike",  local.base_core)
   host_deblike = lookup(var.module_base_configurations, "deblike", local.base_core)
   base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
+  base_arm     = lookup(var.module_base_configurations, "arm",     local.base_core)
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
   proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_server_proxy_config)
   empty_minion_config = { ids = [], hostnames = [], macaddrs = [], private_macs = [], ipaddrs = [] }
   empty_terminal_config = { private_mac = null, private_ip = null, private_name = null, image = null }
   empty_server_proxy_config = { hostname = null }
-}
-
-provider "libvirt" {
-  alias = "host_arm"
-  uri   = "qemu+tcp://suma-arm.mgr.suse.de/system"
 }
 
 provider "feilong" {

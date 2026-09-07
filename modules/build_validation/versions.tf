@@ -10,7 +10,7 @@ terraform {
         libvirt.host_rhlike,  # For Alma/Rocky/CentOS/Oracle
         libvirt.host_deblike, # For Ubuntu/Debian
         libvirt.host_retail,  # For Proxy/BuildHosts/Terminals
-        libvirt.host_arm
+        libvirt.host_arm      # For ARM
       ]
     }
     feilong = {
