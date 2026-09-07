@@ -45,6 +45,7 @@ certManagerNamespace: {{ cert_manager_namespace }}
 server-helm: 
   repository: {{ container_registry }}
   pullPolicy: "Always"
+  tag: "latest"
 {% if kubernetes_storage_class %}
   volumes:
     storageClass: "{{ kubernetes_storage_class }}"
