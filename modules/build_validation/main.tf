@@ -37,7 +37,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = ["opensuse156armo", "opensuse160armo", "raspios13o"]
+  images          = var.base_configurations.base_arm.images
 
   # Always use Prague's mirror, even if the test suite runs in Salt Lake City
   mirror            = var.platform_location_configuration["prg2"].mirror
