@@ -39,7 +39,8 @@ module "base_arm" {
   domain          = var.platform_location_configuration[var.location].domain
   images          = ["opensuse156armo", "opensuse160armo", "raspios13o"]
 
-  mirror            = var.platform_location_configuration[var.location].mirror
+  # Always use Prague's mirror, even if the test suite runs in Salt Lake City
+  mirror            = var.platform_location_configuration["prg2"].mirror
   use_mirror_images = true
 
   testsuite = true
