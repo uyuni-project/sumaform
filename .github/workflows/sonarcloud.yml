@@ -1,0 +1,75 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - master
+  workflow_run:
+    workflows: [CI validation tests]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.workflow_run.conclusion == 'success'
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7.0.1
+      with:
+        ref: ${{ github.event.workflow_run.head_sha }}
+        fetch-depth: 0 # Deep clone required for accurate blame information
+
+    - name: Find the pull request the run belongs to
+      if: github.event_name == 'workflow_run'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+      run: |
+        pull_request=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" \
+          --jq 'map(select(.state == "open")) | first')
+        if [ -z "$pull_request" ] || [ "$pull_request" = "null" ]; then
+          echo "No open pull request for ${HEAD_SHA}, skipping the scan"
+          exit 0
+        fi
+        {
+          echo "PR_NUMBER=$(echo "$pull_request" | jq -r '.number')"
+          echo "PR_BASE=$(echo "$pull_request" | jq -r '.base.ref')"
+          echo "PR_BRANCH=${HEAD_BRANCH}"
+        } >>"$GITHUB_ENV"
+
+    - name: Take the analysis configuration from the base branch
+      if: github.event_name == 'workflow_run' && env.PR_NUMBER != ''
+      run: |
+        git fetch origin "${PR_BASE}"
+        git checkout FETCH_HEAD -- sonar-project.properties
+
+    - name: Scan the pull request
+      if: github.event_name == 'workflow_run' && env.PR_NUMBER != ''
+      uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f #v8.2.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: https://sonarcloud.io
+      with:
+        args: >
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.organization=uyuni-project
+          -Dsonar.projectKey=uyuni-project_sumaform
+          -Dsonar.scm.revision=${{ github.event.workflow_run.head_sha }}
+          -Dsonar.pullrequest.key=${{ env.PR_NUMBER }}
+          -Dsonar.pullrequest.branch=${{ env.PR_BRANCH }}
+          -Dsonar.pullrequest.base=${{ env.PR_BASE }}
+
+    - name: Scan master
+      if: github.event_name == 'push'
+      uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f #v8.2.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: https://sonarcloud.io
