@@ -1,33 +1,40 @@
 #!{{grains['pythonexecutable']}}
 
+import os
+import ssl
 import sys
 import time
-try:
-    # Python 2
-    from urllib2 import urlopen, HTTPError
-    from xmlrpclib import Server
-except ImportError:
-    # Python 3
-    from urllib.request import urlopen
-    from urllib.error import HTTPError
-    from xmlrpc.client import ServerProxy as Server
+from urllib.request import urlopen
+from urllib.error import HTTPError
+from xmlrpc.client import ServerProxy as Server
 
 
 if len(sys.argv) != 5:
     print("Usage: register_master.py <USERNAME> <PASSWORD> <MASTER FQDN> <SLAVE FQDN>")
     sys.exit(1)
 
-MANAGER_URL = "http://{}/rpc/api".format(sys.argv[4])
+MANAGER_URL = "https://{}/rpc/api".format(sys.argv[4])
+
+SERVER_CA = "/srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT"
+if not os.path.isfile(SERVER_CA):
+    print("Server CA not found at {}".format(SERVER_CA))
+    sys.exit(1)
+
+ssl_context = ssl.create_default_context(cafile=SERVER_CA)
+ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
 
 # ensure Tomcat is up
 for _ in range(10):
     try:
-        urlopen(MANAGER_URL)
+        with urlopen(MANAGER_URL, context=ssl_context, timeout=30):
+            break
+    except HTTPError as error:
+        error.close()
         break
-    except HTTPError:
+    except OSError:
         time.sleep(3)
 
-client = Server(MANAGER_URL, verbose=0)
+client = Server(MANAGER_URL, verbose=0, context=ssl_context)
 
 session_key = client.auth.login(sys.argv[1], sys.argv[2])
 
