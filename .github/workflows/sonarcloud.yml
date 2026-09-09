@@ -23,6 +23,7 @@ jobs:
       with:
         ref: ${{ github.event.workflow_run.head_sha }}
         fetch-depth: 0 # Deep clone required for accurate blame information
+        allow-unsafe-pr-checkout: true
 
     - name: Find the pull request the run belongs to
       if: github.event_name == 'workflow_run'
