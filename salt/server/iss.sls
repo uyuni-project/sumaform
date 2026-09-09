@@ -5,9 +5,9 @@ include:
 
 register_slave:
   cmd.script:
-    - name: salt://server/register_slave.py
+    - name: salt://server/register_iss.py
     - template: jinja
-    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains.get('fqdn') | default('localhost', true) }} {{ grains['iss_slave'] }}"
+    - args: "slave {{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains.get('fqdn') | default('localhost', true) }} {{ grains['iss_slave'] }}"
     - require:
       - sls: server.initial_content
 
@@ -15,9 +15,9 @@ register_slave:
 
 register_master:
   cmd.script:
-    - name: salt://server/register_master.py
+    - name: salt://server/register_iss.py
     - template: jinja
-    - args: "{{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains['iss_master'] }} {{ grains.get('fqdn') | default('localhost', true) }}"
+    - args: "master {{ grains.get('server_username') | default('admin', true) }} {{ grains.get('server_password') | default('admin', true) }} {{ grains['iss_master'] }} {{ grains.get('fqdn') | default('localhost', true) }}"
     - require:
       - sls: server.initial_content
 
