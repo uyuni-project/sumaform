@@ -18,6 +18,8 @@ jobs:
 #        packages: salt-common
 #        version: 1.0
 #        execute_install_scripts: true
+    - name: Remove unused third-party apt repositories
+      run: sudo rm -f /etc/apt/sources.list.d/*google* /etc/apt/sources.list.d/*microsoft*
     - name: Install Salt using bootstrap
       run: |
         curl -fsSL https://github.com/saltstack/salt-bootstrap/releases/latest/download/bootstrap-salt.sh -o install_salt.sh
