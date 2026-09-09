@@ -6,33 +6,59 @@
 {% set is_slmicro_6_2 = not is_external_cluster and osfullname == 'SL-Micro' and osrelease == '6.2' %}
 {% set is_ubuntu = not is_external_cluster and osfullname == 'Ubuntu' %}
 {% set is_tumbleweed = not is_external_cluster and osfullname == 'openSUSE Tumbleweed' %}
-{% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
-
-{% if is_supported_os or is_external_cluster %}
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
 {% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_namespace = "cert-manager" %}
 {% set server_namespace = "uyuni" %}
+{% set cc_username = grains.get('cc_username') %}
+{% set cc_password = grains.get('cc_password') %}
+{% set scc_secret_name = "scc-credentials" if cc_username and cc_password else "" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 {% set server_fqdn = (grains.get('kubernetes_server_fqdn') or grains.get('server')) if is_external_cluster else grains.get('fqdn') %}
-
-{# python3-PyYAML: in external cluster mode the Leap controller runs kubernetes_common/helm_chart.py #}
-{% set pkg_map = {
-  'openSUSE Tumbleweed' : 'jq',
-  'Leap' : 'python3-PyYAML'
-} %}
-
-{% if osfullname in pkg_map %}
-install_dependencies_helm_server:
-  pkg.latest:
-    - name: {{ pkg_map.get(osfullname) }}
-    - refresh: True
+{% set var_spacewalk_pv_file = "/root/volume-configuration-var-spacewalk.yml" %}
+{% set var_pgsql_pv_file = "/root/volume-configuration-var-pgsql.yml" %}
+{% set local_path = true if grains.get('kubernetes_storage_backend') == 'local-path' or grains.get('local_path_provisioner_default_class') == true else false %}
+{% if grains.get('kubernetes_create_static_var_spacewalk_pv') == true and local_path == true %}
+{% set create_spacewalk_pv = true %}
 {% endif %}
+{% if grains.get('kubernetes_create_static_var_pgsql_pv') == true and local_path == true %}
+{% set create_pgsql_pv = true %}
+{% endif %}
+
+
+variables_server_kubernetes:
+  file.managed:
+    - name: /etc/profile.d/server_kubernetes_vars.sh
+    - contents: |
+        export PYTHON_HELM_CHART_PATH={{ python_helm_chart_path }}
+        export HELM_CHART_DIRECTORY={{ helm_chart_directory }}
+        export SELF_SIGNED_PATH={{ self_signed_path }}
+        export VALUES_YAML_PATH={{ values_yaml_path }}
+        export HELM_CHART_NAME={{ helm_chart_name }}
+        export HELM_CHART_URL={{ helm_chart_url }}
+        export DEVEL_FLAG={{ devel_flag }}
+        export SERVER_NAMESPACE={{ server_namespace }}
+        {% if cc_username %}
+        export CC_USERNAME={{ cc_username }}
+        {% endif %}
+        {% if cc_password %}
+        export CC_PASSWORD={{ cc_password }}
+        {% endif %}
+        {% if scc_secret_name %}
+        export SCC_SECRET_NAME={{ scc_secret_name }}
+        {% endif %}
+        {% if create_spacewalk_pv %}
+        export SPACEWALK_PV_FILE={{ var_spacewalk_pv_file }}
+        {% endif %}
+        {% if create_pgsql_pv %}
+        export PGSQL_PV_FILE={{ var_pgsql_pv_file }}
+        {% endif %}
+    - makedirs: True
 
 {% if not is_external_cluster %}
 
@@ -90,12 +116,23 @@ create_external_kubernetes_uyuni_namespace:
       # install_kubectl is defined in controller/init.sls, which includes this state
       - pkg: install_kubectl
       - file: external_kubernetes_kubeconfig
-      {% if grains.get('install_cert_manager') == true %}
-      # defined in kubernetes_common/install_helm.sls, included from controller/init.sls
-      - cmd: check_cert_manager_installation
-      - cmd: check_trust_manager_installation
-      {% endif %}
 
+{% endif %}
+
+{% if create_spacewalk_pv %}
+copy_var_spacewalk_file:
+  file.managed:
+    - name: {{ var_spacewalk_pv_file }}
+    - source: salt://server_kubernetes/volume-configuration-var-spacewalk.yml
+    - template: jinja
+{% endif %}
+
+{% if create_pgsql_pv %}
+copy_var_pgsql_file:
+  file.managed:
+    - name: {{ var_pgsql_pv_file }}
+    - source: salt://server_kubernetes/volume-configuration-var-pgsql.yml
+    - template: jinja
 {% endif %}
 
 copy_helm_charts_directory:
@@ -136,6 +173,9 @@ copy_value_yaml_file:
         tftpd_container_tag: {{ grains.get("tftpd_container_tag") }}
         app_armor_name: {{ 'k8s-systemd-uyuni' if is_sles_15_7 or is_ubuntu else '' }}
         selinuxType: {{ 'uyuni_container_t' if is_tumbleweed or is_slmicro_6_2 else '' }}
+        {% if scc_secret_name %}
+        scc_secret_name: {{ scc_secret_name }}
+        {% endif %}
 
 copy_chart_yaml_file:
   file.managed:
@@ -145,8 +185,6 @@ copy_chart_yaml_file:
     - context:
         oci_name: {{ helm_chart_name }}
         oci_repository: {{ helm_chart_url }}
-
-{% if (grains.get('install_rke2') == true and grains.get('install_helm') == true) or is_external_cluster %}
 
 {% if not is_external_cluster %}
 copy_manifest_uyuni_ingress:
@@ -208,64 +246,6 @@ transfer_python_management_file:
   - source: salt://kubernetes_common/helm_chart.py
   - makedirs: true
 
-{% if not is_slmicro_6_2 %}
-update_oci_app_version:
-  cmd.run:
-    - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
-    {% if is_external_cluster %}
-    - require:
-      {% if osfullname in pkg_map %}
-      - pkg: install_dependencies_helm_server
-      {% endif %}
-      - cmd: install_helm_on_controller
-      - file: transfer_python_management_file
-      - file: copy_chart_yaml_file
-    {% endif %}
-{% endif %}
-
-{% if grains.get('install_mlm_server') == true or is_external_cluster %}
-
-{% if not is_slmicro_6_2 %}
-build_helm_dependencies:
-  cmd.run:
-    - name: helm dependencies build
-    - cwd: {{ self_signed_path }}
-    {% if is_external_cluster %}
-    - require:
-      - cmd: update_oci_app_version
-    {% endif %}
-
-install_uyuni_on_kubernetes:
-  cmd.run:
-    - name: helm upgrade --install uyuni {{ self_signed_path }} -f {{ values_yaml_path }} -n {{ server_namespace }}
-    - cwd: {{ helm_chart_directory }}
-    - env:
-      - KUBECONFIG: {{ kubeconfig }}
-    {% if is_external_cluster %}
-    - require:
-      - cmd: build_helm_dependencies
-      - file: copy_value_yaml_file
-      - cmd: create_external_kubernetes_uyuni_namespace
-    {% endif %}
-
-{# helm returns as soon as the release is recorded, so without this the proxy
-   states race ahead and run kubectl exec against a pod that has no running
-   container yet. No --timeout: the deployment's progressDeadlineSeconds bounds
-   the wait, and passing a longer one only looks like it does something. #}
-wait_for_uyuni_server_pod:
-  cmd.run:
-    - name: kubectl rollout status deployment/uyuni -n {{ server_namespace }}
-    - env:
-      - KUBECONFIG: {{ kubeconfig }}
-    - require:
-      - cmd: install_uyuni_on_kubernetes
-
-{% endif %}
-
-{% endif %}
-
-{% endif %}
-
 save_script_to_get_pod_name:
   file.managed:
     - name: /usr/local/bin/get_server_pod_name
@@ -274,19 +254,3 @@ save_script_to_get_pod_name:
     - mode: 700
     - user: root
     - group: root
-
-
-variables_server_kubernetes:
-  file.managed:
-    - name: /etc/profile.d/server_kubernetes_vars.sh
-    - contents: |
-        export PYTHON_HELM_CHART_PATH={{ python_helm_chart_path }}
-        export HELM_CHART_DIRECTORY={{ helm_chart_directory }}
-        export SELF_SIGNED_PATH={{ self_signed_path }}
-        export VALUES_YAML_PATH={{ values_yaml_path }}
-        export HELM_CHART_NAME={{ helm_chart_name }}
-        export HELM_CHART_URL={{ helm_chart_url }}
-        export DEVEL_FLAG={{ devel_flag }}
-        export SERVER_NAMESPACE={{ server_namespace }}
-
-{% endif %}

@@ -1,6 +1,6 @@
-{% set storage_class = grains.get('kubernetes_storage_class') | default('local-path', true) %}
-{% set local_path = grains.get('local_path_provisioner_path') | default('/opt/local-path-provisioner', true) %}
-{% set reclaim_policy = grains.get('local_path_provisioner_reclaim_policy') | default('Delete', true) %}
+{% set storage_class = grains.get('kubernetes_storage_class') %}
+{% set local_path = grains.get('local_path_provisioner_path') %}
+{% set reclaim_policy = grains.get('local_path_provisioner_reclaim_policy') %}
 apiVersion: v1
 kind: Namespace
 metadata:

@@ -298,13 +298,7 @@ module "server_kubernetes" {
   helm_chart_url                  = lookup(local.helm_chart_url, "server_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
   scc_slmicro_pass                = var.scc_slmicro_pass
-  install_mlm_server              = var.install_mlm_server
-  install_rke2                    = var.install_rke2
-  install_helm                    = var.install_helm
-  install_cert_manager            = var.install_cert_manager
   java_debugging_on_rke2          = var.java_debugging_on_rke2
-  install_traefik                 = var.install_traefik
-  install_local_path_provisioner  = var.install_local_path_provisioner
   kubernetes_storage_backend                = lookup(local.kubernetes_storage_backend, "server_kubernetes", var.kubernetes_storage_backend)
   kubernetes_storage_class                  = lookup(local.kubernetes_storage_class, "server_kubernetes", var.kubernetes_storage_class)
   local_path_provisioner_path               = lookup(local.local_path_provisioner_path, "server_kubernetes", var.local_path_provisioner_path)
@@ -425,12 +419,6 @@ module "proxy_kubernetes" {
   helm_chart_name                 = lookup(local.helm_chart_name, "proxy_kubernetes", "")
   helm_chart_url                  = lookup(local.helm_chart_url, "proxy_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
-  install_mlm_proxy               = var.install_mlm_proxy
-  install_rke2                    = var.install_rke2
-  install_helm                    = var.install_helm
-  install_cert_manager            = var.install_cert_manager
-  install_traefik                 = var.install_traefik
-  install_local_path_provisioner  = var.install_local_path_provisioner
 }
 
 
@@ -704,17 +692,19 @@ module "controller" {
 
   prometheus_push_gateway_url = var.prometheus_push_gateway_url
 
-  install_kubernetes_server_on_external_cluster = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.install_mlm_server : false) : false
+  install_kubernetes_server_on_external_cluster = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? true : false) : false
   kubernetes_server_fqdn                        = try(var.kubernetes_external_server_configuration["hostname"], null)
   kubernetes_server_helm_chart_name             = coalesce(lookup(local.helm_chart_name, "server_kubernetes", null), "server-helm")
   kubernetes_server_helm_chart_url              = coalesce(lookup(local.helm_chart_url, "server_kubernetes", null), "oci://registry.suse.de/devel/galaxy/manager/head/charts/suse/multi-linux-manager/5.2")
   kubernetes_server_container_registry          = lookup(local.container_registries, "server_kubernetes", null) != null ? lookup(local.container_registries, "server_kubernetes", null) : ""
   use_devel_oci                                 = var.use_devel_oci
-  install_cert_manager                          = var.install_cert_manager
   deploy_coco_attestation                       = var.deploy_coco_attestation
   deploy_saline                                 = var.deploy_saline
   deploy_hub_api                                = var.deploy_hub_api
   deploy_tftp                                   = var.deploy_tftp
+  kubernetes_create_static_var_spacewalk_pv     = lookup(local.kubernetes_create_static_var_spacewalk_pv, "server_kubernetes", var.kubernetes_create_static_var_spacewalk_pv)
+  kubernetes_create_static_var_pgsql_pv         = lookup(local.kubernetes_create_static_var_pgsql_pv, "server_kubernetes", var.kubernetes_create_static_var_pgsql_pv)
+  local_path_provisioner_default_class          = lookup(local.local_path_provisioner_default_class, "server_kubernetes", var.local_path_provisioner_default_class)
 
   additional_repos  = lookup(local.additional_repos, "controller", {})
   additional_repos_only  = lookup(local.additional_repos_only, "controller", false)
