@@ -1,38 +1,23 @@
-{% set osfullname = grains['osfullname'] %}
-{% set osrelease = grains['osrelease'] %}
-{% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
-{% set cert_manager_namespace = "cert-manager" %}
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
+{% set cert_manager_namespace = "cert-manager" %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
-{% set proxy_namespace = "uyuni" %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
+{% set proxy_namespace = "uyuni" %}
+{% set proxy_FQDN = grains.get("fqdn") %}
+{% set server_FQDN = grains.get("server") %}
+{% set proxy_name = "proxy-cert" %}
+{% set proxy_cert_vars_file = "/etc/profile.d/proxy_certs_vars.sh" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
-{% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
-{% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
-{% set is_ubuntu = osfullname == 'Ubuntu' %}
-{% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
-{% set is_supported_os = is_sles_15_7 or is_slmicro_6_2 or is_ubuntu or is_tumbleweed %}
+{% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
 
 
-{% if is_supported_os %}
 
-{% set pkg_map = {
-  'openSUSE Tumbleweed' : 'jq'
-} %}
-
-{% if osfullname in pkg_map %}
-install_dependencies_helm_proxy:
-  pkg.latest:
-    - name: {{ pkg_map.get(osfullname) }}
-    - refresh: True
-{% endif %}
-
-variables_proxy_kubernetes:
+setup_environmental_variables_in_proxy:
   file.managed:
-    - name: /etc/profile.d/proxy_kubernetes_vars.sh
+    - name: {{ proxy_cert_vars_file }}
     - contents: |
         export PYTHON_HELM_CHART_PATH={{ python_helm_chart_path }}
         export HELM_CHART_DIRECTORY={{ helm_chart_directory }}
@@ -40,7 +25,94 @@ variables_proxy_kubernetes:
         export VALUES_YAML_PATH={{ values_yaml_path }}
         export HELM_CHART_NAME={{ helm_chart_name }}
         export HELM_CHART_URL={{ helm_chart_url }}
+        export PROXY_NAMESPACE={{ proxy_namespace }}
+        export PROXY_NAME={{ proxy_name }}
+        export PROXY_FQDN={{ proxy_FQDN }}
+        export SERVER_FQDN={{ server_FQDN }}
         export DEVEL_FLAG={{ devel_flag }}
+
+ssh_private_key_proxy_kubernetes:
+  file.managed:
+    - name: /root/.ssh/id_ed25519
+    - source: salt://proxy_kubernetes/id_ed25519
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+ssh_public_key_proxy_kubernetes:
+  file.managed:
+    - name: /root/.ssh/id_ed25519.pub
+    - source: salt://proxy_kubernetes/id_ed25519.pub
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+authorized_keys_proxy_kubernetes:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://proxy_kubernetes/id_ed25519.pub
+    - makedirs: True
+
+authorized_keys_proxy_server:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://server_kubernetes/server_keys/id_ed25519_server_kubernetes.pub
+
+ssh_private_key_proxy_kubernetes_for_server:
+  file.managed:
+    - name: /root/.ssh/id_ed25519_proxy
+    - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+ssh_public_key_proxy_kubernetes_server_exchange:
+  file.managed:
+    - name: /root/.ssh/id_ed25519_proxy.pub
+    - source: salt://proxy_kubernetes/proxy_keys/id_ed25519_proxy.pub
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+ssh_config_proxy_kubernetes:
+  file.managed:
+    - name: /root/.ssh/config
+    - source: salt://proxy_kubernetes/config
+    - makedirs: True
+    - user: root
+    - group: root
+    - mode: 700
+
+copy_certs_generator:
+  file.managed:
+    - name: /root/proxy-gen-certs.yaml
+    - source: salt://proxy_kubernetes/proxy-gen-certs.yaml
+    - template: jinja
+    - context:
+        proxy_FQDN: {{ proxy_FQDN }}
+        proxy_namespace: {{ proxy_namespace }}
+        proxy_name: {{ proxy_name }}
+
+apply_and_transfer_env_variables:
+  cmd.run:
+  - name: |
+      scp {{ proxy_cert_vars_file }} {{ grains['server'] }}:{{ proxy_cert_vars_file }}
+  - cwd: /root
+  - require:
+      - file: setup_environmental_variables_in_proxy
+      - file: ssh_private_key_proxy_kubernetes_for_server
+      - file: ssh_config_proxy_kubernetes
+
+check_ssh_communication:
+  cmd.run:
+    - name: ssh-keyscan -H {{ grains['server'] }} >> ~/.ssh/known_hosts
+    - require:
+      - file: ssh_private_key_proxy_kubernetes_for_server
+      - file: ssh_config_proxy_kubernetes
 
 mkdir_helm_dir:
   cmd.run:
@@ -61,9 +133,8 @@ copy_values_proxy:
     - source: salt://proxy_kubernetes/values_proxy.yaml
     - template: jinja
     - context:
-        fqdn: {{ grains.get("fqdn")}}
-        cert_manager_namespace: {{ cert_manager_namespace}}
-        container_registry: {{ grains.get("container_registry")}}
+        cert_manager_namespace: {{ cert_manager_namespace }}
+        container_registry: {{ grains.get("container_registry") }}
 
 transfer_python_management_file:
   file.managed:
@@ -71,46 +142,8 @@ transfer_python_management_file:
   - source: salt://kubernetes_common/helm_chart.py
   - makedirs: true
 
-{% if grains.get('install_helm') == true %}
-
 copy_manifest_uyuni_ingress_proxy:
   file.managed:
     - name: /var/lib/rancher/rke2/server/manifests/uyuni-ingress-proxy.yaml
     - source: salt://proxy_kubernetes/uyuni-ingress-proxy.yaml
     - makedirs: True
-
-{% if not is_slmicro_6_2 %}
-update_oci_app_version_proxy:
-  cmd.run:
-    - name: python3 {{ python_helm_chart_path }} -o {{ helm_chart_url }}/{{ helm_chart_name }} --chart-file {{ self_signed_path }}/Chart.yaml {{ devel_flag }}
-
-{% if grains.get('install_rke2') == true and grains.get('install_mlm_proxy') == true %}
-
-build_helm_dependencies:
-  cmd.run:
-    - name: helm dependencies build
-    - cwd: {{ self_signed_path }}
-
-copy_config_tar:
-  cmd.run:
-    - name: cp -r /root/config.tar.gz {{ helm_chart_directory }}
-
-uncompress_config_tar:
-  cmd.run:
-    - name: tar -xf {{ helm_chart_directory }}/config.tar.gz -C {{ helm_chart_directory }}/
-    - cwd: {{ helm_chart_directory }}
-
-install_uyuni_proxy_on_kubernetes:
-  cmd.run:
-    - name: helm upgrade --install uyuni-proxy {{ self_signed_path }} -f {{ values_yaml_path }} -n {{ proxy_namespace }} --set-file global.ssh=ssh.yaml --set-file global.config=config.yaml --set-file global.httpd=httpd.yaml
-    - cwd: {{ helm_chart_directory }}
-    - env:
-      - KUBECONFIG: {{ kubeconfig }}
-
-{% endif %}
-
-{% endif %}
-
-{% endif %}
-
-{% endif %}

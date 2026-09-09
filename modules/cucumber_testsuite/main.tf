@@ -299,12 +299,8 @@ module "server_kubernetes" {
   use_devel_oci                   = var.use_devel_oci
   scc_slmicro_pass                = var.scc_slmicro_pass
   install_mlm_server              = var.install_mlm_server
-  install_rke2                    = var.install_rke2
-  install_helm                    = var.install_helm
   install_cert_manager            = var.install_cert_manager
   java_debugging_on_rke2          = var.java_debugging_on_rke2
-  install_traefik                 = var.install_traefik
-  install_local_path_provisioner  = var.install_local_path_provisioner
   kubernetes_storage_backend                = lookup(local.kubernetes_storage_backend, "server_kubernetes", var.kubernetes_storage_backend)
   kubernetes_storage_class                  = lookup(local.kubernetes_storage_class, "server_kubernetes", var.kubernetes_storage_class)
   local_path_provisioner_path               = lookup(local.local_path_provisioner_path, "server_kubernetes", var.local_path_provisioner_path)
@@ -426,11 +422,7 @@ module "proxy_kubernetes" {
   helm_chart_url                  = lookup(local.helm_chart_url, "proxy_kubernetes", "")
   use_devel_oci                   = var.use_devel_oci
   install_mlm_proxy               = var.install_mlm_proxy
-  install_rke2                    = var.install_rke2
-  install_helm                    = var.install_helm
   install_cert_manager            = var.install_cert_manager
-  install_traefik                 = var.install_traefik
-  install_local_path_provisioner  = var.install_local_path_provisioner
 }
 
 

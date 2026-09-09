@@ -102,12 +102,8 @@ module "server_kubernetes" {
     deploy_tftp                    = var.deploy_tftp
     tftpd_container_image          = var.tftpd_container_image
     tftpd_container_tag            = var.tftpd_container_tag
-    install_rke2                   = var.install_rke2
-    install_helm                   = var.install_helm
     install_cert_manager           = var.install_cert_manager
     java_debugging_on_rke2         = var.java_debugging_on_rke2
-    install_traefik                = var.install_traefik
-    install_local_path_provisioner = var.install_local_path_provisioner
     kubernetes_storage_backend                = var.kubernetes_storage_backend
     kubernetes_storage_class                  = local.kubernetes_storage_class
     local_path_provisioner_path               = var.local_path_provisioner_path

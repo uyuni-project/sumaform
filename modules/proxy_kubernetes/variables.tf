@@ -79,28 +79,8 @@ variable "install_mlm_proxy" {
   default = true
 }
 
-variable "install_rke2" {
-  description = "true to install RKE2"
-  default = true
-}
-
-variable "install_helm" {
-  description = "true to install Helm"
-  default = true
-}
-
 variable "install_cert_manager" {
   description = "true to install cert_manager and trust_manager"
-  default = true
-}
-
-variable "install_traefik" {
-  description = "true to install Traefik"
-  default = true
-}
-
-variable "install_local_path_provisioner" {
-  description = "true to install local-path-provisioner"
   default = true
 }
 
