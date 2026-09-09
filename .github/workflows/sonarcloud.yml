@@ -29,13 +29,13 @@ jobs:
       if: github.event_name == 'workflow_run'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        HEAD_OWNER: ${{ github.event.workflow_run.head_repository.owner.login }}
         HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
       run: |
-        pull_request=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" \
-          --jq 'map(select(.state == "open")) | first')
+        pull_request=$(gh api "repos/${GITHUB_REPOSITORY}/pulls" -X GET \
+          -f state=open -f head="${HEAD_OWNER}:${HEAD_BRANCH}" --jq 'first')
         if [ -z "$pull_request" ] || [ "$pull_request" = "null" ]; then
-          echo "No open pull request for ${HEAD_SHA}, skipping the scan"
+          echo "No open pull request for ${HEAD_OWNER}:${HEAD_BRANCH}, skipping the scan"
           exit 0
         fi
         {
