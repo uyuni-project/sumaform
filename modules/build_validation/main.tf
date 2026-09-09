@@ -6,6 +6,8 @@ locals {
   host_deblike = lookup(var.module_base_configurations, "deblike", local.base_core)
   base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
 
+  base_arm_configuration = try(var.base_configurations.base_arm, null)
+
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
   proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_server_proxy_config)
   empty_minion_config = { ids = [], hostnames = [], macaddrs = [], private_macs = [], ipaddrs = [] }
@@ -30,6 +32,7 @@ module "base_arm" {
   }
 
   source = "../base"
+  count  = local.base_arm_configuration != null ? 1 : 0
 
   cc_username     = var.scc_user
   cc_password     = var.scc_password
@@ -37,7 +40,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = var.base_configurations.base_arm.images
+  images          = coalesce(try(local.base_arm_configuration.images, null), ["opensuse156armo", "opensuse160armo", "raspios13o"])
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
@@ -46,7 +49,7 @@ module "base_arm" {
 
   provider_settings = {
     pool   = "ssd"
-    bridge = try(var.base_configurations.base_arm.bridge, "br1")
+    bridge = coalesce(try(local.base_arm_configuration.bridge, null), "br1")
   }
   ssh_key_path = var.controller_public_ssh_key_path
 }
@@ -756,8 +759,8 @@ module "opensuse156arm_minion" {
     libvirt = libvirt.host_arm
   }
   source             = "../minion"
-  count              = lookup(var.environment_configuration, "opensuse156arm_minion", null) != null ? 1 : 0
-  base_configuration = module.base_arm.configuration
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse156arm_minion", null) != null ? 1 : 0
+  base_configuration = module.base_arm[0].configuration
   name               = "${var.environment_configuration.opensuse156arm_minion.name}${var.platform_location_configuration[var.location].extension}"
   image              = "opensuse156armo"
   provider_settings = {
@@ -777,8 +780,8 @@ module "opensuse160arm_minion" {
     libvirt = libvirt.host_arm
   }
   source             = "../minion"
-  count              = lookup(var.environment_configuration, "opensuse160arm_minion", null) != null ? 1 : 0
-  base_configuration = module.base_arm.configuration
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse160arm_minion", null) != null ? 1 : 0
+  base_configuration = module.base_arm[0].configuration
   name               = "${var.environment_configuration.opensuse160arm_minion.name}${var.platform_location_configuration[var.location].extension}"
   image              = "opensuse160armo"
   provider_settings = {
@@ -798,8 +801,8 @@ module "raspios13_minion" {
     libvirt = libvirt.host_arm
   }
   source             = "../minion"
-  count              = lookup(var.environment_configuration, "raspios13_minion", null) != null ? 1 : 0
-  base_configuration = module.base_arm.configuration
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "raspios13_minion", null) != null ? 1 : 0
+  base_configuration = module.base_arm[0].configuration
   name               = "${var.environment_configuration.raspios13_minion.name}${var.platform_location_configuration[var.location].extension}"
   image              = "raspios13o"
   provider_settings = {
@@ -1420,8 +1423,8 @@ module "opensuse156arm_sshminion" {
     libvirt = libvirt.host_arm
   }
   source             = "../sshminion"
-  count              = lookup(var.environment_configuration, "opensuse156arm_sshminion", null) != null ? 1 : 0
-  base_configuration = module.base_arm.configuration
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse156arm_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_arm[0].configuration
   name               = "${var.environment_configuration.opensuse156arm_sshminion.name}${var.platform_location_configuration[var.location].extension}"
   image              = "opensuse156armo"
   provider_settings = {
@@ -1440,8 +1443,8 @@ module "opensuse160arm_sshminion" {
     libvirt = libvirt.host_arm
   }
   source             = "../sshminion"
-  count              = lookup(var.environment_configuration, "opensuse160arm_sshminion", null) != null ? 1 : 0
-  base_configuration = module.base_arm.configuration
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse160arm_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_arm[0].configuration
   name               = "${var.environment_configuration.opensuse160arm_sshminion.name}${var.platform_location_configuration[var.location].extension}"
   image              = "opensuse160armo"
   provider_settings = {
@@ -1460,8 +1463,8 @@ module "raspios13_sshminion" {
     libvirt = libvirt.host_arm
   }
   source             = "../sshminion"
-  count              = lookup(var.environment_configuration, "raspios13_sshminion", null) != null ? 1 : 0
-  base_configuration = module.base_arm.configuration
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "raspios13_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_arm[0].configuration
   name               = "${var.environment_configuration.raspios13_sshminion.name}${var.platform_location_configuration[var.location].extension}"
   image              = "raspios13o"
   provider_settings = {
