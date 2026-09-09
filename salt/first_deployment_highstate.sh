@@ -5,6 +5,7 @@
 
 function is_transactional() {
   command -v transactional-update >/dev/null 2>&1
+  return $?
 }
 
 FILE_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"

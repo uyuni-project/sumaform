@@ -22,7 +22,7 @@ jobs:
       run: sudo rm -f /etc/apt/sources.list.d/*google* /etc/apt/sources.list.d/*microsoft*
     - name: Install Salt using bootstrap
       run: |
-        curl -fsSL https://github.com/saltstack/salt-bootstrap/releases/latest/download/bootstrap-salt.sh -o install_salt.sh
+        curl -fsSL --proto '=https' --proto-redir '=https' --tlsv1.2 https://github.com/saltstack/salt-bootstrap/releases/latest/download/bootstrap-salt.sh -o install_salt.sh
         sudo sh install_salt.sh -P -x python3
     - name: Validate server states
       if: always()

@@ -12,6 +12,7 @@ HUB_CA = "/root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT"
 
 # Validate the hub certificate against the hub CA we already downloaded.
 ctx = ssl.create_default_context(cafile=HUB_CA)
+ctx.minimum_version = ssl.TLSVersion.TLSv1_2
 hub = xmlrpc.client.ServerProxy("https://%s/rpc/api" % HUB_FQDN, context=ctx)
 
 session = hub.auth.login(USERNAME, PASSWORD)

@@ -16,7 +16,7 @@ class LocustCollector(object):
     try:
         response = requests.get(url).content.decode('Utf-8')
     except requests.exceptions.ConnectionError:
-        print "Failed to connect to Locust:", url
+        print("Failed to connect to Locust:", url)
         return
 
     response = json.loads(response)
@@ -51,20 +51,20 @@ class LocustCollector(object):
             mtype = 'counter'
         metric = Metric('locust_requests_'+mtr, 'Locust requests '+mtr, mtype)
         for stat in response['stats']:
-            if not 'Total' in stat['name']:
+            if 'Total' not in stat['name']:
                 metric.add_sample('locust_requests_'+mtr, value=stat[mtr], labels={'path':stat['name'], 'method':stat['method']})
         yield metric
 
 if __name__ == '__main__':
   # Usage: locust_exporter.py <port> <locust_host:port>
   if len(sys.argv) != 3:
-      print 'Usage: locust_exporter.py <port> <locust_host:port>'
+      print('Usage: locust_exporter.py <port> <locust_host:port>')
       exit(1)
   else:
     try:
         start_http_server(int(sys.argv[1]))
         REGISTRY.register(LocustCollector(str(sys.argv[2])))
-        print "Connecting to locust on: " + sys.argv[2]
+        print("Connecting to locust on: " + sys.argv[2])
         while True: time.sleep(1)
     except KeyboardInterrupt:
         exit(0)
