@@ -1,7 +1,8 @@
 #!groovy
 
-import jenkins.model.*
-import hudson.security.*
+import jenkins.model.Jenkins
+import hudson.security.FullControlOnceLoggedInAuthorizationStrategy
+import hudson.security.HudsonPrivateSecurityRealm
 import static jenkins.model.Jenkins.instance as jenkins
 import jenkins.install.InstallState
 

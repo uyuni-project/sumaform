@@ -34,12 +34,10 @@ client = Server(MANAGER_URL, verbose=0)
 
 session_key = client.auth.login(username, password)
 
-channels = filter(lambda c: c["label"] == channel, client.channel.listVendorChannels(session_key))
+channels = [c for c in client.channel.listVendorChannels(session_key) if c["label"] == channel]
 if not channels:
     print("Channel not found.")
     sys.exit(1)
-
-id = channels[0]["id"]
 
 print("Waiting for reposync to finish...")
 

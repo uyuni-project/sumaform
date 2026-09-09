@@ -18,6 +18,7 @@ fi
 cli_call() {
   echo "[INFO] Running CLI call with arguments: ${@}"
   java -jar /tmp/jenkins-cli.jar -s ${URL} -auth admin:"$(cat /var/lib/jenkins/secrets/initialAdminPassword)" ${@}
+  return $?
 }
 
 # Only credential 2.6.1 is compatible with current LTS 2.303.3

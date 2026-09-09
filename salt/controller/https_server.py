@@ -17,6 +17,7 @@ Handler = http.server.SimpleHTTPRequestHandler
 
 # Set up the SSL context
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+context.minimum_version = ssl.TLSVersion.TLSv1_2
 try:
     context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
 except FileNotFoundError:
