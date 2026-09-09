@@ -2,12 +2,14 @@ variable "cc_username" {
   description = "username for the Customer Center"
   type        = string
   default     = null
+  sensitive   = true
 }
 
 variable "cc_password" {
   description = "password for the Customer Center"
   type        = string
   default     = null
+  sensitive   = true
 }
 
 variable "timezone" {
