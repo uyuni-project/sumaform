@@ -131,11 +131,6 @@
   <!-- raspi OS does not support ACPI -->
   <xsl:template match="acpi" />
 
-  <!--xsl:template match="audio">
-    <xsl:copy>
-    </xsl:copy>
-  </xsl:template-->
-
   <!-- just copy the rest -->
   <xsl:template match="node()|@*">
     <xsl:copy>
