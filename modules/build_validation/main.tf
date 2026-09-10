@@ -768,7 +768,7 @@ module "opensuse156arm_minion" {
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse156arm_minion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
-    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+    xslt           = file("modules/build_validation/tune-aarch64.xsl")
   }
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -789,7 +789,7 @@ module "opensuse160arm_minion" {
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse160arm_minion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
-    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+    xslt           = file("modules/build_validation/tune-aarch64.xsl")
   }
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -810,7 +810,7 @@ module "raspios13_minion" {
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.raspios13_minion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
-    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+    xslt           = file("modules/build_validation/tune-aarch64-raspios.xsl")
   }
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -1432,7 +1432,7 @@ module "opensuse156arm_sshminion" {
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse156arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
-    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+    xslt           = file("modules/build_validation/tune-aarch64.xsl")
   }
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -1452,7 +1452,7 @@ module "opensuse160arm_sshminion" {
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse160arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
-    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+    xslt           = file("modules/build_validation/tune-aarch64.xsl")
   }
   use_os_released_updates = false
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
@@ -1472,7 +1472,7 @@ module "raspios13_sshminion" {
     overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.raspios13_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
-    xslt           = file("../../susemanager-ci/terracumber_config/tf_files/common/tune-aarch64.xslt")
+    xslt           = file("modules/build_validation/tune-aarch64-raspios.xsl")
   }
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
