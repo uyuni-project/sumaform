@@ -479,7 +479,47 @@ runcmd:
 
 %{ if image == "ubuntu2204o" ~}
 
+%{ if use_mirror_images ~}
+# WORKAROUND: archive.ubuntu.com is unreachable over IPv4 from the CI networks, and
+# cloud-init stalls there long enough for the libvirt provider to give up waiting for
+# the qemu-guest-agent. Take the base OS repositories from the mirror instead. Suites
+# and components are limited to what apt-mirror actually copies over there, and
+# "Targets: Packages" keeps apt from failing on the translation, appstream and
+# command-not-found indexes, which it does not copy at all.
+write_files:
+  - path: /etc/apt/sources.list
+    permissions: '0644'
+    content: |
+      # Replaced by /etc/apt/sources.list.d/ubuntu.sources
+  - path: /etc/apt/sources.list.d/ubuntu.sources
+    permissions: '0644'
+    content: |
+      Types: deb
+      URIs: http://${mirror}/archive.ubuntu.com/ubuntu
+      Suites: jammy
+      Components: main universe
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+      Types: deb
+      URIs: http://${mirror}/archive.ubuntu.com/ubuntu
+      Suites: jammy-updates
+      Components: main
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+      Types: deb
+      URIs: http://${mirror}/security.ubuntu.com/ubuntu
+      Suites: jammy-security
+      Components: main
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+%{ endif ~}
+
 apt:
+%{ if use_mirror_images ~}
+  preserve_sources_list: true
+%{ endif ~}
   sources:
     tools_pool_repo:
       source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/ /
@@ -524,7 +564,47 @@ runcmd:
 
 %{ if image == "ubuntu2404o" ~}
 
+%{ if use_mirror_images ~}
+# WORKAROUND: archive.ubuntu.com is unreachable over IPv4 from the CI networks, and
+# cloud-init stalls there long enough for the libvirt provider to give up waiting for
+# the qemu-guest-agent. Take the base OS repositories from the mirror instead. Suites
+# and components are limited to what apt-mirror actually copies over there, and
+# "Targets: Packages" keeps apt from failing on the translation, appstream and
+# command-not-found indexes, which it does not copy at all.
+write_files:
+  - path: /etc/apt/sources.list
+    permissions: '0644'
+    content: |
+      # Replaced by /etc/apt/sources.list.d/ubuntu.sources
+  - path: /etc/apt/sources.list.d/ubuntu.sources
+    permissions: '0644'
+    content: |
+      Types: deb
+      URIs: http://${mirror}/archive.ubuntu.com/ubuntu
+      Suites: noble
+      Components: main universe
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+      Types: deb
+      URIs: http://${mirror}/archive.ubuntu.com/ubuntu
+      Suites: noble-updates
+      Components: main
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+      Types: deb
+      URIs: http://${mirror}/security.ubuntu.com/ubuntu
+      Suites: noble-security
+      Components: main
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+%{ endif ~}
+
 apt:
+%{ if use_mirror_images ~}
+  preserve_sources_list: true
+%{ endif ~}
   sources:
     tools_pool_repo:
       source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
@@ -580,7 +660,47 @@ bootcmd:
   - systemctl kill --kill-who=all apt-daily.service apt-daily-upgrade.service || true
   - while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do sleep 1; done
 
+%{ if use_mirror_images ~}
+# WORKAROUND: archive.ubuntu.com is unreachable over IPv4 from the CI networks, and
+# cloud-init stalls there long enough for the libvirt provider to give up waiting for
+# the qemu-guest-agent. Take the base OS repositories from the mirror instead. Suites
+# and components are limited to what apt-mirror actually copies over there, and
+# "Targets: Packages" keeps apt from failing on the translation, appstream and
+# command-not-found indexes, which it does not copy at all.
+write_files:
+  - path: /etc/apt/sources.list
+    permissions: '0644'
+    content: |
+      # Replaced by /etc/apt/sources.list.d/ubuntu.sources
+  - path: /etc/apt/sources.list.d/ubuntu.sources
+    permissions: '0644'
+    content: |
+      Types: deb
+      URIs: http://${mirror}/archive.ubuntu.com/ubuntu
+      Suites: resolute
+      Components: main universe
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+      Types: deb
+      URIs: http://${mirror}/archive.ubuntu.com/ubuntu
+      Suites: resolute-updates
+      Components: main
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+      Types: deb
+      URIs: http://${mirror}/security.ubuntu.com/ubuntu
+      Suites: resolute-security
+      Components: main
+      Targets: Packages
+      Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+%{ endif ~}
+
 apt:
+%{ if use_mirror_images ~}
+  preserve_sources_list: true
+%{ endif ~}
   sources:
     tools_pool_repo:
       source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2604-Uyuni-Client-Tools/xUbuntu_26.04/ /
