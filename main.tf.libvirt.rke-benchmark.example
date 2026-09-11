@@ -191,7 +191,6 @@ module "cucumber_testsuite" {
 
   # Keep the existing Uyuni installation and install only the controller-side
   # kubectl and Helm clients needed by the external-cluster testsuite.
-  install_mlm_server   = false
   install_kubectl_helm = true
 
   images               = ["opensuse160o", "opensuse156o"]

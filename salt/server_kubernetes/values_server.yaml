@@ -60,13 +60,16 @@ server-helm:
     tag: {{ tftpd_container_tag }}
     {% endif %}
 {% endif %}
+{% if app_armor_name or selinuxType or scc_secret_name %}
+  server:
 {% if app_armor_name %}
-  server:
     apparmorProfile: {{ app_armor_name }}
-{% endif %}
-{% if selinuxType %}
-  server:
+{% elif selinuxType %}
     selinuxType: {{ selinuxType }}
+{% endif %}
+{% if scc_secret_name %}
+    sccSecret: {{ scc_secret_name }}
+{% endif %}
 {% endif %}
 {% if deploy_coco_attestation %}
   coco:

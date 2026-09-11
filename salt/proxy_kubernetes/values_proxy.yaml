@@ -1,5 +1,3 @@
-global:
-  fqdn: {{ fqdn }}
 
 
 certManagerNamespace: {{ cert_manager_namespace }}

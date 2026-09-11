@@ -54,7 +54,7 @@ variable "scc_slmicro_pass" {
 }
 
 variable "install_mlm_server" {
-  description = "true to install the MLM server. The flags install_rke2 and install_helm must be true as well to install it"
+  description = "true to install the MLM server."
   default = true
 }
 
@@ -118,16 +118,6 @@ variable "tftpd_container_tag" {
   default = ""
 }
 
-variable "install_rke2" {
-  description = "true to install RKE2"
-  default = true
-}
-
-variable "install_helm" {
-  description = "true to install Helm"
-  default = true
-}
-
 variable "install_cert_manager" {
   description = "true to install cert_manager and trust_manager"
   default = true
@@ -136,16 +126,6 @@ variable "install_cert_manager" {
 variable "java_debugging_on_rke2" {
   description = "Enable Java debugging on RKE2"
   default     = false
-}
-
-variable "install_traefik" {
-  description = "true to install Traefik"
-  default = true
-}
-
-variable "install_local_path_provisioner" {
-  description = "true to install local-path-provisioner when kubernetes_storage_backend is local-path"
-  default = true
 }
 
 variable "kubernetes_storage_backend" {

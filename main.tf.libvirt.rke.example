@@ -39,10 +39,6 @@ module "cucumber_testsuite" {
   deploy_saline                  = true
   deploy_tftp                    = true
   install_mlm_proxy              = true
-  install_traefik                = true
-  install_local_path_provisioner = true
-  install_rke2                   = true
-  install_helm                   = true
   install_cert_manager           = true
 
   # define what images should be used and uploaded
