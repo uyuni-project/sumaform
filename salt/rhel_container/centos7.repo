@@ -1,5 +1,5 @@
 # UBI 7 ships openssh-server but not its dependencies (fipscheck, tcp_wrappers-libs),
-# and carries no hostname, logrotate or policycoreutils at all. CentOS 7 fills the gaps.
+# and carries no hostname, logrotate, policycoreutils or iproute at all. CentOS 7 fills the gaps.
 # UBI 8, 9 and 10 need none of this, their own repositories are complete.
 [centos7-os]
 name=CentOS 7 - Base
