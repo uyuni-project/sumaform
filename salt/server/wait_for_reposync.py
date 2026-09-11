@@ -1,18 +1,12 @@
 #!{{grains['pythonexecutable']}}
 
 import os
+import ssl
 import sys
 import time
-
-try:
-    # Python 2
-    from urllib2 import urlopen, HTTPError
-    from xmlrpclib import Server
-except ImportError:
-    # Python 3
-    from urllib.request import urlopen
-    from urllib.error import HTTPError
-    from xmlrpc.client import ServerProxy as Server
+from urllib.request import urlopen
+from urllib.error import HTTPError
+from xmlrpc.client import ServerProxy as Server
 
 if len(sys.argv) != 5:
     print("Usage: wait_for_reposync.py <USERNAME> <PASSWORD> <MASTER FQDN> <CHANNEL>")
@@ -20,17 +14,32 @@ if len(sys.argv) != 5:
 
 _, username, password, fqdn, channel = sys.argv
 
-MANAGER_URL = "http://{}/rpc/api".format(fqdn)
+MANAGER_URL = "https://{}/rpc/api".format(fqdn)
+
+SERVER_CA_PATHS = [
+    "/srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT",
+    "/var/lib/containers/storage/volumes/srv-www/_data/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT",
+]
+server_ca = next((path for path in SERVER_CA_PATHS if os.path.isfile(path)), None)
+if server_ca is None:
+    print("Server CA not found in any of: {}".format(", ".join(SERVER_CA_PATHS)))
+    sys.exit(1)
+
+ssl_context = ssl.create_default_context(cafile=server_ca)
+ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
 
 # ensure Tomcat is up
 for _ in range(10):
     try:
-        urlopen(MANAGER_URL)
+        with urlopen(MANAGER_URL, context=ssl_context, timeout=30):
+            break
+    except HTTPError as error:
+        error.close()
         break
-    except HTTPError:
+    except OSError:
         time.sleep(3)
 
-client = Server(MANAGER_URL, verbose=0)
+client = Server(MANAGER_URL, verbose=0, context=ssl_context)
 
 session_key = client.auth.login(username, password)
 
