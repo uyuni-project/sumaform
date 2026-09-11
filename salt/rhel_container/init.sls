@@ -1,7 +1,6 @@
 {%- set version = grains['rhel_version'] | string -%}
 {%- set image = 'ubi' ~ version ~ '-ssh' -%}
 {%- set container = 'ubi' ~ version ~ '-client' -%}
-{%- set ssh_port = grains.get('container_ssh_port', 2222) -%}
 {%- set fqdn = grains['hostname'] ~ '.' ~ grains['domain'] -%}
 
 include:
@@ -70,7 +69,7 @@ container_service:
         Restart=on-failure
         ExecStartPre=/bin/rm -f %t/{{ container }}.pid
         ExecStartPre=-/usr/bin/podman rm -f {{ container }}
-        ExecStart=/usr/bin/podman run --conmon-pidfile %t/{{ container }}.pid -d --name {{ container }} --hostname {{ fqdn }} --publish {{ ssh_port }}:22 --cap-add=AUDIT_WRITE {{ image }}
+        ExecStart=/usr/bin/podman run --conmon-pidfile %t/{{ container }}.pid -d --name {{ container }} --hostname {{ fqdn }} --network host --cap-add=AUDIT_WRITE {{ image }}
         ExecStop=-/usr/bin/podman stop -t 10 {{ container }}
         ExecStopPost=-/usr/bin/podman rm -f {{ container }}
         PIDFile=%t/{{ container }}.pid

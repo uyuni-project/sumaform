@@ -1,5 +1,6 @@
 {%- set version = grains['rhel_version'] | string -%}
 {%- set pkg_manager = 'yum' if version == '7' else 'dnf' -%}
+{%- set ssh_port = grains.get('container_ssh_port', 2222) -%}
 FROM registry.access.redhat.com/ubi{{ version }}/ubi-init:latest
 
 LABEL maintainer="MLM QE"
@@ -8,7 +9,7 @@ LABEL description="UBI {{ version }} init image with sshd enabled"
 {% if version == '7' %}COPY centos7.repo /etc/yum.repos.d/centos7.repo
 
 {% endif %}RUN {{ pkg_manager }} install -y \
-      openssh-server openssh-clients cpio tar gzip procps-ng \
+      openssh-server openssh-clients cpio tar gzip procps-ng iproute \
       hostname logrotate policycoreutils{% if version != '7' %} systemd-udev{% endif %} && \
     {{ pkg_manager }} clean all
 
@@ -30,4 +31,9 @@ RUN sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config; 
 RUN sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config; \
     grep -q '^PasswordAuthentication yes' /etc/ssh/sshd_config || echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
-EXPOSE 22
+# The container shares the network namespace of its host, whose own sshd keeps
+# port 22, so sshd listens on the port the testsuite bootstraps the client with.
+RUN sed -i 's/^#\?Port .*/Port {{ ssh_port }}/' /etc/ssh/sshd_config; \
+    grep -q '^Port {{ ssh_port }}' /etc/ssh/sshd_config || echo 'Port {{ ssh_port }}' >> /etc/ssh/sshd_config
+
+EXPOSE {{ ssh_port }}
