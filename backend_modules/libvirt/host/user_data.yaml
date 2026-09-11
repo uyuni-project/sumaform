@@ -690,6 +690,9 @@ apt:
 
 
 bootcmd:
+  # HACK: We are still at image creation date, synchronize with the outer world
+  - systemctl restart systemd-timesyncd
+  - /lib/systemd/systemd-time-wait-sync --timeout=20
   # HACK: Make "gnupg" to be installed before configuring repos, so gpg key can be imported
   - DEBIAN_FRONTEND=noninteractive apt-get -yq update
   - DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg
