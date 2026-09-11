@@ -697,7 +697,7 @@ bootcmd:
 runcmd:
   # HACK: cloud-init in Debian 12/13 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
+  - systemctl restart ssh
 %{ if install_salt_bundle ~}
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
