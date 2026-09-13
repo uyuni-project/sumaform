@@ -914,6 +914,56 @@ runcmd:
   - rpm -qa | sort > /installed_packages.txt
 %{ endif ~}
 
+%{ if image == "libertylinux10o" ~}
+runcmd:
+  # Manually create repository files since yum_repos module is disabled in image
+  - |
+    cat <<EOF > /etc/yum.repos.d/tools_pool_repo.repo
+    [tools_pool_repo]
+    name=tools_pool_repo
+    baseurl=http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+    enabled=1
+    gpgcheck=0
+    EOF
+  - |
+    cat <<EOF > /etc/yum.repos.d/epel.repo
+    [epel]
+    name=epel
+    baseurl=http://download.fedoraproject.org/pub/epel/10/Everything/\$basearch
+    mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-10&arch=\$basearch
+    enabled=1
+    gpgcheck=0
+    EOF
+  - |
+    cat <<EOF > /etc/yum.repos.d/os_update_repo.repo
+    [os_update_repo]
+    name=os_update_repo
+    baseurl=http://${ use_mirror_images ? mirror : "updates.suse.de" }/SUSE/Updates/SLL/10/x86_64/update/
+    enabled=1
+    gpgcheck=0
+    EOF
+  - |
+    cat <<EOF > /etc/yum.repos.d/appstream_updates.repo
+    [liberty-10-appstream]
+    name=Liberty Linux 10 AppStream Updates
+    baseurl=http://${ use_mirror_images ? mirror : "updates.suse.de" }/SUSE/Updates/SLL-AS/10/x86_64/update/
+    enabled=1
+    gpgcheck=0
+    EOF
+
+  # WORKAROUND: cloud-init in Liberty10 does not take care of the following
+  - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/01-permitrootlogin.conf
+  - systemctl restart sshd
+  - dnf clean all
+%{ if install_salt_bundle ~}
+  - dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
+%{ else ~}
+  - dnf -y install salt-minion avahi nss-mdns qemu-guest-agent dbus-tools tar
+%{ endif ~}
+  - systemctl enable --now qemu-guest-agent
+  - rpm -qa | sort > /installed_packages.txt
+%{ endif ~}
+
 %{ if image == "openeuler2403o" ~}
 yum_repos:
   # repo for salt
