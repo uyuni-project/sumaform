@@ -1,10 +1,8 @@
 {# These states set up client tools repositories for all supported OSes #}
 {% set product_version = grains.get('product_version') | default('', true) %}
-{% if '4.3' in product_version or '5.0' in product_version %}
+{% if '4.3' in product_version %}
 {% if not grains.get('roles') or ('server' not in grains.get('roles') and 'proxy' not in grains.get('roles') and 'server_containerized' not in grains.get('roles') and 'proxy_containerized' not in grains.get('roles') and 'controller' not in grains.get('roles')) %}
 {# no client tools on server, proxy, server_containerized, or proxy_containerized #}
-
-## Important note: 4.3 and 5.0 are sharing the same client tools
 
 {% if grains['os'] == 'SUSE' %}
 # On SUMA, we use SLE channels for Leap.
@@ -51,6 +49,9 @@ beta_tools_update_repo:
     - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Updates/SLE-Manager-Tools/15-BETA/{{ grains.get("cpuarch") }}/update/
     - refresh: True
 {% endif %} {# 'beta' in grains.get('product_version') #}
+
+## Important note: 4.3 and 5.0 share the same client tools, built in Devel:Galaxy:Manager:5.0.
+## Hence the "5.0" in the URLs below.
 
 # Devel Tools Repos
 {% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
@@ -317,4 +318,4 @@ tools_additional_repo_raised_priority:
 {% endif %} {# grains['os'] == 'Debian' #}
 
 {% endif %} {# no client tools on server or proxy #}
-{% endif %} {# 4.3 or 5.0 product version #}
+{% endif %} {# 4.3 product version #}

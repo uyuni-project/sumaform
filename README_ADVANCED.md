@@ -11,7 +11,6 @@ Legal values for released software are:
 
 - `4.3-released` (latest released maintenance update for SUSE Manager 4.3 and Tools)
 - `4.3-VM-released` (latest released maintenance update for SUSE Manager 4.3 virtual machine)
-- `5.0-released` (latest released maintenance update for SUSE Manager 5.0 and Tools)
 - `5.1-released` (latest released maintenance update for Multi Linux Manager 5.1 and Tools)
 - `5.2-released` (latest released maintenance update for Multi Linux Manager 5.2 and Tools)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy, and Tools, from systemsmanagement:Uyuni:Stable)
@@ -20,13 +19,13 @@ Legal values for work-in-progress software are:
 
 - `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
 - `4.3-VM-nightly` (corresponds to the VM image in the Build Service project Devel:Galaxy:Manager:4.3)
-- `5.0-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.0)
 - `5.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.1)
+- `5.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.2)
 - `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Main, uses SL Micro 6.1 as the base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master)
 
-**Important:** sumaform only supports containerized deployments for SUSE Manager versions 5.0 and later.
-Please use `server_containerized` and `proxy_containerized` modules with product versions `head` and `5.0-X`.
+**Important:** sumaform only supports containerized deployments for SUSE Manager versions 5.1 and later.
+Please use `server_containerized` and `proxy_containerized` modules with product versions `head` and `5.x`.
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 
@@ -42,7 +41,7 @@ module "suse_minion" {
   name = "min-sles15sp6"
   image = "sles15sp6o"
   server_configuration = module.proxy.configuration
-  product_version = "5.0-nightly"
+  product_version = "5.2-nightly"
 }
 
 module "server" {
@@ -50,7 +49,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "5.0-released"
+  product_version = "5.2-released"
 }
 ```
 
@@ -315,7 +314,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "5.0-nightly"
+  product_version = "5.2-nightly"
   channels = ["sles12-sp5-pool-x86_64"]
 }
 ```
@@ -551,7 +550,7 @@ module "proxy" {
   base_configuration = module.base.configuration
 
   name = "proxy"
-  product_version = "5.0-nightly"
+  product_version = "5.2-nightly"
   server_configuration = module.server.configuration
 
   minion = false
@@ -720,7 +719,7 @@ module "server" {
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "5.0-nightly"
+  product_version = "5.2-nightly"
   smt = "http://smt.suse.de"
 }
 ```
@@ -959,7 +958,7 @@ An example follows:
 module "server" {
   source = "./modules/server"
   base_configuration = module.base.configuration
-  product_version = "5.0-nightly"
+  product_version = "5.2-nightly"
   name = "server"
   repository_disk_size = 500
   database_disk_size = 50
