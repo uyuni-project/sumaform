@@ -5,42 +5,89 @@ on:
     branches:
       - master
   workflow_run:
-    workflows: [CI validation tests]
-    types: [requested]
+    workflows: [PR event trigger]
+    types: [completed]
 
 permissions:
   contents: read
   actions: read
   pull-requests: read
+  checks: write
 
 jobs:
   sonarcloud:
     name: SonarCloud Scan
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.workflow_run.conclusion == 'success'
     steps:
+    - name: Report the scan as in progress on the pull request
+      if: github.event_name == 'workflow_run'
+      continue-on-error: true
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        DETAILS_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: |
+        check_run=$(gh api "repos/${GITHUB_REPOSITORY}/check-runs" -X POST \
+          -f name='SonarCloud Scan' \
+          -f head_sha="${HEAD_SHA}" \
+          -f status=in_progress \
+          -f details_url="${DETAILS_URL}" \
+          --jq '.id')
+        echo "CHECK_RUN_ID=${check_run}" >>"$GITHUB_ENV"
+
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7.0.1
       with:
         ref: ${{ github.event.workflow_run.head_sha }}
         fetch-depth: 0 # Deep clone required for accurate blame information
         allow-unsafe-pr-checkout: true
 
+    - name: Download the pull request metadata
+      if: github.event_name == 'workflow_run'
+      uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 #v5.0.0
+      with:
+        name: pr-metadata
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ runner.temp }}/pr-metadata
+
     - name: Find the pull request the run belongs to
       if: github.event_name == 'workflow_run'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        HEAD_OWNER: ${{ github.event.workflow_run.head_repository.owner.login }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        HEAD_REPOSITORY: ${{ github.event.workflow_run.head_repository.full_name }}
         HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        BASE_BRANCH: master
       run: |
-        pull_request=$(gh api "repos/${GITHUB_REPOSITORY}/pulls" -X GET \
-          -f state=open -f head="${HEAD_OWNER}:${HEAD_BRANCH}" --jq 'first')
-        if [ -z "$pull_request" ] || [ "$pull_request" = "null" ]; then
-          echo "No open pull request for ${HEAD_OWNER}:${HEAD_BRANCH}, skipping the scan"
+        pr_number=$(sed -n 's/^PR_NUMBER=\([0-9]\{1,\}\)$/\1/p' "${RUNNER_TEMP}/pr-metadata/pr-metadata" | head -1)
+        if [ -z "$pr_number" ]; then
+          echo "The trigger run published no pull request number"
+          exit 1
+        fi
+        if ! pull_request=$(gh api "repos/${GITHUB_REPOSITORY}/pulls/${pr_number}" 2>"${RUNNER_TEMP}/lookup-error"); then
+          if ! grep -q 'HTTP 404' "${RUNNER_TEMP}/lookup-error"; then
+            cat "${RUNNER_TEMP}/lookup-error" >&2
+            exit 1
+          fi
+          echo "Pull request ${pr_number} does not exist, skipping the scan"
+          exit 0
+        fi
+        if ! echo "$pull_request" | jq -e --arg repository "${HEAD_REPOSITORY}" \
+            --arg branch "${HEAD_BRANCH}" --arg base "${BASE_BRANCH}" \
+            '.state == "open" and .head.repo.full_name == $repository
+             and .head.ref == $branch and .base.ref == $base' >/dev/null; then
+          echo "Pull request ${pr_number} is not the open ${BASE_BRANCH} pull request for ${HEAD_REPOSITORY} ${HEAD_BRANCH}, skipping the scan"
+          exit 0
+        fi
+        if [ "$(echo "$pull_request" | jq -r '.head.sha')" != "${HEAD_SHA}" ]; then
+          echo "Pull request ${pr_number} is no longer at ${HEAD_SHA}, skipping the scan"
           exit 0
         fi
         {
           echo "PR_NUMBER=$(echo "$pull_request" | jq -r '.number')"
           echo "PR_BASE=$(echo "$pull_request" | jq -r '.base.ref')"
-          echo "PR_BRANCH=${HEAD_BRANCH}"
+          echo "PR_BRANCH=$(echo "$pull_request" | jq -r '.head.ref')"
         } >>"$GITHUB_ENV"
 
     - name: Take the analysis configuration from the base branch
@@ -50,6 +97,7 @@ jobs:
         git checkout FETCH_HEAD -- sonar-project.properties
 
     - name: Scan the pull request
+      id: scan
       if: github.event_name == 'workflow_run' && env.PR_NUMBER != ''
       uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f #v8.2.1
       env:
@@ -65,6 +113,29 @@ jobs:
           -Dsonar.pullrequest.key=${{ env.PR_NUMBER }}
           -Dsonar.pullrequest.branch=${{ env.PR_BRANCH }}
           -Dsonar.pullrequest.base=${{ env.PR_BASE }}
+
+    - name: Report the scan result on the pull request
+      if: always() && env.CHECK_RUN_ID != ''
+      continue-on-error: true
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        JOB_STATUS: ${{ job.status }}
+        SCAN_OUTCOME: ${{ steps.scan.outcome }}
+      run: |
+        case "${JOB_STATUS}" in
+          success)
+            if [ "${SCAN_OUTCOME}" = "skipped" ]; then
+              conclusion=skipped
+            else
+              conclusion=success
+            fi
+            ;;
+          cancelled) conclusion=cancelled ;;
+          *) conclusion=failure ;;
+        esac
+        gh api "repos/${GITHUB_REPOSITORY}/check-runs/${CHECK_RUN_ID}" -X PATCH \
+          -f status=completed \
+          -f conclusion="${conclusion}"
 
     - name: Scan master
       if: github.event_name == 'push'
