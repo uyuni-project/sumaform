@@ -1,4 +1,5 @@
-// TODO: This module is a copy/paste of the server module and some variables are not yet implemented, some could also be dropped, work in-progress.
+// WORKAROUND: This module started as a copy of the server module and still declares variables it does not use.
+// Dropping them is tracked in https://github.com/SUSE/spacewalk/issues/32074. Remove this comment then.
 
 variable "images" {
   default = {
