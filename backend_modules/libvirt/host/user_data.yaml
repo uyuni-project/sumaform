@@ -555,7 +555,6 @@ runcmd:
   # WORKAROUND: wrong interface name in noble's netplan configuration
   - sed -i 's/eth0:/ens3:/' /etc/netplan/50-cloud-init.yaml
   - netplan apply
-  - systemctl restart systemd-networkd
   # WORKAROUND: cloud-init in Ubuntu 24.04 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart ssh
