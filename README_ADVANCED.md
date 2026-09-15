@@ -560,24 +560,26 @@ module "proxy" {
 
 ## Inter-Server Sync (ISS)
 
+ISS is only available on the uncontainerized `server` module, which deploys SUSE Manager 4.3. The containerized and Kubernetes servers never run the ISS state, and the API it drives was removed from the product after 4.3 — use [Hub and peripheral servers](#hub-and-peripheral-servers) for those instead.
+
 Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
 
 ```hcl
 module "master" {
-  source = "./modules/server_containerized"
+  source = "./modules/server"
   base_configuration = module.base.configuration
 
   name = "master"
-  product_version = "head"
+  product_version = "4.3-nightly"
   iss_slave = "slave.tf.local"
 }
 
 module "slave" {
-  source = "./modules/server_containerized"
+  source = "./modules/server"
   base_configuration = module.base.configuration
 
   name = "slave"
-  product_version = "head"
+  product_version = "4.3-nightly"
   iss_master = module.master.configuration["hostname"]
 }
 ```

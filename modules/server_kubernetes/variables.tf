@@ -240,16 +240,6 @@ variable "cloned_channels" {
   }))
 }
 
-variable "iss_master" {
-  description = "ISS master server, leave the default for no ISS"
-  default     = null
-}
-
-variable "iss_slave" {
-  description = "ISS slave server, leave the default for no ISS"
-  default     = null
-}
-
 variable "register_to_server" {
   description = "name of another Server to register to, eg module.<SERVER_NAME>.configuration.hostname"
   default     = null
