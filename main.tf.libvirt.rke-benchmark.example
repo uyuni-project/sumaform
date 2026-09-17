@@ -243,7 +243,8 @@ module "benchmark_minions" {
 }
 
 output "configuration" {
-  value = module.cucumber_testsuite.configuration
+  sensitive = true
+  value     = module.cucumber_testsuite.configuration
 }
 
 output "controller_ssh_host" {

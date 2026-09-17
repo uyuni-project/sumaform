@@ -206,5 +206,6 @@ module "cucumber_testsuite" {
 
 # This will generate the outputs on-screen and will store them in the terraform.tfstate file
 output "configuration" {
-  value = module.cucumber_testsuite.configuration
+  sensitive = true
+  value     = module.cucumber_testsuite.configuration
 }

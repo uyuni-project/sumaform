@@ -325,7 +325,7 @@ resource "terraform_data" "provisioning" {
       : "${libvirt_domain.domain[count.index].name}.${var.base_configuration["domain"]}"
     )
     user     = "root"
-    password = "linux"
+    password = var.vm_password
     // ssh connection through a bastion host
     bastion_host        = lookup(var.provider_settings, "bastion_host", var.base_configuration["bastion_host"])
     bastion_host_key    = lookup(var.provider_settings, "bastion_host_key", var.base_configuration["bastion_host_key"])
