@@ -148,7 +148,7 @@ variable "controller_ssh_host_override" {
 }
 
 variable "use_shared_resources" {
-  description = "Reuse existing unprefixed opensuse160o and opensuse156o base images; enable only when they already exist"
+  description = "Reuse existing unprefixed opensuse160o base images; enable only when they already exist"
   type        = bool
   default     = false
 }
@@ -194,7 +194,7 @@ module "cucumber_testsuite" {
   install_mlm_server   = false
   install_kubectl_helm = true
 
-  images               = ["opensuse160o", "opensuse156o"]
+  images               = ["opensuse160o"]
   use_shared_resources = var.use_shared_resources
   use_avahi            = true
   name_prefix          = var.name_prefix
@@ -228,7 +228,7 @@ module "benchmark_minions" {
 
   quantity                = var.benchmark_minion_quantity
   name                    = "benchmark-minion"
-  image                   = "opensuse156o"
+  image                   = "opensuse160o"
   auto_connect_to_master  = true
   activation_key          = var.activation_key
   install_salt_bundle     = true

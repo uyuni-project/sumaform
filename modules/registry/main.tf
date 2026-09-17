@@ -20,7 +20,7 @@ module "registry" {
     mirror                    = var.base_configuration["mirror"]
   }
 
-  image                    = "opensuse156o"
+  image                    = "opensuse160o"
   provider_settings        = var.provider_settings
 }
 

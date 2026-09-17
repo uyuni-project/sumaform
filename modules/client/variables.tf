@@ -85,7 +85,7 @@ variable "ipv6" {
 
 
 variable "image" {
-  description = "An image name, e.g. sles12sp4 or opensuse156o"
+  description = "An image name, e.g. opensuse160o"
   type        = string
 }
 
