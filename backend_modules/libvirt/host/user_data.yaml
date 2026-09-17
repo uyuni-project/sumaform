@@ -187,24 +187,12 @@ runcmd:
   - rpm -qa | sort > /installed_packages.txt
 %{ endif ~}
 
-%{ if image == "opensuse156o" || image == "opensuse160o" ~}
+%{ if image == "opensuse160o" ~}
 
 zypper:
   repos:
     - id: tools_pool_repo
 # On MLM, we use the SLE client tools channels for Leap.
-%{ if image == "opensuse156o" ~}
-%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
-%{ else ~}
-%{ if contains(["head", "head-staging"], product_version) ~}
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1/
-%{ else ~}
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-x86_64-Media1/
-%{ endif ~}
-%{ endif ~}
-%{ endif ~}
-%{ if image == "opensuse160o" ~}
 %{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
 %{ else ~}
@@ -212,7 +200,6 @@ zypper:
       baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE16/product/repo/Multi-Linux-ManagerTools-Beta-SLE-16-x86_64/
 %{ else ~}
       baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-x86_64/
-%{ endif ~}
 %{ endif ~}
 %{ endif ~}
       enabled: true
@@ -1494,22 +1481,11 @@ runcmd:
   - rpm -qa | sort > /installed_packages.txt
 %{ endif }
 
-%{ if image == "opensuse156armo" || image == "opensuse160armo" ~}
+%{ if image == "opensuse160armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo
 # On MLM, we use the SLE client tools channels for Leap.
-%{ if image == "opensuse156armo" ~}
-%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
-      baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
-%{ else ~}
-%{ if contains(["head", "head-staging"], product_version) ~}
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-aarch64-Media1/
-%{ else ~}
-      baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-aarch64-Media1/
-%{ endif ~}
-%{ endif ~}
-%{ else ~}
 %{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
       baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
 %{ else ~}
@@ -1517,7 +1493,6 @@ zypper:
       baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE16/product/repo/Multi-Linux-ManagerTools-Beta-SLE-16-aarch64/
 %{ else ~}
       baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-aarch64/
-%{ endif ~}
 %{ endif ~}
 %{ endif ~}
       enabled: true

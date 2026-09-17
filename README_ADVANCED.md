@@ -236,7 +236,7 @@ The generated virtual host will be setup with:
 - a `default` virtual storage pool of `dir` type targeting `/var/lib/libvirt/images`
 - and a VM template disk image located in `/var/testsuite-data/`.
 
-The openSUSE Leap template (`leap`) disk image is `opensuse156o` used by sumaform and is downloaded when applying the
+The openSUSE Leap template (`leap`) disk image is `opensuse160o` used by sumaform and is downloaded when applying the
 highstate on the virtual host.
 In order to use another or a cached image, use the `hvm_disk_image` variable.
 If the values inside the `hvm_disk_image` map are set to an empty map, no image will be copied to `/var/testsuite-data/`.
@@ -443,7 +443,7 @@ module "cucumber_testsuite" {
     ...
     dhcp-dns = {
       name = "dhcp-dns"
-      image = "opensuse156o"
+      image = "opensuse160o"
     }
     ...
   }
@@ -457,7 +457,7 @@ module "dhcp-dns" {
   source = "./modules/dhcp_dns"
 
   name = "dhcp-dns"
-  image = "opensuse156o"
+  image = "opensuse160o"
   hypervisor = { host = "hypervisor.example.org", user = "root", private_key = file("~/.ssh/id_ed25519") }
   private_hosts = [ module.proxy.configuration, module.sles12sp5-terminal.configuration, module.sles15sp4-terminal.configuration ]
 }
@@ -1134,14 +1134,14 @@ module "cucumber_testsuite" {
 A libvirt example is:
 
 ```hcl
-module "opensuse156arm_minion" {
+module "opensuse160arm_minion" {
   source = "./modules/minion"
   ...
-  name = "nue-min-opensuse156arm"
+  name = "nue-min-opensuse160arm"
   ...
   provider_settings = {
     ...
-    overwrite_fqdn   = "suma-bv-43-min-opensuse156arm.mgr.suse.de"
+    overwrite_fqdn   = "suma-bv-43-min-opensuse160arm.mgr.suse.de"
     ...
   }
   ...
@@ -1155,14 +1155,14 @@ suma-arm:~ # virsh list
  Id   Name                                   State
 ----------------------------------------------------
  ...
- 11   suma-bv-43-nue-min-opensuse156arm      running
+ 11   suma-bv-43-nue-min-opensuse160arm      running
 ```
 
 and inside the VM:
 
 ```bash
 # hostname -f
-suma-bv-43-min-opensuse156arm.mgr.suse.de
+suma-bv-43-min-opensuse160arm.mgr.suse.de
 ```
 
 

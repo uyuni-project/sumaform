@@ -80,15 +80,15 @@ variable "hvm_disk_image" {
   type = map(map(string))
   default = {
     leap = {
-      hostname = "leap156"
-      image = "https://download.opensuse.org/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2"
-      hash = "https://download.opensuse.org/distribution/leap/15.6/appliances/openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2.sha256"
+      hostname = "leap160"
+      image = "https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2"
+      hash = "https://download.opensuse.org/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-kvm-and-xen.qcow2.sha256"
     }
   }
 }
 
 variable "image" {
-  description = "One of: sles15sp4o, sles15sp5o, sles15sp6o, or opensuse156o"
+  description = "One of: sles15sp4o, sles15sp5o, sles15sp6o, or opensuse160o"
   type        = string
 }
 

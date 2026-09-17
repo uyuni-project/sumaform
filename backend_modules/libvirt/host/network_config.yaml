@@ -15,7 +15,7 @@ network:
 %{ endif }
 %{ else }
 network:
-%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse156o" || image == "opensuse160o" || image == "opensuse156armo" || image == "opensuse160armo" }
+%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse160o" || image == "opensuse156armo" || image == "opensuse160armo" }
   version: 2
   ethernets:
     eth0:
