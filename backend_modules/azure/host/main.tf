@@ -47,7 +47,7 @@ resource "azurerm_public_ip" "suma-pubIP" {
   allocation_method   = "Static"
 
   tags = {
-    environment = "Production"
+    environment = "qe"
   }
 }
 

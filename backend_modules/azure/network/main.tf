@@ -3,10 +3,16 @@
   The private network has no Internet access.
   The public network has an Internet Gateway and accepts SSH connections from a whitelist of trusted IPs.
 */
-/*TODO: add tags*/
+locals {
+  tags = {
+    environment = "qe"
+  }
+}
+
 resource "azurerm_resource_group" "suma-rg" {
   name     = "${var.name_prefix}-resources"
   location = "${var.location}"
+  tags     = local.tags
 }
 
 resource "azurerm_virtual_network" "suma-vn" {
@@ -15,6 +21,7 @@ resource "azurerm_virtual_network" "suma-vn" {
   resource_group_name = azurerm_resource_group.suma-rg.name
   location            = azurerm_resource_group.suma-rg.location
   address_space       = ["172.16.0.0/16"]
+  tags                = local.tags
 }
 
 resource "azurerm_subnet" "public-sn" {
@@ -58,6 +65,7 @@ resource "azurerm_route_table" "public-rt" {
     next_hop_type          = "VnetLocal"
   }
 
+  tags = local.tags
 }
 
 resource "azurerm_subnet_route_table_association" "public-rtas" {
@@ -85,6 +93,7 @@ resource "azurerm_network_security_group" "public-nsg" {
   name                = "${var.name_prefix}-public-nsg"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
+  tags                = local.tags
 }
 
 # NOTE: this allows SSH from any network
@@ -132,6 +141,7 @@ resource "azurerm_subnet_network_security_group_association" "public-nsg-associa
   name                = "${var.name_prefix}-private-nsg"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
+  tags                = local.tags
 }
 
 resource "azurerm_network_security_group" "private-additional-nsg" {
@@ -139,6 +149,7 @@ resource "azurerm_network_security_group" "private-additional-nsg" {
   name                = "${var.name_prefix}-private-nsg"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
+  tags                = local.tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "private-additonal-nsg-association" {
@@ -160,6 +171,7 @@ resource "azurerm_public_ip" "nat-pubIP" {
   location            = "${azurerm_resource_group.suma-rg.location}"
   allocation_method   = "Static"
   sku                 = "Standard"
+  tags                = local.tags
 }
 
 resource "azurerm_nat_gateway" "suma-ngw" {
@@ -167,6 +179,7 @@ resource "azurerm_nat_gateway" "suma-ngw" {
   name                = "${var.name_prefix}-ngw"
   resource_group_name = "${azurerm_resource_group.suma-rg.name}"
   location            = "${azurerm_resource_group.suma-rg.location}"
+  tags                = local.tags
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "ngw-pubip-association" {
