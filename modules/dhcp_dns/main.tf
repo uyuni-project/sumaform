@@ -19,8 +19,7 @@ locals {
   prefix               = join(".", local.add_net)
   reverse_prefix       = join(".", reverse(local.add_net))
   zypper               = "/usr/bin/zypper --non-interactive --gpg-auto-import-keys"
-  # Currently only for openSUSE 15.6:
-  repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/15.6/repo/oss"
+  repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/16.0/repo/oss"
 }
 
 resource "terraform_data" "standalone_provisioning" {
@@ -41,7 +40,7 @@ resource "terraform_data" "standalone_provisioning" {
     command = <<EOT
 mkdir -p /tmp/dhcp-dns/var/cache/zypp/packages/repo
 ${local.zypper} --root /tmp/dhcp-dns addrepo ${local.repo} offline_repo ||:
-${local.zypper} --root /tmp/dhcp-dns install --download-only dhcp-server bind
+${local.zypper} --root /tmp/dhcp-dns install --download-only kea bind
 EOT
   }
 
@@ -57,33 +56,64 @@ EOT
       "echo 'nameserver 127.0.0.1' > /etc/resolv.conf",
       "echo 'search example.org' >> /etc/resolv.conf",
       "${local.zypper} addrepo dir:/root/offline_repo offline_repo ||:",
-      "${local.zypper} install --allow-downgrade dhcp-server bind",
+      "${local.zypper} install --allow-downgrade kea bind",
       "sed -i 's!DHCPD_INTERFACE=\"\"!DHCPD_INTERFACE=\"eth0\"!' /etc/sysconfig/dhcpd",
       "sed -i 's!# include \"/etc/named.conf.include\";!include \"/etc/named.conf.include\";!' /etc/named.conf",
     ]
   }
 
   provisioner "file" {
-    content = <<EOT
-option domain-name "example.org";
-option domain-name-servers ${local.prefix}.53;
-
-subnet ${local.prefix}.0 netmask 255.255.255.0
+    content     = <<EOT
 {
-  range ${local.prefix}.128 ${local.prefix}.253;
-  filename "pxelinux.0";
-  next-server ${local.prefix}.254;
+  "Dhcp4": {
+    "interfaces-config": {
+      "interfaces": [ "*" ]
+    },
+    "lease-database": {
+      "type": "memfile",
+      "persist": true
+    },
+    "option-data": [
+      {
+        "name": "domain-name",
+        "data": "example.org"
+      },
+      {
+        "name": "domain-name-servers",
+        "data": "${local.prefix}.53"
+      }
+    ],
+    "subnet4": [
+      {
+        "id": 1,
+        "subnet": "${local.prefix}.0/24",
+        "pools": [
+          {
+            "pool": "${local.prefix}.128 - ${local.prefix}.253"
+          }
+        ],
+        "option-data": [
+          {
+            "name": "boot-file-name",
+            "data": "pxelinux.0"
+          }
+        ],
+        "next-server": "${local.prefix}.254",
+        "reservations": [
+${join(",\n", [ for host in var.private_hosts:
+          jsonencode({
+            "hw-address" = host["private_mac"],
+            "ip-address" = "${local.prefix}.${host["private_ip"]}",
+            "hostname"   = host["private_name"]
+          })
+])}
+        ]
+      }
+    ]
+  }
 }
-
-${join("\n", [ for host in var.private_hosts:
-                 format("host %s\n{\n  hardware ethernet %s;\n  fixed-address %s.%d;\n}\n",
-                        host["private_name"],
-                        host["private_mac"],
-                        local.prefix,
-                        host["private_ip"])
-             ])}
 EOT
-    destination = "/etc/dhcpd.conf"
+    destination = "/etc/kea/kea-dhcp4.conf"
   }
 
   provisioner "file" {
@@ -102,7 +132,7 @@ zone "example.org" {
   notify no;
 };
 EOT
-    destination = "/var/lib/named/named.conf.include"
+    destination = "/etc/named.conf.include"
   }
 
   provisioner "file"  {
@@ -143,7 +173,7 @@ EOT
 
   provisioner "remote-exec" {
     inline = [
-      "systemctl enable --now dhcpd",
+      "systemctl enable --now kea-dhcp4",
       "systemctl enable --now named",
     ]
   }
