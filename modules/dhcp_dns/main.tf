@@ -20,6 +20,8 @@ locals {
   reverse_prefix       = join(".", reverse(local.add_net))
   zypper               = "/usr/bin/zypper --non-interactive --gpg-auto-import-keys"
   repo                 = "http://${var.base_configuration["mirror"] != null ? var.base_configuration["mirror"] : "download.opensuse.org"}/distribution/leap/16.0/repo/oss"
+  # One download root per instance, so concurrent runs on the same machine do not share it
+  download_root        = "/tmp/${var.base_configuration["name_prefix"]}dhcp-dns"
 }
 
 resource "terraform_data" "standalone_provisioning" {
@@ -38,14 +40,17 @@ resource "terraform_data" "standalone_provisioning" {
 
   provisioner "local-exec" {
     command = <<EOT
-mkdir -p /tmp/dhcp-dns/var/cache/zypp/packages/repo
-${local.zypper} --root /tmp/dhcp-dns addrepo ${local.repo} offline_repo ||:
-${local.zypper} --root /tmp/dhcp-dns install --download-only kea bind
+set -e
+root="${local.download_root}-${count.index}"
+rm -rf "$root"
+mkdir -p "$root/var/cache/zypp/packages/repo"
+${local.zypper} --root "$root" addrepo ${local.repo} offline_repo
+${local.zypper} --root "$root" install --download-only kea bind
 EOT
   }
 
   provisioner "file" {
-    source      = "/tmp/dhcp-dns/var/cache/zypp/packages/offline_repo"
+    source      = "${local.download_root}-${count.index}/var/cache/zypp/packages/offline_repo"
     destination = "/root"
   }
 
