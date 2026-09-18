@@ -1,9 +1,7 @@
 {% if 'proxy_containerized' in grains.get('roles') %}
 
 include:
-  {% if '5.0' in grains.get('product_version') %}
-  - repos.proxy_containerized.proxy_containerized50
-  {% elif '5.1' in grains.get('product_version') %}
+  {% if '5.1' in grains.get('product_version') %}
   - repos.proxy_containerized.proxy_containerized51
   {% elif '5.2' in grains.get('product_version') %}
   - repos.proxy_containerized.proxy_containerized52
