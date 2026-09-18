@@ -1054,7 +1054,7 @@ module "cucumber_testsuite" {
 
 In external mode Sumaform installs `kubectl` and Helm on the controller, copies the kubeconfig to `/root/.kube/config`, and runs the Uyuni server Helm install from the controller.
 It does not create a `server_kubernetes` VM, install RKE2, or use `/etc/rancher/rke2/rke2.yaml`.
-The target cluster must already provide the required ingress/load-balancer and storage setup; if `install_cert_manager` is true, Sumaform installs cert-manager and trust-manager into the external cluster before installing Uyuni.
+The target cluster must already provide the required ingress/load-balancer and storage setup, and sumaform installs cert-manager and trust-manager into the external cluster before installing Uyuni.
 
 This mode currently covers the Uyuni server deployment. Do not combine it with `proxy_kubernetes`; Kubernetes proxy deployments still use the Sumaform-managed RKE2 proxy workflow.
 

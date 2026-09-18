@@ -284,6 +284,24 @@ export PRODUCT="SUSE Multi-Linux Manager"
 export UYUNI_NOT_INSTALLED=true
 {% endif %}
 
+{% if grains.get('install_kubernetes_server_on_external_cluster') == true %}
+export IS_EXTERNAL_CLUSTER=true
+{% endif %}
+
+{% set local_path = true if grains.get('kubernetes_storage_backend') == 'local-path' or grains.get('local_path_provisioner_default_class') == true else false %}
+
+{% if local_path == true %}
+export LOCAL_PATH_DEFAULT_CLASS=true
+{% endif %}
+
+{% if grains.get('kubernetes_create_static_var_spacewalk_pv') == true and local_path == true %}
+export CREATE_VAR_SPACEWALK_PV=true
+{% endif %}
+
+{% if grains.get('kubernetes_create_static_var_pgsql_pv') == true and local_path == true %}
+export CREATE_VAR_PGSQL_PV=true
+{% endif %}
+
 # Ruby specific settings
 export GEM_PATH="/usr/lib64/ruby/gems/3.4.0"
 export PLAYWRIGHT_CLI_EXECUTABLE_PATH=/usr/local/bin/playwright

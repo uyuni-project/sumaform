@@ -979,18 +979,23 @@ variable "install_kubectl_helm" {
 }
 
 variable "install_uyuni_via_testsuite" {
-  description = "true to install mlm with the testsuite. This only exports UYUNI_NOT_INSTALLED to the controller, it does not gate the salt states: install_helm.sls, install_traefik.sls, install_kubernetes_server.sls and set_up_local-path-provisioner.sls are still keyed on is_slmicro_6_2, so setting this to true on any other OS installs mlm twice"
+  description = "true to install mlm with the testsuite. This only exports UYUNI_NOT_INSTALLED to the controller."
   default = false
+}
+
+variable "install_kubernetes_server_on_external_cluster" {
+  description = "true to install mlm in an external cluster."
+  default = false
+}
+
+variable "local_path_provisioner_default_class" {
+  description = "true to mark the local-path StorageClass as the cluster default when it is installed."
+  default     = true
 }
 
 variable "kubeconfig_path" {
   description = "Path to a kubeconfig file on the host running Terraform; its contents will be copied to /root/.kube/config on the controller. Leave null to skip."
   default = null
-}
-
-variable "install_kubernetes_server_on_external_cluster" {
-  description = "true to install the Kubernetes Uyuni server from the controller using /root/.kube/config"
-  default     = false
 }
 
 variable "kubernetes_server_fqdn" {
@@ -1018,11 +1023,6 @@ variable "use_devel_oci" {
   default     = false
 }
 
-variable "install_cert_manager" {
-  description = "true to install cert-manager and trust-manager when installing into an external Kubernetes cluster"
-  default     = true
-}
-
 variable "deploy_coco_attestation" {
   description = "true to set up the coco attestation container when installing into an external Kubernetes cluster"
   default     = true
@@ -1041,4 +1041,14 @@ variable "deploy_hub_api" {
 variable "deploy_tftp" {
   description = "true to enable the TFTP service in external Kubernetes cluster Helm values"
   default     = true
+}
+
+variable "kubernetes_create_static_var_spacewalk_pv" {
+  description = "Whether to create the static var-spacewalk hostPath PersistentVolume. Leave null to enable it only with the local-path backend."
+  default     = null
+}
+
+variable "kubernetes_create_static_var_pgsql_pv" {
+  description = "Whether to create the static var-pgsql18 hostPath PersistentVolume. Leave null to enable it only with the local-path backend."
+  default     = null
 }

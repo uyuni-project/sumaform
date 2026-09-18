@@ -10,6 +10,9 @@ variable "images" {
 
 locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
+  kubernetes_storage_class = var.kubernetes_storage_class != null ? var.kubernetes_storage_class : (
+    var.kubernetes_storage_backend == "local-path" ? "local-path" : null
+  )
 }
 
 module "proxy_kubernetes" {
@@ -51,6 +54,11 @@ module "proxy_kubernetes" {
     container_tag                   = var.container_tag
     helm_chart_url                  = var.helm_chart_url
     helm_chart_name                 = var.helm_chart_name
+    kubernetes_storage_class        = local.kubernetes_storage_class
+    local_path_provisioner_path     = var.local_path_provisioner_path
+    local_path_provisioner_default_class = var.local_path_provisioner_default_class
+    local_path_provisioner_reclaim_policy  = var.local_path_provisioner_reclaim_policy
+    kubernetes_storage_backend      = var.kubernetes_storage_backend
     mirror                          = var.base_configuration["mirror"]
     use_mirror_images               = var.base_configuration["use_mirror_images"]
     avahi_reflector                 = var.avahi_reflector
@@ -59,12 +67,6 @@ module "proxy_kubernetes" {
     database_disk_size              = var.database_disk_size
     proxy_registration_code         = var.proxy_registration_code
     use_devel_oci                   = var.use_devel_oci
-    install_mlm_proxy               = var.install_mlm_proxy
-    install_rke2                    = var.install_rke2
-    install_helm                    = var.install_helm
-    install_cert_manager            = var.install_cert_manager
-    install_traefik                 = var.install_traefik
-    install_local_path_provisioner  = var.install_local_path_provisioner
   }
 }
 

@@ -74,36 +74,6 @@ variable "use_devel_oci" {
   default = false
 }
 
-variable "install_mlm_proxy" {
-  description = "true to install MLM proxy"
-  default = true
-}
-
-variable "install_rke2" {
-  description = "true to install RKE2"
-  default = true
-}
-
-variable "install_helm" {
-  description = "true to install Helm"
-  default = true
-}
-
-variable "install_cert_manager" {
-  description = "true to install cert_manager and trust_manager"
-  default = true
-}
-
-variable "install_traefik" {
-  description = "true to install Traefik"
-  default = true
-}
-
-variable "install_local_path_provisioner" {
-  description = "true to install local-path-provisioner"
-  default = true
-}
-
 variable "server_configuration" {
   description = "use module.<SERVER_NAME>.configuration, see README_ADVANCED.md"
   default = {
@@ -159,6 +129,37 @@ variable "ipv6" {
     enable    = true
     accept_ra = true
   }
+}
+
+variable "kubernetes_storage_backend" {
+  description = "Storage backend for the Kubernetes server PVCs. local-path installs Rancher's local-path provisioner; external expects an existing StorageClass."
+  default     = "local-path"
+
+  validation {
+    condition     = contains(["local-path", "external"], var.kubernetes_storage_backend)
+    error_message = "kubernetes_storage_backend must be one of: local-path, external."
+  }
+}
+
+variable "kubernetes_storage_class" {
+  description = "StorageClass name used by Kubernetes PVCs. Leave null to use local-path for the local-path backend or the cluster default for the external backend."
+  type        = string
+  default     = null
+}
+
+variable "local_path_provisioner_path" {
+  description = "Host path used by Rancher's local-path provisioner for dynamically provisioned volumes."
+  default     = "/opt/local-path-provisioner"
+}
+
+variable "local_path_provisioner_default_class" {
+  description = "true to mark the local-path StorageClass as the cluster default when it is installed."
+  default     = true
+}
+
+variable "local_path_provisioner_reclaim_policy" {
+  description = "Reclaim policy for the local-path StorageClass."
+  default     = "Delete"
 }
 
 variable "image" {

@@ -3,10 +3,10 @@
 {% set osrelease = grains['osrelease'] %}
 {% set is_sles_15_7 = osfullname == 'SLES' and osrelease == '15.7' %}
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
+{% set use_mirror_images = grains.get('use_mirror_images', False) %}
 {% set is_supported_os = is_sles_15_7 or is_tumbleweed %}
 
 {% if is_supported_os %}
-{% set use_mirror_images = grains.get('use_mirror_images', False) %}
 {% set mirror = grains.get('mirror', '') %}
 {% set repo_host = mirror if use_mirror_images and mirror else 'dist.nue.suse.com' %}
 
