@@ -179,6 +179,35 @@ tools_additional_repo:
 {% endif %} {# grains['osfullname'] == 'SLES' #}
 {% if grains['osfullname'] == 'SL-Micro' %}
 
+{% if grains['osrelease'] == '6.2' %} {# SL Micro 6.2 ships the SLE 16 client tools #}
+
+# Release Tools Repos
+tools_pool_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/SUSE/Products/MultiLinuxManagerTools/SLE-16/{{ grains.get("cpuarch") }}/product/
+    - refresh: True
+
+# Devel Tools Repos
+{% if 'nightly' in grains.get('product_version') | default('', true) %} {# Devel Tools Repos #}
+
+tools_additional_repo:
+  pkgrepo.managed:
+  - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+  - refresh: True
+  - priority: 98
+
+{% elif 'head' == grains.get('product_version') | default('', true) %}
+
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE16/product/repo/Multi-Linux-ManagerTools-Beta-SLE-16-{{ grains.get("cpuarch") }}/
+    - refresh: True
+    - priority: 98
+
+{% endif %} {# Devel Tools Repos #}
+
+{% else %} {# SL Micro 6.0 and 6.1 #}
+
 # Release Tools Repos
 tools_pool_repo:
   pkgrepo.managed:
@@ -203,6 +232,8 @@ tools_additional_repo:
     - priority: 98
 
 {% endif %} {# Devel Tools Repos #}
+
+{% endif %} {# grains['osrelease'] == '6.2' #}
 {% endif %} {# grains['osfullname'] == 'SL-Micro' #}
 {% if grains['osfullname'] == 'SLE Micro' %}
 
