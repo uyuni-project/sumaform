@@ -72,6 +72,10 @@ cobbler_restart:
     - require:
       - cmd: cobbler_configuration
 
+{% set server_username = grains.get('server_username') | default('admin', true) %}
+{% set server_password = grains.get('server_password') | default('admin', true) %}
+{% set mgrctl_api_flags = "--api-server " ~ grains['fqdn'] ~ " --api-user " ~ server_username ~ " --api-password " ~ server_password %}
+
 {%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-released'] %}
 uyuni_key_copy_host:
   file.managed:
@@ -80,7 +84,7 @@ uyuni_key_copy_host:
 
 uyuni_repo_key_import:
   cmd.run:
-    - name: "mgradm gpg add -f /tmp/uyuni.key"
+    - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/uyuni.key"
     - onchanges:
       - file: uyuni_key_copy_host
 {% else %}
@@ -92,7 +96,7 @@ galaxy_key_copy_host:
 
 galaxy_repo_key_import:
   cmd.run:
-    - name: "mgradm gpg add -f /tmp/galaxy.key"
+    - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/galaxy.key"
     - onchanges:
       - file: galaxy_key_copy_host
 
@@ -105,7 +109,7 @@ suse_staging_key_copy_host:
 
 suse_staging_key_import:
   cmd.run:
-    - name: "mgradm gpg add -f /tmp/suse_staging.key"
+    - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
 
