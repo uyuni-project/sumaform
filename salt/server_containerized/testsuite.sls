@@ -72,9 +72,15 @@ cobbler_restart:
     - require:
       - cmd: cobbler_configuration
 
+# these releases don't have mgrctl gpg functionality, only later versions do.
+{%- set products_without_gpg_api = ["uyuni-released", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released", "5.2-nightly", "5.2-released"] %}
+{%- set use_gpg_api = grains.get('product_version') | default('', true) not in products_without_gpg_api %}
+{%- if not use_gpg_api %}
+{% set gpg_import_cmd = "mgradm gpg add -f" %}
+{%- else %}
 {% set server_username = grains.get('server_username') | default('admin', true) %}
 {% set server_password = grains.get('server_password') | default('admin', true) %}
-{% set mgrctl_api_flags = "--api-server " ~ grains['fqdn'] ~ " --api-user " ~ server_username ~ " --api-password " ~ server_password %}
+{% set gpg_import_cmd = "mgrctl gpg upload --api-server " ~ grains['fqdn'] ~ " --api-user " ~ server_username ~ " --api-password " ~ server_password %}
 
 wait_for_server_api:
   http.wait_for_successful_query:
@@ -84,6 +90,7 @@ wait_for_server_api:
     - status: 200
     - wait_for: 600
     - request_interval: 5
+{%- endif %}
 
 {%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-released'] %}
 uyuni_key_copy_host:
@@ -93,11 +100,13 @@ uyuni_key_copy_host:
 
 uyuni_repo_key_import:
   cmd.run:
-    - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/uyuni.key"
+    - name: "{{ gpg_import_cmd }} /tmp/uyuni.key"
     - onchanges:
       - file: uyuni_key_copy_host
+{%- if use_gpg_api %}
     - require:
       - http: wait_for_server_api
+{%- endif %}
 {% else %}
 
 galaxy_key_copy_host:
@@ -107,11 +116,13 @@ galaxy_key_copy_host:
 
 galaxy_repo_key_import:
   cmd.run:
-    - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/galaxy.key"
+    - name: "{{ gpg_import_cmd }} /tmp/galaxy.key"
     - onchanges:
       - file: galaxy_key_copy_host
+{%- if use_gpg_api %}
     - require:
       - http: wait_for_server_api
+{%- endif %}
 
 # needed for SL Micro maintenance updates coming from staging e.g.
 # https://dist.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
@@ -122,11 +133,13 @@ suse_staging_key_copy_host:
 
 suse_staging_key_import:
   cmd.run:
-    - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/suse_staging.key"
+    - name: "{{ gpg_import_cmd }} /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
+{%- if use_gpg_api %}
     - require:
       - http: wait_for_server_api
+{%- endif %}
 
 {% endif %}
 
