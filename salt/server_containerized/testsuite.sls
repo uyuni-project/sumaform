@@ -76,6 +76,15 @@ cobbler_restart:
 {% set server_password = grains.get('server_password') | default('admin', true) %}
 {% set mgrctl_api_flags = "--api-server " ~ grains['fqdn'] ~ " --api-user " ~ server_username ~ " --api-password " ~ server_password %}
 
+wait_for_server_api:
+  http.wait_for_successful_query:
+    - method: GET
+    - name: https://{{ grains['fqdn'] }}/rhn/manager/api/api/getVersion
+    - verify_ssl: False
+    - status: 200
+    - wait_for: 600
+    - request_interval: 5
+
 {%- if grains.get('product_version') | default('', true) in ['uyuni-master', 'uyuni-released'] %}
 uyuni_key_copy_host:
   file.managed:
@@ -87,6 +96,8 @@ uyuni_repo_key_import:
     - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/uyuni.key"
     - onchanges:
       - file: uyuni_key_copy_host
+    - require:
+      - http: wait_for_server_api
 {% else %}
 
 galaxy_key_copy_host:
@@ -99,6 +110,8 @@ galaxy_repo_key_import:
     - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/galaxy.key"
     - onchanges:
       - file: galaxy_key_copy_host
+    - require:
+      - http: wait_for_server_api
 
 # needed for SL Micro maintenance updates coming from staging e.g.
 # https://dist.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
@@ -112,6 +125,8 @@ suse_staging_key_import:
     - name: "mgrctl gpg upload {{ mgrctl_api_flags }} /tmp/suse_staging.key"
     - onchanges:
       - file: suse_staging_key_copy_host
+    - require:
+      - http: wait_for_server_api
 
 {% endif %}
 
