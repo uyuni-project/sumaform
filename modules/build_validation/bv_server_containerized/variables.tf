@@ -69,7 +69,7 @@ variable "repository_disk_size" {
 
 variable "database_disk_size" {
   description = "database disk size"
-  default = 150
+  default = 300
 }
 
 variable "deploy_coco_attestation" {
