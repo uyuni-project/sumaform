@@ -73,7 +73,7 @@ module "server" {
   }
   main_disk_size       = 100
   repository_disk_size = 3072
-  database_disk_size   = 150
+  database_disk_size   = 300
 
   server_mounted_mirror          = var.platform_location_configuration[var.location].mirror
   java_debugging                 = true
@@ -117,7 +117,7 @@ module "server_containerized" {
 
   string_registry                = var.environment_configuration.server_containerized.string_registry
   repository_disk_size           = 3072
-  database_disk_size             = 150
+  database_disk_size             = 300
   container_tag                  = "latest"
   beta_enabled                   = false
   server_mounted_mirror          = try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
