@@ -29,7 +29,10 @@
 {% if grains.get('kubernetes_create_static_var_pgsql_pv') == true and local_path == true %}
 {% set create_pgsql_pv = true %}
 {% endif %}
-
+{% set url_rpm = "http://" ~ (grains.get('mirror') | default('download.opensuse.org', true)) ~ "/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm" %}
+{% set path_rpm = "/srv/www/htdocs/pub/TestRepoRpmUpdates" %}
+{% set url_redhat = "http://" ~ (grains.get('mirror') | default('download.opensuse.org', true)) ~ "/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike" %}
+{% set path_redhat = "/srv/www/htdocs/pub/TestRepoAppStream" %}
 
 variables_server_kubernetes:
   file.managed:
@@ -43,6 +46,12 @@ variables_server_kubernetes:
         export HELM_CHART_URL={{ helm_chart_url }}
         export DEVEL_FLAG={{ devel_flag }}
         export SERVER_NAMESPACE={{ server_namespace }}
+        export MINIMA_CONFIG_RPM="\
+        - url: {{ url_rpm }}
+          path: {{ path_rpm }}"
+        export MINIMA_CONFIG_RH="\
+        - url: {{ url_redhat }}
+          path: {{ path_redhat }}"
         {% if cc_username %}
         export CC_USERNAME={{ cc_username }}
         {% endif %}
