@@ -81,6 +81,30 @@ variable "proxy_additional_repos" {
   default     = {}
 }
 
+variable "server_additional_repos_transactional" {
+  type        = map(string)
+  description = "extra server repositories for transactional (SL Micro) hosts, in the form {label = \"url\"}"
+  default     = {}
+}
+
+variable "server_additional_repos_non_transactional" {
+  type        = map(string)
+  description = "extra server repositories for non-transactional (SLES) hosts, in the form {label = \"url\"}"
+  default     = {}
+}
+
+variable "proxy_additional_repos_transactional" {
+  type        = map(string)
+  description = "extra proxy repositories for transactional (SL Micro) hosts, in the form {label = \"url\"}"
+  default     = {}
+}
+
+variable "proxy_additional_repos_non_transactional" {
+  type        = map(string)
+  description = "extra proxy repositories for non-transactional (SLES) hosts, in the form {label = \"url\"}"
+  default     = {}
+}
+
 variable "server_container_image" {
   type = string
   description = "Server container image, not needed for 4.3"

@@ -15,6 +15,31 @@ locals {
   empty_server_proxy_config = { hostname = null }
 }
 
+locals {
+  # BEGIN transactional-repos
+  transactional_os_prefixes = ["slmicro", "slemicro"]
+  server_keys = ["server_containerized", "server2_containerized", "server3_containerized", "server4_containerized"]
+  proxy_keys  = ["proxy_containerized", "proxy2_containerized", "proxy3_containerized"]
+
+  # Same precedence as the module blocks: the global base_os override wins over the per-instance image.
+  effective_image = {
+    for key in concat(local.server_keys, local.proxy_keys) :
+    key => var.base_os != null ? var.base_os : try(var.environment_configuration[key].image, null)
+  }
+
+  is_transactional = {
+    for key, image in local.effective_image :
+    key => image != null ? anytrue([for p in local.transactional_os_prefixes : startswith(image, p)]) : false
+  }
+
+  # The flat variable is kept in the merge so jobs that never set the split variables behave as before.
+  additional_repos = merge(
+    { for key in local.server_keys : key => merge(var.server_additional_repos, local.is_transactional[key] ? var.server_additional_repos_transactional : var.server_additional_repos_non_transactional) },
+    { for key in local.proxy_keys : key => merge(var.proxy_additional_repos, local.is_transactional[key] ? var.proxy_additional_repos_transactional : var.proxy_additional_repos_non_transactional) },
+  )
+  # END transactional-repos
+}
+
 module "base_arm" {
   providers = {
     libvirt = libvirt.host_arm
