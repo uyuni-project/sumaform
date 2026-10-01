@@ -15,6 +15,31 @@ locals {
   empty_server_proxy_config = { hostname = null }
 }
 
+locals {
+  # BEGIN transactional-repos
+  transactional_os_prefixes = ["slmicro", "slemicro"]
+  server_keys = ["server_containerized", "server2_containerized", "server3_containerized", "server4_containerized"]
+  proxy_keys  = ["proxy_containerized", "proxy2_containerized", "proxy3_containerized"]
+
+  # Same precedence as the module blocks: the global base_os override wins over the per-instance image.
+  effective_image = {
+    for key in concat(local.server_keys, local.proxy_keys) :
+    key => var.base_os != null ? var.base_os : try(var.environment_configuration[key].image, null)
+  }
+
+  is_transactional = {
+    for key, image in local.effective_image :
+    key => image != null ? anytrue([for p in local.transactional_os_prefixes : startswith(image, p)]) : false
+  }
+
+  # The flat variable is kept in the merge so jobs that never set the split variables behave as before.
+  additional_repos = merge(
+    { for key in local.server_keys : key => merge(var.server_additional_repos, local.is_transactional[key] ? var.server_additional_repos_transactional : var.server_additional_repos_non_transactional) },
+    { for key in local.proxy_keys : key => merge(var.proxy_additional_repos, local.is_transactional[key] ? var.proxy_additional_repos_transactional : var.proxy_additional_repos_non_transactional) },
+  )
+  # END transactional-repos
+}
+
 module "base_arm" {
   providers = {
     libvirt = libvirt.host_arm
@@ -146,7 +171,7 @@ module "server_containerized" {
 
   skip_server_install            = try(var.environment_configuration.server_containerized.skip_server_install, false)
 
-  additional_repos               = var.server_additional_repos
+  additional_repos               = local.additional_repos["server_containerized"]
 }
 
 module "server2_containerized" {
@@ -165,7 +190,7 @@ module "server2_containerized" {
   deploy_saline           = try(var.environment_configuration.server2_containerized.deploy_saline, true)
   deploy_hub_api          = try(var.environment_configuration.server2_containerized.deploy_hub_api, true)
   skip_server_install     = try(var.environment_configuration.server2_containerized.skip_server_install, false)
-  additional_repos   = var.server_additional_repos
+  additional_repos   = local.additional_repos["server2_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -185,7 +210,7 @@ module "server3_containerized" {
   deploy_saline           = try(var.environment_configuration.server3_containerized.deploy_saline, true)
   deploy_hub_api          = try(var.environment_configuration.server3_containerized.deploy_hub_api, true)
   skip_server_install     = try(var.environment_configuration.server3_containerized.skip_server_install, false)
-  additional_repos   = var.server_additional_repos
+  additional_repos   = local.additional_repos["server3_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -205,7 +230,7 @@ module "server4_containerized" {
   deploy_saline           = try(var.environment_configuration.server4_containerized.deploy_saline, true)
   deploy_hub_api          = try(var.environment_configuration.server4_containerized.deploy_hub_api, true)
   skip_server_install     = try(var.environment_configuration.server4_containerized.skip_server_install, false)
-  additional_repos   = var.server_additional_repos
+  additional_repos   = local.additional_repos["server4_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -253,7 +278,7 @@ module "proxy_containerized" {
   ssh_key_path         = var.controller_public_ssh_key_path
   provision            = true
 
-  additional_repos     = var.proxy_additional_repos
+  additional_repos     = local.additional_repos["proxy_containerized"]
 }
 
 module "proxy2_containerized" {
@@ -266,7 +291,7 @@ module "proxy2_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy2_containerized.image
   string_registry    = var.environment_configuration.proxy2_containerized.string_registry
   container_registry   = var.proxy_container_registry
-  additional_repos   = var.proxy_additional_repos
+  additional_repos   = local.additional_repos["proxy2_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -280,7 +305,7 @@ module "proxy3_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy3_containerized.image
   string_registry    = var.environment_configuration.proxy3_containerized.string_registry
   container_registry   = var.proxy_container_registry
-  additional_repos   = var.proxy_additional_repos
+  additional_repos   = local.additional_repos["proxy3_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
