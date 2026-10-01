@@ -32,6 +32,9 @@ cobbler_configuration:
 cobbler_restart:
   cmd.run:
     - name: mgrctl exec systemctl restart cobblerd
+    - retry:
+        attempts: 10
+        interval: 10
     - require:
       - cmd: cobbler_configuration
 
