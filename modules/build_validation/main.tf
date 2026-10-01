@@ -171,7 +171,7 @@ module "server_containerized" {
 
   skip_server_install            = try(var.environment_configuration.server_containerized.skip_server_install, false)
 
-  additional_repos               = var.server_additional_repos
+  additional_repos               = local.additional_repos["server_containerized"]
 }
 
 module "server2_containerized" {
@@ -190,7 +190,7 @@ module "server2_containerized" {
   deploy_saline           = try(var.environment_configuration.server2_containerized.deploy_saline, true)
   deploy_hub_api          = try(var.environment_configuration.server2_containerized.deploy_hub_api, true)
   skip_server_install     = try(var.environment_configuration.server2_containerized.skip_server_install, false)
-  additional_repos   = var.server_additional_repos
+  additional_repos   = local.additional_repos["server2_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -210,7 +210,7 @@ module "server3_containerized" {
   deploy_saline           = try(var.environment_configuration.server3_containerized.deploy_saline, true)
   deploy_hub_api          = try(var.environment_configuration.server3_containerized.deploy_hub_api, true)
   skip_server_install     = try(var.environment_configuration.server3_containerized.skip_server_install, false)
-  additional_repos   = var.server_additional_repos
+  additional_repos   = local.additional_repos["server3_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -230,7 +230,7 @@ module "server4_containerized" {
   deploy_saline           = try(var.environment_configuration.server4_containerized.deploy_saline, true)
   deploy_hub_api          = try(var.environment_configuration.server4_containerized.deploy_hub_api, true)
   skip_server_install     = try(var.environment_configuration.server4_containerized.skip_server_install, false)
-  additional_repos   = var.server_additional_repos
+  additional_repos   = local.additional_repos["server4_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -278,7 +278,7 @@ module "proxy_containerized" {
   ssh_key_path         = var.controller_public_ssh_key_path
   provision            = true
 
-  additional_repos     = var.proxy_additional_repos
+  additional_repos     = local.additional_repos["proxy_containerized"]
 }
 
 module "proxy2_containerized" {
@@ -291,7 +291,7 @@ module "proxy2_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy2_containerized.image
   string_registry    = var.environment_configuration.proxy2_containerized.string_registry
   container_registry   = var.proxy_container_registry
-  additional_repos   = var.proxy_additional_repos
+  additional_repos   = local.additional_repos["proxy2_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
@@ -305,7 +305,7 @@ module "proxy3_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy3_containerized.image
   string_registry    = var.environment_configuration.proxy3_containerized.string_registry
   container_registry   = var.proxy_container_registry
-  additional_repos   = var.proxy_additional_repos
+  additional_repos   = local.additional_repos["proxy3_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
 }
 
