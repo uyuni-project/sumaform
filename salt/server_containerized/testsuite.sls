@@ -29,12 +29,14 @@ cobbler_configuration:
     - require:
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
-# TODO: Uncomment this step once cobbler restart is needed.
-# cobbler_restart:
-#   cmd.run:
-#     - name: mgrctl exec systemctl restart cobblerd
-#     - require:
-#       - cmd: cobbler_configuration
+cobbler_restart:
+  cmd.run:
+    - name: mgrctl exec systemctl restart cobblerd
+    - retry:
+        attempts: 10
+        interval: 10
+    - require:
+      - cmd: cobbler_configuration
 
 # these releases don't have mgrctl gpg functionality, only later versions do.
 # TODO: Remove head from that list once the migration of the container to SLES 16 is finished.
