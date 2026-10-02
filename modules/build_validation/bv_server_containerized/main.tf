@@ -12,7 +12,7 @@ module "server_containerized" {
   runtime              = "podman"
   container_registry   = var.container_registry
   container_image      = var.container_image
-  main_disk_size       = 100
+  main_disk_size       = var.main_disk_size
 
   string_registry                = var.string_registry
   repository_disk_size           = var.repository_disk_size
@@ -31,11 +31,11 @@ module "server_containerized" {
   create_sample_activation_key   = false
   create_sample_bootstrap_script = false
   publish_private_ssl_key        = false
-  use_os_released_updates        = true
+  use_os_released_updates        = var.use_os_released_updates
   disable_download_tokens        = false
   large_deployment               = true
-  disable_auto_bootstrap         = true
-  disable_auto_channel_sync      = true
+  disable_auto_bootstrap         = var.disable_auto_bootstrap
+  disable_auto_channel_sync      = var.disable_auto_channel_sync
   ssh_key_path                   = var.ssh_key_path
   from_email                     = "root@suse.de"
   provision                      = true

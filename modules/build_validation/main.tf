@@ -107,20 +107,20 @@ module "server_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server_containerized.image
   provider_settings = {
     mac    = var.environment_configuration.server_containerized.mac
-    memory = 40960
-    vcpu   = 10
+    memory = var.server_containerized_memory
+    vcpu   = var.server_containerized_vcpu
   }
   runtime              = "podman"
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
-  main_disk_size       = 100
+  main_disk_size       = var.server_containerized_main_disk_size
 
   string_registry                = var.environment_configuration.server_containerized.string_registry
-  repository_disk_size           = 3072
-  database_disk_size             = 300
+  repository_disk_size           = var.server_containerized_repository_disk_size
+  database_disk_size             = var.server_containerized_database_disk_size
   container_tag                  = "latest"
   beta_enabled                   = false
-  server_mounted_mirror          = try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
+  server_mounted_mirror          = var.server_containerized_server_mounted_mirror == null ? (try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null) : (var.server_containerized_server_mounted_mirror == "" ? null : var.server_containerized_server_mounted_mirror)
   java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false
@@ -131,11 +131,11 @@ module "server_containerized" {
   create_sample_activation_key   = false
   create_sample_bootstrap_script = false
   publish_private_ssl_key        = false
-  use_os_released_updates        = true
+  use_os_released_updates        = var.server_containerized_use_os_released_updates
   disable_download_tokens        = false
   large_deployment               = true
-  disable_auto_bootstrap         = true
-  disable_auto_channel_sync      = true
+  disable_auto_bootstrap         = var.server_containerized_disable_auto_bootstrap
+  disable_auto_channel_sync      = var.server_containerized_disable_auto_channel_sync
   ssh_key_path                   = var.controller_public_ssh_key_path
   from_email                     = "root@suse.de"
   provision                      = true
