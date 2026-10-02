@@ -107,8 +107,8 @@ module "server_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server_containerized.image
   provider_settings = {
     mac    = var.environment_configuration.server_containerized.mac
-    memory = 40960
-    vcpu   = 10
+    memory = var.server_containerized_memory
+    vcpu   = var.server_containerized_vcpu
   }
   runtime              = "podman"
   container_registry   = var.server_container_registry

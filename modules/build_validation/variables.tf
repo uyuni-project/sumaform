@@ -171,3 +171,15 @@ variable "server_containerized_use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos for the containerized server"
   default     = true
 }
+
+variable "server_containerized_memory" {
+  description = "Memory of the containerized server VM, defined in MiB"
+  type        = number
+  default     = 40960
+}
+
+variable "server_containerized_vcpu" {
+  description = "Number of vCPUs of the containerized server VM"
+  type        = number
+  default     = 10
+}
