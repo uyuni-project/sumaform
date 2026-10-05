@@ -9,43 +9,6 @@ authorized_keys_buildhost:
 
 {% if not skip_server_install %}
 
-minima_download:
-  cmd.run:
-    - name: mgrctl exec 'curl --output-dir /root -OL https://github.com/uyuni-project/minima/releases/download/v0.4/minima-linux-amd64.tar.gz'
-
-minima_unpack:
-  cmd.run:
-    - name: mgrctl exec 'tar xf /root/minima-linux-amd64.tar.gz -C /usr/bin'
-    - require:
-      - cmd: minima_download
-
-test_repo_rpm_updates:
-  cmd.run:
-    - name: mgrctl exec -e MINIMA_CONFIG minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
-            path: /srv/www/htdocs/pub/TestRepoRpmUpdates
-    - require:
-      - cmd: minima_unpack
-
-test_repo_appstream:
-  cmd.run:
-    - name: mgrctl exec -e MINIMA_CONFIG minima sync
-    - env:
-      - MINIMA_CONFIG: |
-          - url: http://{{ grains.get("mirror") | default("download.opensuse.org", true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Appstream/rhlike
-            path: /srv/www/htdocs/pub/TestRepoAppStream
-    - require:
-      - cmd: minima_unpack
-
-another_test_repo:
-  cmd.run:
-    - name: mgrctl exec "ln -s TestRepoRpmUpdates /srv/www/htdocs/pub/AnotherRepo"
-    - unless: mgrctl exec "ls /srv/www/htdocs/pub/AnotherRepo"
-    - require:
-      - cmd: test_repo_rpm_updates
-
 test_repo_debian_updates_script:
   file.managed:
     - name: /root/download_ubuntu_repo.sh
@@ -66,12 +29,14 @@ cobbler_configuration:
     - require:
       - sls: server_containerized.install_{{ grains.get('container_runtime') | default('podman', true) }}
 
-# TODO: Uncomment this step once cobbler restart is needed.
-# cobbler_restart:
-#   cmd.run:
-#     - name: mgrctl exec systemctl restart cobblerd
-#     - require:
-#       - cmd: cobbler_configuration
+cobbler_restart:
+  cmd.run:
+    - name: mgrctl exec systemctl restart cobblerd
+    - retry:
+        attempts: 10
+        interval: 10
+    - require:
+      - cmd: cobbler_configuration
 
 # these releases don't have mgrctl gpg functionality, only later versions do.
 # TODO: Remove head from that list once the migration of the container to SLES 16 is finished.
