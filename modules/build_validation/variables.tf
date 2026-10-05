@@ -183,3 +183,9 @@ variable "server_containerized_vcpu" {
   type        = number
   default     = 10
 }
+
+variable "minion_memory" {
+  description = "Default memory of the minions, ssh minions and build host VMs, defined in MiB. Overridable per host with the memory key in environment_configuration"
+  type        = number
+  default     = 4096
+}
