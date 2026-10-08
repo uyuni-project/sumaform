@@ -13,6 +13,9 @@ locals {
   empty_minion_config = { ids = [], hostnames = [], macaddrs = [], private_macs = [], ipaddrs = [] }
   empty_terminal_config = { private_mac = null, private_ip = null, private_name = null, image = null }
   empty_server_proxy_config = { hostname = null }
+
+  # null = no mirror. Shared by server and server2 so both mount the same mirror by default
+  server_mounted_mirror = var.server_containerized_server_mounted_mirror == null ? (try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null) : (var.server_containerized_server_mounted_mirror == "" ? null : var.server_containerized_server_mounted_mirror)
 }
 
 locals {
@@ -132,20 +135,20 @@ module "server_containerized" {
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server_containerized.image
   provider_settings = {
     mac    = var.environment_configuration.server_containerized.mac
-    memory = 40960
-    vcpu   = 10
+    memory = var.server_containerized_memory
+    vcpu   = var.server_containerized_vcpu
   }
   runtime              = "podman"
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
-  main_disk_size       = 100
+  main_disk_size       = var.server_containerized_main_disk_size
 
   string_registry                = var.environment_configuration.server_containerized.string_registry
-  repository_disk_size           = 3072
-  database_disk_size             = 300
+  repository_disk_size           = var.server_containerized_repository_disk_size
+  database_disk_size             = var.server_containerized_database_disk_size
   container_tag                  = "latest"
   beta_enabled                   = false
-  server_mounted_mirror          = try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null
+  server_mounted_mirror          = local.server_mounted_mirror
   java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false
@@ -156,11 +159,11 @@ module "server_containerized" {
   create_sample_activation_key   = false
   create_sample_bootstrap_script = false
   publish_private_ssl_key        = false
-  use_os_released_updates        = true
+  use_os_released_updates        = var.server_containerized_use_os_released_updates
   disable_download_tokens        = false
   large_deployment               = true
-  disable_auto_bootstrap         = true
-  disable_auto_channel_sync      = true
+  disable_auto_bootstrap         = var.server_containerized_disable_auto_bootstrap
+  disable_auto_channel_sync      = var.server_containerized_disable_auto_channel_sync
   ssh_key_path                   = var.controller_public_ssh_key_path
   from_email                     = "root@suse.de"
   provision                      = true
@@ -182,8 +185,17 @@ module "server2_containerized" {
   mac                = var.environment_configuration.server2_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server2_containerized.image
   string_registry    = var.environment_configuration.server2_containerized.string_registry
-  use_mirror         = try(var.environment_configuration.server2_containerized.use_mirror, true)
-  mirror             = var.platform_location_configuration[var.location].mirror
+  # Sizing and behavior default to the values of server_containerized, overridable from server2_containerized
+  memory                    = try(var.environment_configuration.server2_containerized.memory, var.server_containerized_memory)
+  vcpu                      = try(var.environment_configuration.server2_containerized.vcpu, var.server_containerized_vcpu)
+  main_disk_size            = try(var.environment_configuration.server2_containerized.main_disk_size, var.server_containerized_main_disk_size)
+  repository_disk_size      = try(var.environment_configuration.server2_containerized.repository_disk_size, var.server_containerized_repository_disk_size)
+  database_disk_size        = try(var.environment_configuration.server2_containerized.database_disk_size, var.server_containerized_database_disk_size)
+  disable_auto_bootstrap    = try(var.environment_configuration.server2_containerized.disable_auto_bootstrap, var.server_containerized_disable_auto_bootstrap)
+  disable_auto_channel_sync = try(var.environment_configuration.server2_containerized.disable_auto_channel_sync, var.server_containerized_disable_auto_channel_sync)
+  use_os_released_updates   = try(var.environment_configuration.server2_containerized.use_os_released_updates, var.server_containerized_use_os_released_updates)
+  use_mirror         = try(var.environment_configuration.server2_containerized.use_mirror, local.server_mounted_mirror != null)
+  mirror             = local.server_mounted_mirror
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   deploy_coco_attestation = try(var.environment_configuration.server2_containerized.deploy_coco_attestation, true)
@@ -266,10 +278,11 @@ module "proxy_containerized" {
   base_configuration = local.base_retail
   name               = var.environment_configuration.proxy_containerized.name
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy_containerized.image
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.proxy_containerized.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.proxy_containerized.memory, 4096)
+  }, try({ vcpu = var.environment_configuration.proxy_containerized.vcpu }, {}))
+  main_disk_size       = try(var.environment_configuration.proxy_containerized.main_disk_size, 200)
   string_registry      = var.environment_configuration.proxy_containerized.string_registry
   runtime              = "podman"
   container_registry   = var.proxy_container_registry
@@ -316,10 +329,10 @@ module "sles12sp5_minion" {
   base_configuration = local.base_old_sle
   name               = var.environment_configuration.sles12sp5_minion.name
   image              = "sles12sp5o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles12sp5_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles12sp5_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles12sp5_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -332,10 +345,10 @@ module "sles15sp4_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp4_minion.name
   image              = "sles15sp4o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp4_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp4_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp4_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -349,10 +362,10 @@ module "sles15sp5_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp5_minion.name
   image              = "sles15sp5o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp5_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp5_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp5_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -366,10 +379,10 @@ module "sles15sp6_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp6_minion.name
   image              = "sles15sp6o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp6_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp6_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp6_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -383,10 +396,10 @@ module "sles15sp7_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp7_minion.name
   image              = "sles15sp7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp7_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp7_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp7_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -400,10 +413,10 @@ module "sles160_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles160_minion.name
   image              = "sles160o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles160_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles160_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles160_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -417,10 +430,10 @@ module "alma8_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma8_minion.name
   image              = "almalinux8o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.alma8_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.alma8_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.alma8_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -433,10 +446,10 @@ module "alma9_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma9_minion.name
   image              = "almalinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.alma9_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.alma9_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.alma9_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -449,10 +462,10 @@ module "alma10_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma10_minion.name
   image              = "almalinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.alma10_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.alma10_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.alma10_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -465,10 +478,10 @@ module "amazon2023_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.amazon2023_minion.name
   image              = "amazonlinux2023o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.amazon2023_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.amazon2023_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.amazon2023_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -481,10 +494,10 @@ module "centos7_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.centos7_minion.name
   image              = "centos7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.centos7_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.centos7_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.centos7_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -497,10 +510,10 @@ module "liberty9_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.liberty9_minion.name
   image              = "libertylinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.liberty9_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.liberty9_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.liberty9_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -513,10 +526,10 @@ module "liberty10_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.liberty10_minion.name
   image              = "libertylinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.liberty10_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.liberty10_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.liberty10_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -529,10 +542,10 @@ module "oracle9_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.oracle9_minion.name
   image              = "oraclelinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.oracle9_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.oracle9_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.oracle9_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -545,10 +558,10 @@ module "oracle10_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.oracle10_minion.name
   image              = "oraclelinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.oracle10_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.oracle10_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.oracle10_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -561,10 +574,10 @@ module "rhel7_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel7_minion.name
   image              = "centos7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel7_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel7_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel7_minion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "7"
@@ -582,10 +595,10 @@ module "rhel8_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel8_minion.name
   image              = "almalinux8o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel8_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel8_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel8_minion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "8"
@@ -603,10 +616,10 @@ module "rhel9_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel9_minion.name
   image              = "almalinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel9_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel9_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel9_minion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "9"
@@ -624,10 +637,10 @@ module "rhel10_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel10_minion.name
   image              = "almalinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel10_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel10_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel10_minion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "10"
@@ -645,10 +658,10 @@ module "rocky8_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky8_minion.name
   image              = "rocky8o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rocky8_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rocky8_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rocky8_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -661,10 +674,10 @@ module "rocky9_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky9_minion.name
   image              = "rocky9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rocky9_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rocky9_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rocky9_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -677,10 +690,10 @@ module "rocky10_minion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky10_minion.name
   image              = "rocky10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rocky10_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rocky10_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rocky10_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -693,10 +706,10 @@ module "ubuntu2204_minion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2204_minion.name
   image              = "ubuntu2204o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.ubuntu2204_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.ubuntu2204_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.ubuntu2204_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -709,10 +722,10 @@ module "ubuntu2404_minion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2404_minion.name
   image              = "ubuntu2404o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.ubuntu2404_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.ubuntu2404_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.ubuntu2404_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -725,10 +738,10 @@ module "ubuntu2604_minion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2604_minion.name
   image              = "ubuntu2604o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.ubuntu2604_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.ubuntu2604_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.ubuntu2604_minion.vcpu }, {}))
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -741,10 +754,10 @@ module "debian12_minion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.debian12_minion.name
   image              = "debian12o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.debian12_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.debian12_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.debian12_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -758,10 +771,10 @@ module "debian13_minion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.debian13_minion.name
   image              = "debian13o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.debian13_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.debian13_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.debian13_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -859,10 +872,10 @@ module "salt_migration_minion" {
   base_configuration = local.base_core
   name               = var.environment_configuration.salt_migration_minion.name
   image              = "sles15sp5o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.salt_migration_minion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.salt_migration_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.salt_migration_minion.vcpu }, {}))
   server_configuration    = local.server_configuration
   auto_connect_to_master  = true
   use_os_released_updates = false
@@ -877,10 +890,10 @@ module "slemicro52_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slemicro52_minion.name
   image              = "slemicro52-ign"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slemicro52_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slemicro52_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slemicro52_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -897,10 +910,10 @@ module "slemicro53_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slemicro53_minion.name
   image              = "slemicro53-ign"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slemicro53_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slemicro53_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slemicro53_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -917,10 +930,10 @@ module "slemicro54_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slemicro54_minion.name
   image              = "slemicro54-ign"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slemicro54_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slemicro54_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slemicro54_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -937,10 +950,10 @@ module "slemicro55_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slemicro55_minion.name
   image              = "slemicro55o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slemicro55_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slemicro55_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slemicro55_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -954,10 +967,10 @@ module "slmicro60_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slmicro60_minion.name
   image              = "slmicro60o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slmicro60_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slmicro60_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slmicro60_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -971,10 +984,10 @@ module "slmicro61_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slmicro61_minion.name
   image              = "slmicro61o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slmicro61_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slmicro61_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slmicro61_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -988,10 +1001,10 @@ module "slmicro62_minion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slmicro62_minion.name
   image              = "slmicro62o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slmicro62_minion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slmicro62_minion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slmicro62_minion.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -1005,10 +1018,10 @@ module "sles12sp5_sshminion" {
   base_configuration = local.base_old_sle
   name               = var.environment_configuration.sles12sp5_sshminion.name
   image              = "sles12sp5o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles12sp5_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles12sp5_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles12sp5_sshminion.vcpu }, {}))
 
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -1022,10 +1035,10 @@ module "sles15sp4_sshminion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp4_sshminion.name
   image              = "sles15sp4o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp4_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp4_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp4_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1037,10 +1050,10 @@ module "sles15sp5_sshminion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp5_sshminion.name
   image              = "sles15sp5o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp5_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp5_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp5_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1052,10 +1065,10 @@ module "sles15sp6_sshminion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp6_sshminion.name
   image              = "sles15sp6o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp6_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp6_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp6_sshminion.vcpu }, {}))
 
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -1068,10 +1081,10 @@ module "sles15sp7_sshminion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles15sp7_sshminion.name
   image              = "sles15sp7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles15sp7_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles15sp7_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles15sp7_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1083,10 +1096,10 @@ module "sles160_sshminion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.sles160_sshminion.name
   image              = "sles160o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.sles160_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.sles160_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles160_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1098,10 +1111,10 @@ module "alma8_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma8_sshminion.name
   image              = "almalinux8o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.alma8_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.alma8_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.alma8_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1113,10 +1126,10 @@ module "alma9_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma9_sshminion.name
   image              = "almalinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.alma9_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.alma9_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.alma9_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1128,10 +1141,10 @@ module "alma10_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.alma10_sshminion.name
   image              = "almalinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.alma10_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.alma10_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.alma10_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1143,10 +1156,10 @@ module "amazon2023_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.amazon2023_sshminion.name
   image              = "amazonlinux2023o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.amazon2023_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.amazon2023_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.amazon2023_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1158,10 +1171,10 @@ module "centos7_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.centos7_sshminion.name
   image              = "centos7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.centos7_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.centos7_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.centos7_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1174,10 +1187,10 @@ module "liberty9_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.liberty9_sshminion.name
   image              = "libertylinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.liberty9_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.liberty9_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.liberty9_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1189,10 +1202,10 @@ module "liberty10_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.liberty10_sshminion.name
   image              = "libertylinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.liberty10_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.liberty10_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.liberty10_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1204,10 +1217,10 @@ module "oracle9_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.oracle9_sshminion.name
   image              = "oraclelinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.oracle9_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.oracle9_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.oracle9_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1219,10 +1232,10 @@ module "oracle10_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.oracle10_sshminion.name
   image              = "oraclelinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.oracle10_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.oracle10_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.oracle10_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1234,10 +1247,10 @@ module "rhel7_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel7_sshminion.name
   image              = "centos7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel7_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel7_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel7_sshminion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "7"
@@ -1255,10 +1268,10 @@ module "rhel8_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel8_sshminion.name
   image              = "almalinux8o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel8_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel8_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel8_sshminion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "8"
@@ -1276,10 +1289,10 @@ module "rhel9_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel9_sshminion.name
   image              = "almalinux9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel9_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel9_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel9_sshminion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "9"
@@ -1297,10 +1310,10 @@ module "rhel10_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rhel10_sshminion.name
   image              = "almalinux10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rhel10_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rhel10_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rhel10_sshminion.vcpu }, {}))
   roles = ["rhel_container"]
   additional_grains = {
     rhel_version       = "10"
@@ -1318,11 +1331,11 @@ module "rocky8_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky8_sshminion.name
   image              = "rocky8o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rocky8_sshminion.mac
-    memory = 4096
+    memory = try(var.environment_configuration.rocky8_sshminion.memory, var.minion_memory)
 
-  }
+  }, try({ vcpu = var.environment_configuration.rocky8_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1334,10 +1347,10 @@ module "rocky9_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky9_sshminion.name
   image              = "rocky9o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rocky9_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rocky9_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rocky9_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1349,10 +1362,10 @@ module "rocky10_sshminion" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.rocky10_sshminion.name
   image              = "rocky10o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.rocky10_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.rocky10_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.rocky10_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1364,10 +1377,10 @@ module "ubuntu2204_sshminion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2204_sshminion.name
   image              = "ubuntu2204o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.ubuntu2204_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.ubuntu2204_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.ubuntu2204_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1379,10 +1392,10 @@ module "ubuntu2404_sshminion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2404_sshminion.name
   image              = "ubuntu2404o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.ubuntu2404_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.ubuntu2404_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.ubuntu2404_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1394,10 +1407,10 @@ module "ubuntu2604_sshminion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.ubuntu2604_sshminion.name
   image              = "ubuntu2604o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.ubuntu2604_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.ubuntu2604_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.ubuntu2604_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1409,10 +1422,10 @@ module "debian12_sshminion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.debian12_sshminion.name
   image              = "debian12o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.debian12_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.debian12_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.debian12_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1424,10 +1437,10 @@ module "debian13_sshminion" {
   base_configuration = local.host_deblike
   name               = var.environment_configuration.debian13_sshminion.name
   image              = "debian13o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.debian13_sshminion.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.debian13_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.debian13_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1604,10 +1617,10 @@ module "centos7_client" {
   base_configuration = local.host_rhlike
   name               = var.environment_configuration.centos7_client.name
   image              = "centos7o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.centos7_client.mac
-    memory = 4096
-  }
+    memory = try(var.environment_configuration.centos7_client.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.centos7_client.vcpu }, {}))
   server_configuration    = local.proxy_configuration
   auto_register           = false
   use_os_released_updates = false
@@ -1735,10 +1748,10 @@ module "slmicro62_sshminion" {
   base_configuration = local.base_new_sle
   name               = var.environment_configuration.slmicro62_sshminion.name
   image              = "slmicro62o"
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.slmicro62_sshminion.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.slmicro62_sshminion.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.slmicro62_sshminion.vcpu }, {}))
   use_os_released_updates = false
 
   ssh_key_path            = var.controller_public_ssh_key_path
@@ -1842,10 +1855,10 @@ module "monitoring_server" {
   base_configuration = local.base_retail
   name               = var.environment_configuration.monitoring_server.name
   image = lookup(var.environment_configuration.monitoring_server, "image", "sles15sp7o")
-  provider_settings = {
+  provider_settings = merge({
     mac    = var.environment_configuration.monitoring_server.mac
-    memory = 2048
-  }
+    memory = try(var.environment_configuration.monitoring_server.memory, 2048)
+  }, try({ vcpu = var.environment_configuration.monitoring_server.vcpu }, {}))
 
   auto_connect_to_master  = false
   use_os_released_updates = false
@@ -1859,7 +1872,7 @@ module "controller" {
   provider_settings = {
     mac    = var.environment_configuration.controller.mac
     memory = lookup(var.environment_configuration.controller, "memory", "16384")
-    vcpu   = 8
+    vcpu   = lookup(var.environment_configuration.controller, "vcpu", 8)
   }
   swap_file_size = null
   beta_enabled   = false
@@ -1873,6 +1886,10 @@ module "controller" {
   git_repo          = var.cucumber_gitrepo
   branch            = var.cucumber_branch
   git_profiles_repo = "https://github.com/uyuni-project/uyuni.git#:testsuite/features/profiles/temporary"
+
+  # Optional, set in the controller entry of ENVIRONMENT_CONFIGURATION
+  server_http_proxy        = try(var.environment_configuration.controller.server_http_proxy, null)
+  custom_download_endpoint = try(var.environment_configuration.controller.custom_download_endpoint, null)
 
   server_configuration  = local.server_configuration
   proxy_configuration   = local.proxy_configuration
