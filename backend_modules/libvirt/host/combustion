@@ -127,7 +127,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
   # Still embryonary; only some cases are considered for now
   %{ if container_server || container_proxy || server_kubernetes }
     %{ if product_version == "5.2-released" }
-      %{ if container_server }
+      %{ if container_server || server_kubernetes }
         zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/SUSE/Products/Multi-Linux-Manager-Server/5.2/x86_64/product/ container_utils_repo
       %{ endif }
       %{ if container_proxy }
@@ -135,7 +135,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
       %{ endif }
     %{ endif }
     %{ if product_version == "5.2-nightly" }
-      %{ if container_server }
+      %{ if container_server || server_kubernetes }
         zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs" }/Devel:/Galaxy:/Manager:/5.2:/MLM-Products/images/repo/Multi-Linux-Manager-Server-5.2-x86_64/ container_utils_repo
       %{ endif }
       %{ if container_proxy }
