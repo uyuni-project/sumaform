@@ -12,5 +12,6 @@ include:
   - server_containerized.initial_content
   - server_containerized.rhn
   - server_containerized.large_deployment
+  - server_containerized.postgres
   {% endif %}
   - server_containerized.testsuite
