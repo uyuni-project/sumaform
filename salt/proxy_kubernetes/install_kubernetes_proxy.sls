@@ -1,14 +1,14 @@
 {% set helm_chart_directory = "/root/helm-charts" %}
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
-{% set cert_manager_namespace = "cert-manager" %}
+{% set cert_manager_namespace = grains.get('cert_manager_namespace') %}
 {% set helm_chart_name = grains.get('helm_chart_name') %}
 {% set helm_chart_url = grains.get('helm_chart_url') %}
 {% set python_helm_chart_path = "/root/helm_chart.py" %}
-{% set proxy_namespace = "uyuni" %}
+{% set proxy_namespace = grains.get('proxy_namespace') %}
 {% set proxy_FQDN = grains.get("fqdn") %}
 {% set server_FQDN = grains.get("server") %}
-{% set proxy_name = "proxy-cert" %}
+{% set proxy_name_cert = "proxy-cert" %}
 {% set proxy_cert_vars_file = "/etc/profile.d/proxy_certs_vars.sh" %}
 {% set devel_flag = "--devel" if grains.get('use_devel_oci') else "" %}
 {% set kubeconfig = "/etc/rancher/rke2/rke2.yaml" %}
@@ -25,8 +25,7 @@ setup_environmental_variables_in_proxy:
         export VALUES_YAML_PATH={{ values_yaml_path }}
         export HELM_CHART_NAME={{ helm_chart_name }}
         export HELM_CHART_URL={{ helm_chart_url }}
-        export PROXY_NAMESPACE={{ proxy_namespace }}
-        export PROXY_NAME={{ proxy_name }}
+        export PROXY_NAME_CERT={{ proxy_name_cert }}
         export PROXY_FQDN={{ proxy_FQDN }}
         export SERVER_FQDN={{ server_FQDN }}
         export DEVEL_FLAG={{ devel_flag }}
@@ -95,7 +94,7 @@ copy_certs_generator:
     - context:
         proxy_FQDN: {{ proxy_FQDN }}
         proxy_namespace: {{ proxy_namespace }}
-        proxy_name: {{ proxy_name }}
+        proxy_name_cert: {{ proxy_name_cert }}
 
 apply_and_transfer_env_variables:
   cmd.run:

@@ -10,8 +10,8 @@
 {% set values_yaml_path = helm_chart_directory ~ "/selfsigned/values.yaml" %}
 {% set self_signed_path = helm_chart_directory ~ "/selfsigned" %}
 {% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
-{% set cert_manager_namespace = "cert-manager" %}
-{% set server_namespace = "uyuni" %}
+{% set cert_manager_namespace = grains.get('cert_manager_namespace') %}
+{% set server_namespace = grains.get('server_namespace') %}
 {% set cc_username = grains.get('cc_username') %}
 {% set cc_password = grains.get('cc_password') %}
 {% set scc_secret_name = "scc-credentials" if cc_username and cc_password else "" %}
@@ -42,7 +42,6 @@ variables_server_kubernetes:
         export HELM_CHART_NAME={{ helm_chart_name }}
         export HELM_CHART_URL={{ helm_chart_url }}
         export DEVEL_FLAG={{ devel_flag }}
-        export SERVER_NAMESPACE={{ server_namespace }}
         {% if cc_username %}
         export CC_USERNAME={{ cc_username }}
         {% endif %}
@@ -245,12 +244,3 @@ transfer_python_management_file:
   - name: {{ python_helm_chart_path }}
   - source: salt://kubernetes_common/helm_chart.py
   - makedirs: true
-
-save_script_to_get_pod_name:
-  file.managed:
-    - name: /usr/local/bin/get_server_pod_name
-    - source: salt://server_kubernetes/get_server_pod_name
-    - template: jinja
-    - mode: 700
-    - user: root
-    - group: root

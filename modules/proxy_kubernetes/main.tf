@@ -54,6 +54,11 @@ module "proxy_kubernetes" {
     container_tag                   = var.container_tag
     helm_chart_url                  = var.helm_chart_url
     helm_chart_name                 = var.helm_chart_name
+    proxy_namespace                 = var.proxy_namespace
+    proxy_name                      = var.proxy_name
+    rke2_version                    = var.rke2_version
+    cert_manager_version            = var.cert_manager_version
+    cert_manager_namespace          = var.cert_manager_namespace
     kubernetes_storage_class        = local.kubernetes_storage_class
     local_path_provisioner_path     = var.local_path_provisioner_path
     local_path_provisioner_default_class = var.local_path_provisioner_default_class

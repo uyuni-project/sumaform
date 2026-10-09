@@ -42,6 +42,31 @@ variable "helm_chart_name" {
   default = "server-helm"
 }
 
+variable "server_namespace" {
+  description = "Kubernetes namespace for the server installation."
+  type        = string
+}
+
+variable "server_name" {
+  description = "Name exported for the Kubernetes server."
+  type        = string
+}
+
+variable "rke2_version" {
+  description = "RKE2 version to install."
+  type        = string
+}
+
+variable "cert_manager_version" {
+  description = "cert-manager version to install."
+  type        = string
+}
+
+variable "cert_manager_namespace" {
+  description = "Kubernetes namespace for cert-manager."
+  type        = string
+}
+
 variable "use_devel_oci" {
   description = "true to use devel OCIs"
   default = false

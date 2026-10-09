@@ -97,6 +97,14 @@ locals {
     host_key => lookup(var.host_settings[host_key], "helm_chart_url", null) if var.host_settings[host_key] != null }
   helm_chart_name           = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "helm_chart_name", null) if var.host_settings[host_key] != null }
+  server_namespaces         = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "server_namespace", var.server_namespace) if var.host_settings[host_key] != null }
+  proxy_namespaces          = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "proxy_namespace", var.proxy_namespace) if var.host_settings[host_key] != null }
+  server_kubernetes_names   = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "server_name", lookup(var.host_settings[host_key], "name", "server")) if var.host_settings[host_key] != null }
+  proxy_kubernetes_names    = { for host_key in local.hosts :
+    host_key => lookup(var.host_settings[host_key], "proxy_name", lookup(var.host_settings[host_key], "name", "proxy")) if var.host_settings[host_key] != null }
   main_disk_size            = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "main_disk_size", 200) if var.host_settings[host_key] != null }
   repository_disk_size      = { for host_key in local.hosts :
@@ -296,6 +304,11 @@ module "server_kubernetes" {
   //Kubernetes
   helm_chart_name                 = lookup(local.helm_chart_name, "server_kubernetes", "")
   helm_chart_url                  = lookup(local.helm_chart_url, "server_kubernetes", "")
+  server_namespace                = lookup(local.server_namespaces, "server_kubernetes", var.server_namespace)
+  server_name                     = lookup(local.server_kubernetes_names, "server_kubernetes", "server")
+  rke2_version                    = var.rke2_version
+  cert_manager_version            = var.cert_manager_version
+  cert_manager_namespace          = var.cert_manager_namespace
   use_devel_oci                   = var.use_devel_oci
   scc_slmicro_pass                = var.scc_slmicro_pass
   java_debugging_on_rke2          = var.java_debugging_on_rke2
@@ -418,6 +431,11 @@ module "proxy_kubernetes" {
   //Kubernetes
   helm_chart_name                 = lookup(local.helm_chart_name, "proxy_kubernetes", "")
   helm_chart_url                  = lookup(local.helm_chart_url, "proxy_kubernetes", "")
+  proxy_namespace                 = lookup(local.proxy_namespaces, "proxy_kubernetes", var.proxy_namespace)
+  proxy_name                      = lookup(local.proxy_kubernetes_names, "proxy_kubernetes", "proxy")
+  rke2_version                    = var.rke2_version
+  cert_manager_version            = var.cert_manager_version
+  cert_manager_namespace          = var.cert_manager_namespace
   use_devel_oci                   = var.use_devel_oci
 }
 
