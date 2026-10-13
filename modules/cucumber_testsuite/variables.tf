@@ -89,6 +89,36 @@ variable "product_version" {
   default     = null
 }
 
+variable "rke2_version" {
+  description = "RKE2 version to install on the Kubernetes server and proxy."
+  type        = string
+  default     = "v1.35.4+rke2r1"
+}
+
+variable "server_namespace" {
+  description = "Kubernetes namespace for the server installation."
+  type        = string
+  default     = "uyuni"
+}
+
+variable "proxy_namespace" {
+  description = "Kubernetes namespace for the proxy installation."
+  type        = string
+  default     = "uyuni"
+}
+
+variable "cert_manager_version" {
+  description = "cert-manager version to install on the Kubernetes server and proxy."
+  type        = string
+  default     = "v1.19.2"
+}
+
+variable "cert_manager_namespace" {
+  description = "Kubernetes namespace for cert-manager."
+  type        = string
+  default     = "cert-manager"
+}
+
 variable "from_email" {
   description = "email address used as sender for emails"
   default     = null

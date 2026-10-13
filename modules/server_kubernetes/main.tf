@@ -57,6 +57,11 @@ module "server_kubernetes" {
     db_container_tag               = var.db_container_tag
     helm_chart_url                 = var.helm_chart_url
     helm_chart_name                = var.helm_chart_name
+    server_namespace               = var.server_namespace
+    server_name                    = var.server_name
+    rke2_version                   = var.rke2_version
+    cert_manager_version           = var.cert_manager_version
+    cert_manager_namespace         = var.cert_manager_namespace
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     scc_slmicro_pass               = var.scc_slmicro_pass

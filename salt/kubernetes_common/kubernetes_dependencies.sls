@@ -4,11 +4,15 @@
 {% set is_slmicro_6_2 = osfullname == 'SL-Micro' and osrelease == '6.2' %}
 {% set is_ubuntu = osfullname == 'Ubuntu' %}
 {% set is_tumbleweed = osfullname == 'openSUSE Tumbleweed' %}
-{% set rke2_version = "v1.35.4+rke2r1" %}
+{% set rke2_version = grains.get('rke2_version') %}
 {% set is_external_cluster = grains.get('install_kubernetes_server_on_external_cluster') == true %}
 {% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
-{% set cert_manager_version = "v1.19.2" %}
-{% set cert_manager_namespace = "cert-manager" %}
+{% set cert_manager_version = grains.get('cert_manager_version') %}
+{% set cert_manager_namespace = grains.get('cert_manager_namespace') %}
+{% set server_namespace = grains.get('server_namespace') %}
+{% set server_name = grains.get('server_name') %}
+{% set proxy_namespace = grains.get('proxy_namespace') %}
+{% set proxy_deploy_name = grains.get('proxy_name') %}
 {% set traefik_file = "/root/kubernetes-crd-definition-v1.yml" %}
 {% set local_path_provisioner_file = "/root/local-path-storage.yaml" %}
 {% set local_path_namespace = "local-path-storage" %}
@@ -82,6 +86,10 @@ variables_rke2:
         export LOCAL_PATH_PROVISIONER_STORAGE_CLASS={{ storage_class }}
         export LOCAL_PATH_PROVISIONER_FILE={{ local_path_provisioner_file }}
         export LOCAL_PATH_NAMESPACE={{ local_path_namespace }}
+        export SERVER_NAMESPACE={{ server_namespace }}
+        export SERVER_DEPLOY_NAME={{ server_name }}
+        export PROXY_NAMESPACE={{ proxy_namespace }}
+        export PROXY_DEPLOY_NAME={{ proxy_deploy_name }}
         {% if is_slmicro_6_2 %}
         export RKE2_INSTALL_METHOD=rpm
         {% else %}

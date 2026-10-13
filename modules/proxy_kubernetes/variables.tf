@@ -69,6 +69,31 @@ variable "helm_chart_name" {
   default = "proxy-helm"
 }
 
+variable "proxy_namespace" {
+  description = "Kubernetes namespace for the proxy installation."
+  type        = string
+}
+
+variable "proxy_name" {
+  description = "Name exported for the Kubernetes proxy."
+  type        = string
+}
+
+variable "rke2_version" {
+  description = "RKE2 version to install."
+  type        = string
+}
+
+variable "cert_manager_version" {
+  description = "cert-manager version to install."
+  type        = string
+}
+
+variable "cert_manager_namespace" {
+  description = "Kubernetes namespace for cert-manager."
+  type        = string
+}
+
 variable "use_devel_oci" {
   description = "Name of the helm chart to use. Uses the released one by default."
   default = false
