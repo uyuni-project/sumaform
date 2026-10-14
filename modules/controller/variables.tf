@@ -335,20 +335,6 @@ variable "slmicro62_sshminion_configuration" {
   }
 }
 
-variable "slemicro52_minion_configuration" {
-  description = "use module.<SLEMICRO52_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "slemicro52_sshminion_configuration" {
-  description = "use module.<SLEMICRO52_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "slemicro53_minion_configuration" {
   description = "use module.<SLEMICRO53_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -706,20 +692,6 @@ variable "ubuntu2604_sshminion_configuration" {
   }
 }
 
-variable "debian12_minion_configuration" {
-  description = "use module.<DEBIAN12_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "debian12_sshminion_configuration" {
-  description = "use module.<DEBIAN12_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
 variable "debian13_minion_configuration" {
   description = "use module.<DEBIAN13_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
@@ -799,29 +771,15 @@ variable "sles15sp7_terminal_configuration" {
   }
 }
 
-variable "opensuse156arm_minion_configuration" {
-  description = "use module.<OPENSUSE156ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse161arm_minion_configuration" {
+  description = "use module.<OPENSUSE161ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "opensuse156arm_sshminion_configuration" {
-  description = "use module.<OPENSUSE156ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "opensuse160arm_minion_configuration" {
-  description = "use module.<OPENSUSE160ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
-  default = {
-    hostnames = []
-  }
-}
-
-variable "opensuse160arm_sshminion_configuration" {
-  description = "use module.<OPENSUSE160ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse161arm_sshminion_configuration" {
+  description = "use module.<OPENSUSE161ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

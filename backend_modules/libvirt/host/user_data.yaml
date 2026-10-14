@@ -207,11 +207,9 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if image == "opensuse160o" ~}
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd
-%{ endif ~}
 %{ if container_server && testsuite ~}
   # Packages needed for the testsuite
   - "zypper -n in expect"
@@ -222,10 +220,8 @@ runcmd:
   - "zypper -n in avahi nss-mdns"
 %{ endif ~}
   - "zypper removerepo --all"
-%{ if image == "opensuse160o" ~}
   - "zypper --non-interactive modifyservice --disable openSUSE || true"
   - "zypper --non-interactive removeservice openSUSE || true"
-%{ endif ~}
   - rpm -qa | sort > /installed_packages.txt
 %{ endif ~}
 
@@ -793,67 +789,6 @@ runcmd:
   - dpkg --list | grep '^ii' > /installed_packages.txt
 %{ endif }
 
-%{ if image == "debian12o" ~}
-apt:
-  sources:
-    tools_pool_repo:
-%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/ /
-%{ else ~}
-%{ if contains(["head", "head-staging"], product_version) ~}
-      source: deb http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Debian12/Debian_12/ /
-%{ else ~}
-      source: deb http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-Debian12/Debian_12/ /
-%{ endif ~}
-%{ endif ~}
-      key: |
-%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v1.4.5 (GNU/Linux)
-
-        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
-        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
-        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
-        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
-        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
-        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
-        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJnTV1tAhsDBQkQRFMYBgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqobCACZmP4jvLKA8hixwLbB
-        ws6UpppjKuZ1C29VlfydWW7Zh7YTlQEDweuaP++UTNpG4LFHYEG/h+0m2IiIK8pH
-        37fzKn+xZB+9SA/4hE3RsJhzwCYXxRnnSzahmagskTQp+vPQS571n8rmXbLQVIV8
-        VHOjY6CezItu5OAe4m0DVdS9u4LmikPwxV+irdJ1rMphBKzxccGFOmYFXKWWoEk7
-        VAD02fKgzLdoE6QX9ocIChmDM/fNwEK3us7RWEd2jxqUYdseTsa22clbuR3Dg6SB
-        E/oQa9zikECUNi4T19DnBpquBzBHlmfnGBtHPkq1KF7mNhdLhD28Atn0gpOGZOnd
-        VzV9iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
-        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =eJaK
-        -----END PGP PUBLIC KEY BLOCK-----
-%{ else ~}
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v2.4.4 (GNU/Linux)
-
-        mQENBGLwyaYBCADNYZW2qfvrxVYK3A9ArHdCP2GuHo0tdZzvaVor3hEGZ1A6lwLR
-        S+r+l+o1pDywjZDSSSpdrLD3DT7T//OBZT9e0s9cluqy18FoGuXymvlL7MoeENo6
-        Q1nD379T0UBAnfF3TEIoTuFCWzQX2z668AK/bBQNLzAU2KylusGQlLjpraOlz+eO
-        LHXCc2EXZMiknbHuhku48j6YrvDCARdeQUFl+bHMEtZi2FXTEpFacy/oUbXIr8YG
-        /i6pBa9oDQr9R7lgU8rZtb4YfeX9jr3+1SehNogxwmh/QDpC13lqGqJ7rBNhW6p4
-        vT7rPlUgASV4ab+O4LDqexg4U96YV8DvgZIJABEBAAG0NURldmVsOkdhbGF4eSBP
-        QlMgUHJvamVjdCA8RGV2ZWw6R2FsYXh5QGJ1aWxkLnN1c2UuZGU+iQE+BBMBCAAo
-        BQJp61ypAhsDBQkLGUMDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDkXcGY
-        beVjdoGFCADB3EggMqM+cT+6v+/OGk4KJist80ULpZwQo43BC+j8TSFhfjr+zfqz
-        Xk0VptsNEsvpACVnw4f/HaZmiC+w2pGB5v2rtryvneg340JnnnMCttir3l89mg3b
-        sifdysthq5zHEajG8q8Fw5+Kdg1eH76E+pNFOR8oLBU5kIBFoBRiIBs8JlM2xMNb
-        fanoOE191SCWlYpQO4xLFRp4/aJi+hpfuYeLblL4sD5Rucbqfx7QjL1FKhqaGdf9
-        Z+bbMLER9CFq95gtCsyWj4xLTwfT8rmQ8iH+gu09mF2nQa44IpyfPwJzmO1VUVPp
-        GvB2sVkh9wnF/19zrbDF+NxVrCkPyuJUiEYEExECAAYFAmLwyaYACgkQqE7a6JyA
-        Cso07QCePkklGUUjNG4p7x+TVPIANEs60dUAn20/EMPdf0BQNGW1/qdCb5MT2AIQ
-        =9dds
-        -----END PGP PUBLIC KEY BLOCK-----
-%{ endif ~}
-
-%{ endif ~}
-
 %{ if image == "debian13o" || image == "raspios13o" ~}
 apt:
   sources:
@@ -915,7 +850,7 @@ apt:
 
 %{ endif ~}
 
-%{ if image == "debian12o" || image == "debian13o" || image == "raspios13o" ~}
+%{ if image == "debian13o" || image == "raspios13o" ~}
 
 
 bootcmd:
@@ -1042,42 +977,6 @@ runcmd:
   - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent dbus-tools"
   - rpm -qa | sort > /installed_packages.txt
 %{ endif }
-
-%{ if image == "amazonlinux2o" ~}
-
-yum_repos:
-  # repo for salt
-  tools_pool_repo:
-%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
-    baseurl: http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
-%{ else ~}
-%{ if contains(["head", "head-staging"], product_version) ~}
-    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-x86_64-Media/
-%{ else ~}
-    baseurl: http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL7/images/repo/ManagerTools-EL7-POOL-x86_64-Media/
-%{ endif ~}
-%{ endif ~}
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    name: tools_pool_repo
-  # repo for nss-mdns
-  epel:
-    baseurl: http://download.fedoraproject.org/pub/epel/7/$basearch
-    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    name: epel
-
-runcmd:
-%{ if install_salt_bundle ~}
-  - "dnf -y install venv-salt-minion avahi nss-mdns qemu-guest-agent"
-%{ else ~}
-  - "dnf -y install salt-minion avahi nss-mdns qemu-guest-agent"
-%{ endif ~}
-  - rpm -qa | sort > /installed_packages.txt
-%{ endif ~}
 
 %{ if image == "amazonlinux2023o" ~}
 yum_repos:
@@ -1481,7 +1380,7 @@ runcmd:
   - rpm -qa | sort > /installed_packages.txt
 %{ endif }
 
-%{ if image == "opensuse160armo" ~}
+%{ if image == "opensuse161armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -1506,11 +1405,9 @@ runcmd:
   - "zypper -n in salt-minion"
 %{ endif ~}
   - "zypper removerepo --all"
-%{ if image == "opensuse160armo" ~}
   - "zypper --non-interactive modifyservice --disable openSUSE || true"
   - "zypper --non-interactive removeservice openSUSE || true"
-%{ endif ~}
-  # WORKAROUND: cloud-init in opensuse 15.6 and 16.0 does not take care of the following
+  # WORKAROUND: cloud-init in opensuse 16.1 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
   - rpm -qa | sort > /installed_packages.txt

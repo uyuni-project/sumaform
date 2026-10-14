@@ -1134,35 +1134,35 @@ module "cucumber_testsuite" {
 A libvirt example is:
 
 ```hcl
-module "opensuse160arm_minion" {
+module "opensuse161arm_minion" {
   source = "./modules/minion"
   ...
-  name = "nue-min-opensuse160arm"
+  name = "opensuse161arm-minion-nue"
   ...
   provider_settings = {
     ...
-    overwrite_fqdn   = "suma-bv-43-min-opensuse160arm.mgr.suse.de"
+    overwrite_fqdn   = "mlm-bv-52-sles-opensuse161arm-minion.mgr.suse.de"
     ...
   }
   ...
 }
 ```
 
-Note the extra `nue-` in the name. With those settings, we have in libvirt:
+Note the extra `-nue` at the end of the name. With those settings, we have in libvirt:
 
 ```bash
 suma-arm:~ # virsh list
- Id   Name                                   State
+ Id   Name                                     State
 ----------------------------------------------------
  ...
- 11   suma-bv-43-nue-min-opensuse160arm      running
+ 11   mlm-bv-52-sles-opensuse161arm-minion-nue running
 ```
 
 and inside the VM:
 
 ```bash
 # hostname -f
-suma-bv-43-min-opensuse160arm.mgr.suse.de
+mlm-bv-52-sles-opensuse161arm-minion.mgr.suse.de
 ```
 
 

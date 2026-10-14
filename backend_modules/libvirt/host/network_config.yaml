@@ -1,4 +1,4 @@
-%{ if image == "debian12o" || image == "debian13o" || image == "amazonlinux2023o" || image == "raspios13o" || image == "ubuntu2204o" || image == "ubuntu2404o" || image == "ubuntu2604o" }
+%{ if image == "debian13o" || image == "amazonlinux2023o" || image == "raspios13o" || image == "ubuntu2204o" || image == "ubuntu2404o" || image == "ubuntu2604o" }
 network:
   version: 2
   ethernets:
@@ -15,7 +15,7 @@ network:
 %{ endif }
 %{ else }
 network:
-%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse160o" || image == "opensuse156armo" || image == "opensuse160armo" }
+%{ if image == "slemicro55o" || image == "sles15sp6o" || image == "sles15sp7o" || image == "opensuse160o" || image == "opensuse161armo" }
   version: 2
   ethernets:
     eth0:

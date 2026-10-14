@@ -57,7 +57,7 @@ module "base_arm" {
   name_prefix     = var.environment_configuration.name_prefix
   use_avahi       = false
   domain          = var.platform_location_configuration[var.location].domain
-  images          = coalesce(try(local.base_arm_configuration.images, null), ["opensuse156armo", "opensuse160armo", "raspios13o"])
+  images          = coalesce(try(local.base_arm_configuration.images, null), ["opensuse161armo", "raspios13o"])
 
   mirror            = var.platform_location_configuration[var.location].mirror
   use_mirror_images = true
@@ -747,23 +747,6 @@ module "ubuntu2604_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "debian12_minion" {
-  providers = { libvirt = libvirt.host_deblike }
-  source             = "../minion"
-  count              = lookup(var.environment_configuration, "debian12_minion", null) != null ? 1 : 0
-  base_configuration = local.host_deblike
-  name               = var.environment_configuration.debian12_minion.name
-  image              = "debian12o"
-  provider_settings = merge({
-    mac    = var.environment_configuration.debian12_minion.mac
-    memory = try(var.environment_configuration.debian12_minion.memory, var.minion_memory)
-  }, try({ vcpu = var.environment_configuration.debian12_minion.vcpu }, {}))
-
-  auto_connect_to_master  = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "debian13_minion" {
   providers = { libvirt = libvirt.host_deblike }
   source             = "../minion"
@@ -781,39 +764,18 @@ module "debian13_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "opensuse156arm_minion" {
+module "opensuse161arm_minion" {
   providers = {
     libvirt = libvirt.host_arm
   }
   source             = "../minion"
-  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse156arm_minion", null) != null ? 1 : 0
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse161arm_minion", null) != null ? 1 : 0
   base_configuration = module.base_arm[0].configuration
-  name               = "${var.environment_configuration.opensuse156arm_minion.name}${var.platform_location_configuration[var.location].extension}"
-  image              = "opensuse156armo"
+  name               = "${var.environment_configuration.opensuse161arm_minion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "opensuse161armo"
   provider_settings = {
-    mac            = var.environment_configuration.opensuse156arm_minion.mac
-    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse156arm_minion.name}.${var.platform_location_configuration[var.location].domain}"
-    memory         = 2048
-    vcpu           = 2
-    xslt           = file("modules/build_validation/tune-aarch64.xsl")
-  }
-  auto_connect_to_master  = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "opensuse160arm_minion" {
-  providers = {
-    libvirt = libvirt.host_arm
-  }
-  source             = "../minion"
-  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse160arm_minion", null) != null ? 1 : 0
-  base_configuration = module.base_arm[0].configuration
-  name               = "${var.environment_configuration.opensuse160arm_minion.name}${var.platform_location_configuration[var.location].extension}"
-  image              = "opensuse160armo"
-  provider_settings = {
-    mac            = var.environment_configuration.opensuse160arm_minion.mac
-    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse160arm_minion.name}.${var.platform_location_configuration[var.location].domain}"
+    mac            = var.environment_configuration.opensuse161arm_minion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse161arm_minion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
     xslt           = file("modules/build_validation/tune-aarch64.xsl")
@@ -881,26 +843,6 @@ module "salt_migration_minion" {
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
   install_salt_bundle     = false
-}
-
-module "slemicro52_minion" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../minion"
-  count              = lookup(var.environment_configuration, "slemicro52_minion", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.slemicro52_minion.name
-  image              = "slemicro52-ign"
-  provider_settings = merge({
-    mac    = var.environment_configuration.slemicro52_minion.mac
-    memory = try(var.environment_configuration.slemicro52_minion.memory, 2048)
-  }, try({ vcpu = var.environment_configuration.slemicro52_minion.vcpu }, {}))
-
-  auto_connect_to_master  = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-
-  // WORKAROUND: Does not work in sumaform, yet
-  install_salt_bundle = false
 }
 
 module "slemicro53_minion" {
@@ -1415,21 +1357,6 @@ module "ubuntu2604_sshminion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "debian12_sshminion" {
-  providers = { libvirt = libvirt.host_deblike }
-  source             = "../sshminion"
-  count              = lookup(var.environment_configuration, "debian12_sshminion", null) != null ? 1 : 0
-  base_configuration = local.host_deblike
-  name               = var.environment_configuration.debian12_sshminion.name
-  image              = "debian12o"
-  provider_settings = merge({
-    mac    = var.environment_configuration.debian12_sshminion.mac
-    memory = try(var.environment_configuration.debian12_sshminion.memory, var.minion_memory)
-  }, try({ vcpu = var.environment_configuration.debian12_sshminion.vcpu }, {}))
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
 module "debian13_sshminion" {
   providers = { libvirt = libvirt.host_deblike }
   source             = "../sshminion"
@@ -1445,38 +1372,18 @@ module "debian13_sshminion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "opensuse156arm_sshminion" {
+module "opensuse161arm_sshminion" {
   providers = {
     libvirt = libvirt.host_arm
   }
   source             = "../sshminion"
-  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse156arm_sshminion", null) != null ? 1 : 0
+  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse161arm_sshminion", null) != null ? 1 : 0
   base_configuration = module.base_arm[0].configuration
-  name               = "${var.environment_configuration.opensuse156arm_sshminion.name}${var.platform_location_configuration[var.location].extension}"
-  image              = "opensuse156armo"
+  name               = "${var.environment_configuration.opensuse161arm_sshminion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "opensuse161armo"
   provider_settings = {
-    mac            = var.environment_configuration.opensuse156arm_sshminion.mac
-    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse156arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
-    memory         = 2048
-    vcpu           = 2
-    xslt           = file("modules/build_validation/tune-aarch64.xsl")
-  }
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "opensuse160arm_sshminion" {
-  providers = {
-    libvirt = libvirt.host_arm
-  }
-  source             = "../sshminion"
-  count              = local.base_arm_configuration != null && lookup(var.environment_configuration, "opensuse160arm_sshminion", null) != null ? 1 : 0
-  base_configuration = module.base_arm[0].configuration
-  name               = "${var.environment_configuration.opensuse160arm_sshminion.name}${var.platform_location_configuration[var.location].extension}"
-  image              = "opensuse160armo"
-  provider_settings = {
-    mac            = var.environment_configuration.opensuse160arm_sshminion.mac
-    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse160arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
+    mac            = var.environment_configuration.opensuse161arm_sshminion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse161arm_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
     memory         = 2048
     vcpu           = 2
     xslt           = file("modules/build_validation/tune-aarch64.xsl")
@@ -1629,23 +1536,6 @@ module "centos7_client" {
   additional_packages = [ "venv-salt-minion" ]
   install_salt_bundle = true
 }
-
-//  WORKAROUND until https://bugzilla.suse.com/show_bug.cgi?id=1208045 gets fixed
-// module "slemicro52_sshminion" {
-//   providers = { libvirt = libvirt.new_sle }
-//   source             = "../sshminion"
-//   count              = lookup(var.environment_configuration, "slemicro52_sshminion", null) != null ? 1 : 0
-//   base_configuration = local.base_new_sle
-//   name               = var.environment_configuration.slemicro52_sshminion.name
-//   image              = "slemicro52-ign"
-//   provider_settings = {
-//     mac                = var.environment_configuration.slemicro52_sshminion.mac
-//     memory             = 2048
-//   }
-//   use_os_released_updates = false
-//
-//   ssh_key_path            = var.controller_public_ssh_key_path
-// }
 
 //  WORKAROUND until https://bugzilla.suse.com/show_bug.cgi?id=1208045 gets fixed
 // module "slemicro53_sshminion" {
@@ -1970,15 +1860,11 @@ module "controller" {
   ubuntu2604_minion_configuration    = length(module.ubuntu2604_minion) > 0 ? module.ubuntu2604_minion[0].configuration : local.empty_minion_config
   ubuntu2604_sshminion_configuration = length(module.ubuntu2604_sshminion) > 0 ? module.ubuntu2604_sshminion[0].configuration : local.empty_minion_config
 
-  debian12_minion_configuration    = length(module.debian12_minion) > 0 ? module.debian12_minion[0].configuration : local.empty_minion_config
-  debian12_sshminion_configuration = length(module.debian12_sshminion) > 0 ? module.debian12_sshminion[0].configuration : local.empty_minion_config
   debian13_minion_configuration    = length(module.debian13_minion) > 0 ? module.debian13_minion[0].configuration : local.empty_minion_config
   debian13_sshminion_configuration = length(module.debian13_sshminion) > 0 ? module.debian13_sshminion[0].configuration : local.empty_minion_config
 
-  opensuse156arm_minion_configuration    = length(module.opensuse156arm_minion) > 0 ? module.opensuse156arm_minion[0].configuration : local.empty_minion_config
-  opensuse156arm_sshminion_configuration = length(module.opensuse156arm_sshminion) > 0 ? module.opensuse156arm_sshminion[0].configuration : local.empty_minion_config
-  opensuse160arm_minion_configuration    = length(module.opensuse160arm_minion) > 0 ? module.opensuse160arm_minion[0].configuration : local.empty_minion_config
-  opensuse160arm_sshminion_configuration = length(module.opensuse160arm_sshminion) > 0 ? module.opensuse160arm_sshminion[0].configuration : local.empty_minion_config
+  opensuse161arm_minion_configuration    = length(module.opensuse161arm_minion) > 0 ? module.opensuse161arm_minion[0].configuration : local.empty_minion_config
+  opensuse161arm_sshminion_configuration = length(module.opensuse161arm_sshminion) > 0 ? module.opensuse161arm_sshminion[0].configuration : local.empty_minion_config
   raspios13_minion_configuration         = length(module.raspios13_minion) > 0 ? module.raspios13_minion[0].configuration : local.empty_minion_config
   raspios13_sshminion_configuration      = length(module.raspios13_sshminion) > 0 ? module.raspios13_sshminion[0].configuration : local.empty_minion_config
 
@@ -1987,7 +1873,6 @@ module "controller" {
 
   salt_migration_minion_configuration = length(module.salt_migration_minion) > 0 ? module.salt_migration_minion[0].configuration : local.empty_minion_config
 
-  slemicro52_minion_configuration  = length(module.slemicro52_minion) > 0 ? module.slemicro52_minion[0].configuration : local.empty_minion_config
   slemicro53_minion_configuration  = length(module.slemicro53_minion) > 0 ? module.slemicro53_minion[0].configuration : local.empty_minion_config
   slemicro54_minion_configuration  = length(module.slemicro54_minion) > 0 ? module.slemicro54_minion[0].configuration : local.empty_minion_config
   slemicro55_minion_configuration  = length(module.slemicro55_minion) > 0 ? module.slemicro55_minion[0].configuration : local.empty_minion_config
