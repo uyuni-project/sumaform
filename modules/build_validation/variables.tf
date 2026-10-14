@@ -162,26 +162,31 @@ variable "s390_local_user" {
 
 variable "server_containerized_main_disk_size" {
   description = "Size of main disk for the containerized server, defined in GiB"
+  type        = number
   default     = 100
 }
 
 variable "server_containerized_repository_disk_size" {
   description = "Size of repository disk for the containerized server, defined in GiB"
+  type        = number
   default     = 3072
 }
 
 variable "server_containerized_database_disk_size" {
   description = "Size of database disk for the containerized server, defined in GiB"
+  type        = number
   default     = 300
 }
 
 variable "server_containerized_disable_auto_bootstrap" {
   description = "Disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
+  type        = bool
   default     = true
 }
 
 variable "server_containerized_disable_auto_channel_sync" {
   description = "Disable automatic channel synchronization after product synchronization"
+  type        = bool
   default     = true
 }
 
@@ -193,6 +198,7 @@ variable "server_containerized_server_mounted_mirror" {
 
 variable "server_containerized_use_os_released_updates" {
   description = "Apply all updates from SUSE Linux Enterprise repos for the containerized server"
+  type        = bool
   default     = true
 }
 
