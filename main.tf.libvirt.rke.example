@@ -30,13 +30,37 @@ module "cucumber_testsuite" {
   cc_ptf_username = ""
   cc_ptf_password = ""
 
-  # RKE2 variables
+  # RKE2 / Kubernetes variables
   kubernetes                     = true
   use_devel_oci                  = true
   deploy_coco_attestation        = true
   deploy_saline                  = true
   deploy_tftp                    = true
+  deploy_hub_api                 = true
   rke2_version                   = "v1.35.4+rke2r1"
+
+  # true to install the server and proxy on RKE2. False if you want to use an external cluster.
+  install_uyuni_via_testsuite    = true
+
+  # true to install kubectl and helm on the controller
+  install_kubectl_helm           = false
+
+  # path to an existing kubeconfig to copy to /root/.kube/config on the
+  # controller, e.g. when reusing an existing (external) Kubernetes cluster
+  # via the kubernetes_cluster_mode variable (see modules/cucumber_testsuite)
+  # Modify it just if you want to use an external cluster not deployed by the testsuite. Null by default.
+  kubeconfig_path                = null
+
+  # Uncomment to pin a different cert-manager release, defaults shown below
+  # cert_manager_version          = "v1.19.2"
+  # cert_manager_namespace        = "cert-manager"
+
+  # Uncomment to create spacewalk and pgsql as static PVs, false by default. Otherwise they are managed by the storage backend.
+  # kubernetes_create_static_var_spacewalk_pv = true
+  # kubernetes_create_static_var_pgsql_pv     = true
+
+  # Uncomment to set the local_path_provisioner as local_path. True by deefault.
+  # local_path_provisioner_default_class      = true
 
   # define what images should be used and uploaded
   # https://github.com/uyuni-project/sumaform/blob/master/backend_modules/libvirt/README.md#only-upload-a-subset-of-available-images
@@ -76,8 +100,11 @@ module "cucumber_testsuite" {
   git_password = "nogit"
   branch = "master"
 
-  # Required to select a container server in the testsuite
+  # With kubernetes = true above, the server and proxy are always deployed on
+  # Kubernetes regardless of these two; kept here for parity with CI configs
+  # that toggle between containerized and Kubernetes deployments.
   container_server = true
+  container_proxy  = true
 
   # In case you use an authentication registry
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
@@ -103,57 +130,89 @@ module "cucumber_testsuite" {
   # }
   # also have a look at the image matrix that is used in our test suite:
   # https://github.com/SUSE/susemanager-ci#used-image-versions-in-the-ci-test-suite
+  # The following modules are just to configure the machines, to actually install RKE2
+  #  and the server/proxy you need to execute some run_sets as is described in this README: https://github.com/uyuni-project/sumaform/blob/master/salt/server_kubernetes/README.md
   host_settings = {
+    # IMPORTANT!!
+    # The controller is mandatory because the RKE2 and the server/proxy are installed via testsute. 
     controller = {
       name = "controller"
     }
     server_kubernetes = {
-      name = "server_kubernetes"
-      server_name = "server"
+      # image = "slmicro62o" or "tumbleweedo". It's slmicro 6.2 by default.
+      # Define name of the server. Uyuni-server by default.
+      server_name = "uyuni-server"
+
+      # Define name of the server namespace. Uyuni by default.
       server_namespace = "uyuni"
 
       # Kubernetes distro to run the container in.
       # runtime = "rke2"
 
-      # Override where to get the containers from
-      # container_registry = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
+      # Where to get the containers from; the module's own default points at
+      # an internal SUSE registry, so override it for a public setup
+      container_registry = "registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni"
 
-      # Name of the helm chart. The last sting of the OCI url.
-      # helm_chart_name = "server-helm"
+      # Name of the helm chart. The last string of the OCI url.
+      helm_chart_name = "server-helm"
 
-      # Helm oci
-      # helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni"
-      
+      # Helm oci; the module's own default points at an internal SUSE chart
+      # repository, so override it for a public setup
+      helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni"
+
+      # Define a specific container image tag to install
+      container_tag = "latest"
+
       # Override the default image names for Server and Database containers
       # container_image = "server"
       # db_container_image = "server-postgresql"
 
-      # Define a specific container image tag to install
-      # container_tag = "latest"
+      # The Kubernetes server needs considerably more resources than a plain
+      # VM or container host; adjust to your hardware, these are a sane start
+      # provider_settings = {
+      #   vcpu   = 8
+      #   memory = 32768
+      # }
+      # main_disk_size       = 40
+      # repository_disk_size = 300
+      # database_disk_size   = 60
+      # login_timeout        = 28800
     }
     proxy_kubernetes = {
-      name = "proxy_kubernetes"
-      proxy_name = "proxy"
+      # image = "slmicro62o" or "tumbleweedo". It's slmicro 6.2 by default.
+      
+      # Define name of the proxy. Uyuni-proxy by default.
+      proxy_name = "uyuni-proxy"
+
+      # Define name of the proxy namespace. Uyuni by default.
       proxy_namespace = "uyuni"
 
-      # Kubernetes distro to run the container in.
-      # runtime = "rke2"
+      # runtime defaults to "rke2" already, no need to set it explicitly
 
-      # Override where to get the containers from
-      # container_registry = "registry.opensuse.org/systemsmanagement/uyuni/master/containers/uyuni"
+      # Where to get the containers from; the module's own default points at
+      # an internal SUSE registry, so override it for a public setup
+      container_registry = "registry.opensuse.org/systemsmanagement/uyuni/master/containerfile/uyuni"
 
-      # Name of the helm chart. The last sting of the OCI url.
-      # helm_chart_name = "proxy-helm"
+      # Name of the helm chart. The last string of the OCI url.
+      helm_chart_name = "proxy-helm"
 
-      # Helm oci
-      # helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni"
+      # Helm oci; the module's own default points at an internal SUSE chart
+      # repository, so override it for a public setup
+      helm_chart_url = "oci://registry.opensuse.org/systemsmanagement/uyuni/master/charts/uyuni"
+
+      # Define a specific container image tag to install
+      container_tag = "latest"
 
       # Override the default image names for Server and Database containers
       # container_image = "server"
       # db_container_image = "server-postgresql"
 
-      # Define a specific container image tag to install
-      # container_tag = "latest"
+      # adjust to your hardware, these are a sane start
+      # provider_settings = {
+      #   vcpu   = 2
+      #   memory = 16384
+      # }
+      # login_timeout = 28800
     }
     suse_client = {
       image = "sles15sp4o"
