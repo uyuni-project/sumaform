@@ -12,8 +12,6 @@ scc:
       - SLES12-SP5-Updates
       - SLES12-SP5-LTSS-Updates
       # SLE Micro
-      - SLE-Micro-5.2-Pool
-      - SLE-Micro-5.2-Updates
       - SLE-Micro-5.3-Pool
       - SLE-Micro-5.3-Updates
       - SLE-Micro-5.4-Pool
@@ -119,9 +117,7 @@ scc:
       - RES8-Manager-Tools-Updates
       - Ubuntu-22.04-SUSE-Manager-Tools
       - Ubuntu 24.04-SUSE-Manager-Tools
-      - Debian-12-SUSE-Manager-Tools
       - Debian-13-SUSE-Manager-Tools
-      - ManagerTools-Debian12-Updates
       - ManagerTools-Debian13-Updates
       # SUSE Manager Beta Tools
       - SLE-Manager-Tools12-Pool-Beta
@@ -133,9 +129,7 @@ scc:
       - RES8-Manager-Tools-Updates-Beta
       - Ubuntu-22.04-SUSE-Manager-Tools-Beta
       - Ubuntu-24.04-SUSE-Manager-Tools-Beta
-      - Debian-12-SUSE-Manager-Tools-Beta
       - Debian-13-SUSE-Manager-Tools-Beta
-      - ManagerTools-Debian12-Beta-Updates
       - ManagerTools-Debian13-Beta-Updates
     archs: [x86_64, amd64]
 
@@ -219,14 +213,6 @@ http:
     archs: [amd64]
 
   # openSUSE Leap
-  - url: http://download.opensuse.org/distribution/leap/15.6/repo/oss
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.6/oss
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.6/backports
-    archs: [x86_64]
-  - url: http://download.opensuse.org/update/leap/15.6/sle
-    archs: [x86_64,aarch64]
   - url: http://download.opensuse.org/distribution/leap/16.0/repo/oss
     archs: [x86_64]
 
@@ -243,13 +229,9 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP6
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_15.6
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_16.0
     archs: [x86_64]
   # Jenkins
-  - url: http://download.opensuse.org/repositories/devel:/tools:/building/15.6
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/devel:/tools:/building/16.0
     archs: [x86_64]
 
@@ -286,8 +268,6 @@ http:
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
     archs: [amd64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian12-Uyuni-Client-Tools/Debian_12/
-    archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian13-Uyuni-Client-Tools/Debian_13/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
@@ -321,8 +301,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
-    archs: [amd64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian12-Uyuni-Client-Tools/Debian_12/
     archs: [amd64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian13-Uyuni-Client-Tools/Debian_13/
     archs: [amd64]

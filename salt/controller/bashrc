@@ -100,10 +100,6 @@ grains.get('sles15sp7_sshminion') }}" {% else %}# no SLES15SP7 ssh minion define
 %}# no SLES160 minion defined {% endif %}
 {% if grains.get('sles160_sshminion') | default(false, true) %}export SLES160_SSHMINION="{{ grains.get('sles160_sshminion')
 }}" {% else %}# no SLES160 ssh minion defined {% endif %}
-{% if grains.get('slemicro52_minion') | default(false, true) %}export SLEMICRO52_MINION="{{
-grains.get('slemicro52_minion') }}" {% else %}# no SLEMICRO52 minion defined {% endif %}
-{% if grains.get('slemicro52_sshminion') | default(false, true) %}export SLEMICRO52_SSHMINION="{{
-grains.get('slemicro52_sshminion') }}" {% else %}# no SLEMICRO52 ssh minion defined {% endif %}
 {% if grains.get('slemicro53_minion') | default(false, true) %}export SLEMICRO53_MINION="{{
 grains.get('slemicro53_minion') }}" {% else %}# no SLEMICRO53 minion defined {% endif %}
 {% if grains.get('slemicro53_sshminion') | default(false, true) %}export SLEMICRO53_SSHMINION="{{
@@ -210,10 +206,6 @@ grains.get('ubuntu2404_sshminion') }}" {% else %}# no UBUNTU2404 ssh minion defi
 grains.get('ubuntu2604_minion') }}" {% else %}# no UBUNTU2604 minion defined {% endif %}
 {% if grains.get('ubuntu2604_sshminion') | default(false, true) %}export UBUNTU2604_SSHMINION="{{
 grains.get('ubuntu2604_sshminion') }}" {% else %}# no UBUNTU2604 ssh minion defined {% endif %}
-{% if grains.get('debian12_minion') | default(false, true) %}export DEBIAN12_MINION="{{ grains.get('debian12_minion')
-}}" {% else %}# no DEBIAN12 minion defined {% endif %}
-{% if grains.get('debian12_sshminion') | default(false, true) %}export DEBIAN12_SSHMINION="{{
-grains.get('debian12_sshminion') }}" {% else %}# no DEBIAN12 ssh minion defined {% endif %}
 {% if grains.get('debian13_minion') | default(false, true) %}export DEBIAN13_MINION="{{ grains.get('debian13_minion')
 }}" {% else %}# no DEBIAN13 minion defined {% endif %}
 {% if grains.get('debian13_sshminion') | default(false, true) %}export DEBIAN13_SSHMINION="{{
@@ -234,10 +226,6 @@ grains.get('sles15sp7_buildhost') }}" {% else %}# no SLES15SP7 buildhost defined
 grains.get('sles15sp6_terminal_mac') }}" {% else %}# no SLES15SP6 terminal MAC defined {% endif %}
 {% if grains.get('sles15sp7_terminal_mac') | default(false, true) %}export SLES15SP7_TERMINAL_MAC="{{
 grains.get('sles15sp7_terminal_mac') }}" {% else %}# no SLES15SP7 terminal MAC defined {% endif %}
-{% if grains.get('opensuse156arm_minion') | default(false, true) %}export OPENSUSE156ARM_MINION="{{
-grains.get('opensuse156arm_minion') }}" {% else %}# no OPENSUSE156ARM minion defined {% endif %}
-{% if grains.get('opensuse156arm_sshminion') | default(false, true) %}export OPENSUSE156ARM_SSHMINION="{{
-grains.get('opensuse156arm_sshminion') }}" {% else %}# no OPENSUSE156ARM ssh minion defined {% endif %}
 {% if grains.get('opensuse160arm_minion') | default(false, true) %}export OPENSUSE160ARM_MINION="{{
 grains.get('opensuse160arm_minion') }}" {% else %}# no OPENSUSE160ARM minion defined {% endif %}
 {% if grains.get('opensuse160arm_sshminion') | default(false, true) %}export OPENSUSE160ARM_SSHMINION="{{
