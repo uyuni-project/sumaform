@@ -20,7 +20,7 @@ locals {
     rocky9o                  = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
     rocky10o                 = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.rockylinux.org"}/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2"
     opensuse160o             = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.x86_64-Cloud.qcow2"
-    opensuse160armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.0/appliances/Leap-16.0-Minimal-VM.aarch64-Cloud.qcow2"
+    opensuse161armo          = "${var.use_mirror_images ? "http://${var.mirror}" : "http://download.opensuse.org"}/distribution/leap/16.1/appliances/Leap-16.1-Minimal-VM.aarch64-Cloud.qcow2"
     sles15sp4o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP4-Minimal-GM/SLES15-SP4-Minimal-VM.x86_64-OpenStack-Cloud-GM.qcow2"
     sles15sp5o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP5-Minimal-GM/SLES15-SP5-Minimal-VM.x86_64-Cloud-GM.qcow2"
     sles15sp6o               = "${var.use_mirror_images ? "http://${var.mirror}" : "http://dist.suse.de"}/install/SLE-15-SP6-Minimal-GM/SLES15-SP6-Minimal-VM.x86_64-Cloud-GM.qcow2"

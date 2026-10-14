@@ -226,10 +226,10 @@ grains.get('sles15sp7_buildhost') }}" {% else %}# no SLES15SP7 buildhost defined
 grains.get('sles15sp6_terminal_mac') }}" {% else %}# no SLES15SP6 terminal MAC defined {% endif %}
 {% if grains.get('sles15sp7_terminal_mac') | default(false, true) %}export SLES15SP7_TERMINAL_MAC="{{
 grains.get('sles15sp7_terminal_mac') }}" {% else %}# no SLES15SP7 terminal MAC defined {% endif %}
-{% if grains.get('opensuse160arm_minion') | default(false, true) %}export OPENSUSE160ARM_MINION="{{
-grains.get('opensuse160arm_minion') }}" {% else %}# no OPENSUSE160ARM minion defined {% endif %}
-{% if grains.get('opensuse160arm_sshminion') | default(false, true) %}export OPENSUSE160ARM_SSHMINION="{{
-grains.get('opensuse160arm_sshminion') }}" {% else %}# no OPENSUSE160ARM ssh minion defined {% endif %}
+{% if grains.get('opensuse161arm_minion') | default(false, true) %}export OPENSUSE161ARM_MINION="{{
+grains.get('opensuse161arm_minion') }}" {% else %}# no OPENSUSE161ARM minion defined {% endif %}
+{% if grains.get('opensuse161arm_sshminion') | default(false, true) %}export OPENSUSE161ARM_SSHMINION="{{
+grains.get('opensuse161arm_sshminion') }}" {% else %}# no OPENSUSE161ARM ssh minion defined {% endif %}
 {% if grains.get('sles15sp5s390_minion') | default(false, true) %}export SLES15SP5S390_MINION="{{
 grains.get('sles15sp5s390_minion') }}" {% else %}# no SLES15SP5S390 minion defined {% endif %}
 {% if grains.get('sles15sp5s390_sshminion') | default(false, true) %}export SLES15SP5S390_SSHMINION="{{

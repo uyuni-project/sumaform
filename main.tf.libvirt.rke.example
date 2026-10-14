@@ -47,7 +47,7 @@ module "cucumber_testsuite" {
   # "debian13o",
   # "libertylinux9o", "libertylinux10o",
   # "openeuler2403o",
-  # "opensuse160o", "opensuse160armo",
+  # "opensuse160o", "opensuse161armo",
   # "oraclelinux8o", "oraclelinux9o", "oraclelinux10o",
   # "raspios13o",
   # "rocky8o", "rocky9o", "rocky10o",

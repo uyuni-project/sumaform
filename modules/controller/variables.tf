@@ -771,15 +771,15 @@ variable "sles15sp7_terminal_configuration" {
   }
 }
 
-variable "opensuse160arm_minion_configuration" {
-  description = "use module.<OPENSUSE160ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse161arm_minion_configuration" {
+  description = "use module.<OPENSUSE161ARM_MINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }
 }
 
-variable "opensuse160arm_sshminion_configuration" {
-  description = "use module.<OPENSUSE160ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
+variable "opensuse161arm_sshminion_configuration" {
+  description = "use module.<OPENSUSE161ARM_SSHMINION>.configuration, see main.tf.libvirt-testsuite.example"
   default = {
     hostnames = []
   }

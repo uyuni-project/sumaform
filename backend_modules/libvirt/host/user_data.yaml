@@ -207,11 +207,9 @@ zypper:
       name: tools_pool_repo
 
 runcmd:
-%{ if image == "opensuse160o" ~}
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - echo "ChallengeResponseAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd
-%{ endif ~}
 %{ if container_server && testsuite ~}
   # Packages needed for the testsuite
   - "zypper -n in expect"
@@ -222,10 +220,8 @@ runcmd:
   - "zypper -n in avahi nss-mdns"
 %{ endif ~}
   - "zypper removerepo --all"
-%{ if image == "opensuse160o" ~}
   - "zypper --non-interactive modifyservice --disable openSUSE || true"
   - "zypper --non-interactive removeservice openSUSE || true"
-%{ endif ~}
   - rpm -qa | sort > /installed_packages.txt
 %{ endif ~}
 
@@ -1384,7 +1380,7 @@ runcmd:
   - rpm -qa | sort > /installed_packages.txt
 %{ endif }
 
-%{ if image == "opensuse160armo" ~}
+%{ if image == "opensuse161armo" ~}
 zypper:
   repos:
     - id: tools_pool_repo
@@ -1409,11 +1405,9 @@ runcmd:
   - "zypper -n in salt-minion"
 %{ endif ~}
   - "zypper removerepo --all"
-%{ if image == "opensuse160armo" ~}
   - "zypper --non-interactive modifyservice --disable openSUSE || true"
   - "zypper --non-interactive removeservice openSUSE || true"
-%{ endif ~}
-  # WORKAROUND: cloud-init in opensuse 16.0 does not take care of the following
+  # WORKAROUND: cloud-init in opensuse 16.1 does not take care of the following
   - echo "PermitRootLogin yes" > /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd.service
   - rpm -qa | sort > /installed_packages.txt

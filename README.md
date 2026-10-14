@@ -163,7 +163,7 @@ module "base" {
     "libertylinux10o",
     "openeuler2403o",
     "opensuse160o",
-    "opensuse160armo",
+    "opensuse161armo",
     "oraclelinux8o",
     "oraclelinux9o",
     "oraclelinux10o",
