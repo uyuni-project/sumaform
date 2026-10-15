@@ -917,6 +917,7 @@ module "slmicro60_minion" {
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
+  gpg_keys                = ["default/gpg_keys/suse_staging.key"]
 }
 
 module "slmicro61_minion" {
@@ -934,6 +935,7 @@ module "slmicro61_minion" {
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
+  gpg_keys                = ["default/gpg_keys/suse_staging.key"]
 }
 
 module "slmicro62_minion" {
@@ -951,6 +953,7 @@ module "slmicro62_minion" {
   auto_connect_to_master  = false
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
+  gpg_keys                = ["default/gpg_keys/suse_staging.key"]
 }
 
 module "sles12sp5_sshminion" {
@@ -1645,6 +1648,7 @@ module "slmicro62_sshminion" {
   use_os_released_updates = false
 
   ssh_key_path            = var.controller_public_ssh_key_path
+  gpg_keys                = ["default/gpg_keys/suse_staging.key"]
 }
 
 module "sles15sp6_buildhost" {

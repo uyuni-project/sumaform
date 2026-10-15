@@ -93,6 +93,8 @@ galaxy_repo_key_import:
 
 # needed for SL Micro maintenance updates coming from staging e.g.
 # https://dist.suse.de/ibs/SUSE:/ALP:/Source:/Standard:/1.0:/Staging:/Z/standard/
+# The same key also signs the MLM SL-Micro PullRequest projects, whose packages
+# are not marked with 999999_stage
 suse_staging_key_copy_host:
   file.managed:
     - name: /tmp/suse_staging.key
