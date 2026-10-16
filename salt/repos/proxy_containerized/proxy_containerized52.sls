@@ -61,9 +61,9 @@ container_utils_updates_repo:
 {% if '5.2-nightly' in grains['product_version'] %}
 manager52_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images-SP7/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2:/MLM-Products-SLE15/images/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1
     - refresh: True
-    - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2/images-SP7/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1/repodata/repomd.xml.key
+    - gpgkey: http://{{ grains.get("mirror") | default("dist.suse.de/ibs", true) }}/Devel:/Galaxy:/Manager:/5.2:/MLM-Products-SLE15/images/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{{ grains.get("cpuarch") }}-Media1/repodata/repomd.xml.key
 {% endif %}
 
 {% endif %}
