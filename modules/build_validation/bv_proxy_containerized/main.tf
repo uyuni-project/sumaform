@@ -8,7 +8,6 @@ module "proxy_containerized" {
     mac    = var.mac
     memory = 4096
   }
-  string_registry      = var.string_registry
   runtime              = "podman"
   container_registry   = var.container_registry
   container_tag        = "latest"

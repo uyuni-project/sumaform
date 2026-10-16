@@ -17,11 +17,6 @@ variable "image" {
   type        = string
 }
 
-variable "string_registry" {
-  description = "set the registry in string variable in mgradm.yaml"
-  type        = bool
-}
-
 variable "container_registry" {
   description = "where to find the proxy container images"
   default     = ""

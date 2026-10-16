@@ -90,7 +90,6 @@ module "server_kubernetes" {
     disable_auto_bootstrap         = var.disable_auto_bootstrap
     disable_auto_channel_sync      = var.disable_auto_channel_sync
     large_deployment               = var.large_deployment
-    string_registry                = var.string_registry
     beta_enabled                   = var.beta_enabled
     additional_repos               = var.additional_repos
     enable_oval_metadata           = var.enable_oval_metadata
