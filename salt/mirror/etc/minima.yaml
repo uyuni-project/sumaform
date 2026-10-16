@@ -250,8 +250,6 @@ http:
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
     archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
-    archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/
@@ -283,8 +281,6 @@ http:
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
-    archs: [x86_64]
-  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/
     archs: [x86_64]
   - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
     archs: [x86_64]
