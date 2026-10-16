@@ -19,22 +19,6 @@ runcmd:
 %{ endif ~}
 %{ endif ~}
 
-%{ if image == "opensuse156o" ~}
-# WORKAROUND: install latest libzypp to prevent signature verification errors
-runcmd:
-  - zypper addrepo -G -e http://download.opensuse.org/update/leap/15.6/oss/ os_update
-  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/ client_tools_tmp
-  - zypper ref
-  - zypper up --allow-vendor-change --no-confirm libzypp
-%{ if install_salt_bundle ~}
-  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else ~}
-  - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif ~}
-  - zypper removerepo --all
-
-%{ endif ~}
-
 %{ if image == "opensuse160o" ~}
 runcmd:
   - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/ temp_tools_pool_repo
@@ -54,26 +38,12 @@ runcmd:
 
 %{ endif ~}
 
-%{ if image == "sles15" ~}
-zypper:
-  repos:
-    - id: os_pool_repo
-      name: os_pool_repo
-      baseurl: http://${mirror_url}/SUSE/Products/SLE-Module-Basesystem/15-SP1/x86_64/product
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-%{ endif ~}
-
 %{ if image == "sles15sp4o" || image == "sles15sp5o" || image == "sles15sp6o" || image == "sles15sp7o" ~}
 runcmd:
-  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/saltstack:/products/SLE_15/ salt_test
+  - zypper addrepo -G -e http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/ temp_tools_repo
   - zypper ref
-  - zypper in --allow-vendor-change --no-confirm salt-minion
+  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
   - zypper removerepo --all
-
-packages: ["salt-minion"]
 
 %{ endif ~}
 
