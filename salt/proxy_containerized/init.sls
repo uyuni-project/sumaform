@@ -52,12 +52,8 @@ config_proxy_containerized:
     - name: /etc/uyuni/uyuni-tools.yaml
     - contents: |
         {% if container_registry %}
-        {% if grains.get('string_registry') | default(false, true) %}
-        registry: {{ container_registry }}
-        {% else %}
         registry:
           host: {{ container_registry }}
-        {% endif %}
         {% endif %}
         httpd:
           {% if grains.get('httpd_container_image') %}

@@ -143,7 +143,6 @@ module "server_containerized" {
   container_image      = var.server_container_image
   main_disk_size       = var.server_containerized_main_disk_size
 
-  string_registry                = var.environment_configuration.server_containerized.string_registry
   repository_disk_size           = var.server_containerized_repository_disk_size
   database_disk_size             = var.server_containerized_database_disk_size
   container_tag                  = "latest"
@@ -184,7 +183,6 @@ module "server2_containerized" {
   name               = var.environment_configuration.server2_containerized.name
   mac                = var.environment_configuration.server2_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server2_containerized.image
-  string_registry    = var.environment_configuration.server2_containerized.string_registry
   # Sizing and behavior default to the values of server_containerized, overridable from server2_containerized
   memory                    = try(var.environment_configuration.server2_containerized.memory, var.server_containerized_memory)
   vcpu                      = try(var.environment_configuration.server2_containerized.vcpu, var.server_containerized_vcpu)
@@ -213,7 +211,6 @@ module "server3_containerized" {
   name               = var.environment_configuration.server3_containerized.name
   mac                = var.environment_configuration.server3_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server3_containerized.image
-  string_registry    = var.environment_configuration.server3_containerized.string_registry
   use_mirror         = try(var.environment_configuration.server3_containerized.use_mirror, true)
   mirror             = var.platform_location_configuration[var.location].mirror
   container_registry   = var.server_container_registry
@@ -233,7 +230,6 @@ module "server4_containerized" {
   name               = var.environment_configuration.server4_containerized.name
   mac                = var.environment_configuration.server4_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.server4_containerized.image
-  string_registry    = var.environment_configuration.server4_containerized.string_registry
   use_mirror         = try(var.environment_configuration.server4_containerized.use_mirror, true)
   mirror             = var.platform_location_configuration[var.location].mirror
   container_registry   = var.server_container_registry
@@ -283,7 +279,6 @@ module "proxy_containerized" {
     memory = try(var.environment_configuration.proxy_containerized.memory, 4096)
   }, try({ vcpu = var.environment_configuration.proxy_containerized.vcpu }, {}))
   main_disk_size       = try(var.environment_configuration.proxy_containerized.main_disk_size, 200)
-  string_registry      = var.environment_configuration.proxy_containerized.string_registry
   runtime              = "podman"
   container_registry   = var.proxy_container_registry
   container_tag        = "latest"
@@ -302,7 +297,6 @@ module "proxy2_containerized" {
   name               = var.environment_configuration.proxy2_containerized.name
   mac                = var.environment_configuration.proxy2_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy2_containerized.image
-  string_registry    = var.environment_configuration.proxy2_containerized.string_registry
   container_registry   = var.proxy_container_registry
   additional_repos   = local.additional_repos["proxy2_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
@@ -316,7 +310,6 @@ module "proxy3_containerized" {
   name               = var.environment_configuration.proxy3_containerized.name
   mac                = var.environment_configuration.proxy3_containerized.mac
   image              = var.base_os != null ? var.base_os : var.environment_configuration.proxy3_containerized.image
-  string_registry    = var.environment_configuration.proxy3_containerized.string_registry
   container_registry   = var.proxy_container_registry
   additional_repos   = local.additional_repos["proxy3_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path

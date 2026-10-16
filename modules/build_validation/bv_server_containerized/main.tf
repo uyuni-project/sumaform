@@ -14,7 +14,6 @@ module "server_containerized" {
   container_image      = var.container_image
   main_disk_size       = var.main_disk_size
 
-  string_registry                = var.string_registry
   repository_disk_size           = var.repository_disk_size
   database_disk_size             = var.database_disk_size
   container_tag                  = "latest"

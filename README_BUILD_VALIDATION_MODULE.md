@@ -33,7 +33,7 @@ module "sles15sp7_minion" {
 }
 ```
 
-If the key is absent from the tfvars file the module is not created (`count = 0`). If it is present it is deployed (`count = 1`). For modules where optional sub-fields may be absent (e.g. `server_containerized` which has an optional `string_registry` field), intermediate `locals` blocks are used to avoid Terraform errors when looking up missing keys.
+If the key is absent from the tfvars file the module is not created (`count = 0`). If it is present it is deployed (`count = 1`). For modules where optional sub-fields may be absent (e.g. `server_containerized` which has an optional `use_mirror` field), intermediate `locals` blocks are used to avoid Terraform errors when looking up missing keys.
 
 ## Input variables
 
@@ -54,7 +54,7 @@ Most nodes only require `mac` and `name`. Some have additional optional fields:
 
 | Node type | Extra fields |
 |---|---|
-| `server_containerized`, `proxy_containerized` | `image` (base OS image), `string_registry` (bool) |
+| `server_containerized`, `proxy_containerized` | `image` (base OS image) |
 | `sles15sp5s390_minion`, `sles15sp5s390_sshminion` | `userid` (z/VM user ID) |
 | `monitoring_server` | optional `image` override |
 
@@ -73,13 +73,11 @@ ENVIRONMENT_CONFIGURATION = {
     mac             = "xx:xx:xx:xx:xx:xx"
     name            = "server"
     image           = "slemicro55o"
-    string_registry = false
   }
   proxy_containerized = {
     mac             = "xx:xx:xx:xx:xx:xx"
     name            = "proxy"
     image           = "slemicro55o"
-    string_registry = false
   }
 
   # Optional — omit any key to skip deploying that node

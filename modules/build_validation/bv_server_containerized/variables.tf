@@ -17,12 +17,6 @@ variable "image" {
   type        = string
 }
 
-variable "string_registry" {
-  description = "set the registry in string variable in mgradm.yaml"
-  type        = bool
-  default     = true
-}
-
 variable "use_mirror" {
   description = "whether to configure the mirror grain and mount the mirror"
   default     = true
