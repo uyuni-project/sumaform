@@ -59,6 +59,12 @@ variables_server_kubernetes:
         {% endif %}
     - makedirs: True
 
+authorized_keys_buildhost_kube:
+  file.append:
+    - name: /root/.ssh/authorized_keys
+    - source: salt://build_host/keys/id_ed25519.pub
+    - makedirs: True
+
 {% if not is_external_cluster %}
 
 ssh_public_key_proxy_kubernetes_server_exchange:
