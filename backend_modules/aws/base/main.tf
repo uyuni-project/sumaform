@@ -113,7 +113,7 @@ module "bastion" {
   source                        = "../host"
   quantity                      = local.create_network ? 1 : 0
   base_configuration            = local.configuration_output
-  image                         = lookup(var.provider_settings, "bastion_image", "opensuse156o")
+  image                         = lookup(var.provider_settings, "bastion_image", "opensuse160o")
   name                          = "bastion"
   provider_settings = {
     instance_type   = "t3a.micro"
