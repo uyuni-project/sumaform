@@ -174,7 +174,7 @@ zypper ar http://${ use_mirror_images ? mirror : "dist.suse.de/ibs"}/SUSE/Produc
 # Install packages
 PACKAGES="qemu-guest-agent avahi ca-certificates which"
 
-%{ if container_runtime == "podman" }
+%{ if container_runtime == "podman" || container_runtime == "rke2" }
 PACKAGES="$PACKAGES podman netavark aardvark-dns"
 %{ endif }
 
