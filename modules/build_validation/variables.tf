@@ -169,7 +169,7 @@ variable "server_containerized_main_disk_size" {
 variable "server_containerized_repository_disk_size" {
   description = "Size of repository disk for the containerized server, defined in GiB"
   type        = number
-  default     = 3072
+  default     = 3333
 }
 
 variable "server_containerized_database_disk_size" {
