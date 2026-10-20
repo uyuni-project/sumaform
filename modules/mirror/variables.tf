@@ -77,6 +77,11 @@ variable "disable_cron" {
   default     = false
 }
 
+variable "nfs_server" {
+  description = "Serve the mirrored packages via NFS, in addition to HTTP"
+  default     = true
+}
+
 variable "image" {
   description = "An image name, e.g. opensuse160o"
   type        = string

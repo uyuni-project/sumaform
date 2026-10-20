@@ -22,6 +22,7 @@ module "mirror" {
     customize_minima_file   = var.customize_minima_file
     synchronize_immediately = var.synchronize_immediately
     disable_cron            = var.disable_cron
+    nfs_server              = var.nfs_server
   }
 
   image = var.image
