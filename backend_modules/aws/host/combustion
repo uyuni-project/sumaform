@@ -64,7 +64,12 @@ PACKAGES="$PACKAGES venv-salt-minion"
 PACKAGES="$PACKAGES salt-minion"
 %{ endif }
 
+# 5.2 ships on a SLES host
+%{ if strcontains(product_version, "5.2") }
+zypper in --allow-vendor-change --no-confirm $PACKAGES
+%{ else }
 transactional-update --non-interactive --continue pkg in $PACKAGES
+%{ endif }
 
 # Leave a marker
 echo "Configured with combustion" > /var/lib/combustion.done

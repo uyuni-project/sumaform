@@ -83,6 +83,8 @@ locals {
       smlm-server-51-arm64-ltd-paygo  = { ami = data.aws_ami.smlm-server-51-arm64-ltd-paygo.image_id },
       smlm-proxy-51-x86_64-byos       = { ami = data.aws_ami.smlm-proxy-51-x86_64-byos.image_id },
       smlm-proxy-51-arm64-byos        = { ami = data.aws_ami.smlm-proxy-51-arm64-byos.image_id },
+      smlm-proxy-52-x86_64-byos       = { ami = data.aws_ami.smlm-proxy-52-x86_64-byos.image_id },
+      smlm-proxy-52-arm64-byos        = { ami = data.aws_ami.smlm-proxy-52-arm64-byos.image_id },
       sles12sp5                       = { ami = data.aws_ami.sles12sp5.image_id },
       sles12sp5-paygo                 = { ami = data.aws_ami.sles12sp5-paygo.image_id },
       rocky9                          = { ami = data.aws_ami.rocky9.image_id, ssh_user = "rocky" },
