@@ -129,8 +129,9 @@ Some SLE Micro / SL Micro `*_sshminion` modules exist only as commented-out work
 
 - `salt_migration_minion` is a dedicated SLES 15 SP5 minion used to test migration from OS Salt to Salt bundle and is deployed with `install_salt_bundle = false`.
 - `slemicro53_minion` and `slemicro54_minion` are kept with `install_salt_bundle = false` because of the in-file workaround comment.
-- `opensuse161arm_*` and `raspios13_*` get their location-specific extension and FQDN handling from the module code.
-- `opensuse161arm_minion` and `opensuse161arm_sshminion` currently use `./salt/controller/id_ed25519.pub` directly for `ssh_key_path` in the module code.
+- `opensuse161arm_*`, `opensuse161ppc_*`, and `raspios13_*` get their location-specific extension and FQDN handling from the module code.
+- `opensuse161arm_*` and `opensuse161ppc_*` currently use `./salt/controller/id_ed25519.pub` directly for `ssh_key_path` in the module code.
+- `opensuse161ppc_*` use the official Leap 16.1 ppc64le image that has 4096-byte sectors and is configured by combustion. As pseries machines have no "firmware configuration device" (fw_cfg), sumaform builds a combustion config drive with `mkisofs`.
 - `rhel7_*`, `rhel8_*`, `rhel9_*`, and `rhel10_*` are Red Hat UBI containers, not VMs. Each key deploys one host VM of the same RHEL generation (`centos7o` for 7, `almalinux8o`/`almalinux9o`/`almalinux10o` for 8, 9 and 10) through the `../minion` module with the `rhel_container` salt role, which builds a `ubi<version>/ubi-init` image with sshd enabled and runs it under the FQDN of the VM. Matching the generation matters because the container runs its own systemd, so it needs a host whose cgroup layout it understands — UBI 7's systemd will not start on a cgroup v2 host. The container shares the network namespace of its host, so its grains, the addresses the test suite resolves and the ports its exporters listen on all agree with the VM's own. The VM keeps port 22 for its own sshd, so the container's sshd listens on port 2222 and everything that talks to the client — bootstrap and test suite alike — has to use that port. The podman command line is kept to flags that CentOS 7's podman 1.6.4 also understands, so the same salt state works on every generation. The base image comes from `registry.access.redhat.com`, and for 8, 9 and 10 the UBI repositories that ship inside the image cover everything the image needs. UBI 7 is the exception: it carries `openssh-server` but not its `fipscheck` and `tcp_wrappers-libs` dependencies, and no `hostname`, `logrotate`, `policycoreutils` or `iproute` at all, so that one image also pulls from the CentOS 7 vault.
 
 ### `BASE_CONFIGURATIONS`
@@ -139,7 +140,7 @@ A map of hypervisor connection details. The number of entries depends on the dep
 
 Assembled tfvars use `BASE_CONFIGURATIONS`. The sumaform module declares `base_configurations` (and derives `module_base_configurations` internally from that input); see [modules/build_validation/variables.tf](modules/build_validation/variables.tf).
 
-- **Single-provider sites** (e.g. Nuremberg/Prague): one `base_core` entry, plus architecture-specific entries like `base_arm` if ARM nodes are present.
+- **Single-provider sites** (e.g. Nuremberg/Prague): one `base_core` entry, plus architecture-specific entries like `base_arm` or `base_ppc` if ARM or PowerPC nodes are present.
 - **Multi-provider sites** (e.g. SLC/backup): one entry per hypervisor, allowing VMs to be distributed across machines.
 
 ```hcl
@@ -156,6 +157,12 @@ BASE_CONFIGURATIONS = {
     bridge             = "brx"
     additional_network = null
     hypervisor         = "suma-arm.mgr.suse.de"
+  }
+  base_ppc = {
+    pool               = "ssd"
+    bridge             = "brx"
+    additional_network = null
+    hypervisor         = "suma-ppc.mgr.suse.de"
   }
 }
 

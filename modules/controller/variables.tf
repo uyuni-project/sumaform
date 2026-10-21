@@ -785,6 +785,20 @@ variable "opensuse161arm_sshminion_configuration" {
   }
 }
 
+variable "opensuse161ppc_minion_configuration" {
+  description = "use module.<OPENSUSE161PPC_MINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
+variable "opensuse161ppc_sshminion_configuration" {
+  description = "use module.<OPENSUSE161PPC_SSHMINION>.configuration"
+  default = {
+    hostnames = []
+  }
+}
+
 variable "sles15sp5s390_minion_configuration" {
   description = "use module.<SLES15SP5S390_MINION>.configuration"
   default = {
