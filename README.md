@@ -164,6 +164,7 @@ module "base" {
     "openeuler2403o",
     "opensuse160o",
     "opensuse161armo",
+    "opensuse161ppco",
     "oraclelinux8o",
     "oraclelinux9o",
     "oraclelinux10o",

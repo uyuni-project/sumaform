@@ -188,6 +188,8 @@ module "controller" {
     sles15sp7_terminal_mac   = var.sles15sp7_terminal_configuration["private_mac"]
     opensuse161arm_minion    = length(var.opensuse161arm_minion_configuration["hostnames"]) > 0 ? var.opensuse161arm_minion_configuration["hostnames"][0] : null
     opensuse161arm_sshminion = length(var.opensuse161arm_sshminion_configuration["hostnames"]) > 0 ? var.opensuse161arm_sshminion_configuration["hostnames"][0] : null
+    opensuse161ppc_minion    = length(var.opensuse161ppc_minion_configuration["hostnames"]) > 0 ? var.opensuse161ppc_minion_configuration["hostnames"][0] : null
+    opensuse161ppc_sshminion = length(var.opensuse161ppc_sshminion_configuration["hostnames"]) > 0 ? var.opensuse161ppc_sshminion_configuration["hostnames"][0] : null
     sles15sp5s390_minion     = length(var.sles15sp5s390_minion_configuration["hostnames"]) > 0 ? var.sles15sp5s390_minion_configuration["hostnames"][0] : null
     sles15sp5s390_sshminion  = length(var.sles15sp5s390_sshminion_configuration["hostnames"]) > 0 ? var.sles15sp5s390_sshminion_configuration["hostnames"][0] : null
     salt_migration_minion    = length(var.salt_migration_minion_configuration["hostnames"]) > 0 ? var.salt_migration_minion_configuration["hostnames"][0] : null

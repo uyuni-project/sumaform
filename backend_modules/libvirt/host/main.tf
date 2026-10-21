@@ -7,6 +7,8 @@ locals {
   // In particular, opensuse160o covers the controller and sles15sp7o is required for the upgrade test to sles160o
   x86_64_v2_images = ["almalinux9o", "almalinux10o", "amazonlinux2023o", "libertylinux9o", "libertylinux10o", "openeuler2403o", "oraclelinux9o", "oraclelinux10o", "rocky9o", "rocky10o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o", "sles161o", "opensuse160o", "opensuse161o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "ubuntu2404o", "ubuntu2604o", "tumbleweedo"]
   combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o"]
+  // ppc64le images: pseries machine, 4096-byte disk sectors, and combustion from a config drive (pseries has no fw_cfg)
+  ppc64le_images     = ["opensuse161ppco"]
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {
         path = "/etc/gpg_keys/${key}"
@@ -20,6 +22,7 @@ locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 
   combustion = contains(local.combustion_images, var.image)
+  combustion_iso = contains(local.ppc64le_images, var.image)
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -30,6 +33,7 @@ locals {
     use_dhcp_ip     = false
     },
     contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
+    contains(local.ppc64le_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/ppc64le.xsl") } : {},
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
     contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
@@ -53,7 +57,7 @@ locals {
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
-    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image)
+    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image) && !contains(local.ppc64le_images, var.image)
     ignition = length(regexall("-ign$", var.image)) > 0
     add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
 
@@ -144,6 +148,41 @@ resource "libvirt_combustion" "combustion_disk" {
   count            = local.combustion ? var.quantity : 0
 }
 
+// combustion config drive: an ISO image labelled "combustion" containing combustion/script
+resource "terraform_data" "combustion_iso" {
+  count            = local.combustion_iso ? var.quantity : 0
+  triggers_replace = sha1(local.combustion_file)
+  input            = "combustion_isos/${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion.iso"
+
+  provisioner "local-exec" {
+    environment = {
+      SCRIPT = local.combustion_file
+      ISO    = self.output
+    }
+    command = <<-EOT
+      set -e
+      dir=$(mktemp -d)
+      mkdir -p "$dir/combustion" "$(dirname "$ISO")"
+      printf '%s' "$SCRIPT" > "$dir/combustion/script"
+      mkisofs -quiet -R -J -V combustion -o "$ISO" "$dir"
+      rm -rf "$dir"
+    EOT
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "rm -f ${self.output}"
+  }
+}
+
+resource "libvirt_volume" "combustion_iso" {
+  name   = basename(terraform_data.combustion_iso[count.index].output)
+  pool   = var.base_configuration["pool"]
+  source = terraform_data.combustion_iso[count.index].output
+  format = "raw"
+  count  = local.combustion_iso ? var.quantity : 0
+}
+
 resource "libvirt_ignition" "ignition_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
   pool             = var.base_configuration["pool"]
@@ -164,15 +203,18 @@ resource "libvirt_domain" "domain" {
     mode = local.provider_settings["cpu_model"]
   }
 
-  // base disk + additional disks if any
+  // base disk + additional disks if any + combustion config drive if any
+  // (the provider turns a "file" ending in .iso into a CD-ROM; the volume id is its path on the hypervisor)
   dynamic "disk" {
     for_each = concat(
-      length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id}] : [],
-      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id}] : [],
-      length(libvirt_volume.database_disk) == var.quantity ? [{"volume_id" : libvirt_volume.database_disk[count.index].id}] : []
+      length(libvirt_volume.main_disk) == var.quantity ? [{"volume_id" : libvirt_volume.main_disk[count.index].id, "file" : null}] : [],
+      length(libvirt_volume.data_disk) == var.quantity ? [{"volume_id" : libvirt_volume.data_disk[count.index].id, "file" : null}] : [],
+      length(libvirt_volume.database_disk) == var.quantity ? [{"volume_id" : libvirt_volume.database_disk[count.index].id, "file" : null}] : [],
+      length(libvirt_volume.combustion_iso) == var.quantity ? [{"volume_id" : null, "file" : libvirt_volume.combustion_iso[count.index].id}] : []
     )
     content {
       volume_id = disk.value.volume_id
+      file      = disk.value.file
     }
   }
 

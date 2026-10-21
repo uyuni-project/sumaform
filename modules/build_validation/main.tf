@@ -7,6 +7,7 @@ locals {
   base_retail  = lookup(var.module_base_configurations, "retail",  local.base_core)
 
   base_arm_configuration = try(var.base_configurations.base_arm, null)
+  base_ppc_configuration = try(var.base_configurations.base_ppc, null)
 
   server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
   proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_server_proxy_config)
@@ -67,6 +68,34 @@ module "base_arm" {
   provider_settings = {
     pool   = "ssd"
     bridge = coalesce(try(local.base_arm_configuration.bridge, null), "br1")
+  }
+  ssh_key_path = var.controller_public_ssh_key_path
+}
+
+module "base_ppc" {
+  providers = {
+    libvirt = libvirt.host_ppc
+  }
+
+  source = "../base"
+  count  = local.base_ppc_configuration != null ? 1 : 0
+
+  cc_username     = var.scc_user
+  cc_password     = var.scc_password
+  product_version = var.product_version
+  name_prefix     = var.environment_configuration.name_prefix
+  use_avahi       = false
+  domain          = var.platform_location_configuration[var.location].domain
+  images          = coalesce(try(local.base_ppc_configuration.images, null), ["opensuse161ppco"])
+
+  mirror            = var.platform_location_configuration[var.location].mirror
+  use_mirror_images = true
+
+  testsuite = true
+
+  provider_settings = {
+    pool   = "ssd"
+    bridge = coalesce(try(local.base_ppc_configuration.bridge, null), "br1")
   }
   ssh_key_path = var.controller_public_ssh_key_path
 }
@@ -778,6 +807,26 @@ module "opensuse161arm_minion" {
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
+module "opensuse161ppc_minion" {
+  providers = {
+    libvirt = libvirt.host_ppc
+  }
+  source             = "../minion"
+  count              = local.base_ppc_configuration != null && lookup(var.environment_configuration, "opensuse161ppc_minion", null) != null ? 1 : 0
+  base_configuration = module.base_ppc[0].configuration
+  name               = "${var.environment_configuration.opensuse161ppc_minion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "opensuse161ppco"
+  provider_settings = {
+    mac            = var.environment_configuration.opensuse161ppc_minion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse161ppc_minion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+  }
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
 module "raspios13_minion" {
   providers = {
     libvirt = libvirt.host_arm
@@ -1388,6 +1437,25 @@ module "opensuse161arm_sshminion" {
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
+module "opensuse161ppc_sshminion" {
+  providers = {
+    libvirt = libvirt.host_ppc
+  }
+  source             = "../sshminion"
+  count              = local.base_ppc_configuration != null && lookup(var.environment_configuration, "opensuse161ppc_sshminion", null) != null ? 1 : 0
+  base_configuration = module.base_ppc[0].configuration
+  name               = "${var.environment_configuration.opensuse161ppc_sshminion.name}${var.platform_location_configuration[var.location].extension}"
+  image              = "opensuse161ppco"
+  provider_settings = {
+    mac            = var.environment_configuration.opensuse161ppc_sshminion.mac
+    overwrite_fqdn = "${var.environment_configuration.name_prefix}${var.environment_configuration.opensuse161ppc_sshminion.name}.${var.platform_location_configuration[var.location].domain}"
+    memory         = 2048
+    vcpu           = 2
+  }
+  use_os_released_updates = false
+  ssh_key_path            = "./salt/controller/id_ed25519.pub"
+}
+
 module "raspios13_sshminion" {
   providers = {
     libvirt = libvirt.host_arm
@@ -1862,6 +1930,8 @@ module "controller" {
 
   opensuse161arm_minion_configuration    = length(module.opensuse161arm_minion) > 0 ? module.opensuse161arm_minion[0].configuration : local.empty_minion_config
   opensuse161arm_sshminion_configuration = length(module.opensuse161arm_sshminion) > 0 ? module.opensuse161arm_sshminion[0].configuration : local.empty_minion_config
+  opensuse161ppc_minion_configuration    = length(module.opensuse161ppc_minion) > 0 ? module.opensuse161ppc_minion[0].configuration : local.empty_minion_config
+  opensuse161ppc_sshminion_configuration = length(module.opensuse161ppc_sshminion) > 0 ? module.opensuse161ppc_sshminion[0].configuration : local.empty_minion_config
   raspios13_minion_configuration         = length(module.raspios13_minion) > 0 ? module.raspios13_minion[0].configuration : local.empty_minion_config
   raspios13_sshminion_configuration      = length(module.raspios13_sshminion) > 0 ? module.raspios13_sshminion[0].configuration : local.empty_minion_config
 
