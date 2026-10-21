@@ -204,6 +204,7 @@ web_server:
 
 # NFS serving of mirrored packages
 
+{% if grains.get('nfs_server', true) %}
 nfs_ganesha:
   pkg.installed:
     - names: [nfs-ganesha, nfs-ganesha-vfs]
@@ -230,3 +231,4 @@ nfs_ganesha:
   service.running:
     - name: nfs-ganesha
     - enable: True
+{% endif %}
