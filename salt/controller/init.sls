@@ -4,6 +4,9 @@ include:
   {% if grains.get('install_kubernetes_server_on_external_cluster') == true %}
   - server_kubernetes.install_kubernetes_server
   {% endif %}
+  {% if grains.get('kubernetes_dns_nodes') %}
+  - controller.kubernetes_avahi_dns
+  {% endif %}
 
 ssh_private_key:
   file.managed:

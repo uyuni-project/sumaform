@@ -970,6 +970,11 @@ variable "kubeconfig_path" {
   default = null
 }
 
+variable "kubernetes_dns_nodes" {
+  description = "FQDNs of the sumaform-managed RKE2 nodes where the controller adds the testsuite hosts to CoreDNS. Used with avahi, where pods cannot resolve mDNS names."
+  default     = []
+}
+
 variable "kubernetes_server_fqdn" {
   description = "FQDN used by the Uyuni server when installing into an external Kubernetes cluster"
   default     = null

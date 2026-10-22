@@ -1058,6 +1058,18 @@ The target cluster must already provide the required ingress/load-balancer and s
 
 This mode currently covers the Uyuni server deployment. Do not combine it with `proxy_kubernetes`; Kubernetes proxy deployments still use the Sumaform-managed RKE2 proxy workflow.
 
+## Kubernetes with avahi
+
+Pods resolve names through CoreDNS, which cannot query avahi (mDNS), so with `use_avahi = true` the server and proxy pods cannot resolve the testsuite hosts.
+In this case the `cucumber_testsuite` module makes the controller, which is provisioned after all the other hosts, resolve the testsuite hostnames and write them to `/var/lib/rancher/rke2/server/manifests/sumaform-avahi-coredns.yaml` on the Sumaform-managed RKE2 server and proxy.
+RKE2 adds them to CoreDNS when it starts, or right away if it is already running.
+
+The entries are static: if a host gets a new IP address, update them by running this on the controller:
+
+```bash
+venv-salt-call --local --file-root=/root/salt/ state.sls controller.kubernetes_avahi_dns
+```
+
 ## Large deployments
 
 By default to support the load in our test suites, when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option.
