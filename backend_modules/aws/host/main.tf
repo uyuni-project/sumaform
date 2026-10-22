@@ -49,7 +49,8 @@ locals {
   host_eip = local.provider_settings["public_instance"] && local.provider_settings["instance_with_eip"]? true: false
 
   combustion_images  = [
-    "smlm-proxy-51-x86_64-byos", "smlm-proxy-51-arm64-byos", "smlm-server-51-arm64-ltd-paygo", "smlm-server-51-x86_64-ltd-paygo"
+    "smlm-proxy-51-x86_64-byos", "smlm-proxy-51-arm64-byos", "smlm-server-51-arm64-ltd-paygo", "smlm-server-51-x86_64-ltd-paygo",
+    "smlm-proxy-52-x86_64-byos", "smlm-proxy-52-arm64-byos"
   ]
   // manually provided AMIs for to-be-released images all start with 'ami-'
   combustion = contains(local.combustion_images, var.image) || substr(var.image, 0, 3) == "ami"

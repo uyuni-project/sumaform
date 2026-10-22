@@ -314,6 +314,59 @@ data "aws_ami" "smlm-proxy-51-x86_64-byos" {
   }
 }
 
+data "aws_ami" "smlm-proxy-52-arm64-byos" {
+  most_recent = true
+  name_regex  = "^suse-multi-linux-manager-proxy-5-2-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+
+  filter {
+    name   = "product-code"
+    values = ["7pnibzt5dnd90syq0vt2qvpo3"]
+  }
+}
+
+data "aws_ami" "smlm-proxy-52-x86_64-byos" {
+  most_recent = true
+  name_regex  = "^suse-multi-linux-manager-proxy-5-2-byos-v"
+  owners      = ["679593333241"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "product-code"
+    values = ["b1bdbyvt7lkcivv2cr5zhp0fb"]
+  }
+}
+
 
 data "aws_ami" "sles12sp5" {
   most_recent = true
