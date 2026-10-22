@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!-- Transformation of libvirt definition for RHEL9 and derivatives -->
+<!-- Transformation of libvirt definition for x86_64 guests -->
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -10,7 +10,11 @@
     <xsl:element name="cpu">
       <xsl:attribute name="mode">host-model</xsl:attribute>
       <xsl:text>&#x0A;    </xsl:text>
+      <feature policy='require' name='cx16'/>
+      <xsl:text>&#x0A;    </xsl:text>
       <feature policy='require' name='lahf_lm'/>
+      <xsl:text>&#x0A;    </xsl:text>
+      <feature policy='require' name='pni'/>
       <xsl:text>&#x0A;    </xsl:text>
       <feature policy='require' name='popcnt'/>
       <xsl:text>&#x0A;    </xsl:text>

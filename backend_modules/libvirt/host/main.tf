@@ -1,14 +1,13 @@
+// architecture of the hypervisor (x86_64, aarch64, ppc64le...)
+data "libvirt_node_info" "hypervisor" {}
+
 locals {
   overwrite_fqdn = lookup(var.provider_settings, "overwrite_fqdn", "")
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
-  // List of images that can benefit from cpu passthrough or host-model.
-  // In particular, opensuse160o covers the controller and sles15sp7o is required for the upgrade test to sles160o
-  x86_64_v2_images = ["almalinux9o", "almalinux10o", "amazonlinux2023o", "libertylinux9o", "libertylinux10o", "openeuler2403o", "oraclelinux9o", "oraclelinux10o", "rocky9o", "rocky10o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o", "sles161o", "opensuse160o", "opensuse161o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "ubuntu2404o", "ubuntu2604o", "tumbleweedo"]
   combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o"]
-  // ppc64le images: pseries machine, 4096-byte disk sectors, and combustion from a config drive (pseries has no fw_cfg)
-  ppc64le_images     = ["opensuse161ppco"]
+  arch               = data.libvirt_node_info.hypervisor.cpu_model
   gpg_keys = [
     for key in fileset("salt/default/gpg_keys/", "*.key"): {
         path = "/etc/gpg_keys/${key}"
@@ -22,7 +21,9 @@ locals {
   product_version = var.product_version != null ? var.product_version : var.base_configuration["product_version"]
 
   combustion = contains(local.combustion_images, var.image)
-  combustion_iso = contains(local.ppc64le_images, var.image)
+  // pseries has no fw_cfg: combustion from a config drive
+  // (all ppc64le images are assumed to be like opensuse161ppco: combustion, no cloud-init, 4096-byte sectors)
+  combustion_iso = local.arch == "ppc64le"
   provider_settings = merge({
     memory          = 1024
     vcpu            = 1
@@ -32,8 +33,10 @@ locals {
     xslt            = null
     use_dhcp_ip     = false
     },
-    contains(local.x86_64_v2_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/cpu_features.xsl") } : {},
-    contains(local.ppc64le_images, var.image) ? { cpu_model = "host-model", xslt = file("${path.module}/ppc64le.xsl") } : {},
+    // x86_64 hypervisors: host CPU model, with the x86-64-v2 features required
+    local.arch == "x86_64" ? { cpu_model = "host-model", xslt = file("${path.module}/x86_64.xsl") } : {},
+    // ppc64le hypervisors: pseries machine, 4096-byte disk sectors, combustion CD-ROM on SCSI
+    local.arch == "ppc64le" ? { cpu_model = "host-model", xslt = file("${path.module}/ppc64le.xsl") } : {},
     contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
     contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
@@ -57,7 +60,7 @@ locals {
     var.provider_settings,
     contains(var.roles, "virthost") ? { cpu_model = "host-passthrough", xslt = file("${path.module}/virthost.xsl") } : {},
     contains(var.roles, "pxe_boot") ? { xslt = templatefile("${path.module}/pxe_boot.xsl", { manufacturer = local.manufacturer, product = local.product }) } : {})
-    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image) && !contains(local.ppc64le_images, var.image)
+    cloud_init = length(regexall("o$", var.image)) > 0 && !contains(local.combustion_images, var.image) && local.arch != "ppc64le"
     ignition = length(regexall("-ign$", var.image)) > 0
     add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
 

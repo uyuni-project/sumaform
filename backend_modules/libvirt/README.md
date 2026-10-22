@@ -59,17 +59,17 @@ provider_settings = {
 
 Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion`, `pxe_boot` and `virthost`:
 
-| Variable name   | Type           | Default value                                                | Description                                                 |
-|-----------------|----------------|--------------------------------------------------------------|-------------------------------------------------------------|
-| memory          | number         | `1024` ([apart from specific roles](Default-values-by-role)) | RAM memory in MiB                                           |
-| vcpu            | number         | `1` ([apart from specific roles](Default-values-by-role))    | Number of virtual CPUs                                      |
-| running         | bool           | `true`                                                       | Whether this host should be turned on or off                |
-| mac             | string         | `null`                                                       | A MAC address in the form AA:BB:CC:11:22:33                 |
-| cpu_model       | string         | `custom`                                                     | The CPU model (host-model, host-passthrough or the default) |
-| manufacturer    | string         | `Intel`                                                      | The System Management BIOS manufacturer                     |
-| product         | string         | `Genuine`                                                    | The System Management BIOS product                          |
-| xslt            | string         | `null` ([apart from specific roles](Default-values-by-role)) | XSLT contents to apply on the libvirt domain                |
-| use_dhcp_ip     | bool           | `false`                                                      | Use the DHCP lease IP for SSH connections instead of DNS resolution. Set to `true` for VMs not declared in your DNS infrastructure. See [Connecting to VMs not in DNS](../../README_ADVANCED.md#connecting-to-vms-not-in-dns) |
+| Variable name | Type   | Default value                                                                       | Description                                                  |
+|---------------|--------|-------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| memory        | number | `1024` ([apart from specific roles](#default-provider-settings-by-role))            | RAM memory in MiB                                            |
+| vcpu          | number | `1` ([apart from specific roles](#default-provider-settings-by-role))               | Number of virtual CPUs                                       |
+| running       | bool   | `true`                                                                              | Whether this host should be turned on or off                 |
+| mac           | string | `null`                                                                              | A MAC address in the form `AA:BB:CC:11:22:33`                |
+| cpu_model     | string | `custom` ([apart from specific arches](#default-provider-settings-by-architecture)) | The CPU model (`host-model`, `host-passthrough` or `custom`) |
+| manufacturer  | string | `Intel`                                                                             | The System Management BIOS manufacturer                      |
+| product       | string | `Genuine`                                                                           | The System Management BIOS product                           |
+| xslt          | string | `null` ([apart from specific roles](#default-provider-settings-by-role) and [arches](#default-provider-settings-by-architecture)) | XSLT contents to apply on the libvirt domain |
+| use_dhcp_ip   | bool   | `false`                                                                             | Use the DHCP lease IP for SSH connections instead of DNS resolution. Set to `true` for VMs not declared in your DNS infrastructure. See [Connecting to VMs not in DNS](../../README_ADVANCED.md#connecting-to-vms-not-in-dns) |
 
 An example follows:
 
@@ -97,6 +97,19 @@ volume_provider_settings = {
   pool = "ssd"
 }
 ```
+
+#### Default provider settings by architecture
+
+The architecture of the hypervisor also changes the defaults in the table above:
+
+| Architecture | Default values                                                    |
+|--------------|-------------------------------------------------------------------|
+| x86_64       | `{cpu_model = "host-model", xslt=file("${path.module}/x86_64.xsl")}`  |
+| ppc64le      | `{cpu_model = "host-model", xslt=file("${path.module}/ppc64le.xsl")}` |
+
+On x86_64 hypervisors, `x86_64.xsl` turns `custom` CPU models into `host-model` and requires the x86-64-v2 features, which recent distributions need. To get another CPU model, use `host-passthrough` or provide your own `xslt`.
+
+On ppc64le hypervisors, every image is assumed to be configured like `opensuse161ppco`: combustion from a config drive, no cloud-init, and 4096-byte disk sectors.
 
 #### Default provider settings by role
 
