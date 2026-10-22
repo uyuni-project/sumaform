@@ -23,6 +23,8 @@
 {% set var_spacewalk_pv_file = "/root/volume-configuration-var-spacewalk.yml" %}
 {% set var_pgsql_pv_file = "/root/volume-configuration-var-pgsql.yml" %}
 {% set local_path = true if grains.get('kubernetes_storage_backend') == 'local-path' or grains.get('local_path_provisioner_default_class') == true else false %}
+{% set create_spacewalk_pv = false %}
+{% set create_pgsql_pv = false %}
 {% if grains.get('kubernetes_create_static_var_spacewalk_pv') == true and local_path == true %}
 {% set create_spacewalk_pv = true %}
 {% endif %}
