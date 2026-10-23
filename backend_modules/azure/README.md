@@ -70,16 +70,16 @@ provider_settings = {
 
 Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
 
-| Variable name       | Type     | Default value                                                    | Description                                                         |
-|---------------------|----------|------------------------------------------------------------------|---------------------------------------------------------------------|
-| public_key_location | string   | [from base Module](base-module)                                  | Location for access public key                                      |
-| key_name            | string   | [from base Module](base-module)                                  | ssh key name in Azure                                               |
-| key_file            | string   | [from base Module](base-module)                                  | ssh key file                                                        |
-| ssh_user            | string   | OS-specific SSH user (ec2-user, centos, ubuntu, etc)             | ssh user to use in ssh into the machine for provisioning            |
-| bastion_host        | string   | [from base Module](base-module)                                  | bastion host used to connect to machines in the private network     |
-| public_instance     | boolean  | `false`                                                          | boolean to connect host either to the private or the public network |
-| volume_size         | number   | `50`                                                             | main volume size in GB                                              |
-| vm_size             | string   | `Standard_B4ms`([apart from specific roles](Default-values-by-role))  | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/)  |
+| Variable name       | Type    | Default value                                        | Description                                                         |
+|---------------------|---------|------------------------------------------------------|---------------------------------------------------------------------|
+| public_key_location | string  | [from base Module](base-module)                      | Location for access public key                                      |
+| key_name            | string  | [from base Module](base-module)                      | ssh key name in Azure                                               |
+| key_file            | string  | [from base Module](base-module)                      | ssh key file                                                        |
+| ssh_user            | string  | OS-specific SSH user (ec2-user, centos, ubuntu, etc) | ssh user to use in ssh into the machine for provisioning            |
+| bastion_host        | string  | [from base Module](base-module)                      | bastion host used to connect to machines in the private network     |
+| public_instance     | boolean | `false`                                              | boolean to connect host either to the private or the public network |
+| volume_size         | number  | `50`                                                 | main volume size in GB                                              |
+| vm_size             | string  | `Standard_B4ms`([apart from specific roles](#default-provider-settings-by-role)) | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/) |
 
 An example follows:
 

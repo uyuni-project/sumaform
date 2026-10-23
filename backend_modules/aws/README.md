@@ -96,15 +96,15 @@ Caveats:
 
 Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
 
-| Variable name   | Type     | Default value                                                    | Description                                                         |
-|-----------------|----------|------------------------------------------------------------------|---------------------------------------------------------------------|
-| key_name        | string   | [from base Module](base-module)                                  | ssh key name in AWS                                                 |
-| key_file        | string   | [from base Module](base-module)                                  | ssh key file                                                        |
-| ssh_user        | string   | OS-specific SSH user (ec2-user, centos, ubuntu, etc)          | ssh user to use in ssh into the machine for provisioning            |
-| bastion_host    | string   | [from base Module](base-module)                                  | bastion host used to connect to machines in the private network             |
-| public_instance | boolean  | `false`                                                          | boolean to connect host either to the private or the public network                    |
-| volume_size     | number   | `50`                                                             | main volume size in GB                                              |
-| instance_type   | string   | `t3.micro`([apart from specific roles](Default-values-by-role))  | [AWS instance type](https://aws.amazon.com/pt/ec2/instance-types/)  |
+| Variable name   | Type    | Default value                                                               | Description                                                         |
+|-----------------|---------|-----------------------------------------------------------------------------|---------------------------------------------------------------------|
+| key_name        | string  | [from base Module](base-module)                                             | ssh key name in AWS                                                 |
+| key_file        | string  | [from base Module](base-module)                                             | ssh key file                                                        |
+| ssh_user        | string  | OS-specific SSH user (ec2-user, centos, ubuntu, etc)                        | ssh user to use in ssh into the machine for provisioning            |
+| bastion_host    | string  | [from base Module](base-module)                                             | bastion host used to connect to machines in the private network     |
+| public_instance | boolean | `false`                                                                     | boolean to connect host either to the private or the public network |
+| volume_size     | number  | `50`                                                                        | main volume size in GB                                              |
+| instance_type   | string  | `t3.micro`([apart from specific roles](#default-provider-settings-by-role)) | [AWS instance type](https://aws.amazon.com/pt/ec2/instance-types/)  |
 
 An example follows:
 
