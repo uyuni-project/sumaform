@@ -34,7 +34,7 @@ module "cucumber_testsuite" {
 This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
 The example will have to be completed with SCC credentials and GitHub credentials to the SUSE Manager or Uyuni repo.
-PTF SCC variables should only be used with SUSE Manager or Multi-Linux Manager versions later than 5.0.
+PTF SCC variables should only be used with SUSE Manager or Multi-Linux Manager versions later than 5.1.
 
 `product_version` determines the version under test, see [README_ADVANCED.md](README_ADVANCED.md) for the list of options.
 
