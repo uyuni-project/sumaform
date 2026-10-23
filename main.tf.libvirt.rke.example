@@ -43,7 +43,7 @@ module "cucumber_testsuite" {
   # the following images are e.g. available:
   # "almalinux8o", "almalinux9o", "almalinux10o",
   # "amazonlinux2023o",
-  # "centos7", "centos7o", "centos8o", "centos9o",
+  # "centos7o",
   # "debian13o",
   # "libertylinux9o", "libertylinux10o",
   # "openeuler2403o",
