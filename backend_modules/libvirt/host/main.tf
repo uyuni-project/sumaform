@@ -27,6 +27,7 @@ locals {
     memory          = 1024
     vcpu            = 1
     running         = true
+    autostart       = var.base_configuration["autostart"]
     mac             = null
     cpu_model       = "custom"
     xslt            = null
@@ -197,6 +198,7 @@ resource "libvirt_domain" "domain" {
   memory     = local.provider_settings["memory"]
   vcpu       = local.provider_settings["vcpu"]
   running    = local.provider_settings["running"]
+  autostart  = local.provider_settings["autostart"]
   count      = var.quantity
   qemu_agent = true
 

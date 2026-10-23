@@ -66,8 +66,9 @@ module "base_arm" {
   testsuite = true
 
   provider_settings = {
-    pool   = "ssd"
-    bridge = coalesce(try(local.base_arm_configuration.bridge, null), "br1")
+    pool      = "ssd"
+    bridge    = coalesce(try(local.base_arm_configuration.bridge, null), "br1")
+    autostart = try(local.base_arm_configuration.autostart, false)
   }
   ssh_key_path = var.controller_public_ssh_key_path
 }
@@ -94,8 +95,9 @@ module "base_ppc" {
   testsuite = true
 
   provider_settings = {
-    pool   = "ssd"
-    bridge = coalesce(try(local.base_ppc_configuration.bridge, null), "br1")
+    pool      = "ssd"
+    bridge    = coalesce(try(local.base_ppc_configuration.bridge, null), "br1")
+    autostart = try(local.base_ppc_configuration.autostart, false)
   }
   ssh_key_path = var.controller_public_ssh_key_path
 }
