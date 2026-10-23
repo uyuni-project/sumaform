@@ -73,6 +73,7 @@ module "server_containerized" {
     channels                       = var.channels
     mirror                         = var.use_mirror ? var.base_configuration["mirror"] : null
     server_mounted_mirror          = var.server_mounted_mirror
+    mirror_nfs_server              = var.mirror_nfs_server
     server_username                = var.server_username
     server_password                = var.server_password
     java_debugging                 = var.java_debugging
