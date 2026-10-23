@@ -89,7 +89,7 @@ install_mgr_tools:
       - podman
       - mgrpxy
 
-{% if grains['osfullname'] == 'SLES' %}
+{% if grains['osfullname'] == 'SLES' and 'paygo' not in grains.get('product_version') | default('', true) %}
 ca_suse:
   pkg.installed:
     - pkgs:

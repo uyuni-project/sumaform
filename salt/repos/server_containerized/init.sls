@@ -1,4 +1,4 @@
-{% if 'server_containerized' in grains.get('roles') %}
+{% if 'server_containerized' in grains.get('roles') and 'paygo' not in grains.get('product_version') | default('', true) %}
 
 include:
   {% if '5.0' in grains.get('product_version') %}

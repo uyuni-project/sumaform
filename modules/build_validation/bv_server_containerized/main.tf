@@ -20,6 +20,7 @@ module "server_containerized" {
   beta_enabled                   = false
   use_mirror                     = var.use_mirror
   server_mounted_mirror          = var.use_mirror ? var.mirror : null
+  mirror_nfs_server              = var.mirror_nfs_server
   java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false

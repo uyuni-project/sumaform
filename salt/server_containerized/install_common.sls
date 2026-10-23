@@ -1,4 +1,4 @@
-{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+{%- set mirror_hostname = (grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror')) if grains.get('mirror_nfs_server', true) else None %}
 
 {% if grains['osfullname'] not in ['SLE Micro', 'SL-Micro', 'openSUSE Leap Micro'] %}
 uyuni-tools:
@@ -8,7 +8,7 @@ uyuni-tools:
       - mgrctl
       - uyuni-storage-setup-server
 
-{% if grains['osfullname'] == 'SLES' %}
+{% if grains['osfullname'] == 'SLES' and 'paygo' not in grains.get('product_version') | default('', true) %}
 ca_suse:
   pkg.installed:
     - pkgs:

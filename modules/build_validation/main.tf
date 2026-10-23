@@ -17,6 +17,7 @@ locals {
 
   # null = no mirror. Shared by server and server2 so both mount the same mirror by default
   server_mounted_mirror = var.server_containerized_server_mounted_mirror == null ? (try(var.environment_configuration.server_containerized.use_mirror, true) ? var.platform_location_configuration[var.location].mirror : null) : (var.server_containerized_server_mounted_mirror == "" ? null : var.server_containerized_server_mounted_mirror)
+  mirror_nfs_server     = try(var.environment_configuration.server_containerized.mirror_nfs_server, true)
 }
 
 locals {
@@ -177,6 +178,7 @@ module "server_containerized" {
   container_tag                  = "latest"
   beta_enabled                   = false
   server_mounted_mirror          = local.server_mounted_mirror
+  mirror_nfs_server              = local.mirror_nfs_server
   java_debugging                 = true
   auto_accept                    = false
   disable_firewall               = false
@@ -223,6 +225,7 @@ module "server2_containerized" {
   use_os_released_updates   = try(var.environment_configuration.server2_containerized.use_os_released_updates, var.server_containerized_use_os_released_updates)
   use_mirror         = try(var.environment_configuration.server2_containerized.use_mirror, local.server_mounted_mirror != null)
   mirror             = local.server_mounted_mirror
+  mirror_nfs_server  = try(var.environment_configuration.server2_containerized.mirror_nfs_server, local.mirror_nfs_server)
   container_registry   = var.server_container_registry
   container_image      = var.server_container_image
   deploy_coco_attestation = try(var.environment_configuration.server2_containerized.deploy_coco_attestation, true)
