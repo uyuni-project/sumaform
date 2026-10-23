@@ -391,6 +391,7 @@ variable "use_mirror" {
 
 variable "mirror_nfs_server" {
   description = "whether the mirror serves packages via NFS, set to false to not mount it (must match the mirror module's nfs_server)"
+  type        = bool
   default     = true
 }
 
