@@ -69,6 +69,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | manufacturer  | string | `Intel`                                                                             | The System Management BIOS manufacturer                      |
 | product       | string | `Genuine`                                                                           | The System Management BIOS product                           |
 | xslt          | string | `null` ([apart from specific roles](#default-provider-settings-by-role) and [arches](#default-provider-settings-by-architecture)) | XSLT contents to apply on the libvirt domain |
+| arch          | string | `x86_64`, or `ppc64le` for images with `ppc` in their name                          | The architecture of the hypervisor, see [below](#default-provider-settings-by-architecture) |
 | use_dhcp_ip   | bool   | `false`                                                                             | Use the DHCP lease IP for SSH connections instead of DNS resolution. Set to `true` for VMs not declared in your DNS infrastructure. See [Connecting to VMs not in DNS](../../README_ADVANCED.md#connecting-to-vms-not-in-dns) |
 
 An example follows:
