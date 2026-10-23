@@ -3,18 +3,6 @@ include:
 
 {% if grains['use_avahi'] and grains.get('osmajorrelease', None) != None %}
 
-# TODO: remove the following state when fix to bsc#1163683 is applied to all the SLES < SLES15SP4
-{% if grains['osfullname'] == 'SLES' and grains['osrelease'] == '12.5' %}
-custom_avahi_repo:
-  pkgrepo.managed:
-    - humanname: custom_avahi_repo
-    - baseurl: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools:/avahi:/0.6.32/SLE_12_SP5/
-    - enabled: True
-    - refresh: True
-    - priority: 95
-    - gpgcheck: 0
-{% endif %}
-
 {% if grains['os_family'] == 'RedHat' and grains['osmajorrelease']|int() == 6 %}
 dbus_enable_service:
   service.running:

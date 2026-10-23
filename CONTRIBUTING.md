@@ -10,9 +10,11 @@ As a contributor, you are encouraged to not break things for terraform on purpos
 
 ### Base OS images
 
-openSUSE images are built and tracked in the [Open Build Service](https://build.opensuse.org/):
+openSUSE Leap and Tumbleweed images are the official appliance images from download.opensuse.org and are not built by sumaform.
 
-- [libvirt project](https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:libvirt)
+SLE Micro and SL Micro images are built and tracked in the [Open Build Service](https://build.opensuse.org/):
+
+- [microos project](https://build.opensuse.org/project/show/systemsmanagement:sumaform:images:microos)
 
 [Submit Requests](https://openbuildservice.org/help/manuals/obs-reference-guide/cha.obs.request_and_review_ystem.html) can be created with a free account, project maintainership is given to meritable community members.
 
