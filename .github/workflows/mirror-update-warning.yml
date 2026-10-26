@@ -28,11 +28,29 @@ jobs:
 
         echo "EOF" >> $GITHUB_ENV
     - name: Comment on the pull request
-      uses: actions-cool/maintain-one-comment@909842216bc8e8658364c572ec52100f4c2cc50a # v3.3.0
-      with:
-        delete: ${{ !env.IMAGE_LIST }}
-        body: |
-          This pull request updates the URLs of the following images:
-          ${{ env.IMAGE_LIST }}
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        MARKER: "<!-- mirror-update-warning -->"
+      run: |
+        comment_id=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" --paginate \
+          --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("<!-- mirror-update-warning -->") or startswith("This pull request updates the URLs"))][0].id // empty')
 
-          Please consider updating the CI and BV mirror configurations accordingly.
+        if [ -z "${IMAGE_LIST}" ]; then
+          if [ -n "${comment_id}" ]; then
+            gh api -X DELETE "repos/${{ github.repository }}/issues/comments/${comment_id}"
+          fi
+          exit 0
+        fi
+
+        body="${MARKER}
+        This pull request updates the URLs of the following images:
+        ${IMAGE_LIST}
+
+        Please consider updating the CI and BV mirror configurations accordingly."
+
+        if [ -n "${comment_id}" ]; then
+          gh api -X PATCH "repos/${{ github.repository }}/issues/comments/${comment_id}" -f body="${body}"
+        else
+          gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" -f body="${body}"
+        fi
