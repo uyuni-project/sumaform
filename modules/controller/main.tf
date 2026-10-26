@@ -123,6 +123,13 @@ module "controller" {
     sles15sp7_sshminion       = length(var.sles15sp7_sshminion_configuration["hostnames"]) > 0 ? var.sles15sp7_sshminion_configuration["hostnames"][0] : null
     sles160_minion            = length(var.sles160_minion_configuration["hostnames"]) > 0 ? var.sles160_minion_configuration["hostnames"][0] : null
     sles160_sshminion         = length(var.sles160_sshminion_configuration["hostnames"]) > 0 ? var.sles160_sshminion_configuration["hostnames"][0] : null
+    slesforsap15sp5_minion    = length(var.slesforsap15sp5_minion_configuration["hostnames"]) > 0 ? var.slesforsap15sp5_minion_configuration["hostnames"][0] : null
+    slesforsap15sp6_minion    = length(var.slesforsap15sp6_minion_configuration["hostnames"]) > 0 ? var.slesforsap15sp6_minion_configuration["hostnames"][0] : null
+    slesforsap15sp7_minion    = length(var.slesforsap15sp7_minion_configuration["hostnames"]) > 0 ? var.slesforsap15sp7_minion_configuration["hostnames"][0] : null
+    slesforsap160_minion      = length(var.slesforsap160_minion_configuration["hostnames"]) > 0 ? var.slesforsap160_minion_configuration["hostnames"][0] : null
+    sles161_minion            = length(var.sles161_minion_configuration["hostnames"]) > 0 ? var.sles161_minion_configuration["hostnames"][0] : null
+    slesforsap161_minion      = length(var.slesforsap161_minion_configuration["hostnames"]) > 0 ? var.slesforsap161_minion_configuration["hostnames"][0] : null
+    sles161_sshminion         = length(var.sles161_sshminion_configuration["hostnames"]) > 0 ? var.sles161_sshminion_configuration["hostnames"][0] : null
     slemicro53_minion        = length(var.slemicro53_minion_configuration["hostnames"]) > 0 ? var.slemicro53_minion_configuration["hostnames"][0] : null
     slemicro53_sshminion     = length(var.slemicro53_sshminion_configuration["hostnames"]) > 0 ? var.slemicro53_sshminion_configuration["hostnames"][0] : null
     slemicro54_minion        = length(var.slemicro54_minion_configuration["hostnames"]) > 0 ? var.slemicro54_minion_configuration["hostnames"][0] : null

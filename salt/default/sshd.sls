@@ -6,7 +6,7 @@
 {% if grains['osfullname'] == 'openSUSE Tumbleweed' %}
   {% set sshd_config = "/etc/ssh/sshd_config.d/root.conf" %}
 {% elif grains['osfullname'] == 'SLES' or grains['osfullname'] == 'Leap' %}
-  {% if grains['osrelease'] == '16.0' %}
+  {% if grains['osrelease'] | int >= 16 %}
     {% set sshd_config = "/etc/ssh/sshd_config.d/root.conf" %}
   {% endif %}
 {% elif grains['osfullname'] == 'SL-Micro' %}

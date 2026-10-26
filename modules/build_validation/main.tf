@@ -448,6 +448,108 @@ module "sles160_minion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
+module "slesforsap15sp5_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "slesforsap15sp5_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slesforsap15sp5_minion.name
+  image              = "sles15sp5o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.slesforsap15sp5_minion.mac
+    memory = try(var.environment_configuration.slesforsap15sp5_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.slesforsap15sp5_minion.vcpu }, {}))
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "slesforsap15sp6_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "slesforsap15sp6_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slesforsap15sp6_minion.name
+  image              = "sles15sp6o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.slesforsap15sp6_minion.mac
+    memory = try(var.environment_configuration.slesforsap15sp6_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.slesforsap15sp6_minion.vcpu }, {}))
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "slesforsap15sp7_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "slesforsap15sp7_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slesforsap15sp7_minion.name
+  image              = "sles15sp7o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.slesforsap15sp7_minion.mac
+    memory = try(var.environment_configuration.slesforsap15sp7_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.slesforsap15sp7_minion.vcpu }, {}))
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "slesforsap160_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "slesforsap160_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slesforsap160_minion.name
+  image              = "slesforsap160o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.slesforsap160_minion.mac
+    memory = try(var.environment_configuration.slesforsap160_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.slesforsap160_minion.vcpu }, {}))
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "sles161_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "sles161_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.sles161_minion.name
+  image              = "sles161o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.sles161_minion.mac
+    memory = try(var.environment_configuration.sles161_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles161_minion.vcpu }, {}))
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "slesforsap161_minion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../minion"
+  count              = lookup(var.environment_configuration, "slesforsap161_minion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.slesforsap161_minion.name
+  image              = "slesforsap161o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.slesforsap161_minion.mac
+    memory = try(var.environment_configuration.slesforsap161_minion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.slesforsap161_minion.vcpu }, {}))
+
+  auto_connect_to_master  = false
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
 module "alma8_minion" {
   providers = { libvirt = libvirt.host_rhlike }
   source             = "../minion"
@@ -1090,6 +1192,21 @@ module "sles160_sshminion" {
     mac    = var.environment_configuration.sles160_sshminion.mac
     memory = try(var.environment_configuration.sles160_sshminion.memory, var.minion_memory)
   }, try({ vcpu = var.environment_configuration.sles160_sshminion.vcpu }, {}))
+  use_os_released_updates = false
+  ssh_key_path            = var.controller_public_ssh_key_path
+}
+
+module "sles161_sshminion" {
+  providers = { libvirt = libvirt.host_new_sle }
+  source             = "../sshminion"
+  count              = lookup(var.environment_configuration, "sles161_sshminion", null) != null ? 1 : 0
+  base_configuration = local.base_new_sle
+  name               = var.environment_configuration.sles161_sshminion.name
+  image              = "sles161o"
+  provider_settings = merge({
+    mac    = var.environment_configuration.sles161_sshminion.mac
+    memory = try(var.environment_configuration.sles161_sshminion.memory, var.minion_memory)
+  }, try({ vcpu = var.environment_configuration.sles161_sshminion.vcpu }, {}))
   use_os_released_updates = false
   ssh_key_path            = var.controller_public_ssh_key_path
 }
@@ -1874,6 +1991,13 @@ module "controller" {
   sles15sp7_sshminion_configuration = length(module.sles15sp7_sshminion) > 0 ? module.sles15sp7_sshminion[0].configuration : local.empty_minion_config
   sles160_minion_configuration      = length(module.sles160_minion) > 0 ? module.sles160_minion[0].configuration : local.empty_minion_config
   sles160_sshminion_configuration   = length(module.sles160_sshminion) > 0 ? module.sles160_sshminion[0].configuration : local.empty_minion_config
+  slesforsap15sp5_minion_configuration = length(module.slesforsap15sp5_minion) > 0 ? module.slesforsap15sp5_minion[0].configuration : local.empty_minion_config
+  slesforsap15sp6_minion_configuration = length(module.slesforsap15sp6_minion) > 0 ? module.slesforsap15sp6_minion[0].configuration : local.empty_minion_config
+  slesforsap15sp7_minion_configuration = length(module.slesforsap15sp7_minion) > 0 ? module.slesforsap15sp7_minion[0].configuration : local.empty_minion_config
+  slesforsap160_minion_configuration = length(module.slesforsap160_minion) > 0 ? module.slesforsap160_minion[0].configuration : local.empty_minion_config
+  sles161_minion_configuration      = length(module.sles161_minion) > 0 ? module.sles161_minion[0].configuration : local.empty_minion_config
+  slesforsap161_minion_configuration = length(module.slesforsap161_minion) > 0 ? module.slesforsap161_minion[0].configuration : local.empty_minion_config
+  sles161_sshminion_configuration   = length(module.sles161_sshminion) > 0 ? module.sles161_sshminion[0].configuration : local.empty_minion_config
 
   sles12sp5_client_configuration    = length(module.sles12sp5_client) > 0 ? module.sles12sp5_client[0].configuration : local.empty_minion_config
   sles15sp4_client_configuration    = length(module.sles15sp4_client) > 0 ? module.sles15sp4_client[0].configuration : local.empty_minion_config

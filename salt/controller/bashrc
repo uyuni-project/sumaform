@@ -100,6 +100,13 @@ grains.get('sles15sp7_sshminion') }}" {% else %}# no SLES15SP7 ssh minion define
 %}# no SLES160 minion defined {% endif %}
 {% if grains.get('sles160_sshminion') | default(false, true) %}export SLES160_SSHMINION="{{ grains.get('sles160_sshminion')
 }}" {% else %}# no SLES160 ssh minion defined {% endif %}
+{% if grains.get('slesforsap15sp5_minion') | default(false, true) %}export SLESFORSAP15SP5_MINION="{{ grains.get('slesforsap15sp5_minion') }}" {% else %}# no SLESFORSAP15SP5 minion defined {% endif %}
+{% if grains.get('slesforsap15sp6_minion') | default(false, true) %}export SLESFORSAP15SP6_MINION="{{ grains.get('slesforsap15sp6_minion') }}" {% else %}# no SLESFORSAP15SP6 minion defined {% endif %}
+{% if grains.get('slesforsap15sp7_minion') | default(false, true) %}export SLESFORSAP15SP7_MINION="{{ grains.get('slesforsap15sp7_minion') }}" {% else %}# no SLESFORSAP15SP7 minion defined {% endif %}
+{% if grains.get('slesforsap160_minion') | default(false, true) %}export SLESFORSAP160_MINION="{{ grains.get('slesforsap160_minion') }}" {% else %}# no SLESFORSAP160 minion defined {% endif %}
+{% if grains.get('sles161_minion') | default(false, true) %}export SLES161_MINION="{{ grains.get('sles161_minion') }}" {% else %}# no SLES161 minion defined {% endif %}
+{% if grains.get('slesforsap161_minion') | default(false, true) %}export SLESFORSAP161_MINION="{{ grains.get('slesforsap161_minion') }}" {% else %}# no SLESFORSAP161 minion defined {% endif %}
+{% if grains.get('sles161_sshminion') | default(false, true) %}export SLES161_SSHMINION="{{ grains.get('sles161_sshminion') }}" {% else %}# no SLES161 ssh minion defined {% endif %}
 {% if grains.get('slemicro53_minion') | default(false, true) %}export SLEMICRO53_MINION="{{
 grains.get('slemicro53_minion') }}" {% else %}# no SLEMICRO53 minion defined {% endif %}
 {% if grains.get('slemicro53_sshminion') | default(false, true) %}export SLEMICRO53_SSHMINION="{{
