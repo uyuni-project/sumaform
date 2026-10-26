@@ -389,6 +389,12 @@ variable "use_mirror" {
   default     = true
 }
 
+variable "mirror_nfs_server" {
+  description = "whether the mirror serves packages via NFS, set to false to not mount it (must match the mirror module's nfs_server)"
+  type        = bool
+  default     = true
+}
+
 variable "server_mounted_mirror" {
   description = "hostname of a mounted mirror in the server (to get packages from it)"
   default     = null

@@ -40,7 +40,7 @@ cobbler_restart:
 
 # these releases don't have mgrctl gpg functionality, only later versions do.
 # TODO: Remove head from that list once the migration of the container to SLES 16 is finished. Card: https://github.com/orgs/SUSE/projects/32/views/25?filterQuery=&pane=issue&itemId=271795860&issue=SUSE%7Cspacewalk%7C32364
-{%- set products_without_gpg_api = ["head", "uyuni-released", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released", "5.2-nightly", "5.2-released"] %}
+{%- set products_without_gpg_api = ["head", "uyuni-released", "5.0-nightly", "5.0-released", "5.1-nightly", "5.1-released", "5.2-nightly", "5.2-released", "5.2-paygo"] %}
 {%- set use_gpg_api = grains.get('product_version') | default('', true) not in products_without_gpg_api %}
 {%- if not use_gpg_api %}
 {% set gpg_import_cmd = "mgradm gpg add -f" %}

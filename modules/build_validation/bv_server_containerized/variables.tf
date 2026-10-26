@@ -27,6 +27,12 @@ variable "mirror" {
   default     = null
 }
 
+variable "mirror_nfs_server" {
+  description = "whether the mirror serves packages via NFS, set to false to not mount it"
+  type        = bool
+  default     = true
+}
+
 variable "container_registry" {
   description = "where to find the server container images"
   default     = ""

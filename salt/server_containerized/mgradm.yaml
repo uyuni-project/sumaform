@@ -72,7 +72,7 @@ tftpd:
   tag: {{ grains.get('tftpd_container_tag') }}
   {% endif %}
 {% endif %}
-{%- set mirror_hostname = grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror') %}
+{%- set mirror_hostname = (grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror')) if grains.get('mirror_nfs_server', true) else None %}
 {%- if runtime == 'podman' %}
 {%- if mirror_hostname %}
 mirror: /srv/mirror
