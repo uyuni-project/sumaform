@@ -1780,7 +1780,7 @@ module "sles15sp7_terminal" {
     product      = "ProLiant DL580 Gen9"
   }
   private_ip   = 7
-  private_name = "sles15sp7terminal"
+  private_name = try(var.environment_configuration.sles15sp7_buildhost.terminal_private_name, "sles15sp7terminal")
 }
 
 module "dhcp_dns" {
