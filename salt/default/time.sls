@@ -34,6 +34,10 @@ timezone_setting:
 ntp_pkg:
   pkg.installed:
     - name: ntp
+{% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
+    - require:
+      - sls: repos
+{% endif %}
 
 ntp_conf_file:
   file.managed:
@@ -52,6 +56,10 @@ ntpd_enable_service:
 chrony_pkg:
   pkg.installed:
     - name: chrony
+{% if 'build_image' not in grains.get('product_version', '') and 'paygo' not in grains.get('product_version', '') %}
+    - require:
+      - sls: repos
+{% endif %}
 {% endif %}
 
 chrony_conf_file:
