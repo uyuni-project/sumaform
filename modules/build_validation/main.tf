@@ -1776,10 +1776,10 @@ module "sles15sp7_terminal" {
   provider_settings = {
     memory       = 2048
     vcpu         = 2
-    manufacturer = "HP"
-    product      = "ProLiant DL580 Gen9"
+    manufacturer = try(var.environment_configuration.sles15sp7_buildhost.terminal_manufacturer, "HP")
+    product      = try(var.environment_configuration.sles15sp7_buildhost.terminal_product, "ProLiant DL580 Gen9")
   }
-  private_ip   = 7
+  private_ip   = try(var.environment_configuration.sles15sp7_buildhost.terminal_private_ip, 7)
   private_name = try(var.environment_configuration.sles15sp7_buildhost.terminal_private_name, "sles15sp7terminal")
 }
 
