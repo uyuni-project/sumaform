@@ -3,7 +3,7 @@ terraform {
   required_providers {
     feilong = {
       source = "bischoff/feilong"
-      version = "0.0.9"
+      version = "0.0.10"
     }
   }
 }
