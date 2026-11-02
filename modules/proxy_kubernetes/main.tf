@@ -70,7 +70,6 @@ module "proxy_kubernetes" {
     main_disk_size                  = var.main_disk_size
     repository_disk_size            = var.repository_disk_size
     database_disk_size              = var.database_disk_size
-    proxy_registration_code         = var.proxy_registration_code
     use_devel_oci                   = var.use_devel_oci
   }
 }

@@ -165,8 +165,3 @@ variable "provision" {
   type        = bool
   default     = true
 }
-
-variable "proxy_registration_code" {
-  description = "SUMA SCC registration code to enable the SLES and SUMA repositories for proxy"
-  default     = null
-}
