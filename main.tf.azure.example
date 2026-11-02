@@ -79,7 +79,7 @@ module "minion" {
   base_configuration = local.base_configuration
 
   name                 = "minion"
-  image                = "opensuse154"
+  image                = "opensuse156o"
   server_configuration =  module.server.configuration
 }
 
