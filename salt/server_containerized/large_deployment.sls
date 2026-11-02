@@ -1,4 +1,4 @@
-# See https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html
+# See https://documentation.suse.com/multi-linux-manager/5.2/en/docs/specialized-guides/large-deployments/tuning.html
 
 {% if grains.get('large_deployment') | default(false, true) %}
 
@@ -9,7 +9,7 @@ large_deployment_edit_rhn:
     - regex_escape_keys: True
     - key_value:
         hibernate.c3p0.max_size: 100
-        taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads: 3
+        taskomatic.minion_action_executor.parallel_threads: 3
 
 large_deployment_tune_tomcat_stylesheet_host:
   file.managed:
