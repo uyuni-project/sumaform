@@ -69,10 +69,6 @@ module "cucumber_testsuite" {
   git_password = "nogit"
   branch = "master"
 
-  # Required to select a container server in the testsuite
-  container_server = true
-  container_proxy  = true
-
   # In case you use an authentication registry
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
   auth_registry_username = ""
@@ -126,9 +122,6 @@ module "cucumber_testsuite" {
     }
     proxy_containerized = {
       name = "proxy"
-    }
-    suse_client = {
-      image = "sles15sp4o"
     }
     suse_minion = {
       image = "sles15sp4o"

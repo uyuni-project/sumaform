@@ -3,11 +3,11 @@ module "base" {
 
   cc_username = "UC7"
   cc_password = ...
-  product_version = "4.3-nightly"
+  product_version = "5.2-nightly"
 
   // optional parameters with defaults below
   // use_avahi = true
-  // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for clients/minions below
+  // name_prefix = "" // if you use name_prefix, make sure to update the server_configuration for minions below
   // timezone = "Europe/Berlin"
   // use_ntp = true
 
@@ -17,31 +17,17 @@ module "base" {
 }
 
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
-  // see modules/suse_manager/variables.tf for possible values
+  // see modules/server_containerized/variables.tf for possible values
 
   // connect_to_additional_network = true
   // if you want to use two networks
 
   provider_settings = {
     host = "192.168.1.1"
-  }
-}
-
-module "client" {
-  source = "./modules/client"
-  base_configuration = module.base.configuration
-
-  name = "client"
-  image = "sles15sp4o"
-  server_configuration = module.server.configuration
-  // see modules/client/variables.tf for possible values
-
-  provider_settings = {
-    host = "192.168.1.2"
   }
 }
 

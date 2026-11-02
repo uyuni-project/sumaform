@@ -9,8 +9,8 @@ locals {
   base_arm_configuration = try(var.base_configurations.base_arm, null)
   base_ppc_configuration = try(var.base_configurations.base_ppc, null)
 
-  server_configuration = length(module.server_containerized) > 0 ? module.server_containerized[0].configuration : module.server[0].configuration
-  proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : (length(module.proxy) > 0 ? module.proxy[0].configuration : local.empty_server_proxy_config)
+  server_configuration = module.server_containerized[0].configuration
+  proxy_configuration = length(module.proxy_containerized) > 0 ? module.proxy_containerized[0].configuration : local.empty_server_proxy_config
   empty_minion_config = { ids = [], hostnames = [], macaddrs = [], private_macs = [], ipaddrs = [] }
   empty_terminal_config = { private_mac = null, private_ip = null, private_name = null, image = null }
   empty_server_proxy_config = { hostname = null }
@@ -113,48 +113,6 @@ module "base_s390" {
   provider_settings = {
     key_file = var.controller_private_ssh_key_path
   }
-}
-
-module "server" {
-  count               = lookup(var.environment_configuration, "server", null) != null ? 1 : 0
-
-  source             = "../server"
-  base_configuration = local.base_core
-  name               = "server"
-  image              = "sles15sp4o"
-  beta_enabled       = false
-  provider_settings = {
-    mac       = var.environment_configuration.server.mac
-    memory    = 40960
-    vcpu      = 10
-    data_pool = "ssd"
-  }
-  main_disk_size       = 100
-  repository_disk_size = 3072
-  database_disk_size   = 300
-
-  server_mounted_mirror          = var.platform_location_configuration[var.location].mirror
-  java_debugging                 = true
-  auto_accept                    = false
-  monitored                      = true
-  disable_firewall               = false
-  allow_postgres_connections     = false
-  skip_changelog_import          = false
-  create_first_user              = false
-  mgr_sync_autologin             = false
-  create_sample_channel          = false
-  create_sample_activation_key   = false
-  create_sample_bootstrap_script = false
-  publish_private_ssl_key        = false
-  use_os_released_updates        = true
-  disable_download_tokens        = false
-  disable_auto_bootstrap         = true
-  large_deployment               = true
-  ssh_key_path                   = var.controller_public_ssh_key_path
-  from_email                     = "root@suse.de"
-  accept_all_ssl_protocols       = true
-
-  additional_repos               = var.server_additional_repos
 }
 
 module "server_containerized" {
@@ -272,31 +230,6 @@ module "server4_containerized" {
   skip_server_install     = try(var.environment_configuration.server4_containerized.skip_server_install, false)
   additional_repos   = local.additional_repos["server4_containerized"]
   ssh_key_path       = var.controller_public_ssh_key_path
-}
-
-module "proxy" {
-  providers = { libvirt = libvirt.host_retail }
-  source               = "../proxy"
-  count               = lookup(var.environment_configuration, "proxy", null) != null ? 1 : 0
-  base_configuration   = local.base_retail
-  server_configuration = module.server[0].configuration
-  name                 = "proxy"
-  image                = "sles15sp4o"
-  provider_settings = {
-    mac    = var.environment_configuration.proxy.mac
-    memory = 4096
-  }
-  auto_register             = false
-  auto_connect_to_master    = false
-  download_private_ssl_key  = false
-  install_proxy_pattern     = false
-  auto_configure            = false
-  generate_bootstrap_script = false
-  publish_private_ssl_key   = false
-  use_os_released_updates   = true
-  ssh_key_path              = var.controller_public_ssh_key_path
-
-  additional_repos          = var.proxy_additional_repos
 }
 
 module "proxy_containerized" {
@@ -1499,111 +1432,6 @@ module "sles15sp5s390_sshminion" {
   ssh_key_path            = var.controller_public_ssh_key_path
 }
 
-module "sles12sp5_client" {
-  providers = { libvirt = libvirt.host_old_sle }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "sles12sp5_client", null) != null ? 1 : 0
-  base_configuration = local.base_old_sle
-  name               = var.environment_configuration.sles12sp5_client.name
-  image              = "sles12sp5o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles12sp5_client.mac
-    memory = 4096
-  }
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "sles15sp4_client" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "sles15sp4_client", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp4_client.name
-  image              = "sles15sp4o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp4_client.mac
-    memory = 4096
-  }
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "sles15sp5_client" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "sles15sp5_client", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp5_client.name
-  image              = "sles15sp5o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp5_client.mac
-    memory = 4096
-  }
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "sles15sp6_client" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "sles15sp6_client", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp6_client.name
-  image              = "sles15sp6o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp6_client.mac
-    memory = 4096
-  }
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "sles15sp7_client" {
-  providers = { libvirt = libvirt.host_new_sle }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "sles15sp7_client", null) != null ? 1 : 0
-  base_configuration = local.base_new_sle
-  name               = var.environment_configuration.sles15sp7_client.name
-  image              = "sles15sp7o"
-  provider_settings = {
-    mac    = var.environment_configuration.sles15sp7_client.mac
-    memory = 4096
-  }
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-}
-
-module "centos7_client" {
-  providers = { libvirt = libvirt.host_rhlike }
-  source             = "../client"
-  count              = lookup(var.environment_configuration, "centos7_client", null) != null ? 1 : 0
-  base_configuration = local.host_rhlike
-  name               = var.environment_configuration.centos7_client.name
-  image              = "centos7o"
-  provider_settings = merge({
-    mac    = var.environment_configuration.centos7_client.mac
-    memory = try(var.environment_configuration.centos7_client.memory, var.minion_memory)
-  }, try({ vcpu = var.environment_configuration.centos7_client.vcpu }, {}))
-  server_configuration    = local.proxy_configuration
-  auto_register           = false
-  use_os_released_updates = false
-  ssh_key_path            = var.controller_public_ssh_key_path
-
-  additional_packages = [ "venv-salt-minion" ]
-  install_salt_bundle = true
-}
-
 //  WORKAROUND until https://bugzilla.suse.com/show_bug.cgi?id=1208045 gets fixed
 // module "slemicro53_sshminion" {
 //   providers = { libvirt = libvirt.new_sle }
@@ -1875,12 +1703,6 @@ module "controller" {
   sles160_minion_configuration      = length(module.sles160_minion) > 0 ? module.sles160_minion[0].configuration : local.empty_minion_config
   sles160_sshminion_configuration   = length(module.sles160_sshminion) > 0 ? module.sles160_sshminion[0].configuration : local.empty_minion_config
 
-  sles12sp5_client_configuration    = length(module.sles12sp5_client) > 0 ? module.sles12sp5_client[0].configuration : local.empty_minion_config
-  sles15sp4_client_configuration    = length(module.sles15sp4_client) > 0 ? module.sles15sp4_client[0].configuration : local.empty_minion_config
-  sles15sp5_client_configuration    = length(module.sles15sp5_client) > 0 ? module.sles15sp5_client[0].configuration : local.empty_minion_config
-  sles15sp6_client_configuration    = length(module.sles15sp6_client) > 0 ? module.sles15sp6_client[0].configuration : local.empty_minion_config
-  sles15sp7_client_configuration    = length(module.sles15sp7_client) > 0 ? module.sles15sp7_client[0].configuration : local.empty_minion_config
-  centos7_client_configuration      = length(module.centos7_client) > 0 ? module.centos7_client[0].configuration : local.empty_minion_config
 
   alma8_minion_configuration     = length(module.alma8_minion) > 0 ? module.alma8_minion[0].configuration : local.empty_minion_config
   alma8_sshminion_configuration  = length(module.alma8_sshminion) > 0 ? module.alma8_sshminion[0].configuration : local.empty_minion_config

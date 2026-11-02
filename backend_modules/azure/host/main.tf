@@ -9,9 +9,6 @@ locals {
     volume_size     = 50
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     vm_size = lookup(var.provider_settings, "vm_size", "Standard_B1s") },
-    contains(var.roles, "server") ? { vm_size = "Standard_B4ms" } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { vm_size = "Standard_D2d_v4" } : {},
-    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { vm_size = "Standard_B2s" } : {},
     contains(var.roles, "mirror") ? { vm_size = "Standard_B1s" } : {},
     contains(var.roles, "controller") ? { vm_size = "Standard_B2s" } : {},
     contains(var.roles, "grafana") ? { vm_size = "Standard_B2s" } : {},
@@ -195,8 +192,8 @@ resource "azurerm_virtual_machine_data_disk_attachment" "addtionaldisks-attach" 
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdb" : null
-        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdc" : null
+        data_disk_device              = contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdb" : null
+        second_data_disk_device       = contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "sdc" : null
       },
       var.grains))
     destination = "/tmp/grains"

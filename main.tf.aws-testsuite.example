@@ -17,9 +17,6 @@ module "cucumber_testsuite" {
   product_version = "uyuni-master"
   branch          = "master"
 
-  container_server = true
-  container_proxy  = true
-
   cc_username     = ...
   cc_password     = ...
   cc_ptf_username = ...
@@ -48,10 +45,6 @@ module "cucumber_testsuite" {
     controller = {}
     server_containerized = {}
     proxy_containerized = {}
-    suse_client = {
-      image = "opensuse156o"
-      name = "cli-opensuse156"
-    }
     suse_minion = {
       image = "opensuse156o"
       name = "min-opensuse156"
@@ -96,10 +89,6 @@ output "aws_proxy_private_name" {
 
 output "aws_suse_minion_private_names" {
   value = module.cucumber_testsuite.configuration.suse_minion.hostnames
-}
-
-output "aws_suse_client_private_names" {
-  value = module.cucumber_testsuite.configuration.suse_client.hostnames
 }
 
 output "aws_suse_sshminion_private_names" {

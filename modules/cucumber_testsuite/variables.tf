@@ -75,8 +75,6 @@ variable "use_shared_resources" {
 variable "host_settings" {
   description = "Hosts and their specific properties, see README_TESTING.md"
   default = {
-    suse-client = {
-    }
     suse-minion = {
     }
   }
@@ -192,30 +190,10 @@ variable "custom_download_endpoint" {
   default     = null
 }
 
-variable "saltapi_tcpdump" {
-  description = "If set to true, all network operations of salt-api on the Server are logged to /tmp/ with tcpdump."
-  default     = false
-}
-
 // provider
 variable "provider_settings" {
   description = "Settings specific to the provider, see README_TESTING.md"
   default     = {}
-}
-
-variable "login_timeout" {
-  description = "How long the webUI login session cookie is valid"
-  default     = null
-}
-
-variable "container_server" {
-  description = "true to run the server in containers"
-  default = false
-}
-
-variable "container_proxy" {
-  description = "true to run the proxy in containers"
-  default = false
 }
 
 variable "kubernetes" {

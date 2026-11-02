@@ -76,9 +76,6 @@ module "cucumber_testsuite" {
   git_password = "nogit"
   branch = "master"
 
-  # Required to select a container server in the testsuite
-  container_server = true
-
   # In case you use an authentication registry
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
   auth_registry_username = ""
@@ -154,9 +151,6 @@ module "cucumber_testsuite" {
 
       # Define a specific container image tag to install
       # container_tag = "latest"
-    }
-    suse_client = {
-      image = "sles15sp4o"
     }
     suse_minion = {
       image = "sles15sp4o"

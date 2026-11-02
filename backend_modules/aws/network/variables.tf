@@ -48,11 +48,6 @@ variable "create_network" {
   default     = true
 }
 
-variable "create_db_network" {
-  description = "defined if a new network should be created"
-  default     = false
-}
-
 variable "vpc_id" {
   description = "ID of the VPC where networks should be created in (optional)"
   default     = null
