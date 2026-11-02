@@ -92,21 +92,6 @@ scc:
       - SLE-Module-Containers12-Updates
       - SLE-Module-Containers15-SP4-Pool
       - SLE-Module-Containers15-SP4-Updates
-      # SUSE Manager Server
-      - SLE-Product-SUSE-Manager-Server-4.3-Pool
-      - SLE-Product-SUSE-Manager-Server-4.3-Updates
-      - SLE-Module-SUSE-Manager-Server-4.3-Pool
-      - SLE-Module-SUSE-Manager-Server-4.3-Updates
-      # SUSE Manager Proxy
-      - SLE-Product-SUSE-Manager-Proxy-4.3-Pool
-      - SLE-Product-SUSE-Manager-Proxy-4.3-Updates
-      - SLE-Module-SUSE-Manager-Proxy-4.3-Pool
-      - SLE-Module-SUSE-Manager-Proxy-4.3-Updates
-      # Retail Branch Server
-      - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Pool
-      - SLE-Product-SUSE-Manager-Retail-Branch-Server-4.3-Updates
-      - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Pool
-      - SLE-Module-SUSE-Manager-Retail-Branch-Server-4.3-Updates
       # SUSE Manager Tools
       - SLE-Manager-Tools12-Pool
       - SLE-Manager-Tools12-Updates
@@ -137,42 +122,6 @@ http:
   # RES 7
   #- url: https://nu.novell.com/repo/$RCE/RES7/x86_64
   # #  archs: [x86_64]
-
-  # SUSE Manager 4.3 devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3/SLE_15_SP4
-    archs: [x86_64]
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/ToSLE/SLE_15_SP4/
-    archs: [x86_64]
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3/images/repo/SLE-Module-SUSE-Manager-Testing-Overlay-4.3-POOL-x86_64-Media1/
-    archs: [x86_64]
-
-  # SLE 12 (GA and all SPs) Manager Tools 4.3 devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE12-SUSE-Manager-Tools/SLE_12/
-    archs: [x86_64]
-
-  # SLE 15 Manager Tools 4.3 devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/SLE15-SUSE-Manager-Tools/SLE_15/
-    archs: [x86_64]
-
-  # RES 7 Manager Tools 4.3 devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/RES7-SUSE-Manager-Tools/SUSE_RES-7_Update_standard
-    archs: [x86_64]
-
-  # RES 8 Manager Tools 4.3 devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/RES8-SUSE-Manager-Tools/SUSE_RES-8_Update_standard
-    archs: [x86_64]
-
-  # EL 9 Manager Tools 4.3 devel
-  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/EL9-SUSE-Manager-Tools/SUSE_EL-9_Update_standard
-    archs: [x86_64]
-
-  # Ubuntu 22.04 Manager Tools 4.3 devel
-  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu22.04-SUSE-Manager-Tools/xUbuntu_22.04/
-    archs: [amd64]
-
-  # Ubuntu 24.04 Manager Tools 4.3 devel
-  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/4.3:/Ubuntu24.04-SUSE-Manager-Tools/xUbuntu_24.04/
-    archs: [amd64]
 
   # SLE 12 (GA and all SPs) Manager Tools Main devel
   - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-x86_64-Media1

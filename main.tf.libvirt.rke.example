@@ -54,7 +54,6 @@ module "cucumber_testsuite" {
   # "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o",
   # "slemicro53-ign", "slemicro54-ign", "slemicro55o",
   # "slmicro60o", "slmicro61o", "slmicro62o",
-  # "suma43VM-ign",
   # "tumbleweedo",
   # "ubuntu2204o", "ubuntu2404o", "ubuntu2604o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition

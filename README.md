@@ -181,7 +181,6 @@ module "base" {
     "slmicro60o",
     "slmicro61o",
     "slmicro62o",
-    "suma43VM-ign",
     "tumbleweedo",
     "ubuntu2204o",
     "ubuntu2404o",

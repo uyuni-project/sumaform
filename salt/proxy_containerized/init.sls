@@ -123,8 +123,6 @@ testsuite_packages:
   pkg.installed:
     - pkgs:
       - expect
-    {%- if 'build_image' not in grains.get('product_version', '') %}
     - require:
       - sls: repos
-    {%- endif %}
 {% endif %}

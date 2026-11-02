@@ -38,7 +38,7 @@ Available provider settings for the base module:
 
 Settings not set in host module will fall back to the value defined in base module it it exists there.
 
-Following settings apply to all modules, such as `server`, `proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
+Following settings apply to all modules, such as `server_containerized`, `proxy_containerized`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
 
 | Variable name       | Type    | Default value     | Description                                                                                                                                                                                   |
 |---------------------|---------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -71,21 +71,21 @@ An example follows:
 
 ## Dependency between modules
 
-Clients an minions can only be set-up after the server provisioning. To ensure this behavior the output from server provision should be used as input on clients and minions.
+Minions can only be set up after the server provisioning. To ensure this behavior the output from server provision should be used as input on minions.
 
-Alternatively, one can provision the server beforehand and on a second step provision clients and minions.
+Alternatively, one can provision the server beforehand and on a second step provision minions.
 
 An example with module dependency follows:
 
 ```hcl-terraform
 
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   ...
 }
 
-module "client" {
-  source = "./modules/client"
+module "minion" {
+  source = "./modules/minion"
   server_configuration = module.server.configuration
   ...
 }
