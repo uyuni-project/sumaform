@@ -20,7 +20,7 @@ locals {
   name_prefix       = "mirrorsnap-"
   region            = "eu-west-2"
   availability_zone = "${local.region}a"
-  product_version   = "5.0-released"
+  product_version   = "5.2-released"
   ssh_allowed_ips   = [""] // add your IP address in here
 }
 
