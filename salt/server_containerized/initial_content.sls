@@ -41,7 +41,7 @@ add_channels:
 {% for channel in grains.get('channels') %}
 reposync_{{ channel }}:
   cmd.script:
-    - name: salt://server/wait_for_reposync.py
+    - name: salt://server_containerized/wait_for_reposync.py
     - template: jinja
     - args: "{{ server_username }} {{ server_password }} {{ grains.get('fqdn') | default('localhost', true) }} {{ channel }}"
     - use_vt: True

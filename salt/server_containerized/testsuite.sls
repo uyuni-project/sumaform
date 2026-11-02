@@ -12,7 +12,7 @@ authorized_keys_buildhost:
 test_repo_debian_updates_script:
   file.managed:
     - name: /root/download_ubuntu_repo.sh
-    - source: salt://server/download_ubuntu_repo.sh
+    - source: salt://server_containerized/download_ubuntu_repo.sh
     - mode: 755
 
 test_repo_debian_updates:

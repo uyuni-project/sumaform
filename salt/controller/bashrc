@@ -14,8 +14,6 @@ export SERVER="{{ grains.get('server') }}"
 {% endif %}
 {% if grains.get('proxy3') | default(false, true) %}export PROXY3="{{ grains.get('proxy3') }}" {% else %}# no proxy3 defined
 {% endif %}
-{% if grains.get('client') | default(false, true) %}export CLIENT="{{ grains.get('client') }}"{% else %}# no client defined
-{% endif %}
 {% if grains.get('minion') | default(false, true) %}export MINION="{{ grains.get('minion') }}"{% else %}# no minion defined
 {% endif %}
 {% if grains.get('build_host') | default(false, true) %}export BUILD_HOST="{{ grains.get('build_host') }}"{% else %}# no build host defined
@@ -68,30 +66,20 @@ grains.get('slesforsap15sp5_paygo_minion') }}" {% else %}# no SLESFORSAP15SP5_PA
 }}" {% else %}# no SLES12SP5 minion defined {% endif %}
 {% if grains.get('sles12sp5_sshminion') | default(false, true) %}export SLES12SP5_SSHMINION="{{
 grains.get('sles12sp5_sshminion') }}" {% else %}# no SLES12SP5 ssh minion defined {% endif %}
-{% if grains.get('sles12sp5_client') | default(false, true) %}export SLES12SP5_CLIENT="{{ grains.get('sles12sp5_client')
-}}" {% else %}# no SLES12SP5 client defined {% endif %}
-{% if grains.get('sles15sp4_client') | default(false, true) %}export SLES15SP4_CLIENT="{{ grains.get('sles15sp4_client')
-}}" {% else %}# no SLES15SP4 client defined {% endif %}
 {% if grains.get('sles15sp4_minion') | default(false, true) %}export SLES15SP4_MINION="{{ grains.get('sles15sp4_minion')
 }}" {% else %}# no SLES15SP4 minion defined {% endif %}
 {% if grains.get('sles15sp4_byos_minion') | default(false, true) %}export SLES15SP4_BYOS_MINION="{{
 grains.get('sles15sp4_byos_minion') }}" {% else %}# no SLES15SP4 BYOS minion defined {% endif %}
 {% if grains.get('sles15sp4_sshminion') | default(false, true) %}export SLES15SP4_SSHMINION="{{
 grains.get('sles15sp4_sshminion') }}" {% else %}# no SLES15SP4 ssh minion defined {% endif %}
-{% if grains.get('sles15sp5_client') | default(false, true) %}export SLES15SP5_CLIENT="{{ grains.get('sles15sp5_client')
-}}" {% else %}# no SLES15SP5 client defined {% endif %}
 {% if grains.get('sles15sp5_minion') | default(false, true) %}export SLES15SP5_MINION="{{ grains.get('sles15sp5_minion')
 }}" {% else %}# no SLES15SP5 minion defined {% endif %}
 {% if grains.get('sles15sp5_sshminion') | default(false, true) %}export SLES15SP5_SSHMINION="{{
 grains.get('sles15sp5_sshminion') }}" {% else %}# no SLES15SP5 ssh minion defined {% endif %}
-{% if grains.get('sles15sp6_client') | default(false, true) %}export SLES15SP6_CLIENT="{{ grains.get('sles15sp6_client')
-}}" {% else %}# no SLES15SP6 client defined {% endif %}
 {% if grains.get('sles15sp6_minion') | default(false, true) %}export SLES15SP6_MINION="{{ grains.get('sles15sp6_minion')
 }}" {% else %}# no SLES15SP6 minion defined {% endif %}
 {% if grains.get('sles15sp6_sshminion') | default(false, true) %}export SLES15SP6_SSHMINION="{{
 grains.get('sles15sp6_sshminion') }}" {% else %}# no SLES15SP6 ssh minion defined {% endif %}
-{% if grains.get('sles15sp7_client') | default(false, true) %}export SLES15SP7_CLIENT="{{ grains.get('sles15sp7_client')
-}}" {% else %}# no SLES15SP7 client defined {% endif %}
 {% if grains.get('sles15sp7_minion') | default(false, true) %}export SLES15SP7_MINION="{{ grains.get('sles15sp7_minion')
 }}" {% else %}# no SLES15SP7 minion defined {% endif %}
 {% if grains.get('sles15sp7_sshminion') | default(false, true) %}export SLES15SP7_SSHMINION="{{
@@ -140,8 +128,6 @@ grains.get('slmicro61_sshminion') }}" {% else %}# no SLMICRO61 ssh minion define
 {% else %}# no CENTOS7 minion defined {% endif %}
 {% if grains.get('centos7_sshminion') | default(false, true) %}export CENTOS7_SSHMINION="{{
 grains.get('centos7_sshminion') }}" {% else %}# no CENTOS7 ssh minion defined {% endif %}
-{% if grains.get('centos7_client') | default(false, true) %}export CENTOS7_CLIENT="{{ grains.get('centos7_client') }}"
-{% else %}# no CENTOS7 client defined {% endif %}
 {% if grains.get('liberty9_minion') | default(false, true) %}export LIBERTY9_MINION="{{ grains.get('liberty9_minion')
 }}" {% else %}# no LIBERTY9 minion defined {% endif %}
 {% if grains.get('liberty9_sshminion') | default(false, true) %}export LIBERTY9_SSHMINION="{{

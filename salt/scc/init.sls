@@ -1,12 +1,9 @@
 {% if 'paygo' not in grains.get('product_version') | default('', true) %}
-{% if (grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code')) and grains['os'] == 'SUSE' %}
+{% if (grains.get('proxy_registration_code') or grains.get('sles_registration_code')) and grains['os'] == 'SUSE' %}
 include:
   - scc.clean
-  - scc.client
   - scc.minion
   - scc.build_host
-  - scc.proxy
-  - scc.server
 
 scc_refresh_repos:
   cmd.run:
