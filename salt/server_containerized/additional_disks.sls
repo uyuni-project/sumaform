@@ -30,6 +30,9 @@ mgr_volumes_dir:
 mgr_storage:
   cmd.run: 
     - name: mgr-storage-server {{repository_device_name}} {{db_device_name}}
+    # Skip on re-provisioning: the disk already has a filesystem and mgr-storage-server would fail on it.
+    # Only the first device is checked.
+    - unless: blkid {{ repository_device_name or db_device_name }}
     - require:
       - file: mgr_volumes_dir
 
