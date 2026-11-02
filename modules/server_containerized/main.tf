@@ -69,6 +69,8 @@ module "server_containerized" {
     cc_username                    = var.base_configuration["cc_username"]
     cc_password                    = var.base_configuration["cc_password"]
     channels                       = var.channels
+    wait_for_reposync              = var.wait_for_reposync
+    cloned_channels                = var.cloned_channels
     mirror                         = var.use_mirror ? var.base_configuration["mirror"] : null
     server_mounted_mirror          = var.server_mounted_mirror
     mirror_nfs_server              = var.mirror_nfs_server
@@ -78,6 +80,8 @@ module "server_containerized" {
     java_hibernate_debugging       = var.java_hibernate_debugging
     java_salt_debugging            = var.java_salt_debugging
     from_email                     = var.from_email
+    monitored                      = var.monitored
+    forward_registration           = var.forward_registration
     traceback_email                = var.traceback_email
     main_disk_size                 = var.main_disk_size
     repository_disk_size           = var.repository_disk_size
