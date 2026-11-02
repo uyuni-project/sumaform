@@ -21,8 +21,10 @@ systemd_machine_id:
         for d in /var/log/journal/*; do
           [ "$(basename "$d")" != "$new_id" ] || continue
           [ -d "$d" ] || continue
-          mv "$d"/* "$d"/.* "/var/log/journal/$new_id/" 2>/dev/null || true
+          find "$d" -mindepth 1 -maxdepth 1 -exec mv -n -t "/var/log/journal/$new_id/" {} + || true
         done
+        # journald keeps writing under the machine-id it started with: restart it to use the new one
+        systemctl restart systemd-journald || true
         touch /etc/machine-id-already-setup
         '
     - creates: /etc/machine-id-already-setup
