@@ -16,9 +16,6 @@ locals {
     overwrite_fqdn  = null
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
-    contains(var.roles, "server") ? { instance_type = "t3.medium" } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "m5.xlarge" } : {},
-    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { instance_type = "t3.medium" } : {},
     contains(var.roles, "mirror") ? { instance_type = "t3.micro" } : {},
     contains(var.roles, "controller") ? { instance_type = "m5.large" } : {},
     contains(var.roles, "grafana") ? { instance_type = "t3.medium" } : {},
@@ -96,7 +93,7 @@ resource "aws_instance" "instance" {
   subnet_id              = var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_subnet_id : local.private_subnet_id) : var.connect_to_additional_network ? local.private_additional_subnet_id : local.private_subnet_id
   vpc_security_group_ids = [var.connect_to_base_network ? (local.provider_settings["public_instance"] ? local.public_security_group_id : local.private_security_group_id) : var.connect_to_additional_network ? local.private_additional_security_group_id : local.private_security_group_id]
   private_ip             = local.private_ip
-  iam_instance_profile   = contains(var.roles, "server") || contains(var.roles, "server_containerized") ? var.base_configuration["iam_instance_profile"] : null
+  iam_instance_profile   = contains(var.roles, "server_containerized") ? var.base_configuration["iam_instance_profile"] : null
 
   root_block_device {
     volume_size = local.provider_settings["volume_size"]
@@ -287,8 +284,8 @@ resource "terraform_data" "host_salt_configuration" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null
-        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.second_data_disk_device : null
+        data_disk_device              = contains(var.roles, "server_containerized") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.data_disk_device : null
+        second_data_disk_device       = contains(var.roles, "server_containerized") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? local.second_data_disk_device : null
       },
       var.grains))
     destination = "/tmp/grains"

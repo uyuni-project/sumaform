@@ -20,7 +20,7 @@ module "cucumber_testsuite" {
   # for more information on product_version values
   # you should use the same version here as in git_repo below
   # if you work on Uyuni you should use e.g. uyuni-master here and uyuni as git_repo below
-  # if you work on SUMA you should use e.g. 4.3-nightly, 4.3-released, 4.3-VM-nightly, 4.3-VM-released, or head and spacewalk as git_repo below
+  # if you work on SUMA you should use e.g. 5.2-nightly, 5.2-released, or head and spacewalk as git_repo below
   product_version = "uyuni-master"
 
   # SUSE SCC credentials
@@ -47,7 +47,6 @@ module "cucumber_testsuite" {
   # "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o",
   # "slemicro53-ign", "slemicro54-ign", "slemicro55o",
   # "slmicro60o", "slmicro61o", "slmicro62o",
-  # "suma43VM-ign",
   # "tumbleweedo",
   # "ubuntu2204o", "ubuntu2404o", "ubuntu2604o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
@@ -68,10 +67,6 @@ module "cucumber_testsuite" {
   git_username = "nogit"
   git_password = "nogit"
   branch = "master"
-
-  # Required to select a container server in the testsuite
-  container_server = true
-  container_proxy  = true
 
   # In case you use an authentication registry
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
@@ -126,9 +121,6 @@ module "cucumber_testsuite" {
     }
     proxy_containerized = {
       name = "proxy"
-    }
-    suse_client = {
-      image = "sles15sp4o"
     }
     suse_minion = {
       image = "sles15sp4o"

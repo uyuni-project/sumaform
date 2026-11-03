@@ -12,7 +12,7 @@ provider "libvirt" {
 module "cucumber_testsuite" {
   source = "./modules/cucumber_testsuite"
 
-  product_version = "4.3-nightly"
+  product_version = "5.2-nightly"
 
   cc_username = ...
   cc_password = ...
@@ -31,7 +31,7 @@ module "cucumber_testsuite" {
 }
 ```
 
-This will create a test server, client and minion instances, plus a coordination node called a `controller` which runs the testsuite.
+This will create a test server and minion instances, plus a coordination node called a `controller` which runs the testsuite.
 
 The example will have to be completed with SCC credentials and GitHub credentials to the SUSE Manager or Uyuni repo.
 PTF SCC variables should only be used with Multi-Linux Manager 5.1 and later.
@@ -116,10 +116,6 @@ host_settings = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
   }
-  suse_client = {
-    additional_packages = [ "venv-salt-minion" ]
-    install_salt_bundle = true
-  }
   suse_minion = {
     additional_packages = [ "venv-salt-minion" ]
     install_salt_bundle = true
@@ -134,9 +130,7 @@ Several test hosts are optional and can be activated via a `host_settings` block
 
 ```hcl
 host_settings = {
-  proxy = {
-  }
-  suse_client = {
+  proxy_containerized = {
   }
   suse_minion = {
   }
@@ -157,12 +151,10 @@ host_settings = {
 }
 ```
 
-The default value for `host_settings` block has a SUSE family traditional client and SUSE family minion present:
+The default value for `host_settings` block has a SUSE family minion present:
 
 ```hcl
 host_settings = {
-  suse_client = {
-  }
   suse_minion = {
   }
 }
@@ -209,7 +201,7 @@ As an example:
 module "cucumber_testsuite" {
   source = "./modules/cucumber_testsuite"
 
-  product_version = "4.3-nightly"
+  product_version = "5.2-nightly"
   ...
   git_repo = "https://url.to.git/repo/to/clone"
   branch = "cool-feature"

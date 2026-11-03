@@ -68,7 +68,7 @@ provider_settings = {
 
 ### Host modules
 
-Following settings apply to all modules that create one or more hosts of the same kind, such as `suse_manager`, `suse_manager_proxy`, `client`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
+Following settings apply to all modules that create one or more hosts of the same kind, such as `server_containerized`, `proxy_containerized`, `grafana`, `minion`, `mirror`, `sshminion` and `virthost`:
 
 | Variable name       | Type    | Default value                                        | Description                                                         |
 |---------------------|---------|------------------------------------------------------|---------------------------------------------------------------------|

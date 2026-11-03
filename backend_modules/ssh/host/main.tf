@@ -103,8 +103,8 @@ resource "terraform_data" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "suse_manager_server") || contains(var.roles, "suse_manager_proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
-        second_data_disk_device       = contains(var.roles, "suse_manager_server") || contains(var.roles, "suse_manager_proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
+        data_disk_device              = contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        second_data_disk_device       = contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
       },
       var.grains))
     destination = "/tmp/grains"

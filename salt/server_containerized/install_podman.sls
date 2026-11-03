@@ -10,9 +10,7 @@ podman_packages:
       - netavark
       - aardvark-dns
     - require:
-      {% if 'build_image' not in grains.get('product_version') | default('', true) %}
       - sls: repos
-      {% endif %}
 {% endif %}
 
 {% if 'paygo' not in grains.get('product_version') | default('', true) %}

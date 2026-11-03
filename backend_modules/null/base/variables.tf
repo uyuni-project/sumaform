@@ -86,7 +86,7 @@ variable "is_server_paygo_instance" {
 }
 
 variable "product_version" {
-  description = "One of: 4.3-nightly, 4.3-released, 4.3-VM-nightly, 4.3-VM-released, 5.1-nightly, 5.1-released, 5.2-nightly, 5.2-released, head, head-staging, uyuni-master, uyuni-released"
+  description = "One of: 5.1-nightly, 5.1-released, 5.2-nightly, 5.2-released, head, head-staging, uyuni-master, uyuni-released"
   type        = string
   default     = ""
 }

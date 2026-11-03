@@ -10,11 +10,9 @@ locals {
   create_network                       = lookup(var.provider_settings, "create_network", true)
   create_private_network               = lookup(var.provider_settings, "create_private_network", true)
   create_additional_network            = lookup(var.provider_settings, "create_additional_network", true)
-  create_db_network                    = lookup(var.provider_settings, "create_db_network", false)
   public_subnet_id                     = lookup(var.provider_settings, "public_subnet_id", null)
   private_subnet_id                    = lookup(var.provider_settings, "private_subnet_id", null)
   private_additional_subnet_id         = lookup(var.provider_settings, "private_additional_subnet_id", null)
-  db_private_subnet_name               = lookup(var.provider_settings, "db_private_subnet_name", null)
   public_security_group_id             = lookup(var.provider_settings, "public_security_group_id", null)
   private_security_group_id            = lookup(var.provider_settings, "private_security_group_id", null)
   private_additional_security_group_id = lookup(var.provider_settings, "private_additional_security_group_id", null)
@@ -36,7 +34,6 @@ module "network" {
   create_network            = local.create_network
   create_private_network    = local.create_private_network
   create_additional_network = local.create_additional_network
-  create_db_network         = local.create_db_network
   private_network           = local.private_network
   additional_network        = local.additional_network
   public_subnet_id          = local.public_subnet_id
@@ -98,7 +95,6 @@ locals {
     module.network.configuration,
     !local.create_network ? {
       public_subnet_id                     = local.public_subnet_id
-      db_private_subnet_name               = local.db_private_subnet_name
       public_security_group_id             = local.public_security_group_id
     } : {},
     !local.create_private_network ? {

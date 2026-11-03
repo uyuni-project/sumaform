@@ -38,7 +38,7 @@ variable "name_prefix" {
 
 variable "images" {
   description = "list of images to be uploaded to the libvirt host, leave default for all"
-  default     = ["centos7o", "opensuse160o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "rocky8o", "rocky9o", "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "ubuntu2204o", "ubuntu2404o", "ubuntu2604o", "suma43VM-ign"]
+  default     = ["centos7o", "opensuse160o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "rocky8o", "rocky9o", "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "ubuntu2204o", "ubuntu2404o", "ubuntu2604o"]
 }
 
 variable "main_disk_size" {
@@ -75,8 +75,6 @@ variable "use_shared_resources" {
 variable "host_settings" {
   description = "Hosts and their specific properties, see README_TESTING.md"
   default = {
-    suse-client = {
-    }
     suse-minion = {
     }
   }
@@ -192,30 +190,10 @@ variable "custom_download_endpoint" {
   default     = null
 }
 
-variable "saltapi_tcpdump" {
-  description = "If set to true, all network operations of salt-api on the Server are logged to /tmp/ with tcpdump."
-  default     = false
-}
-
 // provider
 variable "provider_settings" {
   description = "Settings specific to the provider, see README_TESTING.md"
   default     = {}
-}
-
-variable "login_timeout" {
-  description = "How long the webUI login session cookie is valid"
-  default     = null
-}
-
-variable "container_server" {
-  description = "true to run the server in containers"
-  default = false
-}
-
-variable "container_proxy" {
-  description = "true to run the proxy in containers"
-  default = false
 }
 
 variable "kubernetes" {

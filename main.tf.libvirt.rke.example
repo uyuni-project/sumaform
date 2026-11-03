@@ -54,7 +54,6 @@ module "cucumber_testsuite" {
   # "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "sles160o",
   # "slemicro53-ign", "slemicro54-ign", "slemicro55o",
   # "slmicro60o", "slmicro61o", "slmicro62o",
-  # "suma43VM-ign",
   # "tumbleweedo",
   # "ubuntu2204o", "ubuntu2404o", "ubuntu2604o"
   # to see what VM uses what image, have a look at the image variable in the cucumber_module definition
@@ -75,9 +74,6 @@ module "cucumber_testsuite" {
   git_username = "nogit"
   git_password = "nogit"
   branch = "master"
-
-  # Required to select a container server in the testsuite
-  container_server = true
 
   # In case you use an authentication registry
   auth_registry = "registry.mgr.suse.de:5000/cucutest"
@@ -154,9 +150,6 @@ module "cucumber_testsuite" {
 
       # Define a specific container image tag to install
       # container_tag = "latest"
-    }
-    suse_client = {
-      image = "sles15sp4o"
     }
     suse_minion = {
       image = "sles15sp4o"

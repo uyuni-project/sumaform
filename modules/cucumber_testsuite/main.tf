@@ -20,7 +20,6 @@ module "base" {
 
 locals {
   server_full_name          = "${var.name_prefix}server.${var.domain}"
-  proxy_full_name           = "${var.name_prefix}proxy.${var.domain}"
 
   hosts                     = keys(var.host_settings)
   provider_settings_by_host = { for host_key in local.hosts :
@@ -121,10 +120,6 @@ locals {
     host_key => lookup(var.host_settings[host_key], "auto_configure", false) if var.host_settings[host_key] != null }
   create_first_user         = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "create_first_user", false) if var.host_settings[host_key] != null }
-  repository_disk_use_cloud_setup = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "repository_disk_use_cloud_setup", null) if var.host_settings[host_key] != null }
-  scc_access_logging        = { for host_key in local.hosts :
-    host_key => lookup(var.host_settings[host_key], "scc_access_logging", false) if var.host_settings[host_key] != null }
   enable_oval_metadata     = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "enable_oval_metadata", false) if var.host_settings[host_key] != null }
   scc_slmicro_pass     = { for host_key in local.hosts :
@@ -148,59 +143,15 @@ locals {
   kubernetes_var_pgsql_host_path = { for host_key in local.hosts :
     host_key => lookup(var.host_settings[host_key], "kubernetes_var_pgsql_host_path", var.kubernetes_var_pgsql_host_path) if var.host_settings[host_key] != null }
 
-  minimal_configuration     = { hostname = contains(local.hosts, "proxy") ? local.proxy_full_name : local.server_full_name }
-  server_configuration      = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_server_configuration : module.server_kubernetes[0].configuration) : ( var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
-  proxy_configuration       = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_proxy_configuration : module.proxy_kubernetes[0].configuration) : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
-}
-
-module "server" {
-  source                         = "../server"
-
-  count = var.kubernetes ? 0 : (var.container_server ? 0 : 1)
-
-  base_configuration             = module.base.configuration
-  image                          = lookup(local.images, "server", "default")
-  name                           = lookup(local.names, "server", "server")
-  auto_accept                    = false
-  download_private_ssl_key       = false
-  disable_firewall               = false
-  allow_postgres_connections     = false
-  skip_changelog_import          = false
-  create_first_user              = false
-  mgr_sync_autologin             = false
-  create_sample_channel          = false
-  create_sample_activation_key   = false
-  create_sample_bootstrap_script = false
-  publish_private_ssl_key        = false
-  disable_download_tokens        = false
-  disable_auto_bootstrap         = false
-  forward_registration           = false
-  monitored                      = true
-  use_os_released_updates        = var.use_os_released_updates
-  beta_enabled                   = var.beta_enabled
-  install_salt_bundle            = lookup(local.install_salt_bundle, "server", true)
-  ssh_key_path                   = "./salt/controller/id_ed25519.pub"
-  from_email                     = var.from_email
-  additional_repos               = lookup(local.additional_repos, "server", {})
-  additional_repos_only          = lookup(local.additional_repos_only, "server", false)
-  additional_packages            = lookup(local.additional_packages, "server", [])
-  login_timeout                  = var.login_timeout
-  scc_access_logging             = lookup(local.scc_access_logging, "server", false)
-
-  saltapi_tcpdump                 = var.saltapi_tcpdump
-  provider_settings               = lookup(local.provider_settings_by_host, "server", {})
-  server_mounted_mirror           = lookup(local.server_mounted_mirror, "server", {})
-  main_disk_size                  = lookup(local.main_disk_size, "server", 200)
-  repository_disk_size            = lookup(local.repository_disk_size, "server", 0)
-  database_disk_size              = lookup(local.database_disk_size, "server", 0)
-  large_deployment                = lookup(local.large_deployment, "server", true)
-  repository_disk_use_cloud_setup = lookup(local.repository_disk_use_cloud_setup, "server", false)
+  minimal_configuration     = { hostname = local.server_full_name }
+  server_configuration      = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_server_configuration : module.server_kubernetes[0].configuration) : module.server_containerized[0].configuration
+  proxy_configuration       = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_proxy_configuration : module.proxy_kubernetes[0].configuration) : module.proxy_containerized[0].configuration
 }
 
 module "server_containerized" {
   source                         = "../server_containerized"
 
-  count = var.kubernetes ? 0 : (var.container_server ? 1 : 0)
+  count = var.kubernetes ? 0 : 1
 
   base_configuration             = module.base.configuration
   image                          = lookup(local.images, "server_containerized", "default")
@@ -244,9 +195,7 @@ module "server_containerized" {
   additional_repos               = lookup(local.additional_repos, "server_containerized", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server_containerized", false)
   additional_packages            = lookup(local.additional_packages, "server_containerized", [])
-  //login_timeout                  = var.login_timeout
 
-  //saltapi_tcpdump               = var.saltapi_tcpdump
   provider_settings             = lookup(local.provider_settings_by_host, "server_containerized", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
   mirror_nfs_server             = lookup(local.mirror_nfs_server, "server_containerized", true)
@@ -280,9 +229,7 @@ module "server_kubernetes" {
   additional_repos               = lookup(local.additional_repos, "server_kubernetes", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server_kubernetes", false)
   additional_packages            = lookup(local.additional_packages, "server_kubernetes", [])
-  //login_timeout                  = var.login_timeout
 
-  //saltapi_tcpdump               = var.saltapi_tcpdump
   provider_settings             = lookup(local.provider_settings_by_host, "server_kubernetes", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_kubernetes", {})
   main_disk_size                = lookup(local.main_disk_size, "server_kubernetes", 200)
@@ -326,42 +273,11 @@ module "server_kubernetes" {
   kubernetes_var_pgsql_host_path            = lookup(local.kubernetes_var_pgsql_host_path, "server_kubernetes", var.kubernetes_var_pgsql_host_path)
 }
 
-module "proxy" {
-  source = "../proxy"
-
-  count = var.kubernetes ? 0 : (var.container_proxy ? 0 : 1)
-
-  quantity = contains(local.hosts, "proxy") ? 1 : 0
-
-  base_configuration = module.base.configuration
-  image              = lookup(local.images, "proxy", "default")
-  name               = lookup(local.names, "proxy", "proxy")
-
-  server_configuration      = { hostname = local.server_full_name, username = "admin", password = "admin" }
-  auto_register             = false
-  auto_connect_to_master    = false
-  download_private_ssl_key  = false
-  install_proxy_pattern     = false
-  auto_configure            = false
-  generate_bootstrap_script = false
-  publish_private_ssl_key   = false
-  use_os_released_updates   = var.use_os_released_updates
-  ssh_key_path              = "./salt/controller/id_ed25519.pub"
-  install_salt_bundle = lookup(local.install_salt_bundle, "proxy", true)
-
-  additional_repos      = lookup(local.additional_repos, "proxy", {})
-  additional_repos_only = lookup(local.additional_repos_only, "proxy", false)
-  additional_packages   = lookup(local.additional_packages, "proxy", [])
-  main_disk_size        = lookup(local.main_disk_size, "proxy", 200)
-  repository_disk_size  = lookup(local.repository_disk_size, "proxy", 0)
-  provider_settings     = lookup(local.provider_settings_by_host, "proxy", {})
-}
-
 module "proxy_containerized" {
   depends_on = [module.server_containerized]
   source = "../proxy_containerized"
 
-  count = var.kubernetes ? 0 : (var.container_proxy ? 1 : 0)
+  count = var.kubernetes ? 0 : 1
   quantity = contains(local.hosts, "proxy_containerized") ? 1 : 0
 
   base_configuration     = module.base.configuration
@@ -454,28 +370,6 @@ module "dhcp_dns" {
   private_hosts      = [ local.proxy_configuration, module.pxeboot_minion.configuration ]
 
   hypervisor         = lookup(local.hypervisors, "dhcp_dns", null)
-}
-
-module "suse_client" {
-  source             = "../client"
-
-  quantity = contains(local.hosts, "suse_client") ? 1 : 0
-  base_configuration = module.base.configuration
-  image              = lookup(local.images, "suse_client", "sles15sp4o")
-  name               = lookup(local.names, "suse_client", "suse-client")
-
-  server_configuration = local.minimal_configuration
-  sles_registration_code = lookup(local.sles_registration_code, "suse_client", null)
-
-  auto_register           = false
-  use_os_released_updates = var.use_os_released_updates
-  ssh_key_path            = "./salt/controller/id_ed25519.pub"
-  install_salt_bundle     = lookup(local.install_salt_bundle, "suse_client", true)
-
-  additional_repos  = lookup(local.additional_repos, "suse_client", {})
-  additional_repos_only  = lookup(local.additional_repos_only, "suse_client", false)
-  additional_packages = lookup(local.additional_packages, "suse_client", [])
-  provider_settings = lookup(local.provider_settings_by_host, "suse_client", {})
 }
 
 module "suse_minion" {
@@ -681,7 +575,6 @@ module "controller" {
   base_configuration             = module.base.configuration
   server_configuration           = local.server_configuration
   proxy_configuration            = local.proxy_configuration
-  client_configuration           = contains(local.hosts, "suse_client") ? module.suse_client.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   minion_configuration           = contains(local.hosts, "suse_minion") ? module.suse_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   sshminion_configuration        = contains(local.hosts, "suse_sshminion") ? module.suse_sshminion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
   rhlike_configuration           = contains(local.hosts, "rhlike_minion") ? module.rhlike_minion.configuration : { hostnames = [], ids = [], ipaddrs = [], macaddrs = [], private_macs = [] }
@@ -755,9 +648,8 @@ module "controller" {
 output "configuration" {
   value = {
     base = module.base.configuration
-    server = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_server_configuration : module.server_kubernetes[0].configuration) : (var.container_server ? module.server_containerized[0].configuration : module.server[0].configuration)
-    proxy = var.kubernetes ? (var.kubernetes_cluster_mode == "external" ? var.kubernetes_external_proxy_configuration : module.proxy_kubernetes[0].configuration) : (var.container_proxy ? module.proxy_containerized[0].configuration : module.proxy[0].configuration)
-    suse_client = module.suse_client.configuration
+    server = local.server_configuration
+    proxy = local.proxy_configuration
     suse_minion = module.suse_minion.configuration
     suse_sshminion = module.suse_sshminion.configuration
     rhlike_minion = module.rhlike_minion.configuration

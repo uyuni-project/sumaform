@@ -4,32 +4,27 @@
 
 Some modules have a `product_version` variable that determines the software product version. Specifically:
 
-- in `server`, `proxy`, `server_containerized` and `proxy_containerized`, `product_version` determines the SUSE Multi-Linux Manager/Uyuni product version
-- in `minion`, `client`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version
+- in `server_containerized` and `proxy_containerized`, `product_version` determines the SUSE Multi-Linux Manager/Uyuni product version
+- in `minion`, `sshminion`, etc. `product_version` determines the SUSE Manager/Uyuni Tools version
 
 Legal values for released software are:
 
-- `4.3-released` (latest released maintenance update for SUSE Manager 4.3 and Tools)
-- `4.3-VM-released` (latest released maintenance update for SUSE Manager 4.3 virtual machine)
 - `5.1-released` (latest released maintenance update for Multi Linux Manager 5.1 and Tools)
 - `5.2-released` (latest released maintenance update for Multi Linux Manager 5.2 and Tools)
 - `uyuni-released` (latest released version for Uyuni Server, Proxy, and Tools, from systemsmanagement:Uyuni:Stable)
 
 Legal values for work-in-progress software are:
 
-- `4.3-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:4.3)
-- `4.3-VM-nightly` (corresponds to the VM image in the Build Service project Devel:Galaxy:Manager:4.3)
 - `5.1-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.1)
 - `5.2-nightly` (corresponds to the Build Service project Devel:Galaxy:Manager:5.2)
 - `head` (corresponds to the Build Service project Devel:Galaxy:Manager:Main, uses SL Micro 6.1 as the base image for server)
 - `uyuni-master` (corresponds to the Build Service project systemsmanagement:Uyuni:Master)
 
-**Important:** sumaform only supports containerized deployments for Multi Linux Manager 5.1 and later.
-Please use `server_containerized` and `proxy_containerized` modules with product versions `head` and `5.x`.
+**Important:** sumaform only supports containerized deployments, for Multi Linux Manager 5.1 and later and for Uyuni.
 
 Note: the version of Salt on minions is determined by this value, as Salt is obtained from SUSE Manager Tools repos.
 
-Note: on clients and minions only, the version number can be omitted to take the default for the distribution, eg. `released` and `nightly` are legal values.
+Note: on minions only, the version number can be omitted to take the default for the distribution, eg. `released` and `nightly` are legal values.
 
 A libvirt example follows:
 
@@ -45,7 +40,7 @@ module "suse_minion" {
 }
 
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -61,14 +56,14 @@ For some modules like `minion`, `image` is mandatory and OpenTofu will refuse to
 
 For other modules like `server` there is a default selection if nothing is specified. Please note that not all OS combinations might be supported, refer to official documentation to select a compatible OS.
 
-The following example creates a SUSE Manager server using "nightly" packages from version 5.1 based on SLES 15 SP7:
+The following example creates a Multi Linux Manager server using "nightly" packages from version 5.1 based on SL Micro 6.1:
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
-  image = "sles15sp7o"
+  image = "slmicro61o"
   name = "server"
   product_version = "5.1-nightly"
 }
@@ -97,7 +92,7 @@ ln -sfn ../backend_modules/<BACKEND> modules/backend
 
 ## Multiple VMs of the same type
 
-Some modules, for example clients and minions, support a `quantity` variable that allows you to create several instances at once. For example:
+Some modules, for example minions, support a `quantity` variable that allows you to create several instances at once. For example:
 
 ```hcl
 module "suse_minion" {
@@ -246,10 +241,6 @@ hashmap of `hvm_disk_image` to `"leap = salt://virthost/imagename.qcow2"`. See t
 
 By default, sumaform deploys hosts with a range of tweaked settings for convenience reasons. If in your use case this is not wanted, you can turn those off via the following variables.
 
- * `client` module:
-   * `auto_register`: automatically registers clients to the SUSE Manager Server. Set to `false` for manual registration
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
-   * `sles_registration_code` : only for sles, register client with SCC key and enable modules during deployment. Set to `null` by default to use repositories for deployment  
  * `minion` module:
    * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
@@ -258,35 +249,16 @@ By default, sumaform deploys hosts with a range of tweaked settings for convenie
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
  * `host` module:
    * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
- * `proxy` module:
-   * `minion`: whether to configure this Proxy as a Salt minion. Set to `false` to have the Proxy set up as a traditional client
-   * `auto_connect_to_master`: automatically connects to the Salt Master. Set to `false` to manually configure. Requires `minion` to be `true`
-   * `auto_register`: automatically registers the proxy to its upstream Server or Proxy. Defaults to `false`, requires `minion` to be `false`
-   * `download_private_ssl_key`: automatically copies SSL certificates from the upstream SUSE Manager Server or SUSE Manager Proxy. Requires `publish_private_ssl_key` on the upstream server or proxy. Set to `false` for manual distribution
-   * `install_proxy_pattern`: install proxy pattern with all proxy-related software. Set to `false` to install manually
-   * `auto_configure`: automatically runs the `confure-proxy.sh` script which enables Proxy functionality. Set to `false` to run manually. Requires `auto_register`, `download_private_ssl_key`, and `install_proxy_pattern`
-   * `generate_bootstrap_script`: generates a bootstrap script for traditional clients and copies it in /pub. Set to `false` to generate manually. Requires `auto_configure`
-   * `publish_private_ssl_key`: copies the private SSL key in /pub for cascaded Proxies to copy automatically. Set to `false` for manual distribution. Requires `download_private_ssl_key`
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
-   * `proxy_registration_code` : register proxy with SCC key and enable modules needed for SUMA Proxy during deployment. Set to `null` by default to use repositories for deployment
- * `server` module:
+ * `server_containerized` module:
    * `auto_accept`: whether to automatically accept minion keys. Set to `false` to manually accept
-   * `create_first_user`: whether to automatically create the first user (the SUSE Manager Admin)
-     * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
-   * `disable_firewall`: disables the firewall making all ports available to any host. Set to `false` to only have typical SUSE Manager ports open
+   * `server_username` and `server_password`: define credentials for the first user, admin/admin by default
    * `allow_postgres_connections`: configure Postgres to accept connections from external hosts. Set to `false` to only allow localhost connections
-   * `unsafe_postgres`: use PostgreSQL settings that improve performance by worsening durability. Set to `false` to ensure durability
    * `skip_changelog_import`: import RPMs without changelog data, this speeds up spacewalk-repo-sync. Set to `false` to import changelogs
-   * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file. Requires `create_first_user`
-   * `create_sample_channel`: whether to create an empty test channel. Requires `create_first_user`
-   * `create_sample_activation_key`: whether to create a sample activation key. Requires `create_first_user`
-   * `create_sample_bootstrap_script`: whether to create a sample bootstrap script for traditional clients. Requires `create_sample_activation_key`
+   * `mgr_sync_autologin`: whether to set mgr-sync credentials in the .mgr-sync file
+   * `create_sample_channel`: whether to create an empty test channel
+   * `create_sample_activation_key`: whether to create a sample activation key
+   * `create_sample_bootstrap_script`: whether to create a sample bootstrap script. Requires `create_sample_activation_key`
    * `publish_private_ssl_key`: copies the private SSL key in /pub for Proxies to copy automatically. Set to `false` for manual distribution
-   * `disable_download_tokens`: disable package token download checks. Set to `false` to enable checking
-   * `forward_registration`: enable forwarding of registrations to SCC (default off)
-   * `server_registration_code` : register server with SCC key and enable modules needed for SUMA Server during deployment. Set to `null` by default to use repositories for deployment
-   * `login_timeout`: define how long the webUI login cookie is valid (in seconds). Set to null by default to leave it up to the application default value.
-   * `db_configuration` : pass external database configuration to change `setup_env.sh` file. See more in `Using external database` section
    * `beta_enabled`: enable beta channels in rhn configuration. Set to false by default.
  * `controller` module:
    * `is_using_paygo_server`: whether to use the paygo server. Set to `false` to use the default server
@@ -310,7 +282,7 @@ Then add it to the `channels` variable in a SUSE Manager Server module:
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -336,7 +308,7 @@ A libvirt example follows:
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
@@ -509,81 +481,38 @@ module "suse_minion" {
 
 ## Proxies
 
-A `proxy` module is similar to a `client` module but has a `product_version` and a `server` variable pointing to the upstream server. You can then point clients to the proxy, as in the example below:
+A `proxy_containerized` module has a `product_version` and a `server_configuration` variable pointing to the upstream server. You can then point minions to the proxy, as in the example below:
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
 
   name = "server"
-  product_version = "4.3-nightly"
+  product_version = "5.2-nightly"
 }
 
 module "proxy" {
-  source = "./modules/proxy"
-  base_configuration = module.base.configuration
-
-  name = "proxy"
-  product_version = "4.3-nightly"
-  server_configuration = module.server.configuration
-}
-
-module "suse_client" {
-  source = "./modules/client"
-  base_configuration = module.base.configuration
-
-  name = "cli-sles12sp5"
-  image = "sles12sp5o"
-  server_configuration = module.proxy.configuration
-  quantity = 3
-}
-```
-
-Note that proxy chains (proxies of proxies) also work as expected. You can find a list of customizable variables for the `proxy` module in `modules/libvirt/proxy/variables.tf`.
-
-Note that systems prepared by this module are by default registered as a Salt minions. If this is not desired you can switch off Salt minion registration by setting the `minion` flag to `false`:
-
-```hcl
-module "proxy" {
-  source = "./modules/proxy"
+  source = "./modules/proxy_containerized"
   base_configuration = module.base.configuration
 
   name = "proxy"
   product_version = "5.2-nightly"
   server_configuration = module.server.configuration
+}
 
-  minion = false
+module "suse_minion" {
+  source = "./modules/minion"
+  base_configuration = module.base.configuration
+
+  name = "min-sles15sp7"
+  image = "sles15sp7o"
+  server_configuration = module.proxy.configuration
+  quantity = 3
 }
 ```
 
-## Inter-Server Sync (ISS)
-
-ISS is only available on the uncontainerized `server` module, which deploys SUSE Manager 4.3. The containerized and Kubernetes servers never run the ISS state, and the API it drives was removed from the product after 4.3 — use [Hub and peripheral servers](#hub-and-peripheral-servers) for those instead.
-
-Create two SUSE Manager server modules and add `iss_master` and `iss_slave` variable definitions to them, as in the example below:
-
-```hcl
-module "master" {
-  source = "./modules/server"
-  base_configuration = module.base.configuration
-
-  name = "master"
-  product_version = "4.3-nightly"
-  iss_slave = "slave.tf.local"
-}
-
-module "slave" {
-  source = "./modules/server"
-  base_configuration = module.base.configuration
-
-  name = "slave"
-  product_version = "4.3-nightly"
-  iss_master = module.master.configuration["hostname"]
-}
-```
-
-Please note that `iss_master` is set from `master`'s module output variable `hostname`, while `iss_slave` is simply hardcoded. This is needed for OpenTofu to resolve dependencies correctly, as dependency cycles are not permitted.
+You can find a list of customizable variables for the `proxy_containerized` module in `modules/proxy_containerized/variables.tf`.
 
 ## Hub and peripheral servers
 
@@ -627,7 +556,7 @@ module "prh2" {
 }
 ```
 
-As with ISS, note that the peripherals reference the Hub through its module output (`module.hub.configuration.hostname`), while the Hub lists the peripheral FQDNs from `local` values. This avoids a dependency cycle between the modules, so the peripheral FQDNs must be known up front (e.g. computed in `locals`) rather than read back from the peripheral modules' outputs.
+Note that the peripherals reference the Hub through its module output (`module.hub.configuration.hostname`), while the Hub lists the peripheral FQDNs from `local` values. This avoids a dependency cycle between the modules, so the peripheral FQDNs must be known up front (e.g. computed in `locals`) rather than read back from the peripheral modules' outputs.
 
 ## Working on multiple configuration sets (workspaces) locally
 
@@ -711,21 +640,6 @@ module "pxeboot_minion"
 }
 ```
 
-## SMT
-
-You can configure SUSE Manager instances to download packages from an SMT server instead of SCC, in case a `mirror` is not used:
-
-```hcl
-module "server" {
-  source = "./modules/server"
-  base_configuration = module.base.configuration
-
-  name = "server"
-  product_version = "5.2-nightly"
-  smt = "http://smt.suse.de"
-}
-```
-
 ## Custom repos and packages
 
 You can specify additional custom repos and packages to be installed at deploy time for a specific host:
@@ -797,7 +711,7 @@ module "grafana" {
 
 Grafana is accessible at [http://grafana.tf.local](http://grafana.tf.local) with username and password `admin`.
 
-Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `server` module (it is by default).
+Please note for the Java probes to work the `java_debugging` setting has to be enabled in the `server_containerized` module (it is by default).
 
 ## Container registry
 
@@ -958,7 +872,7 @@ An example follows:
 
 ```hcl
 module "server" {
-  source = "./modules/server"
+  source = "./modules/server_containerized"
   base_configuration = module.base.configuration
   product_version = "5.2-nightly"
   name = "server"
@@ -1193,44 +1107,8 @@ Note that `use_dhcp_ip = true` requires the DHCP lease IP to be directly reachab
 
 ## Debugging facilities
 
-The `server` module has options to automatically capture more diagnostic information, off by default:
+The `server_containerized` module has options to automatically capture more diagnostic information, off by default:
 
 - `java_debugging`: enable Java debugging and profiling support in Tomcat and Taskomatic
 - `java_hibernate_debugging`: enable additional logs for Hibernate in Tomcat and Taskomatic
 - `java_salt_debugging`: enable additional logs for Hibernate in Tomcat
-- `postgres_log_min_duration`: log PostgreSQL statements taking longer than the duration (expressed as a string, eg. `250ms` or `3s`), or log all statements by specifying `0`
-
-## Using an external database
-
-Currently, sumaform only supports the RDS database as an external database. The server needs to be created in the public cloud (by default AWS). It's possible to get RDS in a private network shared with the server in AWS.
-
-The RDS module returns automatically the parameters needed to configure `rhn.conf` through `setup_env.sh`.
-
-| Output variable      | Type    | Description                                                               |
-|----------------------|---------|---------------------------------------------------------------------------|
-| `hostname`           | string  | RDS hostname that will be used for `MANAGER_DB_HOST` and `REPORT_DB_HOST` |
-| `superuser`          | string  | Superuser to connect database                                             |
-|                      |         | it will be used to create `MANAGER_USER` user and both databases          |
-| `superuser_password` | string  | Superuser password                                                        |
-| `port`               | string  | RDS port (by default `5432`)                                              |
-| `certificate`        | string  | Certificate used to connect RDS database, provided by AWS                 |
-| `local`              | boolean | Set to `false` to use an external database                                |
-
-Example:
-
-```hcl
-module "rds" {
-   source             = "./modules/rds"
-   name               = ...
-   base_configuration = module.base.configuration
-   db_username        = ...
-   db_password        = ...
-}
-
-module "server" {
-  source = "./modules/server"
-  base_configuration = module.base.configuration
-  db_configuration = module.db.configuration
-  ...
-}
-```

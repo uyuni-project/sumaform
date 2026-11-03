@@ -18,7 +18,7 @@ install_additional_packages:
     {% if 'paygo' not in grains.get('product_version', '') %}
     - require:
       - sls: repos
-      {% if grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') %}
+      {% if grains.get('proxy_registration_code') or grains.get('sles_registration_code') %}
       - sls: scc
       {% endif %}
     {% endif %}

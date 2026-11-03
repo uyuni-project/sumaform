@@ -1,4 +1,4 @@
-{% if 'client' in grains.get('roles') or 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') %}
+{% if 'minion' in grains.get('roles') or 'sshminion' in grains.get('roles') %}
 
 # Recent distributions use drop-in configuration files
 # in /etc/ssh/sshd_config.d/ instead of modifying the main file

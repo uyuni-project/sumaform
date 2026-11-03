@@ -1,8 +1,6 @@
 {% set runtime = grains.get('container_runtime') | default('podman', true) %}
 include:
-  {% if 'build_image' not in grains.get('product_version') | default('', true) %}
   - repos
-  {% endif %}
   - server_containerized.install_{{ runtime }}
   - server_containerized.additional_disks
   - server_containerized.install_mgradm

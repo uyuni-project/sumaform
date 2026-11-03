@@ -51,7 +51,7 @@ os_ltss_repo:
 {% endif %} {# '12' in grains['osrelease'] #}
 
 {% if '15' in grains['osrelease'] %}
-{% if not ( grains.get('server_registration_code') or grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true)) %} ## Skip if SCC support or PAYG
+{% if not ( grains.get('proxy_registration_code') or grains.get('sles_registration_code') or 'paygo' in grains.get('product_version') | default('', true)) %} ## Skip if SCC support or PAYG
 
 {% if '15.4' == grains['osrelease'] %}
 

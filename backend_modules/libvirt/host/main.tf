@@ -36,16 +36,12 @@ locals {
     local.arch == "x86_64" ? { cpu_model = "host-model", xslt = file("${path.module}/x86_64.xsl") } : {},
     // ppc64le hypervisors: pseries machine, 4096-byte disk sectors, combustion CD-ROM on SCSI
     local.arch == "ppc64le" ? { cpu_model = "host-model", xslt = file("${path.module}/ppc64le.xsl") } : {},
-    contains(var.roles, "server") ? { memory = 4096, vcpu = 2 } : {},
     contains(var.roles, "server_containerized") ? { memory = 16384, vcpu = 4 } : {},
     contains(var.roles, "server_kubernetes") ? { memory = 16384, vcpu = 4 } : {},
-    contains(var.roles, "server") && lookup(var.base_configuration, "testsuite", false) ? { memory = 8192, vcpu = 4 } : {},
     contains(var.roles, "server_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
     contains(var.roles, "server_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 16384, vcpu = 4 } : {},
-    contains(var.roles, "proxy") ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy_containerized") ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy_kubernetes") ? { memory = 2048, vcpu = 2 } : {},
-    contains(var.roles, "proxy") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy_containerized") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "proxy_kubernetes") && lookup(var.base_configuration, "testsuite", false) ? { memory = 2048, vcpu = 2 } : {},
     contains(var.roles, "pxe_boot")? { memory = 2048} : {},
@@ -413,8 +409,8 @@ resource "terraform_data" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
-        second_data_disk_device       = contains(var.roles, "server") || contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "proxy") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
+        data_disk_device              = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
+        second_data_disk_device       = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
         provider                      = "libvirt"
       },
       var.grains))
