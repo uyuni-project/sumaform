@@ -259,6 +259,11 @@ variable "from_email" {
   default     = null
 }
 
+variable "forward_registration" {
+  description = "Forward client registrations to SCC"
+  default     = false
+}
+
 variable "traceback_email" {
   description = "recipient email address that will receive errors during usage"
   default     = null
