@@ -974,11 +974,11 @@ This mode currently covers the Uyuni server deployment. Do not combine it with `
 ## Large deployments
 
 By default to support the load in our test suites, when trying to reproduce situations with a large number of clients, it is advised to use `large_deployment` option.
-This option is inspired by the documentation at https://documentation.suse.com/suma/4.3/en/suse-manager/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
+This option is inspired by the documentation at https://documentation.suse.com/multi-linux-manager/5.2/en/docs/specialized-guides/large-deployments/tuning.html, and it will apply the following settings on the server:
 
 ```
 ### /etc/rhn/rhn.conf
-taskomatic.com.redhat.rhn.taskomatic.task.MinionActionExecutor.parallel_threads = 3
+taskomatic.minion_action_executor.parallel_threads = 3
 hibernate.c3p0.max_size = 100
 
 ### /etc/tomcat/server.xml
