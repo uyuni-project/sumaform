@@ -75,7 +75,7 @@ variable "use_shared_resources" {
 variable "host_settings" {
   description = "Hosts and their specific properties, see README_TESTING.md"
   default = {
-    suse-minion = {
+    suse_minion = {
     }
   }
 }
