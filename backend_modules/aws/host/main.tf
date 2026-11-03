@@ -1,4 +1,6 @@
 locals {
+  // arm64 images (e.g. smlm-*-arm64-*) need a Graviton instance type
+  arm = length(regexall("arm64", var.image)) > 0
   ami = lookup(
     lookup(var.base_configuration["ami_info"], var.image, { "ami" = var.image }),
     "ami",
@@ -16,6 +18,8 @@ locals {
     overwrite_fqdn  = null
     bastion_host    = lookup(var.base_configuration, "bastion_host", null)
     instance_type = "t3.micro" },
+    contains(var.roles, "server_containerized") ? { instance_type = local.arm ? "m6g.2xlarge" : "m6a.2xlarge" } : {},
+    contains(var.roles, "proxy_containerized") ? { instance_type = local.arm ? "c6g.large" : "c6i.large" } : {},
     contains(var.roles, "mirror") ? { instance_type = "t3.micro" } : {},
     contains(var.roles, "controller") ? { instance_type = "m5.large" } : {},
     contains(var.roles, "grafana") ? { instance_type = "t3.medium" } : {},
