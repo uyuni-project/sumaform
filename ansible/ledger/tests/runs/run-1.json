@@ -1,0 +1,1 @@
+{"id": "run-1", "pin": "abc123", "kind": "host-state-diff", "rows_covered": ["modules/m:b"], "result": "pass", "non_default": ["modules/m:b"]}
