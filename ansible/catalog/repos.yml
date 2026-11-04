@@ -1,0 +1,540 @@
+# Repository catalog, read by ansible/roles/repos (filter plugin repos_plan.py).
+# Ported from salt/repos/*.sls and salt/scc/*.sls at pin d0c6e082. Adding an OS version, or a product
+# channel, is a data change here and nothing else.
+#
+# Layout
+#   hosts          name -> default host[/prefix]. The `mirror` host var replaces the whole value.
+#                  A dict may add mirror_only_if: <var> (mirror used only if that var is true) or
+#                  no_mirror: true (Salt never honoured the mirror for it).
+#   default_vars   template variables available to every path.
+#   tag_rules      product_version -> tags (and vars). match: prefix | contains | equals | empty.
+#   os             one entry per OS. distributions = ansible_distribution values, salt_names = the
+#                  grain values Salt tests (checked by the test), versions = per-version template vars.
+#   repos, keys, files, commands, services_stopped, packages: what to set up, each with `applies`.
+#
+# applies (all given keys must hold): os, os_not, pkg (zypper|yum|apt), tags, tags_any, not_tags,
+#   roles_any, roles_none, vars_all, vars_none, vars_any (host vars), requires (template vars that
+#   must be set, which is how a version opts in or out), any_of {roles, vars}.
+#
+# Deliberate divergences from Salt (feature parity, not bug parity):
+#   - arch is always {arch}; Salt hardcoded x86_64 in a few paths (SLES 16, virthost, head proxy/server).
+#   - SLES 12 is also skipped for proxy_registration_code / paygo (Salt skipped only for sles_registration_code).
+#   - tools_additional_repo is gpgcheck 0 everywhere (Salt: only on some OSes).
+#   - Uyuni tools repos on SLE/Leap are gpgcheck 1 with the repo key (Salt: only on some).
+#   - jenkins/tools repos on SLES use the SLE_xx_SPy directory (Salt rendered an empty path).
+#   - vendor, zypp and gpg_keys settings only on rpm OSes (Salt ran them everywhere and failed or no-opped).
+#   - Debian beta tools priority file has its own name (Salt overwrote the stable one).
+
+hosts:
+  ibs: dist.suse.de/ibs
+  ibs_root: dist.suse.de
+  ibs_nue: dist.nue.suse.com/ibs
+  ibs_download: download.suse.de
+  ibs_nue_k8s: {default: dist.nue.suse.com, mirror_only_if: use_mirror_images}
+  obs: downloadcontent.opensuse.org
+  obs_download: download.opensuse.org
+  obs_download_nomirror: {default: download.opensuse.org, no_mirror: true}
+  uyuni_mirror: minima-mirror-ci-bv.mgr.slc1.suse.org
+
+# package manager kinds an OS can declare with `pkg`; rpm repos are written as .repo files in repo_dir
+pkg_kinds:
+  zypper: {repo_dir: /etc/zypp/repos.d}
+  yum: {repo_dir: /etc/yum.repos.d}
+  apt: {}
+
+default_vars:
+  os_host: ibs
+  mlm_devel_host: ibs_root
+  uyuni_version: Stable
+  uyuni_pool_name: tools_pool_repo
+  mlm_nightly_dir: ""
+
+tag_rules:
+  - {match: empty, tag: uyuni}
+  - {match: prefix, value: "uyuni-", tag: uyuni}
+  - {match: equals, value: uyuni-master, tag: uyuni-master, vars: {uyuni_version: Master}}
+  - {match: equals, value: uyuni-released, tag: uyuni-released}
+  - {match: prefix, value: "5.1", tag: mlm}
+  - {match: prefix, value: "5.2", tag: mlm}
+  - {match: prefix, value: head, tag: mlm}
+  - {match: contains, value: "5.1", tag: "5.1", vars: {mlm_version: "5.1", mlm_version_nodot: "51", mlm_nightly_dir: "Devel:/Galaxy:/Manager:/5.1/images-SP7/repo"}}
+  - {match: contains, value: "5.2", tag: "5.2", vars: {mlm_version: "5.2", mlm_version_nodot: "52", mlm_nightly_dir: "Devel:/Galaxy:/Manager:/5.2:/MLM-Products-SLE15/images/repo"}}
+  - {match: contains, value: head, tag: head}
+  - {match: equals, value: head, tag: head-exact}
+  - {match: contains, value: head-staging, tag: head-staging}
+  - {match: contains, value: released, tag: released}
+  - {match: contains, value: nightly, tag: nightly}
+  - {match: contains, value: beta, tag: beta}
+  - {match: contains, value: paygo, tag: paygo}
+
+# ------------------------------------------------------------------------------------------
+# OS x version. Template vars (a version opts into a repo by defining the var the repo requires):
+#   os_module sle_path has_update ltss_path modular containers_path   OS repos and SLE modules
+#   obs_dir sumaform_tools_dir suse_ca_dir ruby_extensions            OBS project directories
+#   mlm_tools mlm_update mlm_beta mlm_devel_stable mlm_devel_head     MLM client tools
+#   uyuni_tools_dir uyuni_pool_channel uyuni_master_update            Uyuni client tools
+#   legacy_keys rpm_crypto_policy lock_firewalld_prometheus
+# ------------------------------------------------------------------------------------------
+os:
+  sles:
+    salt_names: [SLES]
+    distributions: [SLES]
+    pkg: zypper
+    version_by: full
+    versions:
+      "12.5": &sles12
+        os_module: SLE-SERVER
+        sle_path: 12-SP5
+        has_update: true
+        ltss_path: SLE-SERVER/12-SP5-LTSS
+        containers_path: "12"
+        obs_dir: SLE_12_SP5
+        sumaform_tools_dir: SLE_12_SP5
+        mlm_tools: SLE-12
+        mlm_update: true
+        mlm_beta: true
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE12/images/repo/ManagerTools-SLE12-Pool-{arch}-Media1/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-{arch}-Media1/"
+        uyuni_tools_dir: SLE12-Uyuni-Client-Tools/SLE_12
+        uyuni_pool_channel: Stable
+        uyuni_master_update: true
+      "15.4": &sles15
+        os_module: SLE-Module-Basesystem
+        sle_path: 15-SP4
+        has_update: true
+        ltss_path: SLE-Product-SLES/15-SP4-LTSS
+        modular: true
+        containers_path: 15-SP4
+        obs_dir: SLE_15_SP4
+        sumaform_tools_dir: SLE_15_SP4
+        lock_firewalld_prometheus: true
+        mlm_tools: SLE-15
+        mlm_update: true
+        mlm_beta: true
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{arch}-Media1/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-{arch}-Media1/"
+        uyuni_tools_dir: SLE15-Uyuni-Client-Tools/SLE_15
+        uyuni_pool_channel: Stable
+        uyuni_master_update: true
+      "15.5":
+        <<: *sles15
+        sle_path: 15-SP5
+        ltss_path: SLE-Product-SLES/15-SP5-LTSS
+        containers_path: 15-SP5
+        obs_dir: SLE_15_SP5
+        sumaform_tools_dir: SLE_15_SP5
+      "15.6":
+        <<: *sles15
+        sle_path: 15-SP6
+        ltss_path: SLE-Product-SLES/15-SP6-LTSS
+        containers_path: 15-SP6
+        obs_dir: SLE_15_SP6
+        sumaform_tools_dir: SLE_15_SP6
+      "15.7":
+        <<: *sles15
+        sle_path: 15-SP7
+        ltss_path: ""   # uncomment-when-LTSS in Salt: set to SLE-Product-SLES/15-SP7-LTSS then
+        containers_path: 15-SP7
+        obs_dir: SLE_15_SP7
+        sumaform_tools_dir: ""   # Salt had no path for 15.7 (the sumaform tools project may lack it)
+        suse_ca_dir: SLE_15_SP7
+      "16.0":
+        os_module: SLE-Product-SLES
+        os_host: ibs_nue
+        sle_path: "16.0"
+        obs_dir: SLE_16
+        mlm_tools: SLE-16
+        mlm_devel_host: ibs_download
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{arch}/"
+        uyuni_tools_dir: SLE16-Uyuni-Client-Tools/SLE_16
+        uyuni_pool_channel: Stable
+        uyuni_master_update: true
+
+  leap:
+    salt_names: [Leap]
+    distributions: ["openSUSE Leap"]
+    pkg: zypper
+    version_by: full
+    versions:
+      "15.6": &leap15
+        has_update: true
+        obs_dir: openSUSE_Leap_15.6
+        sumaform_tools_dir: openSUSE_Leap_15.6
+        ruby_extensions: true
+        lock_firewalld_prometheus: true
+        mlm_tools: SLE-15
+        mlm_update: true
+        mlm_beta: true
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{arch}-Media1/"
+        uyuni_tools_dir: "openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0"
+        uyuni_pool_channel: "{uyuni_version}"
+      "16.0": &leap16
+        obs_dir: openSUSE_Leap_16.0
+        sumaform_tools_dir: openSUSE_Leap_16.0
+        mlm_tools: SLE-16
+        mlm_devel_host: ibs_download
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{arch}/"
+        uyuni_tools_dir: "openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0"
+        uyuni_pool_channel: "{uyuni_version}"
+      "16.1":
+        <<: *leap16
+        obs_dir: openSUSE_Leap_16.1
+        sumaform_tools_dir: openSUSE_Leap_16.1
+
+  tumbleweed:
+    salt_names: ["openSUSE Tumbleweed"]
+    distributions: ["openSUSE Tumbleweed"]
+    pkg: zypper
+    version_by: none
+    versions:
+      "*":
+        suse_ca_dir: openSUSE_Tumbleweed
+        containerutils_dir: openSUSE_Tumbleweed
+
+  sle-micro:
+    salt_names: ["SLE Micro", "SLE-Micro"]
+    distributions: ["SLE Micro", "SLE-Micro"]
+    pkg: zypper
+    version_by: full
+    additional_repos: false   # set up by combustion/ignition/cloud-init
+    versions:
+      "5.5":
+        mlm_tools: SLE-Micro-5
+        mlm_update: true
+        mlm_beta: true
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE15/images/repo/ManagerTools-SLE15-Pool-{arch}-Media1/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-{arch}-Media1/"
+        uyuni_tools_dir: SLE15-Uyuni-Client-Tools/SLE_15
+        uyuni_pool_channel: Stable
+        uyuni_master_update: true
+
+  sl-micro:
+    salt_names: [SL-Micro]
+    distributions: [SL-Micro, "SL Micro"]
+    pkg: zypper
+    version_by: full
+    additional_repos: false
+    versions:
+      "6.0": &slmicro6
+        mlm_tools: SL-Micro-6
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLMicro-6/product/repo/Multi-Linux-ManagerTools-SL-Micro-6-{arch}/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SL-Micro-6/product/repo/Multi-Linux-ManagerTools-Beta-SL-Micro-6-{arch}/"
+        uyuni_tools_dir: SLE15-Uyuni-Client-Tools/SLE_15
+        uyuni_pool_channel: Stable
+      "6.1": *slmicro6
+      "6.2":   # ships the SLE 16 client tools
+        mlm_tools: SLE-16
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{arch}/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE16/product/repo/Multi-Linux-ManagerTools-Beta-SLE-16-{arch}/"
+        uyuni_tools_dir: SLE15-Uyuni-Client-Tools/SLE_15
+        uyuni_pool_channel: Stable
+
+  leap-micro:
+    salt_names: ["openSUSE Leap Micro"]
+    distributions: ["openSUSE Leap Micro"]
+    pkg: zypper
+    version_by: full
+    additional_repos: false
+    versions: {}   # Salt only lists it in skip lists, no image exists; add a version here when one does
+
+  el:   # every RedHat-family OS; versions are the mapped release (7 is CentOS/RES-like)
+    salt_names: [Amazon, openEuler]
+    distributions: [AlmaLinux, Amazon, CentOS, OracleLinux, RedHat, Rocky, openEuler]
+    pkg: yum
+    version_by: major
+    version_map: {"Amazon:2": "7", "Amazon:2023": "9", "openEuler:24": "9"}
+    versions:
+      "7":
+        legacy_keys: true
+        mlm_tools: RES-7
+        mlm_update: true
+        mlm_beta: true
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL7/images/repo/ManagerTools-EL7-POOL-{arch}-Media/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-{arch}-Media/"
+        uyuni_tools_dir: CentOS7-Uyuni-Client-Tools/CentOS_7
+        uyuni_pool_channel: "{uyuni_version}"
+        uyuni_pool_name: tools_update_repo
+      "8": &el8
+        legacy_keys: true
+        mlm_tools: EL-8
+        mlm_update: true
+        mlm_beta: true
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL8/images/repo/MultiLinuxManagerTools-EL-8-{arch}-Media1/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-{arch}-Media1/"
+        uyuni_tools_dir: EL8-Uyuni-Client-Tools/EL_8
+        uyuni_pool_channel: "{uyuni_version}"
+        uyuni_pool_name: tools_update_repo
+      "9": &el9
+        <<: *el8
+        mlm_tools: EL-9
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL9/images/repo/MultiLinuxManagerTools-EL-9-{arch}-Media1/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-{arch}-Media1/"
+        uyuni_tools_dir: EL9-Uyuni-Client-Tools/EL_9
+      "10":
+        <<: *el9
+        rpm_crypto_policy: /usr/share/crypto-policies/LEGACY/rpm-sequoia.txt
+        mlm_tools: EL-10
+        mlm_devel_stable: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-EL10/images/repo/MultiLinuxManagerTools-EL-10-{arch}-Media1/"
+        mlm_devel_head: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL10/images/repo/MultiLinuxManagerTools-Beta-EL-10-{arch}-Media1/"
+        uyuni_tools_dir: EL10-Uyuni-Client-Tools/EL_10
+
+  ubuntu:
+    salt_names: [Ubuntu]
+    distributions: [Ubuntu]
+    pkg: apt
+    version_by: full
+    vars: {deb_os: Ubuntu, deb_os_lower: ubuntu, deb_obs_dir: "xUbuntu_{osrelease}", deb_head_suffix: "-debbuild"}
+    versions:
+      "22.04": {}
+      "24.04": {}
+      "26.04": {}
+
+  debian:
+    salt_names: [Debian]
+    distributions: [Debian]
+    pkg: apt
+    version_by: major
+    vars: {deb_os: Debian, deb_os_lower: debian, deb_obs_dir: "Debian_{osrelease}", deb_head_suffix: ""}
+    versions:
+      "13": {}
+
+# ------------------------------------------------------------------------------------------
+x-infra: &infra_roles [server, proxy, server_containerized, proxy_containerized, controller]
+
+repos:
+  # ---- OS vendor repos (os.sls). Skipped under SCC and pay-as-you-go. ----
+  - name: os_pool_repo
+    host: obs_download
+    path: "distribution/leap/{osrelease}/repo/oss/"
+    applies: {os: [leap]}
+  - {name: os_update_repo, host: obs_download, path: "update/leap/{osrelease}/oss/", applies: {os: [leap], requires: [has_update]}}
+  - {name: sle_update_repo, host: obs_download, path: "update/leap/{osrelease}/sle/", applies: {os: [leap], requires: [has_update]}}
+  - {name: backports_update_repo, host: obs_download, path: "update/leap/{osrelease}/backports/", applies: {os: [leap], requires: [has_update]}}
+  - name: os_pool_repo
+    host: "{os_host}"
+    path: "SUSE/Products/{os_module}/{sle_path}/{arch}/product/"
+    applies: &no_scc {os: [sles], requires: [os_module], vars_none: [sles_registration_code, proxy_registration_code], not_tags: [paygo]}
+  - name: os_update_repo
+    host: "{os_host}"
+    path: "SUSE/Updates/{os_module}/{sle_path}/{arch}/update/"
+    applies: {<<: *no_scc, requires: [os_module, has_update]}
+  - name: os_ltss_repo
+    host: "{os_host}"
+    path: "SUSE/Updates/{ltss_path}/{arch}/update/"
+    applies: {<<: *no_scc, requires: [ltss_path]}
+
+  # ---- SLE modules for build hosts and virthosts (build_host.sls, virthost.sls) ----
+  - {name: containers_pool_repo, host: ibs, path: "SUSE/Products/SLE-Module-Containers/{containers_path}/{arch}/product/", applies: &bh {os: [sles], roles_any: [build_host], vars_all: [testsuite], vars_none: [sles_registration_code], requires: [containers_path]}}
+  - {name: containers_updates_repo, host: ibs, path: "SUSE/Updates/SLE-Module-Containers/{containers_path}/{arch}/update/", applies: *bh}
+  - {name: cloud_pool_repo, host: ibs, path: "SUSE/Products/SLE-Module-Public-Cloud/{sle_path}/{arch}/product/", applies: &bh15 {<<: *bh, requires: [modular]}}
+  - {name: cloud_updates_repo, host: ibs, path: "SUSE/Updates/SLE-Module-Public-Cloud/{sle_path}/{arch}/update/", applies: *bh15}
+  - {name: devel_pool_repo, host: ibs, path: "SUSE/Products/SLE-Module-Development-Tools/{sle_path}/{arch}/product/", applies: *bh15}
+  - {name: devel_updates_repo, host: ibs, path: "SUSE/Updates/SLE-Module-Development-Tools/{sle_path}/{arch}/update/", applies: *bh15}
+  # SLE-Module-Desktop-Applications is required by SLE-Module-Development-Tools
+  - {name: desktop_pool_repo, host: ibs, path: "SUSE/Products/SLE-Module-Desktop-Applications/{sle_path}/{arch}/product/", applies: *bh15}
+  - {name: desktop_updates_repo, host: ibs, path: "SUSE/Updates/SLE-Module-Desktop-Applications/{sle_path}/{arch}/update/", applies: *bh15}
+  - {name: module_server_applications_pool_repo, host: ibs, path: "SUSE/Products/SLE-Module-Server-Applications/{sle_path}/{arch}/product/", applies: &vh {os: [sles], roles_any: [virthost], requires: [modular]}}
+  - {name: module_server_applications_update_repo, host: ibs, path: "SUSE/Updates/SLE-Module-Server-Applications/{sle_path}/{arch}/update/", applies: *vh}
+
+  # ---- misc roles (tools.sls, jenkins.sls, ruby.sls, salt_shaker.sls, testsuite.sls) ----
+  - name: tools_repo
+    host: obs
+    path: "repositories/systemsmanagement:/sumaform:/tools/{sumaform_tools_dir}/"
+    gpgkey: true
+    gpgcheck: 1
+    applies: {pkg: [zypper], requires: [sumaform_tools_dir], any_of: {roles: [grafana, mirror], vars: [evil_minion_count, monitored]}}
+  - name: jenkins_repo
+    host: obs_download
+    path: "repositories/devel:/tools:/building/{obs_dir}"
+    gpgkey: true
+    gpgcheck: 1
+    applies: {pkg: [zypper], os: [sles, leap], roles_any: [jenkins], requires: [obs_dir]}
+  - {name: ruby_devel, host: obs_download_nomirror, path: "repositories/devel:/languages:/ruby/{osrelease}/", autoimport: true, applies: &ruby {os: [leap], roles_any: [controller]}}
+  - {name: ruby_devel_extensions, host: obs_download_nomirror, path: "repositories/devel:/languages:/ruby:/extensions/{osrelease}/", autoimport: true, applies: {<<: *ruby, requires: [ruby_extensions]}}
+  - {name: shaker_tools_pool_repo, host: ibs, path: "SUSE/Products/SLE-Manager-Tools/15/{arch}/product/", applies: &shaker {os: [sles], roles_any: [salt_testenv], requires: [modular]}}
+  - {name: shaker_tools_update_repo, host: ibs, path: "SUSE/Updates/SLE-Manager-Tools/15/{arch}/update/", applies: *shaker}
+  - name: test_repo_rpm_pool
+    host: obs
+    path: "repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm/"
+    gpgkey: true
+    gpgcheck: 1
+    applies: {os: [sles, leap, tumbleweed, el], roles_any: [minion, sshminion], vars_all: [testsuite]}
+  - name: test_repo_deb_pool
+    host: obs
+    path: "repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb/"
+    deb: {file: test_repo_deb_pool, keyring: sumaform-uyuni-test-deb-pool}
+    applies: {pkg: [apt], roles_any: [minion, sshminion], vars_all: [testsuite]}
+
+  # ---- Kubernetes: SUSE CA (server_kubernetes.sls, proxy_kubernetes.sls) ----
+  - {name: ca_suse, host: ibs_nue_k8s, path: "ibs/SUSE:/CA/{suse_ca_dir}/", applies: {roles_any: [server_kubernetes, proxy_kubernetes], requires: [suse_ca_dir]}}
+
+  # ---- Containerized server / proxy (server_containerized/*, proxy_containerized/*) ----
+  - {name: ca_suse_repo, host: obs_download, path: "repositories/SUSE:/CA/{suse_ca_dir}", gpgkey: true, applies: &ctr {os: [sles], roles_any: [server_containerized, proxy_containerized], tags_any: ["5.1", "5.2", head], not_tags: [paygo], requires: [suse_ca_dir]}}
+  - {name: containers_pool_repo, host: ibs, path: "SUSE/Products/SLE-Module-Containers/{containers_path}/{arch}/product", gpgkey: true, applies: *ctr}
+  - {name: containers_updates_repo, host: ibs, path: "SUSE/Updates/SLE-Module-Containers/{containers_path}/{arch}/update", gpgkey: true, applies: *ctr}
+  - {name: container_utils_pool_repo, host: ibs, path: "SUSE/Products/Multi-Linux-Manager-Server-SLE/{mlm_version}/{arch}/product", gpgkey: true, applies: &srv_rel {<<: *ctr, roles_any: [server_containerized], tags: [released], requires: [mlm_version]}}
+  - {name: container_utils_updates_repo, host: ibs, path: "SUSE/Updates/Multi-Linux-Manager-Server-SLE/{mlm_version}/{arch}/update", gpgkey: true, applies: *srv_rel}
+  - {name: "manager{mlm_version_nodot}_repo", host: ibs, path: "{mlm_nightly_dir}/SUSE-Multi-Linux-Manager-Server-SLE-{mlm_version}-POOL-{arch}-Media1", gpgkey: true, applies: &srv_nt {<<: *ctr, roles_any: [server_containerized], tags: [nightly], requires: [mlm_version]}}
+  - {name: container_utils_pool_repo, host: ibs, path: "SUSE/Products/Multi-Linux-Manager-Proxy-SLE/{mlm_version}/{arch}/product", gpgkey: true, applies: &prx_rel {<<: *ctr, roles_any: [proxy_containerized], tags: [released], requires: [mlm_version]}}
+  - {name: container_utils_updates_repo, host: ibs, path: "SUSE/Updates/Multi-Linux-Manager-Proxy-SLE/{mlm_version}/{arch}/update", gpgkey: true, applies: *prx_rel}
+  - {name: "manager{mlm_version_nodot}_repo", host: ibs, path: "{mlm_nightly_dir}/SUSE-Multi-Linux-Manager-Proxy-SLE-{mlm_version}-POOL-{arch}-Media1", gpgkey: true, applies: &prx_nt {<<: *ctr, roles_any: [proxy_containerized], tags: [nightly], requires: [mlm_version]}}
+  - {name: server_devel_repo, host: ibs, path: "SUSE:/SLE-15-SP7:/Update:/Products:/MultiLinuxManager52:/ToTest/images-SP7/repo/SUSE-Multi-Linux-Manager-Server-SLE-5.2-POOL-{arch}-Media1/", gpgkey: true, applies: &srv_head {<<: *ctr, roles_any: [server_containerized], tags: [head-staging], tags_any: []}}
+  - {name: server_devel_repo, host: ibs, path: "Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products-SLE15/images/repo/SUSE-Multi-Linux-Manager-Server-SLE-5.2-POOL-{arch}-Media1/", gpgkey: true, applies: {<<: *srv_head, tags: [head], not_tags: [paygo, head-staging]}}
+  - {name: proxy_devel_repo, host: ibs, path: "SUSE:/SLE-15-SP7:/Update:/Products:/MultiLinuxManager52:/ToTest/images-SP7/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{arch}-Media1/", gpgkey: true, applies: &prx_head {<<: *ctr, roles_any: [proxy_containerized], tags: [head-staging], tags_any: []}}
+  - {name: proxy_devel_repo, host: ibs, path: "Devel:/Galaxy:/Manager:/Main:/MLM-Beta-Products-SLE15/images/repo/SUSE-Multi-Linux-Manager-Proxy-SLE-5.2-POOL-{arch}-Media1/", gpgkey: true, applies: {<<: *prx_head, tags: [head], not_tags: [paygo, head-staging]}}
+  - {name: containerutils_uyuni_stable, host: obs, path: "repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/{containerutils_dir}/", gpgkey: true, applies: {os: [tumbleweed], roles_any: [server_containerized, proxy_containerized], tags: [uyuni-released], requires: [containerutils_dir]}}
+  - {name: containerutils_uyuni_master, host: obs, path: "repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/{containerutils_dir}/", gpgkey: true, applies: {os: [tumbleweed], roles_any: [server_containerized, proxy_containerized], tags: [uyuni-master], requires: [containerutils_dir]}}
+
+  # ---- MLM client tools (client_tools_mlm.sls): rpm OSes ----
+  - {name: tools_pool_repo, host: ibs, path: "SUSE/Products/MultiLinuxManagerTools/{mlm_tools}/{arch}/product/", applies: &mlm {tags: [mlm], pkg: [zypper, yum], roles_none: *infra_roles, requires: [mlm_tools]}}
+  - {name: tools_update_repo, host: ibs, path: "SUSE/Updates/MultiLinuxManagerTools/{mlm_tools}/{arch}/update/", gpgcheck: 0, applies: {<<: *mlm, requires: [mlm_tools, mlm_update]}}
+  - {name: beta_tools_pool_repo, host: ibs, path: "SUSE/Products/MultiLinuxManagerTools-Beta/{mlm_tools}/{arch}/product/", applies: {<<: *mlm, tags: [mlm, beta], requires: [mlm_tools, mlm_beta]}}
+  - {name: beta_tools_update_repo, host: ibs, path: "SUSE/Updates/MultiLinuxManagerTools-Beta/{mlm_tools}/{arch}/update/", gpgcheck: 0, applies: {<<: *mlm, tags: [mlm, beta], requires: [mlm_tools, mlm_beta]}}
+  - {name: tools_additional_repo, host: "{mlm_devel_host}", path: "{mlm_devel_stable}", priority: 98, gpgcheck: 0, applies: {<<: *mlm, tags: [mlm, nightly], requires: [mlm_devel_stable]}}
+  - {name: tools_additional_repo, host: "{mlm_devel_host}", path: "{mlm_devel_head}", priority: 98, gpgcheck: 0, applies: {<<: *mlm, tags: [mlm, head-exact], requires: [mlm_devel_head]}}
+  # ---- MLM client tools: deb ----
+  - name: tools_update_repo
+    host: ibs
+    path: "SUSE/Updates/MultiLinuxManagerTools/{deb_os}-{osrelease}/{arch}/update/"
+    deb: &deb_mlm {file: tools_update_repo, keyring: "sumaform-mlm-{deb_os_lower}-tools-update-{osrelease}", pin_label: "SUSE:Updates:MultiLinuxManagerTools:{deb_os}-{osrelease}:{arch}:update", pin_file: tools_update_repo}
+    applies: &mlmdeb {tags: [mlm], pkg: [apt], roles_none: *infra_roles}
+  - name: beta_tools_update_repo
+    host: ibs
+    path: "SUSE/Updates/MultiLinuxManagerTools-Beta/{deb_os}-{osrelease}/{arch}/update/"
+    deb: {file: beta_tools_update_repo, keyring: "sumaform-mlm-{deb_os_lower}-tools-beta-update-{osrelease}", pin_label: "SUSE:Updates:MultiLinuxManagerTools-Beta:{deb_os}-{osrelease}:{arch}:update", pin_file: beta_tools_update_repo}
+    applies: {<<: *mlmdeb, tags: [mlm, beta]}
+  - name: additional_tools_update_repo
+    host: ibs_root
+    path: "ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-{deb_os}{osrelease}/{deb_obs_dir}"
+    deb: {file: additional_tools_update_repo, pin_label: "Devel:Galaxy:Manager:Stable:MLMTools-{deb_os}{osrelease}", pin_file: additional_tools_update_repo}
+    applies: {<<: *mlmdeb, tags: [mlm, nightly]}
+  - name: additional_tools_update_repo
+    host: ibs_root
+    path: "ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-{deb_os}{osrelease}/{deb_obs_dir}{deb_head_suffix}"
+    deb: {file: additional_tools_update_repo, pin_label: "Devel:Galaxy:Manager:Main:MLMTools-Beta-{deb_os}{osrelease}", pin_file: additional_tools_update_repo}
+    applies: {<<: *mlmdeb, tags: [mlm, head-exact]}
+
+  # ---- Uyuni client tools (client_tools_uyuni.sls) ----
+  - name: "{uyuni_pool_name}"
+    host: obs
+    path: "repositories/systemsmanagement:/Uyuni:/{uyuni_pool_channel}:/{uyuni_tools_dir}/"
+    gpgkey: true
+    gpgcheck: 1
+    applies: &uy {tags: [uyuni], pkg: [zypper, yum], roles_none: *infra_roles, requires: [uyuni_tools_dir]}
+  - name: tools_update_repo
+    host: obs
+    path: "repositories/systemsmanagement:/Uyuni:/Master:/{uyuni_tools_dir}/"
+    priority: 98
+    gpgkey: true
+    gpgcheck: 1
+    applies: {<<: *uy, tags: [uyuni-master], requires: [uyuni_tools_dir, uyuni_master_update]}
+  - name: tools_update_repo
+    host: obs_download
+    path: "repositories/systemsmanagement:/Uyuni:/{uyuni_version}:/{deb_os}{osrelease_short}-Uyuni-Client-Tools/x{deb_os}_{osrelease}"
+    deb: {file: tools_update_repo, keyring: "sumaform-uyuni-{deb_os_lower}-tools-update-{osrelease}", pin_label: "systemsmanagement:Uyuni:{uyuni_version}:{deb_os}{osrelease_short}-Uyuni-Client-Tools", pin_file: tools_update_repo}
+    applies: {tags: [uyuni], pkg: [apt], os: [ubuntu], roles_none: *infra_roles}
+  - name: tools_update_repo
+    host: obs_download
+    path: "repositories/systemsmanagement:/Uyuni:/{uyuni_version}:/{deb_os}{osrelease}-Uyuni-Client-Tools/{deb_os}_{osrelease}"
+    deb: {file: tools_update_repo, keyring: "sumaform-uyuni-{deb_os_lower}-tools-update-{osrelease}", pin_label: "systemsmanagement:Uyuni:{uyuni_version}:{deb_os}{osrelease}-Uyuni-Client-Tools", pin_file: tools_update_repo}
+    applies: {tags: [uyuni], pkg: [apt], os: [debian], roles_none: *infra_roles}
+
+keys:
+  # rpm --import of repo-signing keys. file is relative to the sumaform salt/ tree (var repos_key_root).
+  - {name: suse_el9_key, file: default/gpg_keys/suse_el9.key, env: {RPM_SEQUOIA_CRYPTO_POLICY: rpm_crypto_policy}, applies: {os: [el], requires: [legacy_keys]}}
+  - {name: galaxy_key, file: default/gpg_keys/galaxy.key, env: {RPM_SEQUOIA_CRYPTO_POLICY: rpm_crypto_policy}, applies: {os: [el], requires: [legacy_keys]}}
+  - {name: suse_res7_key, file: default/gpg_keys/suse_res7.key, env: {RPM_SEQUOIA_CRYPTO_POLICY: rpm_crypto_policy}, applies: {os: [el], requires: [legacy_keys]}}
+  - {name: uyuni_key, file: default/gpg_keys/uyuni.key, env: {RPM_SEQUOIA_CRYPTO_POLICY: rpm_crypto_policy}, applies: {os: [el], tags: [uyuni]}}
+  - {name: uyuni_key_for_fake_packages, file: default/gpg_keys/uyuni.key, applies: {os: [sles, leap, tumbleweed, el], roles_any: [minion, sshminion], vars_all: [testsuite]}}
+  # transactional OSes import over the network inside a snapshot (reboot handling: ticket #123)
+  - {name: uyuni_key_for_fake_packages, url: {host: uyuni_mirror, path: uyuni.key}, transactional: true, applies: {os: [sle-micro, sl-micro], roles_any: [minion, sshminion], vars_all: [testsuite]}}
+
+files:
+  - {path: /etc/zypp/vendors.d/opensuse, mode: "0644", applies: {os: [leap]}, content: "[main]\nvendors = openSUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org\n"}
+  - {path: /etc/zypp/vendors.d/suse, mode: "0644", applies: {pkg: [zypper], os_not: [leap]}, content: "[main]\nvendors = SUSE,openSUSE Build Service,obs://build.suse.de/Devel:Galaxy,obs://build.opensuse.org\n"}
+  - {path: /etc/zypp/zypp.conf.d/90-sumaform.conf, mode: "0644", applies: {pkg: [zypper], vars_none: [additional_repos_only]}, content: "[main]\nsolver.onlyRequires = false\n"}
+  - {path: /etc/apt/apt.conf.d/00InstallRecommends, state: absent, applies: {pkg: [apt], vars_none: [additional_repos_only]}}
+
+commands:
+  # phase pre: before any repo is written
+  - name: disable_all_local_repos
+    phase: pre
+    cmd: "test -x /usr/bin/zypper && zypper mr -d --all; mkdir -p /var/lib/sumaform && touch /var/lib/sumaform/local-repos-disabled"
+    creates: /var/lib/sumaform/local-repos-disabled
+    applies: {pkg: [zypper], os_not: [tumbleweed], not_tags: [paygo]}
+  - name: lock_firewalld_prometheus_config
+    phase: pre
+    cmd: zypper addlock firewalld-prometheus-config
+    unless: "zypper locks | grep -q firewalld-prometheus-config"
+    applies: {pkg: [zypper], requires: [lock_firewalld_prometheus], vars_none: [additional_repos_only]}
+  - name: install_recommends_etc
+    phase: pre
+    cmd: "sed -i 's/^solver\\.onlyRequires =.*/# &/' /etc/zypp/zypp.conf"
+    unless: "! (test -f /etc/zypp/zypp.conf && grep -q '^solver\\.onlyRequires' /etc/zypp/zypp.conf)"
+    applies: {pkg: [zypper], vars_none: [additional_repos_only]}
+  - name: install_recommends_usr_etc
+    phase: pre
+    cmd: "sed -i 's/^solver\\.onlyRequires =.*/# &/' /usr/etc/zypp/zypp.conf"
+    unless: "! (test -f /usr/etc/zypp/zypp.conf && grep -q '^solver\\.onlyRequires' /usr/etc/zypp/zypp.conf)"
+    applies: {pkg: [zypper], vars_none: [additional_repos_only]}
+  - name: wait_until_apt_lock_file_unlock
+    phase: pre
+    cmd: "test ! -f /var/lib/apt/lists/lock || ! lsof /var/lib/apt/lists/lock"
+    retries: 10
+    delay: 5
+    readonly: true
+    applies: {pkg: [apt], vars_none: [additional_repos_only]}
+  # phase scc: SUSEConnect (salt/scc). Cleans first, then registers; skipped once credentials exist.
+  - name: clean_sles_release_package
+    phase: scc
+    cmd: "rpm -e --nodeps sles-release; exit 0"
+    unless: "test -s /etc/zypp/credentials.d/SCCcredentials"
+    applies: &scc {os: [sles], not_tags: [paygo], any_of: {vars: [sles_registration_code, proxy_registration_code]}}
+  - name: clean_suseconnect_registration
+    phase: scc
+    cmd: "SUSEConnect --cleanup"
+    unless: "test -s /etc/zypp/credentials.d/SCCcredentials"
+    applies: *scc
+  - name: register_sles_server
+    phase: scc
+    cmd: "SUSEConnect --url https://scc.suse.com -r {sles_registration_code} -p SLES/{osrelease}/{arch}"
+    secret: true
+    unless: "test -s /etc/zypp/credentials.d/SCCcredentials"
+    applies: {<<: *scc, roles_any: [minion, sshminion, build_host], vars_all: [sles_registration_code]}
+  - name: basesystem_activation
+    phase: scc
+    cmd: "SUSEConnect -p sle-module-basesystem/{osrelease}/{arch}"
+    unless: "SUSEConnect -s | grep -q sle-module-basesystem"
+    applies: {<<: *scc, roles_any: [minion, sshminion, build_host], vars_all: [sles_registration_code], requires: [modular]}
+  - {name: containers_activation, phase: scc, cmd: "SUSEConnect -p sle-module-containers/{osrelease}/{arch}", unless: "SUSEConnect -s | grep -q sle-module-containers", applies: &sccbh {<<: *scc, roles_any: [build_host], vars_all: [sles_registration_code]}}
+  - {name: desktop_activation, phase: scc, cmd: "SUSEConnect -p sle-module-desktop-applications/{osrelease}/{arch}", unless: "SUSEConnect -s | grep -q sle-module-desktop-applications", applies: *sccbh}
+  - {name: devel_activation, phase: scc, cmd: "SUSEConnect -p sle-module-development-tools/{osrelease}/{arch}", unless: "SUSEConnect -s | grep -q sle-module-development-tools", applies: *sccbh}
+  # phase post: after all repos exist. Importing keys and refreshing is repeatable, not a change.
+  - name: refresh_repos
+    phase: post
+    cmd: "zypper --non-interactive --gpg-auto-import-keys refresh --force; exit 0"
+    readonly: true
+    applies: {pkg: [zypper], not_transactional: true}
+  - name: clean_repo_metadata
+    phase: post
+    cmd: yum clean metadata
+    readonly: true
+    applies: {pkg: [yum]}
+
+services_stopped:
+  - {names: [apt-daily.timer, apt-daily-upgrade.timer, apt-daily.service, apt-daily-upgrade.service], applies: {pkg: [apt], vars_none: [additional_repos_only]}}
+
+packages:
+  - {name: ca-certificates-suse, applies: {roles_any: [server_kubernetes, proxy_kubernetes], requires: [suse_ca_dir]}}
+
+# additional_repos / additional_certs host vars (additional.sls)
+additional:
+  rpm: {priority: 95, gpgcheck: 0}
+  deb: {file: sumaform_additional_repos}
+  pins:   # hardcoded origins so additional repos beat the normal tools repos (see Salt comment)
+    - path: /etc/apt/preferences.d/sumaform_additional_repos
+      applies: {os: [ubuntu]}
+      content: "Package: *\nPin: origin download.opensuse.org\nPin-Priority: 900\nPackage: *\nPin: origin dist.suse.de\nPin-Priority: 850\n"
+  certs:
+    # Salt only handled this on SUSE (anchors dir + update-ca-certificates)
+    - {dir: /etc/pki/trust/anchors, update: /usr/sbin/update-ca-certificates, applies: {pkg: [zypper]}}

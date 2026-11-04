@@ -1,0 +1,5 @@
+---
+# Catalog of OS x version x channel (data only; see its header). Replace it per deployment if needed.
+repos_catalog_file: "{{ role_path }}/../../catalog/repos.yml"
+# gpg_keys host var entries are paths relative to this directory (they were salt:// paths).
+repos_key_root: "{{ role_path }}/../../../salt"

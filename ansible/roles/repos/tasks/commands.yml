@@ -1,0 +1,16 @@
+---
+# One phase of catalog commands. `unless` is a shell test: when it succeeds the command is skipped (rc 99).
+- name: "Repos commands, phase {{ repos_phase }}"
+  ansible.builtin.shell:
+    cmd: "{% if item.unless %}if {{ item.unless }}; then exit 99; fi; {% endif %}{{ item.cmd }}"
+    creates: "{{ item.creates | default(omit, true) }}"
+  register: _repos_cmd
+  changed_when: _repos_cmd.rc == 0 and not item.readonly
+  failed_when: _repos_cmd.rc not in [0, 99]
+  retries: "{{ item.retries }}"
+  delay: "{{ item.delay }}"
+  until: _repos_cmd.rc in [0, 99]
+  loop: "{{ repos_plan_result.commands[repos_phase] }}"
+  loop_control:
+    label: "{{ item.name }}"
+  no_log: "{{ repos_plan_result.commands[repos_phase] | selectattr('secret') | list | length > 0 }}"

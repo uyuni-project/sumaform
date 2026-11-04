@@ -1,8 +1,9 @@
 ---
-# Host role "minion". Phases: prepare, (reboot if a snapshot is pending: ticket #123), configure.
+# Host role "minion". Phases: prepare, (reboot if a snapshot is pending: ticket #123), configure (base, repos before the minion install).
 - name: Host role minion
   hosts: minion
   gather_facts: false
   roles:
     - base
+    - repos
     - minion

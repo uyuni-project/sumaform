@@ -1,0 +1,153 @@
+---
+# Covers salt/repos/* and salt/scc/*. Everything OS-, version- and channel-specific is decided by
+# the catalog (ansible/catalog/repos.yml) through the repos_plan filter; this file names no OS.
+- name: Load the repository catalog
+  ansible.builtin.include_vars:
+    file: "{{ repos_catalog_file }}"
+    name: repos_catalog
+
+- name: Plan the repositories for this host
+  ansible.builtin.set_fact:
+    repos_plan_result: "{{ repos_catalog | repos_plan(ansible_facts, hostvars[inventory_hostname]) }}"
+  no_log: true   # SCC registration commands carry the registration code
+
+- name: Config files
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.path }}"
+    mode: "{{ item.mode }}"
+  loop: "{{ repos_plan_result.files | selectattr('state', 'equalto', 'present') | list }}"
+  loop_control: {label: "{{ item.path }}"}
+
+- name: Remove config files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ repos_plan_result.files | selectattr('state', 'equalto', 'absent') | list }}"
+  loop_control: {label: "{{ item.path }}"}
+
+- name: Services that must stay stopped
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop: "{{ repos_plan_result.services_stopped }}"
+
+- name: Commands before repositories
+  ansible.builtin.include_tasks: commands.yml
+  vars: {repos_phase: pre}
+
+- name: Commands for SCC registration
+  ansible.builtin.include_tasks: commands.yml
+  vars: {repos_phase: scc}
+
+# ---- keys ----
+- name: Copy key files
+  ansible.builtin.copy:
+    src: "{{ repos_key_root }}/{{ item.file }}"
+    dest: "/tmp/{{ item.file | basename }}"
+    mode: "0644"
+  loop: "{{ repos_plan_result.keys | rejectattr('transactional') | list }}"
+  loop_control: {label: "{{ item.name }}"}
+
+- name: Import keys
+  ansible.builtin.command: "rpm --import /tmp/{{ item.file | basename }}"
+  environment: "{{ item.env }}"
+  changed_when: false   # importing an imported key is a no-op
+  loop: "{{ repos_plan_result.keys | rejectattr('transactional') | list }}"
+  loop_control: {label: "{{ item.name }}"}
+
+- name: Import keys inside a transactional snapshot (reboot handling is ticket #123)
+  ansible.builtin.command: "transactional-update -c run rpm --import {{ item.url }}"
+  loop: "{{ repos_plan_result.keys | selectattr('transactional') | list }}"
+  loop_control: {label: "{{ item.name }}"}
+
+- name: Copy gpg_keys host var entries
+  ansible.builtin.copy:
+    src: "{{ repos_key_root }}/{{ item }}"
+    dest: "/tmp/{{ item | basename }}"
+    mode: "0644"
+  loop: "{{ repos_plan_result.gpg_keys }}"
+
+- name: Import gpg_keys host var entries
+  ansible.builtin.command: "rpm --import /tmp/{{ item | basename }}"
+  changed_when: false
+  loop: "{{ repos_plan_result.gpg_keys }}"
+
+# ---- repositories ----
+- name: Write rpm repositories
+  ansible.builtin.copy:
+    content: |
+      [{{ item.name }}]
+      name={{ item.name }}
+      enabled=1
+      autorefresh=1
+      type=rpm-md
+      baseurl={{ item.url }}
+      {% if item.gpgcheck is not none %}
+      gpgcheck={{ item.gpgcheck }}
+      {% endif %}
+      {% if item.gpgkey %}
+      gpgkey={{ item.gpgkey }}
+      {% endif %}
+      {% if item.priority is not none %}
+      priority={{ item.priority }}
+      {% endif %}
+    dest: "{{ repos_plan_result.repo_dir }}/{{ item.name }}.repo"
+    mode: "0644"
+  loop: "{{ repos_plan_result.repos | selectattr('kind', 'equalto', 'rpm') | list }}"
+  loop_control: {label: "{{ item.name }}"}
+
+- name: Keyring directory for deb repositories
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  when: repos_plan_result.repos | selectattr('kind', 'equalto', 'deb') | list | length > 0
+
+- name: Fetch deb repository keys
+  ansible.builtin.get_url:
+    url: "{{ item.key_url }}"
+    dest: "{{ item.keyring }}"
+    mode: "0644"
+  loop: "{{ repos_plan_result.repos | selectattr('kind', 'equalto', 'deb') | list }}"
+  loop_control: {label: "{{ item.name }}"}
+
+- name: Write deb repositories (one list file per entry, additional repos share one)
+  ansible.builtin.copy:
+    content: "{{ (repos_plan_result.repos | selectattr('kind', 'equalto', 'deb') | selectattr('file', 'equalto', item) | map(attribute='line') | list) | join('\n') }}\n"
+    dest: "{{ item }}"
+    mode: "0644"
+  loop: "{{ repos_plan_result.repos | selectattr('kind', 'equalto', 'deb') | map(attribute='file') | unique | list }}"
+
+- name: Package pins
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ item.path }}"
+    mode: "0644"
+  loop: "{{ repos_plan_result.pins | unique | list }}"
+  loop_control: {label: "{{ item.path }}"}
+
+- name: Additional certificates
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dir }}/{{ item.label }}"
+    checksum: "sha512:{{ item.url }}.sha512"
+    mode: "0644"
+  register: _repos_certs
+  loop: "{{ repos_plan_result.certs }}"
+  loop_control: {label: "{{ item.label }}"}
+
+- name: Update the certificate store
+  ansible.builtin.command: "{{ repos_plan_result.certs[0].update }}"
+  when: repos_plan_result.certs | length > 0 and _repos_certs is changed
+
+- name: Commands after repositories (refresh)
+  ansible.builtin.include_tasks: commands.yml
+  vars: {repos_phase: post}
+
+- name: Packages that need the repositories
+  ansible.builtin.package:
+    name: "{{ repos_plan_result.packages }}"
+    state: present
+  when: repos_plan_result.packages | length > 0
