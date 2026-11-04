@@ -15,7 +15,9 @@ def run(tmp, host=HOST, rc=0):
     bindir.mkdir()
     stub = bindir / "ansible-playbook"
     stub.write_text(f'#!/bin/bash\necho "$@" > "{tmp}/args"\n'
-                    f'cp "${{2}}" "{tmp}/inv.yml"\nexit {rc}\n')
+                    f'cp "${{2}}" "{tmp}/inv.yml"\n'
+                    f'd=$(dirname "${{2}}"); stat -c %a "$d" "$d/host_vars" "$d"/host_vars/*.yml > "{tmp}/modes"\n'
+                    f'exit {rc}\n')
     stub.chmod(stub.stat().st_mode | stat.S_IEXEC)
     env = {**os.environ, "PATH": f"{bindir}:{os.environ['PATH']}", "TMPDIR": str(tmp),
            "BUILD_NUMBER": "7", "HOST_JSON": json.dumps([host])}
@@ -32,6 +34,11 @@ def test_one_run_with_host_role_playbook(tmp_path):
     # per-build dirs, scratch inventory removed afterwards
     assert (tmp_path / "ansible-build-7" / "home").is_dir()
     assert not list((tmp_path / "ansible-build-7").glob("host.*"))
+
+
+def test_scratch_dir_private(tmp_path):
+    assert run(tmp_path).returncode == 0
+    assert (tmp_path / "modes").read_text().split() == ["700", "700", "600"]
 
 
 def test_playbook_failure_fails_the_run(tmp_path):
