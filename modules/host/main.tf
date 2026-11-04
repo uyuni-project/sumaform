@@ -33,7 +33,7 @@ module "host" {
 
 locals {
   # host roles with an Ansible host-role playbook (ansible/playbooks/<role>.yml)
-  ansible_ported_roles = ["minion", "sshminion", "controller", "build_host", "server_containerized", "proxy_containerized"]
+  ansible_ported_roles = ["minion", "sshminion", "controller", "build_host", "server_containerized", "proxy_containerized", "mirror", "jenkins", "grafana", "registry", "locust", "salt_testenv", "virthost", "rhel_container", "server_kubernetes", "proxy_kubernetes", "dhcp_dns", "pxe_boot"]
 }
 
 output "configuration" {

@@ -1,0 +1,19 @@
+[Unit]
+Description=Podman {{ _rc_container }}.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=on-failure
+ExecStartPre=/bin/rm -f %t/{{ _rc_container }}.pid
+ExecStartPre=-/usr/bin/podman rm -f {{ _rc_container }}
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/{{ _rc_container }}.pid -d --name {{ _rc_container }} --hostname {{ _rc_fqdn }} --network host --cap-add=AUDIT_WRITE {{ _rc_image }}
+ExecStop=-/usr/bin/podman stop -t 10 {{ _rc_container }}
+ExecStopPost=-/usr/bin/podman rm -f {{ _rc_container }}
+PIDFile=%t/{{ _rc_container }}.pid
+TimeoutStopSec=60
+Type=forking
+
+[Install]
+WantedBy=multi-user.target default.target

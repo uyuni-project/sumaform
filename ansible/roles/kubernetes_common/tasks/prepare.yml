@@ -1,0 +1,30 @@
+---
+# Phase prepare (salt/kubernetes_common/kubernetes_dependencies.sls packages and SCC registration).
+# Shared by server_kubernetes and proxy_kubernetes. install_k3s.sls and mirror-pv.yaml are not ported (unused at the
+# pin, see ledger row salt-k3s-unused).
+- name: Dependencies of RKE2 on Tumbleweed and Ubuntu
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: >-
+      {{ ['jq', 'checkpolicy', 'policycoreutils', 'container-selinux', 'openssl', 'git', 'iptables']
+         if ansible_facts.distribution == 'openSUSE Tumbleweed' else ['python3-yaml'] }}
+  when: ansible_facts.distribution in ['openSUSE Tumbleweed', 'Ubuntu']
+
+- name: Is the SL Micro 6.2 host registered
+  ansible.builtin.command: SUSEConnect --status-text
+  register: _k8s_scc
+  changed_when: false
+  failed_when: false
+  when: >-
+    ansible_facts.distribution == 'SL-Micro' and ansible_facts.distribution_version == '6.2'
+    and scc_slmicro_pass | default('', true) | length > 0
+
+- name: Register SL Micro 6.2 and activate the registration
+  ansible.builtin.shell: >-
+    transactional-update register -r {{ scc_slmicro_pass }} &&
+    transactional-update apply
+  no_log: true  # the registration code is on the command line
+  changed_when: true
+  when: _k8s_scc is not skipped and 'Not Registered' in _k8s_scc.stdout

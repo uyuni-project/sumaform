@@ -1,0 +1,160 @@
+---
+# Phase prepare (salt/salt_testenv/salt_bundle_package.sls, salt_classic_package.sls, lib.sls): the Salt test
+# repositories and the Salt testsuite packages under test. Needs the reboot step before they are active on
+# transactional hosts.
+- name: Where the Salt repositories come from
+  ansible.builtin.set_fact:
+    _st_mirror: "{{ mirror | default('', true) }}"
+    _st_family: "{{ ansible_facts.os_family }}"
+    _st_repo_path: >-
+      {{ salt_testenv_repo_paths.get(ansible_facts.distribution ~ ' ' ~ ansible_facts.distribution_version)
+         | default(salt_testenv_repo_paths.get(ansible_facts.distribution ~ ' ' ~ ansible_facts.distribution_major_version), true) }}
+    _st_flavor: "{{ salt_obs_flavor | default('saltstack:products:testing', true) }}"
+    _st_suse: "{{ ansible_facts.os_family == 'Suse' }}"
+    _st_tumbleweed: "{{ ansible_facts.distribution == 'openSUSE Tumbleweed' }}"
+    _st_sles15: "{{ ansible_facts.distribution == 'SLES' and ansible_facts.distribution_major_version == '15' }}"
+    _st_minor: "{{ (ansible_facts.distribution_version.split('.')[1] | default('0')) | int }}"
+
+# ---- Salt bundle testsuite (not on Tumbleweed, not for the plain saltstack flavor)
+- name: Salt bundle testsuite repository and package
+  when: not (_st_tumbleweed | bool) and _st_flavor != 'saltstack'
+  block:
+    - name: The flavor must be a known one
+      ansible.builtin.assert:
+        that: _st_flavor in salt_testenv_bundle_flavors
+        fail_msg: "Unknown salt_obs_flavor set: {{ _st_flavor }}"
+
+    - name: Bundle repository URL
+      ansible.builtin.set_fact:
+        _st_bundle_base: "http://{{ _st_mirror or 'download.opensuse.org' }}/repositories/systemsmanagement:{{ salt_testenv_bundle_flavors[_st_flavor] }}:testsuite/{{ _st_repo_path }}/"
+
+    - name: Bundle repository (apt)
+      ansible.builtin.copy:
+        content: "deb [trusted=yes] {{ _st_bundle_base }} /\n"
+        dest: /etc/apt/sources.list.d/salt_bundle_testsuite_repo.list
+        mode: "0644"
+      when: ansible_facts.os_family == 'Debian'
+
+    - name: Bundle repository (zypper)
+      community.general.zypper_repository:
+        name: salt_bundle_testsuite_repo
+        repo: "{{ _st_bundle_base }}"
+        auto_import_keys: true
+        disable_gpg_check: true
+        runrefresh: true
+      when: _st_suse | bool
+
+    - name: Bundle repository (yum)
+      ansible.builtin.yum_repository:
+        name: salt_bundle_testsuite_repo
+        description: salt_bundle_testsuite_repo
+        baseurl: "{{ _st_bundle_base }}"
+        gpgcheck: false
+      when: ansible_facts.os_family == 'RedHat'
+
+    - name: Refresh the apt index
+      ansible.builtin.apt: {update_cache: true}
+      when: ansible_facts.os_family == 'Debian'
+
+    - name: Install venv-salt-minion-testsuite
+      ansible.builtin.include_role:
+        name: packages
+        tasks_from: install
+      vars:
+        install_packages: [venv-salt-minion-testsuite]
+
+# ---- Salt classic testsuite (SL-Micro, Leap, Tumbleweed, SLES 15; not SL-Micro or Leap 6.2)
+- name: Salt classic testsuite repositories and packages
+  when: >-
+    (ansible_facts.distribution in ['SL-Micro', 'openSUSE Leap', 'openSUSE Tumbleweed'] or (_st_sles15 | bool))
+    and not (ansible_facts.distribution in ['SL-Micro', 'openSUSE Leap'] and ansible_facts.distribution_version == '6.2')
+  block:
+    - name: Only SUSE distributions are supported here
+      ansible.builtin.assert:
+        that: _st_suse | bool
+        fail_msg: Incompatible OS, this state only works on openSUSE/SUSE distributions.
+
+    # SLE 15 modules; hpc is needed for libhttp_parser_2_7_1, required by libgit2
+    - name: SLE 15 module repositories
+      community.general.zypper_repository:
+        name: "{{ item.0 }}_repo_{{ item.1.name }}"
+        repo: "http://{{ _st_mirror or 'dist.suse.de/ibs' }}/SUSE/{{ item.1.dir }}/SLE-Module-{{ item.0 }}/15-SP{{ ansible_facts.distribution_version.split('.')[1] }}/x86_64/{{ item.1.leaf }}/"
+        auto_import_keys: true
+        disable_gpg_check: true
+        runrefresh: true
+      loop: >-
+        {{ (['Development-Tools', 'HPC', 'Containers']
+            + (['Python3'] if _st_minor | int >= 4 else [])
+            + (['Systems-Management'] if _st_minor | int >= 6 else []))
+           | product([{'name': 'pool', 'dir': 'Products', 'leaf': 'product'}, {'name': 'updates', 'dir': 'Updates', 'leaf': 'update'}])
+           | list }}
+      loop_control: {label: "{{ item.0 }} {{ item.1.name }}"}
+      when: ansible_facts.distribution == 'SLES'
+
+    - name: SL Micro repositories
+      community.general.zypper_repository:
+        name: "{{ item.name }}"
+        repo: "{{ item.url }}"
+        auto_import_keys: true
+        runrefresh: true
+      loop:
+        - {name: os_pool_repo, url: "http://{{ _st_mirror or 'dist.suse.de/ibs' }}/SUSE/Products/SL-Micro/{{ ansible_facts.distribution_version }}/x86_64/product/"}
+        - {name: alp_sources_repo, url: "http://{{ _st_mirror or 'dist.suse.de/ibs' }}/SUSE:/ALP:/Source:/Standard:/Core:/1.0:/Build/standard/"}
+      when: ansible_facts.distribution == 'SL-Micro'
+
+    - name: Tumbleweed repository
+      community.general.zypper_repository:
+        name: repo-oss
+        repo: "http://{{ _st_mirror or 'download.opensuse.org' }}/tumbleweed/repo/oss/"
+        disable_gpg_check: true
+        runrefresh: true
+      when: _st_tumbleweed | bool
+
+    - name: Salt test dependencies and testing repositories
+      community.general.zypper_repository:
+        name: "{{ item.name }}"
+        repo: "http://{{ _st_mirror or 'download.opensuse.org' }}/repositories/systemsmanagement:{{ item.obs }}/{{ _st_classic_path }}/"
+        priority: 1
+        auto_import_keys: true
+        disable_gpg_check: true
+        runrefresh: true
+      loop:
+        - {name: salt_testsuite_dependencies_repo, obs: "saltstack:products:test-dependencies"}
+        - {name: salt_testing_repo, obs: "{{ _st_flavor }}"}
+      vars:
+        # SLES 15: 15 or 15-SPn (15.n from SP3 on); Leap: the release; SL Micro: SLMicro<version>; Tumbleweed: its name
+        _st_classic_path: >-
+          {{ ('15.' ~ ansible_facts.distribution_version.split('.')[1] if _st_minor | int >= 3 else '15-SP' ~ ansible_facts.distribution_version.split('.')[1]) if ansible_facts.distribution == 'SLES'
+             else ansible_facts.distribution_version if ansible_facts.distribution == 'openSUSE Leap'
+             else 'SLMicro' ~ ansible_facts.distribution_version.replace('.', '') if ansible_facts.distribution == 'SL-Micro'
+             else 'openSUSE_Tumbleweed' }}
+
+    - name: Which Salt packages are installed now
+      ansible.builtin.shell: rpm -qa --qf '%{NAME}\n' | grep -E '^python.*-salt' || true
+      register: _st_salt_installed
+      changed_when: false
+
+    - name: Remove them
+      ansible.builtin.command: >-
+        {{ 'transactional-update --continue --non-interactive --drop-if-no-change pkg remove' if is_transactional | bool
+           else 'zypper --non-interactive remove' }} {{ _st_salt_installed.stdout_lines | join(' ') }}
+      changed_when: true
+      when: _st_salt_installed.stdout_lines | length > 0
+
+    # Docker, and not podman-docker
+    - name: Install docker
+      ansible.builtin.include_role:
+        name: packages
+        tasks_from: install
+      vars:
+        install_packages: [docker]
+
+    # resolve_capabilities and fromrepo conflict (bsc#1244067), so no pkg module with from
+    - name: Install the Salt testsuite from the test repositories
+      ansible.builtin.shell: >-
+        rpm -q python3-salt-testsuite >/dev/null 2>&1 && exit 0;
+        {{ 'transactional-update --continue --non-interactive --drop-if-no-change pkg install' if is_transactional | bool
+           else 'zypper --non-interactive install' }}
+        --from salt_testing_repo --from salt_testsuite_dependencies_repo
+        'python3*-salt-testsuite' 'python3*-salt-test' 'python3*-salt'
+      changed_when: true  # ponytail: shell guard only covers the plain case; tighten if a second apply must be clean

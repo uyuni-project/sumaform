@@ -1083,7 +1083,8 @@ behaviours:
   - {id: salt-containerized-common, paths: [salt/server_containerized/install_common.sls, salt/server_containerized/install_mgradm.sls, salt/server_containerized/install_podman.sls, salt/server_containerized/mgradm.yaml], target: role, ref: containerized_common, since_pin: d0c6e082}
   - {id: salt-server-containerized, paths: [salt/server_containerized/additional_disks.sls, salt/server_containerized/check_peripheral_registered.py, salt/server_containerized/download_ubuntu_repo.sh, salt/server_containerized/hub_peripheral.sls, salt/server_containerized/hub_peripheral_certs.sls, salt/server_containerized/init.sls, salt/server_containerized/initial_content.sls, salt/server_containerized/large_deployment.sls, salt/server_containerized/large_deployment_tune_tomcat.xslt, salt/server_containerized/postgres.sls, salt/server_containerized/register_peripheral.py, salt/server_containerized/rhn.sls, salt/server_containerized/salt-events.service, salt/server_containerized/testsuite.sls, salt/server_containerized/wait_for_mgr_sync.sh, salt/server_containerized/wait_for_reposync.py], target: role, ref: server_containerized, since_pin: d0c6e082}
   - {id: salt-proxy-containerized, paths: [salt/proxy_containerized/config, salt/proxy_containerized/init.sls], target: role, ref: proxy_containerized, since_pin: d0c6e082}
-  - {id: salt-kubernetes-common, paths: [salt/kubernetes_common/helm_chart.py, salt/kubernetes_common/install_k3s.sls, salt/kubernetes_common/kubernetes-crd-definition-v1.yml, salt/kubernetes_common/kubernetes_dependencies.sls, salt/kubernetes_common/local-path-storage.yaml, salt/kubernetes_common/mirror-pv.yaml, salt/kubernetes_common/wait_for_kube_resource.py], target: role, ref: kubernetes_common, since_pin: d0c6e082}
+  - {id: salt-kubernetes-common, paths: [salt/kubernetes_common/helm_chart.py, salt/kubernetes_common/kubernetes-crd-definition-v1.yml, salt/kubernetes_common/kubernetes_dependencies.sls, salt/kubernetes_common/local-path-storage.yaml], target: role, ref: kubernetes_common, since_pin: d0c6e082}
+  - {id: salt-k3s-unused, paths: [salt/kubernetes_common/install_k3s.sls, salt/kubernetes_common/mirror-pv.yaml, salt/kubernetes_common/wait_for_kube_resource.py], target: n/a-upstream-removed, reason: 'k3s was replaced by RKE2 upstream (cc4cbedc); install_k3s.sls is included by no top.sls entry or state at the pin and names files that no longer exist (salt://server_containerized/wait_for_kube_resource.py, salt://server_containerized/mirror-pv.yaml); mirror-pv.yaml and wait_for_kube_resource.py are only used by it', since_pin: d0c6e082}
   - {id: salt-server-kubernetes, paths: [salt/server_kubernetes/Chart_server.yaml, salt/server_kubernetes/additional_disk.sls, salt/server_kubernetes/config, salt/server_kubernetes/init.sls, salt/server_kubernetes/install_kubernetes_server.sls, salt/server_kubernetes/k8s-systemd-uyuni, salt/server_kubernetes/server-selfsigned/, salt/server_kubernetes/systemdcontainerpolicy.te, salt/server_kubernetes/uyuni-ingress.yaml, salt/server_kubernetes/values_server.yaml, salt/server_kubernetes/volume-configuration-var-pgsql.yml, salt/server_kubernetes/volume-configuration-var-spacewalk.yml], target: role, ref: server_kubernetes, since_pin: d0c6e082}
   - {id: salt-proxy-kubernetes, paths: [salt/proxy_kubernetes/Chart_proxy.yaml, salt/proxy_kubernetes/config, salt/proxy_kubernetes/init.sls, salt/proxy_kubernetes/install_kubernetes_proxy.sls, salt/proxy_kubernetes/proxy-gen-certs.yaml, salt/proxy_kubernetes/uyuni-ingress-proxy.yaml, salt/proxy_kubernetes/values_proxy.yaml], target: role, ref: proxy_kubernetes, since_pin: d0c6e082}
   - {id: salt-rhel-container, paths: [salt/rhel_container/Containerfile, salt/rhel_container/centos7.repo, salt/rhel_container/init.sls], target: role, ref: rhel_container, since_pin: d0c6e082}
@@ -1103,6 +1104,18 @@ host_roles:
   # Product install (site.yml phase 3) is skipped by install_uyuni_via_testsuite or skip_server_install. Deliberate
   # divergences: salt/_states/manage_config.py is rhn_conf.yml (server_containerized); cloned channels run in the server
   # container; the Salt-only pre-5.1 branches of large_deployment.sls are not ported; the proxy squid image variable bug is fixed.
+  # #127: the long tail is ported: mirror, jenkins, grafana, registry, locust, salt_testenv, virthost, rhel_container,
+  # server_kubernetes and proxy_kubernetes (shared kubernetes_common), plus data_disk (shared by mirror and jenkins).
+  # dhcp_dns and pxe_boot have no Salt state at the pin (not in salt/top.sls, provision = false, configured by Terraform):
+  # their rows name no Ansible role beyond the common head; the playbooks exist for the plan-time check.
+  # virthost hosts also carry the minion host role (modules/virthost): the virthost playbook composes both.
+  # n/a-upstream-removed: salt-k3s-unused (k3s replaced by RKE2; unreferenced). Not ported, controller_system still refuses it:
+  # the external-cluster Kubernetes server install run from the controller (install_kubernetes_server_on_external_cluster).
+  # Deliberate divergences: grafana setup_grafana.py (Python 2 httplib, could not run) is a uri task; mirror and jenkins
+  # apply owner and mode after the mount (Salt set them under it); mirror customize_minima_file names a template of the
+  # role (basename.j2) instead of a Salt path; virthost reboots once (stamp file) instead of on every highstate; the
+  # kubernetes roles use one per-deployment keypair per host (no committed server_keys/proxy_keys), peers from Terraform
+  # (peer_public_keys, still unset by the handoff); grafana provisioning is copied without Salt's clean: True.
   - {id: site, playbook: site.yml, roles: []}
   - {id: minion, playbook: minion.yml, roles: [transactional, base, repos, minion, testsuite_pkgs, sshd_challenge_response]}
   - {id: sshminion, playbook: sshminion.yml, roles: [transactional, base, repos, testsuite_pkgs, sshd_challenge_response]}
@@ -1116,10 +1129,10 @@ host_roles:
   - {id: mirror, playbook: mirror.yml, roles: [transactional, base, repos, mirror]}
   - {id: grafana, playbook: grafana.yml, roles: [transactional, base, repos, grafana]}
   - {id: locust, playbook: locust.yml, roles: [transactional, base, repos, locust]}
-  - {id: virthost, playbook: virthost.yml, roles: [transactional, base, repos, minion, virthost]}
+  - {id: virthost, playbook: virthost.yml, roles: [transactional, base, repos, virthost]}
   - {id: jenkins, playbook: jenkins.yml, roles: [transactional, base, repos, jenkins]}
   - {id: registry, playbook: registry.yml, roles: [transactional, base, repos, registry]}
   - {id: salt_testenv, playbook: salt_testenv.yml, roles: [transactional, base, repos, salt_testenv]}
-  - {id: dhcp_dns, playbook: dhcp_dns.yml, roles: [transactional, base, repos, dhcp_dns]}
-  - {id: pxe_boot, playbook: pxe_boot.yml, roles: [transactional, base, repos, pxe_boot]}
+  - {id: dhcp_dns, playbook: dhcp_dns.yml, roles: [transactional, base, repos]}
+  - {id: pxe_boot, playbook: pxe_boot.yml, roles: [transactional, base, repos]}
 repins: []

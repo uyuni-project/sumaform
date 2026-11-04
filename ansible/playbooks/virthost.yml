@@ -1,0 +1,5 @@
+---
+# Host role virthost: the common head plus its chain from host_roles.yml. modules/virthost gives the host the minion
+# host role too, so the playbook composes both.
+- import_playbook: site.yml
+  vars: {only_roles: [minion, virthost]}

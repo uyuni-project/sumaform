@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 SUSE LLC
+# SPDX-FileContributor: Cédric Bosdonnat
+#
+# SPDX-License-Identifier: MIT
+
+{{- if not .Values.skipPreFlight -}}
+  {{- if not (.Capabilities.APIVersions.Has "cert-manager.io/v1") -}}
+    {{- fail "ERROR: The cert-manager API (cert-manager.io/v1) is not available in this cluster." -}}
+  {{- end -}}
+{{- end -}}
+
