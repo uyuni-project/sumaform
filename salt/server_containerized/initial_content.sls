@@ -22,6 +22,7 @@ mgr_sync_automatic_authentication:
 
 {% endif %}
 
+{% if grains.get('cc_username') %}
 scc_data_refresh:
   cmd.script:
     - name: salt://server_containerized/wait_for_mgr_sync.sh
@@ -29,6 +30,7 @@ scc_data_refresh:
     - args: "{{ server_username }} {{ server_password }}"
     - require:
       - cmd: mgradm_install
+{% endif %}
 
 {% if grains.get('channels') %}
 add_channels:
