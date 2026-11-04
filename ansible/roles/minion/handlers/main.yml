@@ -1,0 +1,11 @@
+---
+- name: restart minion
+  ansible.builtin.service:
+    name: "{{ _salt_pkg }}"
+    state: restarted
+  when: auto_connect_to_master | default(false) | bool
+
+- name: restart avahi
+  ansible.builtin.service:
+    name: avahi-daemon
+    state: restarted

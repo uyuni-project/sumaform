@@ -1,0 +1,8 @@
+---
+# Phase prepare: install the Salt minion (the package under test). Needs the reboot step before it is usable.
+- name: Install the Salt minion
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: ["{{ _salt_pkg }}"]

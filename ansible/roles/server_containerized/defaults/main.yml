@@ -1,0 +1,69 @@
+---
+# Covers salt/server_containerized/* except what containerized_common holds. Inputs are the Salt grain names (host_vars).
+_fqdn: "{{ hostname }}.{{ domain }}"
+_srv_user: "{{ server_username | default('admin', true) }}"
+_srv_pass: "{{ server_password | default('admin', true) }}"
+# NFS mirror host: server_mounted_mirror wins over mirror; mirror_nfs_server (default true) switches it off
+_mirror_host: "{{ ((server_mounted_mirror or mirror) if (mirror_nfs_server | default(true)) else '') | default('', true) }}"
+_known_product: "{{ product_version | default('', true) is search('(5\\.1|5\\.2|uyuni|head)') }}"
+# the mgrctl gpg API is only in releases after these (see salt/server_containerized/testsuite.sls)
+_products_without_gpg_api: [head, uyuni-released, 5.1-nightly, 5.1-released, 5.2-nightly, 5.2-released, 5.2-paygo]
+# same fixed test-environment values as salt/server_containerized/mgradm.yaml
+server_db_password: spacewalk
+server_ssl_password: spacewalk
+mgradm_config_dest: /root/mgradm.yaml
+# optional grains: unset means off (Terraform passes null for these)
+cc_username: ''
+cc_password: ''
+container_registry: ''
+container_image: ''
+container_tag: ''
+db_container_registry: ''
+db_container_image: ''
+db_container_tag: ''
+deploy_saline: false
+deploy_coco_attestation: false
+deploy_hub_api: false
+deploy_tftp: false
+saline_container_image: ''
+saline_container_tag: ''
+coco_container_image: ''
+coco_container_tag: ''
+hub_api_container_image: ''
+hub_api_container_tag: ''
+tftpd_container_image: ''
+tftpd_container_tag: ''
+java_debugging: false
+server_mounted_mirror: ''
+mirror: ''
+repository_disk_size: ''
+database_disk_size: ''
+data_disk_device: ''
+second_data_disk_device: ''
+channels: ''
+cloned_channels: ''
+hub_peripheral_fqdns: ''
+server_hub_peripheral: ''
+create_first_user: false
+mgr_sync_autologin: false
+create_sample_channel: false
+create_sample_activation_key: false
+create_sample_bootstrap_script: false
+publish_private_ssl_key: false
+skip_changelog_import: false
+disable_download_tokens: false
+monitored: false
+forward_registration: false
+disable_auto_bootstrap: false
+disable_auto_channel_sync: false
+beta_enabled: false
+enable_oval_metadata: false
+large_deployment: false
+allow_postgres_connections: false
+wait_for_reposync: false
+_use_gpg_api: "{{ product_version | default('', true) not in _products_without_gpg_api }}"
+_gpg_import_cmd: >-
+  {{ ('mgrctl gpg upload --api-server ' ~ _fqdn ~ ' --api-user ' ~ _srv_user ~ ' --api-password ' ~ _srv_pass)
+     if _use_gpg_api | bool else 'mgradm gpg add -f' }}
+# the Salt tree's committed keys; re-point when salt/ is deleted (same as repos_key_root)
+containerized_key_root: "{{ role_path }}/../../../salt/default/gpg_keys"

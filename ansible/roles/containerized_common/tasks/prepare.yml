@@ -1,0 +1,25 @@
+---
+# Phase prepare: the container tooling. Transactional hosts (SL Micro) ship it, so it is only verified there.
+- name: Check that the uyuni-tools are in the image (transactional host)
+  ansible.builtin.command: "rpm -q {{ cc_tools | join(' ') }}"
+  changed_when: false
+  when: is_transactional | bool
+
+- name: Install podman and the uyuni-tools
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: "{{ cc_packages }}"
+  when: not (is_transactional | bool)
+
+- name: CA certificates for the SUSE registry (SLES, not PAYG)
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: [ca-certificates-suse]
+  when:
+    - not (is_transactional | bool)
+    - ansible_facts.distribution == 'SLES'
+    - "'paygo' not in (product_version | default('', true))"

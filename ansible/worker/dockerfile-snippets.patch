@@ -1,0 +1,43 @@
+PROPOSED, NOT APPLIED (/repos/jenkins-container is read-only). Apply by hand in the three
+worker Dockerfiles. Build context must contain ansible/requirements.{txt,yml}
+(copy them from sumaform into the build context, e.g. as ansible-req/).
+
+Common block (insert after the OpenTofu/pip section in each file):
+
+    COPY ansible-req/requirements.txt ansible-req/requirements.yml /tmp/ansible-req/
+    RUN python3.11 -m venv /opt/ansible-venv && \
+        /opt/ansible-venv/bin/pip install -r /tmp/ansible-req/requirements.txt && \
+        /opt/ansible-venv/bin/ansible-galaxy collection install \
+            -r /tmp/ansible-req/requirements.yml -p /usr/share/ansible/collections && \
+        rm -rf /tmp/ansible-req
+    ENV PATH="/opt/ansible-venv/bin:${PATH}" \
+        ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections
+
+--- Dockerfile.opensuse-worker (Leap 15.6; python311 already installed)
+ RUN zypper -n refresh && \
+     zypper -n install \
++        sshpass \
++        rsync \
+         java-21-openjdk \
+ (python3 stays 3.6 for terracumber; the venv uses python3.11, hence the explicit python3.11 above)
+
+--- Dockerfile.opensuse-worker-tumbleweed (python311, python311-pip already installed)
+ RUN zypper -n refresh && \
+     zypper -n install \
++        sshpass \
++        rsync \
+         java-21-openjdk \
+ (python3 symlink is 3.11; python3.11 -m venv works)
+
+--- Dockerfile.opensuse-leap16-worker (python3 is 3.11+, no python311 package)
+ RUN zypper -n refresh && \
+     zypper -n install \
++        sshpass \
++        rsync \
+         java-21-openjdk \
+ In the common block replace `python3.11 -m venv` with `python3 -m venv`.
+ Note: the leap16 install list is followed by `|| true` semantics in the 15.6 file; if sshpass/rsync
+ must not be silently skipped, install them in their own `RUN zypper -n install sshpass rsync` line.
+
+Verify after build (on each worker): ansible --version | head -1 ; sshpass -V | head -1 ; rsync --version | head -1
+then: ansible/worker/preflight.sh <hosts...>

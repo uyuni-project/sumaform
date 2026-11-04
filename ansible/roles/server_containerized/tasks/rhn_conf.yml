@@ -1,0 +1,40 @@
+---
+# Port of salt/_states/manage_config.py manage_lines (mgrctl mode): set `key = value` lines in a file of the
+# server container. Vars: rhn_conf_entries (dict). Result: fact rhn_conf_changed.
+- name: Scratch directory for the container file
+  ansible.builtin.tempfile:
+    state: directory
+  register: _rc_tmp
+
+- name: Copy rhn.conf out of the container
+  ansible.builtin.command: "mgrctl cp server:/etc/rhn/rhn.conf {{ _rc_tmp.path }}/rhn.conf"
+  changed_when: false
+
+- name: Owner of the file in the container
+  ansible.builtin.command: mgrctl exec 'stat -c "%U %G" /etc/rhn/rhn.conf'
+  register: _rc_owner
+  changed_when: false
+
+- name: Set the keys
+  ansible.builtin.lineinfile:
+    path: "{{ _rc_tmp.path }}/rhn.conf"
+    regexp: "^{{ item.key | regex_escape }} *=.*"
+    line: "{{ item.key }} = {{ item.value }}"
+  loop: "{{ rhn_conf_entries | dict2items }}"
+  register: _rc_lines
+
+- name: Copy rhn.conf back with its owner
+  ansible.builtin.command: >-
+    mgrctl cp --user {{ _rc_owner.stdout.split()[0] }} --group {{ _rc_owner.stdout.split()[1] }}
+    {{ _rc_tmp.path }}/rhn.conf server:/etc/rhn/rhn.conf
+  when: _rc_lines.changed
+
+- name: Remove the scratch directory
+  ansible.builtin.file:
+    path: "{{ _rc_tmp.path }}"
+    state: absent
+  changed_when: false
+
+- name: Remember whether rhn.conf changed
+  ansible.builtin.set_fact:
+    rhn_conf_changed: "{{ _rc_lines.changed }}"

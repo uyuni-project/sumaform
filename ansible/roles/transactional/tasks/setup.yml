@@ -1,0 +1,15 @@
+---
+# Once per host, in the prepare phase: stop anything that could reboot the host behind Ansible's back (R8).
+- name: Transactional host setup
+  when: is_transactional | bool
+  block:
+    - name: Mask the automatic transactional-update timer
+      ansible.builtin.systemd:
+        name: transactional-update.timer
+        masked: true
+
+    - name: Keep rebootmgr from rebooting by itself
+      ansible.builtin.copy:
+        content: "[rebootmgr]\nstrategy=off\n"
+        dest: /etc/rebootmgr.conf
+        mode: "0644"

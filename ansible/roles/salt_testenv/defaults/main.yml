@@ -1,0 +1,26 @@
+---
+# OBS repository path of the Salt bundle testsuite per OS (salt/salt_testenv/salt_bundle_package.sls).
+# Looked up by "<distribution> <version>", then "<distribution> <major>".
+salt_testenv_repo_paths:
+  "Debian 11": Debian_11
+  "Debian 13": Debian_13
+  "Ubuntu 20.04": Ubuntu_20.04
+  "Ubuntu 22.04": Ubuntu_22.04
+  "Ubuntu 24.04": Ubuntu_24.04
+  "AlmaLinux 8": AlmaLinux_8
+  "AlmaLinux 9": AlmaLinux_9
+  "AlmaLinux 10": AlmaLinux_10
+  "CentOS 7": CentOS_7
+  "SLES 12": SLE_12
+  "SLES 15": SLE_15
+  "SLES 16": SLE_16
+  "openSUSE Leap 15": openSUSE_Leap_15
+  "openSUSE Leap 16": SLE_16  # shares the codestream with SLE 16
+  "SL-Micro 6.0": SLMicro60
+  "SL-Micro 6.1": SLMicro61
+  "SL-Micro 6.2": SLE_16  # shares the codestream with SLE 16
+
+salt_testenv_bundle_flavors:
+  "saltstack:products": "saltstack:bundle"
+  "saltstack:products:testing": "saltstack:bundle:testing"
+  "saltstack:products:next": "saltstack:bundle:next"

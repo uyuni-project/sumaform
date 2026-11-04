@@ -1,0 +1,9 @@
+---
+controller_ruby_links:
+  ruby: ruby.ruby3.4
+  gem: gem.ruby3.4
+  irb: irb.ruby3.4
+  rake: rake.ruby.ruby3.4
+  bundle: bundle.ruby.ruby3.4
+  rdoc: rdoc.ruby.ruby3.4
+  ri: ri.ruby.ruby3.4

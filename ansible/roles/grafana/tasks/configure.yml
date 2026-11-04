@@ -1,0 +1,76 @@
+---
+# Phase configure (salt/grafana/init.sls).
+- name: Prometheus configuration
+  ansible.builtin.template: {src: prometheus.yml.j2, dest: /etc/prometheus/prometheus.yml, mode: "0644"}
+  notify: restart prometheus
+
+- name: Prometheus unit
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Description=prometheus
+
+      [Service]
+      ExecStart=/usr/bin/prometheus --config.file=/etc/prometheus/prometheus.yml
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/prometheus.service
+    mode: "0644"
+  notify: restart prometheus
+
+- name: Start prometheus
+  ansible.builtin.systemd: {name: prometheus, state: started, enabled: true, daemon_reload: true}
+
+- name: Anonymous login with the admin role
+  ansible.builtin.replace:
+    path: /etc/grafana/grafana.ini
+    regexp: '(?s)(^#+ Anonymous Auth #+\n).*?(?=^#+ Github Auth)'
+    replace: '\1[auth.anonymous]\nenabled = true\norg_name = Main Org.\norg_role = Admin\n\n'
+  notify: restart grafana-server
+
+- name: Port 80
+  ansible.builtin.replace:
+    path: /etc/grafana/grafana.ini
+    regexp: '^;http_port = 3000'
+    replace: http_port = 80
+  notify: restart grafana-server
+
+# Divergence: Salt used clean: True (removes files not in the source); a fresh host has none.
+- name: Provisioning (datasource and dashboard)
+  ansible.builtin.copy:
+    src: provisioning/
+    dest: /etc/grafana/provisioning/
+    owner: grafana
+    group: grafana
+    mode: preserve
+  notify: restart grafana-server
+
+- name: Run grafana as root (it listens on port 80)
+  ansible.builtin.replace:
+    path: /usr/lib/systemd/system/grafana-server.service
+    regexp: '^(User|Group)=grafana'
+    replace: '#\1'
+  notify: restart grafana-server
+
+- name: Start grafana
+  ansible.builtin.systemd: {name: grafana-server, state: started, enabled: true, daemon_reload: true}
+
+- name: Flush the restarts before talking to grafana
+  ansible.builtin.meta: flush_handlers
+
+# Divergence: setup_grafana.py used the Python 2 only httplib module and could not run; the same call is a uri task.
+- name: Home dashboard of the organisation
+  ansible.builtin.uri:
+    url: http://localhost/api/org/preferences
+    method: PUT
+    user: admin
+    password: admin
+    force_basic_auth: true
+    body_format: json
+    body: {homeDashboardId: 1}
+  register: _grafana_home
+  retries: 10
+  delay: 1
+  until: _grafana_home is succeeded
+  no_log: true

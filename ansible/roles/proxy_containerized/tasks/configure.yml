@@ -1,0 +1,30 @@
+---
+# Phase configure.
+- name: Install the proxy keypair (per deployment, host_vars from Terraform)
+  ansible.builtin.include_role:
+    name: ssh_keypair
+    tasks_from: configure
+  vars:
+    ssh_authorize_own_key: true
+
+- name: Authorize the peer keys on the proxy
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: authorize_peers
+
+- name: SSH client config (test hosts only, no host key checks)
+  ansible.builtin.copy:
+    content: |
+      Host *
+         StrictHostKeyChecking no
+         UserKnownHostsFile=/dev/null
+    dest: /root/.ssh/config
+    mode: "0600"
+
+- name: Write the config used to set up the proxy through the tests
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: write_config
+  vars:
+    cc_config_dest: "{{ proxy_config_dest }}"
+    cc_config_text: "{{ lookup('ansible.builtin.template', 'uyuni-tools.yaml.j2') }}"

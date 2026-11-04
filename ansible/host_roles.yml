@@ -1,0 +1,48 @@
+---
+# Host role -> Ansible roles it adds on top of the common head (transactional, base, repos; see
+# playbooks/site.yml), per phase. A role listed under `prepare` has tasks/prepare.yml, under `configure`
+# tasks/configure.yml, under `install` (optional product install) tasks/install.yml. A host with several host roles gets the concatenation in `roles` order, each
+# Ansible role once, so shared roles (ssh_keypair, testsuite_pkgs) never run twice.
+host_role_chains:
+  minion:
+    prepare: [minion, testsuite_pkgs]
+    configure: [sshd_challenge_response, minion]
+    install: []
+  sshminion:
+    prepare: [testsuite_pkgs]
+    configure: [sshd_challenge_response]
+    install: []
+  controller:
+    prepare: [controller_packages]
+    configure: [ssh_keypair, controller_ruby, controller_playwright, controller_testsuite, controller_https, controller_system]
+    install: []
+  build_host:
+    prepare: []
+    configure: [ssh_keypair, ca_cert, sshd_root_login]
+    install: []
+  # #126: containerized_common is the shared mgradm/podman part (packages, config file, peer keys);
+  # the thin roles call its write_config and authorize_peers tasks from their configure.
+  server_containerized:
+    prepare: [containerized_common, server_containerized]
+    configure: [server_containerized]
+    install: [server_containerized]
+  proxy_containerized:
+    prepare: [containerized_common, proxy_containerized]
+    configure: [proxy_containerized]
+    install: [proxy_containerized]
+  # #127: the long tail. mirror and jenkins share data_disk (partition and mount, include_role tasks_from: mount).
+  # The kubernetes roles share kubernetes_common and reuse containerized_common's write_config and authorize_peers.
+  # virthost hosts also carry the minion host role (modules/virthost), so only virthost's own part is listed.
+  # dhcp_dns and pxe_boot have no Salt state at the pin (Terraform-driven, provision = false): no Ansible roles.
+  mirror: {prepare: [mirror], configure: [mirror], install: []}
+  jenkins: {prepare: [jenkins], configure: [jenkins], install: []}
+  grafana: {prepare: [grafana], configure: [grafana], install: []}
+  registry: {prepare: [registry], configure: [registry], install: []}
+  locust: {prepare: [locust], configure: [locust], install: []}
+  salt_testenv: {prepare: [salt_testenv], configure: [salt_testenv], install: []}
+  virthost: {prepare: [virthost], configure: [virthost], install: []}
+  rhel_container: {prepare: [rhel_container], configure: [rhel_container], install: []}
+  server_kubernetes: {prepare: [kubernetes_common], configure: [kubernetes_common, server_kubernetes], install: []}
+  proxy_kubernetes: {prepare: [kubernetes_common], configure: [kubernetes_common, proxy_kubernetes], install: []}
+  dhcp_dns: {prepare: [], configure: [], install: []}
+  pxe_boot: {prepare: [], configure: [], install: []}

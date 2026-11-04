@@ -1,0 +1,7 @@
+# Shared by laptops and worker images:
+#   ansible-galaxy collection install -r ansible/requirements.yml
+collections:
+  - name: community.general
+    version: "==9.5.4"
+  - name: ansible.posix
+    version: "==1.6.2"

@@ -1,0 +1,8 @@
+---
+# Phase prepare (salt/jenkins/configuration.sls, podman.sls packages).
+- name: Install the Jenkins packages
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: [parted, tar, jenkins-lts, apache2, podman]

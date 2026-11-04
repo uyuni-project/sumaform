@@ -1,0 +1,31 @@
+---
+# salt/server_containerized/hub_peripheral.sls, after mgradm install: register this peripheral on the hub.
+- name: Hub registration script
+  ansible.builtin.template:
+    src: register_peripheral.py.j2
+    dest: /root/register_peripheral.py
+    mode: "0700"
+  vars: &hub_vars
+    hub_fqdn: "{{ server_hub_peripheral }}"
+    peripheral_fqdn: "{{ _fqdn }}"
+    server_username: "{{ _srv_user }}"
+    server_password: "{{ _srv_pass }}"
+  no_log: true
+
+- name: Hub registration check script
+  ansible.builtin.template:
+    src: check_peripheral_registered.py.j2
+    dest: /root/check_peripheral_registered.py
+    mode: "0700"
+  vars: *hub_vars
+  no_log: true
+
+- name: Is this peripheral already registered
+  ansible.builtin.command: python3 /root/check_peripheral_registered.py
+  register: _hub_registered
+  changed_when: false
+  failed_when: _hub_registered.rc > 1
+
+- name: Register this peripheral on the hub
+  ansible.builtin.command: python3 /root/register_peripheral.py
+  when: _hub_registered.rc != 0

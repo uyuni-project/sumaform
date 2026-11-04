@@ -1,0 +1,12 @@
+{# Image and tag of every proxy container; the tag is the same for all (empty = most recent in SUMA). #}
+{% if container_registry %}
+registry:
+  host: {{ container_registry }}
+{% endif %}
+{% for key, image in [('httpd', httpd_container_image), ('saltBroker', salt_broker_container_image), ('squid', squid_container_image), ('ssh', ssh_container_image), ('tftpd', tftpd_container_image)] %}
+{{ key }}:
+{% if image %}
+  image: {{ image }}
+{% endif %}
+  tag: {{ container_tag | default('', true) }}
+{% endfor %}

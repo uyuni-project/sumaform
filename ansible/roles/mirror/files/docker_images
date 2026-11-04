@@ -1,0 +1,48 @@
+#!/bin/bash
+
+DOCKER_IMAGES_CONF="$1"
+[ -z "$DOCKER_IMAGES_CONF" ] && exit 1
+DOCKER_IMAGE_NAMES=$(cat "$DOCKER_IMAGES_CONF")
+
+original_registry="registry.mgr.suse.de"
+target_acr=$(hostname -f)
+grep_filter="none"
+
+for original_image in $DOCKER_IMAGE_NAMES; do
+  # Download all images
+  docker pull $original_registry/$original_image
+
+  # Get all images published after $minimum_version
+  # format output to be:
+  #   docker tag ORIGINAL_IMAGE_NAME:VERSION TARGET_IMAGE_NAME:VERSION |
+  #   docker push TARGET_IMAGE_NAME:VERSION
+  # then filter the result, removing any entries containing words defined on $grep_filter (i.e. rc, beta, alpha, etc)
+  # finally, execute those as commands
+  docker images $original_registry/$original_image \
+    --format "docker tag {{.Repository}}:{{.Tag}} $target_acr/$original_image:{{.Tag}} | docker push $target_acr/$original_image:{{.Tag}}" |
+    grep -vE $grep_filter |
+    bash -x
+done
+
+target_acr=$(hostname -f):5000/cucutest
+grep_filter="none"
+
+docker login --username="cucutest" --password="cucusecret" $target_acr
+
+for original_image in $DOCKER_IMAGE_NAMES; do
+  # Download all images
+  docker pull $original_registry/$original_image
+
+  # Get all images published after $minimum_version
+  # format output to be:
+  #   docker tag ORIGINAL_IMAGE_NAME:VERSION TARGET_IMAGE_NAME:VERSION |
+  #   docker push TARGET_IMAGE_NAME:VERSION
+  # then filter the result, removing any entries containing words defined on $grep_filter (i.e. rc, beta, alpha, etc)
+  # finally, execute those as commands
+  docker images $original_registry/$original_image \
+    --format "docker tag {{.Repository}}:{{.Tag}} $target_acr/$original_image:{{.Tag}} | docker push $target_acr/$original_image:{{.Tag}}" |
+    grep -vE $grep_filter |
+    bash -x
+done
+
+docker logout $target_acr

@@ -1,0 +1,31 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    ports:
+      ssh:
+        port: 8022
+        expose:
+          default: true
+        exposedPort: 8022
+        protocol: TCP
+        hostPort: 8022
+      salt-publish:
+        port: 4505
+        expose:
+          default: true
+        exposedPort: 4505
+        protocol: TCP
+        hostPort: 4505
+        containerPort: 4505
+      salt-request:
+        port: 4506
+        expose:
+          default: true
+        exposedPort: 4506
+        protocol: TCP
+        hostPort: 4506
+        containerPort: 4506

@@ -1,0 +1,15 @@
+---
+# Phase prepare. podman and the uyuni-tools come from containerized_common.
+# Only podman has an install step in Salt (install_<runtime>.sls); kubernetes variants are separate host roles.
+- name: Only the podman runtime is ported
+  ansible.builtin.assert:
+    that: (container_runtime | default('podman', true)) == 'podman'
+    fail_msg: "container_runtime {{ container_runtime }} is not supported by server_containerized (podman only)"
+
+- name: NFS client for the mounted mirror
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: [nfs-client]
+  when: _mirror_host | length > 0

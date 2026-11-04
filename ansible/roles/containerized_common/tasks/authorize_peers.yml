@@ -1,0 +1,11 @@
+---
+# include_role tasks_from: authorize_peers. Replaces the committed build_host key that Salt appended
+# (ledger key-build-host, key-proxy-containerized): the peers' public keys come from Terraform.
+- name: Authorize the peer public keys (build_host, controller)
+  ansible.builtin.lineinfile:
+    path: /root/.ssh/authorized_keys
+    line: "{{ item }}"
+    create: true
+    mode: "0600"
+  loop: "{{ peer_public_keys | default([]) }}"
+  loop_control: {label: "{{ item.split(' ')[-1] }}"}
