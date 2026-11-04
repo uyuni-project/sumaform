@@ -1,0 +1,17 @@
+---
+# Install packages on a transactional host (include_role tasks_from: install, var tu_packages).
+# Always --continue (-c): chains onto earlier snapshots made since the last reboot.
+# The rpm check is the idempotence guard: a no-op rerun creates no snapshot, so nothing is pending.
+- name: Which packages are missing from the running system
+  ansible.builtin.command: "rpm -q {{ tu_packages | join(' ') }}"
+  register: _tu_rpm
+  changed_when: false
+  failed_when: _tu_rpm.rc > 127
+
+- name: Install them in a new snapshot (active after the next reboot step)
+  ansible.builtin.command: >-
+    transactional-update --non-interactive --continue --drop-if-no-change
+    pkg install {{ tu_packages | join(' ') }}
+  register: _tu_install
+  changed_when: true
+  when: _tu_rpm.rc != 0

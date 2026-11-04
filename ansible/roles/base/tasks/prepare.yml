@@ -1,0 +1,22 @@
+---
+# Phase 1, prepare: wait for the first boot to finish, learn what the host is.
+- name: Wait for SSH
+  ansible.builtin.wait_for_connection:
+    timeout: 600
+
+- name: Wait for cloud-init to finish the first boot
+  ansible.builtin.command: cloud-init status --wait
+  changed_when: false
+  failed_when: false
+
+- name: Gather facts
+  ansible.builtin.setup:
+
+- name: Detect transactional system (by state, not OS name)
+  ansible.builtin.stat:
+    path: /usr/sbin/transactional-update
+  register: _tu
+
+- name: Remember it
+  ansible.builtin.set_fact:
+    is_transactional: "{{ _tu.stat.exists }}"

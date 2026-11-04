@@ -1,8 +1,23 @@
 ---
-# Host role "minion". Phases: prepare, (reboot if a snapshot is pending: ticket #123), configure.
+# Host role "minion". Phases: prepare, reboot step, configure, reboot step (product install would sit between).
+# The reboot step is a no-op unless a transactional snapshot is pending.
 - name: Host role minion
   hosts: minion
   gather_facts: false
-  roles:
-    - base
-    - minion
+  tasks:
+    - name: Phase prepare
+      block:
+        - ansible.builtin.include_role: {name: base, tasks_from: prepare}
+        - ansible.builtin.include_role: {name: transactional, tasks_from: setup}
+        - ansible.builtin.include_role: {name: minion, tasks_from: prepare}
+
+    - name: Reboot step (prepare to configure)
+      ansible.builtin.include_role: {name: transactional, tasks_from: reboot}
+
+    - name: Phase configure
+      block:
+        - ansible.builtin.include_role: {name: base, tasks_from: configure}
+        - ansible.builtin.include_role: {name: minion}
+
+    - name: Reboot step (end of configure)
+      ansible.builtin.include_role: {name: transactional, tasks_from: reboot}

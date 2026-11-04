@@ -1,15 +1,6 @@
 ---
+# Phase configure. Phase prepare (package install) is prepare.yml.
 # Covers salt/minion/init.sls and reflector.sls (testsuite.sls and repos: later tickets).
-- name: Salt package name
-  ansible.builtin.set_fact:
-    _salt_pkg: "{{ 'venv-salt-minion' if install_salt_bundle | default(true) | bool else 'salt-minion' }}"
-    _salt_dir: "{{ '/etc/venv-salt-minion' if install_salt_bundle | default(true) | bool else '/etc/salt' }}"
-
-- name: Install the Salt minion (the package under test)
-  ansible.builtin.package:
-    name: "{{ _salt_pkg }}"
-    state: present
-
 - name: Set minion_id
   ansible.builtin.copy:
     content: "{{ hostname | default(inventory_hostname) }}.{{ domain }}"
