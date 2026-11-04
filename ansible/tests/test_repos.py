@@ -116,7 +116,7 @@ def test_scc_replaces_os_repos_and_registers():
     p = plan(CATALOG, facts("SLES", "15.7"), {**MINION, "sles_registration_code": "SECRET"})
     assert "os_pool_repo" not in names(p)
     reg = [c for c in p["commands"]["scc"] if "SUSEConnect --url" in c["cmd"]]
-    assert reg and reg[0]["secret"] and "SECRET" in reg[0]["cmd"]
+    assert reg and reg[0]["masked"] and "SECRET" in reg[0]["cmd"]
 
 
 def test_unknown_version_fails_loudly():

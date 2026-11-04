@@ -1,14 +1,16 @@
 """Ledger validator and markdown generator. See SCHEMA.md.
 
-Usage: validate.py LEDGER.yml [--root REPO] [--md OUT.md]
+Usage: validate.py LEDGER.yml [--root REPO] [--md OUT.md] [--require-verified] [--deletion-gate]
 """
 import argparse
+import json
 import pathlib
 import re
 import sys
 
 import yaml
 
+RUN_LEVEL = {"host-state-diff": 2, "compare-runs": 3}  # default level a run proves
 TARGETS = {"role", "playbook", "var", "tf-only", "backend", "dropped",
            "deferred", "n/a-upstream-removed"}
 VAR_RE = re.compile(r'^\s*variable\s+"([^"]+)"', re.M)
@@ -33,7 +35,68 @@ def cited(path, citations):
     return any(path == c or (c.endswith("/") and path.startswith(c)) for c in citations)
 
 
-def validate(ledger, root=".", tf_dirs=("modules", "backend_modules"), salt_dir="salt"):
+def load_runs(ledger):
+    """Run files live in runs/<id>.json next to the ledger."""
+    d = pathlib.Path(ledger).parent / "runs"
+    files = sorted(d.glob("*.json")) if d.is_dir() else []
+    return {r["id"]: r for r in (json.loads(f.read_text()) for f in files)}
+
+
+def min_level(kind, row):
+    """Minimum verified level by row kind (spec: Verification)."""
+    if kind == "host_role":
+        return 3
+    if row.get("target") in ("tf-only", "backend"):
+        return 1
+    if kind == "behaviour" and row.get("changes_state") is False:
+        return 1
+    return 2
+
+
+def pin_current(vpin, rid, led):
+    """True if vpin is the ledger pin, or a re-pin chain from vpin to it never touched rid."""
+    seen = set()
+    while vpin != led.get("pin"):
+        step = next((r for r in led.get("repins") or [] if isinstance(r, dict) and r.get("from") == vpin), None)
+        if not step or vpin in seen or rid in (step.get("touched") or []):
+            return False
+        seen.add(vpin)
+        vpin = step.get("to")
+    return True
+
+
+def check_verified(kind, row, led, runs):
+    """Errors for one row's `verified` claim (empty list = proof holds)."""
+    rid, v = row.get("id", "?"), row.get("verified")
+    where = f"{kind} {rid}"
+    if not isinstance(v, dict):
+        return [f"{where}: verified missing"]
+    lvl, run = v.get("level"), runs.get(v.get("evidence"))
+    errs = []
+    if lvl not in (1, 2, 3, 4):
+        return [f"{where}: verified level {lvl!r} not in 1-4"]
+    if lvl < min_level(kind, row):
+        errs.append(f"{where}: verified level {lvl} below minimum {min_level(kind, row)}")
+    if not pin_current(v.get("pin"), rid, led):
+        errs.append(f"{where}: verified pin {v.get('pin')!r} is stale")
+    if not run:
+        return errs + [f"{where}: verified cites missing run {v.get('evidence')!r}"]
+    if run.get("pin") != v.get("pin"):
+        errs.append(f"{where}: run {run['id']} pin {run.get('pin')!r} != verified pin")
+    if rid not in (run.get("rows_covered") or []):
+        errs.append(f"{where}: run {run['id']} does not cover it")
+    if run.get("result") != "pass":
+        errs.append(f"{where}: run {run['id']} result is {run.get('result')!r}")
+    if lvl > run.get("level", RUN_LEVEL.get(run.get("kind"), 0)):
+        errs.append(f"{where}: run {run['id']} proves less than level {lvl}")
+    if (kind == "variable" and lvl >= 2 and row.get("target") not in ("tf-only", "backend")
+            and rid not in (run.get("non_default") or [])):
+        errs.append(f"{where}: run {run['id']} shows no non-default value")
+    return errs
+
+
+def validate(ledger, root=".", tf_dirs=("modules", "backend_modules"), salt_dir="salt",
+             require_verified=False, deletion_gate=False):
     root = pathlib.Path(root)
     led = yaml.safe_load(pathlib.Path(ledger).read_text()) or {}
     errs = []
@@ -61,7 +124,15 @@ def validate(ledger, root=".", tf_dirs=("modules", "backend_modules"), salt_dir=
                 errs.append(f"{kind} {rid}: playbook {r.get('ref')!r} not in host_roles")
             if t == "role" and r.get("ref") not in roles:
                 errs.append(f"{kind} {rid}: role {r.get('ref')!r} not in host_roles")
-            # ponytail: `verified` is allowed but not enforced here (ticket #128).
+            if t == "deferred" and deletion_gate:
+                errs.append(f"{kind} {rid}: deferred blocks Salt deletion (re-sign as dropped)")
+
+    runs = load_runs(ledger)
+    skip = ("dropped", "deferred", "n/a-upstream-removed")
+    for kind, rows in (("variable", vrows), ("behaviour", brows), ("host_role", hr)):
+        for r in rows:
+            if r.get("verified") is not None or (require_verified and r.get("target") not in skip):
+                errs += check_verified(kind, r, led, runs)
 
     have = pin_vars(root, tf_dirs)
     ids = {r.get("id") for r in vrows}
@@ -100,10 +171,12 @@ if __name__ == "__main__":
     ap.add_argument("ledger")
     ap.add_argument("--root", default=".")
     ap.add_argument("--md")
+    ap.add_argument("--require-verified", action="store_true")
+    ap.add_argument("--deletion-gate", action="store_true")
     a = ap.parse_args()
     if a.md:
         pathlib.Path(a.md).write_text(markdown(a.ledger))
-    e = validate(a.ledger, a.root)
+    e = validate(a.ledger, a.root, require_verified=a.require_verified, deletion_gate=a.deletion_gate)
     print("\n".join(e) or "ok")
     print(f"pending sign-off: {len(pending(a.ledger))}")
     sys.exit(1 if e else 0)

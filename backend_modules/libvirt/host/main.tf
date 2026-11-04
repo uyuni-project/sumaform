@@ -61,7 +61,6 @@ locals {
 
   // first-boot and handoff are gated on this; "salt" renders exactly what it always did
   ansible       = lookup(var.base_configuration, "provisioner", "salt") == "ansible"
-  transactional = local.combustion || local.ignition || length(regexall("micro", var.image)) > 0
   ansible_authorized_keys = concat(
     var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
     var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
@@ -458,6 +457,8 @@ locals {
     )
     user = "root"
     port = 22
+    // key auth: the private half of the key injected by Terraform (a path, not material); null falls back to the worker default key/agent
+    private_key_file = try(trimsuffix(regex(".*\\.pub$", var.base_configuration["ssh_key_path"]), ".pub"), null)
     bastion = local.ansible_bastion_host == null || local.ansible_bastion_host == "" ? null : {
       host = local.ansible_bastion_host
       user = lookup(var.provider_settings, "bastion_user", var.base_configuration["bastion_user"])
@@ -503,13 +504,6 @@ resource "terraform_data" "ansible" {
     main_volume_id = libvirt_volume.main_disk[count.index].id
     domain_id      = libvirt_domain.domain[count.index].id
     host           = sha1(jsonencode(local.ansible_hosts[count.index]))
-  }
-
-  lifecycle {
-    precondition {
-      condition     = !local.transactional
-      error_message = "provisioner = \"ansible\" does not support the transactional image ${var.image} yet (reboot step, ticket #123). Use provisioner = \"salt\"."
-    }
   }
 
   provisioner "local-exec" {

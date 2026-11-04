@@ -21,4 +21,11 @@ repins: []                 # free-form for now (ported / skipped / n/a row ids)
   - `dropped`: `reason` and `signoff` required; `signoff: PENDING` is reported as pending, not an error. `deferred`: `reason` required.
 - `since_pin`: required on every row (pin at which the row was added); lets deltas be computed.
 - `paths` (behaviours): salt files, or a directory with trailing `/` citing everything below it. Every file under `salt/` must be cited.
-- `verified: {level, evidence, pin}`: optional, accepted and not enforced yet (#128).
+- `verified: {level, evidence, pin}` (variables, behaviours, host_roles; optional). Levels: 1 static, 2 paired deploy + host-state diff, 3 smoke subset, 4 full acceptance. Checked when present, or on every non-dropped/deferred/n-a row with `--require-verified`. A claim fails if: level not 1-4, below the row minimum, `evidence` names no `runs/<id>.json`, the run's pin differs from `verified.pin`, the run does not list the row, the run result is not `pass`, the run proves less than the claimed level, or the pin is stale.
+  - Minimums: variables 2 (the run must list the id in `non_default`), behaviours 2 (1 if `changes_state: false`), host roles 3, `tf-only`/`backend` 1. `dropped` is proven by reason + signoff, `deferred` has no proof; `--deletion-gate` fails on any `deferred` row.
+  - Stale: `verified.pin` must equal the ledger `pin`, or a chain of `repins` entries must lead from it to the ledger pin without touching the row.
+- `repins`: `[{from: <old pin>, to: <new pin>, touched: [row ids], ported: [...], skipped: [...], na: [...]}]`. Only `from`, `to`, `touched` are read; `verified` on a touched row goes stale until re-proven at the new pin. Untouched rows stay valid.
+- Runs: `ansible/ledger/runs/<id>.json`, written from a read-only host-state SSH capture or a compare-runs report (by hand or tooling, never in the ledger):
+  `{"id": "run-1", "pin": "abc123", "kind": "host-state-diff|compare-runs", "rows_covered": ["row id"], "result": "pass|fail", "non_default": ["variable ids shown taking effect"], "level": 2}`.
+  `non_default` and `level` are optional; `level` defaults to 2 for host-state-diff and 3 for compare-runs (set 4 for a full acceptance run).
+- `propose.py LEDGER.yml`: prints proposed `verified` entries from passing runs that the validator would accept and that raise the row's level. Never edits the ledger; paste in one reviewed batch.

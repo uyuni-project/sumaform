@@ -498,7 +498,7 @@ commands:
   - name: register_sles_server
     phase: scc
     cmd: "SUSEConnect --url https://scc.suse.com -r {sles_registration_code} -p SLES/{osrelease}/{arch}"
-    secret: true
+    masked: true
     unless: "test -s /etc/zypp/credentials.d/SCCcredentials"
     applies: {<<: *scc, roles_any: [minion, sshminion, build_host], vars_all: [sles_registration_code]}
   - name: basesystem_activation

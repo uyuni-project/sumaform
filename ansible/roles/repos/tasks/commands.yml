@@ -13,4 +13,4 @@
   loop: "{{ repos_plan_result.commands[repos_phase] }}"
   loop_control:
     label: "{{ item.name }}"
-  no_log: "{{ repos_plan_result.commands[repos_phase] | selectattr('secret') | list | length > 0 }}"
+  no_log: "{{ repos_plan_result.commands[repos_phase] | selectattr('masked') | list | length > 0 }}"

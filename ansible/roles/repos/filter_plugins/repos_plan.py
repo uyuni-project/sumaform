@@ -214,7 +214,7 @@ def repos_plan(catalog, facts, hostvars):
         if st.ok(c.get("applies")):
             plan["commands"][c["phase"]].append(
                 {"name": c["name"], "cmd": _fmt(c["cmd"], cctx), "unless": _fmt(c.get("unless"), cctx),
-                 "creates": c.get("creates"), "secret": bool(c.get("secret")), "readonly": bool(c.get("readonly")),
+                 "creates": c.get("creates"), "masked": bool(c.get("masked")), "readonly": bool(c.get("readonly")),
                  "retries": c.get("retries", 0), "delay": c.get("delay", 0)})
     for s in catalog["services_stopped"]:
         if st.ok(s.get("applies")):
