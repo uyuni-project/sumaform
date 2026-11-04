@@ -9,6 +9,7 @@
       block:
         - ansible.builtin.include_role: {name: base, tasks_from: prepare}
         - ansible.builtin.include_role: {name: transactional, tasks_from: setup}
+        - ansible.builtin.include_role: {name: repos}   # the first boot has no repos; the minion install needs a tools repo
         - ansible.builtin.include_role: {name: minion, tasks_from: prepare}
 
     - name: Reboot step (prepare to configure)
