@@ -1,0 +1,22 @@
+export PYTHON_HELM_CHART_PATH=/root/helm_chart.py
+export HELM_CHART_DIRECTORY=/root/helm-charts
+export SELF_SIGNED_PATH=/root/helm-charts/selfsigned
+export VALUES_YAML_PATH=/root/helm-charts/selfsigned/values.yaml
+export HELM_CHART_NAME={{ helm_chart_name }}
+export HELM_CHART_URL={{ helm_chart_url }}
+export DEVEL_FLAG={{ '--devel' if use_devel_oci | default(false) | bool else '' }}
+{% if cc_username | default('', true) %}
+export CC_USERNAME={{ cc_username }}
+{% endif %}
+{% if cc_password | default('', true) %}
+export CC_PASSWORD={{ cc_password }}
+{% endif %}
+{% if _sk_scc_secret %}
+export SCC_SECRET_NAME={{ _sk_scc_secret }}
+{% endif %}
+{% if _sk_spacewalk_pv | bool %}
+export SPACEWALK_PV_FILE=/root/volume-configuration-var-spacewalk.yml
+{% endif %}
+{% if _sk_pgsql_pv | bool %}
+export PGSQL_PV_FILE=/root/volume-configuration-var-pgsql.yml
+{% endif %}

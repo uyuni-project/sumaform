@@ -1,0 +1,8 @@
+---
+# Phase prepare (salt/grafana/init.sls packages).
+- name: Install prometheus (pinned) and grafana
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: ["golang-github-prometheus-prometheus=1.5.2", grafana]

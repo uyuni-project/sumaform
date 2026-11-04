@@ -1,0 +1,19 @@
+---
+# include_tasks at the end of configure. Salt rebooted on every highstate (new kernel-default); here once per host,
+# recorded by a stamp file, so a second apply changes nothing.
+- name: Was the host already rebooted for the new kernel
+  ansible.builtin.stat: {path: /var/lib/sumaform-virthost-rebooted}
+  register: _vh_stamp
+
+- name: Reboot into the new kernel
+  ansible.builtin.reboot:
+    reboot_timeout: 900
+    post_reboot_delay: 30
+  when: not _vh_stamp.stat.exists
+
+- name: Remember it
+  ansible.builtin.copy:
+    content: "rebooted\n"
+    dest: /var/lib/sumaform-virthost-rebooted
+    mode: "0644"
+  when: not _vh_stamp.stat.exists

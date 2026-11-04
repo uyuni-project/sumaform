@@ -1,0 +1,20 @@
+scrape_configs:
+  - job_name: 'sumaform'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ server }}:9100'] # node_exporter
+      - targets: ['{{ server }}:9187'] # postgres_exporter
+      - targets: ['{{ server }}:5556'] # jmx_exporter
+      - targets: ['{{ server }}:5557'] # jmx_exporter taskomatic
+{% if locust | default('', true) %}
+      - targets: ['{{ locust }}:9500'] # locust_exporter
+{% endif %}
+  - job_name: 'tomcat'
+    scrape_interval: 5s
+    metrics_path: /rhn/metrics
+    static_configs:
+      - targets: ['{{ server }}:80']
+  - job_name: 'taskomatic'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['{{ server }}:9800']

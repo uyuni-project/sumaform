@@ -1,0 +1,59 @@
+---
+# Phase configure (salt/virthost/init.sls).
+# Dummy files, so nested virtualization is not detected.
+- name: Fake systemd-detect-virt
+  ansible.builtin.copy: {src: systemd-detect-virt, dest: /usr/bin/systemd-detect-virt, mode: "0655"}
+
+- name: Fake virt-what
+  ansible.builtin.copy:
+    content: "# Fake from sumaform to mock physical machine"
+    dest: /usr/sbin/virt-what
+    mode: "0655"
+
+# Modular daemons are not supported by SUMA/MLM: back to the monolithic libvirtd
+# (https://documentation.suse.com/sles/15-SP7/html/SLES-all/cha-libvirt-overview.html#libvirt-switch-daemons)
+- name: Stop and disable the modular daemons
+  ansible.builtin.systemd:
+    name: "virt{{ item.0 }}d{{ item.1 }}"
+    state: stopped
+    enabled: false
+  loop: "{{ ['qemu', 'network', 'nodedev', 'nwfilter', 'secret', 'storage'] | product(['.service', '.socket', '-ro.socket', '-admin.socket']) | list }}"
+  loop_control: {label: "virt{{ item.0 }}d{{ item.1 }}"}
+  when: ansible_facts.distribution_version != '15.4'
+  failed_when: false  # units that do not exist on this release
+  no_log: true  # nothing secret here; the virtsecretd unit name only trips the masking rule
+
+- name: Libvirt monolithic service and sockets
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    daemon_reload: true
+  loop: [libvirtd.service, libvirtd.socket, libvirtd-ro.socket, libvirtd-admin.socket]
+  when: ansible_facts.distribution_version != '15.4'
+
+- name: Bridge interface files
+  ansible.builtin.copy:
+    content: "{{ item.text }}"
+    dest: "/etc/sysconfig/network/ifcfg-{{ item.name }}"
+    mode: "0644"
+  loop:
+    - {name: eth0, text: "STARTMODE=auto\nBOOTPROTO=none\n"}
+    - {name: br0, text: "STARTMODE=onboot\nBOOTPROTO=dhcp\nBRIDGE=yes\nBRIDGE_PORTS=eth0\n"}
+
+- name: Data directories of the nested VM images
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop: [/var/testsuite-data, /var/testsuite-data/cloudinit]
+  when: hvm_disk_image | default({}, true) | length > 0
+
+# Divergence: Salt used one shared cloudinit directory for all OS types, so with several images the last one rendered
+# won the files. Kept (the testsuite reads this path); the ISO of each type is created once.
+- name: Nested VM disk images and cloud-init disks
+  ansible.builtin.include_tasks: disk_image.yml
+  loop: "{{ hvm_disk_image | default({}, true) | dict2items }}"
+
+- name: Reboot into the new kernel (once)
+  ansible.builtin.include_tasks: reboot_once.yml

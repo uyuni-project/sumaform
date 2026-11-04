@@ -30,3 +30,19 @@ host_role_chains:
     prepare: [containerized_common, proxy_containerized]
     configure: [proxy_containerized]
     install: [proxy_containerized]
+  # #127: the long tail. mirror and jenkins share data_disk (partition and mount, include_role tasks_from: mount).
+  # The kubernetes roles share kubernetes_common and reuse containerized_common's write_config and authorize_peers.
+  # virthost hosts also carry the minion host role (modules/virthost), so only virthost's own part is listed.
+  # dhcp_dns and pxe_boot have no Salt state at the pin (Terraform-driven, provision = false): no Ansible roles.
+  mirror: {prepare: [mirror], configure: [mirror], install: []}
+  jenkins: {prepare: [jenkins], configure: [jenkins], install: []}
+  grafana: {prepare: [grafana], configure: [grafana], install: []}
+  registry: {prepare: [registry], configure: [registry], install: []}
+  locust: {prepare: [locust], configure: [locust], install: []}
+  salt_testenv: {prepare: [salt_testenv], configure: [salt_testenv], install: []}
+  virthost: {prepare: [virthost], configure: [virthost], install: []}
+  rhel_container: {prepare: [rhel_container], configure: [rhel_container], install: []}
+  server_kubernetes: {prepare: [kubernetes_common], configure: [kubernetes_common, server_kubernetes], install: []}
+  proxy_kubernetes: {prepare: [kubernetes_common], configure: [kubernetes_common, proxy_kubernetes], install: []}
+  dhcp_dns: {prepare: [], configure: [], install: []}
+  pxe_boot: {prepare: [], configure: [], install: []}

@@ -1,0 +1,24 @@
+{% set storage_class = kubernetes_storage_class | default('local-path', true) %}
+{% set local_path = local_path_provisioner_path | default('/opt/local-path-provisioner', true) %}
+{% set var_spacewalk_host_path = kubernetes_var_spacewalk_host_path | default(local_path ~ '/var-spacewalk', true) %}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: var-spacewalk
+  annotations:
+    pv.kubernetes.io/provisioned-by: rancher.io/local-path
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "{{ storage_class }}"
+
+  claimRef:
+    namespace: uyuni
+    name: var-spacewalk
+  hostPath:
+    path: "{{ var_spacewalk_host_path }}"
+    type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Delete
+  volumeMode: Filesystem

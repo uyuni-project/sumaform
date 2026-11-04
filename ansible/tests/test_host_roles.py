@@ -10,7 +10,12 @@ A = pathlib.Path(__file__).parents[1]
 ROOT = A.parent
 COMMON = ["transactional", "base", "repos"]  # fixed head of every chain, see playbooks/site.yml
 CONTAINERIZED = ["server_containerized", "proxy_containerized"]  # share containerized_common (#126)
-PORTED = ["minion", "sshminion", "controller", "build_host"] + CONTAINERIZED
+KUBERNETES = ["server_kubernetes", "proxy_kubernetes"]  # share kubernetes_common (#127)
+LONG_TAIL = ["mirror", "jenkins", "grafana", "registry", "locust", "salt_testenv", "virthost", "rhel_container",
+             "dhcp_dns", "pxe_boot"] + KUBERNETES
+PORTED = ["minion", "sshminion", "controller", "build_host"] + CONTAINERIZED + LONG_TAIL
+# host roles whose playbook composes another host role of the same Terraform module (virthost hosts are minions too)
+PLAYBOOK_ROLES = {"virthost": ["minion", "virthost"]}
 SECRET_RE = re.compile(r"password|private_key|kubeconfig_content", re.I)
 
 
@@ -62,7 +67,7 @@ def test_every_host_role_has_playbook_chain_and_ledger_row():
     ledger = {r["id"]: r for r in yaml.safe_load((A / "ledger/ledger.yml").read_text())["host_roles"]}
     for r in PORTED:
         pb = load(f"playbooks/{r}.yml")
-        assert pb[0]["import_playbook"] == "site.yml" and pb[0]["vars"]["only_roles"] == [r]
+        assert pb[0]["import_playbook"] == "site.yml" and pb[0]["vars"]["only_roles"] == PLAYBOOK_ROLES.get(r, [r])
         c = chains()[r]
         ordered = list(dict.fromkeys(c["prepare"] + c["configure"] + c["install"]))
         assert ledger[r]["roles"] == COMMON + ordered, r
@@ -187,7 +192,7 @@ def test_secret_tasks_are_masked():
     for f, t in all_tasks():
         text = str(t)
         src = (t.get("ansible.builtin.template") or {}).get("src")
-        if src:
+        if src and (A / "roles" / f.parts[-3] / "templates" / src).is_file():  # loop items name the file at run time
             text += (A / "roles" / f.parts[-3] / "templates" / src).read_text()
         if SECRET_RE.search(text):
             assert t.get("no_log") is True, f"{f.relative_to(A)}: {t.get('name')}"
@@ -196,3 +201,38 @@ def test_secret_tasks_are_masked():
 def test_run_host_is_one_combined_run():
     s = (A / "run_host.sh").read_text()
     assert "site.yml" in s and "for role in" not in s
+
+
+def test_long_tail_host_roles_without_salt_state_have_an_empty_chain():
+    # dhcp_dns and pxe_boot are Terraform-driven (provision = false) and have no Salt state at the pin
+    for r in ("dhcp_dns", "pxe_boot"):
+        assert chains()[r] == {"prepare": [], "configure": [], "install": []}
+        assert not (ROOT / "salt" / r).exists()
+        assert "roles:" + r not in (ROOT / "salt/top.sls").read_text()
+
+
+def test_every_salt_top_entry_has_a_chain():
+    top = (ROOT / "salt/top.sls").read_text()
+    for r in re.findall(r"'roles:(\w+)'", top):
+        assert r in chains(), r
+
+
+def test_kubernetes_roles_share_common_role_and_containerized_tasks():
+    common = {t["name"] for t in tasks_of("kubernetes_common") if "name" in t}
+    assert common
+    server, proxy = ({t["name"] for t in tasks_of(r) if "name" in t} for r in KUBERNETES)
+    assert not server & proxy and not (server | proxy) & common
+    for r in KUBERNETES:
+        assert chains()[r]["prepare"] == ["kubernetes_common"]
+        assert chains()[r]["configure"][0] == "kubernetes_common"
+        text = " ".join(str(t) for t in tasks_of(r))
+        assert "authorize_peers" in text and "ssh_keypair" in text, r  # no committed keys, peers from Terraform
+    assert "write_config" in " ".join(str(t) for t in tasks_of("server_kubernetes"))  # SCC secrets, 0600
+
+
+def test_mirror_and_jenkins_share_the_data_disk_tasks():
+    for r in ("mirror", "jenkins"):
+        text = " ".join(str(t) for t in tasks_of(r))
+        assert "data_disk" in text and "parted" not in text.replace("'parted'", "").replace("parted,", ""), r
+    assert any("parted" in str(t) for t in tasks_of("data_disk"))
+

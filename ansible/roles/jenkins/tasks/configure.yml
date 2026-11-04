@@ -1,0 +1,133 @@
+---
+# Phase configure (salt/jenkins/configuration.sls, podman.sls, http_proxy.sls).
+- name: Jenkins data disk
+  ansible.builtin.include_role:
+    name: data_disk
+    tasks_from: mount
+  vars:
+    dd_device: "{{ data_disk_device }}"
+    dd_mount: /var/lib/jenkins
+    dd_fstype: "{{ data_disk_fstype | default('ext4', true) }}"
+    dd_mode: "0775"
+
+- name: Secrets directory
+  ansible.builtin.file:
+    path: /var/lib/jenkins/secrets
+    state: directory
+    mode: "0700"
+    owner: jenkins
+    group: jenkins
+  no_log: true  # nothing secret here; the path name only trips the masking rule
+
+# WORKAROUND kept from Salt: the package does not always ship /etc/sysconfig/jenkins
+# (https://build.opensuse.org/package/show/devel:tools:building/jenkins-lts#comment-1543277)
+- name: Sysconfig from the fillup template when missing
+  ansible.builtin.copy:
+    src: /usr/share/fillup-templates/sysconfig.jenkins
+    dest: /etc/sysconfig/jenkins
+    remote_src: true
+    force: false
+    mode: "0644"
+
+- name: Skip the setup wizard
+  ansible.builtin.replace:
+    path: /etc/sysconfig/jenkins
+    regexp: '^JENKINS_JAVA_OPTIONS="((?!.*runSetupWizard=false).*)"$'
+    replace: 'JENKINS_JAVA_OPTIONS="\1 -Djenkins.install.runSetupWizard=false"'
+
+- name: init.groovy.d directory
+  ansible.builtin.file:
+    path: /var/lib/jenkins/init.groovy.d
+    state: directory
+    mode: "0755"
+    owner: jenkins
+    group: jenkins
+
+# Creates the admin user with a random password written to secrets/initialAdminPassword
+- name: Basic security script
+  ansible.builtin.copy:
+    src: basic-security.groovy
+    dest: /var/lib/jenkins/init.groovy.d/basic-security.groovy
+    mode: "0644"
+    owner: jenkins
+    group: jenkins
+
+# Salt downloaded the update center list on every highstate; the plugin install needs it present first.
+- name: Update center plugin list directory
+  ansible.builtin.file:
+    path: /var/lib/jenkins/updates
+    state: directory
+    mode: "0755"
+    owner: jenkins
+    group: jenkins
+
+- name: Download the plugin list
+  ansible.builtin.get_url:
+    url: https://updates.jenkins-ci.org/update-center.json
+    dest: /var/lib/jenkins/updates/default.json
+    mode: "0644"
+    owner: jenkins
+    group: jenkins
+    validate_certs: false
+    force: false
+  register: _jenkins_plugin_list
+
+- name: Strip the JSONP wrapper from the plugin list
+  ansible.builtin.replace:
+    path: /var/lib/jenkins/updates/default.json
+    regexp: '^(updateCenter.post\(|\);)$'
+    replace: ""
+  when: _jenkins_plugin_list is changed
+
+- name: Start Jenkins
+  ansible.builtin.service: {name: jenkins, state: started, enabled: true}
+
+- name: Configure Jenkins (plugins through the CLI)
+  ansible.builtin.script: configure-jenkins.sh
+  args:
+    creates: /var/lib/jenkins/plugins/swarm.jpi
+
+- name: Apache reverse proxy
+  ansible.builtin.copy: {src: jenkins.conf, dest: /etc/apache2/vhosts.d/jenkins.conf, mode: "0644"}
+  notify: restart jenkins apache2
+
+- name: Enable the Apache proxy modules
+  community.general.apache2_module:
+    name: "{{ item }}"
+    state: present
+  loop: [proxy, proxy_http]
+  notify: restart jenkins apache2
+
+- name: Start apache2
+  ansible.builtin.service: {name: apache2, state: started, enabled: true}
+
+# podman.sls and http_proxy.sls: a rootless HTTP proxy container for the jenkins builds
+- name: podman user
+  ansible.builtin.user:
+    name: podman
+    comment: podman
+    shell: /bin/nologin
+    home: /var/lib/podman
+    system: true
+    create_home: true
+
+- name: Sub uid and gid ranges of the podman user
+  ansible.builtin.shell: |
+    set -e
+    grep -q '^podman:200000:' /etc/subuid || { usermod --add-subuids 200000-201000 podman; echo changed; }
+    grep -q '^podman:200000:' /etc/subgid || { usermod --add-subgids 200000-201000 podman; echo changed; }
+  register: _subids
+  changed_when: "'changed' in _subids.stdout"
+
+- name: HTTP proxy container (rootless, as the podman user)
+  ansible.builtin.shell: |
+    runuser -u podman -- sh -c 'cd /var/lib/podman && { podman ps -a --filter "name=http_proxy" --format json | grep -q "\"Id\"" ||
+    podman run -d -p 3128:3128 --restart always --name http_proxy registry.opensuse.org/systemsmanagement/uyuni/master/docker/containers/proxy; }'
+  changed_when: true  # ponytail: as in Salt, no separate probe; add one if a second apply must be clean
+
+- name: Start the HTTP proxy container at boot
+  ansible.builtin.cron:
+    name: start http_proxy
+    special_time: reboot
+    job: /usr/bin/podman start http_proxy
+    user: podman

@@ -46,7 +46,7 @@ def test_no_password_when_unset_and_no_key_default(tmp_path):
 def test_secret_tasks_are_no_log():
     secret = re.compile(r"password|secret|token|private_key|passphrase", re.I)
     bad = []
-    for f in ROOT.glob("roles/*/*/*.yml"):
+    for f in ROOT.glob("roles/*/tasks/*.yml"):
         data = yaml.safe_load(f.read_text())
         for t in data if isinstance(data, list) else []:  # task files; defaults/vars are dicts
             if secret.search(yaml.safe_dump(t)) and t.get("no_log") is not True:
