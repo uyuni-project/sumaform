@@ -169,4 +169,9 @@ output "configuration" {
     value = merge(local.configuration_output, {
     bastion_host = local.create_network ? (length(module.bastion.configuration.public_names) > 0 ? module.bastion.configuration.public_names[0] : null) : local.bastion_host
   })
+
+  precondition {
+    condition     = var.provisioner == "salt"
+    error_message = "provisioner = \"ansible\" is not ported to this backend yet (libvirt only); use \"salt\"."
+  }
 }

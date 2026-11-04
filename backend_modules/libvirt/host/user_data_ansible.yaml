@@ -1,0 +1,18 @@
+#cloud-config
+# Minimal first boot for provisioner = "ansible": sshd, root + key, python3.
+# Everything else (repos, packages, venv-salt-minion) is done by Ansible.
+
+disable_root: false
+ssh_pwauth: true
+chpasswd:
+  expire: false
+  list: |
+     root:linux
+
+users:
+  - name: root
+    ssh_authorized_keys: ${authorized_keys}
+
+package_update: false
+packages:
+  - python3

@@ -1,0 +1,48 @@
+---
+# Covers salt/minion/init.sls and reflector.sls (testsuite.sls and repos: later tickets).
+- name: Salt package name
+  ansible.builtin.set_fact:
+    _salt_pkg: "{{ 'venv-salt-minion' if install_salt_bundle | default(true) | bool else 'salt-minion' }}"
+    _salt_dir: "{{ '/etc/venv-salt-minion' if install_salt_bundle | default(true) | bool else '/etc/salt' }}"
+
+- name: Install the Salt minion (the package under test)
+  ansible.builtin.package:
+    name: "{{ _salt_pkg }}"
+    state: present
+
+- name: Set minion_id
+  ansible.builtin.copy:
+    content: "{{ hostname | default(inventory_hostname) }}.{{ domain }}"
+    dest: "{{ _salt_dir }}/minion_id"
+    mode: "0644"
+
+- name: Configure the Salt master
+  ansible.builtin.copy:
+    content: |
+      master: {{ server }}
+      server_id_use_crc: adler32
+      enable_legacy_startup_events: False
+      enable_fqdns_grains: False
+      start_event_grains:
+        - machine_id
+        - saltboot_initrd
+        - susemanager
+    dest: "{{ _salt_dir }}/minion.d/master.conf"
+    mode: "0644"
+  when: auto_connect_to_master | default(false) | bool and server | default('')
+  notify: restart minion
+
+- name: Avahi reflector
+  ansible.builtin.replace:
+    path: /etc/avahi/avahi-daemon.conf
+    regexp: "#enable-reflector=no"
+    replace: "enable-reflector=yes"
+  when: use_avahi | default(false) | bool and avahi_reflector | default(false) | bool
+  notify: restart avahi
+
+- name: Start the Salt minion
+  ansible.builtin.service:
+    name: "{{ _salt_pkg }}"
+    state: started
+    enabled: true
+  when: auto_connect_to_master | default(false) | bool and server | default('')

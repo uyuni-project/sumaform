@@ -31,6 +31,18 @@ module "host" {
   var.grains)
 }
 
+locals {
+  # host roles with an Ansible host-role playbook (ansible/playbooks/<role>.yml)
+  ansible_ported_roles = ["minion"]
+}
+
 output "configuration" {
   value = merge( { private_macs = [] }, module.host.configuration)
+
+  precondition {
+    condition = lookup(var.base_configuration, "provisioner", "salt") == "salt" || (
+      length(var.roles) > 0 && alltrue([for r in var.roles : contains(local.ansible_ported_roles, r)])
+    )
+    error_message = "provisioner = \"ansible\" does not support the host role(s) ${join(", ", var.roles)} yet (ported: ${join(", ", local.ansible_ported_roles)}). Use provisioner = \"salt\" for this deployment."
+  }
 }
