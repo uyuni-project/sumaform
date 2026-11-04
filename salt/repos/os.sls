@@ -128,9 +128,10 @@ os_update_repo:
 {% endif %} {# Skip if SCC support or PAYG #}
 
 {% if grains['osfullname'] == 'SLES' and grains['osmajorrelease'] == 16 %}
+{% set sles_product = 'SLE-Product-SLES_SAP' if 'SAP' in grains.get('oscodename', '') else 'SLE-Product-SLES' %}
 os_pool_repo:
   pkgrepo.managed:
-    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/SLE-Product-SLES/16.0/x86_64/product/
+    - baseurl: http://{{ grains.get("mirror") | default("dist.nue.suse.com/ibs", true) }}/SUSE/Products/{{ sles_product }}/{{ grains['osrelease'] }}/x86_64/product/
     - refresh: True
 {% endif %}
 

@@ -3,7 +3,7 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
-  combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o"]
+  combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o", "sles161o", "slesforsap160o", "slesforsap161o"]
   // architecture of the hypervisor (x86_64, aarch64, ppc64le...)
   // It sizes resources with "count", so it must be known at plan time: do not read it from a data source
   arch               = lookup(var.provider_settings, "arch", length(regexall("ppc", var.image)) > 0 ? "ppc64le" : "x86_64")
