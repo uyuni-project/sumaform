@@ -43,3 +43,9 @@ def test_failure(name, needle):
 def test_markdown_lists_rows():
     md = validate.markdown(T / "good.yml")
     assert "modules/m:a" in md and "grain-x" in md and "minion.yml" in md
+
+
+def test_pending_signoff_is_not_an_error_but_is_reported():
+    assert errs("dropped_pending") == []
+    assert validate.pending(T / "dropped_pending.yml") == ["y-state"]
+    assert validate.pending(T / "good.yml") == []

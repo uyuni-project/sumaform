@@ -73,6 +73,13 @@ def validate(ledger, root=".", tf_dirs=("modules", "backend_modules"), salt_dir=
     return errs
 
 
+def pending(ledger):
+    """Ids of dropped rows whose signoff is the literal PENDING (not an error)."""
+    led = yaml.safe_load(pathlib.Path(ledger).read_text()) or {}
+    return [r.get("id") for k in ("variables", "behaviours") for r in led.get(k) or []
+            if r.get("signoff") == "PENDING"]
+
+
 def markdown(ledger):
     led = yaml.safe_load(pathlib.Path(ledger).read_text()) or {}
     cell = lambda v: "" if v is None else str(v).replace("|", "\\|")
@@ -98,4 +105,5 @@ if __name__ == "__main__":
         pathlib.Path(a.md).write_text(markdown(a.ledger))
     e = validate(a.ledger, a.root)
     print("\n".join(e) or "ok")
+    print(f"pending sign-off: {len(pending(a.ledger))}")
     sys.exit(1 if e else 0)

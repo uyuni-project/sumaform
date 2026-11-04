@@ -18,7 +18,7 @@ repins: []                 # free-form for now (ported / skipped / n/a row ids)
 - Variable id: `<dir of variables.tf relative to repo root>:<name>`.
 - `target` (closed set): role, playbook, var, tf-only, backend, dropped, deferred, n/a-upstream-removed.
   - `role` / `playbook`: `ref` must appear in `host_roles` (roles list / playbook).
-  - `dropped`: `reason` and `signoff` required. `deferred`: `reason` required.
+  - `dropped`: `reason` and `signoff` required; `signoff: PENDING` is reported as pending, not an error. `deferred`: `reason` required.
 - `since_pin`: required on every row (pin at which the row was added); lets deltas be computed.
 - `paths` (behaviours): salt files, or a directory with trailing `/` citing everything below it. Every file under `salt/` must be cited.
 - `verified: {level, evidence, pin}`: optional, accepted and not enforced yet (#128).
