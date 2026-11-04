@@ -1,0 +1,12 @@
+---
+# Covers salt/default/testsuite.sls (minion and sshminion): dummy packages the testsuite installs.
+# Needs the test repository from the repos role (catalog).
+- name: Install the testsuite dummy packages
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: >-
+      {{ ['andromeda-dummy', 'milkyway-dummy', 'virgo-dummy']
+         + (['iptables'] if ansible_facts.os_family == 'Suse' else []) }}
+  when: testsuite | default(false) | bool

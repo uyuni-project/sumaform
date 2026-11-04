@@ -1,0 +1,18 @@
+---
+# Host role -> Ansible roles it adds on top of the common head (transactional, base, repos; see
+# playbooks/site.yml), per phase. A role listed under `prepare` has tasks/prepare.yml, under `configure`
+# tasks/configure.yml. A host with several host roles gets the concatenation in `roles` order, each
+# Ansible role once, so shared roles (ssh_keypair, testsuite_pkgs) never run twice.
+host_role_chains:
+  minion:
+    prepare: [minion, testsuite_pkgs]
+    configure: [sshd_challenge_response, minion]
+  sshminion:
+    prepare: [testsuite_pkgs]
+    configure: [sshd_challenge_response]
+  controller:
+    prepare: [controller_packages]
+    configure: [ssh_keypair, controller_ruby, controller_playwright, controller_testsuite, controller_https, controller_system]
+  build_host:
+    prepare: []
+    configure: [ssh_keypair, ca_cert, sshd_root_login]

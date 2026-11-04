@@ -1074,8 +1074,12 @@ behaviours:
   - {id: salt-repos, paths: [salt/repos/additional.sls, salt/repos/build_host.sls, salt/repos/client_tools/, salt/repos/default_settings.sls, salt/repos/disable_local.sls, salt/repos/init.sls, salt/repos/jenkins.sls, salt/repos/minion.sls, salt/repos/os.sls, salt/repos/proxy_containerized/, salt/repos/proxy_kubernetes.sls, salt/repos/ruby.sls, salt/repos/server_containerized/, salt/repos/server_kubernetes.sls, salt/repos/testsuite.sls, salt/repos/tools.sls, salt/repos/vendor.sls, salt/repos/virthost.sls], target: role, ref: repos, since_pin: d0c6e082}
   - {id: salt-scc, paths: [salt/scc/build_host.sls, salt/scc/clean.sls, salt/scc/init.sls, salt/scc/minion.sls], target: role, ref: repos, since_pin: d0c6e082}
   - {id: salt-minion, paths: [salt/minion/certs/, salt/minion/init.sls, salt/minion/reflector.sls, salt/minion/testsuite.sls], target: role, ref: minion, since_pin: d0c6e082}
-  - {id: salt-build-host, paths: [salt/build_host/certs/, salt/build_host/init.sls], target: role, ref: build_host, since_pin: d0c6e082}
-  - {id: salt-controller, paths: [salt/controller/apache_https.sls, salt/controller/bashrc, salt/controller/https_server.py, salt/controller/https_testsuite.service, salt/controller/init.sls, salt/controller/limits.conf, salt/controller/run-testsuite, salt/controller/sysctl.conf, salt/controller/virtualhostmanager.create.json], target: role, ref: controller, since_pin: d0c6e082}
+  - {id: salt-build-host-ca, paths: [salt/build_host/certs/], target: role, ref: ca_cert, since_pin: d0c6e082}
+  - {id: salt-build-host, paths: [salt/build_host/init.sls], target: role, ref: sshd_root_login, since_pin: d0c6e082}
+  - {id: salt-controller, paths: [salt/controller/init.sls, salt/controller/bashrc, salt/controller/run-testsuite], target: role, ref: controller_testsuite, since_pin: d0c6e082}
+  - {id: salt-controller-https, paths: [salt/controller/apache_https.sls, salt/controller/https_server.py, salt/controller/https_testsuite.service], target: role, ref: controller_https, since_pin: d0c6e082}
+  - {id: salt-controller-system, paths: [salt/controller/limits.conf, salt/controller/sysctl.conf], target: role, ref: controller_system, since_pin: d0c6e082}
+  - {id: salt-controller-virtualhostmanager, paths: [salt/controller/virtualhostmanager.create.json], target: dropped, reason: 'sample payload no state, script or module reads', signoff: PENDING, since_pin: d0c6e082}
   - {id: salt-containerized-common, paths: [salt/server_containerized/install_common.sls, salt/server_containerized/install_mgradm.sls, salt/server_containerized/install_podman.sls, salt/server_containerized/mgradm.yaml], target: role, ref: containerized_common, since_pin: d0c6e082}
   - {id: salt-server-containerized, paths: [salt/server_containerized/additional_disks.sls, salt/server_containerized/check_peripheral_registered.py, salt/server_containerized/download_ubuntu_repo.sh, salt/server_containerized/hub_peripheral.sls, salt/server_containerized/hub_peripheral_certs.sls, salt/server_containerized/init.sls, salt/server_containerized/initial_content.sls, salt/server_containerized/large_deployment.sls, salt/server_containerized/large_deployment_tune_tomcat.xslt, salt/server_containerized/postgres.sls, salt/server_containerized/register_peripheral.py, salt/server_containerized/rhn.sls, salt/server_containerized/salt-events.service, salt/server_containerized/testsuite.sls, salt/server_containerized/wait_for_mgr_sync.sh, salt/server_containerized/wait_for_reposync.py], target: role, ref: server_containerized, since_pin: d0c6e082}
   - {id: salt-proxy-containerized, paths: [salt/proxy_containerized/config, salt/proxy_containerized/init.sls], target: role, ref: proxy_containerized, since_pin: d0c6e082}
@@ -1091,11 +1095,14 @@ behaviours:
   - {id: salt-registry, paths: [salt/registry/init.sls], target: role, ref: registry, since_pin: d0c6e082}
   - {id: salt-salt-testenv, paths: [salt/salt_testenv/init.sls, salt/salt_testenv/lib.sls, salt/salt_testenv/postinstallation.sls, salt/salt_testenv/salt_bundle_package.sls, salt/salt_testenv/salt_classic_package.sls], target: role, ref: salt_testenv, since_pin: d0c6e082}
 host_roles:
+  # #125: a `client` host role does not exist at the pin (no module, no top.sls entry, no salt/client);
+  # clients are `minion` hosts. Chains are composed once per host by site.yml from ansible/host_roles.yml.
+  # Shared single-concern roles: packages (install, #123 branch), ssh_keypair, testsuite_pkgs, sshd_*.
   - {id: site, playbook: site.yml, roles: []}
-  - {id: minion, playbook: minion.yml, roles: [transactional, base, repos, minion]}
-  - {id: sshminion, playbook: sshminion.yml, roles: [transactional, base, repos]}
-  - {id: controller, playbook: controller.yml, roles: [transactional, base, repos, controller]}
-  - {id: build_host, playbook: build_host.yml, roles: [transactional, base, repos, build_host]}
+  - {id: minion, playbook: minion.yml, roles: [transactional, base, repos, minion, testsuite_pkgs, sshd_challenge_response]}
+  - {id: sshminion, playbook: sshminion.yml, roles: [transactional, base, repos, testsuite_pkgs, sshd_challenge_response]}
+  - {id: controller, playbook: controller.yml, roles: [transactional, base, repos, controller_packages, ssh_keypair, controller_ruby, controller_playwright, controller_testsuite, controller_https, controller_system]}
+  - {id: build_host, playbook: build_host.yml, roles: [transactional, base, repos, ssh_keypair, ca_cert, sshd_root_login]}
   - {id: server_containerized, playbook: server_containerized.yml, roles: [transactional, base, repos, containerized_common, server_containerized]}
   - {id: proxy_containerized, playbook: proxy_containerized.yml, roles: [transactional, base, repos, containerized_common, proxy_containerized]}
   - {id: server_kubernetes, playbook: server_kubernetes.yml, roles: [transactional, base, repos, kubernetes_common, server_kubernetes]}

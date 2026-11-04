@@ -1,15 +1,8 @@
 ---
 # Phase prepare: install the Salt minion (the package under test). Needs the reboot step before it is usable.
-- name: Install the Salt minion in a snapshot (transactional host)
+- name: Install the Salt minion
   ansible.builtin.include_role:
-    name: transactional
+    name: packages
     tasks_from: install
   vars:
-    tu_packages: ["{{ _salt_pkg }}"]
-  when: is_transactional | bool
-
-- name: Install the Salt minion
-  ansible.builtin.package:
-    name: "{{ _salt_pkg }}"
-    state: present
-  when: not (is_transactional | bool)
+    install_packages: ["{{ _salt_pkg }}"]

@@ -1,0 +1,24 @@
+---
+# Covers salt/default/sshd.sls (minion and sshminion). Newer distributions read drop-ins instead of the main file.
+- name: Pick the sshd config file
+  ansible.builtin.set_fact:
+    _sshd_config: >-
+      {{ '/etc/ssh/sshd_config.d/root.conf'
+         if (ansible_facts.distribution == 'openSUSE Tumbleweed'
+             or (ansible_facts.distribution in ['SLES', 'openSUSE Leap'] and ansible_facts.distribution_version in ['16.0', '16.1'])
+             or (ansible_facts.distribution == 'SL-Micro' and ansible_facts.distribution_version in ['6.0', '6.1', '6.2']))
+         else '/etc/ssh/sshd_config' }}
+
+- name: Make sure the sshd config file exists
+  ansible.builtin.file:
+    path: "{{ _sshd_config }}"
+    state: touch
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve
+
+- name: Enable ChallengeResponseAuthentication
+  ansible.builtin.lineinfile:
+    path: "{{ _sshd_config }}"
+    regexp: "^ChallengeResponseAuthentication.*"
+    line: ChallengeResponseAuthentication yes

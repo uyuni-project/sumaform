@@ -16,8 +16,5 @@ printf '%s' "$HOST_JSON" > "$work/hosts.json"
 python3 "$here/inventory.py" "$work/hosts.json" "$work/inv"
 
 name=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))[0]["name"])' "$work/hosts.json")
-roles=$(python3 -c 'import json,sys; print(*json.load(open(sys.argv[1]))[0]["roles"])' "$work/hosts.json")
-# ponytail: one playbook per host role, run in sequence; a combined playbook is needed once multi-role hosts are ported
-for role in $roles; do
-    ansible-playbook -i "$work/inv/hosts.yml" --limit "$name" "$here/playbooks/$role.yml"
-done
+# one combined run: the host roles of the host are composed by site.yml (one reboot per phase boundary)
+ansible-playbook -i "$work/inv/hosts.yml" --limit "$name" "$here/playbooks/site.yml"

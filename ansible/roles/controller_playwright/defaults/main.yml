@@ -1,0 +1,3 @@
+---
+# Must match playwright-ruby-client (1.60.0).
+playwright_version: "1.60.0"

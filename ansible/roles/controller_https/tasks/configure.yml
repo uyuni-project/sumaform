@@ -1,0 +1,37 @@
+---
+# Covers salt/controller/apache_https.sls: a Python HTTPS server on 443 serving the testsuite directory.
+- name: Stop Apache (Python takes port 443)
+  ansible.builtin.systemd:
+    name: apache2
+    state: stopped
+    enabled: false
+
+# apache2-mod_nss was dropped in Leap 16: the cert is made with openssl and served by the script.
+- name: Self-signed certificate
+  ansible.builtin.shell:
+    cmd: |
+      mkdir -p /etc/apache2/ssl.key /etc/apache2/ssl.crt
+      openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout /etc/apache2/ssl.key/selfsigned.key \
+        -out /etc/apache2/ssl.crt/selfsigned.crt \
+        -subj '/CN={{ ansible_facts.fqdn | default(ansible_facts.default_ipv4.address, true) }}/O=Controller/OU=Testsuite'
+    creates: /etc/apache2/ssl.crt/selfsigned.crt
+
+- name: Install the HTTPS server script
+  ansible.builtin.copy:
+    src: https_server.py
+    dest: /usr/local/lib/https_server.py
+    mode: "0755"
+
+- name: Install the service unit
+  ansible.builtin.copy:
+    src: https_testsuite.service
+    dest: /etc/systemd/system/https_testsuite.service
+    mode: "0644"
+
+- name: Run the HTTPS service
+  ansible.builtin.systemd:
+    name: https_testsuite
+    state: started
+    enabled: true
+    daemon_reload: true

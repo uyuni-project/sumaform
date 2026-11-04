@@ -1,0 +1,16 @@
+---
+# Shared package install (include_role tasks_from: install, var install_packages).
+# #123 convention: a snapshot on transactional hosts (active after the next reboot step), the package manager elsewhere.
+- name: Install packages in a snapshot (transactional host)
+  ansible.builtin.include_role:
+    name: transactional
+    tasks_from: install
+  vars:
+    tu_packages: "{{ install_packages }}"
+  when: is_transactional | bool and install_packages | length > 0
+
+- name: Install packages
+  ansible.builtin.package:
+    name: "{{ install_packages }}"
+    state: present
+  when: not (is_transactional | bool) and install_packages | length > 0

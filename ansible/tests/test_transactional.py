@@ -29,7 +29,7 @@ def is_reboot(t):
 
 
 def test_every_phase_boundary_reboots():
-    tasks = load("playbooks/minion.yml")[0]["tasks"]
+    tasks = load("playbooks/site.yml")[0]["tasks"]
     phases = [i for i, t in enumerate(tasks) if "block" in t]
     assert len(phases) >= 2, "prepare and configure phases expected"
     for i in phases:
