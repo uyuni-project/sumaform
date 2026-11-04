@@ -1,0 +1,66 @@
+db:
+  password: {{ server_db_password }}
+ssl:
+  password: {{ server_ssl_password }}
+{% if cc_username %}
+scc:
+  user: {{ cc_username }}
+  password: {{ cc_password }}
+{% endif %}
+email: {{ traceback_email | default('galaxy-noise@suse.de', true) }}
+emailFrom: {{ from_email | default('galaxy-noise@suse.de', true) }}
+{% if container_registry %}
+registry:
+  host: {{ container_registry }}
+{% endif %}
+{% if container_image %}
+image: {{ container_image }}
+{% endif %}
+{% if container_tag %}
+tag: {{ container_tag }}
+{% endif %}
+{% if db_container_image or db_container_tag %}
+pgsql:
+{% if db_container_registry %}
+  registry: {{ db_container_registry }}
+{% endif %}
+{% if db_container_image %}
+  image: {{ db_container_image }}
+{% endif %}
+{% if db_container_tag %}
+  tag: {{ db_container_tag }}
+{% endif %}
+{% endif %}
+{# optional containers: replicas (or enable), image, tag #}
+{% for on, key, extra, image, tag in [
+  (deploy_saline, 'saline', 'replicas: 1', saline_container_image, saline_container_tag),
+  (deploy_coco_attestation, 'coco', 'replicas: 1', coco_container_image, coco_container_tag),
+  (deploy_hub_api, 'hubxmlrpc', 'replicas: 1', hub_api_container_image, hub_api_container_tag),
+  (deploy_tftp, 'tftpd', 'enable: true', tftpd_container_image, tftpd_container_tag)] %}
+{% if on %}
+{{ key }}:
+  {{ extra }}
+{% if image %}
+  image: {{ image }}
+{% endif %}
+{% if tag %}
+  tag: {{ tag }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% if _mirror_host %}
+mirror: /srv/mirror
+{% endif %}
+{% if java_debugging %}
+debug:
+  java: true
+{% endif %}
+organization: SUSE Test
+admin:
+  password: {{ _srv_pass }}
+  login: {{ _srv_user }}
+  firstName: Admin
+  lastName: Admin
+  email: galaxy-noise@suse.de
+tz:
+  Europe/Berlin

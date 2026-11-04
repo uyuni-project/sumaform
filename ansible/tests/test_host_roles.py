@@ -9,7 +9,8 @@ import yaml
 A = pathlib.Path(__file__).parents[1]
 ROOT = A.parent
 COMMON = ["transactional", "base", "repos"]  # fixed head of every chain, see playbooks/site.yml
-PORTED = ["minion", "sshminion", "controller", "build_host"]
+CONTAINERIZED = ["server_containerized", "proxy_containerized"]  # share containerized_common (#126)
+PORTED = ["minion", "sshminion", "controller", "build_host"] + CONTAINERIZED
 SECRET_RE = re.compile(r"password|private_key|kubeconfig_content", re.I)
 
 
@@ -50,7 +51,7 @@ def chain_for(roles):
     env.filters["flatten"] = lambda lists: [x for l in lists for x in l]
     env.filters["unique"] = lambda seq: list(dict.fromkeys(seq))
     out = {}
-    for phase in ("prepare", "configure"):
+    for phase in ("prepare", "configure", "install"):
         expr = site_play()["vars"][f"chain_{phase}"]
         hr = yaml.safe_load(env.from_string(site_play()["vars"]["_host_roles"]).render(roles=roles))
         out[phase] = env.from_string(expr).render(_host_roles=hr, host_role_chains=chains())
@@ -63,14 +64,14 @@ def test_every_host_role_has_playbook_chain_and_ledger_row():
         pb = load(f"playbooks/{r}.yml")
         assert pb[0]["import_playbook"] == "site.yml" and pb[0]["vars"]["only_roles"] == [r]
         c = chains()[r]
-        ordered = list(dict.fromkeys(c["prepare"] + c["configure"]))
+        ordered = list(dict.fromkeys(c["prepare"] + c["configure"] + c["install"]))
         assert ledger[r]["roles"] == COMMON + ordered, r
         assert ledger[r]["playbook"] == f"{r}.yml"
 
 
 def test_chain_roles_have_their_phase_files_and_no_client_host_role():
     for r, c in chains().items():
-        for phase in ("prepare", "configure"):
+        for phase in ("prepare", "configure", "install"):
             for role in c[phase]:
                 assert (A / "roles" / role / "tasks" / f"{phase}.yml").is_file(), (r, role, phase)
     assert "client" not in chains()  # no module, top.sls entry or salt/client at the pin
@@ -86,18 +87,64 @@ def test_ported_list_in_terraform_matches_playbooks():
 
 def test_site_has_phases_and_one_reboot_per_boundary():
     tasks = site_play()["tasks"]
-    kinds = ["reboot" if is_reboot(t) else t["name"].split()[0:2] for t in tasks if "name" in t]
-    assert [k for k in kinds if k == "reboot"] == ["reboot", "reboot"]
+    assert sum(is_reboot(t) for t in tasks) == 3
     idx = [i for i, t in enumerate(tasks) if "block" in t]
-    assert len(idx) == 2
+    assert len(idx) == 3  # prepare, configure, product install
     for i in idx:
         assert is_reboot(tasks[i + 1]), tasks[i]["name"]
-    prepare, configure = (tasks[i]["block"] for i in idx)
+    prepare, configure, install = (tasks[i]["block"] for i in idx)
     names = lambda b: [t["ansible.builtin.include_role"]["name"] for t in b]  # noqa: E731
     assert names(prepare)[:3] == ["base", "transactional", "repos"]
     assert names(configure)[0] == "base"
     # nothing reboots inside a phase block
-    assert not any(is_reboot(t) for t in prepare + configure)
+    assert not any(is_reboot(t) for t in prepare + configure + install)
+    # install is last, with its own reboot step after it, both behind the same condition
+    assert tasks[idx[2]]["when"] == tasks[idx[2] + 1]["when"]
+
+
+def product_install_runs(**host):
+    env = jinja2.Environment()
+    env.filters["bool"] = lambda v: str(v).lower() in ("true", "1", "yes")
+    tasks = site_play()["tasks"]
+    expr = next(t for t in tasks if "block" in t and "install" in t["name"].lower())["when"]
+    return env.from_string("{{ " + expr + " }}").render(**host) == "True"
+
+
+def test_product_install_is_skipped_when_install_uyuni_via_testsuite_is_set():
+    assert product_install_runs()
+    assert product_install_runs(install_uyuni_via_testsuite=False)
+    assert not product_install_runs(install_uyuni_via_testsuite=True)
+    assert not product_install_runs(skip_server_install=True)  # Salt's own switch, same effect
+    assert {r for r, c in chains().items() if c["install"]} == set(CONTAINERIZED)
+
+
+def tasks_of(role):
+    return [t for f in sorted((A / "roles" / role / "tasks").glob("*.yml"))
+            for t in walk(yaml.safe_load(f.read_text()))]
+
+
+def test_containerized_roles_share_common_role_without_duplicated_tasks():
+    common = {t["name"] for t in tasks_of("containerized_common") if "name" in t}
+    assert common
+    server, proxy = ({t["name"] for t in tasks_of(r) if "name" in t} for r in CONTAINERIZED)
+    assert not server & proxy  # no task tree repeated between the thin roles
+    assert not (server | proxy) & common  # nor repeated from the shared role
+    for r in CONTAINERIZED:
+        assert chains()[r]["prepare"][0] == "containerized_common", r
+        text = " ".join(str(t) for t in tasks_of(r))
+        assert "write_config" in text and "authorize_peers" in text, r
+    # non-containerized server and proxy are not ported: plan-time failure keeps working
+    assert not (A / "playbooks" / "server.yml").exists() and not (A / "playbooks" / "proxy.yml").exists()
+
+
+def test_terraform_ordering_server_proxy_client_is_untouched():
+    tf = (ROOT / "modules/cucumber_testsuite/main.tf").read_text()
+    assert "depends_on = [module.server_containerized]" in tf
+    assert "ansible" not in tf  # no Ansible edits in the orchestration module
+
+
+def test_libvirt_handoff_passes_peer_public_keys():
+    assert "peer_public_keys" in (ROOT / "backend_modules/libvirt/host/main.tf").read_text()
 
 
 def test_multi_role_chain_order_and_once():

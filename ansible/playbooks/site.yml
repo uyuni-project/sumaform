@@ -1,7 +1,9 @@
 ---
 # One combined run for one host (run_host.sh limits it to the host). The host's host roles are
-# composed once: prepare for all roles, ONE reboot step, configure for all roles, reboot step
-# (product install would sit between). The reboot step is a no-op unless a snapshot is pending.
+# composed once: prepare for all roles, ONE reboot step, configure for all roles, reboot step,
+# optional product install, reboot step. Product install is skipped when the testsuite installs the
+# product (install_uyuni_via_testsuite) or Salt's skip_server_install is set. The reboot step is a
+# no-op unless a snapshot is pending.
 # Per-host-role playbooks (minion.yml, ...) import this with only_roles set.
 - name: Host roles of the host
   hosts: all
@@ -11,6 +13,7 @@
     _host_roles: "{{ only_roles | default(roles) }}"
     chain_prepare: "{{ _host_roles | map('extract', host_role_chains, 'prepare') | flatten | unique | list }}"
     chain_configure: "{{ _host_roles | map('extract', host_role_chains, 'configure') | flatten | unique | list }}"
+    chain_install: "{{ _host_roles | map('extract', host_role_chains, 'install') | flatten | unique | list }}"
   tasks:
     - name: Phase prepare
       block:
@@ -31,3 +34,13 @@
 
     - name: Reboot step (end of configure)
       ansible.builtin.include_role: {name: transactional, tasks_from: reboot}
+
+    - name: Phase product install (optional)
+      when: &install_when "not (install_uyuni_via_testsuite | default(false) | bool or skip_server_install | default(false) | bool)"
+      block:
+        - ansible.builtin.include_role: {name: "{{ item }}", tasks_from: install}
+          loop: "{{ chain_install }}"
+
+    - name: Reboot step (end of product install)
+      ansible.builtin.include_role: {name: transactional, tasks_from: reboot}
+      when: *install_when

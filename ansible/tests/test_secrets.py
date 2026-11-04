@@ -47,7 +47,8 @@ def test_secret_tasks_are_no_log():
     secret = re.compile(r"password|secret|token|private_key|passphrase", re.I)
     bad = []
     for f in ROOT.glob("roles/*/*/*.yml"):
-        for t in yaml.safe_load(f.read_text()) or []:
+        data = yaml.safe_load(f.read_text())
+        for t in data if isinstance(data, list) else []:  # task files; defaults/vars are dicts
             if secret.search(yaml.safe_dump(t)) and t.get("no_log") is not True:
                 bad.append(f"{f.name}: {t.get('name')}")
     assert not bad

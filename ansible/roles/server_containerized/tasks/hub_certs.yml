@@ -1,0 +1,32 @@
+---
+# salt/server_containerized/hub_peripheral_certs.sls, after mgradm install. NOTE (as in Salt): test-only, the hub
+# publishes each peripheral's server key under /pub on its trusted, ephemeral test network.
+- name: Checksum of the hub CA certificate
+  ansible.builtin.command: >-
+    mgrctl exec "test -f /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512 ||
+    (sha512sum /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT > /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512 &&
+    chmod 644 /srv/www/htdocs/pub/RHN-ORG-TRUSTED-SSL-CERT.sha512)"
+  changed_when: false
+
+- name: Generate a server certificate per peripheral
+  ansible.builtin.shell:
+    cmd: |
+      mgrctl exec "find /root/ssl-build -maxdepth 2 -name 'server.crt' -path '*{{ item.split('.')[0] }}*' | grep -q ." && exit 0
+      mgrctl exec "rhn-ssl-tool --gen-server --dir=/root/ssl-build --set-hostname={{ item }} --set-cname=reportdb --set-cname=db --password={{ server_ssl_password }}"
+      echo GENERATED
+  register: _hub_gen
+  changed_when: "'GENERATED' in _hub_gen.stdout"
+  loop: "{{ hub_peripheral_fqdns }}"
+  no_log: true
+
+- name: Publish each peripheral certificate and key under /pub
+  ansible.builtin.shell:
+    cmd: |
+      CERT_DIR=$(mgrctl exec "find /root/ssl-build -maxdepth 1 -type d -name '{{ item.item.split('.')[0] }}*' | head -1")
+      for f in crt key; do
+        mgrctl exec "cp ${CERT_DIR}/server.$f /srv/www/htdocs/pub/peripheral-{{ item.item }}-server.$f && chmod 644 /srv/www/htdocs/pub/peripheral-{{ item.item }}-server.$f"
+        mgrctl exec "sha512sum /srv/www/htdocs/pub/peripheral-{{ item.item }}-server.$f > /srv/www/htdocs/pub/peripheral-{{ item.item }}-server.$f.sha512"
+      done
+  loop: "{{ _hub_gen.results }}"
+  loop_control: {label: "{{ item.item }}"}
+  when: item.changed
