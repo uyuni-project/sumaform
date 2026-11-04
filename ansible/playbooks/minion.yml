@@ -1,0 +1,8 @@
+---
+# Host role "minion". Phases: prepare, (reboot if a snapshot is pending: ticket #123), configure.
+- name: Host role minion
+  hosts: minion
+  gather_facts: false
+  roles:
+    - base
+    - minion
