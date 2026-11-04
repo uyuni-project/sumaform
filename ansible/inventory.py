@@ -4,7 +4,7 @@
 Usage: inventory.py <hosts.json> <outdir>
 
 hosts.json is a list of {name, address, user, port, bastion|null, roles, vars[, private_key_file]}
-(the `ansible_hosts` entries of the host module `configuration` output).
+(the entries of the sensitive `ansible_hosts` output of the host module).
 Writes <outdir>/hosts.yml (no secrets) and <outdir>/host_vars/<name>.yml (0600).
 Env SUMAFORM_VM_PASSWORD, if non-empty, becomes ansible_password in host_vars
 (key auth is the default; this is the documented fallback; see ticket #122).
