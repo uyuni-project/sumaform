@@ -1,0 +1,6 @@
+---
+# Which snapshot is booted, and which will boot next. Both read-only; both give ".../snapshots/N/snapshot".
+tu_running_cmd: findmnt -no SOURCE /
+tu_default_cmd: btrfs subvolume get-default /
+tu_snapshot_regex: 'snapshots/([0-9]+)/snapshot'
+tu_reboot_timeout: 900
