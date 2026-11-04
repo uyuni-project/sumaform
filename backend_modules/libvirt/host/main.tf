@@ -3,6 +3,9 @@ locals {
   resource_name_prefix = "${var.base_configuration["name_prefix"]}${var.name}"
   manufacturer = lookup(var.provider_settings, "manufacturer", "Intel")
   product      = lookup(var.provider_settings, "product", "Genuine")
+  pool         = lookup(var.provider_settings, "pool", var.base_configuration["pool"])
+  bridge       = lookup(var.provider_settings, "bridge", var.base_configuration["bridge"])
+  network_name = local.bridge == null ? lookup(var.provider_settings, "network_name", var.base_configuration["network_name"]) : null
   combustion_images  = ["slmicro60o", "slmicro61o", "slmicro62o", "sles160o"]
   // architecture of the hypervisor (x86_64, aarch64, ppc64le...)
   // It sizes resources with "count", so it must be known at plan time: do not read it from a data source
@@ -110,7 +113,7 @@ locals {
 resource "libvirt_volume" "main_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-main-disk"
   base_volume_name = "${var.base_configuration["use_shared_resources"] ? "" : var.base_configuration["name_prefix"]}${var.image}"
-  pool             = var.base_configuration["pool"]
+  pool             = local.pool
   size             = var.main_disk_size * 1024 * 1024 * 1024
   count            = var.quantity
 }
@@ -119,7 +122,7 @@ resource "libvirt_volume" "data_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-data-disk"
   // needs to be converted to bytes
   size  = var.additional_disk_size * 1024 * 1024 * 1024
-  pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
+  pool  = lookup(var.volume_provider_settings, "pool", local.pool)
   count = var.additional_disk_size > 0 ? var.quantity : 0
 }
 
@@ -127,7 +130,7 @@ resource "libvirt_volume" "database_disk" {
   name  = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-database-disk"
   // needs to be converted to bytes
   size  = var.second_additional_disk_size * 1024 * 1024 * 1024
-  pool  = lookup(var.volume_provider_settings, "pool", var.base_configuration["pool"])
+  pool  = lookup(var.volume_provider_settings, "pool", local.pool)
   count = var.second_additional_disk_size > 0 ? var.quantity : 0
 }
 
@@ -135,13 +138,13 @@ resource "libvirt_cloudinit_disk" "cloudinit_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-cloudinit-disk"
   user_data        = local.user_data
   network_config   = local.network_config
-  pool             = var.base_configuration["pool"]
+  pool             = local.pool
   count            = local.cloud_init ? var.quantity : 0
 }
 
 resource "libvirt_combustion" "combustion_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-combustion-disk"
-  pool             = var.base_configuration["pool"]
+  pool             = local.pool
   content          = local.combustion_file
   count            = local.combustion ? var.quantity : 0
 }
@@ -183,7 +186,7 @@ resource "libvirt_volume" "combustion_iso" {
 
 resource "libvirt_ignition" "ignition_disk" {
   name             = "${local.resource_name_prefix}${var.quantity > 1 ? "-${count.index + 1}" : ""}-ignition-disk"
-  pool             = var.base_configuration["pool"]
+  pool             = local.pool
   content          = local.ignition_file
   count            = local.ignition ? var.quantity : 0
 }
@@ -225,9 +228,9 @@ resource "libvirt_domain" "domain" {
       [
         {
           "wait_for_lease" = true
-          "network_name"   = var.base_configuration["network_name"]
+          "network_name"   = local.network_name
           "network_id"     = null
-          "bridge"         = var.base_configuration["bridge"]
+          "bridge"         = local.bridge
           "mac"            = local.provider_settings["mac"]
         },
         {
