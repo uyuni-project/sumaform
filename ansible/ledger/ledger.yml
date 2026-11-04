@@ -16,7 +16,7 @@ variables:
   - {id: 'backend_modules/aws/base:images', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
   - {id: 'backend_modules/aws/base:use_eip_bastion', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
   - {id: 'backend_modules/aws/base:is_server_paygo_instance', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
-  - {id: 'backend_modules/aws/base:provisioner', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:provisioner', target: backend, ref: backend_modules/aws/base, since_pin: post-pin}
   - {id: 'backend_modules/aws/base:product_version', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
   - {id: 'backend_modules/aws/host:base_configuration', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
   - {id: 'backend_modules/aws/host:name', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
@@ -73,7 +73,7 @@ variables:
   - {id: 'backend_modules/azure/base:images', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
   - {id: 'backend_modules/azure/base:use_eip_bastion', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
   - {id: 'backend_modules/azure/base:is_server_paygo_instance', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
-  - {id: 'backend_modules/azure/base:provisioner', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:provisioner', target: backend, ref: backend_modules/azure/base, since_pin: post-pin}
   - {id: 'backend_modules/azure/base:product_version', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
   - {id: 'backend_modules/azure/host:base_configuration', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
   - {id: 'backend_modules/azure/host:name', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
@@ -123,7 +123,7 @@ variables:
   - {id: 'backend_modules/feilong/base:images', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
   - {id: 'backend_modules/feilong/base:use_eip_bastion', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
   - {id: 'backend_modules/feilong/base:is_server_paygo_instance', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
-  - {id: 'backend_modules/feilong/base:provisioner', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:provisioner', target: backend, ref: backend_modules/feilong/base, since_pin: post-pin}
   - {id: 'backend_modules/feilong/base:product_version', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
   - {id: 'backend_modules/feilong/host:base_configuration', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
   - {id: 'backend_modules/feilong/host:name', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
@@ -168,7 +168,7 @@ variables:
   - {id: 'backend_modules/libvirt/base:images', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
   - {id: 'backend_modules/libvirt/base:use_eip_bastion', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
   - {id: 'backend_modules/libvirt/base:is_server_paygo_instance', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
-  - {id: 'backend_modules/libvirt/base:provisioner', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:provisioner', target: backend, ref: backend_modules/libvirt/base, since_pin: post-pin}
   - {id: 'backend_modules/libvirt/base:product_version', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
   - {id: 'backend_modules/libvirt/host:base_configuration', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
   - {id: 'backend_modules/libvirt/host:name', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
@@ -213,7 +213,7 @@ variables:
   - {id: 'backend_modules/null/base:images', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
   - {id: 'backend_modules/null/base:use_eip_bastion', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
   - {id: 'backend_modules/null/base:is_server_paygo_instance', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
-  - {id: 'backend_modules/null/base:provisioner', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:provisioner', target: backend, ref: backend_modules/null/base, since_pin: post-pin}
   - {id: 'backend_modules/null/base:product_version', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
   - {id: 'backend_modules/null/host:base_configuration', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
   - {id: 'backend_modules/null/host:name', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
@@ -258,7 +258,7 @@ variables:
   - {id: 'backend_modules/ssh/base:images', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
   - {id: 'backend_modules/ssh/base:use_eip_bastion', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
   - {id: 'backend_modules/ssh/base:is_server_paygo_instance', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
-  - {id: 'backend_modules/ssh/base:provisioner', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:provisioner', target: backend, ref: backend_modules/ssh/base, since_pin: post-pin}
   - {id: 'backend_modules/ssh/base:product_version', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
   - {id: 'backend_modules/ssh/host:base_configuration', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
   - {id: 'backend_modules/ssh/host:name', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
@@ -303,7 +303,7 @@ variables:
   - {id: 'modules/base:images', target: tf-only, ref: modules/base, since_pin: d0c6e082}
   - {id: 'modules/base:use_eip_bastion', target: tf-only, ref: modules/base, since_pin: d0c6e082}
   - {id: 'modules/base:is_server_paygo_instance', target: tf-only, ref: modules/base, since_pin: d0c6e082}
-  - {id: 'modules/base:provisioner', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:provisioner', target: tf-only, ref: modules/base, since_pin: post-pin}
   - {id: 'modules/base:product_version', target: var, ref: product_version, since_pin: d0c6e082}
   - {id: 'modules/build_host:base_configuration', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}
   - {id: 'modules/build_host:name', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}

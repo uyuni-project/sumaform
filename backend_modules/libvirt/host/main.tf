@@ -60,13 +60,14 @@ locals {
     add_net = var.base_configuration["additional_network"] != null ? slice(split(".", var.base_configuration["additional_network"]), 0, 3) : []
 
   // first-boot and handoff are gated on this; "salt" renders exactly what it always did
-  ansible       = lookup(var.base_configuration, "provisioner", "salt") == "ansible"
+  is_ansible      = lookup(var.base_configuration, "provisioner", "salt") == "ansible"
+  needs_data_disk = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins")
   ansible_authorized_keys = concat(
     var.base_configuration["ssh_key_path"] != null ? [trimspace(file(var.base_configuration["ssh_key_path"]))] : [],
     var.ssh_key_path != null ? [trimspace(file(var.ssh_key_path))] : [],
   )
 
-  user_data = local.ansible ? templatefile("${path.module}/user_data_ansible.yaml", {
+  user_data = local.is_ansible ? templatefile("${path.module}/user_data_ansible.yaml", {
     authorized_keys = jsonencode(local.ansible_authorized_keys)
   }) : templatefile("${path.module}/user_data.yaml", {
     image               = var.image
@@ -365,7 +366,7 @@ resource "terraform_data" "provisioning" {
     EOF
   }
 
-  count = local.ansible ? 0 : (var.provision ? var.quantity : 0)
+  count = local.is_ansible ? 0 : (var.provision ? var.quantity : 0)
 
   connection {
     host     = local.overwrite_fqdn != "" ? local.overwrite_fqdn : (
@@ -418,8 +419,8 @@ resource "terraform_data" "provisioning" {
         connect_to_additional_network = var.connect_to_additional_network
         reset_ids                     = true
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
-        second_data_disk_device       = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
+        data_disk_device              = local.needs_data_disk ? "vdb" : null
+        second_data_disk_device       = local.needs_data_disk ? "vdc" : null
         provider                      = "libvirt"
       },
       var.grains))
@@ -447,8 +448,9 @@ resource "terraform_data" "provisioning" {
 
 // provisioner = "ansible": one run per host, from the machine running tofu (the Jenkins worker)
 locals {
+  ansible_dir          = "${path.module}/../../../ansible"
   ansible_bastion_host = lookup(var.provider_settings, "bastion_host", var.base_configuration["bastion_host"])
-  ansible_hosts = !local.ansible ? [] : [for i in range(var.quantity) : {
+  ansible_hosts = !local.is_ansible ? [] : [for i in range(var.quantity) : {
     name = libvirt_domain.domain[i].name
     address = local.overwrite_fqdn != "" ? local.overwrite_fqdn : (
       local.provider_settings["use_dhcp_ip"]
@@ -487,12 +489,12 @@ locals {
         // public keys of build_host and controller that server and proxy authorize (containerized_common).
         // TODO(#126): base_configuration does not carry them yet; the per-deployment keypair generation is a user decision
         peer_public_keys              = try(var.base_configuration["peer_public_keys"], [])
-        gpg_keys                     = var.gpg_keys
+        gpg_keys                      = var.gpg_keys
         connect_to_base_network       = var.connect_to_base_network
         connect_to_additional_network = var.connect_to_additional_network
         ipv6                          = var.ipv6
-        data_disk_device              = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdb" : null
-        second_data_disk_device       = contains(var.roles, "server_containerized") || contains(var.roles, "server_kubernetes") || contains(var.roles, "mirror") || contains(var.roles, "jenkins") ? "vdc" : null
+        data_disk_device              = local.needs_data_disk ? "vdb" : null
+        second_data_disk_device       = local.needs_data_disk ? "vdc" : null
         provider                      = "libvirt"
       },
       var.grains)
@@ -501,7 +503,7 @@ locals {
 
 resource "terraform_data" "ansible" {
   depends_on = [libvirt_domain.domain]
-  count      = local.ansible && var.provision ? var.quantity : 0
+  count      = local.is_ansible && var.provision ? var.quantity : 0
 
   triggers_replace = {
     main_volume_id = libvirt_volume.main_disk[count.index].id
@@ -514,7 +516,9 @@ resource "terraform_data" "ansible" {
       HOST_JSON            = jsonencode([local.ansible_hosts[count.index]])
       SUMAFORM_VM_PASSWORD = var.vm_password
     }
-    command = "bash ${path.root}/ansible/run_host.sh"
+    // the script lives in the sumaform checkout, not next to the deployment (path.root): three levels up from
+    // backend_modules/<backend>/host. It finds ansible.cfg, roles and playbooks relative to itself.
+    command = "bash \"${local.ansible_dir}/run_host.sh\""
   }
 }
 
@@ -526,5 +530,14 @@ output "configuration" {
     macaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].mac if length(value_used.network_interface) > 0]
     private_macs = [for value_used in libvirt_domain.domain : value_used.network_interface[1].mac if length(value_used.network_interface) > 1]
     ipaddrs  = [for value_used in libvirt_domain.domain : value_used.network_interface[0].addresses if length(value_used.network_interface) > 0]
-  }, local.ansible ? { ansible_hosts = local.ansible_hosts } : {})
+  })
+}
+
+// Per-host handoff for a root-level inventory generator. vars carries var.grains, which can hold
+// secrets (SCC credentials, passwords), so it is a separate sensitive output: marking `configuration`
+// sensitive would hide hostnames and addresses from every consumer. Nothing reads this output yet.
+output "ansible_hosts" {
+  depends_on = [terraform_data.ansible]
+  value      = local.ansible_hosts
+  sensitive  = true
 }

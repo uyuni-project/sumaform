@@ -2,6 +2,8 @@
 # Minimal first boot for provisioner = "ansible": sshd, root + key, python3.
 # Everything else (repos, packages, venv-salt-minion) is done by Ansible.
 
+# The root:linux password and ssh_pwauth are kept for parity with user_data.yaml (Salt): the documented
+# vm_password fallback for hosts with no key yet (ssh backend, z/VM guests), see DESIGN.md. Key auth is the default.
 disable_root: false
 ssh_pwauth: true
 chpasswd:

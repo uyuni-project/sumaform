@@ -104,6 +104,8 @@ def validate(ledger, root=".", tf_dirs=("modules", "backend_modules"), salt_dir=
     playbooks = {h.get("playbook") for h in hr}
     roles = {r for h in hr for r in h.get("roles") or []}
     vrows = led.get("variables") or []
+    known_pins = {led.get("pin"), "post-pin"} | {
+        p for r in led.get("repins") or [] if isinstance(r, dict) for p in (r.get("from"), r.get("to"))}
     brows = led.get("behaviours") or []
 
     for kind, rows in (("variable", vrows), ("behaviour", brows)):
@@ -114,8 +116,11 @@ def validate(ledger, root=".", tf_dirs=("modules", "backend_modules"), salt_dir=
                 continue
             if t not in TARGETS:
                 errs.append(f"{kind} {rid}: unknown target {t!r}")
-            if not r.get("since_pin"):
+            sp = r.get("since_pin")
+            if not sp:
                 errs.append(f"{kind} {rid}: missing since_pin")
+            elif sp not in known_pins:
+                errs.append(f"{kind} {rid}: since_pin {sp!r} is not the pin, a repin pin or 'post-pin'")
             if t in ("dropped", "deferred") and not r.get("reason"):
                 errs.append(f"{kind} {rid}: {t} without reason")
             if t == "dropped" and not r.get("signoff"):

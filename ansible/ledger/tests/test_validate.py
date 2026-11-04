@@ -14,6 +14,10 @@ def errs(name):
     return validate.validate(T / f"{name}.yml", root=TREE)
 
 
+def test_post_pin_since_pin_passes():
+    assert errs("post_pin") == []
+
+
 def test_good_passes():
     assert errs("good") == []
 
@@ -34,6 +38,7 @@ def test_deferred_with_reason_passes():
     ("missing_role", "role"),
     ("uncited_salt", "uncited"),
     ("no_since_pin", "since_pin"),
+    ("bad_since_pin", "since_pin"),
 ])
 def test_failure(name, needle):
     e = errs(name)

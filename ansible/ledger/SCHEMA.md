@@ -19,7 +19,7 @@ repins: []                 # free-form for now (ported / skipped / n/a row ids)
 - `target` (closed set): role, playbook, var, tf-only, backend, dropped, deferred, n/a-upstream-removed.
   - `role` / `playbook`: `ref` must appear in `host_roles` (roles list / playbook).
   - `dropped`: `reason` and `signoff` required; `signoff: PENDING` is reported as pending, not an error. `deferred`: `reason` required.
-- `since_pin`: required on every row (pin at which the row was added); lets deltas be computed.
+- `since_pin`: required on every row (pin at which the row was added); lets deltas be computed. Allowed values: the ledger `pin`, a `from`/`to` of a `repins` entry, or the sentinel `post-pin` for rows whose variable or behaviour was added to this fork after the pin (e.g. `provisioner`); a re-pin replaces `post-pin` with the new pin.
 - `paths` (behaviours): salt files, or a directory with trailing `/` citing everything below it. Every file under `salt/` must be cited.
 - `verified: {level, evidence, pin}` (variables, behaviours, host_roles; optional). Levels: 1 static, 2 paired deploy + host-state diff, 3 smoke subset, 4 full acceptance. Checked when present, or on every non-dropped/deferred/n-a row with `--require-verified`. A claim fails if: level not 1-4, below the row minimum, `evidence` names no `runs/<id>.json`, the run's pin differs from `verified.pin`, the run does not list the row, the run result is not `pass`, the run proves less than the claimed level, or the pin is stale.
   - Minimums: variables 2 (the run must list the id in `non_default`), behaviours 2 (1 if `changes_state: false`), host roles 3, `tf-only`/`backend` 1. `dropped` is proven by reason + signoff, `deferred` has no proof; `--deletion-gate` fails on any `deferred` row.

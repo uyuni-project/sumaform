@@ -236,3 +236,17 @@ def test_mirror_and_jenkins_share_the_data_disk_tasks():
         assert "data_disk" in text and "parted" not in text.replace("'parted'", "").replace("parted,", ""), r
     assert any("parted" in str(t) for t in tasks_of("data_disk"))
 
+
+
+def test_site_fails_early_without_keypair_and_points_to_smoke_todo():
+    text = (A / "playbooks" / "site.yml").read_text()
+    first = text.split("tasks:", 1)[1].split("- name: Phase prepare")[0]
+    assert "ssh_private_key" in first and "ssh_public_key" in first and "SMOKE_TODO.md" in first
+    for role in ("controller", "build_host", "proxy_containerized", "server_kubernetes", "proxy_kubernetes"):
+        assert role in text.split("keypair_roles:", 1)[1].split("\n", 1)[0]
+
+
+def test_libvirt_runs_script_relative_to_module_not_deployment():
+    tf = (ROOT / "backend_modules/libvirt/host/main.tf").read_text()
+    assert "${path.root}/ansible" not in tf and "${path.module}/../../../ansible" in tf
+    assert (ROOT / "backend_modules/libvirt/host/../../../ansible/run_host.sh").exists()
