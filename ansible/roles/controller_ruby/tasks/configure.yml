@@ -1,0 +1,11 @@
+---
+# Point the generic names at ruby 3.4. On Leap 16 /usr/bin/{rake,bundle,rdoc,ri} are ELF wrappers and ruby3.4
+# registers no update-alternatives group, hence symlinks to the script variants.
+- name: Link ruby tools to ruby 3.4
+  ansible.builtin.file:
+    src: "/usr/bin/{{ item.value }}"
+    dest: "/usr/bin/{{ item.key }}"
+    state: link
+    force: true
+  loop: "{{ controller_ruby_links | dict2items }}"
+  loop_control: {label: "{{ item.key }}"}

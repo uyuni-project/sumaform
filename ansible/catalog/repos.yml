@@ -159,6 +159,7 @@ os:
       "15.6": &leap15
         has_update: true
         obs_dir: openSUSE_Leap_15.6
+        health_check_dir: "15.6"
         sumaform_tools_dir: openSUSE_Leap_15.6
         ruby_extensions: true
         lock_firewalld_prometheus: true
@@ -170,6 +171,7 @@ os:
         uyuni_pool_channel: "{uyuni_version}"
       "16.0": &leap16
         obs_dir: openSUSE_Leap_16.0
+        health_check_dir: openSUSE_Leap_16.0
         sumaform_tools_dir: openSUSE_Leap_16.0
         mlm_tools: SLE-16
         mlm_devel_host: ibs_download
@@ -179,6 +181,7 @@ os:
       "16.1":
         <<: *leap16
         obs_dir: openSUSE_Leap_16.1
+        health_check_dir: openSUSE_Leap_16.1
         sumaform_tools_dir: openSUSE_Leap_16.1
 
   tumbleweed:
@@ -349,6 +352,7 @@ repos:
     gpgkey: true
     gpgcheck: 1
     applies: {pkg: [zypper], os: [sles, leap], roles_any: [jenkins], requires: [obs_dir]}
+  - {name: health_check_repo, host: obs_download, path: "repositories/systemsmanagement:/Uyuni:/healthcheck:/Stable/{health_check_dir}", gpgkey: true, gpgcheck: 0, applies: {os: [leap], roles_any: [controller], requires: [health_check_dir]}}
   - {name: ruby_devel, host: obs_download_nomirror, path: "repositories/devel:/languages:/ruby/{osrelease}/", autoimport: true, applies: &ruby {os: [leap], roles_any: [controller]}}
   - {name: ruby_devel_extensions, host: obs_download_nomirror, path: "repositories/devel:/languages:/ruby:/extensions/{osrelease}/", autoimport: true, applies: {<<: *ruby, requires: [ruby_extensions]}}
   - {name: shaker_tools_pool_repo, host: ibs, path: "SUSE/Products/SLE-Manager-Tools/15/{arch}/product/", applies: &shaker {os: [sles], roles_any: [salt_testenv], requires: [modular]}}

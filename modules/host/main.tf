@@ -33,11 +33,11 @@ module "host" {
 
 locals {
   # host roles with an Ansible host-role playbook (ansible/playbooks/<role>.yml)
-  ansible_ported_roles = ["minion"]
+  ansible_ported_roles = ["minion", "sshminion", "controller", "build_host"]
 }
 
 output "configuration" {
-  value = merge( { private_macs = [] }, module.host.configuration)
+  value = merge({ private_macs = [] }, module.host.configuration)
 
   precondition {
     condition = lookup(var.base_configuration, "provisioner", "salt") == "salt" || (

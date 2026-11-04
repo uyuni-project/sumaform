@@ -146,8 +146,9 @@
   ansible.builtin.include_tasks: commands.yml
   vars: {repos_phase: post}
 
-- name: Packages that need the repositories
-  ansible.builtin.package:
-    name: "{{ repos_plan_result.packages }}"
-    state: present
-  when: repos_plan_result.packages | length > 0
+- name: Packages that need the repositories (a snapshot on transactional hosts)
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: "{{ repos_plan_result.packages }}"

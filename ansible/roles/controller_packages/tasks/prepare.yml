@@ -1,0 +1,11 @@
+---
+# Needs the controller repositories (ruby, health check) from the repos role.
+- name: Install the controller packages
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: >-
+      {{ controller_base_packages
+         + (['nfs-client'] if web_server_hostname | default('') else [])
+         + (['kubernetes-client'] if install_kubectl_helm | default(false) | bool else []) }}

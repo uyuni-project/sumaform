@@ -1,0 +1,95 @@
+#! /bin/bash
+
+cd /root/spacewalk/testsuite
+
+ABORT_ON_ERROR=1
+if [ "$1" = "-d" -o "$1" = "--dont-fail" ]; then
+  ABORT_ON_ERROR=0
+  shift
+fi
+RESULT=0
+
+stage() {
+  rake "cucumber:$1"
+  if [ $? -ne 0 ]; then
+    [ $ABORT_ON_ERROR -ne 0 ] && exit -1
+    RESULT=1
+  fi
+}
+
+parallel_stage() {
+  rake "parallel:$1"
+  if [ $? -ne 0 ]; then
+    [ $ABORT_ON_ERROR -ne 0 ] && exit -1
+    RESULT=1
+  fi
+}
+
+# normal run
+if [ -z "$1" ]; then
+  stage sanity_check
+  stage core
+  stage reposync
+  stage proxy
+  stage init_clients
+  stage secondary
+  stage secondary_parallelizable
+  stage finishing
+fi
+
+# parallel run
+if [ "$1" = "parallel" ]; then
+  parallel_stage sanity_check
+  stage core
+  stage reposync
+  stage proxy
+  parallel_stage init_clients
+  stage secondary
+  parallel_stage secondary_parallelizable
+  stage finishing
+fi
+
+# essential features
+if [ "$1" = "essential" ]; then
+  stage sanity_check
+  stage core
+  stage reposync
+  stage proxy
+  stage init_clients
+fi
+
+# prepare reference host
+if [ "$1" = "refhost" ]; then
+  stage refhost
+fi
+
+# virtualization tests
+if [ "$1" = "virtualization" ]; then
+  stage virtualization
+fi
+
+# SLE updates tests
+if [ "$1" = "sle-updates" ]; then
+  stage sle-updates
+fi
+
+# QAM
+if [ "$1" = "qam" ]; then
+  stage qam_add_custom_repositories
+  stage qam_add_activation_keys
+  stage qam_init_proxy
+  stage qam_init_clients
+  stage qam_smoke_tests
+  stage qam_finishing
+fi
+
+if [ "$1" = "qam-parallel" ]; then
+  parallel_stage qam_add_custom_repositories
+  parallel_stage qam_add_activation_keys
+  stage qam_init_proxy
+  parallel_stage qam_init_clients
+  parallel_stage qam_smoke_tests
+  stage qam_finishing
+fi
+
+exit $RESULT

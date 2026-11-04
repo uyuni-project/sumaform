@@ -1,0 +1,33 @@
+---
+# One combined run for one host (run_host.sh limits it to the host). The host's host roles are
+# composed once: prepare for all roles, ONE reboot step, configure for all roles, reboot step
+# (product install would sit between). The reboot step is a no-op unless a snapshot is pending.
+# Per-host-role playbooks (minion.yml, ...) import this with only_roles set.
+- name: Host roles of the host
+  hosts: all
+  gather_facts: false
+  vars_files: [../host_roles.yml]
+  vars:
+    _host_roles: "{{ only_roles | default(roles) }}"
+    chain_prepare: "{{ _host_roles | map('extract', host_role_chains, 'prepare') | flatten | unique | list }}"
+    chain_configure: "{{ _host_roles | map('extract', host_role_chains, 'configure') | flatten | unique | list }}"
+  tasks:
+    - name: Phase prepare
+      block:
+        - ansible.builtin.include_role: {name: base, tasks_from: prepare}
+        - ansible.builtin.include_role: {name: transactional, tasks_from: setup}
+        - ansible.builtin.include_role: {name: repos}   # the first boot has no repos
+        - ansible.builtin.include_role: {name: "{{ item }}", tasks_from: prepare}
+          loop: "{{ chain_prepare }}"
+
+    - name: Reboot step (prepare to configure)
+      ansible.builtin.include_role: {name: transactional, tasks_from: reboot}
+
+    - name: Phase configure
+      block:
+        - ansible.builtin.include_role: {name: base, tasks_from: configure}
+        - ansible.builtin.include_role: {name: "{{ item }}", tasks_from: configure}
+          loop: "{{ chain_configure }}"
+
+    - name: Reboot step (end of configure)
+      ansible.builtin.include_role: {name: transactional, tasks_from: reboot}
