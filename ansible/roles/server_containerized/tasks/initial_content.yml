@@ -1,0 +1,82 @@
+---
+# salt/server_containerized/initial_content.sls. Everything runs in the server container through mgrctl.
+# ponytail: spacecmd/mgr-sync steps report changed=false when they cannot tell; add output checks if a clean second apply is needed.
+- name: Set the admin password in case the user already existed with another one
+  ansible.builtin.command:
+    argv: [mgrctl, exec, "echo -e \"{{ _srv_pass }}\\n{{ _srv_pass }}\" | satpasswd -s {{ _srv_user }}"]
+  changed_when: false
+  no_log: true
+  when: create_first_user | bool
+
+- name: mgr-sync credentials
+  ansible.builtin.command:
+    argv: [mgrctl, exec, "echo -e \"mgrsync.user = {{ _srv_user }}\\nmgrsync.password = {{ _srv_pass }}\\n\" > /root/.mgr-sync"]
+  changed_when: false
+  no_log: true
+  when: mgr_sync_autologin | bool
+
+- name: Wait for the SCC data refresh
+  ansible.builtin.script: "wait_for_mgr_sync.sh {{ _srv_user }} {{ _srv_pass }}"
+  changed_when: false
+  no_log: true
+
+- name: Add the channels
+  ansible.builtin.command: "mgrctl exec mgr-sync add channels {{ channels | join(' ') }}"
+  changed_when: false
+  when: channels | default([], true) | length > 0
+
+- name: Wait for the reposync of each channel
+  ansible.builtin.script:
+    cmd: "wait_for_reposync.py {{ _srv_user }} {{ _srv_pass }} {{ _fqdn }} {{ item }}"
+    executable: python3
+  changed_when: false
+  no_log: true
+  loop: "{{ channels | default([], true) }}"
+  when: wait_for_reposync | bool
+
+- name: Is the sample channel there
+  ansible.builtin.shell: "mgrctl exec \"spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} softwarechannel_list | grep -x testchannel\""
+  register: _sample_channel
+  changed_when: false
+  failed_when: _sample_channel.rc > 1
+  no_log: true
+  when: create_sample_channel | bool
+
+- name: Create the sample channel
+  ansible.builtin.command: "mgrctl exec \"spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} -- softwarechannel_create --name testchannel -l testchannel -a x86_64\""
+  no_log: true
+  when: create_sample_channel | bool and _sample_channel.rc != 0
+
+- name: Is the sample activation key there
+  ansible.builtin.shell: "mgrctl exec \"spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} activationkey_list | grep -x 1-DEFAULT\""
+  register: _sample_key
+  changed_when: false
+  failed_when: _sample_key.rc > 1
+  no_log: true
+  when: create_sample_activation_key | bool
+
+- name: Create the sample activation key
+  ansible.builtin.command: "mgrctl exec \"spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} -- activationkey_create -n DEFAULT {{ '-b testchannel' if create_sample_channel | bool else '' }}\""
+  no_log: true
+  when: create_sample_activation_key | bool and _sample_key.rc != 0
+
+- name: Sample bootstrap script and its checksum
+  ansible.builtin.shell:
+    cmd: |
+      mgrctl exec "rhn-bootstrap --activation-keys=1-DEFAULT --hostname {{ _fqdn }}"
+      mgrctl exec "sha512sum /srv/www/htdocs/pub/bootstrap/bootstrap.sh > /srv/www/htdocs/pub/bootstrap/bootstrap.sh.sha512"
+  when: create_sample_bootstrap_script | bool
+
+- name: Publish the private SSL key and the CA configuration with their checksums
+  ansible.builtin.shell:
+    cmd: |
+      for f in RHN-ORG-PRIVATE-SSL-KEY rhn-ca-openssl.cnf; do
+        mgrctl exec "cp /root/ssl-build/$f /srv/www/htdocs/pub/$f; chmod 644 /srv/www/htdocs/pub/$f"
+        mgrctl exec "sha512sum /srv/www/htdocs/pub/$f > /srv/www/htdocs/pub/$f.sha512"
+      done
+  when: (container_runtime | default('podman', true)) == 'podman' and publish_private_ssl_key | bool
+
+- name: Cloned channels
+  ansible.builtin.include_tasks: cloned_channels.yml
+  loop: "{{ cloned_channels | default([], true) }}"
+  loop_control: {loop_var: cloned_set}

@@ -1,0 +1,35 @@
+---
+# salt/server_containerized/rhn.sls
+- name: Write the server settings
+  ansible.builtin.include_tasks: rhn_conf.yml
+  no_log: true  # only because a key name contains "token"; the rhn.conf values are not secret
+  vars:
+    rhn_conf_entries: >-
+      {{ {'java.max_changelog_entries': 3}
+         | combine({'package_import_skip_changelog': 1} if skip_changelog_import else {})
+         | combine({'java.salt_check_download_tokens': 'false'} if disable_download_tokens else {})
+         | combine({'prometheus_monitoring_enabled': 'true'} if monitored else {})
+         | combine({'server.susemanager.forward_registration': 0} if not forward_registration else {})
+         | combine({'server.susemanager.auto_generate_bootstrap_repo': 0} if disable_auto_bootstrap else {})
+         | combine({'java.unify_custom_channel_management': 0} if disable_auto_channel_sync else {})
+         | combine({'java.product_tree_tag': 'Beta'} if 'head' in (product_version | default('', true)) and beta_enabled else {})
+         | combine({'java.salt_presence_ping_timeout': 6} if testsuite | default(false) else {})
+         | combine({'server.satellite.reposync_download_threads': 2} if not mirror else {})
+         | combine({'java.cve_audit.enable_oval_metadata': 'true'} if enable_oval_metadata else {}) }}
+
+- name: Restart tomcat and taskomatic when rhn.conf changed
+  ansible.builtin.command: mgrctl exec systemctl restart tomcat taskomatic
+  when: rhn_conf_changed | bool
+
+- name: Show the nightly build date in the web version
+  ansible.builtin.shell:
+    cmd: |
+      PRODUCT_VERSION=$(mgrctl exec "cat /etc/susemanager-release | awk -F'[()]' '{print \$2}'")
+      FULL_VERSION="${PRODUCT_VERSION}.$(date +%Y%m%d)"
+      mgrctl exec "grep -q \"web.version\" /etc/rhn/rhn.conf && sed -i \"s/web.version.*/web.version = ${FULL_VERSION}/\" /etc/rhn/rhn.conf || echo \"web.version = ${FULL_VERSION}\" >> /etc/rhn/rhn.conf"
+  changed_when: true
+  when: "'nightly' in (product_version | default('', true))"
+
+- name: Make sure rhn.conf exists
+  ansible.builtin.command: mgrctl exec 'touch /etc/rhn/rhn.conf'
+  changed_when: false

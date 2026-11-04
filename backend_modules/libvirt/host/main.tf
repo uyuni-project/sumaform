@@ -484,7 +484,10 @@ locals {
         swap_file_size                = var.swap_file_size
         product_version               = local.product_version
         authorized_keys               = local.ansible_authorized_keys
-        gpg_keys                      = var.gpg_keys
+        // public keys of build_host and controller that server and proxy authorize (containerized_common).
+        // TODO(#126): base_configuration does not carry them yet; the per-deployment keypair generation is a user decision
+        peer_public_keys              = try(var.base_configuration["peer_public_keys"], [])
+        gpg_keys                     = var.gpg_keys
         connect_to_base_network       = var.connect_to_base_network
         connect_to_additional_network = var.connect_to_additional_network
         ipv6                          = var.ipv6

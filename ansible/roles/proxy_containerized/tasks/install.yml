@@ -1,0 +1,23 @@
+---
+# Phase product install. Only when the proxy is in the same deployment as the server (the server must be ready,
+# which the Terraform depends_on guarantees), as in Salt.
+- name: Generate the proxy configuration on the server
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      ssh {{ server }} "echo spacewalk > /root/spacewalk"
+      ssh {{ server }} mgrctl cp /root/spacewalk server:/root/spacewalk
+      ssh {{ server }} mgrctl exec -- spacecmd --nossl -u {{ server_username | default('admin', true) }} -p {{ server_password | default('admin', true) }} proxy_container_config_generate_cert -- --ca-pass /root/spacewalk -o /root/config.tar.gz {{ hostname }}.{{ domain }} {{ server }} 2048 galaxy-noise@suse.de
+      ssh {{ server }} mgrctl cp server:/root/config.tar.gz .
+      scp {{ server }}:config.tar.gz {{ proxy_config_archive }}
+      ssh {{ server }} rm /root/config.tar.gz
+      ssh {{ server }} mgrctl exec -- rm /root/config.tar.gz
+    chdir: /root
+    creates: "{{ proxy_config_archive }}"
+  no_log: true  # the server password is on the command line
+  when: auto_configure | default(false) | bool and testsuite | default(false) | bool
+
+- name: Install the proxy containers
+  ansible.builtin.command: "mgrpxy install podman {{ proxy_config_archive }}"
+  changed_when: true  # ponytail: as in Salt, no already-installed guard; add one if a second apply must be clean
+  when: auto_configure | default(false) | bool and testsuite | default(false) | bool

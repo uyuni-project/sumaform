@@ -1098,6 +1098,11 @@ host_roles:
   # #125: a `client` host role does not exist at the pin (no module, no top.sls entry, no salt/client);
   # clients are `minion` hosts. Chains are composed once per host by site.yml from ansible/host_roles.yml.
   # Shared single-concern roles: packages (install, #123 branch), ssh_keypair, testsuite_pkgs, sshd_*.
+  # #126: server_containerized and proxy_containerized are ported (rows below, playbooks server_containerized.yml and
+  # proxy_containerized.yml). containerized_common holds the shared tools/config/peer-key parts; the thin roles hold the rest.
+  # Product install (site.yml phase 3) is skipped by install_uyuni_via_testsuite or skip_server_install. Deliberate
+  # divergences: salt/_states/manage_config.py is rhn_conf.yml (server_containerized); cloned channels run in the server
+  # container; the Salt-only pre-5.1 branches of large_deployment.sls are not ported; the proxy squid image variable bug is fixed.
   - {id: site, playbook: site.yml, roles: []}
   - {id: minion, playbook: minion.yml, roles: [transactional, base, repos, minion, testsuite_pkgs, sshd_challenge_response]}
   - {id: sshminion, playbook: sshminion.yml, roles: [transactional, base, repos, testsuite_pkgs, sshd_challenge_response]}

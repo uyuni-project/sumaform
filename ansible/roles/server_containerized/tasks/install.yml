@@ -1,0 +1,41 @@
+---
+# Phase product install (optional, skipped by site.yml when install_uyuni_via_testsuite or skip_server_install is set).
+- name: Fetch the hub certificates for this peripheral
+  ansible.builtin.include_tasks: hub_peripheral.yml
+  when: server_hub_peripheral | default('', true) | length > 0
+
+- name: Is the server container already installed
+  ansible.builtin.command: podman ps
+  register: _podman_ps
+  changed_when: false
+
+- name: Install the server with mgradm
+  ansible.builtin.command:
+    argv: "{{ ['mgradm', 'install', 'podman', '--logLevel=debug', '--config', mgradm_config_dest] + (_hub_args | default([])) + [_fqdn] }}"
+  when: "'uyuni-server' not in _podman_ps.stdout"
+
+- name: Publish certificates for the hub peripherals
+  ansible.builtin.include_tasks: hub_certs.yml
+  when: hub_peripheral_fqdns | default([], true) | length > 0
+
+- name: Register on the hub
+  ansible.builtin.include_tasks: hub_register.yml
+  when: server_hub_peripheral | default('', true) | length > 0
+
+- name: Initial content and users
+  ansible.builtin.include_tasks: initial_content.yml
+
+- name: Server settings in rhn.conf
+  ansible.builtin.include_tasks: rhn.yml
+
+- name: Large deployment tuning
+  ansible.builtin.include_tasks: large_deployment.yml
+  when: large_deployment | bool
+
+- name: Allow external PostgreSQL connections
+  ansible.builtin.include_tasks: postgres.yml
+  when: allow_postgres_connections | bool and _known_product | bool
+
+- name: Testsuite additions
+  ansible.builtin.include_tasks: testsuite.yml
+  when: testsuite | default(false) | bool
