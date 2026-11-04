@@ -3,7 +3,7 @@
 
 Usage: inventory.py <hosts.json> <outdir>
 
-hosts.json is a list of {name, address, user, port, bastion|null, roles, vars}
+hosts.json is a list of {name, address, user, port, bastion|null, roles, vars[, private_key_file]}
 (the `ansible_hosts` entries of the host module `configuration` output).
 Writes <outdir>/hosts.yml (no secrets) and <outdir>/host_vars/<name>.yml (0600).
 Env SUMAFORM_VM_PASSWORD, if non-empty, becomes ansible_password in host_vars
@@ -32,6 +32,8 @@ def main(src, out):
     for h in hosts:
         entry = {"ansible_host": h["address"], "ansible_user": h.get("user", "root"),
                  "ansible_port": h.get("port") or 22}
+        if h.get("private_key_file"):  # a path only, never key material
+            entry["ansible_ssh_private_key_file"] = h["private_key_file"]
         b = h.get("bastion")
         if b and b.get("host"):
             jump = f'{b.get("user") or "root"}@{b["host"]}:{b.get("port") or 22}'

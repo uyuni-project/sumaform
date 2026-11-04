@@ -3,6 +3,7 @@
 # Env: HOST_JSON (one-element list, see inventory.py), SUMAFORM_VM_PASSWORD (optional),
 #      BUILD_NUMBER (per-build dirs, as in worker/preflight.sh).
 set -eu
+umask 077  # per-build and scratch dirs 0700, files 0600
 here=$(cd "$(dirname "$0")" && pwd)
 base="${TMPDIR:-/tmp}/ansible-build-${BUILD_NUMBER:-$$-$RANDOM}"
 mkdir -p "$base/home" "$base/local" "$base/remote"
