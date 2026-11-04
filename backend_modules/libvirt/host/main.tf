@@ -458,6 +458,8 @@ locals {
     )
     user = "root"
     port = 22
+    // key auth: the private half of the key injected by Terraform (a path, not material); null falls back to the worker default key/agent
+    private_key_file = try(trimsuffix(regex(".*\\.pub$", var.base_configuration["ssh_key_path"]), ".pub"), null)
     bastion = local.ansible_bastion_host == null || local.ansible_bastion_host == "" ? null : {
       host = local.ansible_bastion_host
       user = lookup(var.provider_settings, "bastion_user", var.base_configuration["bastion_user"])
