@@ -43,6 +43,7 @@ locals {
   network_name       = lookup(var.provider_settings, "network_name", "default")
   bridge             = lookup(var.provider_settings, "bridge", null)
   additional_network = lookup(var.provider_settings, "additional_network", null)
+  autostart          = lookup(var.provider_settings, "autostart", false)
 }
 
 resource "terraform_data" "decompressed_images" {
@@ -107,6 +108,7 @@ output "configuration" {
     pool                = local.pool
     network_name        = local.bridge == null ? local.network_name : null
     bridge              = local.bridge
+    autostart           = local.autostart
     bastion_host        = lookup(var.provider_settings, "bastion_host", null)
     bastion_host_key    = lookup(var.provider_settings, "bastion_host_key", null)
     bastion_port        = lookup(var.provider_settings, "bastion_port", null)
