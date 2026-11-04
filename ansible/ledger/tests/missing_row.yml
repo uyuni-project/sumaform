@@ -1,0 +1,10 @@
+pin: abc123
+variables:
+  - {id: "modules/m:b", target: role, ref: base, since_pin: abc123,
+     verified: {level: 2, evidence: run-1, pin: abc123}}
+behaviours:
+  - {id: grain-x, paths: [salt/x/], target: playbook, ref: minion.yml, since_pin: abc123}
+  - {id: y-state, paths: [salt/y.sls], target: dropped, reason: obsolete, signoff: maxime, since_pin: abc123}
+host_roles:
+  - {id: minion, playbook: minion.yml, roles: [base]}
+repins: []
