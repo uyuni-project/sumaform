@@ -7,6 +7,7 @@ include:
   - server_containerized.hub_peripheral_certs
   - server_containerized.hub_peripheral
   {% if not grains.get('skip_server_install') | default(false, true) %}
+  - server_containerized.db_config
   - server_containerized.initial_content
   - server_containerized.rhn
   - server_containerized.large_deployment
