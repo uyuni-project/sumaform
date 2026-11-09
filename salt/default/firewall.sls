@@ -3,7 +3,7 @@
 
 disable_firewall:
   service.dead:
-{% if grains.get('osmajorrelease', None)|int() == 15 %}
+{% if grains.get('osmajorrelease', None)|int() >= 15 %}
     - name: firewalld
 {% else %}
     - name: SuSEfirewall2
