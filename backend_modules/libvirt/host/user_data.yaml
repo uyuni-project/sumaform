@@ -858,15 +858,15 @@ yum_repos:
 
 write_files:
   # Amazon 2023 does not honour DHCP's domain-search by default
-  - path: /etc/systemd/network/99-use-domains.network
+  # (drop-in, as systemd-networkd ignores any further .network file matching the same interface)
+  - path: /etc/systemd/network/10-cloud-init-ens3.network.d/use-domains.conf
     permissions: '0644'
     content: |
-      [Match]
-      Name=*
       [DHCPv4]
       UseDomains=true
 
 runcmd:
+  - systemctl restart systemd-networkd
   # WORKAROUND: cloud-init in Amazon Linux 2023 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
