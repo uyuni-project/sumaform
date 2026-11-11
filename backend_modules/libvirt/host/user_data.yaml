@@ -709,6 +709,12 @@ runcmd:
   # HACK: cloud-init in Debian 12/13 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart ssh
+%{ if image == "raspios13o" ~}
+  # The image has no RTC and boots with its build date, so apt rejects every repo whose
+  # Release was signed later ("Not live until ...") and the install below aborts, leaving
+  # no qemu-guest-agent for libvirt to read the IP from
+  - 'for i in $(seq 1 90); do [ "$(timedatectl show -p NTPSynchronized --value)" = yes ] && break; sleep 2; done'
+%{ endif ~}
 %{ if install_salt_bundle ~}
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq update"
   - "DEBIAN_FRONTEND=noninteractive apt-get -yq install venv-salt-minion avahi-daemon qemu-guest-agent"
