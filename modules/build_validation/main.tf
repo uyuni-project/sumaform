@@ -1793,6 +1793,10 @@ module "controller" {
   # Optional, set in the controller entry of ENVIRONMENT_CONFIGURATION
   server_http_proxy        = try(var.environment_configuration.controller.server_http_proxy, null)
   custom_download_endpoint = try(var.environment_configuration.controller.custom_download_endpoint, null)
+  no_auth_registry         = try(var.environment_configuration.controller.no_auth_registry, null)
+  auth_registry            = try(var.environment_configuration.controller.auth_registry, null)
+  auth_registry_username   = try(var.environment_configuration.controller.auth_registry_username, null)
+  auth_registry_password   = try(var.environment_configuration.controller.auth_registry_password, null)
 
   server_configuration  = local.server_configuration
   proxy_configuration   = local.proxy_configuration
