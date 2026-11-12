@@ -708,6 +708,8 @@ bootcmd:
 runcmd:
   # HACK: cloud-init in Debian 12/13 does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  # Raspberry Pi OS ships with ssh disabled, so a reboot of the VM would leave it without SSH
+  - systemctl enable ssh
   - systemctl restart ssh
 %{ if image == "raspios13o" ~}
   # The image has no RTC and boots with its build date, so apt rejects every repo whose
