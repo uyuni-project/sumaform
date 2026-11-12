@@ -842,6 +842,7 @@ module "opensuse161arm_minion" {
   }
   auto_connect_to_master  = false
   use_os_released_updates = false
+  gpg_keys                = ["default/gpg_keys/suse_staging.key"]
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
@@ -1487,6 +1488,7 @@ module "opensuse161arm_sshminion" {
     xslt           = file("modules/build_validation/tune-aarch64.xsl")
   }
   use_os_released_updates = false
+  gpg_keys                = ["default/gpg_keys/suse_staging.key"]
   ssh_key_path            = "./salt/controller/id_ed25519.pub"
 }
 
