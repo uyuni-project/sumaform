@@ -12,7 +12,7 @@ jobs:
     name: Check updated image URLs
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
+      contents: read
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #v7.0.1
       with:
@@ -27,30 +27,17 @@ jobs:
           grep "^[+-] " | sed 's/^[+-]\s*\([^ ]*\).*$/ - `\1`/' | uniq >> $GITHUB_ENV
 
         echo "EOF" >> $GITHUB_ENV
-    - name: Comment on the pull request
-      env:
-        GH_TOKEN: ${{ github.token }}
-        PR_NUMBER: ${{ github.event.pull_request.number }}
-        MARKER: "<!-- mirror-update-warning -->"
+    - name: Warn about updated image URLs
       run: |
-        comment_id=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" --paginate \
-          --jq '[.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("<!-- mirror-update-warning -->") or startswith("This pull request updates the URLs"))][0].id // empty')
-
         if [ -z "${IMAGE_LIST}" ]; then
-          if [ -n "${comment_id}" ]; then
-            gh api -X DELETE "repos/${{ github.repository }}/issues/comments/${comment_id}"
-          fi
           exit 0
         fi
 
-        body="${MARKER}
-        This pull request updates the URLs of the following images:
-        ${IMAGE_LIST}
+        echo "::warning title=Image URLs updated::This pull request updates the URLs of the following images: $(echo "${IMAGE_LIST}" | sed 's/^ - //' | paste -sd, -). Please consider updating the CI and BV mirror configurations accordingly."
 
-        Please consider updating the CI and BV mirror configurations accordingly."
-
-        if [ -n "${comment_id}" ]; then
-          gh api -X PATCH "repos/${{ github.repository }}/issues/comments/${comment_id}" -f body="${body}"
-        else
-          gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" -f body="${body}"
-        fi
+        {
+          echo "This pull request updates the URLs of the following images:"
+          echo "${IMAGE_LIST}"
+          echo
+          echo "Please consider updating the CI and BV mirror configurations accordingly."
+        } >> "$GITHUB_STEP_SUMMARY"
