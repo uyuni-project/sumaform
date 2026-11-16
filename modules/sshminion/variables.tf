@@ -48,7 +48,7 @@ variable "quantity" {
   default     = 1
 }
 
-variable "grains" {
+variable "additional_grains" {
   description = "custom grain map to be added to this host's configuration"
   default     = {}
 }
