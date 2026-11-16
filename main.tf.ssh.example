@@ -23,8 +23,6 @@ module "server" {
   name = "server"
   // see modules/server_containerized/variables.tf for possible values
 
-  // connect_to_additional_network = true
-  // if you want to use two networks
 
   provider_settings = {
     host = "192.168.1.1"

@@ -1,6 +1,3 @@
-// WORKAROUND: This module started as a copy of the server module and still declares variables it does not use.
-// Dropping them is tracked in https://github.com/SUSE/spacewalk/issues/32074. Remove this comment then.
-
 variable "images" {
   default = {
     "head"           = "slmicro62o"

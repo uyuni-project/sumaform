@@ -176,7 +176,6 @@ module "server_containerized" {
   tftpd_container_image          = var.tftpd_container_image
   tftpd_container_tag            = var.tftpd_container_tag
   auto_accept                    = false
-  download_private_ssl_key       = false
   disable_firewall               = false
   allow_postgres_connections     = false
   skip_changelog_import          = false

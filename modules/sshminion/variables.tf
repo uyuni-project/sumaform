@@ -76,16 +76,6 @@ variable "ipv6" {
   }
 }
 
-variable "connect_to_base_network" {
-  description = "true if you want a card connected to the main network, see README_ADVANCED.md"
-  default     = true
-}
-
-variable "connect_to_additional_network" {
-  description = "true if you want a card connected to the additional network (if any), see README_ADVANCED.md"
-  default     = false
-}
-
 variable "image" {
   description = "An image name, e.g. opensuse160o"
   type        = string
