@@ -65,7 +65,7 @@ variable "quantity" {
   default     = 1
 }
 
-variable "grains" {
+variable "additional_grains" {
   description = "custom grain map to be added to this host's configuration"
   default     = {}
 }
@@ -91,16 +91,6 @@ variable "ipv6" {
     enable    = true
     accept_ra = true
   }
-}
-
-variable "connect_to_base_network" {
-  description = "true if you want a card connected to the main network, see README_ADVANCED.md"
-  default     = true
-}
-
-variable "connect_to_additional_network" {
-  description = "true if you want a card connected to the additional network (if any), see README_ADVANCED.md"
-  default     = false
 }
 
 variable "image" {

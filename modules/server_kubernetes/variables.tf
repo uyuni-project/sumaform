@@ -7,11 +7,6 @@ variable "name" {
   type        = string
 }
 
-variable "roles" {
-  description = "List of the host roles"
-  default     = []
-}
-
 variable "runtime" {
   description = "Where to run the containers."
   default = "rke2"
@@ -220,41 +215,6 @@ variable "channels" {
   default     = []
 }
 
-variable "wait_for_reposync" {
-  description = "turn to true to make sure reposync is finished for channels"
-  default     = false
-}
-
-variable "cloned_channels" {
-  description = "a json formatted string representing a list of dictionaries containing SUSE channels information to clone"
-  default     = null
-  type = list(object({
-    channels = list(string)
-    prefix   = string
-    date     = string
-  }))
-}
-
-variable "register_to_server" {
-  description = "name of another Server to register to, eg module.<SERVER_NAME>.configuration.hostname"
-  default     = null
-}
-
-variable "auto_register" {
-  description = "whether this Server should automatically register to another Server"
-  default     = true
-}
-
-variable "download_private_ssl_key" {
-  description = "copy SSL certificates from the hub server upon deployment"
-  default     = true
-}
-
-variable "activation_key" {
-  description = "an Activation Key to be used when registering to another Server"
-  default     = null
-}
-
 variable "server_username" {
   description = "username of the SUSE Manager administrator, admin by default"
   default     = "admin"
@@ -268,21 +228,6 @@ variable "server_password" {
 variable "disable_firewall" {
   description = "whether to disable the built-in firewall, opening up all ports"
   default     = true
-}
-
-variable "allow_postgres_connections" {
-  description = "configure Postgres to accept connections from external hosts"
-  default     = true
-}
-
-variable "unsafe_postgres" {
-  description = "whether to use PostgreSQL settings that improve performance by worsening durability"
-  default     = true
-}
-
-variable "postgres_log_min_duration" {
-  description = "log any PostgreSQL statement taking longer than the specified amount of milliseconds. 0 for all, leave default for none"
-  default     = null
 }
 
 variable "java_debugging" {
@@ -330,11 +275,6 @@ variable "publish_private_ssl_key" {
   default     = true
 }
 
-variable "disable_download_tokens" {
-  description = "disable package token download checks"
-  default     = true
-}
-
 variable "disable_auto_bootstrap" {
   description = "disable the default bootstrap mgr-create-bootstrap-repo call after product synchronization"
   default     = false
@@ -366,19 +306,9 @@ variable "traceback_email" {
   default     = null
 }
 
-variable "smt" {
-  description = "URL to an SMT server to get packages from"
-  default     = null
-}
-
 variable "auto_accept" {
   description = "whether to automatically accept all incoming minion keys"
   default     = true
-}
-
-variable "monitored" {
-  description = "whether this host should be monitored via Prometheus"
-  default     = false
 }
 
 variable "additional_repos" {
@@ -411,7 +341,7 @@ variable "quantity" {
   default     = 1
 }
 
-variable "grains" {
+variable "additional_grains" {
   description = "custom grain map to be added to this host's configuration"
   default     = {}
 }
@@ -437,16 +367,6 @@ variable "ipv6" {
     enable    = true
     accept_ra = true
   }
-}
-
-variable "connect_to_base_network" {
-  description = "true if you want a card connected to the main network, see README_ADVANCED.md"
-  default     = true
-}
-
-variable "connect_to_additional_network" {
-  description = "true if you want a card connected to the additional network (if any), see README_ADVANCED.md"
-  default     = false
 }
 
 variable "image" {
