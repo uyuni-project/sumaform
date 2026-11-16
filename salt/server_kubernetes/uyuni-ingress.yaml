@@ -8,14 +8,6 @@ metadata:
 spec:
   valuesContent: |-
     ports:
-      reportdb-pgsql:
-        port: 5432
-        expose:
-          default: true
-        exposedPort: 5432
-        protocol: TCP
-        hostPort: 5432
-        containerPort: 5432
       salt-publish:
         port: 4505
         expose:

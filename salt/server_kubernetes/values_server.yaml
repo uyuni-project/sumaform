@@ -47,6 +47,11 @@ server-helm:
   pullPolicy: "Always"
   tag: "latest"
   timezone: {{ grains.get('timezone', 'Europe/Berlin') }}
+  # Expose the ReportDB as a NodePort: a Traefik IngressRouteTCP would hide the client IP
+  # from PostgreSQL and break the pg_hba.conf rules (bsc#1270038)
+  services:
+    reportdb:
+      type: NodePort
 {% if kubernetes_storage_class %}
   volumes:
     storageClass: "{{ kubernetes_storage_class }}"
