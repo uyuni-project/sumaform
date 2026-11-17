@@ -1,0 +1,4 @@
+---
+# Host role salt_testenv: the common head plus its chain from host_roles.yml.
+- import_playbook: site.yml
+  vars: {only_roles: [salt_testenv]}

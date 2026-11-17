@@ -1,0 +1,13 @@
+---
+# include_tasks with sk_device and sk_mount: format a data disk as xfs and mount it.
+- name: "Format /dev/{{ sk_device }}"
+  community.general.filesystem:
+    dev: "/dev/{{ sk_device }}"
+    fstype: xfs
+
+- name: "Mount /dev/{{ sk_device }} on {{ sk_mount }}"
+  ansible.posix.mount:
+    path: "{{ sk_mount }}"
+    src: "/dev/{{ sk_device }}"
+    fstype: xfs
+    state: mounted

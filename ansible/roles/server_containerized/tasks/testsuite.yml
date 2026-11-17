@@ -1,0 +1,94 @@
+---
+# salt/server_containerized/testsuite.sls (testsuite hosts, after mgradm install). The build_host key it
+# appended is now a peer key (containerized_common authorize_peers).
+- name: Script to mirror the Ubuntu test repository
+  ansible.builtin.copy:
+    src: download_ubuntu_repo.sh
+    dest: /root/download_ubuntu_repo.sh
+    mode: "0755"
+
+- name: Is the Ubuntu test repository already there
+  ansible.builtin.command: mgrctl exec "ls -d /srv/www/htdocs/pub/TestRepoDebUpdates"
+  register: _deb_repo
+  changed_when: false
+  failed_when: false
+
+- name: Download the Ubuntu test repository
+  ansible.builtin.command: >-
+    /root/download_ubuntu_repo.sh /var/lib/containers/storage/volumes/srv-www/_data TestRepoDebUpdates
+    {{ mirror | default('download.opensuse.org', true) }}/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb/
+  when: _deb_repo.rc != 0
+
+- name: Let cobbler be driven from remote machines
+  ansible.builtin.command: >-
+    mgrctl exec 'sed -i "s/redhat_management_permissive: false/redhat_management_permissive: true/" /etc/cobbler/settings.yaml'
+  register: _cobbler
+  changed_when: false  # ponytail: sed, no change detection; cobbler restarts every run
+
+- name: Restart cobbler
+  ansible.builtin.command: mgrctl exec systemctl restart cobblerd
+  register: _cobbler_restart
+  retries: 10
+  delay: 10
+  until: _cobbler_restart.rc == 0
+
+- name: Wait for the server API (mgrctl gpg needs it)
+  ansible.builtin.uri:
+    url: "https://{{ _fqdn }}/rhn/manager/api/api/getVersion"
+    validate_certs: false
+    status_code: 200
+  register: _api
+  retries: 120
+  delay: 5
+  until: _api.status == 200
+  when: _use_gpg_api | bool
+
+- name: Copy the repository signing keys
+  ansible.builtin.copy:
+    src: "{{ containerized_key_root }}/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    mode: "0644"
+  loop: "{{ ['uyuni.key'] if product_version in ['uyuni-master', 'uyuni-released'] else ['galaxy.key', 'suse_staging.key'] }}"
+  register: _gpg_keys
+
+- name: Import the keys into the server
+  ansible.builtin.command: "{{ _gpg_import_cmd }} /tmp/{{ item.item }}"
+  loop: "{{ _gpg_keys.results }}"
+  loop_control: {label: "{{ item.item }}"}
+  when: item.changed
+  no_log: true
+
+# These pillars make venv-salt-minion the bootstrap default where the bootstrap repository lacks it.
+- name: Force venv-salt-minion in the pillar
+  ansible.builtin.shell:
+    cmd: |
+      mgrctl exec "echo -e \"base:\n  '*':\n    - salt_bundle_config\" >/srv/pillar/top.sls"
+      mgrctl exec "echo 'mgr_force_venv_salt_minion: True' >/srv/pillar/salt_bundle_config.sls"
+  changed_when: false
+  when: product_version in ['uyuni-master', 'head', 'head-staging', '5.1-nightly', '5.1-released', '5.2-nightly', '5.2-released']
+
+- name: Testsuite settings in rhn.conf
+  ansible.builtin.include_tasks: rhn_conf.yml
+  vars:
+    rhn_conf_entries:
+      java.salt_content_staging_window: "0.033"
+      java.salt_content_staging_advance: "0.05"
+      java.kiwi_os_image_building_enabled: "true"
+
+- name: Restart tomcat for the testsuite settings
+  ansible.builtin.command: mgrctl exec systemctl restart tomcat
+  when: rhn_conf_changed | bool
+
+- name: Salt event log service
+  ansible.builtin.copy:
+    src: salt-events.service
+    dest: /root/salt-events.service
+    mode: "0644"
+  register: _salt_events
+
+- name: Install and start the Salt event log service in the server
+  ansible.builtin.shell:
+    cmd: |
+      mgrctl cp /root/salt-events.service server:/usr/lib/systemd/system/salt-events.service
+      mgrctl exec systemctl start salt-events.service
+  when: _salt_events.changed

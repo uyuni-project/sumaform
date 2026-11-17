@@ -1,0 +1,3 @@
+---
+_salt_pkg: "{{ 'venv-salt-minion' if install_salt_bundle | default(true) | bool else 'salt-minion' }}"
+_salt_dir: "{{ '/etc/venv-salt-minion' if install_salt_bundle | default(true) | bool else '/etc/salt' }}"

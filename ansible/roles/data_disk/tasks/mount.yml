@@ -1,0 +1,31 @@
+---
+# include_role tasks_from: mount. Shared by mirror and jenkins (Salt repeated the partition+mount states in each).
+# Vars: dd_device (name under /dev, as the data_disk_device host var), dd_mount, dd_fstype, optional dd_mode, dd_owner, dd_group.
+- name: Work out the partition name
+  ansible.builtin.set_fact:
+    _dd_partition: "/dev/{{ dd_device }}{{ 'p' if dd_device.startswith('nvme') else '' }}1"
+
+- name: Partition and format the data disk
+  ansible.builtin.shell: >-
+    /usr/sbin/parted -s /dev/{{ dd_device }} mklabel gpt &&
+    /usr/sbin/parted -s /dev/{{ dd_device }} mkpart primary 2048 100% &&
+    sleep 1 && /sbin/mkfs.{{ dd_fstype }} {{ _dd_partition }}
+  args:
+    creates: "{{ _dd_partition }}"
+
+- name: Mount the data disk
+  ansible.posix.mount:
+    path: "{{ dd_mount }}"
+    src: "{{ _dd_partition }}"
+    fstype: "{{ dd_fstype }}"
+    opts: defaults
+    state: mounted
+
+# Divergence: Salt set owner and mode before the mount, where the new filesystem root hides them.
+- name: Owner and mode of the mounted directory
+  ansible.builtin.file:
+    path: "{{ dd_mount }}"
+    state: directory
+    mode: "{{ dd_mode | default('0755') }}"
+    owner: "{{ dd_owner | default('root') }}"
+    group: "{{ dd_group | default('root') }}"

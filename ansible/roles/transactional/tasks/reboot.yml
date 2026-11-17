@@ -1,0 +1,57 @@
+---
+# THE reboot step. Include at every phase boundary; a no-op on non-transactional hosts and
+# when no snapshot is pending (state check, not a changed flag), so reruns are safe.
+- name: Reboot into the new snapshot if one is pending
+  when: is_transactional | bool
+  block:
+    - name: Read the running snapshot
+      ansible.builtin.command: "{{ tu_running_cmd }}"
+      register: _tu_running_out
+      changed_when: false
+
+    - name: Read the default (next boot) snapshot
+      ansible.builtin.command: "{{ tu_default_cmd }}"
+      register: _tu_default_out
+      changed_when: false
+
+    - name: Parse both snapshot numbers
+      ansible.builtin.set_fact:
+        _tu_running_before: "{{ _tu_running_out.stdout | regex_search(tu_snapshot_regex, '\\1') | first | default('') }}"
+        _tu_default: "{{ _tu_default_out.stdout | regex_search(tu_snapshot_regex, '\\1') | first | default('') }}"
+
+    - name: Refuse to guess when the snapshot layout is not understood
+      ansible.builtin.assert:
+        that:
+          - _tu_running_before | length > 0
+          - _tu_default | length > 0
+        fail_msg: >-
+          Cannot read snapshot numbers on {{ inventory_hostname }}
+          (running: {{ _tu_running_out.stdout }}, default: {{ _tu_default_out.stdout }})
+
+    - name: Reboot
+      ansible.builtin.reboot:
+        reboot_timeout: "{{ tu_reboot_timeout }}"
+        post_reboot_delay: 30
+        msg: "Rebooting {{ inventory_hostname }} into snapshot {{ _tu_default }}"
+      register: _tu_reboot
+      when: _tu_default != _tu_running_before
+
+    - name: Read the running snapshot again
+      ansible.builtin.command: "{{ tu_running_cmd }}"
+      register: _tu_running_after_out
+      changed_when: false
+      when: _tu_reboot is not skipped
+
+    - name: The new snapshot must be the one running (an old snapshot still active fails the run)
+      ansible.builtin.assert:
+        that:
+          - _tu_running_after_out.stdout | regex_search(tu_snapshot_regex, '\\1') | first | default('') == _tu_default
+        fail_msg: >-
+          {{ inventory_hostname }} came back on snapshot
+          {{ _tu_running_after_out.stdout | regex_search(tu_snapshot_regex, '\\1') | first | default('?') }},
+          expected {{ _tu_default }} (was {{ _tu_running_before }}): the new snapshot did not boot.
+      when: _tu_reboot is not skipped
+
+    - name: Refresh facts after the reboot
+      ansible.builtin.setup:
+      when: _tu_reboot is not skipped

@@ -1,0 +1,34 @@
+---
+# Installs the per-deployment root keypair (replaces the committed salt/{controller,build_host} keys,
+# ledger rows key-controller and key-build-host). The pair arrives as 0600 host_vars
+# ssh_private_key / ssh_public_key; Terraform supplies them (handoff).
+- name: The deployment keypair must be supplied as host_vars (output is masked, so this name is the message)
+  ansible.builtin.assert:
+    that:
+      - ssh_private_key | default('') | length > 0
+      - ssh_public_key | default('') | length > 0
+    fail_msg: >-
+      host_vars ssh_private_key and ssh_public_key are required on {{ inventory_hostname }}
+      (per-deployment keypair, no key material is committed)
+  no_log: true
+
+- name: Install the private key
+  ansible.builtin.copy:
+    content: "{{ ssh_private_key }}\n"
+    dest: /root/.ssh/id_ed25519
+    mode: "0600"
+  no_log: true
+
+- name: Install the public key
+  ansible.builtin.copy:
+    content: "{{ ssh_public_key }}\n"
+    dest: /root/.ssh/id_ed25519.pub
+    mode: "0644"
+
+- name: Authorize the key on the host itself
+  ansible.builtin.lineinfile:
+    path: /root/.ssh/authorized_keys
+    line: "{{ ssh_public_key }}"
+    create: true
+    mode: "0600"
+  when: ssh_authorize_own_key | bool

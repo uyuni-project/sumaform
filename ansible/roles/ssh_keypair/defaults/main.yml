@@ -1,0 +1,3 @@
+---
+# The controller authorizes its own key (salt/controller/init.sls); the build host does not.
+ssh_authorize_own_key: "{{ 'controller' in roles }}"

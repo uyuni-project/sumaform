@@ -1,0 +1,23 @@
+---
+# salt/controller/init.sls: cucumber_requisites, install_chromium (shared libraries for the
+# Playwright browser), npm, extra_pkgs, health check, node_exporter.
+controller_base_packages:
+  - gcc
+  - make
+  - wget
+  - ruby3.4
+  - ruby3.4-devel
+  - ruby3.4-devel-extra
+  - ca-certificates-mozilla
+  - apache2-worker
+  - cantarell-fonts
+  - git-core
+  - aaa_base-extras
+  - mozilla-nss-tools
+  - unzip
+  - chromium
+  - npm-default
+  - screen
+  - xauth
+  - mgr-health-check
+  - golang-github-prometheus-node_exporter

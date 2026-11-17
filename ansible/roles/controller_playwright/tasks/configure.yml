@@ -1,0 +1,19 @@
+---
+# Node Playwright CLI and its Chromium. The distro chromium package (controller_packages) only provides the
+# shared libraries. No --with-deps: unsupported on openSUSE/zypper.
+- name: Install the Playwright CLI
+  ansible.builtin.command: "npm install -g playwright@{{ playwright_version }}"
+  args:
+    creates: /usr/local/bin/playwright
+
+- name: Download the Playwright Chromium
+  ansible.builtin.command: /usr/local/bin/playwright install chromium
+  environment: {HOME: /root}
+  args:
+    creates: /root/.cache/ms-playwright
+
+- name: Point playwright-ruby-client at the CLI for login shells
+  ansible.builtin.copy:
+    content: "export PLAYWRIGHT_CLI_EXECUTABLE_PATH=/usr/local/bin/playwright\n"
+    dest: /etc/profile.d/playwright.sh
+    mode: "0644"

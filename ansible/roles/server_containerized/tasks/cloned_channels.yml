@@ -1,0 +1,19 @@
+---
+# One cloned channel set (var cloned_set: prefix, date, channels), run in the server container.
+# ponytail: Salt installed spacewalk-utils on the host and ran it there; here it runs in the container, which must ship it.
+- name: Is the cloned channel set there
+  ansible.builtin.shell: "mgrctl exec \"spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} softwarechannel_list | grep -x {{ cloned_set.prefix }}-{{ cloned_set.channels | first }}\""
+  register: _clone_there
+  changed_when: false
+  failed_when: _clone_there.rc > 1
+  no_log: true
+
+- name: Clone the channels by date and create the activation key
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      mgrctl exec "spacewalk-clone-by-date -u {{ _srv_user }} -p {{ _srv_pass }} {% for c in cloned_set.channels %}--channels={{ c }} {{ cloned_set.prefix }}-{{ c }} {% endfor %}--to_date={{ cloned_set.date }} --assumeyes"
+      mgrctl exec "spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} -- activationkey_create -n {{ cloned_set.prefix }} -d {{ cloned_set.prefix }} -b {{ cloned_set.prefix }}-{{ cloned_set.channels | first }}"
+      mgrctl exec "spacecmd -u {{ _srv_user }} -p {{ _srv_pass }} -- activationkey_addchildchannels 1-{{ cloned_set.prefix }} {% for c in cloned_set.channels[1:] %}{{ cloned_set.prefix }}-{{ c }} {% endfor %}"
+  no_log: true
+  when: _clone_there.rc != 0

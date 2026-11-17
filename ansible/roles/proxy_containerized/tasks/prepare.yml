@@ -1,0 +1,9 @@
+---
+# Phase prepare. The uyuni-tools come from containerized_common.
+- name: Install expect for the testsuite
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: [expect]
+  when: testsuite | default(false) | bool and not (is_transactional | bool)

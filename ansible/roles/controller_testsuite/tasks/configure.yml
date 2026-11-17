@@ -1,0 +1,73 @@
+---
+# The testsuite checkout, its gems, and the shell environment it runs in.
+- name: Git credentials for the clone
+  ansible.builtin.copy:
+    content: |
+      machine github.com
+      login {{ git_username }}
+      password {{ git_password }}
+      protocol https
+    dest: /root/.netrc
+    mode: "0600"
+  when: git_username | default('') and git_password | default('')
+  no_log: true
+
+- name: Sparse clone of the testsuite
+  ansible.builtin.shell:
+    cmd: |
+      set -e
+      git clone --depth 100 --no-checkout --branch {{ _testsuite_branch | quote }} {{ _testsuite_repo | quote }} {{ testsuite_dir }}
+      cd {{ testsuite_dir }}
+      git sparse-checkout init --cone
+      git sparse-checkout set testsuite
+      git checkout
+    creates: "{{ testsuite_dir }}"
+
+- name: Install the gems
+  ansible.builtin.command:
+    cmd: bundle.ruby.ruby3.4 install --gemfile Gemfile
+    chdir: "{{ testsuite_dir }}/testsuite"
+  register: _bundle
+  changed_when: "'Installing' in _bundle.stdout"
+
+# https://github.com/WasiqB/multiple-cucumber-html-reporter (replaces cucumber-html-reporter)
+- name: Install the cucumber HTML reporter
+  ansible.builtin.command:
+    cmd: npm install multiple-cucumber-html-reporter@3.7.0 --save-dev
+    chdir: /root
+    creates: /root/node_modules/multiple-cucumber-html-reporter
+
+- name: Install run-testsuite
+  ansible.builtin.copy:
+    src: run-testsuite
+    dest: /usr/bin/run-testsuite
+    mode: "0755"
+
+# Holds SCC, git and registry credentials, hence 0600 (Salt used 0755).
+- name: Testsuite environment variables
+  ansible.builtin.template:
+    src: bashrc.j2
+    dest: /root/.bashrc
+    mode: "0600"
+  no_log: true
+
+# needed with xauth for non-headless Playwright debugging (export DEBUG=1)
+- name: Create the Xauthority file
+  ansible.builtin.file:
+    path: /root/.Xauthority
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+
+- name: Chrome certificate directory
+  ansible.builtin.file:
+    path: /root/.pki/nssdb
+    state: directory
+    group: users
+    mode: "0755"
+
+- name: Chrome certificate database
+  ansible.builtin.command: certutil -d sql:/root/.pki/nssdb -N --empty-password
+  args:
+    creates: /root/.pki/nssdb/cert9.db
+  no_log: true   # nothing secret; the option name trips the secret-task scan

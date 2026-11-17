@@ -1,0 +1,95 @@
+---
+# Phase configure (salt/proxy_kubernetes/init.sls, install_kubernetes_proxy.sls). Runs after kubernetes_common.
+# Salt ran this once the server was done (Terraform depends_on keeps that order).
+- name: Facts of the proxy host
+  ansible.builtin.set_fact:
+    _pk_chart_dir: /root/helm-charts/selfsigned
+    _pk_vars_file: /etc/profile.d/proxy_certs_vars.sh
+    _pk_cert_name: proxy-cert
+    _pk_fqdn: "{{ hostname }}.{{ domain }}"
+
+- name: Variables of the proxy install (also copied to the server)
+  ansible.builtin.copy:
+    content: |
+      export PYTHON_HELM_CHART_PATH=/root/helm_chart.py
+      export HELM_CHART_DIRECTORY=/root/helm-charts
+      export SELF_SIGNED_PATH={{ _pk_chart_dir }}
+      export VALUES_YAML_PATH={{ _pk_chart_dir }}/values.yaml
+      export HELM_CHART_NAME={{ helm_chart_name }}
+      export HELM_CHART_URL={{ helm_chart_url }}
+      export PROXY_NAME_CERT={{ _pk_cert_name }}
+      export PROXY_FQDN={{ _pk_fqdn }}
+      export SERVER_FQDN={{ server }}
+      export DEVEL_FLAG={{ '--devel' if use_devel_oci | default(false) | bool else '' }}
+    dest: "{{ _pk_vars_file }}"
+    mode: "0644"
+
+# ---- keys: per-deployment keypair (replaces the committed proxy keys and server keys)
+- name: Install the proxy keypair (per deployment, host_vars from Terraform)
+  ansible.builtin.include_role:
+    name: ssh_keypair
+    tasks_from: configure
+  vars:
+    ssh_authorize_own_key: true
+
+- name: Authorize the peer keys (server, build host) on the proxy
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: authorize_peers
+
+- name: SSH client config towards the server (test hosts only, no host key checks)
+  ansible.builtin.copy:
+    content: |
+      Host *
+         StrictHostKeyChecking no
+         UserKnownHostsFile=/dev/null
+
+      Host *-server.mgr.suse.de
+          User root
+          StrictHostKeyChecking no
+          UserKnownHostsFile=/dev/null
+    dest: /root/.ssh/config
+    mode: "0600"
+
+- name: Copy the variables to the server
+  ansible.builtin.command: "scp {{ _pk_vars_file }} {{ server }}:{{ _pk_vars_file }}"
+  args:
+    chdir: /root
+  changed_when: true  # as in Salt, copied on every run
+
+- name: Known host entry of the server
+  ansible.builtin.shell: "ssh-keygen -F {{ server }} >/dev/null || { ssh-keyscan -H {{ server }} >> /root/.ssh/known_hosts; echo added; }"
+  register: _pk_scan
+  changed_when: "'added' in _pk_scan.stdout"
+
+# ---- certificates generator, chart and ingress
+- name: Certificate generator
+  ansible.builtin.template:
+    src: proxy-gen-certs.yaml.j2
+    dest: /root/proxy-gen-certs.yaml
+    mode: "0644"
+  vars:
+    proxy_FQDN: "{{ _pk_fqdn }}"
+    proxy_name_cert: "{{ _pk_cert_name }}"
+
+- name: Proxy chart directory
+  ansible.builtin.file: {path: "{{ _pk_chart_dir }}", state: directory, mode: "0755"}
+
+- name: Proxy Chart.yaml
+  ansible.builtin.template:
+    src: Chart_proxy.yaml.j2
+    dest: "{{ _pk_chart_dir }}/Chart.yaml"
+    mode: "0644"
+  vars:
+    oci_name: "{{ helm_chart_name }}"
+    oci_repository: "{{ helm_chart_url }}"
+
+- name: Proxy values.yaml
+  ansible.builtin.template: {src: values_proxy.yaml.j2, dest: "{{ _pk_chart_dir }}/values.yaml", mode: "0644"}
+
+- name: Proxy ingress manifest for RKE2
+  ansible.builtin.copy:
+    src: uyuni-ingress-proxy.yaml
+    dest: /var/lib/rancher/rke2/server/manifests/uyuni-ingress-proxy.yaml
+    mode: "0644"
+    directory_mode: "0755"

@@ -1,0 +1,77 @@
+#cloud-config
+# vim: syntax=yaml
+
+# root user configuration
+disable_root: false
+ssh_pwauth: true
+chpasswd:
+  expire: false
+  list: |
+    root:linux
+ssh_authorized_keys:
+{% for key in authorized_keys | default([]) %}
+  - {{ key }}
+{% endfor %}
+# adjust configuration files
+write_files:
+- content: |
+   master: {{ server }}
+   server_id_use_crc: adler32
+   enable_legacy_startup_events: False
+   enable_fqdns_grains: False
+  path: /etc/salt/minion
+- content: |
+   passwd:         compat
+   group:          compat
+   shadow:         compat
+   hosts:          files dns
+   networks:       files dns
+   aliases:        files usrfiles
+   ethers:         files usrfiles
+   gshadow:        files usrfiles
+   netgroup:       files nis
+   protocols:      files usrfiles
+   publickey:      files
+   rpc:            files usrfiles
+   services:       files usrfiles
+   automount:      files nis
+   bootparams:     files
+   netmasks:       files
+  path: /etc/nsswitch.conf
+runcmd:
+- hostnamectl hostname {{ item.value.hostname }}.{{ domain }}
+{% if item.key == 'sles' %}
+# add SLES 15 SP4 base repository
+- zypper --non-interactive ar "http://dist.suse.de/ibs/SUSE/Products/SLE-Module-Basesystem/15-SP4/x86_64/product/" SLE-Module-Basesystem15-SP4-Pool
+{% elif item.key == 'leap' %}
+# add Leap 15.4 repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Leap 15.4
+# on the server to be able to onboard the nested VM
+- zypper --non-interactive ar "http://download.opensuse.org/distribution/leap/15.4/repo/oss/" os_pool_repo
+- zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/oss/" os_update_repo
+- zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/sle/" sle_update_repo
+- zypper --non-interactive ar "http://download.opensuse.org/update/leap/15.4/backports/" backports_update_repo
+- zypper --non-interactive ar -p 98 "http://downloadcontent.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_15-Uyuni-Client-Tools/openSUSE_Leap_15.0/" tools_pool_repo
+- zypper --non-interactive --gpg-auto-import-keys ref
+- zypper --non-interactive install venv-salt-minion
+- rm /etc/venv-salt-minion/minion
+- cp -f /etc/salt/minion /etc/venv-salt-minion/minion
+- systemctl enable venv-salt-minion.service
+- systemctl start venv-salt-minion.service
+{% elif item.key == 'tumbleweed' %}
+# add Tumbleweed repositories and use venv-salt-minion as workaround to not have to fully sync openSUSE Tumbleweed
+# on the server to be able to onboard the nested VM
+- zypper --non-interactive ar "http://download.opensuse.org/tumbleweed/repo/oss/" os_pool_repo
+- zypper --non-interactive ar "http://download.opensuse.org/update/tumbleweed/" os_update_repo
+- zypper --non-interactive ar -p 98 "http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/" tools_pool_repo
+- zypper --non-interactive --gpg-auto-import-keys ref
+- zypper --non-interactive install venv-salt-minion
+- rm /etc/venv-salt-minion/minion
+- cp -f /etc/salt/minion /etc/venv-salt-minion/minion
+- systemctl enable venv-salt-minion.service
+- systemctl start venv-salt-minion.service
+{% endif %}
+- zypper --non-interactive --gpg-auto-import-keys ref
+- zypper --non-interactive install nss-mdns qemu-guest-agent
+- rm /etc/nsswitch.conf
+- mv /etc/nsswitch.confbak /etc/nsswitch.conf
+- systemctl restart salt-minion.service

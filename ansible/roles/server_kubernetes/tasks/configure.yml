@@ -1,0 +1,143 @@
+---
+# Phase configure (salt/server_kubernetes/init.sls, install_kubernetes_server.sls, additional_disk.sls).
+# Runs after kubernetes_common. The external-cluster mode of Salt (state run from the controller) belongs to the
+# controller host role and is not ported here (controller_system refuses it).
+- name: Facts of the server host
+  ansible.builtin.set_fact:
+    _sk_distribution: "{{ ansible_facts.distribution }}"
+    _sk_version: "{{ ansible_facts.distribution_version }}"
+    _sk_local_path: "{{ kubernetes_storage_backend | default('') == 'local-path' or local_path_provisioner_default_class | default(false) | bool }}"
+    _sk_chart_dir: /root/helm-charts/selfsigned
+
+- name: Facts of the server host (distribution flavours)
+  ansible.builtin.set_fact:
+    _sk_apparmor: "{{ (_sk_distribution == 'SLES' and _sk_version == '15.7') or _sk_distribution == 'Ubuntu' }}"
+    _sk_selinux: "{{ _sk_distribution == 'openSUSE Tumbleweed' or (_sk_distribution == 'SL-Micro' and _sk_version == '6.2') }}"
+    _sk_scc_secret: "{{ 'scc-credentials' if cc_username | default('', true) and cc_password | default('', true) else '' }}"
+    _sk_spacewalk_pv: "{{ kubernetes_create_static_var_spacewalk_pv | default(false) | bool and _sk_local_path | bool }}"
+    _sk_pgsql_pv: "{{ kubernetes_create_static_var_pgsql_pv | default(false) | bool and _sk_local_path | bool }}"
+  no_log: true  # the SCC credentials decide the secret name
+
+# ---- additional disks (xfs: initdb refuses a directory holding the lost+found of an ext filesystem)
+- name: Local path provisioner disk
+  ansible.builtin.include_tasks: disk.yml
+  vars:
+    sk_device: "{{ data_disk_device }}"
+    sk_mount: "{{ local_path_provisioner_path | default('/opt/local-path-provisioner', true) }}"
+  when: repository_disk_size | default(0) | int > 0
+
+- name: Database disk
+  ansible.builtin.include_tasks: disk.yml
+  vars:
+    sk_device: "{{ second_data_disk_device }}"
+    sk_mount: >-
+      {{ kubernetes_var_pgsql_host_path
+         | default((local_path_provisioner_path | default('/opt/local-path-provisioner', true)) ~ '/var-pgsql18', true) }}
+  when: database_disk_size | default(0) | int > 0
+
+# ---- keys: per-deployment keypair (replaces the committed server_keys, proxy_keys and build_host keys)
+- name: Install the server keypair (per deployment, host_vars from Terraform)
+  ansible.builtin.include_role:
+    name: ssh_keypair
+    tasks_from: configure
+  vars:
+    ssh_authorize_own_key: false
+
+- name: Authorize the peer keys (proxy, build host) on the server
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: authorize_peers
+
+- name: SSH client config towards the proxy (test hosts only, no host key checks)
+  ansible.builtin.copy:
+    content: |
+      Host *-proxy.mgr.suse.de
+          User root
+          StrictHostKeyChecking no
+          UserKnownHostsFile=/dev/null
+    dest: /root/.ssh/config
+    mode: "0600"
+
+# ---- helm chart and values
+- name: Variables of the server install (the SCC credentials are inside)
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: write_config
+  vars:
+    cc_config_dest: /etc/profile.d/server_kubernetes_vars.sh
+    cc_config_text: "{{ lookup('ansible.builtin.template', 'server_kubernetes_vars.sh.j2') }}"
+
+- name: Static volumes
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  loop:
+    - {src: volume-configuration-var-spacewalk.yml.j2, dest: /root/volume-configuration-var-spacewalk.yml, on: "{{ _sk_spacewalk_pv }}"}
+    - {src: volume-configuration-var-pgsql.yml.j2, dest: /root/volume-configuration-var-pgsql.yml, on: "{{ _sk_pgsql_pv }}"}
+  loop_control: {label: "{{ item.dest }}"}
+  when: item.on | bool
+
+- name: Chart directory (Go templates, copied as they are)
+  ansible.builtin.copy:
+    src: server-selfsigned/
+    dest: "{{ _sk_chart_dir }}/"
+    mode: preserve
+    directory_mode: "0755"
+
+- name: Server Chart.yaml
+  ansible.builtin.template:
+    src: Chart_server.yaml.j2
+    dest: "{{ _sk_chart_dir }}/Chart.yaml"
+    mode: "0644"
+  vars:
+    oci_name: "{{ helm_chart_name }}"
+    oci_repository: "{{ helm_chart_url }}"
+
+- name: Server values.yaml (default product credentials inside)
+  ansible.builtin.template:
+    src: values_server.yaml.j2
+    dest: "{{ _sk_chart_dir }}/values.yaml"
+    mode: "0644"
+  vars:
+    pass_product: admin
+    pass_db: admin
+    pass_postgres: admin
+    pass_reportdb: admin
+    fqdn: "{{ hostname }}.{{ domain }}"
+    app_armor_name: "{{ 'k8s-systemd-uyuni' if _sk_apparmor | bool else '' }}"
+    selinuxType: "{{ 'uyuni_container_t' if _sk_selinux | bool else '' }}"
+    scc_secret_name: "{{ _sk_scc_secret }}"
+  no_log: true
+
+- name: Server ingress manifest for RKE2
+  ansible.builtin.template:
+    src: uyuni-ingress.yaml.j2
+    dest: /var/lib/rancher/rke2/server/manifests/uyuni-ingress.yaml
+    mode: "0644"
+    directory_mode: "0755"
+
+# ---- AppArmor (SLES 15.7, Ubuntu) and SELinux (Tumbleweed, SL Micro 6.2) profiles for RKE2
+- name: AppArmor profile
+  ansible.builtin.copy: {src: k8s-systemd-uyuni, dest: /etc/apparmor.d/k8s-systemd-uyuni, mode: "0644"}
+  register: _sk_apparmor_profile
+  when: _sk_apparmor | bool
+
+- name: Load the AppArmor profile
+  ansible.builtin.command: apparmor_parser -r /etc/apparmor.d/k8s-systemd-uyuni
+  changed_when: true
+  when: _sk_apparmor | bool and _sk_apparmor_profile is changed
+
+- name: SELinux policy for systemd containers
+  ansible.builtin.copy: {src: systemdcontainerpolicy.te, dest: /root/systemdcontainerpolicy.te, mode: "0644"}
+  register: _sk_te
+  when: _sk_selinux | bool
+
+- name: Build and install the SELinux policy
+  ansible.builtin.shell: |
+    set -e
+    checkmodule -M -m -o /root/systemdcontainerpolicy.mod /root/systemdcontainerpolicy.te
+    semodule_package -o /root/systemdcontainerpolicy.pp -m /root/systemdcontainerpolicy.mod
+    semodule -i /root/systemdcontainerpolicy.pp
+  changed_when: true
+  when: _sk_selinux | bool and _sk_te is changed

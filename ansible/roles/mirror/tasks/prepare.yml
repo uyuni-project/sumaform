@@ -1,0 +1,11 @@
+---
+# Phase prepare: the packages (salt/mirror/configuration.sls, cron.sls).
+- name: Install the mirror packages
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: >-
+      {{ ['ca-certificates-mozilla', 'parted', 'tar', 'apache2', 'apt-mirror']
+         + (['nfs-ganesha', 'nfs-ganesha-vfs'] if nfs_server | default(true) | bool else [])
+         + ([] if disable_cron | default(false) | bool else ['cron']) }}

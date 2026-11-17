@@ -1,0 +1,19 @@
+---
+# Phase 3, configure: the basics every host role shares.
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ hostname | default(inventory_hostname) }}"
+
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ timezone }}"
+  when: timezone is defined
+
+- name: Disable the firewall
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  loop: [firewalld, SuSEfirewall2, ufw]
+  failed_when: false
+  when: disable_firewall | default(true) | bool

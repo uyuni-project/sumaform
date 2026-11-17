@@ -1,0 +1,51 @@
+---
+# Phase configure (salt/locust/init.sls).
+- name: Locust file (arrives base64 encoded, as the locust_file grain)
+  ansible.builtin.copy:
+    content: "{{ locust_file | b64decode }}"
+    dest: /root/locustfile.py
+    mode: "0644"
+  register: _locustfile
+
+- name: Locust unit (the server credentials are inside)
+  ansible.builtin.template: {src: locust.service.j2, dest: /etc/systemd/system/locust.service, mode: "0644"}
+  no_log: true
+  register: _locust_unit
+
+- name: Start locust
+  ansible.builtin.systemd:
+    name: locust
+    state: "{{ 'restarted' if _locustfile is changed or _locust_unit is changed else 'started' }}"
+    enabled: true
+    daemon_reload: true
+
+- name: Runner and exporter scripts
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/usr/bin/{{ item.dest }}"
+    mode: "0755"
+  loop:
+    - {src: run-locust.py.j2, dest: run-locust}
+    - {src: locust-exporter.py.j2, dest: locust-exporter}
+  register: _locust_scripts
+
+- name: Exporter unit
+  ansible.builtin.copy:
+    content: |
+      [Unit]
+      Description=locust_exporter
+
+      [Service]
+      ExecStart=/usr/bin/locust-exporter 9500 localhost:80
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/locust_exporter.service
+    mode: "0644"
+
+- name: Start the exporter
+  ansible.builtin.systemd:
+    name: locust_exporter
+    state: "{{ 'restarted' if _locust_scripts is changed else 'started' }}"
+    enabled: true
+    daemon_reload: true

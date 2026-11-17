@@ -48,4 +48,9 @@ output "configuration" {
     bastion_certificate = lookup(var.provider_settings, "bastion_certificate", null)
     timeout             = lookup(var.provider_settings, "timeout", "20s")
   }
+
+  precondition {
+    condition     = var.provisioner == "salt"
+    error_message = "provisioner = \"ansible\" is not ported to this backend yet (libvirt only); use \"salt\"."
+  }
 }

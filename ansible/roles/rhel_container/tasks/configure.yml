@@ -1,0 +1,43 @@
+---
+# Phase configure (salt/rhel_container/init.sls): a UBI client container with sshd, as a podman systemd service.
+- name: Names of the image and container
+  ansible.builtin.set_fact:
+    _rc_image: "ubi{{ rhel_version }}-ssh"
+    _rc_container: "ubi{{ rhel_version }}-client"
+    _rc_fqdn: "{{ hostname }}.{{ domain }}"
+
+- name: Build directory
+  ansible.builtin.file: {path: /root/ubi-build, state: directory, mode: "0755"}
+
+- name: Authorized keys of the container
+  ansible.builtin.copy:
+    content: "{{ authorized_keys | default([]) | join('\n') }}\n"
+    dest: /root/ubi-build/authorized_keys
+    mode: "0644"
+  register: _rc_keys
+
+- name: CentOS 7 repository (RHEL 7 only)
+  ansible.builtin.copy: {src: centos7.repo, dest: /root/ubi-build/centos7.repo, mode: "0644"}
+  register: _rc_repo
+  when: rhel_version | string == '7'
+
+- name: Containerfile
+  ansible.builtin.template: {src: Containerfile.j2, dest: /root/ubi-build/Containerfile, mode: "0644"}
+  no_log: true  # sets the test root password inside the image (as in Salt)
+  register: _rc_file
+
+- name: Build the image when its inputs changed
+  ansible.builtin.command: "podman build -t {{ _rc_image }} /root/ubi-build"
+  when: _rc_keys is changed or _rc_file is changed or (_rc_repo is defined and _rc_repo is changed)
+  register: _rc_build
+
+- name: Container unit
+  ansible.builtin.template: {src: container.service.j2, dest: "/etc/systemd/system/{{ _rc_container }}.service", mode: "0644"}
+  register: _rc_unit
+
+- name: Start the container
+  ansible.builtin.systemd:
+    name: "{{ _rc_container }}"
+    state: "{{ 'restarted' if _rc_unit is changed or _rc_build is changed else 'started' }}"
+    enabled: true
+    daemon_reload: true

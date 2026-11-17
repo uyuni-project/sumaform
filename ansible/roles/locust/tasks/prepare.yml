@@ -1,0 +1,13 @@
+---
+# Phase prepare (salt/locust/init.sls packages and pip modules).
+- name: Install the build prerequisites
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: [ca-certificates-mozilla, gcc, python-devel, python-pyzmq-devel, git-core, python-pip]
+
+- name: Install the Python modules (pinned, in this order)
+  ansible.builtin.pip:
+    name: "{{ item }}"
+  loop: ["setuptools==39.2.0", greenlet, "locustio==0.8.1", "prometheus-client==0.1.1"]
