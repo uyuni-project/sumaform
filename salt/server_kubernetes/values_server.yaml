@@ -66,7 +66,7 @@ server-helm:
     tag: {{ tftpd_container_tag }}
     {% endif %}
 {% endif %}
-{% if app_armor_name or selinuxType or scc_secret_name %}
+{% if app_armor_name or selinuxType or scc_secret_name or mirror_path %}
   server:
 {% if app_armor_name %}
     apparmorProfile: {{ app_armor_name }}
@@ -75,6 +75,12 @@ server-helm:
 {% endif %}
 {% if scc_secret_name %}
     sccSecret: {{ scc_secret_name }}
+{% endif %}
+{% if mirror_path %}
+    # Mounted as /mirror in the server container and used as server.susemanager.fromdir,
+    # like mgradm does on podman (e.g. Ubuntu errata are then read from the mirror)
+    mirror:
+      hostPath: {{ mirror_path }}
 {% endif %}
 {% endif %}
 {% if deploy_coco_attestation %}

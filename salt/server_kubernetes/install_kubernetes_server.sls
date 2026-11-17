@@ -12,6 +12,9 @@
 {% set kubeconfig = "/root/.kube/config" if is_external_cluster else "/etc/rancher/rke2/rke2.yaml" %}
 {% set cert_manager_namespace = grains.get('cert_manager_namespace') %}
 {% set server_namespace = grains.get('server_namespace') %}
+{# Same mirror selection as server_containerized: mount the CI mirror so the server runs with server.susemanager.fromdir #}
+{% set mirror_hostname = (grains.get('server_mounted_mirror') if grains.get('server_mounted_mirror') else grains.get('mirror')) if grains.get('mirror_nfs_server', true) else None %}
+{% set mirror_path = "/srv/mirror" if mirror_hostname and not is_external_cluster else "" %}
 {% set cc_username = grains.get('cc_username') %}
 {% set cc_password = grains.get('cc_password') %}
 {% set scc_secret_name = "scc-credentials" if cc_username and cc_password else "" %}
@@ -100,6 +103,29 @@ ssh_config_server_kubernetes:
     - group: root
     - mode: 700
 
+{% if mirror_path %}
+# Mount the mirror on the node; the helm chart passes it to the server container
+# as /mirror (server.mirror.hostPath), which sets server.susemanager.fromdir
+kubernetes_nfs_client:
+  pkg.installed:
+    - name: nfs-client
+
+kubernetes_non_empty_fstab:
+  file.managed:
+    - name: /etc/fstab
+    - replace: false
+
+kubernetes_mirror_directory:
+  mount.mounted:
+    - name: {{ mirror_path }}
+    - device: {{ mirror_hostname }}:/srv/mirror
+    - fstype: nfs
+    - mkmnt: True
+    - require:
+      - file: kubernetes_non_empty_fstab
+      - pkg: kubernetes_nfs_client
+{% endif %}
+
 {% else %}
 
 external_kubernetes_kubeconfig:
@@ -181,6 +207,7 @@ copy_value_yaml_file:
         {% if scc_secret_name %}
         scc_secret_name: {{ scc_secret_name }}
         {% endif %}
+        mirror_path: "{{ mirror_path }}"
 
 copy_chart_yaml_file:
   file.managed:
