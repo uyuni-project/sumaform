@@ -102,6 +102,9 @@ server-helm:
     {% if saline_container_tag %}
     tag: {{ saline_container_tag }}
     {% endif %}
+    {% if selinuxType %}
+    selinuxType: uyuni_saline_container_t
+    {% endif %}
 {% endif %}
 {% if deploy_hub_api %}
   hubAPI:
