@@ -29,6 +29,20 @@ debian_cucumber_requisites:
 
 {% endif %}
 
+{% if grains['os_family'] == 'RedHat' %}
+
+# Hardware refresh needs dmidecode; images from Rocky 9.9 on no longer ship it.
+# Install it now from the distro repos: after bootstrap only the test channels
+# are enabled and they don't carry it
+redhat_cucumber_requisites:
+  pkg.installed:
+    - pkgs:
+      - dmidecode
+    - require:
+      - sls: default
+
+{% endif %}
+
 {% if grains['os'] == 'SUSE' %}
 {% if grains['osrelease'] in ['12', '15', '16'] %}
 
