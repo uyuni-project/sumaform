@@ -8,6 +8,7 @@ module "registry" {
   additional_repos              = var.additional_repos
   additional_repos_only         = var.additional_repos_only
   additional_packages           = var.additional_packages
+  additional_certs              = var.additional_certs
   swap_file_size                = var.swap_file_size
   ssh_key_path                  = var.ssh_key_path
   gpg_keys                      = var.gpg_keys

@@ -29,6 +29,8 @@ module "proxy_kubernetes" {
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   ssh_key_path                  = var.ssh_key_path
+  gpg_keys                      = var.gpg_keys
+  ipv6                          = var.ipv6
   additional_repos              = var.additional_repos
   additional_repos_only         = var.additional_repos_only
   additional_packages           = var.additional_packages
