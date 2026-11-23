@@ -1,6 +1,3 @@
-// WORKAROUND: This module started as a copy of the server module and still declares variables it does not use.
-// Dropping them is tracked in https://github.com/SUSE/spacewalk/issues/32074. Remove this comment then.
-
 variable "images" {
   default = {
     "head"           = "slmicro62o"
@@ -105,6 +102,7 @@ module "server_containerized" {
     server_hub_peripheral          = var.server_hub_peripheral
     skip_server_install            = var.skip_server_install
     allow_postgres_connections     = var.allow_postgres_connections
+    disable_download_tokens        = var.disable_download_tokens
   }, var.additional_grains)
 }
 

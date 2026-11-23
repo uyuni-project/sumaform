@@ -393,7 +393,15 @@ This will create a network named `private`, with your prefix in front of the nam
 
 You may use that additional network to test Cobbler or SUSE Manager for Retail with the test suite or manually.
 
-For each VM, you can decide whether it connects to the base network and/or to the additional network by specifying:
+Which networks a VM connects to is fixed by its module:
+
+| Module | Base network | Additional network |
+|---|---|---|
+| `server_containerized`, `server_kubernetes`, `minion`, `sshminion`, `controller` | yes | no |
+| `proxy_containerized`, `proxy_kubernetes`, `build_host` | yes | yes |
+| `dhcp_dns`, `pxe_boot` | no | yes |
+
+Only the `registry` module lets you choose, by specifying:
 
 ```hcl
 connect_to_base_network = false
