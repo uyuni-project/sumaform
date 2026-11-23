@@ -195,6 +195,7 @@ module "server_containerized" {
   additional_repos               = lookup(local.additional_repos, "server_containerized", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server_containerized", false)
   additional_packages            = lookup(local.additional_packages, "server_containerized", [])
+  additional_grains              = lookup(local.additional_grains, "server_containerized", {})
 
   provider_settings             = lookup(local.provider_settings_by_host, "server_containerized", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_containerized", {})
@@ -229,6 +230,7 @@ module "server_kubernetes" {
   additional_repos               = lookup(local.additional_repos, "server_kubernetes", {})
   additional_repos_only          = lookup(local.additional_repos_only, "server_kubernetes", false)
   additional_packages            = lookup(local.additional_packages, "server_kubernetes", [])
+  additional_grains              = lookup(local.additional_grains, "server_kubernetes", {})
 
   provider_settings             = lookup(local.provider_settings_by_host, "server_kubernetes", {})
   server_mounted_mirror         = lookup(local.server_mounted_mirror, "server_kubernetes", {})
@@ -305,6 +307,7 @@ module "proxy_containerized" {
   additional_repos        = lookup(local.additional_repos, "proxy_containerized", {})
   additional_repos_only   = lookup(local.additional_repos_only, "proxy_containerized", false)
   additional_packages     = lookup(local.additional_packages, "proxy_containerized", [])
+  additional_grains       = lookup(local.additional_grains, "proxy_containerized", {})
   main_disk_size          = lookup(local.main_disk_size, "proxy_containerized", 200)
   repository_disk_size    = lookup(local.repository_disk_size, "proxy_containerized", 0)
   provider_settings       = lookup(local.provider_settings_by_host, "proxy_containerized", {})
@@ -343,6 +346,7 @@ module "proxy_kubernetes" {
   additional_repos        = lookup(local.additional_repos, "proxy_kubernetes", {})
   additional_repos_only   = lookup(local.additional_repos_only, "proxy_kubernetes", false)
   additional_packages     = lookup(local.additional_packages, "proxy_kubernetes", [])
+  additional_grains       = lookup(local.additional_grains, "proxy_kubernetes", {})
   main_disk_size          = lookup(local.main_disk_size, "proxy_kubernetes", 200)
   repository_disk_size    = lookup(local.repository_disk_size, "proxy_kubernetes", 0)
   provider_settings       = lookup(local.provider_settings_by_host, "proxy_kubernetes", {})
@@ -413,6 +417,7 @@ module "suse_sshminion" {
   additional_repos  = lookup(local.additional_repos, "suse_sshminion", {})
   additional_repos_only  = lookup(local.additional_repos_only, "suse_sshminion", false)
   additional_packages = lookup(local.additional_packages, "suse_sshminion", [])
+  additional_grains   = lookup(local.additional_grains, "suse_sshminion", {})
   provider_settings = lookup(local.provider_settings_by_host, "suse_sshminion", {})
 }
 
@@ -503,6 +508,7 @@ module "build_host" {
   additional_repos  = lookup(local.additional_repos, "build_host", {})
   additional_repos_only  = lookup(local.additional_repos_only, "build_host", false)
   additional_packages = lookup(local.additional_packages, "build_host", [])
+  additional_grains   = lookup(local.additional_grains, "build_host", {})
   provider_settings = lookup(local.provider_settings_by_host, "build_host", {})
 }
 

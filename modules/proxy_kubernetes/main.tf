@@ -39,7 +39,7 @@ module "proxy_kubernetes" {
   provision                     = var.provision
   product_version               = local.product_version
 
-  grains = {
+  grains = merge({
     server                          = var.server_configuration["hostname"]
     server_username                 = var.server_configuration["username"]
     server_password                 = var.server_configuration["password"]
@@ -71,7 +71,7 @@ module "proxy_kubernetes" {
     repository_disk_size            = var.repository_disk_size
     database_disk_size              = var.database_disk_size
     use_devel_oci                   = var.use_devel_oci
-  }
+  }, var.additional_grains)
 }
 
 output "configuration" {

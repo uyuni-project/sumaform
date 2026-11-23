@@ -46,8 +46,9 @@ module "server_kubernetes" {
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
   product_version               = local.product_version
+  disable_firewall              = var.disable_firewall
 
-  grains = {
+  grains = merge({
     container_runtime              = var.runtime
     container_registry             = var.container_registry
     container_image                = var.container_image
@@ -117,7 +118,7 @@ module "server_kubernetes" {
     kubernetes_create_static_var_pgsql_pv     = var.kubernetes_create_static_var_pgsql_pv
     kubernetes_var_spacewalk_host_path        = var.kubernetes_var_spacewalk_host_path
     kubernetes_var_pgsql_host_path            = var.kubernetes_var_pgsql_host_path
-  }
+  }, var.additional_grains)
 }
 
 output "configuration" {
