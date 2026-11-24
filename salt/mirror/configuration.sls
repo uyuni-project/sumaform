@@ -178,6 +178,10 @@ mirror_directory:
     - persist: True
     - opts:
       - defaults
+{% if grains.get('selinux', {}).get('enabled') %}
+      # The new filesystem carries no SELinux labels: without this, Apache cannot read the mirror content
+      - context=system_u:object_r:httpd_sys_content_t:s0
+{% endif %}
     - require:
       - cmd: mirror_partition
 
