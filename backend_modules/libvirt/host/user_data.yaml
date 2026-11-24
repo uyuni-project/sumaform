@@ -563,37 +563,17 @@ bootcmd:
 apt:
   sources:
     tools_pool_repo:
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
+      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2604-Uyuni-Client-Tools/xUbuntu_26.04/ /
+%{ else ~}
 %{ if contains(["head", "head-staging"], product_version) ~}
       source: deb http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu26.04/xUbuntu_26.04-debbuild/ /
 %{ else ~}
-      # WORKAROUND: the non-head product versions should select
-      # Devel:/Galaxy:/Manager:/Stable:/MLMTools-Ubuntu26.04/xUbuntu_26.04/ like the other Ubuntu
-      # blocks do, but that project does not exist yet, so they stay on Uyuni
-      source: deb http://${ use_mirror_images ? mirror : "download.opensuse.org" }/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2604-Uyuni-Client-Tools/xUbuntu_26.04/ /
+      source: deb http://${ use_mirror_images ? mirror : "dist.suse.de" }/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-Ubuntu26.04/xUbuntu_26.04/ /
+%{ endif ~}
 %{ endif ~}
       key: |
-%{ if contains(["head", "head-staging"], product_version) ~}
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v2.4.4 (GNU/Linux)
-
-        mQENBGLwyaYBCADNYZW2qfvrxVYK3A9ArHdCP2GuHo0tdZzvaVor3hEGZ1A6lwLR
-        S+r+l+o1pDywjZDSSSpdrLD3DT7T//OBZT9e0s9cluqy18FoGuXymvlL7MoeENo6
-        Q1nD379T0UBAnfF3TEIoTuFCWzQX2z668AK/bBQNLzAU2KylusGQlLjpraOlz+eO
-        LHXCc2EXZMiknbHuhku48j6YrvDCARdeQUFl+bHMEtZi2FXTEpFacy/oUbXIr8YG
-        /i6pBa9oDQr9R7lgU8rZtb4YfeX9jr3+1SehNogxwmh/QDpC13lqGqJ7rBNhW6p4
-        vT7rPlUgASV4ab+O4LDqexg4U96YV8DvgZIJABEBAAG0NURldmVsOkdhbGF4eSBP
-        QlMgUHJvamVjdCA8RGV2ZWw6R2FsYXh5QGJ1aWxkLnN1c2UuZGU+iQE+BBMBCAAo
-        BQJp61ypAhsDBQkLGUMDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDkXcGY
-        beVjdoGFCADB3EggMqM+cT+6v+/OGk4KJist80ULpZwQo43BC+j8TSFhfjr+zfqz
-        Xk0VptsNEsvpACVnw4f/HaZmiC+w2pGB5v2rtryvneg340JnnnMCttir3l89mg3b
-        sifdysthq5zHEajG8q8Fw5+Kdg1eH76E+pNFOR8oLBU5kIBFoBRiIBs8JlM2xMNb
-        fanoOE191SCWlYpQO4xLFRp4/aJi+hpfuYeLblL4sD5Rucbqfx7QjL1FKhqaGdf9
-        Z+bbMLER9CFq95gtCsyWj4xLTwfT8rmQ8iH+gu09mF2nQa44IpyfPwJzmO1VUVPp
-        GvB2sVkh9wnF/19zrbDF+NxVrCkPyuJUiEYEExECAAYFAmLwyaYACgkQqE7a6JyA
-        Cso07QCePkklGUUjNG4p7x+TVPIANEs60dUAn20/EMPdf0BQNGW1/qdCb5MT2AIQ
-        =9dds
-        -----END PGP PUBLIC KEY BLOCK-----
-%{ else ~}
+%{ if contains(["uyuni-master", "uyuni-main", "uyuni-released", "uyuni-pr"], product_version) ~}
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
 
@@ -614,6 +594,27 @@ apt:
         VzV9iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
         3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
         =eJaK
+        -----END PGP PUBLIC KEY BLOCK-----
+%{ else ~}
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v2.4.4 (GNU/Linux)
+
+        mQENBGLwyaYBCADNYZW2qfvrxVYK3A9ArHdCP2GuHo0tdZzvaVor3hEGZ1A6lwLR
+        S+r+l+o1pDywjZDSSSpdrLD3DT7T//OBZT9e0s9cluqy18FoGuXymvlL7MoeENo6
+        Q1nD379T0UBAnfF3TEIoTuFCWzQX2z668AK/bBQNLzAU2KylusGQlLjpraOlz+eO
+        LHXCc2EXZMiknbHuhku48j6YrvDCARdeQUFl+bHMEtZi2FXTEpFacy/oUbXIr8YG
+        /i6pBa9oDQr9R7lgU8rZtb4YfeX9jr3+1SehNogxwmh/QDpC13lqGqJ7rBNhW6p4
+        vT7rPlUgASV4ab+O4LDqexg4U96YV8DvgZIJABEBAAG0NURldmVsOkdhbGF4eSBP
+        QlMgUHJvamVjdCA8RGV2ZWw6R2FsYXh5QGJ1aWxkLnN1c2UuZGU+iQE+BBMBCAAo
+        BQJp61ypAhsDBQkLGUMDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDkXcGY
+        beVjdoGFCADB3EggMqM+cT+6v+/OGk4KJist80ULpZwQo43BC+j8TSFhfjr+zfqz
+        Xk0VptsNEsvpACVnw4f/HaZmiC+w2pGB5v2rtryvneg340JnnnMCttir3l89mg3b
+        sifdysthq5zHEajG8q8Fw5+Kdg1eH76E+pNFOR8oLBU5kIBFoBRiIBs8JlM2xMNb
+        fanoOE191SCWlYpQO4xLFRp4/aJi+hpfuYeLblL4sD5Rucbqfx7QjL1FKhqaGdf9
+        Z+bbMLER9CFq95gtCsyWj4xLTwfT8rmQ8iH+gu09mF2nQa44IpyfPwJzmO1VUVPp
+        GvB2sVkh9wnF/19zrbDF+NxVrCkPyuJUiEYEExECAAYFAmLwyaYACgkQqE7a6JyA
+        Cso07QCePkklGUUjNG4p7x+TVPIANEs60dUAn20/EMPdf0BQNGW1/qdCb5MT2AIQ
+        =9dds
         -----END PGP PUBLIC KEY BLOCK-----
 %{ endif ~}
 
