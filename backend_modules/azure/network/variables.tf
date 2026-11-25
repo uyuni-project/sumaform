@@ -11,15 +11,17 @@ variable "name_prefix" {
 variable "create_network" {
   description = "defined if a new network should be created"
   type        = bool
-  default = true
+  default     = true
 }
 
 variable "ssh_allowed_ips" {
   description = "list of ips allowed to ssh"
-  default = []
+  type        = list(string)
+  default     = []
 }
 
 variable "additional_network" {
   description = "Additional network cidr_block (of the form 172.16.x.x/24)"
-  default = "172.16.2.0/24"
+  type        = string
+  default     = "172.16.2.0/24"
 }

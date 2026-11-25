@@ -30,6 +30,7 @@ You will need:
     - [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [an SSH key pair](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys) valid for that account
 - the name of the region and availability zone you want to use.
+- your subscription ID: the `azurerm` provider (4.x) requires it, either as `subscription_id` in the `provider "azurerm"` block or via the `ARM_SUBSCRIPTION_ID` environment variable.
 
 ## Select Azure backend to be used
 

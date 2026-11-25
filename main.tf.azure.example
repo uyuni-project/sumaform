@@ -6,7 +6,8 @@ locals {
 }
 
 provider "azurerm" {
-features {}
+  features {}
+  subscription_id = "Azure Subscription ID" # or set ARM_SUBSCRIPTION_ID
 }
 
 module "base" {
@@ -20,7 +21,7 @@ module "base" {
   product_version   = "uyuni-released"
   provider_settings = {
     location = local.location
-    ssh_allowed_ips   = "*"
+    ssh_allowed_ips     = ["*"]
     public_key_location = local.public_key_location
     key_file            = local.key_file
   }
@@ -70,7 +71,7 @@ module "server" {
   provider_settings = {
     public_instance = true
     vm_size = "Standard_B4ms"
-    os_disk_size = 100
+    volume_size     = 100
   }
 }
 
