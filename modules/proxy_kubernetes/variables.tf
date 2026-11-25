@@ -211,11 +211,6 @@ variable "database_disk_size" {
   default     = 0
 }
 
-variable "roles" {
-  description = "List of the host roles"
-  default     = ["proxy_containerized"]
-}
-
 variable "avahi_reflector" {
   description = "if using avahi, let the daemon be a reflector"
   default     = false

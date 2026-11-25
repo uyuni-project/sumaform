@@ -7,11 +7,6 @@ variable "name" {
   type        = string
 }
 
-variable "roles" {
-  description = "List of the host roles"
-  default     = []
-}
-
 variable "runtime" {
   description = "Where to run the containers. One of podman or k3s"
   default = "podman"
@@ -133,26 +128,6 @@ variable "cloned_channels" {
   }))
 }
 
-variable "register_to_server" {
-  description = "name of another Server to register to, eg module.<SERVER_NAME>.configuration.hostname"
-  default     = null
-}
-
-variable "auto_register" {
-  description = "whether this Server should automatically register to another Server"
-  default     = true
-}
-
-variable "download_private_ssl_key" {
-  description = "copy SSL certificates from the hub server upon deployment"
-  default     = true
-}
-
-variable "activation_key" {
-  description = "an Activation Key to be used when registering to another Server"
-  default     = null
-}
-
 variable "server_username" {
   description = "username of the SUSE Manager administrator, admin by default"
   default     = "admin"
@@ -171,16 +146,6 @@ variable "disable_firewall" {
 variable "allow_postgres_connections" {
   description = "configure Postgres to accept connections from external hosts"
   default     = true
-}
-
-variable "unsafe_postgres" {
-  description = "whether to use PostgreSQL settings that improve performance by worsening durability"
-  default     = true
-}
-
-variable "postgres_log_min_duration" {
-  description = "log any PostgreSQL statement taking longer than the specified amount of milliseconds. 0 for all, leave default for none"
-  default     = null
 }
 
 variable "java_debugging" {
@@ -230,7 +195,7 @@ variable "publish_private_ssl_key" {
 
 variable "disable_download_tokens" {
   description = "disable package token download checks"
-  default     = true
+  default     = false
 }
 
 variable "disable_auto_bootstrap" {
@@ -266,11 +231,6 @@ variable "forward_registration" {
 
 variable "traceback_email" {
   description = "recipient email address that will receive errors during usage"
-  default     = null
-}
-
-variable "smt" {
-  description = "URL to an SMT server to get packages from"
   default     = null
 }
 
@@ -314,7 +274,7 @@ variable "quantity" {
   default     = 1
 }
 
-variable "grains" {
+variable "additional_grains" {
   description = "custom grain map to be added to this host's configuration"
   default     = {}
 }
@@ -340,16 +300,6 @@ variable "ipv6" {
     enable    = true
     accept_ra = true
   }
-}
-
-variable "connect_to_base_network" {
-  description = "true if you want a card connected to the main network, see README_ADVANCED.md"
-  default     = true
-}
-
-variable "connect_to_additional_network" {
-  description = "true if you want a card connected to the additional network (if any), see README_ADVANCED.md"
-  default     = false
 }
 
 variable "image" {

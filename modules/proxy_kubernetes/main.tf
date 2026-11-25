@@ -29,6 +29,8 @@ module "proxy_kubernetes" {
   use_os_released_updates       = var.use_os_released_updates
   install_salt_bundle           = var.install_salt_bundle
   ssh_key_path                  = var.ssh_key_path
+  gpg_keys                      = var.gpg_keys
+  ipv6                          = var.ipv6
   additional_repos              = var.additional_repos
   additional_repos_only         = var.additional_repos_only
   additional_packages           = var.additional_packages
@@ -39,7 +41,7 @@ module "proxy_kubernetes" {
   provision                     = var.provision
   product_version               = local.product_version
 
-  grains = {
+  grains = merge({
     server                          = var.server_configuration["hostname"]
     server_username                 = var.server_configuration["username"]
     server_password                 = var.server_configuration["password"]
@@ -71,7 +73,7 @@ module "proxy_kubernetes" {
     repository_disk_size            = var.repository_disk_size
     database_disk_size              = var.database_disk_size
     use_devel_oci                   = var.use_devel_oci
-  }
+  }, var.additional_grains)
 }
 
 output "configuration" {

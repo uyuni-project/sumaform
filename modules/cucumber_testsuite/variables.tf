@@ -41,21 +41,6 @@ variable "images" {
   default     = ["centos7o", "opensuse160o", "slemicro55o", "slmicro60o", "slmicro61o", "slmicro62o", "rocky8o", "rocky9o", "sles12sp5o", "sles15sp4o", "sles15sp5o", "sles15sp6o", "sles15sp7o", "ubuntu2204o", "ubuntu2404o", "ubuntu2604o"]
 }
 
-variable "main_disk_size" {
-  description = "Size of main disk, defined in GiB"
-  default     = 200
-}
-
-variable "repository_disk_size" {
-  description = "Size of an additional disk for /var/spacewalk partition, defined in GiB"
-  default     = 0
-}
-
-variable "database_disk_size" {
-  description = "Size of an additional disk for /var/lib/pgsql partition, defined in GiB"
-  default     = 0
-}
-
 variable "mirror" {
   description = "hostname of the mirror host or leave the default for no mirror"
   default     = null

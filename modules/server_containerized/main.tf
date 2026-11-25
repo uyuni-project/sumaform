@@ -1,6 +1,3 @@
-// WORKAROUND: This module started as a copy of the server module and still declares variables it does not use.
-// Dropping them is tracked in https://github.com/SUSE/spacewalk/issues/32074. Remove this comment then.
-
 variable "images" {
   default = {
     "head"           = "slmicro62o"
@@ -45,8 +42,9 @@ module "server_containerized" {
   second_additional_disk_size   = var.database_disk_size
   volume_provider_settings      = var.volume_provider_settings
   product_version               = local.product_version
+  disable_firewall              = var.disable_firewall
 
-  grains = {
+  grains = merge({
     container_runtime              = var.runtime
     container_registry             = var.container_registry
     container_image                = var.container_image
@@ -104,7 +102,8 @@ module "server_containerized" {
     server_hub_peripheral          = var.server_hub_peripheral
     skip_server_install            = var.skip_server_install
     allow_postgres_connections     = var.allow_postgres_connections
-  }
+    disable_download_tokens        = var.disable_download_tokens
+  }, var.additional_grains)
 }
 
 output "configuration" {

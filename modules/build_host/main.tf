@@ -22,13 +22,13 @@ module "build_host" {
   roles                         = ["build_host"]
   disable_firewall              = var.disable_firewall
   product_version               = local.product_version
-  grains = {
+  grains = merge({
     mirror                 = var.base_configuration["mirror"]
     server                 = var.server_configuration["hostname"]
     auto_connect_to_master = var.auto_connect_to_master
     avahi_reflector        = var.avahi_reflector
     sles_registration_code = var.sles_registration_code
-  }
+  }, var.additional_grains)
 
   image             = var.image
   provider_settings = var.provider_settings
