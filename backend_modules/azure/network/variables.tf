@@ -25,3 +25,9 @@ variable "additional_network" {
   type        = string
   default     = "172.16.2.0/24"
 }
+
+variable "resource_group_name" {
+  description = "name of an existing resource group to deploy into, null to create one"
+  type        = string
+  default     = null
+}

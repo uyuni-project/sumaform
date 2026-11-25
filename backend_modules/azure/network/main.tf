@@ -10,50 +10,55 @@ locals {
 }
 
 resource "azurerm_resource_group" "suma-rg" {
-  name     = "${var.name_prefix}-resources"
+  count    = var.resource_group_name == null ? 1 : 0
+  name     = "${var.name_prefix}resources"
   location = var.location
   tags     = local.tags
 }
 
+locals {
+  resource_group_name = var.resource_group_name != null ? var.resource_group_name : azurerm_resource_group.suma-rg[0].name
+}
+
 resource "azurerm_virtual_network" "suma-vn" {
   count               = var.create_network ? 1 : 0
-  name                = "${var.name_prefix}-network"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}network"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   address_space       = ["172.16.0.0/16"]
   tags                = local.tags
 }
 
 resource "azurerm_subnet" "public-sn" {
   count                = var.create_network ? 1 : 0
-  name                 = "${var.name_prefix}-public-sn"
+  name                 = "${var.name_prefix}public-sn"
   virtual_network_name = azurerm_virtual_network.suma-vn[0].name
-  resource_group_name  = azurerm_resource_group.suma-rg.name
+  resource_group_name  = local.resource_group_name
   address_prefixes     = ["172.16.0.0/24"]
 }
 
 resource "azurerm_subnet" "private-sn" {
   count                = var.create_network ? 1 : 0
-  name                 = "${var.name_prefix}-private-sn"
+  name                 = "${var.name_prefix}private-sn"
   virtual_network_name = azurerm_virtual_network.suma-vn[0].name
-  resource_group_name  = azurerm_resource_group.suma-rg.name
+  resource_group_name  = local.resource_group_name
   address_prefixes     = ["172.16.1.0/24"]
 }
 
 resource "azurerm_subnet" "private-additional-sn" {
   count = var.create_network && var.additional_network != null ? 1 : 0
 
-  name                 = "${var.name_prefix}-private-additional-sn"
+  name                 = "${var.name_prefix}private-additional-sn"
   virtual_network_name = azurerm_virtual_network.suma-vn[0].name
-  resource_group_name  = azurerm_resource_group.suma-rg.name
+  resource_group_name  = local.resource_group_name
   address_prefixes     = [var.additional_network]
 }
 
 resource "azurerm_route_table" "public-rt" {
   count               = var.create_network ? 1 : 0
-  name                = "${var.name_prefix}-public-rt"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}public-rt"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   route {
     name           = "all-out"
     address_prefix = "0.0.0.0/0"
@@ -90,9 +95,9 @@ resource "azurerm_subnet_route_table_association" "private-additional-rtas" {
 resource "azurerm_network_security_group" "public-nsg" {
   count = var.create_network ? 1 : 0
 
-  name                = "${var.name_prefix}-public-nsg"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}public-nsg"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   tags                = local.tags
 }
 
@@ -101,7 +106,7 @@ resource "azurerm_network_security_rule" "ssh" {
   count = var.create_network ? 1 : 0
 
   name                        = "ssh"
-  resource_group_name         = azurerm_resource_group.suma-rg.name
+  resource_group_name         = local.resource_group_name
   network_security_group_name = azurerm_network_security_group.public-nsg[0].name
   priority                    = 100
   direction                   = "Inbound"
@@ -117,7 +122,7 @@ resource "azurerm_network_security_rule" "https" {
   count = var.create_network ? 1 : 0
 
   name                        = "https"
-  resource_group_name         = azurerm_resource_group.suma-rg.name
+  resource_group_name         = local.resource_group_name
   network_security_group_name = azurerm_network_security_group.public-nsg[0].name
   priority                    = 110
   direction                   = "Inbound"
@@ -138,17 +143,17 @@ resource "azurerm_subnet_network_security_group_association" "public-nsg-associa
 
 resource "azurerm_network_security_group" "private-nsg" {
   count               = var.create_network ? 1 : 0
-  name                = "${var.name_prefix}-private-nsg"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}private-nsg"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   tags                = local.tags
 }
 
 resource "azurerm_network_security_group" "private-additional-nsg" {
   count               = var.create_network && var.additional_network != null ? 1 : 0
-  name                = "${var.name_prefix}-private-additional-nsg"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}private-additional-nsg"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   tags                = local.tags
 }
 
@@ -166,9 +171,9 @@ resource "azurerm_subnet_network_security_group_association" "private-nsg-associ
 
 resource "azurerm_public_ip" "nat-pubIP" {
   count               = var.create_network ? 1 : 0
-  name                = "nat-gateway-pubIP"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}nat-gateway-pubIP"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   allocation_method   = "Static"
   sku                 = "Standard"
   tags                = local.tags
@@ -176,9 +181,9 @@ resource "azurerm_public_ip" "nat-pubIP" {
 
 resource "azurerm_nat_gateway" "suma-ngw" {
   count               = var.create_network ? 1 : 0
-  name                = "${var.name_prefix}-ngw"
-  resource_group_name = azurerm_resource_group.suma-rg.name
-  location            = azurerm_resource_group.suma-rg.location
+  name                = "${var.name_prefix}ngw"
+  resource_group_name = local.resource_group_name
+  location            = var.location
   tags                = local.tags
 }
 
@@ -197,13 +202,11 @@ resource "azurerm_subnet_nat_gateway_association" "suma-ngw-association" {
 
 output "configuration" {
   depends_on = [azurerm_subnet_route_table_association.private-rtas, azurerm_subnet_route_table_association.private-additional-rtas, azurerm_subnet_route_table_association.public-rtas]
-  value = var.create_network ? {
-    public_subnet_id                     = length(azurerm_subnet.public-sn) > 0 ? azurerm_subnet.public-sn[0].id : null
-    private_subnet_id                    = length(azurerm_subnet.private-sn) > 0 ? azurerm_subnet.private-sn[0].id : null
-    private_additional_subnet_id         = length(azurerm_subnet.private-additional-sn) > 0 ? azurerm_subnet.private-additional-sn[0].id : null
-    public_security_group_id             = length(azurerm_network_security_group.public-nsg) > 0 ? azurerm_network_security_group.public-nsg[0].id : null
-    private_security_group_id            = length(azurerm_network_security_group.private-nsg) > 0 ? azurerm_network_security_group.private-nsg[0].id : null
-    private_additional_security_group_id = length(azurerm_network_security_group.private-additional-nsg) > 0 ? azurerm_network_security_group.private-additional-nsg[0].id : null
-    resource_group_name                  = azurerm_resource_group.suma-rg.name
-  } : {}
+  // hosts need the resource group even when reusing an existing network
+  value = {
+    public_subnet_id             = length(azurerm_subnet.public-sn) > 0 ? azurerm_subnet.public-sn[0].id : null
+    private_subnet_id            = length(azurerm_subnet.private-sn) > 0 ? azurerm_subnet.private-sn[0].id : null
+    private_additional_subnet_id = length(azurerm_subnet.private-additional-sn) > 0 ? azurerm_subnet.private-additional-sn[0].id : null
+    resource_group_name          = local.resource_group_name
+  }
 }

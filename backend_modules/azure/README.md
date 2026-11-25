@@ -15,8 +15,7 @@ Base Module will create:
 
 This architecture is based on [Azure Virtual Network concepts and best practices](https://docs.microsoft.com/en-us/azure/virtual-network/concepts-and-best-practices).
 
-A mirror is necessary for SUSE Manager installations and for SLES clients (see README_ADVANCED.md).
-In Uyuni deployments with free OSs a mirror is not mandatory, but will still to speed up machine provisioning.
+A mirror is necessary for SUSE Multi-Linux Manager installations and for SLES clients (see README_ADVANCED.md).
 
 Azure backend don't have support for pxe_boot hosts. It's implementation will be considered in future releases.
 
@@ -29,8 +28,8 @@ You will need:
   - [Use an azure service principal](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal): In this case you will need to include the service principal in the provider configuration. More information on alternative connection methods to azure can be found here:
     - [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 - [an SSH key pair](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys) valid for that account
-- the name of the region and availability zone you want to use.
-- your subscription ID: the `azurerm` provider (4.x) requires it, either as `subscription_id` in the `provider "azurerm"` block or via the `ARM_SUBSCRIPTION_ID` environment variable.
+- the name of the region you want to use.
+- your subscription ID: the `azurerm` provider (4.x and later) requires it, either as `subscription_id` in the `provider "azurerm"` block or via the `ARM_SUBSCRIPTION_ID` environment variable.
 
 ## Select Azure backend to be used
 
@@ -48,11 +47,12 @@ Available provider settings for the base module:
 |---------------------|--------|-----------------|-----------------------------------------------------------------------------------------------------------------|
 | location            | string | `null`          | Azure region where infrastructure will be created                                                               |
 | ssh_allowed_ips     | array  | `[]`            | Array of IP's to white list for ssh connection                                                                  |
-| key_name            | string | `null`          | ssh key name in Azure                                                                                           |
 | key_file            | string | `null`          | ssh key file                                                                                                    |
 | bastion_host        | string | `null`          | bastian host use to connect machines in private network                                                         |
 | additional_network  | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1) |
 | public_key_location | string | `null`          | Location for access public key                                                                                  |
+| disk_encryption_set_id | string | `null`       | ID of a Disk Encryption Set to encrypt all disks with customer-managed keys. Disks always use platform-managed encryption when unset |
+| resource_group_name | string | `null` | Name of an existing resource group to deploy into. A new `<name_prefix>resources` resource group is created when unset |
 
 An example follows:
 
@@ -61,7 +61,6 @@ An example follows:
 provider_settings = {
     location            = "francecentral"
     ssh_allowed_ips   = ["1.2.3.4"]
-    key_name = "my-key"
     key_file = "/path/to/key.pem"
 }
 ...
@@ -74,13 +73,13 @@ Following settings apply to all modules that create one or more hosts of the sam
 | Variable name       | Type    | Default value                                        | Description                                                         |
 |---------------------|---------|------------------------------------------------------|---------------------------------------------------------------------|
 | public_key_location | string  | [from base Module](base-module)                      | Location for access public key                                      |
-| key_name            | string  | [from base Module](base-module)                      | ssh key name in Azure                                               |
 | key_file            | string  | [from base Module](base-module)                      | ssh key file                                                        |
 | ssh_user            | string  | OS-specific SSH user (ec2-user, centos, ubuntu, etc) | ssh user to use in ssh into the machine for provisioning            |
 | bastion_host        | string  | [from base Module](base-module)                      | bastion host used to connect to machines in the private network     |
 | public_instance     | boolean | `false`                                              | boolean to connect host either to the private or the public network |
-| volume_size         | number  | `50`                                                 | main volume size in GB                                              |
-| vm_size             | string  | `Standard_B4ms`([apart from specific roles](#default-provider-settings-by-role)) | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/) |
+| volume_size         | number  | `main_disk_size` of the module                       | main volume size in GB                                              |
+| disk_encryption_set_id | string | [from base Module](base-module)                   | ID of a Disk Encryption Set for the OS and data disks of this host  |
+| vm_size             | string  | `Standard_B1s`([apart from specific roles](#default-provider-settings-by-role)) | [Virtual Machine series](https://azure.microsoft.com/en-us/pricing/details/virtual-machines/series/) |
 
 An example follows:
 
@@ -111,11 +110,27 @@ Some roles such as `server` or `mirror` have specific defaults that override tho
 
 | Role         | Default values                |
 |--------------|-------------------------------|
-| server       | `{vm_size = "Standard_B4ms"}` |
+| server_containerized | `{vm_size = "Standard_D8as_v5"}` (`Standard_D8ps_v5` on arm64) |
+| proxy_containerized  | `{vm_size = "Standard_F2s_v2"}` (`Standard_D2pls_v5` on arm64) |
 | mirror       | `{vm_size = "Standard_B1s"}`  |
 | controller   | `{vm_size = "Standard_B2s"}`  |
 | grafana      | `{vm_size = "Standard_B2s"}`  |
 | virthost     | `{vm_size = "Standard_B1ms"}` |
+| jenkins      | `{vm_size = "Standard_B4ms"}` |
+
+## Images
+
+Available images: `opensuse160o`, `sles12sp5o`, `sles15sp5o`, `sles15sp6o`, `sles15sp7o`, `rhel8`, `rhel9`, `ubuntu2204` and `ubuntu2404`. Using any other image fails at plan time with the list of valid ones.
+
+- `opensuse160o` follows the latest Leap 16 minor release, as Azure only publishes that one.
+- SLES images are BYOS: a mirror is needed to get their repositories.
+- The default SL Micro images of `server_containerized` and `proxy_containerized` are not available on Azure. Set `image = "sles15sp7o"` for SUSE Multi-Linux Manager 5.1, 5.2 and head.
+
+cloud-init installs `venv-salt-minion` from the client tools repositories on all images.
+
+## Data disks
+
+Additional disks are attached at LUN 0 (`repository_disk_size`, or the mirror disk) and LUN 1 (`database_disk_size`), and used through the `/dev/disk/azure/scsi1/lunN` symlinks created by the Azure Linux agent udev rules. VM sizes exposing disks through NVMe are not supported.
 
 ## Accessing instances
 

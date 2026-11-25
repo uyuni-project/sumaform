@@ -1,5 +1,5 @@
 locals {
-  name_prefix = "Tfs"
+  name_prefix = "tfs-"
   location = "francecentral"
   key_file            = "Private Key File"
   public_key_location = "Public Key File"
@@ -18,7 +18,7 @@ module "base" {
 
   name_prefix =  local.name_prefix 
    // if you use name_prefix, make sure to update the server_configuration for clients/minions below
-  product_version   = "uyuni-released"
+  product_version   = "5.2-released"
   provider_settings = {
     location = local.location
     ssh_allowed_ips     = ["*"]
@@ -65,7 +65,8 @@ module "server" {
   base_configuration = local.base_configuration
 
   name            = "server"
-  image           = "opensuse156o"
+  // default SL Micro images are not available on Azure, SLES 15 SP7 is a supported host
+  image           = "sles15sp7o"
   
 
   provider_settings = {
@@ -80,7 +81,7 @@ module "minion" {
   base_configuration = local.base_configuration
 
   name                 = "minion"
-  image                = "opensuse156o"
+  image                = "opensuse160o"
   server_configuration =  module.server.configuration
 }
 
