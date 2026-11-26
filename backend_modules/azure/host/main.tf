@@ -3,6 +3,8 @@ locals {
   // arm64 images need an Ampere/Cobalt VM size
   arm            = length(regexall("arm64", var.image)) > 0
   platform_image = lookup(lookup(var.base_configuration["platform_image_info"], var.image, {}), "platform_image", var.image)
+  // purchase plan of Marketplace images that have one, null otherwise
+  plan           = lookup(lookup(var.base_configuration["platform_image_info"], var.image, {}), "plan", null)
   disk_snapshot  = lookup(var.volume_provider_settings, "volume_snapshot", null)
   provider_settings = merge({
     public_key_location    = var.base_configuration["public_key_location"]
@@ -98,6 +100,14 @@ resource "azurerm_linux_virtual_machine" "instance" {
     offer     = local.platform_image.offer
     sku       = local.platform_image.sku
     version   = local.platform_image.version
+  }
+  dynamic "plan" {
+    for_each = local.plan == null ? [] : [local.plan]
+    content {
+      name      = plan.value.name
+      product   = plan.value.product
+      publisher = plan.value.publisher
+    }
   }
   admin_ssh_key {
     username   = "azureuser"

@@ -120,7 +120,9 @@ locals {
     // opt-in customer-managed keys, disks use platform-managed encryption otherwise
     disk_encryption_set_id = local.disk_encryption_set_id
     platform_image_info = {
-      opensuse160o = { platform_image = data.azurerm_platform_image.opensuse160o, tools_repo = "${local.tools_repo}/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/" },
+      // Marketplace image with a purchase plan: its terms must be accepted once per subscription, see README.md
+      opensuse160o = { platform_image = data.azurerm_platform_image.opensuse160o, tools_repo = "${local.tools_repo}/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/",
+        plan = { name = "gen1", product = "opensuse-leap-x86-64", publisher = "susellc" } },
       sles15sp5o   = { platform_image = data.azurerm_platform_image.sles15sp5o, tools_repo = "${local.tools_repo}/SLE15-Uyuni-Client-Tools/SLE_15/" },
       sles15sp6o   = { platform_image = data.azurerm_platform_image.sles15sp6o, tools_repo = "${local.tools_repo}/SLE15-Uyuni-Client-Tools/SLE_15/" },
       sles15sp7o   = { platform_image = data.azurerm_platform_image.sles15sp7o, tools_repo = "${local.tools_repo}/SLE15-Uyuni-Client-Tools/SLE_15/" },

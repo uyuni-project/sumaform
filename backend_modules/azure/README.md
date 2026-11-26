@@ -125,6 +125,7 @@ Available images: `opensuse160o`, `sles12sp5o`, `sles15sp5o`, `sles15sp6o`, `sle
 - `opensuse160o` follows the latest Leap 16 minor release, as Azure only publishes that one.
 - SLES images are BYOS: a mirror is needed to get their repositories.
 - The default SL Micro images of `server_containerized` and `proxy_containerized` are not available on Azure. Set `image = "sles15sp7o"` for SUSE Multi-Linux Manager 5.1, 5.2 and head.
+- Images with a Marketplace purchase plan (currently `opensuse160o`) require their terms to be accepted once per subscription, by an account with subscription-level rights: `az vm image terms accept --urn susellc:opensuse-leap-x86-64:gen2:latest`.
 
 cloud-init installs `venv-salt-minion` from the client tools repositories on all images.
 
