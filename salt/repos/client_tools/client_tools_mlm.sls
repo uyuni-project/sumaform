@@ -422,8 +422,9 @@ additional_tools_update_repo:
     - humanname: additional_tools_update_repo
     - file: /etc/apt/sources.list.d/additional_tools_update_repo.list
     - refresh: True
-    - name: deb {{ additional_tools_update_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-ubuntu-tools-devel-stable-{{ release }}.gpg] {{ additional_tools_update_repo }} /
     - key_url: {{ additional_tools_update_repo }}/Release.key
+    - aptkey: False
 
 additional_tools_update_repo_raised_priority:
   file.managed:
@@ -441,8 +442,9 @@ additional_tools_update_repo:
     - humanname: additional_tools_update_repo
     - file: /etc/apt/sources.list.d/additional_tools_update_repo.list
     - refresh: True
-    - name: deb {{ additional_tools_update_repo }} /
+    - name: deb [signed-by=/etc/apt/keyrings/sumaform-mlm-ubuntu-tools-devel-beta-{{ release }}.gpg] {{ additional_tools_update_repo }} /
     - key_url: {{ additional_tools_update_repo }}/Release.key
+    - aptkey: False
 
 tools_additional_tools_update_repo:
   file.managed:
