@@ -21,7 +21,8 @@ module "base" {
   product_version   = "5.2-released"
   provider_settings = {
     location = local.location
-    ssh_allowed_ips     = ["*"]
+    // replace with the public IPs or CIDRs allowed to SSH/HTTPS into the public subnet, never "*"
+    allowed_ips         = ["203.0.113.10/32"]
     public_key_location = local.public_key_location
     key_file            = local.key_file
   }

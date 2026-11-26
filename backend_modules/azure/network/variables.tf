@@ -14,8 +14,8 @@ variable "create_network" {
   default     = true
 }
 
-variable "ssh_allowed_ips" {
-  description = "list of ips allowed to ssh"
+variable "allowed_ips" {
+  description = "list of ips allowed to ssh and https into the public subnet"
   type        = list(string)
   default     = []
 }

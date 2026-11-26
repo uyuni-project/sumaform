@@ -1,7 +1,7 @@
 /*
   This module sets up a /16 virtual network sliced into a public, a private and an optional private additional subnet.
   The private subnet reaches the Internet through a NAT gateway.
-  The public subnet accepts SSH connections from a whitelist of trusted IPs.
+  The public subnet accepts SSH and HTTPS connections from a whitelist of trusted IPs.
 */
 locals {
   tags = {
@@ -101,7 +101,7 @@ resource "azurerm_network_security_group" "public-nsg" {
   tags                = local.tags
 }
 
-# NOTE: SSH is allowed only from var.ssh_allowed_ips
+# NOTE: SSH and HTTPS are allowed only from var.allowed_ips
 resource "azurerm_network_security_rule" "ssh" {
   count = var.create_network ? 1 : 0
 
@@ -114,7 +114,7 @@ resource "azurerm_network_security_rule" "ssh" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefixes     = var.ssh_allowed_ips
+  source_address_prefixes     = var.allowed_ips
   destination_address_prefix  = "*"
 }
 
@@ -130,7 +130,7 @@ resource "azurerm_network_security_rule" "https" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "443"
-  source_address_prefix       = "*"
+  source_address_prefixes     = var.allowed_ips
   destination_address_prefix  = "*"
 }
 

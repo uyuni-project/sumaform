@@ -3,7 +3,7 @@ locals {
 
   create_network     = lookup(var.provider_settings, "create_network", true)
   location           = lookup(var.provider_settings, "location", null)
-  ssh_allowed_ips    = lookup(var.provider_settings, "ssh_allowed_ips", [])
+  allowed_ips        = lookup(var.provider_settings, "allowed_ips", [])
   additional_network = lookup(var.provider_settings, "additional_network", "172.16.2.0/24")
 
   public_subnet_id             = lookup(var.provider_settings, "public_subnet_id", null)
@@ -88,7 +88,7 @@ module "network" {
   source = "../network"
 
   location            = local.location
-  ssh_allowed_ips     = local.ssh_allowed_ips
+  allowed_ips         = local.allowed_ips
   name_prefix         = local.name_prefix
   create_network      = local.create_network
   additional_network  = local.additional_network

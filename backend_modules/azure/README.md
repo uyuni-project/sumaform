@@ -46,7 +46,7 @@ Available provider settings for the base module:
 | Variable name       | Type   | Default value   | Description                                                                                                     |
 |---------------------|--------|-----------------|-----------------------------------------------------------------------------------------------------------------|
 | location            | string | `null`          | Azure region where infrastructure will be created                                                               |
-| ssh_allowed_ips     | array  | `[]`            | Array of IP's to white list for ssh connection                                                                  |
+| allowed_ips         | array  | `[]`            | Array of IP's to white list for ssh and https connections                                                       |
 | key_file            | string | `null`          | ssh key file                                                                                                    |
 | bastion_host        | string | `null`          | bastian host use to connect machines in private network                                                         |
 | additional_network  | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1) |
@@ -60,7 +60,7 @@ An example follows:
 ...
 provider_settings = {
     location            = "francecentral"
-    ssh_allowed_ips   = ["1.2.3.4"]
+    allowed_ips       = ["1.2.3.4"]
     key_file = "/path/to/key.pem"
 }
 ...
