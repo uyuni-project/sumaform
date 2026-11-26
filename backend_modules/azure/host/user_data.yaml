@@ -43,6 +43,8 @@ runcmd:
   # WORKAROUND: cloud-init in Ubuntu does not take care of the following
   - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
   - systemctl restart sshd
+
+packages: ["venv-salt-minion"]
 %{ else ~}
 %{ if startswith(image, "rhel") ~}
 yum_repos:
@@ -52,21 +54,16 @@ yum_repos:
     enabled: true
     gpgcheck: false
     priority: 98
-%{ else ~}
-zypper:
-  repos:
-    - id: tools_pool_repo
-      name: tools_pool_repo
-      baseurl: ${tools_repo}
-      enabled: 1
-      autorefresh: 1
-      gpgcheck: 0
-%{ endif ~}
-%{ endif ~}
 
-%{ if startswith(image, "opensuse") ~}
-# runcmd runs after package installation, so venv-salt-minion is already in place
+packages: ["venv-salt-minion"]
+%{ else ~}
+# SUSE images: add the client tools repository and install venv-salt-minion from runcmd, as the AWS backend does:
+# cloud.cfg of the Leap 16 Azure image does not enable the zypper-add-repo module, so a `zypper:` block is ignored
 runcmd:
+  - zypper --non-interactive addrepo -G ${tools_repo} tools_pool_repo
+  - zypper --non-interactive refresh tools_pool_repo
+  - zypper --non-interactive install venv-salt-minion
+%{ if startswith(image, "opensuse") ~}
   # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
   # Possible bug in zypper's Salt module
   - zypper removerepo --all
@@ -79,5 +76,5 @@ runcmd:
   - systemctl restart sshd
 %{ endif ~}
 %{ endif ~}
-
-packages: ["venv-salt-minion"]
+%{ endif ~}
+%{ endif ~}
