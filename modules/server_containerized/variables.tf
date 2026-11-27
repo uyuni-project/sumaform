@@ -42,6 +42,26 @@ variable "db_container_tag" {
   default = ""
 }
 
+variable "diskcheck_alert" {
+  description = "Disk usage warning threshold in percent (DISKCHECKALERT)."
+  default = 96
+}
+
+variable "diskthreshold" {
+  description = "Disk usage critical threshold in percent (DISKTHRESHOLD). The container health check fails and startup is blocked above it."
+  default = 98
+}
+
+variable "diskcheck_alert_free_mb" {
+  description = "Disk free space warning threshold in MB (DISKCHECKALERT_FREE_MB). Takes priority over the percentage when set. Ignored by images without uyuni PR #12707."
+  default = 307200
+}
+
+variable "diskthreshold_free_mb" {
+  description = "Disk free space critical threshold in MB (DISKTHRESHOLD_FREE_MB). Takes priority over the percentage when set. Ignored by images without uyuni PR #12707."
+  default = 51200
+}
+
 variable "deploy_saline" {
   description = "Add the saline replica to the deployment."
   default = true

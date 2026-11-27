@@ -52,6 +52,10 @@ module "server_containerized" {
     db_container_registry          = var.db_container_registry
     db_container_image             = var.db_container_image
     db_container_tag               = var.db_container_tag
+    diskcheck_alert                = var.diskcheck_alert
+    diskthreshold                  = var.diskthreshold
+    diskcheck_alert_free_mb        = var.diskcheck_alert_free_mb
+    diskthreshold_free_mb          = var.diskthreshold_free_mb
     deploy_saline                  = var.deploy_saline
     saline_container_image         = var.saline_container_image
     saline_container_tag           = var.saline_container_tag
