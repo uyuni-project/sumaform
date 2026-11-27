@@ -1,130 +1,21 @@
 #cloud-config
 
-%{ if public_instance == "false" ~}
-#disable_root: false
+%{ if !public_instance ~}
 disable_root: false
 ssh_pwauth: true
 chpasswd:
   expire: false
-  list: |
-    root:linux
+  users:
+    - name: root
+      password: linux
+      type: text
 %{ endif ~}
 
-%{ if image == "opensuse156o" || image == "tumbleweedo" ~}
-runcmd:
-  # WORKAROUND: this package should not be in any image, as it is internal to OBS. To be removed when new images ship without it
-  - zypper rm -y gettext-runtime-mini
-  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
-  # Possible bug in zypper's Salt module
-  - zypper removerepo --all
-%{ if install_salt_bundle ~}
-  - zypper in --allow-vendor-change --no-confirm venv-salt-minion
-%{ else ~}
-  - zypper up --allow-vendor-change --no-confirm salt-minion
-%{ endif ~}
-
-%{ endif ~}
-
-%{ endif ~}
-
-%{ if image == "sles15sp2o" ~}
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP2/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-
-%{ endif ~}
-
-%{ if image == "sles15sp4o" ~}
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-
-%{ endif ~}
-
-%{ if image == "sles15sp5o" ~}
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-
-%{ endif ~}
-  
-%{ if image == "sles15sp6o" ~}
-zypper:
-  repos:
-    - id: salt_qubes_build
-      name: salt_qubes_build
-      baseurl: https://download.opensuse.org/repositories/home:/wicked:/qubes-build/SLE_15_SP4/
-      enabled: 1
-      autorefresh: 1
-
-packages: ["salt-minion"]
-
-%{ endif ~}
-  
-%{ if image == "rhel9" ~}
-yum_repos:
-  # repo for salt
-  temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    name: temp_tools_pool_repo
-    priority: 98
-
-packages: ["salt-minion"]
-%{ endif ~}
-%{ if image == "rhel8" ~}
-yum_repos:
-  # repo for salt
-  temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    name: temp_tools_pool_repo
-    priority: 98
-
-packages: ["salt-minion"]
-%{ endif ~}
-%{ if image == "centos7" || image == "rhel7" ~}
-yum_repos:
-  # repo for salt
-  temp_tools_pool_repo:
-    baseurl: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
-    failovermethod: priority
-    enabled: true
-    gpgcheck: false
-    name: temp_tools_pool_repo
-    priority: 98
-
-packages: ["salt-minion"]
-%{ endif ~}
-
-%{ if image == "ubuntu2204" ~}
-
+%{ if startswith(image, "ubuntu") ~}
 apt:
   sources:
     tools_pool_repo:
-      source: "deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/ /"
+      source: "deb ${tools_repo} /"
       key: |
         -----BEGIN PGP PUBLIC KEY BLOCK-----
         Version: GnuPG v1.4.5 (GNU/Linux)
@@ -154,78 +45,36 @@ runcmd:
   - systemctl restart sshd
 
 packages: ["venv-salt-minion"]
-%{ endif ~}
+%{ else ~}
+%{ if startswith(image, "rhel") ~}
+yum_repos:
+  tools_pool_repo:
+    name: tools_pool_repo
+    baseurl: ${tools_repo}
+    enabled: true
+    gpgcheck: false
+    priority: 98
 
-%{ if image == "ubuntu2404" ~}
-
-apt:
-  sources:
-    tools_pool_repo:
-      source: deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/ /
-      key: |
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v1.4.5 (GNU/Linux)
-
-        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
-        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
-        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
-        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
-        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
-        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
-        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJnTV1tAhsDBQkQRFMYBgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqobCACZmP4jvLKA8hixwLbB
-        ws6UpppjKuZ1C29VlfydWW7Zh7YTlQEDweuaP++UTNpG4LFHYEG/h+0m2IiIK8pH
-        37fzKn+xZB+9SA/4hE3RsJhzwCYXxRnnSzahmagskTQp+vPQS571n8rmXbLQVIV8
-        VHOjY6CezItu5OAe4m0DVdS9u4LmikPwxV+irdJ1rMphBKzxccGFOmYFXKWWoEk7
-        VAD02fKgzLdoE6QX9ocIChmDM/fNwEK3us7RWEd2jxqUYdseTsa22clbuR3Dg6SB
-        E/oQa9zikECUNi4T19DnBpquBzBHlmfnGBtHPkq1KF7mNhdLhD28Atn0gpOGZOnd
-        VzV9iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
-        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =eJaK
-        -----END PGP PUBLIC KEY BLOCK-----
-
+packages: ["venv-salt-minion"]
+%{ else ~}
+# SUSE images: add the client tools repository and install venv-salt-minion from runcmd, as the AWS backend does:
+# cloud.cfg of the Leap 16 Azure image does not enable the zypper-add-repo module, so a `zypper:` block is ignored
 runcmd:
-  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+  - zypper --non-interactive addrepo -G ${tools_repo} tools_pool_repo
+  - zypper --non-interactive refresh tools_pool_repo
+  - zypper --non-interactive install venv-salt-minion
+%{ if startswith(image, "opensuse") ~}
+  # WORKAROUND: instance might already have some repos that end up conflicting with the ones we want to install.
+  # Possible bug in zypper's Salt module
+  - zypper removerepo --all
+  - zypper --non-interactive modifyservice --disable openSUSE || true
+  - zypper --non-interactive removeservice openSUSE || true
+%{ if !public_instance ~}
+  # WORKAROUND: cloud-init in Leap 16 does not take care of the following
+  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/root.conf
+  - echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/root.conf
   - systemctl restart sshd
-
-packages: ["salt-minion"]
 %{ endif ~}
-
-%{ if image == "ubuntu2604" ~}
-
-apt:
-  sources:
-    tools_pool_repo:
-      source: deb http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2604-Uyuni-Client-Tools/xUbuntu_26.04/ /
-      key: |
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v1.4.5 (GNU/Linux)
-
-        mQENBFsnulUBCADNjL4hvhVtSzqVDlMtFFFP28Acq+UNF8WKKMhbBirfOpXwwI1C
-        NR3i0CXPOce5eKShuuWAjD2E36e2XAp3rUAo/aCA7UgtJkMNKzzlTOcqHHxKTx6H
-        gvp0Fb6xTKywZ7VttGhwUynl+CsDuOst3ROXTNdb8XMfm4joH2FW5D3ACN2qNiv0
-        MVcFNKxQ98w8M9xJxdI8DuyngnSeZwAosNzEio3JhTPiTv9ngY2Z3AuYUcwTEt7o
-        feEN+ivAgYnn+a6DBKFBeCW7VUD3V+tH8/fKnkvI4gf2o3N7Ok+/uE+DPUBb+14f
-        +9dhBjd+7+pR3ayEZFjQns5XFShoYu2+CQspABEBAAG0UHN5c3RlbXNtYW5hZ2Vt
-        ZW50OlV5dW5pIE9CUyBQcm9qZWN0IDxzeXN0ZW1zbWFuYWdlbWVudDpVeXVuaUBi
-        dWlsZC5vcGVuc3VzZS5vcmc+iQE+BBMBCAAoBQJnTV1tAhsDBQkQRFMYBgsJCAcD
-        AgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCXLl1sDSCDPqobCACZmP4jvLKA8hixwLbB
-        ws6UpppjKuZ1C29VlfydWW7Zh7YTlQEDweuaP++UTNpG4LFHYEG/h+0m2IiIK8pH
-        37fzKn+xZB+9SA/4hE3RsJhzwCYXxRnnSzahmagskTQp+vPQS571n8rmXbLQVIV8
-        VHOjY6CezItu5OAe4m0DVdS9u4LmikPwxV+irdJ1rMphBKzxccGFOmYFXKWWoEk7
-        VAD02fKgzLdoE6QX9ocIChmDM/fNwEK3us7RWEd2jxqUYdseTsa22clbuR3Dg6SB
-        E/oQa9zikECUNi4T19DnBpquBzBHlmfnGBtHPkq1KF7mNhdLhD28Atn0gpOGZOnd
-        VzV9iEYEExECAAYFAlsnulUACgkQOzARt2udZSO/4QCcDf+j/XRbJn2PudsSoyjw
-        3B2boakAnA9A9b8UoEYgmLTRpwXYuhsxOCDE
-        =eJaK
-        -----END PGP PUBLIC KEY BLOCK-----
-
-runcmd:
-  # WORKAROUND: cloud-init in Ubuntu does not take care of the following
-  - echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-  - systemctl restart sshd
-
-packages: ["salt-minion"]
+%{ endif ~}
+%{ endif ~}
 %{ endif ~}

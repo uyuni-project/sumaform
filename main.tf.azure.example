@@ -1,12 +1,13 @@
 locals {
-  name_prefix = "Tfs"
+  name_prefix = "tfs-"
   location = "francecentral"
   key_file            = "Private Key File"
   public_key_location = "Public Key File"
 }
 
 provider "azurerm" {
-features {}
+  features {}
+  subscription_id = "Azure Subscription ID" # or set ARM_SUBSCRIPTION_ID
 }
 
 module "base" {
@@ -17,10 +18,11 @@ module "base" {
 
   name_prefix =  local.name_prefix 
    // if you use name_prefix, make sure to update the server_configuration for clients/minions below
-  product_version   = "uyuni-released"
+  product_version   = "5.2-released"
   provider_settings = {
     location = local.location
-    ssh_allowed_ips   = "*"
+    // replace with the public IPs or CIDRs allowed to SSH/HTTPS into the public subnet, never "*"
+    allowed_ips         = ["203.0.113.10/32"]
     public_key_location = local.public_key_location
     key_file            = local.key_file
   }
@@ -64,13 +66,14 @@ module "server" {
   base_configuration = local.base_configuration
 
   name            = "server"
-  image           = "opensuse156o"
+  // default SL Micro images are not available on Azure, SLES 15 SP7 is a supported host
+  image           = "sles15sp7o"
   
 
   provider_settings = {
     public_instance = true
     vm_size = "Standard_B4ms"
-    os_disk_size = 100
+    volume_size     = 100
   }
 }
 
@@ -79,7 +82,7 @@ module "minion" {
   base_configuration = local.base_configuration
 
   name                 = "minion"
-  image                = "opensuse156o"
+  image                = "opensuse160o"
   server_configuration =  module.server.configuration
 }
 

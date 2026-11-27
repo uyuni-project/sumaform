@@ -147,14 +147,17 @@ scc-data_script:
 {% set fstype = grains.get('data_disk_fstype') | default('ext4', true) %}
 {% if grains['data_disk_device'] == "nvme1n1" %}
 {% set partition_name = '/dev/' + grains['data_disk_device'] + 'p1' %}
+{% elif '/' in grains['data_disk_device'] %}
+{# udev symlinks such as disk/azure/scsi1/lun0 #}
+{% set partition_name = '/dev/' + grains['data_disk_device'] + '-part1' %}
 {% else %}
 {% set partition_name = '/dev/' + grains['data_disk_device'] + '1' %}
 {% endif %}
 
 mirror_partition:
   cmd.run:
-    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mkpart primary 2048 100% && sleep 1 && /sbin/mkfs.{{fstype}} {{partition_name}}
-    - unless: ls /dev//{{grains['data_disk_device']}}1
+    - name: /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mklabel gpt && /usr/sbin/parted -s /dev/{{grains['data_disk_device']}} mkpart primary 2048 100% && sleep 1 && udevadm settle && /sbin/mkfs.{{fstype}} {{partition_name}}
+    - unless: ls {{partition_name}}
     - require:
       - pkg: parted
 
