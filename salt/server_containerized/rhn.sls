@@ -18,12 +18,14 @@ write_rhn_conf:
         prometheus_monitoring_enabled: true
         {% endif %}
 
+        {% if not grains.get('product_version', '') | regex_search('(uyuni|head)') %}
         {% if not grains.get('forward_registration') | default(false, true) %}
         server.susemanager.forward_registration: 0
         {% endif %}
 
         {% if grains.get('disable_auto_bootstrap') | default(false, true) %}
         server.susemanager.auto_generate_bootstrap_repo: 0
+        {% endif %}
         {% endif %}
 
         {% if grains.get('disable_auto_channel_sync') | default(false, true) %}
@@ -38,7 +40,7 @@ write_rhn_conf:
         java.salt_presence_ping_timeout: 6
         {% endif %}
 
-        {% if not grains.get('mirror') %}
+        {% if not grains.get('mirror') and not grains.get('product_version', '') | regex_search('(uyuni|head)') %}
         server.satellite.reposync_download_threads: 2
         {% endif %}
 
