@@ -20,7 +20,6 @@ tools_additional_repo:
     - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
     - refresh: True
     - priority: 98
-    - gpgcheck: 0
 
 {% endif %} {# 'nightly' in grains.get('product_version')#}
 {% endif %} {# if '16' in grains['osrelease'] #}
@@ -167,13 +166,21 @@ tools_pool_repo:
     - refresh: True
 
 # Devel Tools Repos
+{% if 'nightly' in product_version %}
 tools_additional_repo:
   pkgrepo.managed:
-  - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
-  - refresh: True
-  - priority: 98
-  - gpgcheck: 0
+    - baseurl: http://{{ grains.get("mirror") | default("download.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Stable:/MLMTools-SLE16/product/repo/Multi-Linux-ManagerTools-SLE-16-{{ grains.get("cpuarch") }}/
+    - refresh: True
+    - priority: 98
 
+{% elif product_version in ('head', 'head-staging') %}
+tools_additional_repo:
+  pkgrepo.managed:
+    - baseurl: http://{{ grains.get("mirror") | default("dist.suse.de", true) }}/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE16/product/repo/Multi-Linux-ManagerTools-Beta-SLE-16-{{ grains.get("cpuarch") }}/
+    - refresh: True
+    - priority: 98
+
+{% endif %} {# Devel Tools Repos #}
 {% endif %} {# '16' in grains['osrelease'] #}
 
 {% endif %} {# grains['osfullname'] == 'SLES' #}
