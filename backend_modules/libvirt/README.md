@@ -41,6 +41,7 @@ Available provider settings for the base module:
 | network_name       | string | `default`     | libvirt NAT network name for VMs, use null for bridged networking        |
 | bridge             | string | `null`        | a bridge device name available on the libvirt host, leave null for NAT   |
 | additional_network | string | `null`        | A network mask for PXE tests                                             |
+| autostart          | bool   | `false`       | Default for the `autostart` setting of every host in this base           |
 
 An example follows:
 
@@ -64,6 +65,7 @@ Following settings apply to all modules that create one or more hosts of the sam
 | memory        | number | `1024` ([apart from specific roles](#default-provider-settings-by-role))            | RAM memory in MiB                                            |
 | vcpu          | number | `1` ([apart from specific roles](#default-provider-settings-by-role))               | Number of virtual CPUs                                       |
 | running       | bool   | `true`                                                                              | Whether this host should be turned on or off                 |
+| autostart     | bool   | the base module `autostart` (`false`)                                               | Whether this host should start when the hypervisor boots     |
 | mac           | string | `null`                                                                              | A MAC address in the form `AA:BB:CC:11:22:33`                |
 | cpu_model     | string | `custom` ([apart from specific arches](#default-provider-settings-by-architecture)) | The CPU model (`host-model`, `host-passthrough` or `custom`) |
 | manufacturer  | string | `Intel`                                                                             | The System Management BIOS manufacturer                      |
