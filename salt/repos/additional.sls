@@ -10,11 +10,21 @@
     - file: /etc/apt/sources.list.d/sumaform_additional_repos.list
     - key_url: {{ url }}/Release.key
   {%- else %}
+    {#- Pool media repos keep the default priority, or their older packages hide newer updates #}
     - baseurl: {{ url }}
     - refresh: True
-    - priority: 95
+    - priority: {{ 99 if '-POOL-' in url else 95 }}
     - gpgcheck: 0
   {%- endif %}
+
+{% if grains['os_family'] == 'Suse' and '-POOL-' not in url %}
+{{ label }}_repo_shadow_check:
+  cmd.script:
+    - name: salt://repos/check_shadowed_packages.sh
+    - args: {{ label }}_repo
+    - require:
+      - pkgrepo: {{ label }}_repo
+{% endif %}
 
 # WORKAROUND: to have additional_repos have priority over normal tools we hardcode the hostname originating them (in the future we may want to add an
 # input variable to match against origin or release file fields
