@@ -99,6 +99,13 @@ resource "azurerm_network_security_group" "public-nsg" {
   resource_group_name = local.resource_group_name
   location            = var.location
   tags                = local.tags
+
+  lifecycle {
+    precondition {
+      condition     = length(var.allowed_ips) > 0
+      error_message = "provider_settings.allowed_ips must list at least one IP or CIDR when create_network is true, as the SSH and HTTPS rules need a source. The old ssh_allowed_ips setting is no longer read: rename it to allowed_ips."
+    }
+  }
 }
 
 # NOTE: SSH and HTTPS are allowed only from var.allowed_ips
