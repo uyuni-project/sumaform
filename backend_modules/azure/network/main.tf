@@ -14,6 +14,13 @@ resource "azurerm_resource_group" "suma-rg" {
   name     = "${var.name_prefix}resources"
   location = var.location
   tags     = local.tags
+
+  lifecycle {
+    precondition {
+      condition     = var.name_prefix != ""
+      error_message = "name_prefix must not be empty when sumaform creates the resource group, otherwise it is named \"resources\" and is likely to collide with an existing one. Set name_prefix (for example \"jdoe-\") or provider_settings.resource_group_name."
+    }
+  }
 }
 
 locals {

@@ -52,7 +52,7 @@ Available provider settings for the base module:
 | additional_network  | string | `172.16.2.0/24` | A network mask for the additional network (needs to follow the pattern 172.16.X.Y/24, where X cannot be 0 or 1) |
 | public_key_location | string | `null`          | Location for access public key                                                                                  |
 | disk_encryption_set_id | string | `null`       | ID of a Disk Encryption Set to encrypt all disks with customer-managed keys. Disks always use platform-managed encryption when unset |
-| resource_group_name | string | `null` | Name of an existing resource group to deploy into. A new `<name_prefix>resources` resource group is created when unset |
+| resource_group_name | string | `null` | Name of an existing resource group to deploy into. A new `<name_prefix>resources` resource group is created when unset, which requires a non-empty `name_prefix` |
 
 An example follows:
 
