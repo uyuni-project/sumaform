@@ -1,0 +1,9 @@
+---
+# Shared by server_containerized and proxy_containerized (salt/server_containerized/install_common.sls,
+# install_podman.sls, the common half of install_mgradm.sls; salt/proxy_containerized/init.sls tool install).
+_cc_is_server: "{{ 'server_containerized' in roles }}"
+# the uyuni-tools CLI of each host role; on a transactional host they ship in the image and are only checked
+cc_tools: "{{ ['mgradm', 'mgrctl', 'uyuni-storage-setup-server'] if _cc_is_server | bool else ['mgrpxy'] }}"
+cc_packages: "{{ ['podman'] + (['netavark', 'aardvark-dns'] if _cc_is_server | bool else []) + cc_tools }}"
+# Public keys (build_host, controller) the host must accept; supplied by the Terraform handoff.
+peer_public_keys: []

@@ -14,4 +14,9 @@ output "configuration" {
     key_file        = local.key_file
     product_version = local.product_version
   }
+
+  precondition {
+    condition     = var.provisioner == "salt"
+    error_message = "provisioner = \"ansible\" is not ported to this backend yet (libvirt only); use \"salt\"."
+  }
 }

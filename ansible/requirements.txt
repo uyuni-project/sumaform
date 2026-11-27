@@ -1,0 +1,4 @@
+# Shared by laptops and worker images. Use a Python 3.11 venv:
+#   python3.11 -m venv /opt/ansible-venv && /opt/ansible-venv/bin/pip install -r ansible/requirements.txt
+# ansible-core 2.16 needs controller Python 3.10-3.12 (not the 3.6 distro default of Leap 15.6).
+ansible-core==2.16.14

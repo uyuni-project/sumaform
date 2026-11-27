@@ -1,0 +1,39 @@
+---
+# include_tasks per hvm_disk_image entry (item.key = OS type, item.value = {image, hash, hostname}).
+- name: "Disk image template of {{ item.key }}"
+  ansible.builtin.get_url:
+    url: "{{ item.value.image }}"
+    dest: "/var/testsuite-data/{{ item.key }}-disk-image-template.qcow2"
+    checksum: "{{ item.value.hash | default('', true) }}"
+    mode: "0655"
+
+- name: "cloud-init meta-data of {{ item.key }}"
+  ansible.builtin.copy:
+    content: |
+      instance-id: {{ item.value.hostname }}
+      local-hostname: {{ item.value.hostname }}.{{ domain }}
+    dest: /var/testsuite-data/cloudinit/meta-data
+    mode: "0644"
+
+- name: "cloud-init network-config of {{ item.key }}"
+  ansible.builtin.copy:
+    content: |
+      network:
+        version: 1
+        config:
+        - type: physical
+          name: eth0
+          subnets:
+            - type: dhcp
+    dest: /var/testsuite-data/cloudinit/network-config
+    mode: "0644"
+
+- name: "cloud-init user-data of {{ item.key }}"
+  ansible.builtin.template: {src: user-data.j2, dest: /var/testsuite-data/cloudinit/user-data, mode: "0644"}
+  no_log: true
+
+- name: "cloud-init ISO of {{ item.key }}"
+  ansible.builtin.command: >-
+    mkisofs -o /var/testsuite-data/cloudinit-disk-{{ item.key }}.iso -volid cidata -joliet -rock /var/testsuite-data/cloudinit
+  args:
+    creates: "/var/testsuite-data/cloudinit-disk-{{ item.key }}.iso"

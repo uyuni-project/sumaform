@@ -1,0 +1,8 @@
+---
+# Phase prepare (salt/rhel_container/init.sls packages).
+- name: Install podman
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: [podman]

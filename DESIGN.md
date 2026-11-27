@@ -38,3 +38,13 @@ Basic Virtual Machine images must:
 - contain any other package needed for the target virtualization infrastructure (eg. `qemu-ga` or equivalent package for libvirt)
 - be immutable (not need to be upgraded). Ideally, they should be based on the initial release repo of the target OS (ie. without any updates). Upgrades will be taken care of by Salt states when needed, at the needed version
 - be as minimal as possible, ideally [JeOS](https://www.suse.com/products/server/jeos)
+
+## Configuration layer: Salt (default) or Ansible
+
+The `provisioner` variable of the base module selects the configuration layer for a whole deployment, never per host:
+`salt` (default, unchanged) or `ansible`. With `ansible`, the first boot only sets up sshd, root, the authorized keys and
+python3 (`user_data_ansible.yaml`; the root password `linux` is kept for parity with Salt as the documented fallback), and
+Terraform runs `ansible/run_host.sh` once per host from the machine running `tofu`, keeping the `depends_on` ordering.
+The `ansible/` directory is looked up relative to the module, not the deployment. Host roles that are not ported yet fail
+at plan time. The per-host handoff (including the grains as host_vars) is the sensitive `ansible_hosts` output.
+See `ansible/` and its ledger for the migration state; Salt is removed only after parity is proven.

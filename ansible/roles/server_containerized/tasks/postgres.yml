@@ -1,0 +1,14 @@
+---
+# salt/server_containerized/postgres.sls. The uyuni-db image regenerates pg_hba.conf on start, custom rules go in pg_hba_custom.conf.
+- name: Does the database already accept external connections
+  ansible.builtin.command: podman exec uyuni-db grep -q '^host all all all scram-sha-256' /var/lib/pgsql/data/pg_hba_custom.conf
+  register: _pg_hba
+  changed_when: false
+  failed_when: _pg_hba.rc > 2
+
+- name: Allow external PostgreSQL connections
+  ansible.builtin.shell:
+    cmd: |
+      podman exec uyuni-db bash -c "echo 'host all all all scram-sha-256' > /var/lib/pgsql/data/pg_hba_custom.conf"
+      podman exec uyuni-db su postgres -c "pg_ctl reload -D /var/lib/pgsql/data"
+  when: _pg_hba.rc != 0

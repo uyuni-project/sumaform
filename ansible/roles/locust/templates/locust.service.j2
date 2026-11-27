@@ -1,0 +1,22 @@
+[Unit]
+Description=locust
+
+[Service]
+Environment=SERVER_USERNAME={{ server_username | default('admin', true) }}
+Environment=SERVER_PASSWORD={{ server_password | default('admin', true) }}
+ExecStart=/usr/bin/locust --host=https://{{ server }} \
+                          --locustfile=/root/locustfile.py \
+                          --logfile=/var/log/locust.log \
+{% if not locust_master_host | default('', true) and locust_slave_count | default(0) | int > 0 %}
+                          --master \
+                          --expect-slaves={{ locust_slave_count }} \
+                          --port 80
+{% elif locust_master_host | default('', true) %}
+                          --slave \
+                          --master-host={{ locust_master_host }}
+{% else %}
+                          --port 80
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

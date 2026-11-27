@@ -1,0 +1,8 @@
+---
+_testsuite_branch: "{{ branch | default('master', true) }}"
+# upstream uyuni for master, the SUSE fork for product branches, unless git_repo says otherwise
+_testsuite_repo: >-
+  {{ git_repo if git_repo | default('default', true) != 'default'
+     else ('https://github.com/uyuni-project/uyuni.git' if _testsuite_branch == 'master'
+           else 'https://github.com/SUSE/spacewalk.git') }}
+testsuite_dir: /root/spacewalk

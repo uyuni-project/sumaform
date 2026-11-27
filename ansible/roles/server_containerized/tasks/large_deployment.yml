@@ -1,0 +1,46 @@
+---
+# salt/server_containerized/large_deployment.sls. See
+# https://documentation.suse.com/multi-linux-manager/5.2/en/docs/specialized-guides/large-deployments/tuning.html
+# The pre-5.1 mgrctl-sed and sshd_config-append branches of the Salt state are not ported (4.3 is removed upstream).
+- name: Tune rhn.conf
+  ansible.builtin.include_tasks: rhn_conf.yml
+  vars:
+    rhn_conf_entries: {hibernate.c3p0.max_size: 100, taskomatic.minion_action_executor.parallel_threads: 3}
+
+- name: Tomcat tuning stylesheet
+  ansible.builtin.copy:
+    src: large_deployment_tune_tomcat.xslt
+    dest: /tmp/large_deployment_tune_tomcat.xslt
+    mode: "0644"
+  register: _tomcat_xslt
+
+- name: Tune the tomcat thread count
+  ansible.builtin.shell:
+    cmd: |
+      mgrctl cp /tmp/large_deployment_tune_tomcat.xslt server:/tmp/large_deployment_tune_tomcat.xslt
+      mgrctl exec 'xsltproc /tmp/large_deployment_tune_tomcat.xslt /etc/tomcat/server.xml > /tmp/tomcat_server.xml && cp /tmp/tomcat_server.xml /etc/tomcat/server.xml'
+  when: _tomcat_xslt.changed
+
+- name: Raise sshd MaxStartups
+  ansible.builtin.copy:
+    content: |
+      # Increased MaxStartups for large deployment tuning
+      MaxStartups 100:30:200
+    dest: /etc/ssh/sshd_config.d/99-maxstartups.conf
+    mode: "0644"
+  register: _sshd_maxstartups
+
+- name: Reload sshd
+  ansible.builtin.service:
+    name: sshd
+    state: reloaded
+  when: _sshd_maxstartups.changed
+
+- name: Raise PostgreSQL connections and work memory
+  ansible.builtin.command: "podman exec uyuni-db sed -i \"s/{{ item.key }} = .*/{{ item.key }} = {{ item.value }}/\" /var/lib/pgsql/data/postgresql.conf"
+  changed_when: false  # ponytail: sed rewrite, not checked for change
+  loop: "{{ {'max_connections': 400, 'work_mem': '20MB'} | dict2items }}"
+
+- name: Restart the whole server
+  ansible.builtin.command: mgradm restart
+  changed_when: true

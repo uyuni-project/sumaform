@@ -18,6 +18,7 @@ module "base_backend" {
   images                   = var.images
   use_eip_bastion          = var.use_eip_bastion
   is_server_paygo_instance = var.is_server_paygo_instance
+  provisioner              = var.provisioner
 }
 
 output "configuration" {
@@ -36,6 +37,7 @@ output "configuration" {
     use_shared_resources     = var.use_shared_resources
     testsuite                = var.testsuite
     use_eip_bastion          = var.use_eip_bastion
+    provisioner              = var.provisioner
     # WORKAROUND
     # For some reason, the key "additional_network" from AWS module gets lost
     # Force it into existence

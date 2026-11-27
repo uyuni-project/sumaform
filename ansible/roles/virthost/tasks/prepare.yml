@@ -1,0 +1,21 @@
+---
+# Phase prepare (salt/virthost/init.sls packages). The minion host role of the same host installs the Salt minion.
+# SLES JeOS does not ship the KVM modules, so the base kernel goes first.
+- name: Remove kernel-default-base
+  ansible.builtin.package:
+    name: kernel-default-base
+    state: absent
+  when: not (is_transactional | bool)
+
+- name: Install the KVM host packages
+  ansible.builtin.include_role:
+    name: packages
+    tasks_from: install
+  vars:
+    install_packages: >-
+      {{ (['patterns-server-kvm_server', 'python3-six', 'libvirt-daemon-qemu']
+          if '15' in ansible_facts.distribution_version
+          else (['patterns-openSUSE-kvm_server'] if ansible_facts.distribution == 'openSUSE Leap' or ansible_facts.distribution == 'Leap'
+                else ['patterns-sles-kvm_server']))
+         + ['libvirt-client', 'qemu-tools', 'guestfs-tools', 'kernel-default', 'tuned', 'irqbalance']
+         + ([] if ansible_facts.distribution_version == '15.4' else ['libvirt-daemon']) }}

@@ -1,0 +1,4 @@
+---
+# Covers salt/proxy_containerized/init.sls and config (the committed keypair is replaced, ledger key-proxy-containerized).
+proxy_config_dest: /etc/uyuni/uyuni-tools.yaml
+proxy_config_archive: /root/config.tar.gz

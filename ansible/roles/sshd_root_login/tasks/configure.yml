@@ -1,0 +1,8 @@
+---
+# Covers the SLES 15 SP7 part of salt/build_host/init.sls: the cloud image ships a drop-in that blocks root password login.
+- name: Remove the drop-in that blocks root login
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d/51-permit-root-login.conf
+    state: absent
+  when: ansible_facts.distribution == 'SLES' and ansible_facts.distribution_version == '15.7'
+  notify: reload sshd

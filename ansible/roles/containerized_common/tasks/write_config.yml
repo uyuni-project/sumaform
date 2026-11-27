@@ -1,0 +1,15 @@
+---
+# include_role tasks_from: write_config, vars cc_config_dest and cc_config_text (rendered by the thin role;
+# it may hold the SCC and admin passwords, so the content never shows in the output).
+- name: Create the config directory
+  ansible.builtin.file:
+    path: "{{ cc_config_dest | dirname }}"
+    state: directory
+    mode: "0755"
+
+- name: Write the uyuni-tools config
+  ansible.builtin.copy:
+    content: "{{ cc_config_text }}"
+    dest: "{{ cc_config_dest }}"
+    mode: "0600"
+  no_log: true

@@ -1,0 +1,56 @@
+---
+# Phase configure: everything the host needs before mgradm installs the product (install.yml).
+- name: Log in to the container registry (not PAYG)
+  ansible.builtin.command:
+    argv: [podman, login, -u, "{{ cc_username }}", --password-stdin, "{{ container_registry }}"]
+    stdin: "{{ cc_password }}"
+  changed_when: false  # rewrites the same auth file
+  no_log: true
+  when: "'paygo' not in (product_version | default('', true)) and cc_username and container_registry"
+
+- name: Mount the NFS mirror
+  ansible.posix.mount:
+    path: /srv/mirror
+    src: "{{ _mirror_host }}:/srv/mirror"
+    fstype: nfs
+    state: mounted
+  when: _mirror_host | length > 0
+
+- name: Storage for the repository and database disks
+  when: repository_disk_size | int > 0 or database_disk_size | int > 0
+  vars:
+    _repo_dev: "{{ '/dev/' ~ data_disk_device if repository_disk_size | int > 0 else '' }}"
+    _db_dev: "{{ '/dev/' ~ second_data_disk_device if database_disk_size | int > 0 else '' }}"
+  block:
+    - name: Container storage directories
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: directory
+        mode: "{{ item.mode }}"
+      loop:
+        - {path: /var/lib/containers/storage, mode: "0755"}
+        - {path: /var/lib/containers/storage/volumes, mode: "0700"}
+
+    # Skip on re-provisioning: the disk already has a filesystem. Only the first device is checked.
+    - name: Does the first disk already have a filesystem
+      ansible.builtin.command: "blkid {{ _repo_dev or _db_dev }}"
+      register: _blkid
+      changed_when: false
+      failed_when: _blkid.rc > 2
+
+    - name: Set up the disks (a DB disk alone stores all the data)
+      ansible.builtin.command: "mgr-storage-server {{ _repo_dev }} {{ _db_dev }}"
+      when: _blkid.rc != 0
+
+- name: Write the mgradm config
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: write_config
+  vars:
+    cc_config_dest: "{{ mgradm_config_dest }}"
+    cc_config_text: "{{ lookup('ansible.builtin.template', 'mgradm.yaml.j2') }}"
+
+- name: Authorize the peer keys on the server
+  ansible.builtin.include_role:
+    name: containerized_common
+    tasks_from: authorize_peers

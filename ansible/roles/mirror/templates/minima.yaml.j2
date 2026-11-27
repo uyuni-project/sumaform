@@ -1,0 +1,253 @@
+storage:
+  type: file
+  path: /srv/mirror
+
+scc:
+  username: {{ cc_username }}
+  password: {{ cc_password }}
+  repositories:
+    - names:
+      # SLE 12-SP5
+      - SLES12-SP5-Pool
+      - SLES12-SP5-Updates
+      - SLES12-SP5-LTSS-Updates
+      # SLE Micro
+      - SLE-Micro-5.3-Pool
+      - SLE-Micro-5.3-Updates
+      - SLE-Micro-5.4-Pool
+      - SLE-Micro-5.4-Updates
+      - SLE-Micro-5.5-Pool
+      - SLE-Micro-5.5-Updates
+      # SL Micro
+      - SL-Micro-6.0-Pool
+      - SL-Micro-6.0-Updates
+      - SL-Micro-6.1-Pool
+      - SL-Micro-6.2-Pool
+      # SLE 15-SP4 Products
+      - SLE-Product-SLES15-SP4-Pool
+      - SLE-Product-SLES15-SP4-Updates
+      - SLE-Product-SLES15-SP4-LTSS-Updates
+      # SLE 15-SP4 Basic Modules
+      - SLE-Module-Basesystem15-SP4-Pool
+      - SLE-Module-Basesystem15-SP4-Updates
+      - SLE-Module-Server-Applications15-SP4-Pool
+      - SLE-Module-Server-Applications15-SP4-Updates
+      - SLE-Module-Web-Scripting15-SP4-Pool
+      - SLE-Module-Web-Scripting15-SP4-Updates
+      - SLE-Module-Desktop-Applications15-SP4-Pool
+      - SLE-Module-Desktop-Applications15-SP4-Updates
+      - SLE-Module-DevTools15-SP4-Pool
+      - SLE-Module-DevTools15-SP4-Updates
+      # SLE 15-SP5 Products
+      - SLE-Product-SLES15-SP5-Pool
+      - SLE-Product-SLES15-SP5-Updates
+      - SLE-Product-SLES15-SP5-LTSS-Updates
+      # SLE 15-SP5 Basic Modules
+      - SLE-Module-Basesystem15-SP5-Pool
+      - SLE-Module-Basesystem15-SP5-Updates
+      - SLE-Module-Server-Applications15-SP5-Pool
+      - SLE-Module-Server-Applications15-SP5-Updates
+      - SLE-Module-Web-Scripting15-SP5-Pool
+      - SLE-Module-Web-Scripting15-SP5-Updates
+      - SLE-Module-Desktop-Applications15-SP5-Pool
+      - SLE-Module-Desktop-Applications15-SP5-Updates
+      - SLE-Module-DevTools15-SP5-Pool
+      - SLE-Module-DevTools15-SP5-Updates
+      # SLE 15-SP6 Products
+      - SLE-Product-SLES15-SP6-Pool
+      - SLE-Product-SLES15-SP6-Updates
+      - SLE-Product-SLES15-SP6-LTSS-Updates
+      # SLE 15-SP6 Basic Modules
+      - SLE-Module-Basesystem15-SP6-Pool
+      - SLE-Module-Basesystem15-SP6-Updates
+      - SLE-Module-Server-Applications15-SP6-Pool
+      - SLE-Module-Server-Applications15-SP6-Updates
+      - SLE-Module-Web-Scripting15-SP6-Pool
+      - SLE-Module-Web-Scripting15-SP6-Updates
+      - SLE-Module-Desktop-Applications15-SP6-Pool
+      - SLE-Module-Desktop-Applications15-SP6-Updates
+      - SLE-Module-DevTools15-SP6-Pool
+      - SLE-Module-DevTools15-SP6-Updates
+      # SLE 15-SP7 Products
+      - SLE-Product-SLES15-SP7-Pool
+      - SLE-Product-SLES15-SP7-Updates
+      # SLE 15-SP7 Basic Modules
+      - SLE-Module-Basesystem15-SP7-Pool
+      - SLE-Module-Basesystem15-SP7-Updates
+      - SLE-Module-Server-Applications15-SP7-Pool
+      - SLE-Module-Server-Applications15-SP7-Updates
+      - SLE-Module-Web-Scripting15-SP7-Pool
+      - SLE-Module-Web-Scripting15-SP7-Updates
+      - SLE-Module-Desktop-Applications15-SP7-Pool
+      - SLE-Module-Desktop-Applications15-SP7-Updates
+      - SLE-Module-DevTools15-SP7-Pool
+      - SLE-Module-DevTools15-SP7-Updates
+      # SLE 16 Products
+      - SLE-Product-SLES-16.0
+      # SLE Legacy Module
+      - SLE-Module-Legacy12-Pool
+      - SLE-Module-Legacy12-Updates
+      # SLE Container Module
+      - SLE-Module-Containers12-Pool
+      - SLE-Module-Containers12-Updates
+      - SLE-Module-Containers15-SP4-Pool
+      - SLE-Module-Containers15-SP4-Updates
+      # SUSE Manager Tools
+      - SLE-Manager-Tools12-Pool
+      - SLE-Manager-Tools12-Updates
+      - SLE-Manager-Tools15-Pool
+      - SLE-Manager-Tools15-Updates
+      - RES-7-SUSE-Manager-Tools
+      - RES8-Manager-Tools-Pool
+      - RES8-Manager-Tools-Updates
+      - Ubuntu-22.04-SUSE-Manager-Tools
+      - Ubuntu 24.04-SUSE-Manager-Tools
+      - Debian-13-SUSE-Manager-Tools
+      - ManagerTools-Debian13-Updates
+      # SUSE Manager Beta Tools
+      - SLE-Manager-Tools12-Pool-Beta
+      - SLE-Manager-Tools12-Updates-Beta
+      - SLE-Manager-Tools15-Pool-Beta
+      - SLE-Manager-Tools15-Updates-Beta
+      - RES-7-SUSE-Manager-Tools-Beta
+      - RES8-Manager-Tools-Pool-Beta
+      - RES8-Manager-Tools-Updates-Beta
+      - Ubuntu-22.04-SUSE-Manager-Tools-Beta
+      - Ubuntu-24.04-SUSE-Manager-Tools-Beta
+      - Debian-13-SUSE-Manager-Tools-Beta
+      - ManagerTools-Debian13-Beta-Updates
+    archs: [x86_64, amd64]
+
+http:
+  # RES 7
+  #- url: https://nu.novell.com/repo/$RCE/RES7/x86_64
+  # #  archs: [x86_64]
+
+  # SLE 12 (GA and all SPs) Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE12/images/repo/ManagerTools-Beta-SLE12-Pool-x86_64-Media1
+    archs: [x86_64]
+
+  # SLE 15 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-SLE15/images/repo/ManagerTools-Beta-SLE15-Pool-x86_64-Media1
+    archs: [x86_64]
+
+  # SLES 16 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/SUSE/Products/MultiLinuxManagerTools/SLE-16/x86_64/
+    archs: [x86_64]
+  - url: http://dist.suse.de/ibs/SUSE/Products/MultiLinuxManagerTools-Beta/SLE-16/x86_64/
+    archs: [x86_64]
+
+  # RES 7 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL7/images/repo/ManagerTools-Beta-EL7-POOL-x86_64-Media
+    archs: [x86_64]
+
+  # RES 8 Manager Tools Main devel
+  - url: https://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL8/images/repo/MultiLinuxManagerTools-Beta-EL-8-x86_64-Media1
+    archs: [x86_64]
+
+  # EL 9 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL9/images/repo/MultiLinuxManagerTools-Beta-EL-9-x86_64-Media1
+    archs: [x86_64]
+
+  # EL 10 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-EL10/images/repo/MultiLinuxManagerTools-Beta-EL-10-x86_64-Media1
+    archs: [x86_64]
+
+  # Ubuntu 22.04 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu22.04/xUbuntu_22.04-debbuild/
+    archs: [amd64]
+
+  # Ubuntu 24.04 Manager Tools Main devel
+  - url: http://dist.suse.de/ibs/Devel:/Galaxy:/Manager:/Main:/MLMTools-Beta-Ubuntu24.04/xUbuntu_24.04-debbuild/
+    archs: [amd64]
+
+  # openSUSE Leap
+  - url: http://download.opensuse.org/distribution/leap/16.0/repo/oss
+    archs: [x86_64]
+
+  # Testsuite dummy packages for testing repo
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/rpm
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Pool/deb
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/rpm
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Test-Packages:/Updates/deb
+
+  # Software for sumaformed Virtual Machines
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP4
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP5
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/SLE_15_SP6
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/sumaform:/tools/openSUSE_Leap_16.0
+    archs: [x86_64]
+  # Jenkins
+  - url: http://download.opensuse.org/repositories/devel:/tools:/building/16.0
+    archs: [x86_64]
+
+  # Uyuni Master
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/openSUSE_Tumbleweed/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/ContainerUtils/openSUSE_Tumbleweed/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Testing-Overlay-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Server-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/SLE12-Uyuni-Client-Tools/SLE_12/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/SLE15-Uyuni-Client-Tools/SLE_15/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL9-Uyuni-Client-Tools/EL_9/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/EL10-Uyuni-Client-Tools/EL_10/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Debian13-Uyuni-Client-Tools/Debian_13/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Master:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
+    archs: [amd64]
+
+  # Uyuni Stable
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/openSUSE_Tumbleweed/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-POOL-x86_64-Media1/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE12-Uyuni-Client-Tools/SLE_12/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/SLE15-Uyuni-Client-Tools/SLE_15/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/openSUSE_Leap_16-Uyuni-Client-Tools/openSUSE_Leap_16.0/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS7-Uyuni-Client-Tools/CentOS_7/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/CentOS8-Uyuni-Client-Tools/CentOS_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL8-Uyuni-Client-Tools/EL_8/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL9-Uyuni-Client-Tools/EL_9/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/EL10-Uyuni-Client-Tools/EL_10/
+    archs: [x86_64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2204-Uyuni-Client-Tools/xUbuntu_22.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Ubuntu2404-Uyuni-Client-Tools/xUbuntu_24.04/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Debian13-Uyuni-Client-Tools/Debian_13/
+    archs: [amd64]
+  - url: http://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Tumbleweed-Uyuni-Client-Tools/openSUSE_Tumbleweed/
+    archs: [amd64]

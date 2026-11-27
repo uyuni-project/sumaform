@@ -36,4 +36,9 @@ output "configuration" {
     testsuite            = var.testsuite
     product_version      = var.product_version
   }
+
+  precondition {
+    condition     = var.provisioner == "salt"
+    error_message = "provisioner = \"ansible\" is not ported to this backend yet (libvirt only); use \"salt\"."
+  }
 }

@@ -1,0 +1,36 @@
+---
+# Phase configure (salt/salt_testenv/salt_classic_package.sls services, postinstallation.sls).
+- name: Docker service
+  ansible.builtin.service: {name: docker, state: started, enabled: true}
+  when: not (is_transactional | bool)
+
+- name: Docker service (transactional host, active after the reboot step)
+  ansible.builtin.command: transactional-update -c run systemctl enable docker
+  changed_when: true
+  when: is_transactional | bool and ansible_facts.distribution == 'SL-Micro'
+
+# Buggy package versions of old SLES 15 service packs
+- name: Update packages with known bugs
+  ansible.builtin.package:
+    name: "{{ item.name }}"
+    state: latest
+  loop:
+    - {name: python3-pyzmq, releases: ["15.3"]}
+    - {name: python3-M2Crypto, releases: ["15.3", "15.4"]}
+    - {name: libexpat1, releases: ["15.4", "15.5"]}
+  when:
+    - not (is_transactional | bool)
+    - ansible_facts.distribution == 'SLES'
+    - ansible_facts.distribution_version in item.releases
+
+# postinstallation.sls: the testsuites are copied out of the new snapshot so they survive; the reboot is the
+# reboot step of site.yml (Salt requested one at the end of the highstate).
+- name: Copy the Salt testsuites out of the snapshot (transactional host)
+  ansible.builtin.command: >-
+    transactional-update -c run cp -r {{ item.src }} {{ item.dest }}
+  loop:
+    - {src: "/usr/lib/python3.{{ ansible_facts.python.version.minor }}/site-packages/salt-testsuite", dest: /opt/salt-testsuite-classic}
+    - {src: "/usr/lib/venv-salt-minion/lib/python3.{{ ansible_facts.python.version.minor }}/site-packages/salt-testsuite", dest: /opt/salt-testsuite-bundle}
+  args:
+    creates: "{{ item.dest }}"
+  when: is_transactional | bool

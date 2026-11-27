@@ -1,0 +1,4 @@
+---
+# Host role server_containerized: the common head plus its chain from host_roles.yml.
+- import_playbook: site.yml
+  vars: {only_roles: [server_containerized]}

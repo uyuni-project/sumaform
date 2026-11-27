@@ -1,0 +1,54 @@
+---
+# Phase configure (salt/kubernetes_common/kubernetes_dependencies.sls). The RKE2 install itself is done by the
+# testsuite from these files and the exported variables, as with Salt.
+- name: Facts of this host for RKE2
+  ansible.builtin.set_fact:
+    _k8s_slmicro_62: "{{ ansible_facts.distribution == 'SL-Micro' and ansible_facts.distribution_version == '6.2' }}"
+    _k8s_selinux: >-
+      {{ ansible_facts.distribution == 'openSUSE Tumbleweed'
+         or (ansible_facts.distribution == 'SL-Micro' and ansible_facts.distribution_version == '6.2') }}
+
+- name: RKE2 configuration
+  ansible.builtin.copy:
+    content: |
+      tls-san:
+        - "{{ hostname }}.{{ domain }}"
+      ingress-controller: traefik
+      {% if _k8s_selinux | bool %}
+      selinux: true
+      kubelet-arg:
+        - "seccomp-default=true"
+      {% endif %}
+    dest: /etc/rancher/rke2/config.yaml
+    mode: "0644"
+    directory_mode: "0755"
+
+- name: local-path provisioner manifest
+  ansible.builtin.template: {src: local-path-storage.yaml.j2, dest: /root/local-path-storage.yaml, mode: "0644"}
+
+- name: Traefik CRDs
+  ansible.builtin.copy: {src: kubernetes-crd-definition-v1.yml, dest: /root/kubernetes-crd-definition-v1.yml, mode: "0644"}
+
+- name: Helm chart helper
+  ansible.builtin.copy: {src: helm_chart.py, dest: /root/helm_chart.py, mode: "0644"}
+
+- name: Variables for the RKE2 install
+  ansible.builtin.copy:
+    content: |
+      export PATH=$PATH:/opt/rke2/bin
+      export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
+      export RKE2_VERSION={{ rke2_version | default('', true) }}
+      export CERT_MANAGER_VERSION={{ cert_manager_version | default('', true) }}
+      export CERT_MANAGER_NAMESPACE={{ cert_manager_namespace | default('', true) }}
+      export TRAEFIK_FILE=/root/kubernetes-crd-definition-v1.yml
+      export LOCAL_PATH_PROVISIONER_PATH={{ local_path_provisioner_path | default('', true) }}
+      export LOCAL_PATH_PROVISIONER_STORAGE_CLASS={{ kubernetes_storage_class | default('', true) }}
+      export LOCAL_PATH_PROVISIONER_FILE=/root/local-path-storage.yaml
+      export LOCAL_PATH_NAMESPACE=local-path-storage
+      export SERVER_NAMESPACE={{ server_namespace | default('', true) }}
+      export SERVER_DEPLOY_NAME={{ server_name | default('', true) }}
+      export PROXY_NAMESPACE={{ proxy_namespace | default('', true) }}
+      export PROXY_DEPLOY_NAME={{ proxy_name | default('', true) }}
+      export RKE2_INSTALL_METHOD={{ 'rpm' if _k8s_slmicro_62 | bool else 'tar' }}
+    dest: /etc/profile.d/rke2_vars.sh
+    mode: "0644"

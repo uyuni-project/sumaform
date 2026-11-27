@@ -1,0 +1,1138 @@
+pin: d0c6e082
+variables:
+  - {id: 'backend_modules/aws/base:cc_username', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:cc_password', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:timezone', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:use_ntp', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:ssh_key_path', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:mirror', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:use_mirror_images', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:use_avahi', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:domain', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:name_prefix', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:use_shared_resources', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:testsuite', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:provider_settings', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:images', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:use_eip_bastion', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:is_server_paygo_instance', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/base:provisioner', target: backend, ref: backend_modules/aws/base, since_pin: post-pin}
+  - {id: 'backend_modules/aws/base:product_version', target: backend, ref: backend_modules/aws/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:base_configuration', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:name', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:roles', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:use_os_released_updates', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:disable_firewall', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:additional_repos', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:additional_repos_only', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:additional_certs', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:additional_packages', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:install_salt_bundle', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:quantity', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:grains', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:swap_file_size', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:ssh_key_path', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:gpg_keys', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:ipv6', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:connect_to_base_network', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:connect_to_additional_network', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:image', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:provision', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:provider_settings', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:main_disk_size', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:additional_disk_size', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:second_additional_disk_size', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:volume_provider_settings', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:product_version', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/host:vm_password', target: backend, ref: backend_modules/aws/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:region', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:availability_zone', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:ssh_allowed_ips', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:name_prefix', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:private_network', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:additional_network', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:create_private_network', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:public_subnet_id', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:create_additional_network', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:create_network', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:vpc_id', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/aws/network:route53_domain', target: backend, ref: backend_modules/aws/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:cc_username', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:cc_password', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:timezone', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:use_ntp', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:ssh_key_path', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:mirror', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:use_mirror_images', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:use_avahi', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:domain', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:name_prefix', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:use_shared_resources', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:testsuite', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:provider_settings', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:images', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:use_eip_bastion', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:is_server_paygo_instance', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/base:provisioner', target: backend, ref: backend_modules/azure/base, since_pin: post-pin}
+  - {id: 'backend_modules/azure/base:product_version', target: backend, ref: backend_modules/azure/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:base_configuration', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:name', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:roles', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:use_os_released_updates', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:disable_firewall', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:additional_repos', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:additional_repos_only', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:additional_certs', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:additional_packages', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:install_salt_bundle', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:quantity', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:grains', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:swap_file_size', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:ssh_key_path', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:gpg_keys', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:ipv6', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:connect_to_base_network', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:connect_to_additional_network', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:image', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:provision', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:provider_settings', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:main_disk_size', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:additional_disk_size', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:second_additional_disk_size', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:volume_provider_settings', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:product_version', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/host:vm_password', target: backend, ref: backend_modules/azure/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/network:location', target: backend, ref: backend_modules/azure/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/network:name_prefix', target: backend, ref: backend_modules/azure/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/network:create_network', target: backend, ref: backend_modules/azure/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/network:ssh_allowed_ips', target: backend, ref: backend_modules/azure/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/azure/network:additional_network', target: backend, ref: backend_modules/azure/network, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:cc_username', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:cc_password', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:timezone', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:use_ntp', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:ssh_key_path', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:mirror', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:use_mirror_images', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:use_avahi', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:domain', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:name_prefix', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:use_shared_resources', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:testsuite', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:provider_settings', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:images', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:use_eip_bastion', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:is_server_paygo_instance', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/base:provisioner', target: backend, ref: backend_modules/feilong/base, since_pin: post-pin}
+  - {id: 'backend_modules/feilong/base:product_version', target: backend, ref: backend_modules/feilong/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:base_configuration', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:name', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:roles', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:use_os_released_updates', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:disable_firewall', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:additional_repos', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:additional_repos_only', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:additional_certs', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:additional_packages', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:install_salt_bundle', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:quantity', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:grains', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:swap_file_size', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:ssh_key_path', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:gpg_keys', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:ipv6', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:connect_to_base_network', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:connect_to_additional_network', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:image', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:provision', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:provider_settings', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:main_disk_size', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:additional_disk_size', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:second_additional_disk_size', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:volume_provider_settings', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:product_version', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/feilong/host:vm_password', target: backend, ref: backend_modules/feilong/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:cc_username', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:cc_password', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:timezone', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:use_ntp', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:ssh_key_path', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:mirror', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:use_mirror_images', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:use_avahi', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:domain', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:name_prefix', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:use_shared_resources', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:testsuite', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:provider_settings', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:images', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:use_eip_bastion', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:is_server_paygo_instance', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/base:provisioner', target: backend, ref: backend_modules/libvirt/base, since_pin: post-pin}
+  - {id: 'backend_modules/libvirt/base:product_version', target: backend, ref: backend_modules/libvirt/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:base_configuration', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:name', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:roles', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:use_os_released_updates', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:disable_firewall', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:additional_repos', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:additional_repos_only', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:additional_certs', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:additional_packages', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:install_salt_bundle', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:quantity', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:grains', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:swap_file_size', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:ssh_key_path', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:gpg_keys', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:ipv6', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:connect_to_base_network', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:connect_to_additional_network', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:image', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:provision', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:provider_settings', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:main_disk_size', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:additional_disk_size', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:second_additional_disk_size', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:volume_provider_settings', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:product_version', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/libvirt/host:vm_password', target: backend, ref: backend_modules/libvirt/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:cc_username', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:cc_password', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:timezone', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:use_ntp', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:ssh_key_path', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:mirror', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:use_mirror_images', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:use_avahi', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:domain', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:name_prefix', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:use_shared_resources', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:testsuite', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:provider_settings', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:images', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:use_eip_bastion', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:is_server_paygo_instance', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/base:provisioner', target: backend, ref: backend_modules/null/base, since_pin: post-pin}
+  - {id: 'backend_modules/null/base:product_version', target: backend, ref: backend_modules/null/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:base_configuration', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:name', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:roles', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:use_os_released_updates', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:disable_firewall', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:additional_repos', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:additional_repos_only', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:additional_certs', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:additional_packages', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:install_salt_bundle', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:quantity', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:grains', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:swap_file_size', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:ssh_key_path', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:gpg_keys', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:ipv6', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:connect_to_base_network', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:connect_to_additional_network', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:image', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:provision', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:provider_settings', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:main_disk_size', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:additional_disk_size', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:second_additional_disk_size', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:volume_provider_settings', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:product_version', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/null/host:vm_password', target: backend, ref: backend_modules/null/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:cc_username', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:cc_password', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:timezone', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:use_ntp', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:ssh_key_path', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:mirror', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:use_mirror_images', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:use_avahi', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:domain', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:name_prefix', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:use_shared_resources', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:testsuite', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:provider_settings', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:images', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:use_eip_bastion', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:is_server_paygo_instance', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/base:provisioner', target: backend, ref: backend_modules/ssh/base, since_pin: post-pin}
+  - {id: 'backend_modules/ssh/base:product_version', target: backend, ref: backend_modules/ssh/base, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:base_configuration', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:name', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:roles', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:use_os_released_updates', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:disable_firewall', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:additional_repos', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:additional_repos_only', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:additional_certs', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:additional_packages', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:install_salt_bundle', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:quantity', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:grains', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:swap_file_size', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:ssh_key_path', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:gpg_keys', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:ipv6', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:connect_to_base_network', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:connect_to_additional_network', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:image', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:provision', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:provider_settings', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:main_disk_size', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:additional_disk_size', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:second_additional_disk_size', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:volume_provider_settings', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:product_version', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'backend_modules/ssh/host:vm_password', target: backend, ref: backend_modules/ssh/host, since_pin: d0c6e082}
+  - {id: 'modules/base:cc_username', target: var, ref: cc_username, since_pin: d0c6e082}
+  - {id: 'modules/base:cc_password', target: var, ref: cc_password, since_pin: d0c6e082}
+  - {id: 'modules/base:timezone', target: var, ref: timezone, since_pin: d0c6e082}
+  - {id: 'modules/base:use_ntp', target: var, ref: use_ntp, since_pin: d0c6e082}
+  - {id: 'modules/base:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/base:mirror', target: var, ref: mirror, since_pin: d0c6e082}
+  - {id: 'modules/base:use_mirror_images', target: var, ref: use_mirror_images, since_pin: d0c6e082}
+  - {id: 'modules/base:use_avahi', target: var, ref: use_avahi, since_pin: d0c6e082}
+  - {id: 'modules/base:domain', target: var, ref: domain, since_pin: d0c6e082}
+  - {id: 'modules/base:name_prefix', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:use_shared_resources', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:testsuite', target: var, ref: testsuite, since_pin: d0c6e082}
+  - {id: 'modules/base:provider_settings', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:images', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:use_eip_bastion', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:is_server_paygo_instance', target: tf-only, ref: modules/base, since_pin: d0c6e082}
+  - {id: 'modules/base:provisioner', target: tf-only, ref: modules/base, since_pin: post-pin}
+  - {id: 'modules/base:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/build_host:base_configuration', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}
+  - {id: 'modules/build_host:name', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}
+  - {id: 'modules/build_host:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/build_host:server_configuration', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/build_host:auto_connect_to_master', target: var, ref: auto_connect_to_master, since_pin: d0c6e082}
+  - {id: 'modules/build_host:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/build_host:avahi_reflector', target: var, ref: avahi_reflector, since_pin: d0c6e082}
+  - {id: 'modules/build_host:disable_firewall', target: var, ref: disable_firewall, since_pin: d0c6e082}
+  - {id: 'modules/build_host:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/build_host:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/build_host:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/build_host:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/build_host:quantity', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}
+  - {id: 'modules/build_host:grains', target: tf-only, ref: 'unused at the pin: declared in modules/build_host, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/build_host:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/build_host:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/build_host:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/build_host:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/build_host:connect_to_base_network', target: tf-only, ref: 'unused at the pin: declared in modules/build_host, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/build_host:connect_to_additional_network', target: tf-only, ref: 'unused at the pin: declared in modules/build_host, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/build_host:image', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}
+  - {id: 'modules/build_host:provider_settings', target: tf-only, ref: modules/build_host, since_pin: d0c6e082}
+  - {id: 'modules/build_host:sles_registration_code', target: var, ref: sles_registration_code, since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:base_configuration', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:name', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:mac', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:container_registry', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:additional_repos', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_proxy_containerized:ssh_key_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_proxy_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:base_configuration', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:name', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:mac', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:use_mirror', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:mirror', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:mirror_nfs_server', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:container_registry', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:container_image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:additional_repos', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:ssh_key_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:memory', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:vcpu', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:repository_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:database_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:deploy_coco_attestation', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:main_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:disable_auto_bootstrap', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:disable_auto_channel_sync', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:use_os_released_updates', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:deploy_saline', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:deploy_hub_api', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation/bv_server_containerized:skip_server_install', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation/bv_server_containerized)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:environment_configuration', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:platform_location_configuration', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:cucumber_gitrepo', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:cucumber_branch', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:git_user', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:git_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:scc_user', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:scc_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:scc_ptf_user', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:scc_ptf_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_container_registry', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_additional_repos', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:proxy_container_registry', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:proxy_additional_repos', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_additional_repos_transactional', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_additional_repos_non_transactional', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:proxy_additional_repos_transactional', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:proxy_additional_repos_non_transactional', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_container_image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:zvm_admin_token', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:base_os', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:product_version', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:base_configurations', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:module_base_configurations', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:hypervisor_private_ssh_key_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:controller_private_ssh_key_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:controller_public_ssh_key_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:s390_local_user', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_main_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_repository_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_database_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_disable_auto_bootstrap', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_disable_auto_channel_sync', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_server_mounted_mirror', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_use_os_released_updates', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_memory', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:server_containerized_vcpu', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/build_validation:minion_memory', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/build_validation)', since_pin: d0c6e082}
+  - {id: 'modules/controller:base_configuration', target: tf-only, ref: modules/controller, since_pin: d0c6e082}
+  - {id: 'modules/controller:name', target: tf-only, ref: modules/controller, since_pin: d0c6e082}
+  - {id: 'modules/controller:cc_ptf_username', target: var, ref: cc_ptf_username, since_pin: d0c6e082}
+  - {id: 'modules/controller:cc_ptf_password', target: var, ref: cc_ptf_password, since_pin: d0c6e082}
+  - {id: 'modules/controller:git_username', target: var, ref: git_username, since_pin: d0c6e082}
+  - {id: 'modules/controller:git_password', target: var, ref: git_password, since_pin: d0c6e082}
+  - {id: 'modules/controller:git_repo', target: var, ref: git_repo, since_pin: d0c6e082}
+  - {id: 'modules/controller:branch', target: var, ref: branch, since_pin: d0c6e082}
+  - {id: 'modules/controller:server_configuration', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/controller:proxy_configuration', target: var, ref: proxy, since_pin: d0c6e082}
+  - {id: 'modules/controller:proxy2_configuration', target: var, ref: proxy2, since_pin: d0c6e082}
+  - {id: 'modules/controller:proxy3_configuration', target: var, ref: proxy3, since_pin: d0c6e082}
+  - {id: 'modules/controller:server2_configuration', target: var, ref: server2, since_pin: d0c6e082}
+  - {id: 'modules/controller:server3_configuration', target: var, ref: server3, since_pin: d0c6e082}
+  - {id: 'modules/controller:server4_configuration', target: var, ref: server4, since_pin: d0c6e082}
+  - {id: 'modules/controller:minion_configuration', target: var, ref: minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:buildhost_configuration', target: var, ref: buildhost_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sshminion_configuration', target: var, ref: sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhlike_configuration', target: var, ref: rhlike_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:deblike_configuration', target: var, ref: deblike_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:pxeboot_configuration', target: var, ref: pxeboot_mac, since_pin: d0c6e082}
+  - {id: 'modules/controller:kvmhost_configuration', target: var, ref: kvmhost_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:monitoringserver_configuration', target: var, ref: monitoringserver_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles12sp5_paygo_minion_configuration', target: var, ref: sles12sp5_paygo_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp4_byos_minion_configuration', target: var, ref: sles15sp4_byos_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp5_paygo_minion_configuration', target: var, ref: sles15sp5_paygo_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp6_paygo_minion_configuration', target: var, ref: sles15sp6_paygo_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp7_paygo_minion_configuration', target: var, ref: sles15sp7_paygo_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles160_paygo_minion_configuration', target: var, ref: sles160_paygo_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slesforsap15sp5_paygo_minion_configuration', target: var, ref: slesforsap15sp5_paygo_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles12sp5_minion_configuration', target: var, ref: sles12sp5_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles12sp5_sshminion_configuration', target: var, ref: sles12sp5_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp4_minion_configuration', target: var, ref: sles15sp4_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp4_sshminion_configuration', target: var, ref: sles15sp4_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp5_minion_configuration', target: var, ref: sles15sp5_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp5_sshminion_configuration', target: var, ref: sles15sp5_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp6_minion_configuration', target: var, ref: sles15sp6_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp6_sshminion_configuration', target: var, ref: sles15sp6_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp7_minion_configuration', target: var, ref: sles15sp7_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp7_sshminion_configuration', target: var, ref: sles15sp7_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles160_minion_configuration', target: var, ref: sles160_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles160_sshminion_configuration', target: var, ref: sles160_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slmicro62_minion_configuration', target: var, ref: slmicro62_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slmicro62_sshminion_configuration', target: var, ref: slmicro62_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slemicro53_minion_configuration', target: var, ref: slemicro53_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slemicro53_sshminion_configuration', target: var, ref: slemicro53_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slemicro54_minion_configuration', target: var, ref: slemicro54_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slemicro54_sshminion_configuration', target: var, ref: slemicro54_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slemicro55_minion_configuration', target: var, ref: slemicro55_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slemicro55_sshminion_configuration', target: var, ref: slemicro55_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slmicro60_minion_configuration', target: var, ref: slmicro60_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slmicro61_minion_configuration', target: var, ref: slmicro61_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slmicro60_sshminion_configuration', target: var, ref: slmicro60_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:slmicro61_sshminion_configuration', target: var, ref: slmicro61_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:centos7_minion_configuration', target: var, ref: centos7_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:centos7_sshminion_configuration', target: var, ref: centos7_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:liberty9_minion_configuration', target: var, ref: liberty9_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:liberty9_sshminion_configuration', target: var, ref: liberty9_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:liberty10_minion_configuration', target: var, ref: liberty10_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:liberty10_sshminion_configuration', target: var, ref: liberty10_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:openeuler2403_minion_configuration', target: var, ref: openeuler2403_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:openeuler2403_sshminion_configuration', target: var, ref: openeuler2403_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rocky8_minion_configuration', target: var, ref: rocky8_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rocky8_sshminion_configuration', target: var, ref: rocky8_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rocky9_minion_configuration', target: var, ref: rocky9_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rocky9_sshminion_configuration', target: var, ref: rocky9_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rocky10_minion_configuration', target: var, ref: rocky10_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rocky10_sshminion_configuration', target: var, ref: rocky10_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel7_minion_configuration', target: var, ref: rhel7_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel7_sshminion_configuration', target: var, ref: rhel7_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel8_minion_configuration', target: var, ref: rhel8_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel8_sshminion_configuration', target: var, ref: rhel8_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel9_minion_configuration', target: var, ref: rhel9_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel9_sshminion_configuration', target: var, ref: rhel9_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel10_minion_configuration', target: var, ref: rhel10_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:rhel10_sshminion_configuration', target: var, ref: rhel10_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:alma8_minion_configuration', target: var, ref: alma8_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:alma8_sshminion_configuration', target: var, ref: alma8_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:alma9_minion_configuration', target: var, ref: alma9_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:alma9_sshminion_configuration', target: var, ref: alma9_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:alma10_minion_configuration', target: var, ref: alma10_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:alma10_sshminion_configuration', target: var, ref: alma10_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:oracle9_minion_configuration', target: var, ref: oracle9_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:oracle9_sshminion_configuration', target: var, ref: oracle9_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:oracle10_minion_configuration', target: var, ref: oracle10_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:oracle10_sshminion_configuration', target: var, ref: oracle10_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:amazon2023_minion_configuration', target: var, ref: amazon2023_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:amazon2023_sshminion_configuration', target: var, ref: amazon2023_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:ubuntu2204_minion_configuration', target: var, ref: ubuntu2204_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:ubuntu2204_sshminion_configuration', target: var, ref: ubuntu2204_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:ubuntu2404_minion_configuration', target: var, ref: ubuntu2404_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:ubuntu2404_sshminion_configuration', target: var, ref: ubuntu2404_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:ubuntu2604_minion_configuration', target: var, ref: ubuntu2604_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:ubuntu2604_sshminion_configuration', target: var, ref: ubuntu2604_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:debian13_minion_configuration', target: var, ref: debian13_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:debian13_sshminion_configuration', target: var, ref: debian13_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:raspios13_minion_configuration', target: var, ref: raspios13_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:raspios13_sshminion_configuration', target: var, ref: raspios13_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp4_buildhost_configuration', target: var, ref: sles15sp4_buildhost_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp6_buildhost_configuration', target: var, ref: sles15sp6_buildhost_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp7_buildhost_configuration', target: var, ref: sles15sp7_buildhost_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp4_terminal_configuration', target: var, ref: sles15sp4_terminal_mac, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp6_terminal_configuration', target: var, ref: sles15sp6_terminal_mac, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp7_terminal_configuration', target: var, ref: sles15sp7_terminal_mac, since_pin: d0c6e082}
+  - {id: 'modules/controller:opensuse161arm_minion_configuration', target: var, ref: opensuse161arm_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:opensuse161arm_sshminion_configuration', target: var, ref: opensuse161arm_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:opensuse161ppc_minion_configuration', target: var, ref: opensuse161ppc_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:opensuse161ppc_sshminion_configuration', target: var, ref: opensuse161ppc_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp5s390_minion_configuration', target: var, ref: sles15sp5s390_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:sles15sp5s390_sshminion_configuration', target: var, ref: sles15sp5s390_sshminion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:salt_migration_minion_configuration', target: var, ref: salt_migration_minion_configuration, since_pin: d0c6e082}
+  - {id: 'modules/controller:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/controller:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/controller:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/controller:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/controller:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/controller:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/controller:git_profiles_repo', target: var, ref: git_profiles_repo, since_pin: d0c6e082}
+  - {id: 'modules/controller:no_auth_registry', target: var, ref: no_auth_registry, since_pin: d0c6e082}
+  - {id: 'modules/controller:auth_registry', target: var, ref: auth_registry, since_pin: d0c6e082}
+  - {id: 'modules/controller:auth_registry_username', target: var, ref: auth_registry_username, since_pin: d0c6e082}
+  - {id: 'modules/controller:auth_registry_password', target: var, ref: auth_registry_password, since_pin: d0c6e082}
+  - {id: 'modules/controller:server_http_proxy', target: var, ref: server_http_proxy, since_pin: d0c6e082}
+  - {id: 'modules/controller:custom_download_endpoint', target: var, ref: custom_download_endpoint, since_pin: d0c6e082}
+  - {id: 'modules/controller:provider_settings', target: tf-only, ref: modules/controller, since_pin: d0c6e082}
+  - {id: 'modules/controller:no_mirror', target: var, ref: mirror, since_pin: d0c6e082}
+  - {id: 'modules/controller:catch_timeout_message', target: var, ref: catch_timeout_message, since_pin: d0c6e082}
+  - {id: 'modules/controller:prometheus_push_gateway_url', target: var, ref: prometheus_push_gateway_url, since_pin: d0c6e082}
+  - {id: 'modules/controller:beta_enabled', target: var, ref: beta_enabled, since_pin: d0c6e082}
+  - {id: 'modules/controller:is_using_paygo_server', target: var, ref: is_using_paygo_server, since_pin: d0c6e082}
+  - {id: 'modules/controller:is_using_build_image', target: var, ref: is_using_build_image, since_pin: d0c6e082}
+  - {id: 'modules/controller:is_using_scc_repositories', target: var, ref: is_using_scc_repositories, since_pin: d0c6e082}
+  - {id: 'modules/controller:server_instance_id', target: var, ref: server_instance_id, since_pin: d0c6e082}
+  - {id: 'modules/controller:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/controller:web_server_hostname', target: var, ref: web_server_hostname, since_pin: d0c6e082}
+  - {id: 'modules/controller:install_kubectl_helm', target: var, ref: install_kubectl_helm, since_pin: d0c6e082}
+  - {id: 'modules/controller:install_uyuni_via_testsuite', target: var, ref: install_uyuni_via_testsuite, since_pin: d0c6e082}
+  - {id: 'modules/controller:install_kubernetes_server_on_external_cluster', target: var, ref: install_kubernetes_server_on_external_cluster, since_pin: d0c6e082}
+  - {id: 'modules/controller:local_path_provisioner_default_class', target: var, ref: local_path_provisioner_default_class, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubeconfig_path', target: var, ref: kubeconfig_content, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubernetes_server_fqdn', target: var, ref: kubernetes_server_fqdn, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubernetes_server_helm_chart_name', target: var, ref: helm_chart_name, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubernetes_server_helm_chart_url', target: var, ref: helm_chart_url, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubernetes_server_container_registry', target: var, ref: container_registry, since_pin: d0c6e082}
+  - {id: 'modules/controller:use_devel_oci', target: var, ref: use_devel_oci, since_pin: d0c6e082}
+  - {id: 'modules/controller:deploy_coco_attestation', target: var, ref: deploy_coco_attestation, since_pin: d0c6e082}
+  - {id: 'modules/controller:deploy_saline', target: var, ref: deploy_saline, since_pin: d0c6e082}
+  - {id: 'modules/controller:deploy_hub_api', target: var, ref: deploy_hub_api, since_pin: d0c6e082}
+  - {id: 'modules/controller:deploy_tftp', target: var, ref: deploy_tftp, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubernetes_create_static_var_spacewalk_pv', target: var, ref: kubernetes_create_static_var_spacewalk_pv, since_pin: d0c6e082}
+  - {id: 'modules/controller:kubernetes_create_static_var_pgsql_pv', target: var, ref: kubernetes_create_static_var_pgsql_pv, since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:cc_username', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:cc_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:use_avahi', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:avahi_reflector', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:ssh_key_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:domain', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:name_prefix', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:images', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:main_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:repository_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:database_disk_size', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:mirror', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:use_mirror_images', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:use_shared_resources', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:host_settings', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:product_version', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:rke2_version', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:server_namespace', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:proxy_namespace', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:cert_manager_version', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:cert_manager_namespace', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:from_email', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:branch', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:cc_ptf_username', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:cc_ptf_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:git_username', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:git_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:git_repo', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:git_profiles_repo', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:no_auth_registry', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:auth_registry', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:auth_registry_username', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:auth_registry_password', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:server_http_proxy', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:custom_download_endpoint', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:provider_settings', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_cluster_mode', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_external_server_configuration', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_external_proxy_configuration', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:use_devel_oci', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:scc_slmicro_pass', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:java_debugging_on_rke2', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:deploy_coco_attestation', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:coco_container_image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:coco_container_tag', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:deploy_saline', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:saline_container_image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:saline_container_tag', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:deploy_hub_api', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:hub_api_container_image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:hub_api_container_tag', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:deploy_tftp', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:tftpd_container_image', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:tftpd_container_tag', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_storage_backend', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_storage_class', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:local_path_provisioner_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:local_path_provisioner_default_class', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:local_path_provisioner_reclaim_policy', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_create_static_var_spacewalk_pv', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_create_static_var_pgsql_pv', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_var_spacewalk_host_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubernetes_var_pgsql_host_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:install_kubectl_helm', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:install_uyuni_via_testsuite', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:kubeconfig_path', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:beta_enabled', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:web_server_hostname', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:use_os_released_updates', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/cucumber_testsuite:prometheus_push_gateway_url', target: tf-only, ref: 'orchestration: passed down to the host modules (modules/cucumber_testsuite)', since_pin: d0c6e082}
+  - {id: 'modules/dhcp_dns:base_configuration', target: tf-only, ref: modules/dhcp_dns, since_pin: d0c6e082}
+  - {id: 'modules/dhcp_dns:name', target: tf-only, ref: modules/dhcp_dns, since_pin: d0c6e082}
+  - {id: 'modules/dhcp_dns:quantity', target: tf-only, ref: modules/dhcp_dns, since_pin: d0c6e082}
+  - {id: 'modules/dhcp_dns:private_hosts', target: tf-only, ref: modules/dhcp_dns, since_pin: d0c6e082}
+  - {id: 'modules/dhcp_dns:image', target: tf-only, ref: modules/dhcp_dns, since_pin: d0c6e082}
+  - {id: 'modules/dhcp_dns:hypervisor', target: tf-only, ref: modules/dhcp_dns, since_pin: d0c6e082}
+  - {id: 'modules/grafana:base_configuration', target: tf-only, ref: modules/grafana, since_pin: d0c6e082}
+  - {id: 'modules/grafana:name', target: tf-only, ref: modules/grafana, since_pin: d0c6e082}
+  - {id: 'modules/grafana:quantity', target: tf-only, ref: modules/grafana, since_pin: d0c6e082}
+  - {id: 'modules/grafana:server_configuration', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/grafana:locust_configuration', target: var, ref: locust, since_pin: d0c6e082}
+  - {id: 'modules/grafana:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/grafana:provider_settings', target: tf-only, ref: modules/grafana, since_pin: d0c6e082}
+  - {id: 'modules/host:base_configuration', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:name', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:roles', target: var, ref: roles, since_pin: d0c6e082}
+  - {id: 'modules/host:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/host:disable_firewall', target: var, ref: disable_firewall, since_pin: d0c6e082}
+  - {id: 'modules/host:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/host:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/host:additional_certs', target: var, ref: additional_certs, since_pin: d0c6e082}
+  - {id: 'modules/host:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/host:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/host:quantity', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:grains', target: var, ref: grains, since_pin: d0c6e082}
+  - {id: 'modules/host:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/host:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/host:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/host:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/host:connect_to_base_network', target: var, ref: connect_to_base_network, since_pin: d0c6e082}
+  - {id: 'modules/host:connect_to_additional_network', target: var, ref: connect_to_additional_network, since_pin: d0c6e082}
+  - {id: 'modules/host:image', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:provision', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:provider_settings', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:main_disk_size', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:additional_disk_size', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:second_additional_disk_size', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:volume_provider_settings', target: tf-only, ref: modules/host, since_pin: d0c6e082}
+  - {id: 'modules/host:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/host:vm_password', target: tf-only, ref: 'unused at the pin: declared in modules/host, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/jenkins:base_configuration', target: tf-only, ref: modules/jenkins, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:provider_settings', target: tf-only, ref: modules/jenkins, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:data_disk_size', target: tf-only, ref: modules/jenkins, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:data_disk_fstype', target: var, ref: data_disk_fstype, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:volume_provider_settings', target: tf-only, ref: modules/jenkins, since_pin: d0c6e082}
+  - {id: 'modules/jenkins:image', target: tf-only, ref: modules/jenkins, since_pin: d0c6e082}
+  - {id: 'modules/locust:base_configuration', target: tf-only, ref: modules/locust, since_pin: d0c6e082}
+  - {id: 'modules/locust:server_configuration', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/locust:name', target: tf-only, ref: modules/locust, since_pin: d0c6e082}
+  - {id: 'modules/locust:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/locust:locust_file', target: var, ref: locust_file, since_pin: d0c6e082}
+  - {id: 'modules/locust:slave_quantity', target: var, ref: locust_slave_count, since_pin: d0c6e082}
+  - {id: 'modules/locust:provider_settings', target: tf-only, ref: modules/locust, since_pin: d0c6e082}
+  - {id: 'modules/minion:base_configuration', target: tf-only, ref: modules/minion, since_pin: d0c6e082}
+  - {id: 'modules/minion:name', target: tf-only, ref: modules/minion, since_pin: d0c6e082}
+  - {id: 'modules/minion:roles', target: var, ref: roles, since_pin: d0c6e082}
+  - {id: 'modules/minion:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/minion:server_configuration', target: var, ref: server_configuration, since_pin: d0c6e082}
+  - {id: 'modules/minion:activation_key', target: var, ref: activation_key, since_pin: d0c6e082}
+  - {id: 'modules/minion:auto_connect_to_master', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/minion:evil_minion_count', target: var, ref: evil_minion_count, since_pin: d0c6e082}
+  - {id: 'modules/minion:evil_minion_slowdown_factor', target: var, ref: evil_minion_slowdown_factor, since_pin: d0c6e082}
+  - {id: 'modules/minion:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/minion:avahi_reflector', target: var, ref: avahi_reflector, since_pin: d0c6e082}
+  - {id: 'modules/minion:disable_firewall', target: var, ref: disable_firewall, since_pin: d0c6e082}
+  - {id: 'modules/minion:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/minion:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/minion:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/minion:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/minion:quantity', target: tf-only, ref: modules/minion, since_pin: d0c6e082}
+  - {id: 'modules/minion:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/minion:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/minion:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/minion:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/minion:additional_grains', target: var, ref: additional_grains, since_pin: d0c6e082}
+  - {id: 'modules/minion:image', target: tf-only, ref: modules/minion, since_pin: d0c6e082}
+  - {id: 'modules/minion:provider_settings', target: tf-only, ref: modules/minion, since_pin: d0c6e082}
+  - {id: 'modules/minion:sles_registration_code', target: var, ref: sles_registration_code, since_pin: d0c6e082}
+  - {id: 'modules/mirror:base_configuration', target: tf-only, ref: modules/mirror, since_pin: d0c6e082}
+  - {id: 'modules/mirror:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/mirror:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/mirror:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/mirror:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/mirror:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/mirror:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/mirror:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/mirror:ubuntu_distros', target: var, ref: ubuntu_distros, since_pin: d0c6e082}
+  - {id: 'modules/mirror:provider_settings', target: tf-only, ref: modules/mirror, since_pin: d0c6e082}
+  - {id: 'modules/mirror:repository_disk_size', target: var, ref: repository_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/mirror:data_disk_fstype', target: var, ref: data_disk_fstype, since_pin: d0c6e082}
+  - {id: 'modules/mirror:volume_provider_settings', target: tf-only, ref: modules/mirror, since_pin: d0c6e082}
+  - {id: 'modules/mirror:customize_minima_file', target: var, ref: customize_minima_file, since_pin: d0c6e082}
+  - {id: 'modules/mirror:synchronize_immediately', target: var, ref: synchronize_immediately, since_pin: d0c6e082}
+  - {id: 'modules/mirror:disable_cron', target: var, ref: disable_cron, since_pin: d0c6e082}
+  - {id: 'modules/mirror:nfs_server', target: var, ref: nfs_server, since_pin: d0c6e082}
+  - {id: 'modules/mirror:image', target: tf-only, ref: modules/mirror, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:base_configuration', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:name', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:runtime', target: var, ref: container_runtime, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:container_registry', target: var, ref: container_registry, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:httpd_container_image', target: var, ref: httpd_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:salt_broker_container_image', target: var, ref: salt_broker_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:squid_container_image', target: var, ref: squid_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:ssh_container_image', target: var, ref: ssh_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:tftpd_container_image', target: var, ref: tftpd_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:container_tag', target: var, ref: container_tag, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:server_configuration', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:auto_configure', target: var, ref: auto_configure, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:quantity', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:gpg_keys', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:ipv6', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:image', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:provider_settings', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:volume_provider_settings', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:main_disk_size', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:repository_disk_size', target: var, ref: repository_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:database_disk_size', target: var, ref: database_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:roles', target: var, ref: roles, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:avahi_reflector', target: var, ref: avahi_reflector, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:additional_grains', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:provision', target: tf-only, ref: modules/proxy_containerized, since_pin: d0c6e082}
+  - {id: 'modules/proxy_containerized:proxy_registration_code', target: var, ref: proxy_registration_code, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:base_configuration', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:name', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:runtime', target: var, ref: container_runtime, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:container_registry', target: var, ref: container_registry, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:httpd_container_image', target: var, ref: httpd_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:salt_broker_container_image', target: var, ref: salt_broker_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:squid_container_image', target: var, ref: squid_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:ssh_container_image', target: var, ref: ssh_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:tftpd_container_image', target: var, ref: tftpd_container_image, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:container_tag', target: var, ref: container_tag, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:helm_chart_url', target: var, ref: helm_chart_url, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:helm_chart_name', target: var, ref: helm_chart_name, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:proxy_namespace', target: var, ref: proxy_namespace, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:proxy_name', target: var, ref: proxy_name, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:rke2_version', target: var, ref: rke2_version, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:cert_manager_version', target: var, ref: cert_manager_version, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:cert_manager_namespace', target: var, ref: cert_manager_namespace, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:use_devel_oci', target: var, ref: use_devel_oci, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:server_configuration', target: var, ref: server, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:auto_configure', target: var, ref: auto_configure, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:quantity', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:gpg_keys', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:ipv6', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:kubernetes_storage_backend', target: var, ref: kubernetes_storage_backend, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:kubernetes_storage_class', target: var, ref: kubernetes_storage_class, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:local_path_provisioner_path', target: var, ref: local_path_provisioner_path, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:local_path_provisioner_default_class', target: var, ref: local_path_provisioner_default_class, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:local_path_provisioner_reclaim_policy', target: var, ref: local_path_provisioner_reclaim_policy, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:image', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:provider_settings', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:volume_provider_settings', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:main_disk_size', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:repository_disk_size', target: var, ref: repository_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:database_disk_size', target: var, ref: database_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:roles', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:avahi_reflector', target: var, ref: avahi_reflector, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:additional_grains', target: tf-only, ref: 'unused at the pin: declared in modules/proxy_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:provision', target: tf-only, ref: modules/proxy_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/proxy_kubernetes:proxy_registration_code', target: var, ref: proxy_registration_code, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:base_configuration', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:name', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:quantity', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:private_ip', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:private_name', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:image', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/pxe_boot:provider_settings', target: tf-only, ref: modules/pxe_boot, since_pin: d0c6e082}
+  - {id: 'modules/registry:base_configuration', target: tf-only, ref: modules/registry, since_pin: d0c6e082}
+  - {id: 'modules/registry:name', target: tf-only, ref: modules/registry, since_pin: d0c6e082}
+  - {id: 'modules/registry:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/registry:disable_firewall', target: var, ref: disable_firewall, since_pin: d0c6e082}
+  - {id: 'modules/registry:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/registry:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/registry:additional_certs', target: tf-only, ref: 'unused at the pin: declared in modules/registry, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/registry:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/registry:quantity', target: tf-only, ref: modules/registry, since_pin: d0c6e082}
+  - {id: 'modules/registry:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/registry:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/registry:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/registry:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/registry:connect_to_base_network', target: var, ref: connect_to_base_network, since_pin: d0c6e082}
+  - {id: 'modules/registry:connect_to_additional_network', target: var, ref: connect_to_additional_network, since_pin: d0c6e082}
+  - {id: 'modules/registry:provider_settings', target: tf-only, ref: modules/registry, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:base_configuration', target: tf-only, ref: modules/salt_testenv, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:name', target: tf-only, ref: modules/salt_testenv, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:salt_obs_flavor', target: var, ref: salt_obs_flavor, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:provider_settings', target: tf-only, ref: modules/salt_testenv, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:image', target: tf-only, ref: modules/salt_testenv, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/salt_testenv:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:base_configuration', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:name', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:roles', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:runtime', target: var, ref: container_runtime, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:container_registry', target: var, ref: container_registry, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:container_image', target: var, ref: container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:container_tag', target: var, ref: container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:db_container_registry', target: var, ref: db_container_registry, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:db_container_image', target: var, ref: db_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:db_container_tag', target: var, ref: db_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:deploy_saline', target: var, ref: deploy_saline, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:saline_container_image', target: var, ref: saline_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:saline_container_tag', target: var, ref: saline_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:deploy_coco_attestation', target: var, ref: deploy_coco_attestation, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:coco_container_image', target: var, ref: coco_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:coco_container_tag', target: var, ref: coco_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:deploy_hub_api', target: var, ref: deploy_hub_api, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:hub_api_container_image', target: var, ref: hub_api_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:hub_api_container_tag', target: var, ref: hub_api_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:deploy_tftp', target: var, ref: deploy_tftp, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:tftpd_container_image', target: var, ref: tftpd_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:tftpd_container_tag', target: var, ref: tftpd_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:channels', target: var, ref: channels, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:wait_for_reposync', target: var, ref: wait_for_reposync, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:cloned_channels', target: var, ref: cloned_channels, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:register_to_server', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:auto_register', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:download_private_ssl_key', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:activation_key', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:server_username', target: var, ref: server_username, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:server_password', target: var, ref: server_password, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:disable_firewall', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:allow_postgres_connections', target: var, ref: allow_postgres_connections, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:unsafe_postgres', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:postgres_log_min_duration', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:java_debugging', target: var, ref: java_debugging, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:java_hibernate_debugging', target: var, ref: java_hibernate_debugging, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:java_salt_debugging', target: var, ref: java_salt_debugging, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:skip_changelog_import', target: var, ref: skip_changelog_import, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:mgr_sync_autologin', target: var, ref: mgr_sync_autologin, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:create_sample_channel', target: var, ref: create_sample_channel, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:create_sample_activation_key', target: var, ref: create_sample_activation_key, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:create_sample_bootstrap_script', target: var, ref: create_sample_bootstrap_script, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:publish_private_ssl_key', target: var, ref: publish_private_ssl_key, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:disable_download_tokens', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:disable_auto_bootstrap', target: var, ref: disable_auto_bootstrap, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:disable_auto_channel_sync', target: var, ref: disable_auto_channel_sync, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:beta_enabled', target: var, ref: beta_enabled, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:from_email', target: var, ref: from_email, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:forward_registration', target: var, ref: forward_registration, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:traceback_email', target: var, ref: traceback_email, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:smt', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:auto_accept', target: var, ref: auto_accept, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:monitored', target: var, ref: monitored, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:additional_certs', target: var, ref: additional_certs, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:quantity', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:grains', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:connect_to_base_network', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:connect_to_additional_network', target: tf-only, ref: 'unused at the pin: declared in modules/server_containerized, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:image', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:provision', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:provider_settings', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:main_disk_size', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:repository_disk_size', target: var, ref: repository_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:database_disk_size', target: var, ref: database_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:volume_provider_settings', target: tf-only, ref: modules/server_containerized, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:use_mirror', target: var, ref: mirror, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:mirror_nfs_server', target: var, ref: mirror_nfs_server, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:server_mounted_mirror', target: var, ref: server_mounted_mirror, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:large_deployment', target: var, ref: large_deployment, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:enable_oval_metadata', target: var, ref: enable_oval_metadata, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:hub_peripheral_fqdns', target: var, ref: hub_peripheral_fqdns, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:server_hub_peripheral', target: var, ref: server_hub_peripheral, since_pin: d0c6e082}
+  - {id: 'modules/server_containerized:skip_server_install', target: var, ref: skip_server_install, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:base_configuration', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:name', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:roles', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:runtime', target: var, ref: container_runtime, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:container_registry', target: var, ref: container_registry, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:container_image', target: var, ref: container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:container_tag', target: var, ref: container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:helm_chart_url', target: var, ref: helm_chart_url, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:helm_chart_name', target: var, ref: helm_chart_name, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:server_namespace', target: var, ref: server_namespace, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:server_name', target: var, ref: server_name, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:rke2_version', target: var, ref: rke2_version, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:cert_manager_version', target: var, ref: cert_manager_version, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:cert_manager_namespace', target: var, ref: cert_manager_namespace, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:use_devel_oci', target: var, ref: use_devel_oci, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:scc_slmicro_pass', target: var, ref: scc_slmicro_pass, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:deploy_coco_attestation', target: var, ref: deploy_coco_attestation, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:coco_container_image', target: var, ref: coco_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:coco_container_tag', target: var, ref: coco_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:deploy_saline', target: var, ref: deploy_saline, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:saline_container_image', target: var, ref: saline_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:saline_container_tag', target: var, ref: saline_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:deploy_hub_api', target: var, ref: deploy_hub_api, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:hub_api_container_image', target: var, ref: hub_api_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:hub_api_container_tag', target: var, ref: hub_api_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:deploy_tftp', target: var, ref: deploy_tftp, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:tftpd_container_image', target: var, ref: tftpd_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:tftpd_container_tag', target: var, ref: tftpd_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:java_debugging_on_rke2', target: var, ref: java_debugging_on_rke2, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:kubernetes_storage_backend', target: var, ref: kubernetes_storage_backend, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:kubernetes_storage_class', target: var, ref: kubernetes_storage_class, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:local_path_provisioner_path', target: var, ref: local_path_provisioner_path, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:local_path_provisioner_default_class', target: var, ref: local_path_provisioner_default_class, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:local_path_provisioner_reclaim_policy', target: var, ref: local_path_provisioner_reclaim_policy, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:kubernetes_create_static_var_spacewalk_pv', target: var, ref: kubernetes_create_static_var_spacewalk_pv, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:kubernetes_create_static_var_pgsql_pv', target: var, ref: kubernetes_create_static_var_pgsql_pv, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:kubernetes_var_spacewalk_host_path', target: var, ref: kubernetes_var_spacewalk_host_path, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:kubernetes_var_pgsql_host_path', target: var, ref: kubernetes_var_pgsql_host_path, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:db_container_registry', target: var, ref: db_container_registry, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:db_container_image', target: var, ref: db_container_image, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:db_container_tag', target: var, ref: db_container_tag, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:channels', target: var, ref: channels, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:wait_for_reposync', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:cloned_channels', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:register_to_server', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:auto_register', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:download_private_ssl_key', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:activation_key', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:server_username', target: var, ref: server_username, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:server_password', target: var, ref: server_password, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:disable_firewall', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:allow_postgres_connections', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:unsafe_postgres', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:postgres_log_min_duration', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:java_debugging', target: var, ref: java_debugging, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:java_hibernate_debugging', target: var, ref: java_hibernate_debugging, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:java_salt_debugging', target: var, ref: java_salt_debugging, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:skip_changelog_import', target: var, ref: skip_changelog_import, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:mgr_sync_autologin', target: var, ref: mgr_sync_autologin, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:create_sample_channel', target: var, ref: create_sample_channel, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:create_sample_activation_key', target: var, ref: create_sample_activation_key, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:create_sample_bootstrap_script', target: var, ref: create_sample_bootstrap_script, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:publish_private_ssl_key', target: var, ref: publish_private_ssl_key, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:disable_download_tokens', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:disable_auto_bootstrap', target: var, ref: disable_auto_bootstrap, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:disable_auto_channel_sync', target: var, ref: disable_auto_channel_sync, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:beta_enabled', target: var, ref: beta_enabled, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:from_email', target: var, ref: from_email, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:traceback_email', target: var, ref: traceback_email, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:smt', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:auto_accept', target: var, ref: auto_accept, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:monitored', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:additional_certs', target: var, ref: additional_certs, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:quantity', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:grains', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:connect_to_base_network', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:connect_to_additional_network', target: tf-only, ref: 'unused at the pin: declared in modules/server_kubernetes, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:image', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:provision', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:provider_settings', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:main_disk_size', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:repository_disk_size', target: var, ref: repository_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:database_disk_size', target: var, ref: database_disk_size, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:volume_provider_settings', target: tf-only, ref: modules/server_kubernetes, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:server_mounted_mirror', target: var, ref: server_mounted_mirror, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:large_deployment', target: var, ref: large_deployment, since_pin: d0c6e082}
+  - {id: 'modules/server_kubernetes:enable_oval_metadata', target: var, ref: enable_oval_metadata, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:base_configuration', target: tf-only, ref: modules/sshminion, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:name', target: tf-only, ref: modules/sshminion, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:disable_firewall', target: var, ref: disable_firewall, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:quantity', target: tf-only, ref: modules/sshminion, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:grains', target: tf-only, ref: 'unused at the pin: declared in modules/sshminion, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/sshminion:swap_file_size', target: var, ref: swap_file_size, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:connect_to_base_network', target: tf-only, ref: 'unused at the pin: declared in modules/sshminion, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/sshminion:connect_to_additional_network', target: tf-only, ref: 'unused at the pin: declared in modules/sshminion, no consumer in the module or in Salt', since_pin: d0c6e082}
+  - {id: 'modules/sshminion:image', target: tf-only, ref: modules/sshminion, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:provider_settings', target: tf-only, ref: modules/sshminion, since_pin: d0c6e082}
+  - {id: 'modules/sshminion:sles_registration_code', target: var, ref: sles_registration_code, since_pin: d0c6e082}
+  - {id: 'modules/virthost:base_configuration', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:name', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:product_version', target: var, ref: product_version, since_pin: d0c6e082}
+  - {id: 'modules/virthost:server_configuration', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:activation_key', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:auto_connect_to_master', target: var, ref: auto_connect_to_master, since_pin: d0c6e082}
+  - {id: 'modules/virthost:use_os_released_updates', target: var, ref: use_os_released_updates, since_pin: d0c6e082}
+  - {id: 'modules/virthost:additional_repos', target: var, ref: additional_repos, since_pin: d0c6e082}
+  - {id: 'modules/virthost:additional_repos_only', target: var, ref: additional_repos_only, since_pin: d0c6e082}
+  - {id: 'modules/virthost:additional_packages', target: var, ref: additional_packages, since_pin: d0c6e082}
+  - {id: 'modules/virthost:install_salt_bundle', target: var, ref: install_salt_bundle, since_pin: d0c6e082}
+  - {id: 'modules/virthost:ssh_key_path', target: var, ref: ssh_key_path, since_pin: d0c6e082}
+  - {id: 'modules/virthost:quantity', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:gpg_keys', target: var, ref: gpg_keys, since_pin: d0c6e082}
+  - {id: 'modules/virthost:ipv6', target: var, ref: ipv6, since_pin: d0c6e082}
+  - {id: 'modules/virthost:hvm_disk_image', target: var, ref: hvm_disk_image, since_pin: d0c6e082}
+  - {id: 'modules/virthost:image', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:additional_grains', target: var, ref: additional_grains, since_pin: d0c6e082}
+  - {id: 'modules/virthost:provider_settings', target: tf-only, ref: modules/virthost, since_pin: d0c6e082}
+  - {id: 'modules/virthost:sles_registration_code', target: var, ref: sles_registration_code, since_pin: d0c6e082}
+behaviours:
+  - {id: key-build-host, paths: [salt/build_host/keys/], target: dropped, reason: committed build_host keypair; used by server_containerized/testsuite.sls and server_kubernetes (public half as authorized key); replaced by a per-deployment keypair generated at deploy time and delivered to the host as 0600 host_vars (public half authorized on the peer host); no key material in the repo, signoff: PENDING, since_pin: d0c6e082}
+  - {id: key-controller, paths: [salt/controller/id_ed25519, salt/controller/id_ed25519.pub], target: dropped, reason: committed controller keypair installed as root key by salt/controller/init.sls; also the default of the build_validation controller key variables; replaced by a per-deployment keypair generated at deploy time and delivered to the host as 0600 host_vars (public half authorized on the peer host); no key material in the repo, signoff: PENDING, since_pin: d0c6e082}
+  - {id: key-proxy-containerized, paths: [salt/proxy_containerized/id_ed25519, salt/proxy_containerized/id_ed25519.pub], target: dropped, reason: committed proxy_containerized keypair installed by salt/proxy_containerized/init.sls; replaced by a per-deployment keypair generated at deploy time and delivered to the host as 0600 host_vars (public half authorized on the peer host); no key material in the repo, signoff: PENDING, since_pin: d0c6e082}
+  - {id: key-proxy-kubernetes, paths: [salt/proxy_kubernetes/id_ed25519, salt/proxy_kubernetes/id_ed25519.pub], target: dropped, reason: committed proxy_kubernetes keypair installed by install_kubernetes_proxy.sls; replaced by a per-deployment keypair generated at deploy time and delivered to the host as 0600 host_vars (public half authorized on the peer host); no key material in the repo, signoff: PENDING, since_pin: d0c6e082}
+  - {id: key-proxy-kubernetes-proxy, paths: [salt/proxy_kubernetes/proxy_keys/], target: dropped, reason: committed second proxy_kubernetes keypair shared with server_kubernetes; replaced by a per-deployment keypair generated at deploy time and delivered to the host as 0600 host_vars (public half authorized on the peer host); no key material in the repo, signoff: PENDING, since_pin: d0c6e082}
+  - {id: key-server-kubernetes, paths: [salt/server_kubernetes/server_keys/], target: dropped, reason: committed server_kubernetes keypair shared with proxy_kubernetes; replaced by a per-deployment keypair generated at deploy time and delivered to the host as 0600 host_vars (public half authorized on the peer host); no key material in the repo, signoff: PENDING, since_pin: d0c6e082}
+  - {id: salt-top, paths: [salt/top.sls], target: playbook, ref: site.yml, since_pin: d0c6e082}
+  - {id: salt-wrappers-highstate, paths: [salt/highstate.sh, salt/first_deployment_highstate.sh, salt/wait_for_salt.sh], target: dropped, reason: 'Salt first-boot wrappers (cloud-init wait, grains copy, minimal then full highstate); replaced by the Terraform-triggered ansible-playbook run with the reboot phase and host_vars', signoff: PENDING, since_pin: d0c6e082}
+  - {id: salt-post-provisioning-cleanup, paths: [salt/post_provisioning_cleanup.sh], target: role, ref: base, since_pin: d0c6e082}
+  - {id: salt-example-module, paths: [salt/example_module/init.sls], target: dropped, reason: 'example template, no host role uses it', signoff: PENDING, since_pin: d0c6e082}
+  - {id: salt-custom-states, paths: [salt/_states/], target: role, ref: server_containerized, since_pin: d0c6e082}
+  - {id: grains-as-host-vars, paths: [], target: var, ref: 'host_vars: every variable row with target var, same grain names', since_pin: d0c6e082}
+  - {id: salt-default-gpg-keys, paths: [salt/default/gpg_keys/], target: role, ref: repos, since_pin: d0c6e082}
+  - {id: salt-default, paths: [salt/default/avahi.sls, salt/default/chrony.conf, salt/default/firewall.sls, salt/default/hostname.sls, salt/default/ids.sls, salt/default/init.sls, salt/default/locale.sls, salt/default/minimal.sls, salt/default/network.sls, salt/default/ntp.conf, salt/default/pkgs.sls, salt/default/set_ip_in_etc_hosts.py, salt/default/sshd.sls, salt/default/testsuite.sls, salt/default/time.sls, salt/default/update.sls, salt/default/users.sls], target: role, ref: base, since_pin: d0c6e082}
+  - {id: salt-repos, paths: [salt/repos/additional.sls, salt/repos/build_host.sls, salt/repos/client_tools/, salt/repos/default_settings.sls, salt/repos/disable_local.sls, salt/repos/init.sls, salt/repos/jenkins.sls, salt/repos/minion.sls, salt/repos/os.sls, salt/repos/proxy_containerized/, salt/repos/proxy_kubernetes.sls, salt/repos/ruby.sls, salt/repos/server_containerized/, salt/repos/server_kubernetes.sls, salt/repos/testsuite.sls, salt/repos/tools.sls, salt/repos/vendor.sls, salt/repos/virthost.sls], target: role, ref: repos, since_pin: d0c6e082}
+  - {id: salt-scc, paths: [salt/scc/build_host.sls, salt/scc/clean.sls, salt/scc/init.sls, salt/scc/minion.sls], target: role, ref: repos, since_pin: d0c6e082}
+  - {id: salt-minion, paths: [salt/minion/certs/, salt/minion/init.sls, salt/minion/reflector.sls, salt/minion/testsuite.sls], target: role, ref: minion, since_pin: d0c6e082}
+  - {id: salt-build-host-ca, paths: [salt/build_host/certs/], target: role, ref: ca_cert, since_pin: d0c6e082}
+  - {id: salt-build-host, paths: [salt/build_host/init.sls], target: role, ref: sshd_root_login, since_pin: d0c6e082}
+  - {id: salt-controller, paths: [salt/controller/init.sls, salt/controller/bashrc, salt/controller/run-testsuite], target: role, ref: controller_testsuite, since_pin: d0c6e082}
+  - {id: salt-controller-https, paths: [salt/controller/apache_https.sls, salt/controller/https_server.py, salt/controller/https_testsuite.service], target: role, ref: controller_https, since_pin: d0c6e082}
+  - {id: salt-controller-system, paths: [salt/controller/limits.conf, salt/controller/sysctl.conf], target: role, ref: controller_system, since_pin: d0c6e082}
+  - {id: salt-controller-virtualhostmanager, paths: [salt/controller/virtualhostmanager.create.json], target: dropped, reason: 'sample payload no state, script or module reads', signoff: PENDING, since_pin: d0c6e082}
+  - {id: salt-containerized-common, paths: [salt/server_containerized/install_common.sls, salt/server_containerized/install_mgradm.sls, salt/server_containerized/install_podman.sls, salt/server_containerized/mgradm.yaml], target: role, ref: containerized_common, since_pin: d0c6e082}
+  - {id: salt-server-containerized, paths: [salt/server_containerized/additional_disks.sls, salt/server_containerized/check_peripheral_registered.py, salt/server_containerized/download_ubuntu_repo.sh, salt/server_containerized/hub_peripheral.sls, salt/server_containerized/hub_peripheral_certs.sls, salt/server_containerized/init.sls, salt/server_containerized/initial_content.sls, salt/server_containerized/large_deployment.sls, salt/server_containerized/large_deployment_tune_tomcat.xslt, salt/server_containerized/postgres.sls, salt/server_containerized/register_peripheral.py, salt/server_containerized/rhn.sls, salt/server_containerized/salt-events.service, salt/server_containerized/testsuite.sls, salt/server_containerized/wait_for_mgr_sync.sh, salt/server_containerized/wait_for_reposync.py], target: role, ref: server_containerized, since_pin: d0c6e082}
+  - {id: salt-proxy-containerized, paths: [salt/proxy_containerized/config, salt/proxy_containerized/init.sls], target: role, ref: proxy_containerized, since_pin: d0c6e082}
+  - {id: salt-kubernetes-common, paths: [salt/kubernetes_common/helm_chart.py, salt/kubernetes_common/kubernetes-crd-definition-v1.yml, salt/kubernetes_common/kubernetes_dependencies.sls, salt/kubernetes_common/local-path-storage.yaml], target: role, ref: kubernetes_common, since_pin: d0c6e082}
+  - {id: salt-k3s-unused, paths: [salt/kubernetes_common/install_k3s.sls, salt/kubernetes_common/mirror-pv.yaml, salt/kubernetes_common/wait_for_kube_resource.py], target: n/a-upstream-removed, reason: 'k3s was replaced by RKE2 upstream (cc4cbedc); install_k3s.sls is included by no top.sls entry or state at the pin and names files that no longer exist (salt://server_containerized/wait_for_kube_resource.py, salt://server_containerized/mirror-pv.yaml); mirror-pv.yaml and wait_for_kube_resource.py are only used by it', since_pin: d0c6e082}
+  - {id: salt-server-kubernetes, paths: [salt/server_kubernetes/Chart_server.yaml, salt/server_kubernetes/additional_disk.sls, salt/server_kubernetes/config, salt/server_kubernetes/init.sls, salt/server_kubernetes/install_kubernetes_server.sls, salt/server_kubernetes/k8s-systemd-uyuni, salt/server_kubernetes/server-selfsigned/, salt/server_kubernetes/systemdcontainerpolicy.te, salt/server_kubernetes/uyuni-ingress.yaml, salt/server_kubernetes/values_server.yaml, salt/server_kubernetes/volume-configuration-var-pgsql.yml, salt/server_kubernetes/volume-configuration-var-spacewalk.yml], target: role, ref: server_kubernetes, since_pin: d0c6e082}
+  - {id: salt-proxy-kubernetes, paths: [salt/proxy_kubernetes/Chart_proxy.yaml, salt/proxy_kubernetes/config, salt/proxy_kubernetes/init.sls, salt/proxy_kubernetes/install_kubernetes_proxy.sls, salt/proxy_kubernetes/proxy-gen-certs.yaml, salt/proxy_kubernetes/uyuni-ingress-proxy.yaml, salt/proxy_kubernetes/values_proxy.yaml], target: role, ref: proxy_kubernetes, since_pin: d0c6e082}
+  - {id: salt-rhel-container, paths: [salt/rhel_container/Containerfile, salt/rhel_container/centos7.repo, salt/rhel_container/init.sls], target: role, ref: rhel_container, since_pin: d0c6e082}
+  - {id: salt-mirror, paths: [salt/mirror/configuration.sls, salt/mirror/cron.sls, salt/mirror/cron_scripts/, salt/mirror/etc/, salt/mirror/init.sls, salt/mirror/utils/], target: role, ref: mirror, since_pin: d0c6e082}
+  - {id: salt-grafana, paths: [salt/grafana/init.sls, salt/grafana/provisioning/, salt/grafana/setup_grafana.py], target: role, ref: grafana, since_pin: d0c6e082}
+  - {id: salt-locust, paths: [salt/locust/init.sls, salt/locust/locust-exporter.py, salt/locust/locustfile.py, salt/locust/run-locust.py], target: role, ref: locust, since_pin: d0c6e082}
+  - {id: salt-virthost, paths: [salt/virthost/init.sls, salt/virthost/systemd-detect-virt], target: role, ref: virthost, since_pin: d0c6e082}
+  - {id: salt-jenkins, paths: [salt/jenkins/basic-security.groovy, salt/jenkins/configuration.sls, salt/jenkins/configure-jenkins.sh, salt/jenkins/etc/, salt/jenkins/http_proxy.sls, salt/jenkins/init.sls, salt/jenkins/podman.sls], target: role, ref: jenkins, since_pin: d0c6e082}
+  - {id: salt-registry, paths: [salt/registry/init.sls], target: role, ref: registry, since_pin: d0c6e082}
+  - {id: salt-salt-testenv, paths: [salt/salt_testenv/init.sls, salt/salt_testenv/lib.sls, salt/salt_testenv/postinstallation.sls, salt/salt_testenv/salt_bundle_package.sls, salt/salt_testenv/salt_classic_package.sls], target: role, ref: salt_testenv, since_pin: d0c6e082}
+host_roles:
+  # #125: a `client` host role does not exist at the pin (no module, no top.sls entry, no salt/client);
+  # clients are `minion` hosts. Chains are composed once per host by site.yml from ansible/host_roles.yml.
+  # Shared single-concern roles: packages (install, #123 branch), ssh_keypair, testsuite_pkgs, sshd_*.
+  # #126: server_containerized and proxy_containerized are ported (rows below, playbooks server_containerized.yml and
+  # proxy_containerized.yml). containerized_common holds the shared tools/config/peer-key parts; the thin roles hold the rest.
+  # Product install (site.yml phase 3) is skipped by install_uyuni_via_testsuite or skip_server_install. Deliberate
+  # divergences: salt/_states/manage_config.py is rhn_conf.yml (server_containerized); cloned channels run in the server
+  # container; the Salt-only pre-5.1 branches of large_deployment.sls are not ported; the proxy squid image variable bug is fixed.
+  # #127: the long tail is ported: mirror, jenkins, grafana, registry, locust, salt_testenv, virthost, rhel_container,
+  # server_kubernetes and proxy_kubernetes (shared kubernetes_common), plus data_disk (shared by mirror and jenkins).
+  # dhcp_dns and pxe_boot have no Salt state at the pin (not in salt/top.sls, provision = false, configured by Terraform):
+  # their rows name no Ansible role beyond the common head; the playbooks exist for the plan-time check.
+  # virthost hosts also carry the minion host role (modules/virthost): the virthost playbook composes both.
+  # n/a-upstream-removed: salt-k3s-unused (k3s replaced by RKE2; unreferenced). Not ported, controller_system still refuses it:
+  # the external-cluster Kubernetes server install run from the controller (install_kubernetes_server_on_external_cluster).
+  # Deliberate divergences: grafana setup_grafana.py (Python 2 httplib, could not run) is a uri task; mirror and jenkins
+  # apply owner and mode after the mount (Salt set them under it); mirror customize_minima_file names a template of the
+  # role (basename.j2) instead of a Salt path; virthost reboots once (stamp file) instead of on every highstate; the
+  # kubernetes roles use one per-deployment keypair per host (no committed server_keys/proxy_keys), peers from Terraform
+  # (peer_public_keys, still unset by the handoff); grafana provisioning is copied without Salt's clean: True.
+  - {id: site, playbook: site.yml, roles: []}
+  - {id: minion, playbook: minion.yml, roles: [transactional, base, repos, minion, testsuite_pkgs, sshd_challenge_response]}
+  - {id: sshminion, playbook: sshminion.yml, roles: [transactional, base, repos, testsuite_pkgs, sshd_challenge_response]}
+  - {id: controller, playbook: controller.yml, roles: [transactional, base, repos, controller_packages, ssh_keypair, controller_ruby, controller_playwright, controller_testsuite, controller_https, controller_system]}
+  - {id: build_host, playbook: build_host.yml, roles: [transactional, base, repos, ssh_keypair, ca_cert, sshd_root_login]}
+  - {id: server_containerized, playbook: server_containerized.yml, roles: [transactional, base, repos, containerized_common, server_containerized]}
+  - {id: proxy_containerized, playbook: proxy_containerized.yml, roles: [transactional, base, repos, containerized_common, proxy_containerized]}
+  - {id: server_kubernetes, playbook: server_kubernetes.yml, roles: [transactional, base, repos, kubernetes_common, server_kubernetes]}
+  - {id: proxy_kubernetes, playbook: proxy_kubernetes.yml, roles: [transactional, base, repos, kubernetes_common, proxy_kubernetes]}
+  - {id: rhel_container, playbook: rhel_container.yml, roles: [transactional, base, repos, rhel_container]}
+  - {id: mirror, playbook: mirror.yml, roles: [transactional, base, repos, mirror]}
+  - {id: grafana, playbook: grafana.yml, roles: [transactional, base, repos, grafana]}
+  - {id: locust, playbook: locust.yml, roles: [transactional, base, repos, locust]}
+  - {id: virthost, playbook: virthost.yml, roles: [transactional, base, repos, virthost]}
+  - {id: jenkins, playbook: jenkins.yml, roles: [transactional, base, repos, jenkins]}
+  - {id: registry, playbook: registry.yml, roles: [transactional, base, repos, registry]}
+  - {id: salt_testenv, playbook: salt_testenv.yml, roles: [transactional, base, repos, salt_testenv]}
+  - {id: dhcp_dns, playbook: dhcp_dns.yml, roles: [transactional, base, repos]}
+  - {id: pxe_boot, playbook: pxe_boot.yml, roles: [transactional, base, repos]}
+repins: []

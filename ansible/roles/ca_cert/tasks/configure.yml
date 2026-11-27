@@ -1,0 +1,14 @@
+---
+# Covers the CA part of salt/build_host/init.sls. The certificate is public (the CA of the QE infrastructure).
+# Divergence: update-ca-certificates runs on every SUSE release (Salt skipped SLES 15, which has a watcher
+# unit, and SLES 16, which then never refreshed the store); SLES 11 is not ported.
+- name: Install the CA certificate
+  ansible.builtin.copy:
+    src: ca.cert.pem
+    dest: /etc/pki/trust/anchors/ca.cert.pem
+    mode: "0644"
+  register: _ca_cert
+
+- name: Update the CA trust store
+  ansible.builtin.command: update-ca-certificates
+  when: _ca_cert is changed

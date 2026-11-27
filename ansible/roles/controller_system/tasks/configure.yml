@@ -1,0 +1,66 @@
+---
+# System settings of the controller (rest of salt/controller/init.sls).
+- name: Refuse the external-cluster Kubernetes server install (not ported yet)
+  ansible.builtin.fail:
+    msg: >-
+      install_kubernetes_server_on_external_cluster needs the kubernetes_common and server_kubernetes
+      roles (long tail); use provisioner = "salt" for this deployment.
+  when: install_kubernetes_server_on_external_cluster | default(false) | bool
+
+# Divergence: set the values instead of replacing /etc/security/limits.conf and /etc/sysctl.conf wholesale.
+- name: Open files limit
+  community.general.pam_limits:
+    domain: "{{ item[0] }}"
+    limit_type: "{{ item[1] }}"
+    limit_item: nofile
+    value: "32768"
+  loop: "{{ ['root', 'admin'] | product(['soft', 'hard']) | list }}"
+
+- name: Maximum number of memory map areas
+  ansible.posix.sysctl:
+    name: vm.max_map_count
+    value: "524288"
+    sysctl_set: true
+    reload: true
+
+- name: Start the node exporter
+  ansible.builtin.service:
+    name: prometheus-node_exporter
+    state: started
+    enabled: true
+
+# NFS partition that stores reports on an external web server
+- name: Mount the report share
+  ansible.posix.mount:
+    path: /mnt/www
+    src: "{{ web_server_hostname }}:/srv/www/htdocs"
+    fstype: nfs
+    state: mounted
+  when: web_server_hostname | default('')
+
+- name: Look for helm
+  ansible.builtin.command: command -v helm
+  register: _helm
+  changed_when: false
+  failed_when: false
+  when: install_kubectl_helm | default(false) | bool
+
+- name: Install helm
+  ansible.builtin.shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+  when: install_kubectl_helm | default(false) | bool and _helm.rc != 0
+
+- name: Kubeconfig directory
+  ansible.builtin.file:
+    path: /root/.kube
+    state: directory
+    mode: "0700"
+  when: kubeconfig_content | default('')
+  no_log: true   # only because the condition names the secret
+
+- name: Write the kubeconfig
+  ansible.builtin.copy:
+    content: "{{ kubeconfig_content | b64decode }}"
+    dest: /root/.kube/config
+    mode: "0600"
+  when: kubeconfig_content | default('')
+  no_log: true

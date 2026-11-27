@@ -1,0 +1,47 @@
+---
+# salt/server_containerized/hub_peripheral.sls, before mgradm install: fetch the hub's CA and this peripheral's
+# server certificate and key, and tell mgradm to use them (_hub_args).
+- name: Directory for the hub certificates
+  ansible.builtin.file:
+    path: /root/ssl-build
+    state: directory
+    mode: "0755"
+
+- name: Download the hub CA and this peripheral's certificate and key
+  ansible.builtin.get_url:
+    url: "http://{{ server_hub_peripheral }}/pub/{{ item.name }}"
+    checksum: "sha512:http://{{ server_hub_peripheral }}/pub/{{ item.name }}.sha512"
+    dest: "/root/ssl-build/{{ item.name }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - {name: RHN-ORG-TRUSTED-SSL-CERT, mode: "0644"}
+    - {name: "peripheral-{{ _fqdn }}-server.crt", mode: "0644"}
+    - {name: "peripheral-{{ _fqdn }}-server.key", mode: "0600"}
+
+- name: Trust the hub CA
+  ansible.builtin.copy:
+    src: /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
+    dest: /etc/pki/trust/anchors/RHN-ORG-TRUSTED-SSL-CERT.pem
+    remote_src: true
+    mode: "0644"
+  register: _hub_anchor
+
+- name: Update the CA bundle
+  ansible.builtin.command: update-ca-certificates
+  when: _hub_anchor.changed
+
+- name: Tell mgradm to use the hub certificates
+  ansible.builtin.set_fact:
+    _hub_args:
+      - --ssl-ca-root
+      - /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
+      - --ssl-server-cert
+      - "/root/ssl-build/peripheral-{{ _fqdn }}-server.crt"
+      - --ssl-server-key
+      - "/root/ssl-build/peripheral-{{ _fqdn }}-server.key"
+      - --ssl-db-ca-root
+      - /root/ssl-build/RHN-ORG-TRUSTED-SSL-CERT
+      - --ssl-db-cert
+      - "/root/ssl-build/peripheral-{{ _fqdn }}-server.crt"
+      - --ssl-db-key
+      - "/root/ssl-build/peripheral-{{ _fqdn }}-server.key"
